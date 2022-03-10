@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-//import mirador from "mirador";
-import Mirador from "mirador/dist/es/src/index";
+import Mirador from "mirador";
 
-class MiradorInit extends Component {
+export class MiradorInit extends Component {
     componentDidMount() {
         const { config, plugins } = this.props;
         Mirador.viewer(config, plugins);
@@ -13,5 +12,3 @@ class MiradorInit extends Component {
         return <div id={config.id} />;
     }
 }
-
-export default MiradorInit;

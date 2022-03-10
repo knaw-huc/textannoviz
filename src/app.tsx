@@ -1,5 +1,5 @@
 import React from 'react'
-import Viewer from "./components/viewer"
+import { Viewer } from "./components/viewer"
 
 export function App() {
 	return (

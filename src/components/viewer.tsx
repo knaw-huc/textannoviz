@@ -1,7 +1,7 @@
-import MiradorInit from "./MiradorInit";
 import React from "react";
+import { MiradorInit } from "./MiradorInit";
 
-function Viewer() {
+export function Viewer() {
     return (
         <div>
             <MiradorInit
@@ -22,5 +22,3 @@ function Viewer() {
         </div>
     )
 }
-
-export default Viewer;
