@@ -1,14 +1,15 @@
-import React, { Component } from "react";
-import Mirador from "mirador";
+import React from "react"
+import Mirador from "mirador"
 
-export class MiradorInit extends Component {
-    componentDidMount() {
-        const { config, plugins } = this.props;
-        Mirador.viewer(config, plugins);
-    }
+interface Props {
+    config: any
+    plugins: any
+}
 
-    render() {
-        const { config } = this.props;
-        return <div id={config.id} />;
-    }
+export function MiradorInit(props: Props) {
+    React.useEffect(() => {
+        Mirador.viewer(props.config, props.plugins)
+    }, [])
+
+    return <div id={props.config.id} />
 }
