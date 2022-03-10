@@ -56,6 +56,7 @@ module.exports = {
 
 	resolve: {
 		extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+		fallback: { "url": false },
 	},
 
 	watchOptions: {
