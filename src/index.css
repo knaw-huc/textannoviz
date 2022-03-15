@@ -1,0 +1,24 @@
+#row {
+    display: flex;
+    flex-direction: row;
+}
+
+#mirador {
+    position: relative;
+    width: 900px;
+    height: 800px;
+}
+
+#text {
+    width: 300px;
+    height: 800px;
+    padding: 0.7em;
+    white-space: pre-wrap;
+}
+
+#annotation {
+    width: 500px;
+    height: 800px;
+    padding: 0.7em;
+    overflow: auto;
+}

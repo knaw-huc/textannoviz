@@ -1,0 +1,4615 @@
+{
+  "@context" : [ "http://www.w3.org/ns/anno.jsonld", "http://www.w3.org/ns/ldp.jsonld" ],
+  "type" : "AnnotationPage",
+  "items" : [ {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/054a44da-a3f5-4091-b8c4-33b67e2b96b1",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.275185",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-14",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 16465,
+        "http://example.org/customwebannotationfield#delegate_name" : "van Isselmuden tot Zwollingerkamp",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 418,
+        "http://example.org/customwebannotationfield#pattern" : "IJelmuden.",
+        "end" : 428
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55967,
+        "start" : 55967
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1327,2874,628,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/0801d3bd-f1f1-482b-b65e-e0b486d035e8",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.910068",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55976,
+        "start" : 55976
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2621,536,747,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2621,536,747,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2621,536,747,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/0d21475c-9523-4b01-87eb-0ccdcfbb8e07",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.848188",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55962,
+        "start" : 55962
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1372,2636,207,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1372,2636,207,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1372,2636,207,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/0d30b4bc-ad9a-4f74-9466-332adb4f4408",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.619600",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-8",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 16901,
+        "http://example.org/customwebannotationfield#delegate_name" : "Bout",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 274,
+        "http://example.org/customwebannotationfield#pattern" : "Bont",
+        "end" : 278
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55963,
+        "start" : 55963
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1320,2680,842,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1320,2680,842,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/0da2d323-7878-4f09-8f97-9bcd2c84faa5",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.925023",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55980,
+        "start" : 55980
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2502,732,863,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2502,732,863,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2502,732,863,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/105871ab-dd90-455e-8155-b895039e4ff6",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.635271",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0-line-0",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55974,
+        "start" : 55974
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2566,439,802,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2566,439,802,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2566,439,802,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/1103bfea-5ddd-4f4f-bcb4-e8cc2f0db9cc",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.828790",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-6",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55958,
+        "start" : 55958
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1366,2436,791,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1366,2436,791,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1366,2436,791,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/158d7520-fe5a-4f45-b3a2-e1d67128face",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.622908",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/1621746c-2a11-4d57-a267-a287a193a952",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.903028",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0-line-1",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55975,
+        "start" : 55975
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2502,490,866,62"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2502,490,866,62"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2502,490,866,62/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/16369942-a31e-4ba8-8cf7-dcc2508788b9",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.888330",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3-line-3",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55972,
+        "start" : 55972
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1442,3131,715,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1442,3131,715,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1442,3131,715,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/1a247170-5291-496c-80d4-6182a2ff075a",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.632045",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3-line-2",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55971,
+        "start" : 55971
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1292,3122,44,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1292,3122,44,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1292,3122,44,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/1cb01ac9-b6c2-49c0-8a86-a93495ba19f4",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.274787",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-13",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 19871,
+        "http://example.org/customwebannotationfield#delegate_name" : "van Heeckeren",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 402,
+        "http://example.org/customwebannotationfield#pattern" : "Rechteren",
+        "end" : 411
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55967,
+        "start" : 55967
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1327,2874,628,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/1cf1f7d8-819f-4373-9447-73e8edf1f180",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.861128",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55965,
+        "start" : 55965
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1322,2780,411,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/22d8c73d-2505-48cb-880e-50cb527822cf",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.881620",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55970,
+        "start" : 55970
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1359,3087,795,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1359,3087,795,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1359,3087,795,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/230badf3-7cda-4ecf-a96c-2b3b71d127ad",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.623358",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-9",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55961,
+        "start" : 55961
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1371,2584,790,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1371,2584,790,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1371,2584,790,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/24c67aac-27cc-4ab4-8d4b-2524cad4c76a",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.270510",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-3",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 14047,
+        "http://example.org/customwebannotationfield#delegate_name" : "Weveringh",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 110,
+        "http://example.org/customwebannotationfield#pattern" : "met",
+        "end" : 113
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55957,
+        "start" : 55957
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1329,2389,823,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1329,2389,823,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/27c835a3-7e44-4f45-a632-b6c494133234",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.639842",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0-line-5",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55979,
+        "start" : 55979
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2501,682,865,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2501,682,865,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2501,682,865,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/2a057ea2-57f2-4973-a372-c6a7d5652deb",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.908052",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0-line-2",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55976,
+        "start" : 55976
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2621,536,747,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2621,536,747,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2621,536,747,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/2a676b3d-bf76-4c76-b447-124eac832757",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.858927",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-13",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55965,
+        "start" : 55965
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1322,2780,411,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/2adbc0be-2268-46cf-81b6-b3d6124960f9",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.627326",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55965,
+        "start" : 55965
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1322,2780,411,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/2aec9916-e7f8-4d87-b3c7-a1abf843fd53",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.827197",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55957,
+        "start" : 55957
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1329,2389,823,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1329,2389,823,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1329,2389,823,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/2af0dcce-50d3-4c5d-a4c0-5cb676547553",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.901188",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55974,
+        "start" : 55974
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2566,439,802,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2566,439,802,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2566,439,802,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/2bad6d41-1473-42e0-b7fc-dd515bef20ea",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.892014",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3-line-4",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55973,
+        "start" : 55973
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,3181,889,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,3181,889,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,3181,889,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/330250a8-d809-42ad-948f-d8550884d8ed",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.635727",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55974,
+        "start" : 55974
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2566,439,802,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2566,439,802,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2566,439,802,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/361b7d95-08f7-48d5-bf39-25ee0ca1c119",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.625859",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-12",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55964,
+        "start" : 55964
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1365,2729,585,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1365,2729,585,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1365,2729,585,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/361eddb8-7fe9-4804-aee7-b7383e5c96ef",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.620352",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55957,
+        "start" : 55957
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1329,2389,823,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1329,2389,823,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1329,2389,823,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/3b1f6ce2-b69a-4d66-be43-a5620e8a2183",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.624502",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-11",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 12367,
+        "http://example.org/customwebannotationfield#delegate_name" : "thoe Schwartzenbergh",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 373,
+        "http://example.org/customwebannotationfield#pattern" : "Schwartzenberth",
+        "end" : 388
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55966,
+        "start" : 55966
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1323,2825,596,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/3b9bf7b0-4ece-4951-97b3-e0f6104d6223",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.890342",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55972,
+        "start" : 55972
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1442,3131,715,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1442,3131,715,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1442,3131,715,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/3d481b3a-59b4-4098-bac8-ff31c63c621b",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.632862",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3-line-3",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55972,
+        "start" : 55972
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1442,3131,715,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1442,3131,715,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1442,3131,715,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/3e46abda-6778-4669-bc5e-e48aa7739253",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.835381",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-8",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/43895b24-c7e3-4728-a331-c8af56dbd67b",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.886718",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55971,
+        "start" : 55971
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1292,3122,44,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1292,3122,44,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1292,3122,44,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/462a4f55-b878-462b-aaeb-1f8cd41e521f",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.633353",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55972,
+        "start" : 55972
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1442,3131,715,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1442,3131,715,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1442,3131,715,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/46bff4dc-405a-4f13-9aa9-6b5c9e6de0f3",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.618644",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55955,
+        "start" : 55955
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1317,2296,491,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1317,2296,491,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1317,2296,491,61/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/49840dcb-6690-41fc-8e6e-2eae0d453f40",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:34.148797",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285",
+      "type" : "TextualBody",
+      "value" : "scanpage",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 56030,
+        "start" : 55974
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2485,439,887,2916"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2485,439,887,2916/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/4a416a3b-cc40-46f9-9fdb-1d89f748e397",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.612839",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-5",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 15268,
+        "http://example.org/customwebannotationfield#delegate_name" : "Brandwijk van Blokland",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 201,
+        "http://example.org/customwebannotationfield#pattern" : "Blocklandt",
+        "end" : 211
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/4aae2294-0ff7-4a57-ad83-9792e9460139",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.895786",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285",
+      "type" : "TextualBody",
+      "value" : "scanpage",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55973,
+        "start" : 55952
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,2124,891,1116"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,2124,891,1116/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/4adcf50b-4f4b-4a97-894d-cd3510f3cb4b",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.628943",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55967,
+        "start" : 55967
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1327,2874,628,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/544dde78-f7bb-4dc0-9c22-e35ce09b686e",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.268899",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendantslist-1",
+      "type" : "TextualBody",
+      "value" : "attendantslist",
+      "purpose" : "classifying"
+    }, {
+      "partOf" : "urn:example:republic:meeting-1728-06-19-session-1"
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55981,
+        "start" : 55952
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,2124,891,1116"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2499,439,873,399"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,2124,891,1116/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2499,439,873,399/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/5569d102-aa3a-498d-bfb6-97f5606af9d9",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.629963",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-14",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 16465,
+        "http://example.org/customwebannotationfield#delegate_name" : "van Isselmuden tot Zwollingerkamp",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 418,
+        "http://example.org/customwebannotationfield#pattern" : "IJelmuden.",
+        "end" : 428
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55967,
+        "start" : 55967
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1327,2874,628,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/57ca7530-10b7-46fa-a76b-4cff419a3554",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.823677",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55956,
+        "start" : 55956
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1383,2341,654,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1383,2341,654,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1383,2341,654,61/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/57e7d1da-c617-4eca-822c-c27f28617c54",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.912012",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0-line-3",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55977,
+        "start" : 55977
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2499,586,873,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2499,586,873,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2499,586,873,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/5b3b176c-d524-4ace-9311-e452203e2056",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.870105",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55967,
+        "start" : 55967
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1327,2874,628,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/5cfa1ec7-70e2-4119-b56b-6ffff1c88816",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.809648",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-1",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55953,
+        "start" : 55953
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1645,2183,142,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1645,2183,142,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1645,2183,142,61/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/5d13c0c9-5dab-4998-a2c1-eedecc07c128",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.839381",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-9",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55961,
+        "start" : 55961
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1371,2584,790,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1371,2584,790,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1371,2584,790,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/60c2a8b0-63e0-4b4b-a39f-296af9e1f5e2",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.627788",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-13",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 19871,
+        "http://example.org/customwebannotationfield#delegate_name" : "van Heeckeren",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 402,
+        "http://example.org/customwebannotationfield#pattern" : "Rechteren",
+        "end" : 411
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55967,
+        "start" : 55967
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1327,2874,628,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/620ed45d-8e62-49ad-8774-8094ca16e924",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.272854",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-9",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 13100,
+        "http://example.org/customwebannotationfield#delegate_name" : "Patras",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 348,
+        "http://example.org/customwebannotationfield#pattern" : "Taats",
+        "end" : 353
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55965,
+        "start" : 55965
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1322,2780,411,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/62a6b6d4-3ab7-455e-9a23-3eeeea57ea0b",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.273438",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-10",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 18838,
+        "http://example.org/customwebannotationfield#delegate_name" : "Taets van Amerongen",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 358,
+        "http://example.org/customwebannotationfield#pattern" : "Amerongen.",
+        "end" : 368
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55965,
+        "start" : 55965
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1322,2780,411,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/6334f6a8-d648-4c01-ad2e-a474575952ca",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.884635",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3-line-2",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55971,
+        "start" : 55971
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1292,3122,44,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1292,3122,44,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1292,3122,44,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/6427bf9c-08d7-4e46-960a-aa7bd74df88f",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.628096",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55966,
+        "start" : 55966
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1323,2825,596,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/64956377-9970-4d7d-b568-c2776ba9b646",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.689502",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:meeting-1728-06-06-session-1-column-1",
+      "type" : "TextualBody",
+      "value" : "column",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 56030,
+        "start" : 55974
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2485,439,887,2916"
+      },
+      "source" : "https://example.org/missing-iiif-url"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2485,439,887,2916"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2485,439,887,2916/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/69535609-b976-4acc-b1c5-da6bdd11140c",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.622718",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-10",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 18838,
+        "http://example.org/customwebannotationfield#delegate_name" : "Taets van Amerongen",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 358,
+        "http://example.org/customwebannotationfield#pattern" : "Amerongen.",
+        "end" : 368
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55965,
+        "start" : 55965
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1322,2780,411,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/6af622c5-4a40-479a-8527-5a0e4a35a44a",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.624134",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-10",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55962,
+        "start" : 55962
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1372,2636,207,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1372,2636,207,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1372,2636,207,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/6b256a41-d84c-4608-8292-75f846b64a02",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.632481",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55971,
+        "start" : 55971
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1292,3122,44,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1292,3122,44,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1292,3122,44,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/6d4588a7-1029-4a35-814c-13092ebba365",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.618237",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-3",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55955,
+        "start" : 55955
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1317,2296,491,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1317,2296,491,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1317,2296,491,61/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/6ef3c8bb-a33c-4674-8ed7-42f2cbb32de3",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.607866",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-2",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 19130,
+        "http://example.org/customwebannotationfield#delegate_name" : "Coulman",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 101,
+        "http://example.org/customwebannotationfield#pattern" : "Coulman,",
+        "end" : 109
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55957,
+        "start" : 55957
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1329,2389,823,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1329,2389,823,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/6f8f11be-d12d-470a-bc2b-754a6271c389",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.837766",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/6f9ab719-7fbf-460c-a936-378a4a54087c",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.615083",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-6",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 16491,
+        "http://example.org/customwebannotationfield#delegate_name" : "Vriesen",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 214,
+        "http://example.org/customwebannotationfield#pattern" : "Veckho-",
+        "end" : 221
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/71156b97-9a6f-45cc-8ed2-99621ee8e2db",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.273838",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-11",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 12367,
+        "http://example.org/customwebannotationfield#delegate_name" : "thoe Schwartzenbergh",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 373,
+        "http://example.org/customwebannotationfield#pattern" : "Schwartzenberth",
+        "end" : 388
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55966,
+        "start" : 55966
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1323,2825,596,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/7349cac4-5e0b-4293-9f65-b5f957517913",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.619497",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55956,
+        "start" : 55956
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1383,2341,654,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1383,2341,654,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1383,2341,654,61/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/74eace92-cbc4-4f5d-b322-ed58893fc639",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.269396",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-0",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 13046,
+        "http://example.org/customwebannotationfield#delegate_name" : "van Glinstra",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 53,
+        "http://example.org/customwebannotationfield#pattern" : "Glinfra.",
+        "end" : 61
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55955,
+        "start" : 55955
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1317,2296,491,61"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1317,2296,491,61/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/7683085f-8df9-46e0-9897-b6021372c43e",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.919837",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0-line-5",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55979,
+        "start" : 55979
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2501,682,865,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2501,682,865,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2501,682,865,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/76ea0f66-add0-48ec-aeae-285e5ac937a3",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.622511",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-8",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/775f4a7e-6b36-4344-80e5-f45630889a64",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.631808",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-15",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 17379,
+        "http://example.org/customwebannotationfield#delegate_name" : "Lohman",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 429,
+        "http://example.org/customwebannotationfield#pattern" : "Lobman.",
+        "end" : 436
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55968,
+        "start" : 55968
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1332,2929,158,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1332,2929,158,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/77bc9e1a-f297-4075-a228-8b78e530b395",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.621592",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-7",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55959,
+        "start" : 55959
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1375,2489,412,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1375,2489,412,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1375,2489,412,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/788717c7-2b3e-43d6-847f-3f75ac2cc925",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.625396",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55963,
+        "start" : 55963
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1320,2680,842,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1320,2680,842,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1320,2680,842,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/78d22383-18bc-4e61-897a-ae7f17b4d94d",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.601557",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendantslist-1",
+      "type" : "TextualBody",
+      "value" : "attendantslist",
+      "purpose" : "classifying"
+    }, {
+      "partOf" : "urn:example:republic:meeting-1728-06-19-session-1"
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55981,
+        "start" : 55952
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,2124,891,1116"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2499,439,873,399"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,2124,891,1116/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2499,439,873,399/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/7b07a4bc-d4d3-41a6-917e-0446d0e156d0",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.639468",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55978,
+        "start" : 55978
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2500,634,862,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2500,634,862,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2500,634,862,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/7b37a2d9-fd32-416a-a907-d6e1c22c0e0f",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.897480",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:meeting-1728-06-06-session-1-column-0",
+      "type" : "TextualBody",
+      "value" : "column",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55973,
+        "start" : 55952
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,2124,891,1116"
+      },
+      "source" : "https://example.org/missing-iiif-url"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,2124,891,1116"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,2124,891,1116/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/7f2a491e-4eac-4e13-a137-3a325dd12d34",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.271327",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-5",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 15268,
+        "http://example.org/customwebannotationfield#delegate_name" : "Brandwijk van Blokland",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 201,
+        "http://example.org/customwebannotationfield#pattern" : "Blocklandt",
+        "end" : 211
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/7f9fc623-3b96-4f44-b13f-e8b9c41edcf6",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.852698",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55963,
+        "start" : 55963
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1320,2680,842,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1320,2680,842,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1320,2680,842,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/80833402-c257-4379-847c-40fd9b10d837",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.845789",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-10",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55962,
+        "start" : 55962
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1372,2636,207,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1372,2636,207,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1372,2636,207,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/811d5324-0bb1-4ece-9144-2eaf55ba8bc9",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.621179",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55958,
+        "start" : 55958
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1366,2436,791,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1366,2436,791,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1366,2436,791,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/88667d22-47c4-495a-a63d-db88297e9a8d",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.633738",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3-line-4",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55973,
+        "start" : 55973
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,3181,889,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,3181,889,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,3181,889,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/8b5f4aa7-a484-4cc0-9929-17e7402e051b",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.856566",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55964,
+        "start" : 55964
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1365,2729,585,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1365,2729,585,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1365,2729,585,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/8c9e9e59-c775-4f67-abf5-8c2fdf9284ed",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.879763",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3-line-1",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55970,
+        "start" : 55970
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1359,3087,795,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1359,3087,795,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1359,3087,795,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/8f6cf34a-78bf-468d-acf7-aceb641cbd8d",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.905174",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55975,
+        "start" : 55975
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2502,490,866,62"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2502,490,866,62"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2502,490,866,62/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/8f944738-02aa-4039-896d-e0aa491260ce",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.626401",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55964,
+        "start" : 55964
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1365,2729,585,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1365,2729,585,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1365,2729,585,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/8fea1297-c434-4d2a-a47e-02d178588aac",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.611201",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-4",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 13929,
+        "http://example.org/customwebannotationfield#delegate_name" : "Repelaer",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 186,
+        "http://example.org/customwebannotationfield#pattern" : "Walenaer",
+        "end" : 194
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/911535cf-13cd-47f6-aab7-7024321fda41",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.621054",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-9",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 13100,
+        "http://example.org/customwebannotationfield#delegate_name" : "Patras",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 348,
+        "http://example.org/customwebannotationfield#pattern" : "Taats",
+        "end" : 353
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55965,
+        "start" : 55965
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1322,2780,411,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1322,2780,411,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/94175ab2-d65f-445c-9475-8808473f9caf",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.270155",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-2",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 19130,
+        "http://example.org/customwebannotationfield#delegate_name" : "Coulman",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 101,
+        "http://example.org/customwebannotationfield#pattern" : "Coulman,",
+        "end" : 109
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55957,
+        "start" : 55957
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1329,2389,823,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1329,2389,823,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/94e51508-6ba2-4d56-8738-16eebfdfb34a",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:36.581989",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1",
+      "type" : "TextualBody",
+      "value" : "session",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#date" : "1728-06-19",
+        "http://example.org/customwebannotationfield#president" : "",
+        "http://example.org/customwebannotationfield#weekday" : "Sabbathi",
+        "http://example.org/customwebannotationfield#year" : 1728
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 56659,
+        "start" : 55952
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "source" : "https://example.org/missing-iiif-url"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,2124,891,1116"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2485,439,887,2916"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2500,1038,176,104"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,304/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=3405,435,903,2900"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=336,435,881,2902"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0286.jpg/full/,3102/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1256,432,903,2901"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0286.jpg/full/,3101/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2480,444,885,2910"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0286.jpg/full/,3110/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=3399,447,895,2906"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0286.jpg/full/,3106/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=344,464,882,2900"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0287.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1254,458,908,2900"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0287.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2455,474,882,2903"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0287.jpg/full/,3103/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=3368,464,904,2897"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0287.jpg/full/,3097/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=350,455,902,2856"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0288.jpg/full/,3056/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1263,451,907,1414"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0288.jpg/full/,1614/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,2124,891,1116/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2485,439,887,2916/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2500,1038,176,104/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/3405,435,903,2900/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0286.jpg/336,435,881,2902/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0286.jpg/1256,432,903,2901/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0286.jpg/2480,444,885,2910/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0286.jpg/3399,447,895,2906/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0287.jpg/344,464,882,2900/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0287.jpg/1254,458,908,2900/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0287.jpg/2455,474,882,2903/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0287.jpg/3368,464,904,2897/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0288.jpg/350,455,902,2856/full/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0288.jpg/1263,451,907,1414/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/9af6ecfa-50af-4036-b909-1d37e6cfe3ea",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.813195",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-2",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55954,
+        "start" : 55954
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1478,2242,465,70"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1478,2242,465,70"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1478,2242,465,70/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/9c043153-cf04-4222-9fdc-81d313b8f41f",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.271678",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-6",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 16491,
+        "http://example.org/customwebannotationfield#delegate_name" : "Vriesen",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 214,
+        "http://example.org/customwebannotationfield#pattern" : "Veckho-",
+        "end" : 221
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55960,
+        "start" : 55960
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1321,2531,833,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1321,2531,833,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/a023bc80-b0b2-45e9-9a1f-0ffcec8d3b41",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:30.274438",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : [ {
+      "id" : "urn:example:republic:meeting-1728-06-19-session-1-attendant-12",
+      "type" : "TextualBody",
+      "value" : "attendant",
+      "purpose" : "classifying"
+    }, {
+      "type" : "Dataset",
+      "value" : {
+        "http://example.org/customwebannotationfield#delegate_id" : 12744,
+        "http://example.org/customwebannotationfield#delegate_name" : "Banga",
+        "http://example.org/customwebannotationfield#delegate_score" : 0.0,
+        "http://example.org/customwebannotationfield#metadata_class" : "delegate",
+        "http://example.org/customwebannotationfield#offset" : 391,
+        "http://example.org/customwebannotationfield#pattern" : "Banga.",
+        "end" : 397
+      }
+    } ],
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55966,
+        "start" : 55966
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1323,2825,596,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/a1bb2592-ed53-4b15-95c8-39d7ea968a03",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.634154",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55973,
+        "start" : 55973
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,3181,889,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,3181,889,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,3181,889,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/a206cfce-810d-423f-ac1d-2e98a8fcf4b6",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.637847",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55976,
+        "start" : 55976
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2621,536,747,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2621,536,747,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2621,536,747,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/a29c2dee-e0a5-4b43-a18f-470e89662594",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.689157",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285",
+      "type" : "TextualBody",
+      "value" : "scanpage",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 56030,
+        "start" : 55974
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2485,439,887,2916"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2485,439,887,2916/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/a4e4c7f8-fe5e-45c4-a80e-6dd7b5089cd6",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.917915",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55978,
+        "start" : 55978
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2500,634,862,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2500,634,862,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2500,634,862,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/a5b11f1f-795a-4257-b2e6-5b81423408ef",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.854674",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-12",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55964,
+        "start" : 55964
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1365,2729,585,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1365,2729,585,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1365,2729,585,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/a6b0fb49-0d1c-4e2d-9f19-02a641473706",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.863172",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-14",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55966,
+        "start" : 55966
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1323,2825,596,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/a720f744-3352-4ed5-b85e-19e87289001f",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.871993",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-16",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55968,
+        "start" : 55968
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1332,2929,158,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1332,2929,158,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1332,2929,158,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/ab7af535-e16b-47c6-8c63-1b7a5cc998b9",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.628554",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-15",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55967,
+        "start" : 55967
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1327,2874,628,60"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1327,2874,628,60/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/ab9f1e2c-4b2f-415e-acc6-a3835ae9ea80",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.923355",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0-line-6",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55980,
+        "start" : 55980
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2502,732,863,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2502,732,863,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2502,732,863,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/abd80a4b-a15d-4b9b-ab06-cac08d8a08c2",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.815570",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55954,
+        "start" : 55954
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1478,2242,465,70"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1478,2242,465,70"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1478,2242,465,70/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/ac7e86e6-d2b3-460b-b756-947325803078",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.833716",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55959,
+        "start" : 55959
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1375,2489,412,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1375,2489,412,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1375,2489,412,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/ade03f21-1ba7-4dde-b967-ff2d0cc708e2",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.639038",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-569-column-0-tr-0-line-4",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55978,
+        "start" : 55978
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2500,634,862,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=2500,634,862,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3116/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/2500,634,862,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/b0b5bf28-e6de-4b60-81aa-cc7cd98af5bd",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.630295",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-3-line-0",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55969,
+        "start" : 55969
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1414,3029,730,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1414,3029,730,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1414,3029,730,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/b10d6c35-c64d-4ff4-8d9b-63e5661b547d",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.629377",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2-line-16",
+      "type" : "TextualBody",
+      "value" : "line",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55968,
+        "start" : 55968
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1332,2929,158,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1332,2929,158,58"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1332,2929,158,58/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/b3fce80d-020b-4c66-914f-1200d8ae7c52",
+    "type" : "Annotation",
+    "generated" : "2021-11-18T14:41:29.634810",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:meeting-1728-06-06-session-1-column-0",
+      "type" : "TextualBody",
+      "value" : "column",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55973,
+        "start" : 55952
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,2124,891,1116"
+      },
+      "source" : "https://example.org/missing-iiif-url"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1271,2124,891,1116"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1271,2124,891,1116/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  }, {
+    "id" : "http://elucidate:8080/annotation/w3c/58569aca-a2a7-4604-8fa2-47aa34db82b7/b488442d-5c1a-456d-b4ec-512027799730",
+    "type" : "Annotation",
+    "generated" : "2022-03-14T12:59:33.865598",
+    "generator" : {
+      "id" : "https://github.com/knaw-huc/un-t-ann-gle",
+      "type" : "Software",
+      "name" : "un-t-ann-gle"
+    },
+    "body" : {
+      "id" : "urn:example:republic:NL-HaNA_1.01.02_3783_0285-page-568-column-1-tr-2",
+      "type" : "TextualBody",
+      "value" : "textregion",
+      "purpose" : "classifying"
+    },
+    "target" : [ {
+      "type" : "Text",
+      "selector" : {
+        "type" : "urn:example:republic:TextAnchorSelector",
+        "end" : 55966,
+        "start" : 55966
+      },
+      "source" : "http://localhost:8000/textrepo/task/find/volume-1728/file/contents?type=anchor"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,3100/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "selector" : {
+        "type" : "FragmentSelector",
+        "conformsTo" : "http://www.w3.org/TR/media-frags/",
+        "value" : "xywh=1323,2825,596,59"
+      },
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/full/,1316/0/default.jpg"
+    }, {
+      "type" : "Image",
+      "source" : "https://images.diginfra.net/iiif/NL-HaNA_1.01.02/3783/NL-HaNA_1.01.02_3783_0285.jpg/1323,2825,596,59/full/0/default.jpg"
+    } ],
+    "motivation" : "classifying"
+  } ],
+  "next" : "http://elucidate:8080/annotation/w3c/services/search/overlap?target_id=http%3A%2F%2Flocalhost%3A8000%2Ftextrepo%2Ftask%2Ffind%2Fvolume-1728%2Ffile%2Fcontents%3Ftype%3Danchor&range_start=55952.0&range_end=55981.0&page=0&desc=1",
+  "partOf" : "http://elucidate:8080/annotation/w3c/services/search/overlap?target_id=http%3A%2F%2Flocalhost%3A8000%2Ftextrepo%2Ftask%2Ffind%2Fvolume-1728%2Ffile%2Fcontents%3Ftype%3Danchor&range_start=55952.0&range_end=55981.0",
+  "startIndex" : 0
+}
