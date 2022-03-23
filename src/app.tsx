@@ -1,7 +1,8 @@
 import React from 'react'
 import { Annotation } from "./components/annotation"
 import { Text } from "./components/text"
-import { Viewer } from "./components/viewer"
+import { Viewer } from "./components/MiradorInit"
+//import { Viewer } from "./components/viewer"
 
 export function App() {
 	return (

@@ -21,4 +21,5 @@
     height: 800px;
     padding: 0.7em;
     overflow: auto;
+    white-space: pre-wrap;
 }
