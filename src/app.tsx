@@ -1,14 +1,14 @@
 import React from 'react'
 import { Annotation } from "./components/annotation"
 import { Text } from "./components/text"
-import { Viewer } from "./components/MiradorInit"
+import { Mirador } from "./components/MiradorInit"
 //import { Viewer } from "./components/viewer"
 
 export function App() {
 	return (
 		<div id='row'>
 			<div id='mirador'>
-				<Viewer />
+				<Mirador />
 			</div>
 			<div id='text'>
 				<Text />
