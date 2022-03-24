@@ -31,7 +31,12 @@ export function Annotation(): any {
         <>
             <button onClick={action}>Next canvas</button>
             <ol>
-                {ann.items.map(item => <li><code>{JSON.stringify(item, null, '\t')}</code></li>)}
+                {
+                    ann.items.map((item, i) =>
+                        <li key={i}>
+                            <code>{JSON.stringify(item, null, '\t')}</code>
+                        </li>
+                    )}
             </ol>
         </>
     )
