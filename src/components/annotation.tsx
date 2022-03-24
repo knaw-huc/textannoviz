@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ann from '../data/ann1.json';
 //import { MiradorInit } from './MiradorInit';
-import { MirContext } from './MirContext';
+import { appContext } from '../state/context';
 import mirador from 'mirador';
 
 /*
@@ -20,11 +20,11 @@ function bodyValue(annotation: any): string {
 */
 
 export function Annotation(): any {
-    const store = useContext(MirContext);
+    const { state } = useContext(appContext);
 
     const action = () => {
         const act = mirador.actions.setCanvas('test', 'https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/b64b5565-2945-4a18-8a4f-f25a0a26b6bd')
-        store.dispatch(act);
+        state.store.dispatch(act);
     }
 
     return (

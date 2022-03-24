@@ -1,5 +1,6 @@
 import React from "react"
 import mirador from "mirador"
+import { appContext } from "../state/context"
 
 const miradorConfig = {
     id: 'mirador',
@@ -24,8 +25,14 @@ const miradorConfig = {
 }
 
 export function Mirador() {
+    const { dispatch } = React.useContext(appContext)
+
     React.useEffect(() => {
-        mirador.viewer(miradorConfig, [])
+        const viewer = mirador.viewer(miradorConfig, [])
+        dispatch({
+            type: "SET_STORE",
+            store: viewer.store
+        })
     }, [])
 
     return (
