@@ -1,19 +1,19 @@
 import React, { useReducer } from 'react'
 
+export enum ACTIONS {
+    SET_STORE = 'SET_STORE'
+}
+
 export interface AppState {
     store: any
 }
 
 interface SetStore {
-    type: string,
+    type: ACTIONS.SET_STORE,
     store: any
 }
 
 export type AppAction = SetStore;
-
-export const ACTIONS = {
-    SET_STORE: 'set_store'
-}
 
 export const initAppState: AppState = {
     store: null
