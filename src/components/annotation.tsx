@@ -9,6 +9,7 @@ export function Annotation(): any {
     const nextCanvas = () => {
         const action = mirador.actions.setNextCanvas('republic')
         state.store.dispatch(action)
+        console.log(state.store.getState())
     }
 
     const previousCanvas = () => {
@@ -17,8 +18,8 @@ export function Annotation(): any {
     }
 
     const getCurrentCanvasId = () => {
-        const currentCanvasId = mirador.selectors.getCurrentCanvas()
-        return currentCanvasId
+        const currentState = state.store.getState()
+        console.log(currentState.windows.republic.canvasId)
     }
 
     return (
