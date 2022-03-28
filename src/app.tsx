@@ -7,8 +7,9 @@ import { appContext } from './state/context'
 
 export function App() {
 	const [state, dispatch] = useAppState()
+
 	return (
-		<appContext.Provider value={{state, dispatch}}>
+		<appContext.Provider value={{ state, dispatch }}>
 			<div id='row'>
 				<div id='mirador'>
 					<Mirador />
