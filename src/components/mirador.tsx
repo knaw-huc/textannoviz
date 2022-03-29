@@ -34,6 +34,10 @@ export function Mirador() {
             type: ACTIONS.SET_STORE,
             store: viewer.store
         })
+        dispatch({
+            type: ACTIONS.CURRENT_STATE,
+            currentState: viewer.store.getState()
+        })
     }, [])
 
     return (
