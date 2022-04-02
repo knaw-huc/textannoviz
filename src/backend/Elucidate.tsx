@@ -24,3 +24,9 @@ export default class Elucidate {
         return result
     }
 }
+
+/**
+ * TODO:
+ * Do not get annotations with items.body.value === 'textregion'
+ * Can this be done with Elucidate or should I filter myself?
+ */
