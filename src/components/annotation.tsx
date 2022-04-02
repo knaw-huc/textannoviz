@@ -20,7 +20,7 @@ export function Annotation(): any {
                 console.log(data)
                 let jpg = data.label
                 console.log(jpg)
-                const result = (Elucidate.getByJpg(jpg))
+                const result = Elucidate.getByJpg(jpg)
                 return result
             })
         console.log(result)
