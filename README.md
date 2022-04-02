@@ -3,5 +3,5 @@
 ## Install
 - `npm i`
 
-## Developement
+## Development
 - `npm start`
