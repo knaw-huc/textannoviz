@@ -11,19 +11,14 @@ export function Annotation(): any {
         state.store.dispatch(mirador.actions.setNextCanvas('republic'))
         const currentState = state.store.getState()
         console.log(currentState)
-        const result = fetch(currentState.windows.republic.canvasId)
+        fetch(currentState.windows.republic.canvasId)
             .then(response => {
                 return response.json()
             })
             .then(async data => {
-                console.log(data)
                 let jpg = data.label
-                console.log(jpg)
-                const result = await Elucidate.getByJpg(jpg)
-                setAnno(result)
-                console.log(result)
+                setAnno(await Elucidate.getByJpg(jpg))
             })
-        console.log(result)
     }
 
     const previousCanvas = () => {
@@ -51,14 +46,6 @@ export function Annotation(): any {
                 ) : 'test' }
                     
             </ol>
-            {/*<ol>
-                {
-                    ann1.items.map((item: any, i: React.Key) =>
-                        <li key={i}>
-                            <code>{JSON.stringify(item, null, '\t')}</code>
-                        </li>
-                    )}
-                </ol>*/}
         </>
     )
 }
