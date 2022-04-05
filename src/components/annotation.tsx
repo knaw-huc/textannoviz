@@ -5,6 +5,7 @@ import Elucidate from '../backend/Elucidate'
 
 export function Annotation(): any {
     const { state } = useContext(appContext)
+    const [anno, setAnno] = React.useState(null)
 
     const nextCanvas = () => {
         state.store.dispatch(mirador.actions.setNextCanvas('republic'))
@@ -14,15 +15,15 @@ export function Annotation(): any {
             .then(response => {
                 return response.json()
             })
-            .then(data => {
+            .then(async data => {
                 console.log(data)
                 let jpg = data.label
                 console.log(jpg)
-                const result = Elucidate.getByJpg(jpg)
-                return result
+                const result = await Elucidate.getByJpg(jpg)
+                setAnno(result)
+                console.log(result)
             })
         console.log(result)
-        return result
     }
 
     const previousCanvas = () => {
@@ -30,7 +31,8 @@ export function Annotation(): any {
     }
 
     const getCurrentCanvasId = () => {
-        console.log(state.currentState)
+        //console.log(state.currentState)
+        console.log(anno)
     }
 
     return (
@@ -38,9 +40,20 @@ export function Annotation(): any {
             <button onClick={nextCanvas}>Next canvas</button>
             <button onClick={previousCanvas}>Previous canvas</button>
             <button onClick={getCurrentCanvasId}>Get current canvas id</button>
+            <ol>
+                {
+                    anno ? anno.map((item: any, i: React.Key) => 
+                    <li key={i}>
+                        <code>
+                            {JSON.stringify(item, null, '\t')}
+                        </code>
+                    </li>
+                ) : 'test' }
+                    
+            </ol>
             {/*<ol>
                 {
-                    ann1.items.map((item, i) =>
+                    ann1.items.map((item: any, i: React.Key) =>
                         <li key={i}>
                             <code>{JSON.stringify(item, null, '\t')}</code>
                         </li>
