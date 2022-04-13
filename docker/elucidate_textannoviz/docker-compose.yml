@@ -22,6 +22,8 @@ services:
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=elucidate
       - DATABASE_URL=jdbc:postgresql://database:5432/annotations
+      - BASE_HOST=eltav
+      - BASE_PORT=8080
       - AUTH_TOKEN_VERIFIERKEY=notinuse
     depends_on:
       - database
