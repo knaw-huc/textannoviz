@@ -1,0 +1,37 @@
+version: '3'
+services:
+  database:
+    container_name: elucidate-db-textannoviz
+    image: postgres:13-alpine
+    shm_size: 1g
+    networks:
+      - elucidate_network
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=elucidate
+      - POSTGRES_DB=annotations
+    restart: unless-stopped
+  web:
+    container_name: eltav
+    image: registry.diginfra.net/tt/huc-elucidate-server:1.6.4
+    networks:
+      - elucidate_network
+    environment:
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=elucidate
+      - DATABASE_URL=jdbc:postgresql://database:5432/annotations
+      - AUTH_TOKEN_VERIFIERKEY=notinuse
+    depends_on:
+      - database
+    restart: unless-stopped
+    expose:
+      - 8080
+    volumes:
+      - ../../scripts:/scripts
+    command: ["/scripts/wait-for-it.sh", "database:5432", "--", "./bin/catalina.sh", "run"]
+
+networks:
+  elucidate_network:
+    name: elucidate_network
