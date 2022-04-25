@@ -5,6 +5,7 @@ export interface AppState {
     store: any
     jpg: any
     anno: any
+    text: any
 }
 
 interface SetStore {
@@ -22,12 +23,18 @@ interface SetAnno {
     anno: any
 }
 
-export type AppAction = SetStore | SetJpg | SetAnno
+interface SetText {
+    type: ACTIONS.SET_TEXT,
+    text: any
+}
+
+export type AppAction = SetStore | SetJpg | SetAnno | SetText
 
 export const initAppState: AppState = {
     store: null,
     jpg: null,
-    anno: null
+    anno: null,
+    text: null
 }
 
 export function useAppState(): [AppState, React.Dispatch<AppAction>] {
@@ -45,6 +52,8 @@ function reducer(state: AppState, action: AppAction): AppState {
             return setJpg(state, action)
         case ACTIONS.SET_ANNO:
             return setAnno(state, action)
+        case ACTIONS.SET_TEXT:
+            return setText(state, action)
         default:
             return state
     }
@@ -68,5 +77,12 @@ function setAnno(state: AppState, action: SetAnno) {
     return {
         ...state,
         anno: action.anno
+    }
+}
+
+function setText(state: AppState, action: SetText) {
+    return {
+        ...state,
+        text: action.text
     }
 }

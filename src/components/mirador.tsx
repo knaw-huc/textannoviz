@@ -3,6 +3,9 @@ import React from "react"
 import mirador from "mirador"
 import { appContext } from "../state/context"
 import Elucidate from "../backend/Elucidate"
+import TextRepo from "../backend/TextRepo"
+import getVersionId from "../backend/utils/getVersionId"
+import findSelectorTarget from "../backend/utils/findSelectorTarget"
 
 export const miradorConfig = {
     id: 'mirador',
@@ -39,14 +42,37 @@ export function Mirador() {
             const data = await response.json()
             const jpg = data.label
             console.log(jpg)
+            const ann = await Elucidate.getByJpg(jpg)
             dispatch({
                 type: ACTIONS.SET_ANNO,
                 anno: await Elucidate.getByJpg(jpg)
             })
+
+            const versionId = getVersionId(ann[0].id)
+            console.log(versionId)
+    
+            const scanPageFiltered: any[] = []
+            ann.map((item: any) => {
+                if (item.body.value === 'scanpage') {
+                    scanPageFiltered.push(item)
+                }
+            })
+            console.log(scanPageFiltered)
+    
+            const selectorTarget = findSelectorTarget(scanPageFiltered[0])
+            
+            const beginRange = selectorTarget.selector.start
+            const endRange = selectorTarget.selector.end
+            console.log(beginRange)
+            console.log(endRange)
+            
+            dispatch({
+                type: ACTIONS.SET_TEXT,
+                text: await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
+            })
         }
         fetchData()
             .catch(console.error)
-
         // haal hier huidige state van store op en setjpg?
         // dan in annotation.tsx een react.useeffect in main body waarin direct de anno's worden opgehaald en naar een anno state in de context worden gepushed
 

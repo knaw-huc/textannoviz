@@ -47,10 +47,6 @@ export function Annotation(): any {
         //console.log(state.currentState)
         const versionId = getVersionId(state.anno[0].id)
         console.log(versionId)
-        const selectorTarget = findSelectorTarget(state.anno[0])
-        console.log(selectorTarget)
-        const scanPage = bodyValue(state.anno)
-        console.log(scanPage)
 
         const scanPageFiltered: any[] = []
         state.anno.map((item: any) => {
@@ -59,13 +55,20 @@ export function Annotation(): any {
             }
         })
         console.log(scanPageFiltered)
-        const beginRange = scanPageFiltered[0].target[0].selector.start
-        const endRange = scanPageFiltered[0].target[0].selector.end
+
+        const selectorTarget = findSelectorTarget(scanPageFiltered[0])
+        
+        const beginRange = selectorTarget.selector.start
+        const endRange = selectorTarget.selector.end
         console.log(beginRange)
         console.log(endRange)
-
-        const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
-        console.log(text)
+        
+        dispatch({
+            type: ACTIONS.SET_TEXT,
+            text: await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
+        })
+        
+        console.log(state.text)
 
     }
 
@@ -90,27 +93,27 @@ export function Annotation(): any {
 }
 
 
-function bodyValue(annotation: any): any {
-    return annotation.map((item: { body: any; }) => {
-        if (Array.isArray(item.body)) {
-            const body = item.body.find((b: { value: string; }) => b.value);
-            if (body) {
-                return body.value;
-            } else {
-                throw new Error('Bla');
-            }
-        } else {
-            return item.body.value;
-        }
-    });
-    // if (Array.isArray(annotation.body)) {
-    //     const body = annotation.body.find((b: { value: string; }) => b.value);
-    //     if (body) {
-    //         return body.value;
-    //     } else {
-    //         throw new Error('No body id found in ' + JSON.stringify(annotation));
-    //     }
-    // } else {
-    //     return annotation.body.value;
-    // }
-}
+// function bodyValue(annotation: any): any {
+//     return annotation.map((item: { body: any; }) => {
+//         if (Array.isArray(item.body)) {
+//             const body = item.body.find((b: { value: string; }) => b.value);
+//             if (body) {
+//                 return body.value;
+//             } else {
+//                 throw new Error('Bla');
+//             }
+//         } else {
+//             return item.body.value;
+//         }
+//     });
+//     // if (Array.isArray(annotation.body)) {
+//     //     const body = annotation.body.find((b: { value: string; }) => b.value);
+//     //     if (body) {
+//     //         return body.value;
+//     //     } else {
+//     //         throw new Error('No body id found in ' + JSON.stringify(annotation));
+//     //     }
+//     // } else {
+//     //     return annotation.body.value;
+//     // }
+// }
