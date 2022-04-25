@@ -1,9 +1,10 @@
-import { ACTIONS } from "../state/reducer"
+import { ACTIONS } from "../state/actions"
 import React from "react"
 import mirador from "mirador"
 import { appContext } from "../state/context"
+import Elucidate from "../backend/Elucidate"
 
-const miradorConfig = {
+export const miradorConfig = {
     id: 'mirador',
     window: {
         allowFullscreen: false,
@@ -17,9 +18,6 @@ const miradorConfig = {
             id: "republic"
         },
     ],
-    thumbnailNavigation: {
-        defaultPosition: 'far-bottom',
-    },
     workspaceControlPanel: {
         enabled: false,
     }
@@ -34,6 +32,24 @@ export function Mirador() {
             type: ACTIONS.SET_STORE,
             store: viewer.store
         })
+
+        const currentState = viewer.store.getState()
+        const fetchData = async () => {
+            const response = await fetch(currentState.windows.republic.canvasId)
+            const data = await response.json()
+            const jpg = data.label
+            console.log(jpg)
+            dispatch({
+                type: ACTIONS.SET_ANNO,
+                anno: await Elucidate.getByJpg(jpg)
+            })
+        }
+        fetchData()
+            .catch(console.error)
+
+        // haal hier huidige state van store op en setjpg?
+        // dan in annotation.tsx een react.useeffect in main body waarin direct de anno's worden opgehaald en naar een anno state in de context worden gepushed
+
     }, [])
 
     return (
