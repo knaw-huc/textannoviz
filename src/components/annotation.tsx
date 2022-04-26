@@ -10,7 +10,7 @@ import TextRepo from '../backend/TextRepo'
 export function Annotation(): any {
     const { state, dispatch } = useContext(appContext)
 
-    const nextCanvas = () => {
+    const fetchData = async () => {
         state.store.dispatch(mirador.actions.setNextCanvas('republic'))
         const currentState = state.store.getState()
         console.log(currentState)
@@ -20,63 +20,56 @@ export function Annotation(): any {
             })
             .then(async data => {
                 const jpg = data.label
+                const ann = await Elucidate.getByJpg(jpg)
+                //Hier moet een check ingebouwd worden of ann[0] wel bestaat.
+                const versionId = getVersionId(ann[0].id)
+                console.log(versionId)
+
+                const scanPageFiltered: any[] = []
+                ann.map((item: any) => {
+                    if (item.body.value === 'scanpage') {
+                        scanPageFiltered.push(item)
+                    }
+                })
+                console.log(scanPageFiltered)
+
+                const selectorTarget = findSelectorTarget(scanPageFiltered[0])
+
+                const beginRange = selectorTarget.selector.start
+                const endRange = selectorTarget.selector.end
+                console.log(beginRange)
+                console.log(endRange)
+                const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
+
                 dispatch({
                     type: ACTIONS.SET_ANNO,
-                    anno: await Elucidate.getByJpg(jpg)
+                    anno: ann
+                })
+
+                dispatch({
+                    type: ACTIONS.SET_TEXT,
+                    text: text
                 })
             })
+    }
+
+    const nextCanvas = () => {
+        fetchData()
     }
 
     const previousCanvas = () => {
-        state.store.dispatch(mirador.actions.setPreviousCanvas('republic'))
-        const currentState = state.store.getState()
-        fetch(currentState.windows.republic.canvasId)
-            .then(response => {
-                return response.json()
-            })
-            .then(async data => {
-                const jpg = data.label
-                dispatch({
-                    type: ACTIONS.SET_ANNO,
-                    anno: await Elucidate.getByJpg(jpg)
-                })
-            })
+        fetchData()
     }
 
-    const getCurrentCanvasId = async () => {
+    const testFunction = async () => {
         //console.log(state.currentState)
-        const versionId = getVersionId(state.anno[0].id)
-        console.log(versionId)
-
-        const scanPageFiltered: any[] = []
-        state.anno.map((item: any) => {
-            if (item.body.value === 'scanpage') {
-                scanPageFiltered.push(item)
-            }
-        })
-        console.log(scanPageFiltered)
-
-        const selectorTarget = findSelectorTarget(scanPageFiltered[0])
-        
-        const beginRange = selectorTarget.selector.start
-        const endRange = selectorTarget.selector.end
-        console.log(beginRange)
-        console.log(endRange)
-        
-        dispatch({
-            type: ACTIONS.SET_TEXT,
-            text: await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
-        })
-        
-        console.log(state.text)
-
     }
 
     return (
         <>
             <button onClick={nextCanvas}>Next canvas</button>
             <button onClick={previousCanvas}>Previous canvas</button>
-            <button onClick={getCurrentCanvasId}>Get current canvas id</button>
+            <button onClick={testFunction}>Test button</button>
             <ol>
                 {
                     state.anno ? state.anno.map((item: any, i: React.Key) => 

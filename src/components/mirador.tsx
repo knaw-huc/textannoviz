@@ -45,7 +45,7 @@ export function Mirador() {
             const ann = await Elucidate.getByJpg(jpg)
             dispatch({
                 type: ACTIONS.SET_ANNO,
-                anno: await Elucidate.getByJpg(jpg)
+                anno: ann
             })
 
             const versionId = getVersionId(ann[0].id)
@@ -65,10 +65,11 @@ export function Mirador() {
             const endRange = selectorTarget.selector.end
             console.log(beginRange)
             console.log(endRange)
+            const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
             
             dispatch({
                 type: ACTIONS.SET_TEXT,
-                text: await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
+                text: text
             })
         }
         fetchData()
