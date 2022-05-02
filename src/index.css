@@ -5,7 +5,7 @@
 
 #mirador {
     position: relative;
-    width: 900px;
+    width: 600px;
     height: 800px;
 }
 
@@ -18,7 +18,7 @@
 }
 
 #annotation {
-    width: 500px;
+    width: 400px;
     height: 800px;
     padding: 0.7em;
     overflow: auto;
