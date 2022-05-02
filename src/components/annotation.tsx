@@ -6,13 +6,13 @@ import { ACTIONS } from '../state/actions';
 import getVersionId from '../backend/utils/getVersionId'
 import findSelectorTarget from '../backend/utils/findSelectorTarget'
 import TextRepo from '../backend/TextRepo'
+import getBodyValue from '../backend/utils/getBodyValue'
 
 export function Annotation(): any {
     const { state, dispatch } = useContext(appContext)
 
     const fetchData = async () => {
         const currentState = state.store.getState()
-        console.log(currentState)
         fetch(currentState.windows.republic.canvasId)
             .then(response => {
                 return response.json()
@@ -24,16 +24,17 @@ export function Annotation(): any {
                     const versionId = getVersionId(ann[0].id)
 
                     const scanPageFiltered: any[] = []
-                    const bodyVals = bodyValue(ann)
-                    console.log(bodyVals)
+                    const annFiltered: any[] = []
                     ann.map((item: any) => {
-                        if (bodyValue(item) === 'scanpage') {
+                        if (item.body.value === 'scanpage') {
                             scanPageFiltered.push(item)
                         }
+                        if (getBodyValue(item) != 'line' && 'column') {
+                            annFiltered.push(item)
+                        }
                     })
+                    console.log(annFiltered)
                     console.log(scanPageFiltered)
-                    // ann.filter(a => !['line', 'column'].includes(bodyValue(a)))
-                    // console.log(ann)
 
                     const selectorTarget = findSelectorTarget(scanPageFiltered[0])
                     const beginRange = selectorTarget.selector.start
@@ -42,7 +43,7 @@ export function Annotation(): any {
 
                     dispatch({
                         type: ACTIONS.SET_ANNO,
-                        anno: ann
+                        anno: annFiltered
                     })
 
                     dispatch({
@@ -107,31 +108,4 @@ export function Annotation(): any {
             </ol>
         </>
     )
-}
-
-
-function bodyValue(annotation: any): any {
-    console.log(annotation)
-    return annotation.map((item: { body: any; }) => {
-        if (Array.isArray(item.body)) {
-            const body = item.body.find((b: { value: string; }) => b.value);
-            if (body) {
-                return body.value;
-            } else {
-                throw new Error('Bla');
-            }
-        } else {
-            return item.body.value;
-        }
-    });
-    // if (Array.isArray(annotation.body)) {
-    //     const body = annotation.body.find((b: { value: string; }) => b.value);
-    //     if (body) {
-    //         return body.value;
-    //     } else {
-    //         throw new Error('No body id found in ' + JSON.stringify(annotation));
-    //     }
-    // } else {
-    //     return annotation.body.value;
-    // }
 }

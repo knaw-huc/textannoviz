@@ -8,6 +8,7 @@ import getVersionId from "../backend/utils/getVersionId"
 import findSelectorTarget from "../backend/utils/findSelectorTarget"
 import annotationPlugins from 'mirador-annotations/es'
 import LocalStorageAdapter from 'mirador-annotations/es/LocalStorageAdapter'
+import getBodyValue from '../backend/utils/getBodyValue'
 
 export const miradorConfig = {
     annotation: {
@@ -51,9 +52,13 @@ export function Mirador() {
             const versionId = getVersionId(ann[0].id)
     
             const scanPageFiltered: any[] = []
+            const annFiltered: any[] = []
             ann.map((item: any) => {
                 if (item.body.value === 'scanpage') {
                     scanPageFiltered.push(item)
+                }
+                if (getBodyValue(item) != 'line' && 'column') {
+                    annFiltered.push(item)
                 }
             })
     
@@ -64,7 +69,7 @@ export function Mirador() {
             
             dispatch({
                 type: ACTIONS.SET_ANNO,
-                anno: ann
+                anno: annFiltered
             })
 
             dispatch({
