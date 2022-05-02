@@ -7,8 +7,9 @@ import getVersionId from '../backend/utils/getVersionId'
 import findSelectorTarget from '../backend/utils/findSelectorTarget'
 import TextRepo from '../backend/TextRepo'
 import getBodyValue from '../backend/utils/getBodyValue'
+import { ElucidateAnnotation } from '../model/ElucidateAnnotation';
 
-export function Annotation(): any {
+export function Annotation() {
     const { state, dispatch } = useContext(appContext)
 
     const fetchData = async () => {
@@ -23,10 +24,10 @@ export function Annotation(): any {
                 if (ann[0]) {
                     const versionId = getVersionId(ann[0].id)
 
-                    const scanPageFiltered: any[] = []
-                    const annFiltered: any[] = []
-                    ann.map((item: any) => {
-                        if (item.body.value === 'scanpage') {
+                    const scanPageFiltered: ElucidateAnnotation[] = []
+                    const annFiltered: ElucidateAnnotation[] = []
+                    ann.map((item: ElucidateAnnotation) => {
+                        if (getBodyValue(item) === 'scanpage') {
                             scanPageFiltered.push(item)
                         }
                         if (getBodyValue(item) != 'line' && 'column') {
@@ -97,7 +98,7 @@ export function Annotation(): any {
             <button onClick={testFunction}>Test button</button>
             <ol>
                 {
-                    state.anno ? state.anno.map((item: any, i: React.Key) => 
+                    state.anno ? state.anno.map((item: ElucidateAnnotation, i: React.Key) => 
                     <li key={i}>
                         <code>
                             {JSON.stringify(item, null, '\t')}

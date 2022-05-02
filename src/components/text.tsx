@@ -1,9 +1,8 @@
-//import text from '../data/attlist1text.json';
 import React from 'react';
 import { useContext } from 'react'
 import { appContext } from '../state/context';
 
-export function Text(): any {
+export function Text() {
     const { state } = useContext(appContext)
 
     return (

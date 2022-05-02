@@ -9,6 +9,7 @@ import findSelectorTarget from "../backend/utils/findSelectorTarget"
 import annotationPlugins from 'mirador-annotations/es'
 import LocalStorageAdapter from 'mirador-annotations/es/LocalStorageAdapter'
 import getBodyValue from '../backend/utils/getBodyValue'
+import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 
 export const miradorConfig = {
     annotation: {
@@ -51,10 +52,10 @@ export function Mirador() {
             const ann = await Elucidate.getByJpg(jpg)
             const versionId = getVersionId(ann[0].id)
     
-            const scanPageFiltered: any[] = []
-            const annFiltered: any[] = []
-            ann.map((item: any) => {
-                if (item.body.value === 'scanpage') {
+            const scanPageFiltered: ElucidateAnnotation[] = []
+            const annFiltered: ElucidateAnnotation[] = []
+            ann.map((item: ElucidateAnnotation) => {
+                if (getBodyValue(item) === 'scanpage') {
                     scanPageFiltered.push(item)
                 }
                 if (getBodyValue(item) != 'line' && 'column') {
