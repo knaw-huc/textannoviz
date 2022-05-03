@@ -24,15 +24,11 @@ export function Annotation() {
                 if (ann[0]) {
                     const versionId = getVersionId(ann[0].id)
 
-                    const scanPageFiltered: ElucidateAnnotation[] = []
-                    const annFiltered: ElucidateAnnotation[] = []
-                    ann.map((item: ElucidateAnnotation) => {
-                        if (getBodyValue(item) === 'scanpage') {
-                            scanPageFiltered.push(item)
-                        }
-                        if (getBodyValue(item) != 'line' && 'column') {
-                            annFiltered.push(item)
-                        }
+                    const scanPageFiltered: ElucidateAnnotation[] = ann.filter(item => {
+                        return getBodyValue(item) === 'scanpage'
+                    })
+                    const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
+                        return getBodyValue(item) != 'line' && 'column'
                     })
                     console.log(annFiltered)
                     console.log(scanPageFiltered)
