@@ -1,5 +1,5 @@
-import React, { useReducer } from 'react'
-import { ACTIONS } from './actions'
+import React, { useReducer } from "react"
+import { ACTIONS } from "./actions"
 
 export interface AppState {
     store: any
@@ -44,18 +44,18 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
 }
 
 function reducer(state: AppState, action: AppAction): AppState {
-    console.log(action, state);
+    console.log(action, state)
     switch (action.type) {
-        case ACTIONS.SET_STORE:
-            return setStore(state, action)
-        case ACTIONS.SET_JPG:
-            return setJpg(state, action)
-        case ACTIONS.SET_ANNO:
-            return setAnno(state, action)
-        case ACTIONS.SET_TEXT:
-            return setText(state, action)
-        default:
-            return state
+    case ACTIONS.SET_STORE:
+        return setStore(state, action)
+    case ACTIONS.SET_JPG:
+        return setJpg(state, action)
+    case ACTIONS.SET_ANNO:
+        return setAnno(state, action)
+    case ACTIONS.SET_TEXT:
+        return setText(state, action)
+    default:
+        return state
     }
 }
 

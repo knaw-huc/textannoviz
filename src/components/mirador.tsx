@@ -6,17 +6,18 @@ import Elucidate from "../backend/Elucidate"
 import TextRepo from "../backend/TextRepo"
 import getVersionId from "../backend/utils/getVersionId"
 import findSelectorTarget from "../backend/utils/findSelectorTarget"
-import annotationPlugins from 'mirador-annotations/es'
-import LocalStorageAdapter from 'mirador-annotations/es/LocalStorageAdapter'
-import getBodyValue from '../backend/utils/getBodyValue'
+import annotationPlugins from "mirador-annotations/es"
+import LocalStorageAdapter from "mirador-annotations/es/LocalStorageAdapter"
+import getBodyValue from "../backend/utils/getBodyValue"
 import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
+//import { FetchData } from "../backend/utils/fetchData"
 
 export const miradorConfig = {
     annotation: {
-        adapter: (canvasId: any) => new LocalStorageAdapter(`localStorage://?canvasId=${canvasId}`),
+        adapter: (canvasId: never) => new LocalStorageAdapter(`localStorage://?canvasId=${canvasId}`),
         exportLocalStorageAnnotations: false,
     },
-    id: 'mirador',
+    id: "mirador",
     window: {
         allowFullscreen: false,
         highlightAllAnnotations: true,
@@ -53,10 +54,10 @@ export function Mirador() {
             const versionId = getVersionId(ann[0].id)
     
             const scanPageFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                return getBodyValue(item) === 'scanpage'
+                return getBodyValue(item) === "scanpage"
             })
             const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                return getBodyValue(item) != 'line' && 'column'
+                return getBodyValue(item) != "line" && "column"
             })
             console.log(annFiltered)
             console.log(scanPageFiltered)

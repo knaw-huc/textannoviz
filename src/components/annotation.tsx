@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
-import { appContext } from '../state/context';
-import mirador from 'mirador';
-import Elucidate from '../backend/Elucidate'
-import { ACTIONS } from '../state/actions';
-import getVersionId from '../backend/utils/getVersionId'
-import findSelectorTarget from '../backend/utils/findSelectorTarget'
-import TextRepo from '../backend/TextRepo'
-import getBodyValue from '../backend/utils/getBodyValue'
-import { ElucidateAnnotation } from '../model/ElucidateAnnotation';
+import React, { useContext } from "react"
+import { appContext } from "../state/context"
+import mirador from "mirador"
+import Elucidate from "../backend/Elucidate"
+import { ACTIONS } from "../state/actions"
+import getVersionId from "../backend/utils/getVersionId"
+import findSelectorTarget from "../backend/utils/findSelectorTarget"
+import TextRepo from "../backend/TextRepo"
+import getBodyValue from "../backend/utils/getBodyValue"
+import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
+//import {FetchData} from "../backend/utils/fetchData"
 
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
@@ -25,10 +26,10 @@ export function Annotation() {
                     const versionId = getVersionId(ann[0].id)
 
                     const scanPageFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                        return getBodyValue(item) === 'scanpage'
+                        return getBodyValue(item) === "scanpage"
                     })
                     const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                        return getBodyValue(item) != 'line' && 'column'
+                        return getBodyValue(item) != "line" && "column"
                     })
                     console.log(annFiltered)
                     console.log(scanPageFiltered)
@@ -54,13 +55,13 @@ export function Annotation() {
     }
 
     const nextCanvas = () => {
-        state.store.dispatch(mirador.actions.setNextCanvas('republic'))
+        state.store.dispatch(mirador.actions.setNextCanvas("republic"))
         fetchData()
             .catch(console.error)
     }
 
     const previousCanvas = () => {
-        state.store.dispatch(mirador.actions.setPreviousCanvas('republic'))
+        state.store.dispatch(mirador.actions.setPreviousCanvas("republic"))
         fetchData()
             .catch(console.error)
     }
@@ -72,19 +73,19 @@ export function Annotation() {
             y: 1831,
             width: 800,
             height: 1195
-        };
+        }
 
         const zoomCenter = {
             x: boxToZoom.x + boxToZoom.width / 2,
             y: boxToZoom.y + boxToZoom.height / 2
-        };
-        const action = mirador.actions.updateViewport('republic', {
+        }
+        const action = mirador.actions.updateViewport("republic", {
             x: zoomCenter.x,
             y: zoomCenter.y,
             zoom: 1 / boxToZoom.width
-        });
+        })
 
-        state.store.dispatch(action);
+        state.store.dispatch(action)
     }
 
     return (
@@ -95,12 +96,12 @@ export function Annotation() {
             <ol>
                 {
                     state.anno ? state.anno.map((item: ElucidateAnnotation, i: React.Key) => 
-                    <li key={i}>
-                        <code>
-                            {JSON.stringify(item, null, '\t')}
-                        </code>
-                    </li>
-                ) : 'Loading...' }
+                        <li key={i}>
+                            <code>
+                                {JSON.stringify(item, null, "\t")}
+                            </code>
+                        </li>
+                    ) : "Loading..." }
                     
             </ol>
         </>

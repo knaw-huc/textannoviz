@@ -1,4 +1,6 @@
-export default function bodyValue(annotation: any): any {
+import { ElucidateAnnotation } from "../../model/ElucidateAnnotation"
+
+export default function bodyValue(annotation: ElucidateAnnotation): string {
     // console.log(annotation)
     // return annotation.map((item: { body: any; }) => {
     //     if (Array.isArray(item.body)) {
@@ -13,13 +15,13 @@ export default function bodyValue(annotation: any): any {
     //     }
     // });
     if (Array.isArray(annotation.body)) {
-        const body = annotation.body.find((b: { value: string; }) => b.value);
+        const body = annotation.body.find((b: { value: string; }) => b.value)
         if (body) {
-            return body.value;
+            return body.value
         } else {
-            throw new Error('No body id found in ' + JSON.stringify(annotation));
+            throw new Error("No body id found in " + JSON.stringify(annotation))
         }
     } else {
-        return annotation.body.value;
+        return annotation.body.value
     }
 }
