@@ -7,14 +7,16 @@ import getVersionId from "../backend/utils/getVersionId"
 import findSelectorTarget from "../backend/utils/findSelectorTarget"
 import TextRepo from "../backend/TextRepo"
 import getBodyValue from "../backend/utils/getBodyValue"
-import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
+import { ElucidateAnnotation, ElucidateTarget } from "../model/ElucidateAnnotation"
 //import {FetchData} from "../backend/utils/fetchData"
+import findImageRegions from "../backend/utils/findImageRegions"
 
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
 
     const fetchData = async () => {
         const currentState = state.store.getState()
+        console.log(currentState)
         fetch(currentState.windows.republic.canvasId)
             .then(response => {
                 return response.json()
@@ -25,16 +27,14 @@ export function Annotation() {
                 if (ann[0]) {
                     const versionId = getVersionId(ann[0].id)
 
-                    const scanPageFiltered: ElucidateAnnotation[] = ann.filter(item => {
+                    const scanPage: ElucidateAnnotation[] = ann.filter(item => {
                         return getBodyValue(item) === "scanpage"
                     })
                     const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
                         return getBodyValue(item) != "line" && "column"
                     })
-                    console.log(annFiltered)
-                    console.log(scanPageFiltered)
 
-                    const selectorTarget = findSelectorTarget(scanPageFiltered[0])
+                    const selectorTarget = findSelectorTarget(scanPage[0])
                     const beginRange = selectorTarget.selector.start
                     const endRange = selectorTarget.selector.end
                     const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
@@ -67,25 +67,54 @@ export function Annotation() {
     }
 
     const testFunction = async () => {
-        //console.log(state.currentState)
-        const boxToZoom = {
-            x: 1420,
-            y: 1831,
-            width: 800,
-            height: 1195
+        const target = state.anno[86].target as ElucidateTarget[]
+        const [x, y, w, h] = findImageRegions(target)
+        console.log(x, y, w, h)
+
+        const json = {
+            "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@type": "sc:AnnotationList",
+            "resources": [{
+                "@id": "test",
+                "@type": "oa:Annotation",
+                "motivation": [
+                    "oa:commenting", "oa:Tagging"
+                ],
+                "on": [{
+                    "@type": "oa:SpecificResource",
+                    "full": "https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/db0ce64f-b130-436a-a45b-1b2d5c816dc6",
+                    "selector": {
+                        "@type": "oa:Choice",
+                        "default": {
+                            "@type": "oa:FragmentSelector",
+                            "value": `xywh=${x},${y},${w},${h}`
+                        },
+                        "item": {
+                            "@type": "oa:SvgSelector",
+                            "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${y+h}v-${h}h${w}v${h}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
+                        }
+                    },
+                    "within": {
+                        "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
+                        "@type": "sc:Manifest"
+                    }
+                }],
+                "resource": [{
+                    "@type": "dctypes:Text",
+                    "format": "text/html",
+                    "chars": "testing"
+                }, {
+                    "@type": "oa:Tag",
+                    "format": "text/html",
+                    "chars": "testing"
+                }]
+            }]
         }
 
-        const zoomCenter = {
-            x: boxToZoom.x + boxToZoom.width / 2,
-            y: boxToZoom.y + boxToZoom.height / 2
-        }
-        const action = mirador.actions.updateViewport("republic", {
-            x: zoomCenter.x,
-            y: zoomCenter.y,
-            zoom: 1 / boxToZoom.width
-        })
+        console.log(json)
 
-        state.store.dispatch(action)
+        state.store.dispatch(mirador.actions.receiveAnnotation("https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/db0ce64f-b130-436a-a45b-1b2d5c816dc6", "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg", json))
     }
 
     return (

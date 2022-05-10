@@ -1,40 +1,40 @@
 export type Body = {
-    'id': string,
-    'type': string,
-    'value': string,
-    'purpose': string,
+    "id": string,
+    "type": string,
+    "value": string,
+    "purpose": string,
 }
 
 export type Selector = {
-    'type': string,
-    'end': number,
-    'start': number,
+    "type": string,
+    "end": number,
+    "start": number,
 }
 
 export type SelectorTarget = {
-    'type': string,
-    'selector': Selector,
-    'source': string,
+    "type": string,
+    "selector": Selector,
+    "source": string,
 }
 
 export type ImageTarget = {
-    'type': 'Image',
-    'selector': {
-        'type': string,
-        'conformsTo': string,
-        'value': string,
+    "type": "Image",
+    "selector": {
+        "type": string,
+        "conformsTo": string,
+        "value": string,
     } | undefined,
-    'source': string,
+    "source": string,
 }
 
 export type TextAnchorTarget = {
-    'type': 'Text',
-    'selector': {
-        'type': 'urn:example:republic:TextAnchorSelector',
-        'end': number,
-        'start': number,
+    "type": "Text",
+    "selector": {
+        "type": "urn:example:republic:TextAnchorSelector",
+        "end": number,
+        "start": number,
     },
-    'source': string
+    "source": string
 }
 
 export type ElucidateTarget = SelectorTarget | ImageTarget
@@ -42,15 +42,15 @@ export type ElucidateTarget = SelectorTarget | ImageTarget
 export type Target = string | TextAnchorTarget | ElucidateTarget
 
 export type ElucidateAnnotation = {
-    'id': string,
-    'type': string,
-    'generated': string,
-    'generator': {
-        'id': string,
-        'type': string,
-        'name': string,
+    "id": string,
+    "type": string,
+    "generated": string,
+    "generator": {
+        "id": string,
+        "type": string,
+        "name": string,
     } | undefined,
-    'body': Body | (Body[]),
-    'target': Target | Target[],
-    'movivation': string
+    "body": Body | (Body[]),
+    "target": Target | Target[],
+    "movivation": string
 }

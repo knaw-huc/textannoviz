@@ -1,12 +1,12 @@
-import {ElucidateAnnotation} from '../model/ElucidateAnnotation'
+import {ElucidateAnnotation} from "../model/ElucidateAnnotation"
 
 export default class Elucidate {
-    static readonly host = 'http://localhost:8000/elucidate'
+    static readonly host = "http://localhost:8000/elucidate"
 
     static readonly headers = {
-        'Accept': 'application/ld+json; profile="http://www.w3.org/ns/anno.jsonld"',
-        'Content-Type': 'application/ld+json; profile="http://www.w3.org/ns/anno.jsonld"'
-    };
+        "Accept": "application/ld+json; profile=\"http://www.w3.org/ns/anno.jsonld\"",
+        "Content-Type": "application/ld+json; profile=\"http://www.w3.org/ns/anno.jsonld\""
+    }
 
     public static async getByJpg(jpg: string): Promise<ElucidateAnnotation[]> {
         const result: ElucidateAnnotation[] = []

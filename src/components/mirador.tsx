@@ -53,16 +53,14 @@ export function Mirador() {
             const ann = await Elucidate.getByJpg(jpg)
             const versionId = getVersionId(ann[0].id)
     
-            const scanPageFiltered: ElucidateAnnotation[] = ann.filter(item => {
+            const scanPage: ElucidateAnnotation[] = ann.filter(item => {
                 return getBodyValue(item) === "scanpage"
             })
             const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
                 return getBodyValue(item) != "line" && "column"
             })
-            console.log(annFiltered)
-            console.log(scanPageFiltered)
     
-            const selectorTarget = findSelectorTarget(scanPageFiltered[0])
+            const selectorTarget = findSelectorTarget(scanPage[0])
             const beginRange = selectorTarget.selector.start
             const endRange = selectorTarget.selector.end
             const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
