@@ -67,7 +67,9 @@ export function Annotation() {
     }
 
     const testFunction = async () => {
-        const target = state.anno[86].target as ElucidateTarget[]
+        const currentState = state.store.getState()
+        console.log(currentState)
+        const target = state.anno[0].target as ElucidateTarget[]
         const [x, y, w, h] = findImageRegions(target)
         console.log(x, y, w, h)
 
@@ -83,7 +85,7 @@ export function Annotation() {
                 ],
                 "on": [{
                     "@type": "oa:SpecificResource",
-                    "full": "https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/db0ce64f-b130-436a-a45b-1b2d5c816dc6",
+                    "full": `${currentState.windows.republic.canvasId}`,
                     "selector": {
                         "@type": "oa:Choice",
                         "default": {
@@ -114,7 +116,27 @@ export function Annotation() {
 
         console.log(json)
 
-        state.store.dispatch(mirador.actions.receiveAnnotation("https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/db0ce64f-b130-436a-a45b-1b2d5c816dc6", "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg", json))
+        state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "testing", json))
+
+        // const boxToZoom = {
+        //     x: x,
+        //     y: y,
+        //     width: w,
+        //     height: h
+        // }
+
+        // const zoomCenter = {
+        //     x: boxToZoom.x + boxToZoom.width / 2,
+        //     y: boxToZoom.y + boxToZoom.height / 2
+        // }
+
+        // const zoomAction = mirador.actions.updateViewport("republic", {
+        //     x: zoomCenter.x,
+        //     y: zoomCenter.y,
+        //     zoom: 1 / boxToZoom.width
+        // })
+        // state.store.dispatch(zoomAction)
+
     }
 
     return (
