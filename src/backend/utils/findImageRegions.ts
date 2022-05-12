@@ -7,10 +7,9 @@ export default function findImageRegions(target: any[]) {
     const string = result.toString()
     const split = string.split(",")
 
-    const x = parseInt(split[0])
-    const y = parseInt(split[1])
-    const w = parseInt(split[2])
-    const h = parseInt(split[3])
+    const [x, y, w, h] = split.map((i: string) => {
+        return parseInt(i)
+    })
 
     return [x, y, w, h]
 }
