@@ -47,24 +47,28 @@ export function Mirador() {
 
         const currentState = viewer.store.getState()
         const fetchData = async () => {
-            const response = await fetch(currentState.windows.republic.canvasId)
-            const data = await response.json()
-            const jpg = data.label
+            const jpg = await fetch(currentState.windows.republic.canvasId)
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    return data.label
+                })
             const ann = await Elucidate.getByJpg(jpg)
             const versionId = getVersionId(ann[0].id)
-    
+
             const scanPage: ElucidateAnnotation[] = ann.filter(item => {
                 return getBodyValue(item) === "scanpage"
             })
             const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
                 return getBodyValue(item) != "line" && "column"
             })
-    
+
             const selectorTarget = findSelectorTarget(scanPage[0])
             const beginRange = selectorTarget.selector.start
             const endRange = selectorTarget.selector.end
             const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
-            
+
             dispatch({
                 type: ACTIONS.SET_ANNO,
                 anno: annFiltered

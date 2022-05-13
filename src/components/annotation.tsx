@@ -7,7 +7,7 @@ import getVersionId from "../backend/utils/getVersionId"
 import findSelectorTarget from "../backend/utils/findSelectorTarget"
 import TextRepo from "../backend/TextRepo"
 import getBodyValue from "../backend/utils/getBodyValue"
-import { ElucidateAnnotation, ElucidateTarget } from "../model/ElucidateAnnotation"
+import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 //import {FetchData} from "../backend/utils/fetchData"
 import findImageRegions from "../backend/utils/findImageRegions"
 import annotation from "../data/annotation.json"
@@ -18,41 +18,42 @@ export function Annotation() {
     const fetchData = async () => {
         const currentState = state.store.getState()
         console.log(currentState)
-        fetch(currentState.windows.republic.canvasId)
+        const jpg = await fetch(currentState.windows.republic.canvasId)
             .then(response => {
                 return response.json()
             })
-            .then(async data => {
-                const jpg = data.label
-                const ann = await Elucidate.getByJpg(jpg)
-                if (ann[0]) {
-                    const versionId = getVersionId(ann[0].id)
-
-                    const scanPage: ElucidateAnnotation[] = ann.filter(item => {
-                        return getBodyValue(item) === "scanpage"
-                    })
-                    const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                        return getBodyValue(item) != "line" && "column"
-                    })
-
-                    const selectorTarget = findSelectorTarget(scanPage[0])
-                    const beginRange = selectorTarget.selector.start
-                    const endRange = selectorTarget.selector.end
-                    const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
-
-                    dispatch({
-                        type: ACTIONS.SET_ANNO,
-                        anno: annFiltered
-                    })
-
-                    dispatch({
-                        type: ACTIONS.SET_TEXT,
-                        text: text
-                    })
-                } else {
-                    return
-                }
+            .then(data => {
+                return data.label
             })
+        const ann = await Elucidate.getByJpg(jpg)
+        if (ann[0]) {
+            const versionId = getVersionId(ann[0].id)
+
+            const scanPage: ElucidateAnnotation[] = ann.filter(item => {
+                return getBodyValue(item) === "scanpage"
+            })
+
+            const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
+                return getBodyValue(item) != "line" && "column"
+            })
+
+            const selectorTarget = findSelectorTarget(scanPage[0])
+            const beginRange = selectorTarget.selector.start
+            const endRange = selectorTarget.selector.end
+            const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
+
+            dispatch({
+                type: ACTIONS.SET_ANNO,
+                anno: annFiltered
+            })
+
+            dispatch({
+                type: ACTIONS.SET_TEXT,
+                text: text
+            })
+        } else {
+            return
+        }
     }
 
     const nextCanvas = () => {
@@ -67,17 +68,36 @@ export function Annotation() {
             .catch(console.error)
     }
 
-    const testFunction = async () => {
+    const testFunction = () => {
         const currentState = state.store.getState()
         console.log(currentState)
-        const target = state.anno[0].target as ElucidateTarget[]
-        const [x, y, w, h] = findImageRegions(target)
-        console.log(x, y, w, h)
-        annotation.resources[0].on[0].full = `${currentState.windows.republic.canvasId}`
-        annotation.resources[0].on[0].selector.default.value = `xywh=${x},${y},${w},${h}`
-        annotation.resources[0].on[0].selector.item.value = `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${y+h}v-${h}h${w}v${h}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
+        //const target = state.anno[0].target as ElucidateTarget[]
+        // const [x, y, w, h] = findImageRegions(state.anno[0])
+        // console.log(x, y, w, h)
+        // annotation.resources[0].on[0].full = `${currentState.windows.republic.canvasId}`
+        // annotation.resources[0].on[0].selector.default.value = `xywh=${x},${y},${w},${h}`
+        // annotation.resources[0].on[0].selector.item.value = `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${y+h}v-${h}h${w}v${h}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
+        // annotation.resources[0].resource.map((i) => {
+        //     i.chars = getBodyValue(state.anno[0])
+        // })
 
-        console.log(annotation)
+        const test = state.anno.flatMap((item: any) => {
+            //const target = item.target
+            const miradorAnnotations: any = []
+            const [x, y, w, h] = findImageRegions(item)
+            console.log(x, y, w, h)
+            annotation.resources[0].on[0].full = `${currentState.windows.republic.canvasId}`
+            annotation.resources[0].on[0].selector.default.value = `xywh=${x},${y},${w},${h}`
+            annotation.resources[0].on[0].selector.item.value = `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${y + h}v-${h}h${w}v${h}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
+            annotation.resources[0].resource.map((i) => {
+                i.chars = getBodyValue(item)
+            })
+            miradorAnnotations.push(annotation)
+
+            return miradorAnnotations
+        })
+
+        console.log(test)
 
         state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "testing", annotation))
 
@@ -109,14 +129,14 @@ export function Annotation() {
             <button onClick={testFunction}>Test button</button>
             <ol>
                 {
-                    state.anno ? state.anno.map((item: ElucidateAnnotation, i: React.Key) => 
+                    state.anno ? state.anno.map((item: ElucidateAnnotation, i: React.Key) =>
                         <li key={i}>
                             <code>
                                 {JSON.stringify(item, null, "\t")}
                             </code>
                         </li>
-                    ) : "Loading..." }
-                    
+                    ) : "Loading..."}
+
             </ol>
         </>
     )

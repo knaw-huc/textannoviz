@@ -5,12 +5,12 @@
 
 #mirador {
     position: relative;
-    width: 600px;
+    min-width: 700px;
     height: 800px;
 }
 
 #text {
-    width: 300px;
+    min-width: 300px;
     height: 800px;
     padding: 0.7em;
     overflow: auto;
@@ -18,7 +18,7 @@
 }
 
 #annotation {
-    width: 400px;
+    min-width: 400px;
     height: 800px;
     padding: 0.7em;
     overflow: auto;
