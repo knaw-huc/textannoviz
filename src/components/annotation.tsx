@@ -39,7 +39,7 @@ export function Annotation() {
 
             const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
                 return getBodyValue(item) != "line" && getBodyValue(item) != "column" && getBodyValue(item) != "textregion" && getBodyValue(item) != "scanpage" && getBodyValue(item) != "session"
-            }) //expanded filter to remove 'noise'
+            }) //expanded filter to remove 'noise' in visualizing annotations in Mirador
 
             const selectorTarget = findSelectorTarget(scanPage[0])
             const beginRange = selectorTarget.selector.start
@@ -140,7 +140,7 @@ export function Annotation() {
         
         console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", annotation)))
 
-        state.store.dispatch(mirador.actions.selectAnnotation("republic", "annotation-14"))
+        //state.store.dispatch(mirador.actions.selectAnnotation("republic", "annotation-14"))
 
         // const boxToZoom = {
         //     x: x,
