@@ -10,7 +10,7 @@ import getBodyValue from "../backend/utils/getBodyValue"
 import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 //import {FetchData} from "../backend/utils/fetchData"
 import findImageRegions from "../backend/utils/findImageRegions"
-//import annotation from "../data/annotation.json"
+import annotation from "../data/annotation.json"
 
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
@@ -33,9 +33,13 @@ export function Annotation() {
                 return getBodyValue(item) === "scanpage"
             })
 
+            // const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
+            //     return getBodyValue(item) != "line" && getBodyValue(item) != "column"
+            // })
+
             const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                return getBodyValue(item) != "line" && "column"
-            })
+                return getBodyValue(item) != "line" && getBodyValue(item) != "column" && getBodyValue(item) != "textregion" && getBodyValue(item) != "scanpage" && getBodyValue(item) != "session"
+            }) //expanded filter to remove 'noise'
 
             const selectorTarget = findSelectorTarget(scanPage[0])
             const beginRange = selectorTarget.selector.start
@@ -72,16 +76,29 @@ export function Annotation() {
         const currentState = state.store.getState()
         console.log(currentState)
 
-        const regions = state.anno.flatMap((item: any) => {
+        const regions = state.anno.flatMap((item: ElucidateAnnotation) => {
             const region = findImageRegions(item)
             return region
         })
 
-        const resources = regions.flatMap((i: any, key: string | number) => {
-            const split = i.split(",")
+        const resources = regions.flatMap((region: any, i: number) => {
+            const [x, y, w, h] = region.split(",")
             // console.log(split)
+            let colour = ""
+            
+            switch (getBodyValue(state.anno[i])) {
+            case "resolution":
+                colour = "green"
+                break
+            case "attendant":
+                colour = "purple"
+                break
+            default:
+                colour = "white"
+            }
+
             const resources = [{
-                "@id": `annotation-${key}`,
+                "@id": `annotation-${i}`,
                 "@type": "oa:Annotation",
                 "motivation": [
                     "oa:commenting", "oa:Tagging"
@@ -93,11 +110,11 @@ export function Annotation() {
                         "@type": "oa:Choice",
                         "default": {
                             "@type": "oa:FragmentSelector",
-                            "value": `xywh=${split[0]},${split[1]},${split[2]},${split[3]}`
+                            "value": `xywh=${x},${y},${w},${h}`
                         },
                         "item": {
                             "@type": "oa:SvgSelector",
-                            "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${split[0]},${parseInt(split[1]) + parseInt(split[3])}v-${split[3]}h${split[2]}v${split[3]}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
+                            "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="transparent" stroke-width="1"/></svg>`
                         }
                     },
                     "within": {
@@ -108,27 +125,22 @@ export function Annotation() {
                 "resource": [{
                     "@type": "dctypes:Text",
                     "format": "text/html",
-                    "chars": `${getBodyValue(state.anno[key])}`
+                    "chars": `${getBodyValue(state.anno[i])}`
                 }, {
                     "@type": "oa:Tag",
                     "format": "text/html",
-                    "chars": `${getBodyValue(state.anno[key])}`
+                    "chars": `${getBodyValue(state.anno[i])}`
                 }]
             }]
         
             return resources
         })
-
-        const annotations: any = {
-            "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
-            "@context": "http://iiif.io/api/presentation/2/context.json",
-            "@type": "sc:AnnotationList",
-            "resources": []
-        }
-
-        annotations.resources.push(...resources)
+ 
+        annotation.resources.push(...resources)
         
-        console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "testing", annotations)))
+        console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", annotation)))
+
+        state.store.dispatch(mirador.actions.selectAnnotation("republic", "annotation-14"))
 
         // const boxToZoom = {
         //     x: x,

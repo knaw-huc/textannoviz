@@ -2,39 +2,5 @@
     "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
     "@context": "http://iiif.io/api/presentation/2/context.json",
     "@type": "sc:AnnotationList",
-    "resources": [{
-        "@id": "test",
-        "@type": "oa:Annotation",
-        "motivation": [
-            "oa:commenting", "oa:Tagging"
-        ],
-        "on": [{
-            "@type": "oa:SpecificResource",
-            "full": "PLACEHOLDER",
-            "selector": {
-                "@type": "oa:Choice",
-                "default": {
-                    "@type": "oa:FragmentSelector",
-                    "value": "PLACEHOLDER"
-                },
-                "item": {
-                    "@type": "oa:SvgSelector",
-                    "value": "PLACEHOLDER"
-                }
-            },
-            "within": {
-                "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
-                "@type": "sc:Manifest"
-            }
-        }],
-        "resource": [{
-            "@type": "dctypes:Text",
-            "format": "text/html",
-            "chars": "testing"
-        }, {
-            "@type": "oa:Tag",
-            "format": "text/html",
-            "chars": "testing"
-        }]
-    }]
+    "resources": []
 }

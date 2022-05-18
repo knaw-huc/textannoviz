@@ -20,8 +20,8 @@ export const miradorConfig = {
     id: "mirador",
     window: {
         allowFullscreen: false,
-        // highlightAllAnnotations: true,
-        // forceDrawAnnotations: true,
+        highlightAllAnnotations: true,
+        forceDrawAnnotations: true, //this should be 'true' for 'selectAnnotation' to render the selected annotation. Without this, the selected annotation will not be rendered with the API call
     },
     windows: [
         {
@@ -60,9 +60,13 @@ export function Mirador() {
             const scanPage: ElucidateAnnotation[] = ann.filter(item => {
                 return getBodyValue(item) === "scanpage"
             })
+            // const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
+            //     return getBodyValue(item) != "line" && getBodyValue(item) != "column"
+            // })
+
             const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                return getBodyValue(item) != "line" && "column"
-            })
+                return getBodyValue(item) != "line" && getBodyValue(item) != "column" && getBodyValue(item) != "textregion" && getBodyValue(item) != "scanpage" && getBodyValue(item) != "session"
+            }) //expanded filter to remove 'noise'
 
             const selectorTarget = findSelectorTarget(scanPage[0])
             const beginRange = selectorTarget.selector.start
