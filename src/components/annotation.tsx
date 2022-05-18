@@ -71,127 +71,64 @@ export function Annotation() {
     const testFunction = () => {
         const currentState = state.store.getState()
         console.log(currentState)
-        //const target = state.anno[0].target as ElucidateTarget[]
-        // const [x, y, w, h] = findImageRegions(state.anno[0])
-        // console.log(x, y, w, h)
-        // annotation.resources[0].on[0].full = `${currentState.windows.republic.canvasId}`
-        // annotation.resources[0].on[0].selector.default.value = `xywh=${x},${y},${w},${h}`
-        // annotation.resources[0].on[0].selector.item.value = `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${y+h}v-${h}h${w}v${h}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
-        // annotation.resources[0].resource.map((i) => {
-        //     i.chars = getBodyValue(state.anno[0])
-        // })
 
         const regions = state.anno.flatMap((item: any) => {
-            //const target = item.target
-            //const miradorAnnotations: any = [annotation]
             const region = findImageRegions(item)
-            // console.log(x, y, w, h)
-            //console.log(regions)
-            // const regions = [x, y, w, h]
-            // regions.map((i) => {
-            //     console.log(i)
-            // })
-
-            // annotation.resources[0].on[0].full = `${currentState.windows.republic.canvasId}`
-            // annotation.resources[0].on[0].selector.default.value = `xywh=${x},${y},${w},${h}`
-            // annotation.resources[0].on[0].selector.item.value = `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${y + h}v-${h}h${w}v${h}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
-            // annotation.resources[0].resource.map((i) => {
-            //     i.chars = getBodyValue(item)
-            // })
-            // miradorAnnotations.push(annotation)
-
             return region
         })
 
-        console.log(regions)
-
-        const test = regions.flatMap((i: any, key: string | number) => {
+        const resources = regions.flatMap((i: any, key: string | number) => {
             const split = i.split(",")
-            console.log(split)
-            //iedere annotatie moet binnen "resources" komen. Dus 1 array met daarin de 169 items
-            const annotation = [{
-                "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
-                "@context": "http://iiif.io/api/presentation/2/context.json",
-                "@type": "sc:AnnotationList",
-                "resources": [{
-                    "@id": `annotation-${key}`,
-                    "@type": "oa:Annotation",
-                    "motivation": [
-                        "oa:commenting", "oa:Tagging"
-                    ],
-                    "on": [{
-                        "@type": "oa:SpecificResource",
-                        "full": `${currentState.windows.republic.canvasId}`,
-                        "selector": {
-                            "@type": "oa:Choice",
-                            "default": {
-                                "@type": "oa:FragmentSelector",
-                                "value": `xywh=${split[0]},${split[1]},${split[2]},${split[3]}`
-                            },
-                            "item": {
-                                "@type": "oa:SvgSelector",
-                                "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${split[0]},${parseInt(split[1]) + parseInt(split[3])}v-${split[3]}h${split[2]}v${split[3]}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
-                            }
+            // console.log(split)
+            const resources = [{
+                "@id": `annotation-${key}`,
+                "@type": "oa:Annotation",
+                "motivation": [
+                    "oa:commenting", "oa:Tagging"
+                ],
+                "on": [{
+                    "@type": "oa:SpecificResource",
+                    "full": `${currentState.windows.republic.canvasId}`,
+                    "selector": {
+                        "@type": "oa:Choice",
+                        "default": {
+                            "@type": "oa:FragmentSelector",
+                            "value": `xywh=${split[0]},${split[1]},${split[2]},${split[3]}`
                         },
-                        "within": {
-                            "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
-                            "@type": "sc:Manifest"
+                        "item": {
+                            "@type": "oa:SvgSelector",
+                            "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${split[0]},${parseInt(split[1]) + parseInt(split[3])}v-${split[3]}h${split[2]}v${split[3]}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
                         }
-                    }],
-                    "resource": [{
-                        "@type": "dctypes:Text",
-                        "format": "text/html",
-                        "chars": `${getBodyValue(state.anno[key])}`
-                    }, {
-                        "@type": "oa:Tag",
-                        "format": "text/html",
-                        "chars": `${getBodyValue(state.anno[key])}`
-                    }]
+                    },
+                    "within": {
+                        "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
+                        "@type": "sc:Manifest"
+                    }
+                }],
+                "resource": [{
+                    "@type": "dctypes:Text",
+                    "format": "text/html",
+                    "chars": `${getBodyValue(state.anno[key])}`
+                }, {
+                    "@type": "oa:Tag",
+                    "format": "text/html",
+                    "chars": `${getBodyValue(state.anno[key])}`
                 }]
             }]
-
-            const resources = annotation.flatMap((i) => {
-                // const resources: any[] = []
-                // // resources.push(i.resources)
-                // resources.push(...i.resources)
-                // console.log(resources)
-                return i.resources
-            })
-                               
-            const arr = []
-            // const test = `xywh=${split[0]},${split[1]},${split[2]},${split[3]}`
-            arr.push(annotation)
+        
             return resources
-
-            //`xywh=${split[0]},${split[1]},${split[2]},${split[3]}`
-
-            // const x = parseInt(split[0])
-            // const y = parseInt(split[1])
-            // const w = parseInt(split[2])
-            // const h = parseInt(split[3])
-            // console.log(x, y, w, h)
-
-
-            // annotation.resources[0].on[0].full = `${currentState.windows.republic.canvasId}`
-            // annotation.resources[0].on[0].selector.default.value = `xywh=${x},${y},${w},${h}`
-            // annotation.resources[0].on[0].selector.item.value = `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${y + h}v-${h}h${w}v${h}z" stroke="red" fill="transparent" stroke-width="1"/></svg>`
-            // miradorAnnotations.push(annotation)
-            // annotation.resources[0].resource.map((i) => {
-            //     i.chars = getBodyValue(item)
-            // })
-            // miradorAnnotations.push(annotation)
         })
 
-        const header: any = {
+        const annotations: any = {
             "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
             "@context": "http://iiif.io/api/presentation/2/context.json",
             "@type": "sc:AnnotationList",
             "resources": []
         }
 
-        header.resources.push(...test)
+        annotations.resources.push(...resources)
         
-        console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "testing", header)))
+        console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "testing", annotations)))
 
         // const boxToZoom = {
         //     x: x,
