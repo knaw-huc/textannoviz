@@ -20,8 +20,8 @@ export const miradorConfig = {
     id: "mirador",
     window: {
         allowFullscreen: false,
-        highlightAllAnnotations: true,
-        forceDrawAnnotations: true,
+        // highlightAllAnnotations: true,
+        // forceDrawAnnotations: true,
     },
     windows: [
         {

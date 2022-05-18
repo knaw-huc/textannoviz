@@ -14,11 +14,12 @@ export default function findImageRegions(annotation: any) {
 
     function getImageRegions(value: string) {
         const result = value.match(/[0-9]+.*[0-9]+.*[0-9]+.*[0-9]+/i)
-        const string = result.toString()
-        const split = string.split(",")
-        const [x, y, w, h] = split.map((i: string) => {
-            return parseInt(i)
-        })
-        return [x, y, w, h]
+        return result
+        // const string = result.toString()
+        // const split = string.split(",")
+        // const [x, y, w, h] = split.map((i: string) => {
+        //     return parseInt(i)
+        // })
+        // return [x, y, w, h]
     }
 }
