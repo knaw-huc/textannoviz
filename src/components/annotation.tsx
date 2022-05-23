@@ -55,6 +55,70 @@ export function Annotation() {
                 type: ACTIONS.SET_TEXT,
                 text: text
             })
+
+            const regions = annFiltered.flatMap((item: ElucidateAnnotation) => {
+                const region = findImageRegions(item)
+                return region
+            })
+    
+            const resources = regions.flatMap((region: any, i: number) => {
+                const [x, y, w, h] = region.split(",")
+                // console.log(split)
+                let colour = ""
+                
+                switch (getBodyValue(annFiltered[i])) {
+                case "resolution":
+                    colour = "green"
+                    break
+                case "attendant":
+                    colour = "red"
+                    break
+                default:
+                    colour = "white"
+                }
+    
+                const resources = [{
+                    "@id": `annotation-${i}`,
+                    "@type": "oa:Annotation",
+                    "motivation": [
+                        "oa:commenting", "oa:Tagging"
+                    ],
+                    "on": [{
+                        "@type": "oa:SpecificResource",
+                        "full": `${currentState.windows.republic.canvasId}`,
+                        "selector": {
+                            "@type": "oa:Choice",
+                            "default": {
+                                "@type": "oa:FragmentSelector",
+                                "value": `xywh=${x},${y},${w},${h}`
+                            },
+                            "item": {
+                                "@type": "oa:SvgSelector",
+                                "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="transparent" stroke-width="1"/></svg>`
+                            }
+                        },
+                        "within": {
+                            "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
+                            "@type": "sc:Manifest"
+                        }
+                    }],
+                    "resource": [{
+                        "@type": "dctypes:Text",
+                        "format": "text/html",
+                        "chars": `${getBodyValue(annFiltered[i])}`
+                    }, {
+                        "@type": "oa:Tag",
+                        "format": "text/html",
+                        "chars": `${getBodyValue(annFiltered[i])}`
+                    }]
+                }]
+            
+                return resources
+            })
+     
+            annotation.resources.push(...resources)
+            
+            console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", annotation)))
         } else {
             return
         }
@@ -73,73 +137,6 @@ export function Annotation() {
     }
 
     const testFunction = () => {
-        const currentState = state.store.getState()
-        console.log(currentState)
-
-        const regions = state.anno.flatMap((item: ElucidateAnnotation) => {
-            const region = findImageRegions(item)
-            return region
-        })
-
-        const resources = regions.flatMap((region: any, i: number) => {
-            const [x, y, w, h] = region.split(",")
-            // console.log(split)
-            let colour = ""
-            
-            switch (getBodyValue(state.anno[i])) {
-            case "resolution":
-                colour = "green"
-                break
-            case "attendant":
-                colour = "purple"
-                break
-            default:
-                colour = "white"
-            }
-
-            const resources = [{
-                "@id": `annotation-${i}`,
-                "@type": "oa:Annotation",
-                "motivation": [
-                    "oa:commenting", "oa:Tagging"
-                ],
-                "on": [{
-                    "@type": "oa:SpecificResource",
-                    "full": `${currentState.windows.republic.canvasId}`,
-                    "selector": {
-                        "@type": "oa:Choice",
-                        "default": {
-                            "@type": "oa:FragmentSelector",
-                            "value": `xywh=${x},${y},${w},${h}`
-                        },
-                        "item": {
-                            "@type": "oa:SvgSelector",
-                            "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="transparent" stroke-width="1"/></svg>`
-                        }
-                    },
-                    "within": {
-                        "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
-                        "@type": "sc:Manifest"
-                    }
-                }],
-                "resource": [{
-                    "@type": "dctypes:Text",
-                    "format": "text/html",
-                    "chars": `${getBodyValue(state.anno[i])}`
-                }, {
-                    "@type": "oa:Tag",
-                    "format": "text/html",
-                    "chars": `${getBodyValue(state.anno[i])}`
-                }]
-            }]
-        
-            return resources
-        })
- 
-        annotation.resources.push(...resources)
-        
-        console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", annotation)))
-
         //state.store.dispatch(mirador.actions.selectAnnotation("republic", "annotation-14"))
 
         // const boxToZoom = {
