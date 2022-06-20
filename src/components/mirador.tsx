@@ -71,7 +71,7 @@ export function Mirador() {
             // })
 
             const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                return getBodyValue(item) != "line" && getBodyValue(item) != "column" && getBodyValue(item) != "textregion" && getBodyValue(item) != "scanpage" && getBodyValue(item) != "session"
+                return getBodyValue(item) != "line" && getBodyValue(item) != "column" && getBodyValue(item) != "textregion" && getBodyValue(item) != "scanpage"
             }) //expanded filter to remove 'noise' in visualizing annotations in Mirador
 
             const selectorTarget = findSelectorTarget(scanPage[0])

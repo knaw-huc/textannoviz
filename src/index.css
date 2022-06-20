@@ -27,6 +27,11 @@
 
 #clickable {
     cursor: pointer;
+    font-weight: bold;
+}
+
+#clickable:hover {
+    text-decoration: underline;
 }
 
 #annotation-snippet {
