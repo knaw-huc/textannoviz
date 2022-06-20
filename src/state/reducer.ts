@@ -1,10 +1,11 @@
 import React, { useReducer } from "react"
 import { ACTIONS } from "./actions"
+import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 
 export interface AppState {
     store: any
     MirAnn: any
-    anno: any
+    anno: ElucidateAnnotation[]
     text: any
     selectedAnn: any
 }
@@ -21,7 +22,7 @@ interface SetMirAnn {
 
 interface SetAnno {
     type: ACTIONS.SET_ANNO,
-    anno: any
+    anno: ElucidateAnnotation[]
 }
 
 interface SetText {

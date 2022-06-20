@@ -38,17 +38,15 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
             state.store.dispatch(mirador.actions.updateViewport("republic", {
                 x: zoomCenter.x,
                 y: zoomCenter.y,
-                zoom: 1 / boxToZoom.width
+                zoom: 0.8 / boxToZoom.width
             }))
 
         } else {
             state.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
         }
     }
-    // const { state } = useContext(appContext)
-    // console.log(state.anno)
 
-    // useEffect(() => {
+    // React.useEffect(() => {
     //     if (props.selected) {
     //         props.onSelect(undefined)
     //     } else {

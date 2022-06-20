@@ -32,6 +32,9 @@ export const miradorConfig = {
             id: "republic"
         },
     ],
+    workspace: {
+        showZoomControls: true,
+    },
     workspaceControlPanel: {
         enabled: false,
     }

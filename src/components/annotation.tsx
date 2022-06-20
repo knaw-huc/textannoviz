@@ -145,27 +145,7 @@ export function Annotation() {
     }
 
     const testFunction = () => {
-        state.store.dispatch(mirador.actions.selectAnnotation("republic", "annotation-1"))
-
-        // const boxToZoom = {
-        //     x: x,
-        //     y: y,
-        //     width: w,
-        //     height: h
-        // }
-
-        // const zoomCenter = {
-        //     x: boxToZoom.x + boxToZoom.width / 2,
-        //     y: boxToZoom.y + boxToZoom.height / 2
-        // }
-
-        // const zoomAction = mirador.actions.updateViewport("republic", {
-        //     x: zoomCenter.x,
-        //     y: zoomCenter.y,
-        //     zoom: 1 / boxToZoom.width
-        // })
-        // state.store.dispatch(zoomAction)
-
+        console.log("TEST")
     }
 
     function handleSelected(selected: ElucidateAnnotation | undefined) {
