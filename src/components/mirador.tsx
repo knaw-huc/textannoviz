@@ -22,7 +22,7 @@ export const miradorConfig = {
     id: "mirador",
     window: {
         allowFullscreen: false,
-        highlightAllAnnotations: true,
+        // highlightAllAnnotations: true, //this always highlights all annotations, handy for debugging
         forceDrawAnnotations: true, //this should be 'true' for 'selectAnnotation' to render the selected annotation. Without this, the selected annotation will not be rendered with the API call
     },
     windows: [
@@ -56,6 +56,7 @@ export function Mirador() {
                 .then(data => {
                     return data.label
                 })
+            //console.log(jpg)
             const ann = await Elucidate.getByJpg(jpg)
             const versionId = getVersionId(ann[0].id)
 
@@ -90,7 +91,7 @@ export function Mirador() {
                 return region
             })
     
-            const resources = regions.flatMap((region: any, i: number) => {
+            const resources = regions.flatMap((region: string, i: number) => {
                 const [x, y, w, h] = region.split(",")
                 // console.log(split)
                 let colour = ""
@@ -107,7 +108,7 @@ export function Mirador() {
                 }
     
                 const resources = [{
-                    "@id": `annotation-${i}`,
+                    "@id": `${annFiltered[i].id}`,
                     "@type": "oa:Annotation",
                     "motivation": [
                         "oa:commenting", "oa:Tagging"
@@ -148,6 +149,11 @@ export function Mirador() {
             annotation.resources.push(...resources)
             
             console.log(viewer.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", annotation)))
+
+            dispatch({
+                type: ACTIONS.SET_MIRANN,
+                MirAnn: annotation
+            })
         }
         fetchData()
             .catch(console.error)

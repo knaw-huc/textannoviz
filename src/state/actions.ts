@@ -1,6 +1,7 @@
 export enum ACTIONS {
     SET_STORE = "SET_STORE",
-    SET_JPG = "SET_JPG",
+    SET_MIRANN = "SET_MIRANN",
     SET_ANNO = "SET_ANNO",
     SET_TEXT = "SET_TEXT",
+    SET_SELECTEDANN = "SET_SELECTEDANN",
 }

@@ -11,6 +11,7 @@ import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 //import {FetchData} from "../backend/utils/fetchData"
 import findImageRegions from "../backend/utils/findImageRegions"
 import annotation from "../data/annotation.json"
+import { AnnotationItem } from "./AnnotationItem"
 
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
@@ -60,12 +61,14 @@ export function Annotation() {
                 const region = findImageRegions(item)
                 return region
             })
-    
-            const resources = regions.flatMap((region: any, i: number) => {
+
+            console.log(regions)
+
+            const resources = regions.flatMap((region: string, i: number) => {
                 const [x, y, w, h] = region.split(",")
                 // console.log(split)
                 let colour = ""
-                
+
                 switch (getBodyValue(annFiltered[i])) {
                 case "resolution":
                     colour = "green"
@@ -76,9 +79,9 @@ export function Annotation() {
                 default:
                     colour = "white"
                 }
-    
+
                 const resources = [{
-                    "@id": `annotation-${i}`,
+                    "@id": `${annFiltered[i].id}`,
                     "@type": "oa:Annotation",
                     "motivation": [
                         "oa:commenting", "oa:Tagging"
@@ -94,7 +97,7 @@ export function Annotation() {
                             },
                             "item": {
                                 "@type": "oa:SvgSelector",
-                                "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="transparent" stroke-width="1"/></svg>`
+                                "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="transparent" stroke-width="1" /></svg>`
                             }
                         },
                         "within": {
@@ -112,13 +115,18 @@ export function Annotation() {
                         "chars": `${getBodyValue(annFiltered[i])}`
                     }]
                 }]
-            
+
                 return resources
             })
-     
+            annotation.resources.splice(0, annotation.resources.length) //otherwise the annotations are added to the end of the array
             annotation.resources.push(...resources)
-            
+
             console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", annotation)))
+
+            dispatch({
+                type: ACTIONS.SET_MIRANN,
+                MirAnn: annotation
+            })
         } else {
             return
         }
@@ -137,7 +145,7 @@ export function Annotation() {
     }
 
     const testFunction = () => {
-        //state.store.dispatch(mirador.actions.selectAnnotation("republic", "annotation-14"))
+        state.store.dispatch(mirador.actions.selectAnnotation("republic", "annotation-1"))
 
         // const boxToZoom = {
         //     x: x,
@@ -160,12 +168,17 @@ export function Annotation() {
 
     }
 
+    function handleSelected(selected: ElucidateAnnotation | undefined) {
+        return dispatch({type: ACTIONS.SET_SELECTEDANN, selectedAnn: selected})
+    }
+
     return (
         <>
             <button onClick={nextCanvas}>Next canvas</button>
             <button onClick={previousCanvas}>Previous canvas</button>
             <button onClick={testFunction}>Test button</button>
-            <ol>
+            {/* Hier dan iets bouwen zoals AnnotationList. Dus een AnnotationItem.tsx maken en die hier dan aanroepen in de return-statement */}
+            {/* <ol>
                 {
                     state.anno ? state.anno.map((item: ElucidateAnnotation, i: React.Key) =>
                         <li key={i}>
@@ -175,7 +188,16 @@ export function Annotation() {
                         </li>
                     ) : "Loading..."}
 
-            </ol>
+            </ol> */}
+            {state.anno && state.anno.map((annotation: ElucidateAnnotation, index: React.Key) => (
+                <AnnotationItem
+                    key={index}
+                    annot_id={index}
+                    annotation={annotation}
+                    selected={state.selectedAnn?.id === annotation.id}
+                    onSelect={handleSelected}
+                />
+            ))}
         </>
     )
 }

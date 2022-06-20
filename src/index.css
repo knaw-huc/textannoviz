@@ -24,3 +24,21 @@
     overflow: auto;
     white-space: pre-wrap;
 }
+
+#clickable {
+    cursor: pointer;
+}
+
+#annotation-snippet {
+    user-select: none;
+    margin: 5px 0;
+    padding: 10px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.annotation-preview {
+    overflow: auto;
+    user-select: text;
+}

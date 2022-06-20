@@ -3,9 +3,10 @@ import { ACTIONS } from "./actions"
 
 export interface AppState {
     store: any
-    jpg: any
+    MirAnn: any
     anno: any
     text: any
+    selectedAnn: any
 }
 
 interface SetStore {
@@ -13,9 +14,9 @@ interface SetStore {
     store: any
 }
 
-interface SetJpg {
-    type: ACTIONS.SET_JPG,
-    jpg: any
+interface SetMirAnn {
+    type: ACTIONS.SET_MIRANN,
+    MirAnn: any
 }
 
 interface SetAnno {
@@ -28,13 +29,19 @@ interface SetText {
     text: any
 }
 
-export type AppAction = SetStore | SetJpg | SetAnno | SetText
+interface SetSelectedAnn {
+    type: ACTIONS.SET_SELECTEDANN,
+    selectedAnn: any
+}
+
+export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn
 
 export const initAppState: AppState = {
     store: null,
-    jpg: null,
+    MirAnn: null,
     anno: null,
-    text: null
+    text: null,
+    selectedAnn: null,
 }
 
 export function useAppState(): [AppState, React.Dispatch<AppAction>] {
@@ -48,12 +55,14 @@ function reducer(state: AppState, action: AppAction): AppState {
     switch (action.type) {
     case ACTIONS.SET_STORE:
         return setStore(state, action)
-    case ACTIONS.SET_JPG:
-        return setJpg(state, action)
+    case ACTIONS.SET_MIRANN:
+        return setMirAnn(state, action)
     case ACTIONS.SET_ANNO:
         return setAnno(state, action)
     case ACTIONS.SET_TEXT:
         return setText(state, action)
+    case ACTIONS.SET_SELECTEDANN:
+        return setSelectedAnn(state, action)
     default:
         return state
     }
@@ -66,10 +75,10 @@ function setStore(state: AppState, action: SetStore) {
     }
 }
 
-function setJpg(state: AppState, action: SetJpg) {
+function setMirAnn(state: AppState, action: SetMirAnn) {
     return {
         ...state,
-        jpg: action.jpg
+        MirAnn: action.MirAnn
     }
 }
 
@@ -84,5 +93,12 @@ function setText(state: AppState, action: SetText) {
     return {
         ...state,
         text: action.text
+    }
+}
+
+function setSelectedAnn(state: AppState, action: SetSelectedAnn) {
+    return {
+        ...state,
+        selectedAnn: action.selectedAnn
     }
 }
