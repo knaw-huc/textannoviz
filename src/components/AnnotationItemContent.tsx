@@ -13,6 +13,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
     const options = {
         target: "_blank"
     }
+    //const raa = `https://switch.sd.di.huc.knaw.nl/raa/persoon/${ann.body[1].value["http://example.org/customwebannotationfield#delegate_id"]}`
 
     return (
         <>
@@ -20,8 +21,8 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                 <ul>
                     <li>id: <br /><code>{ann.id}</code></li>
                     <li>type: <br /><code>{getBodyValue(ann)}</code></li>
-                    <Linkify tagName="link-raa" options={options}>
-                        <li>{getBodyValue(ann) === "attendant" ? `Link to RAA: https://switch.sd.di.huc.knaw.nl/raa/persoon/${ann.body[1].value["http://example.org/customwebannotationfield#delegate_id"]}` : ""}</li>
+                    <Linkify options={options}>
+                        {getBodyValue(ann) === "attendant" ? <li>Link to RAA: {`https://switch.sd.di.huc.knaw.nl/raa/persoon/${ann.body[1].value["http://example.org/customwebannotationfield#delegate_id"]}`}</li> : null}
                     </Linkify>
                     <li>
                         <button className="show-full" onClick={(e) => {
