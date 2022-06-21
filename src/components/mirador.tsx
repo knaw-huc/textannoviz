@@ -22,7 +22,7 @@ export const miradorConfig = {
     id: "mirador",
     window: {
         allowFullscreen: false,
-        // highlightAllAnnotations: true, //this always highlights all annotations, handy for debugging
+        //highlightAllAnnotations: true, //this always highlights all annotations, handy for debugging
         forceDrawAnnotations: true, //this should be 'true' for 'selectAnnotation' to render the selected annotation. Without this, the selected annotation will not be rendered with the API call
     },
     windows: [
@@ -51,6 +51,7 @@ export function Mirador() {
         })
 
         const currentState = viewer.store.getState()
+        console.log(currentState)
         const fetchData = async () => {
             const jpg = await fetch(currentState.windows.republic.canvasId)
                 .then(response => {

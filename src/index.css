@@ -1,3 +1,16 @@
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+}
+
+#appcontainer {
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+}
+
 #row {
     display: flex;
     flex-direction: row;
@@ -15,6 +28,8 @@
     padding: 0.7em;
     overflow: auto;
     white-space: pre-wrap;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 
 #annotation {
@@ -28,6 +43,7 @@
 #clickable {
     cursor: pointer;
     font-weight: bold;
+    user-select: none;
 }
 
 #clickable:hover {
@@ -35,7 +51,6 @@
 }
 
 #annotation-snippet {
-    user-select: none;
     margin: 5px 0;
     padding: 10px;
     border-style: solid;
