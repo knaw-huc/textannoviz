@@ -3,7 +3,7 @@ import React from "react"
 import getBodyValue from "../backend/utils/getBodyValue"
 import Linkify from "linkify-react"
 import getAttendant from "../backend/utils/getAttendant"
-import { RAA } from "../Config"
+import { HOSTS } from "../Config"
 
 type AnnotationContentProps = {
     ann: any | undefined
@@ -23,7 +23,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                     <li>id: <br /><code>{ann.id}</code></li>
                     <li>type: <br /><code>{getBodyValue(ann)}</code></li>
                     <Linkify options={options}>
-                        {getBodyValue(ann) === "attendant" ? <li>Link to RAA: {`${RAA}/${ann.body[1].value["http://example.org/customwebannotationfield#delegate_id"]}`}</li> : null}
+                        {getBodyValue(ann) === "attendant" ? <li>Link to RAA: {`${HOSTS.RAA}/${ann.body[1].value["http://example.org/customwebannotationfield#delegate_id"]}`}</li> : null}
                     </Linkify>
                     <li>attendant: <br /><code>{getAttendant(ann)}</code></li>
                     <li>

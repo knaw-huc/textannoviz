@@ -1,5 +1,5 @@
 import {ElucidateAnnotation} from "../model/ElucidateAnnotation"
-import { ELUCIDATE } from "../Config"
+import { HOSTS } from "../Config"
 
 export default class Elucidate {
     static readonly headers = {
@@ -13,7 +13,7 @@ export default class Elucidate {
         let page = 0
         do {
             const response = await fetch(
-                `${ELUCIDATE}/annotation/w3c/services/search/target?fields=source&value=${jpg}&page=${page}&desc=1`,
+                `${HOSTS.ELUCIDATE}/annotation/w3c/services/search/target?fields=source&value=${jpg}&page=${page}&desc=1`,
                 { headers: this.headers }
             )
             annotationPage = await response.json()

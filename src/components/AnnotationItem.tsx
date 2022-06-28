@@ -46,14 +46,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         }
     }
 
-    // React.useEffect(() => {
-    //     if (props.selected) {
-    //         props.onSelect(undefined)
-    //     } else {
-    //         props.onSelect(props.annotation)
-    //     }
-    // }, [])
-
     return (
         <div id="annotation-snippet">
             <div onClick={toggleOpen} id="clickable">
