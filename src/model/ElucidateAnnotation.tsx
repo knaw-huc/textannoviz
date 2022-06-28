@@ -1,7 +1,16 @@
-export type Body = {
-    "id": string,
-    "type": string,
+type AnnotatorBody = {
+    "type": string | (string[]),
     "value": string,
+}
+
+export type Body = {
+    "type": "TextualBody",
+    "value": string,
+    "purpose": string,
+}
+
+export type ElucidateBody = AnnotatorBody & {
+    "id": string,
     "purpose": string,
 }
 
@@ -50,7 +59,7 @@ export type ElucidateAnnotation = {
         "type": string,
         "name": string,
     } | undefined,
-    "body": Body | (Body[]),
+    "body": Body | ElucidateBody | (ElucidateBody[]),
     "target": Target | Target[],
     "movivation": string
 }

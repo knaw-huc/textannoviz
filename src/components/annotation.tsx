@@ -74,7 +74,7 @@ export function Annotation() {
                     colour = "green"
                     break
                 case "attendant":
-                    colour = "red"
+                    colour = "#DB4437"
                     break
                 default:
                     colour = "white"
@@ -97,7 +97,7 @@ export function Annotation() {
                             },
                             "item": {
                                 "@type": "oa:SvgSelector",
-                                "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="transparent" stroke-width="1" /></svg>`
+                                "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="${colour}" fill-opacity="0.5" stroke-width="1"/></svg>`
                             }
                         },
                         "within": {
