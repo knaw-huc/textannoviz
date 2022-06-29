@@ -1,18 +1,22 @@
-type AnnotatorBody = {
-    "type": string | (string[]),
-    "value": string,
-}
-
-export type Body = {
+export type ElucidateBody = {
+    "id": string,
     "type": "TextualBody",
     "value": string,
     "purpose": string,
 }
 
-export type ElucidateBody = AnnotatorBody & {
-    "id": string,
-    "purpose": string,
+export type AttendantBody = {
+    "type"?: string,
+    "value": {
+        [key: string]: string | number,
+    }
 }
+
+export type ResolutionBody = {
+    [key: string]: string
+}
+
+export type Body = ElucidateBody | AttendantBody | ResolutionBody
 
 export type Selector = {
     "type": string,
@@ -59,7 +63,7 @@ export type ElucidateAnnotation = {
         "type": string,
         "name": string,
     } | undefined,
-    "body": Body | ElucidateBody | (ElucidateBody[]),
+    "body": Body | Body[]
     "target": Target | Target[],
     "movivation": string
 }

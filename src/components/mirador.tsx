@@ -67,18 +67,19 @@ export function Mirador() {
             const scanPage: ElucidateAnnotation[] = ann.filter(item => {
                 return getBodyValue(item) === "scanpage"
             })
-            // const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
-            //     return getBodyValue(item) != "line" && getBodyValue(item) != "column"
-            // })
-
-            const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
-                return getBodyValue(item) != "line" && getBodyValue(item) != "column" && getBodyValue(item) != "textregion" && getBodyValue(item) != "scanpage"
-            }) //expanded filter to remove 'noise' in visualizing annotations in Mirador
 
             const selectorTarget = findSelectorTarget(scanPage[0])
             const beginRange = selectorTarget.selector.start
             const endRange = selectorTarget.selector.end
             const text = await TextRepo.getByVersionIdAndRange(versionId, beginRange, endRange)
+
+            // const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
+            //     return getBodyValue(item) != "line" && getBodyValue(item) != "column"
+            // })
+
+            const annFiltered: ElucidateAnnotation[] = ann.filter(item => {
+                return getBodyValue(item) != "line" && getBodyValue(item) != "column" && getBodyValue(item) != "textregion"
+            }) //expanded filter to remove 'noise' in visualizing annotations in Mirador
 
             dispatch({
                 type: ACTIONS.SET_ANNO,
