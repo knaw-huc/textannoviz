@@ -23,7 +23,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
         <>
             {ann && <div id="annotation-content">
                 <ul>
-                    <li>Annotation ID: <br /><code>{ann.id}</code></li>
+                    {/* <li>Annotation ID: <br /><code>{ann.id}</code></li> */}
                     {getBodyValue(ann) === "attendant" ? <li>Attendant ID: <br /><code><a title="Link to RAA" rel="noreferrer" target="_blank" href={`${HOSTS.RAA}/${getAttendantInfo(ann, "http://example.org/customwebannotationfield#delegate_id")}`}>{getAttendantInfo(ann, "http://example.org/customwebannotationfield#delegate_id")}</a></code></li> : null}
                     {getBodyValue(ann) === "attendant" ? <li>Attendant name: <br /><code>{getAttendantInfo(ann, "http://example.org/customwebannotationfield#delegate_name")}</code></li> : null}
                     {getBodyValue(ann) === "resolution" ? <li>Proposition type: <br /><code>{getResolutionInfo(ann, "http://example.org/customwebannotationfield#proposition_type")}</code></li> : null}

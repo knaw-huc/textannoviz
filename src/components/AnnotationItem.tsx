@@ -6,7 +6,7 @@ import {AnnotationItemContent} from "./AnnotationItemContent"
 import mirador from "mirador"
 import findImageRegions from "../backend/utils/findImageRegions"
 import styled from "styled-components"
-// import getAttendantInfo from "../backend/utils/getAttendantInfo"
+import getAttendantInfo from "../backend/utils/getAttendantInfo"
 // import getResolutionInfo from "../backend/utils/getResolutionInfo"
 
 type AnnotationSnippetProps = {
@@ -70,6 +70,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         <AnnSnippet id="annotation-snippet">
             <Clickable onClick={toggleOpen} id="clickable">
                 {getBodyValue(props.annotation)}
+                {getBodyValue(props.annotation) === "attendant" ? " – " + getAttendantInfo(props.annotation, "http://example.org/customwebannotationfield#delegate_name") : null}
                 {/* {getBodyValue(props.annotation) === "attendant" ? getAttendantInfo(props.annotation, "http://example.org/customwebannotationfield#delegate_name") : null}
                 {getBodyValue(props.annotation) === "resolution" ? getResolutionInfo(props.annotation, "http://example.org/customwebannotationfield#proposition_type") : null} */}
             </Clickable>
