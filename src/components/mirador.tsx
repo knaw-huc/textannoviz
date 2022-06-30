@@ -13,6 +13,13 @@ import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 import findImageRegions from "../backend/utils/findImageRegions"
 //import { FetchData } from "../backend/utils/fetchData"
 import annotation from "../data/annotation.json"
+import styled from "styled-components"
+
+const MiradorStyled = styled.div`
+    position: relative;
+    min-width: 600px;
+    height: 800px;
+`
 
 export const miradorConfig = {
     annotation: {
@@ -166,6 +173,8 @@ export function Mirador() {
     }, [])
 
     return (
-        <div id={miradorConfig.id} />
+        <MiradorStyled id={miradorConfig.id} />
+        // </MiradorStyled>
+        // <div id={miradorConfig.id} />
     )
 }

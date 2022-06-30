@@ -5,6 +5,7 @@ import getBodyValue from "../backend/utils/getBodyValue"
 import {AnnotationItemContent} from "./AnnotationItemContent"
 import mirador from "mirador"
 import findImageRegions from "../backend/utils/findImageRegions"
+import styled from "styled-components"
 
 type AnnotationSnippetProps = {
     annot_id: React.Key,
@@ -12,6 +13,23 @@ type AnnotationSnippetProps = {
     selected: boolean
     onSelect: (a: ElucidateAnnotation | undefined) => void
 }
+
+const AnnSnippet = styled.div`
+    margin: 5px 0;
+    padding: 10px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+`
+
+const Clickable = styled.div`
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    &:hover {
+        text-decoration: underline;
+    }
+`
 
 export function AnnotationItem(props: AnnotationSnippetProps) {
     const [isOpen, setOpen] = React.useState(false)
@@ -47,11 +65,11 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
     }
 
     return (
-        <div id="annotation-snippet">
-            <div onClick={toggleOpen} id="clickable">
+        <AnnSnippet id="annotation-snippet">
+            <Clickable onClick={toggleOpen} id="clickable">
                 {getBodyValue(props.annotation)}
-            </div>
-            {isOpen && <AnnotationItemContent ann={props.annotation}/>}
-        </div>
+            </Clickable>
+            {isOpen && <AnnotationItemContent ann={props.annotation} />}
+        </AnnSnippet>
     )
 }

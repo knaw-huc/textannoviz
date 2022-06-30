@@ -12,6 +12,16 @@ import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 import findImageRegions from "../backend/utils/findImageRegions"
 import annotation from "../data/annotation.json"
 import { AnnotationItem } from "./AnnotationItem"
+import styled from "styled-components"
+import { Loading } from "../backend/utils/Loader"
+
+const AnnotationStyled = styled.div`
+    min-width: 400px;
+    height: 800px;
+    padding: 0.7em;
+    overflow: auto;
+    white-space: pre-wrap;
+`
 
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
@@ -153,7 +163,7 @@ export function Annotation() {
     }
 
     return (
-        <>
+        <AnnotationStyled id="annotation">
             <button onClick={nextCanvas}>Next canvas</button>
             <button onClick={previousCanvas}>Previous canvas</button>
             <button onClick={testFunction}>Test button</button>
@@ -169,7 +179,7 @@ export function Annotation() {
                     ) : "Loading..."}
 
             </ol> */}
-            {state.anno && state.anno.map((annotation: ElucidateAnnotation, index: React.Key) => (
+            {state.anno ? state.anno.map((annotation: ElucidateAnnotation, index: React.Key) => (
                 <AnnotationItem
                     key={index}
                     annot_id={index}
@@ -177,7 +187,7 @@ export function Annotation() {
                     selected={state.selectedAnn?.id === annotation.id}
                     onSelect={handleSelected}
                 />
-            ))}
-        </>
+            )) : <Loading />}
+        </AnnotationStyled>
     )
 }

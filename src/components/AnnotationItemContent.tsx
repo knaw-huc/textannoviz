@@ -5,10 +5,15 @@ import getAttendantInfo from "../backend/utils/getAttendantInfo"
 import getResolutionInfo from "../backend/utils/getResolutionInfo"
 import { HOSTS } from "../Config"
 import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
+import styled from "styled-components"
 
 type AnnotationContentProps = {
     ann: ElucidateAnnotation | undefined
 }
+
+const AnnPreview = styled.div`
+    overflow: auto;
+`
 
 export function AnnotationItemContent(props: AnnotationContentProps) {
     const ann = props.ann
@@ -28,9 +33,11 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                             setShowFull(!showFull)
                         }}>full annotation {String.fromCharCode(showFull ? 9663 : 9657)}</button>
                         <br />
-                        {showFull && <pre className="annotation-preview">
-                            {JSON.stringify(ann, null, 2)}
-                        </pre>}
+                        <AnnPreview id="annotation-preview">
+                            {showFull && <pre>
+                                {JSON.stringify(ann, null, 2)}
+                            </pre>}
+                        </AnnPreview>
                     </li>
                 </ul>
 

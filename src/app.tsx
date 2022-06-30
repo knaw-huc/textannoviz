@@ -4,25 +4,31 @@ import { Text } from "./components/Text"
 import { Mirador } from "./components/Mirador"
 import { useAppState } from "./state/reducer"
 import { appContext } from "./state/context"
+import styled from "styled-components"
+
+const AppContainer = styled.div`
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+`
+
+const Row = styled.div`
+    display: flex;
+    flex-direction: row;
+`
 
 export function App() {
     const [state, dispatch] = useAppState()
 
     return (
         <appContext.Provider value={{ state, dispatch }}>
-            <div id="appcontainer">
-                <div id='row'>
-                    <div id='mirador'>
-                        <Mirador />
-                    </div>
-                    <div id='text'>
-                        <Text />
-                    </div>
-                    <div id='annotation'>
-                        <Annotation />
-                    </div>
-                </div>
-            </div>
+            <AppContainer id="appcontainer">
+                <Row id="row">
+                    <Mirador />
+                    <Text />
+                    <Annotation />
+                </Row>
+            </AppContainer>
         </appContext.Provider>
     )
 }
