@@ -12,6 +12,8 @@ const TextStyled = styled.div`
     white-space: pre-wrap;
     border-left: 1px solid black;
     border-right: 1px solid black;
+    font-size: 1rem;
+    line-height: 2.25rem;
 `
 
 export function Text() {

@@ -174,7 +174,5 @@ export function Mirador() {
 
     return (
         <MiradorStyled id={miradorConfig.id} />
-        // </MiradorStyled>
-        // <div id={miradorConfig.id} />
     )
 }

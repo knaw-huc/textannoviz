@@ -23,6 +23,14 @@ const AnnotationStyled = styled.div`
     white-space: pre-wrap;
 `
 
+const Button = styled.button`
+    background: #0d6efd;
+    border-radius: 3px;
+    border: none;
+    color: white;
+    padding: 5px;
+`
+
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
 
@@ -164,21 +172,10 @@ export function Annotation() {
 
     return (
         <AnnotationStyled id="annotation">
-            <button onClick={nextCanvas}>Next canvas</button>
-            <button onClick={previousCanvas}>Previous canvas</button>
-            <button onClick={testFunction}>Test button</button>
-            {/* Hier dan iets bouwen zoals AnnotationList. Dus een AnnotationItem.tsx maken en die hier dan aanroepen in de return-statement */}
-            {/* <ol>
-                {
-                    state.anno ? state.anno.map((item: ElucidateAnnotation, i: React.Key) =>
-                        <li key={i}>
-                            <code>
-                                {JSON.stringify(item, null, "\t")}
-                            </code>
-                        </li>
-                    ) : "Loading..."}
+            <Button onClick={nextCanvas}>Next canvas</Button>
+            <Button onClick={previousCanvas}>Previous canvas</Button>
+            <Button onClick={testFunction}>Test button</Button>
 
-            </ol> */}
             {state.anno ? state.anno.map((annotation: ElucidateAnnotation, index: React.Key) => (
                 <AnnotationItem
                     key={index}
