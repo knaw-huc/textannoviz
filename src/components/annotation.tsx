@@ -29,6 +29,7 @@ const Button = styled.button`
     border: none;
     color: white;
     padding: 5px;
+    margin-right: 0.5em;
 `
 
 export function Annotation() {
