@@ -6,7 +6,7 @@ export type ElucidateBody = {
 }
 
 export type AttendantBody = {
-    "type"?: string,
+    "type": string,
     "value": {
         [key: string]: string | number,
     }

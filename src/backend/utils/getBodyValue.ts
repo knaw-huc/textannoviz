@@ -1,19 +1,6 @@
 import { ElucidateAnnotation, ElucidateBody } from "../../model/ElucidateAnnotation"
 
 export default function bodyValue(annotation: ElucidateAnnotation): string {
-    // console.log(annotation)
-    // return annotation.map((item: { body: any; }) => {
-    //     if (Array.isArray(item.body)) {
-    //         const body = item.body.find((b: { value: string; }) => b.value);
-    //         if (body) {
-    //             return body.value;
-    //         } else {
-    //             throw new Error('Bla');
-    //         }
-    //     } else {
-    //         return item.body.value;
-    //     }
-    // });
     if (Array.isArray(annotation.body)) {
         const body = (annotation.body as ElucidateBody[]).find((b: { value: string; }) => b.value)
         if (body) {
