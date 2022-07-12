@@ -9,6 +9,7 @@
   "author": "",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@recogito/recogito-js": "^1.7.1",
     "linkify-react": "^3.0.4",
     "linkifyjs": "^3.0.5",
     "mirador": "^3.3.0",
