@@ -2,8 +2,8 @@ import "./index.css"
 import React from "react"
 import ReactDOM from "react-dom"
 
-import { App } from "./app"
+import AppRouter from "./AppRouter"
 
 document.addEventListener("DOMContentLoaded", function() {
-    ReactDOM.render(<App />, document.getElementById("container"))
+    ReactDOM.render(<AppRouter />, document.getElementById("container"))
 })

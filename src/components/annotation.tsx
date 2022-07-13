@@ -14,6 +14,7 @@ import annotation from "../data/annotation.json"
 import { AnnotationItem } from "./AnnotationItem"
 import styled from "styled-components"
 import { Loading } from "../backend/utils/Loader"
+import { Link } from "react-router-dom"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;
@@ -176,6 +177,7 @@ export function Annotation() {
             <Button onClick={nextCanvas}>Next canvas</Button>
             <Button onClick={previousCanvas}>Previous canvas</Button>
             <Button onClick={testFunction}>Test button</Button>
+            <Link to="/">Home</Link>
 
             {state.anno ? state.anno.map((annotation: ElucidateAnnotation, index: React.Key) => (
                 <AnnotationItem

@@ -27,6 +27,8 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                     {getBodyValue(ann) === "attendant" ? <li>Attendant ID: <br /><code><a title="Link to RAA" rel="noreferrer" target="_blank" href={`${HOSTS.RAA}/${getAttendantInfo(ann, "http://example.org/customwebannotationfield#delegate_id")}`}>{getAttendantInfo(ann, "http://example.org/customwebannotationfield#delegate_id")}</a></code></li> : null}
                     {getBodyValue(ann) === "attendant" ? <li>Attendant name: <br /><code>{getAttendantInfo(ann, "http://example.org/customwebannotationfield#delegate_name")}</code></li> : null}
                     {getBodyValue(ann) === "resolution" ? <li>Proposition type: <br /><code>{getResolutionInfo(ann, "http://example.org/customwebannotationfield#proposition_type")}</code></li> : null}
+                    {getBodyValue(ann) === "session" ? <li>Date: <br /><code>{getAttendantInfo(ann, "http://example.org/customwebannotationfield#date")}</code></li> : null}
+                    {getBodyValue(ann) === "session" ? <li>Weekday: <br /><code>{getAttendantInfo(ann, "http://example.org/customwebannotationfield#weekday")}</code></li> : null}
                     <li>
                         <button className="show-full" onClick={(e) => {
                             e.stopPropagation()
