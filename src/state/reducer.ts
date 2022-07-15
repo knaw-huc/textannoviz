@@ -6,6 +6,7 @@ import annotationPlugins from "mirador-annotations/es"
 import findImageRegions from "../backend/utils/findImageRegions"
 import getBodyValue from "../backend/utils/getBodyValue"
 import { miradorConfig } from "../components/MiradorConfig"
+import { fetchJson } from "../backend/utils/fetchJson"
 
 export interface AppState {
     store: any
@@ -62,12 +63,6 @@ export const initAppState: AppState = {
     anno: null,
     text: null,
     selectedAnn: null,
-}
-
-async function fetchJson(url: string) {
-    const response = await fetch(url)
-    if (!response.ok) return null
-    return await response.json()
 }
 
 function setMiradorConfig(broccoli: Broccoli) {
