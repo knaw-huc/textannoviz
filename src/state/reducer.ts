@@ -41,6 +41,20 @@ interface SetSelectedAnn {
     selectedAnn: any
 }
 
+interface Broccoli {
+    "type": string,
+    "request": {
+        "volume": string,
+        "opening": number
+    },
+    "iiif": {
+        manifest: string,
+        canvasId: string
+    },
+    "anno": ElucidateAnnotation[],
+    "text": string[]
+}
+
 export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn
 
 export const initAppState: AppState = {
@@ -57,6 +71,11 @@ async function fetchJson(url: string) {
     return await response.json()
 }
 
+function setMiradorConfig(broccoli: Broccoli) {
+    miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest
+    miradorConfig.windows[0].canvasId = broccoli.iiif.canvasId
+}
+
 export function useAppState(): [AppState, React.Dispatch<AppAction>] {
     const [state, dispatch] = useReducer(reducer, initAppState)
 
@@ -64,8 +83,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
         fetchJson("https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728")
             .then(function(broccoli) {
                 console.log(broccoli)
-                miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest
-                miradorConfig.windows[0].canvasId = broccoli.iiif.canvasId
+                setMiradorConfig(broccoli)
                 const viewer = mirador.viewer(miradorConfig, [...annotationPlugins])
                 dispatch({
                     type: ACTIONS.SET_STORE,
