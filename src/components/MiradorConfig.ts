@@ -14,7 +14,7 @@ export const miradorConfig = {
     windows: [
         {
             loadedManifest: "",
-            canvasId: "https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/75718d0a-5441-41fe-94c1-db773e0848e7",
+            canvasId: "",
             id: "republic"
         },
     ],

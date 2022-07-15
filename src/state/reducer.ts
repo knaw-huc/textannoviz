@@ -65,6 +65,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
             .then(function(broccoli) {
                 console.log(broccoli)
                 miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest
+                miradorConfig.windows[0].canvasId = broccoli.iiif.canvasId
                 const viewer = mirador.viewer(miradorConfig, [...annotationPlugins])
                 dispatch({
                     type: ACTIONS.SET_STORE,
