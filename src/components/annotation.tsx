@@ -1,12 +1,12 @@
 import React, { useContext } from "react"
 import { appContext } from "../state/context"
 import mirador from "mirador"
-import { ACTIONS } from "../state/actions"
 import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 import { AnnotationItem } from "./AnnotationItem"
 import styled from "styled-components"
 import { Loading } from "../backend/utils/Loader"
 import { Link } from "react-router-dom"
+//import { ACTIONS } from "../state/actions"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;
@@ -26,7 +26,8 @@ const Button = styled.button`
 `
 
 export function Annotation() {
-    const { state, dispatch } = useContext(appContext)
+    const { state } = useContext(appContext)
+    // const [selectedAnn, setSelectedAnn] = React.useState<ElucidateAnnotation>(undefined)
 
     const nextCanvas = () => {
         state.store.dispatch(mirador.actions.setNextCanvas("republic"))
@@ -40,26 +41,23 @@ export function Annotation() {
         //     .catch(console.error)
     }
 
-    // const testFunction = () => {
-    //     console.log(state.store.dispatch(mirador.actions.receiveManifest("bla", "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest")))
-    // }
-
-    const testFunction2 = () => {
-        // const newConfig = miradorConfig
-        // newConfig.windows[0].loadedManifest = "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest"
-        // console.log(state.store.dispatch(mirador.actions.setConfig(newConfig)))
-        // console.log(state.store.getState())
+    const testFunction = () => {
+        console.log(state.store.dispatch(mirador.actions.receiveManifest("bla", "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest")))
     }
 
     function handleSelected(selected: ElucidateAnnotation | undefined) {
-        return dispatch({type: ACTIONS.SET_SELECTEDANN, selectedAnn: selected})
+        // console.log(selected)
+        // console.log(state.selectedAnn)
+        // setSelectedAnn(selected)
+        console.log(selected)
+        //return dispatch({type: ACTIONS.SET_SELECTEDANN, selectedAnn: selected})
     }
 
     return (
         <AnnotationStyled id="annotation">
             <Button onClick={nextCanvas}>Next canvas</Button>
             <Button onClick={previousCanvas}>Previous canvas</Button>
-            <Button onClick={testFunction2}>Test button</Button>
+            <Button onClick={testFunction}>Test button</Button>
             <Link to="/">Home</Link>
 
             {state.anno ? state.anno.map((annotation: ElucidateAnnotation, index: React.Key) => (

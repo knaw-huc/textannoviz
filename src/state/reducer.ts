@@ -7,13 +7,16 @@ import findImageRegions from "../backend/utils/findImageRegions"
 import getBodyValue from "../backend/utils/getBodyValue"
 import { miradorConfig } from "../components/MiradorConfig"
 import { fetchJson } from "../backend/utils/fetchJson"
+import { iiifAnn } from "../model/ElucidateAnnotation"
+import { iiifAnnResources } from "../model/ElucidateAnnotation"
 
 export interface AppState {
     store: any
     MirAnn: any
     anno: ElucidateAnnotation[]
-    text: any
-    selectedAnn: any
+    text: string[]
+    selectedAnn: ElucidateAnnotation
+    textToHighlight: any
 }
 
 interface SetStore {
@@ -33,46 +36,52 @@ interface SetAnno {
 
 interface SetText {
     type: ACTIONS.SET_TEXT,
-    text: any
+    text: string[]
 }
 
 interface SetSelectedAnn {
     type: ACTIONS.SET_SELECTEDANN,
-    selectedAnn: any
+    selectedAnn: ElucidateAnnotation
 }
 
-interface Broccoli {
+interface SetTextToHighlight {
+    type: ACTIONS.SET_TEXTTOHIGHLIGHT,
+    textToHighlight: any
+}
+
+interface BroccoliV0 {
     "type": string,
     "request": {
         "volume": string,
         "opening": number
     },
     "iiif": {
-        manifest: string,
-        canvasId: string
+        "manifest": string,
+        "canvasId": string
     },
     "anno": ElucidateAnnotation[],
     "text": string[]
 }
 
-export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn
+export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight
 
 export const initAppState: AppState = {
     store: null,
     MirAnn: null,
     anno: null,
     text: null,
-    selectedAnn: null,
+    selectedAnn: undefined,
+    textToHighlight: null
 }
 
-function setMiradorConfig(broccoli: Broccoli) {
+function setMiradorConfig(broccoli: BroccoliV0) {
     miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest
     miradorConfig.windows[0].canvasId = broccoli.iiif.canvasId
 }
 
-function visualizeAnnosMirador(broccoli: Broccoli, viewer: any) {
+function visualizeAnnosMirador(broccoli: BroccoliV0, viewer: any): iiifAnn {
     const currentState = viewer.store.getState()
-    const iiifAnn: any = {
+    const iiifAnn: iiifAnn = {
         "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
         "@context": "http://iiif.io/api/presentation/2/context.json",
         "@type": "sc:AnnotationList",
@@ -87,7 +96,7 @@ function visualizeAnnosMirador(broccoli: Broccoli, viewer: any) {
     const resources = regions.flatMap((region: string, i: number) => {
         const [x, y, w, h] = region.split(",")
         // console.log(split)
-        let colour = ""
+        let colour
 
         switch (getBodyValue(broccoli.anno[i])) {
         case "resolution":
@@ -100,7 +109,7 @@ function visualizeAnnosMirador(broccoli: Broccoli, viewer: any) {
             colour = "white"
         }
 
-        const resources = [{
+        const resources: iiifAnnResources[] = [{
             "@id": `${broccoli.anno[i].id}`,
             "@type": "oa:Annotation",
             "motivation": [
@@ -138,7 +147,6 @@ function visualizeAnnosMirador(broccoli: Broccoli, viewer: any) {
 
         return resources
     })
-
     iiifAnn.resources.push(...resources)
 
     console.log(viewer.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", iiifAnn)))
@@ -152,11 +160,12 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
 
     React.useEffect(() => {
         fetchJson("https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728")
-            .then(function(broccoli: Broccoli) {
+            .then(function(broccoli: BroccoliV0) {
                 console.log(broccoli)
                 setMiradorConfig(broccoli)
                 const viewer = mirador.viewer(miradorConfig, [...annotationPlugins])
                 const iiifAnns = visualizeAnnosMirador(broccoli, viewer)
+                console.log(viewer)
                 dispatch({
                     type: ACTIONS.SET_STORE,
                     store: viewer.store
@@ -195,6 +204,8 @@ function reducer(state: AppState, action: AppAction): AppState {
         return setText(state, action)
     case ACTIONS.SET_SELECTEDANN:
         return setSelectedAnn(state, action)
+    case ACTIONS.SET_TEXTTOHIGHLIGHT:
+        return setTextToHighlight(state, action)
     default:
         return state
     }
@@ -232,5 +243,12 @@ function setSelectedAnn(state: AppState, action: SetSelectedAnn) {
     return {
         ...state,
         selectedAnn: action.selectedAnn
+    }
+}
+
+function setTextToHighlight(state: AppState, action: SetTextToHighlight) {
+    return {
+        ...state,
+        textToHighlight: action.textToHighlight
     }
 }

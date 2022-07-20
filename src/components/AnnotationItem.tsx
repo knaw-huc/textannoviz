@@ -66,6 +66,14 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         }
     }
 
+    // React.useEffect(() => {
+    //     if (props.selected) {
+    //         props.onSelect(undefined)
+    //     } else {
+    //         props.onSelect(props.annotation)
+    //     }
+    // }, [isOpen, props])
+
     /**
      * The next two functions might be performance intensive, especially for mobile users.
      * TODO: check performance of both functions

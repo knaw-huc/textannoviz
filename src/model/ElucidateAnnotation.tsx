@@ -67,3 +67,42 @@ export type ElucidateAnnotation = {
     "target": Target | Target[],
     "movivation": string
 }
+
+type iiifAnnResource = {
+    "@type": string,
+    "format": string,
+    "chars": string
+}
+
+export type iiifAnnResources = {
+    "@id": string,
+    "@type": string,
+    "motivation": string[]
+    "on": [{
+        "@type": string,
+        "full": string,
+        "selector": {
+            "@type": string,
+            "default": {
+                "@type": string,
+                "value": string
+            },
+            "item": {
+                "@type": string,
+                "value": string
+            }
+        },
+        "within": {
+            "@id": string,
+            "@type": string
+        }
+    }],
+    "resource": iiifAnnResource[]
+} | undefined[]
+
+export type iiifAnn = {
+    "@context": string,
+    "@id": string,
+    "@type": string,
+    "resources": iiifAnnResources[]
+}

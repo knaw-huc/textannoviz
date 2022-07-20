@@ -16,6 +16,7 @@
     "mirador-annotations": "^0.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-highlight-words": "^0.18.0",
     "react-router-dom": "^6.3.0",
     "styled-components": "^5.3.5"
   },
