@@ -3,7 +3,6 @@ import { useContext } from "react"
 import { appContext } from "../state/context"
 import styled from "styled-components"
 import { Loading } from "../backend/utils/Loader"
-import Highlighter from "react-highlight-words"
 import { fetchJson } from "../backend/utils/fetchJson"
 import { ACTIONS } from "../state/actions"
 
@@ -22,17 +21,26 @@ const TextStyled = styled.div`
         color: black;
     }
 `
-//https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-2
-//https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-6
-//https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-11
 
-//https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-resolution-3
-
-function TextHighlighter() {
+function FetchTextToHighlight() {
     const { dispatch } = useContext(appContext)
 
+    /**
+     * veckhoven = attendant over 1 line
+     * coulman = only "Coulman" highlighted, so with offsets
+     * schwartzenberth = entire line highlighted
+     * res3 = entire resolution highlighted
+     */
+
+    const urls = {
+        veckhoven: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-2",
+        coulman: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-6",
+        schwartzenberth: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-11",
+        res3: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-resolution-3"
+    }
+
     React.useEffect(() => {
-        fetchJson("https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-resolution-3")
+        fetchJson(urls.veckhoven)
             .then(function(broccoli) {
                 console.log(broccoli)
                 dispatch({
@@ -43,33 +51,34 @@ function TextHighlighter() {
     }, [])
 }
 
+function TextHighlighting() {
+    const { state } = useContext(appContext)
+
+    const subtract = (startIndex: number, endIndex: number) => {
+        const result = endIndex - startIndex
+        if (result > 0) {
+            return result + 1
+        } else {
+            return 1
+        }
+    }
+
+    const textToMark = state.text
+    const markElement = `<mark>${state.text.slice(state.textToHighlight.start.line, state.textToHighlight.end.line + 1).join("\n")}</mark>`
+
+    textToMark.splice(state.textToHighlight.start.line, subtract(state.textToHighlight.start.line, state.textToHighlight.end.line), markElement)
+
+    //Warning: "dangerouslySetInnerHTML" is susceptible to XSS attacks. This might fix it: https://www.npmjs.com/package/dompurify
+    return <span dangerouslySetInnerHTML={{ __html: textToMark.join("\n") }} />
+}
+
 export function Text() {
     const { state } = useContext(appContext)
-    TextHighlighter()
-    
-    // React.useEffect(() => {
-    //     if (state.text) {
-    //         console.log(state.text.slice(0, 15))
-    //     }
-    // }, [state.text])
+    FetchTextToHighlight()
 
     return (
         <TextStyled id="text">
-            {state.text && state.textToHighlight ? <Highlighter
-                highlightClassName="texthighlight"
-                searchWords={state.text.slice(state.textToHighlight.start.line, state.textToHighlight.end.line)}
-                //searchWords={[state.text[state.textToHighlight.start.line]]}
-                //searchWords={[state.text.slice(state.textToHighlight.start.line, state.textToHighlight.end.line)]}
-                autoEscape={true}
-                textToHighlight={state.text.join("\n")}
-            /> : <Loading />}
-            {/* <Highlighter
-                highlightClassName="texthighlight"
-                searchWords={[state.text ? state.text[5] : ""]}
-                autoEscape={false}
-                textToHighlight={state.text ? state.text.join("\n") : ""}
-            /> */}
-            {/* {state.text ? state.text.join("\n") : <Loading/>} */}
+            {state.MirAnn ? <TextHighlighting /> : <Loading />}
         </TextStyled>
     )
 }
