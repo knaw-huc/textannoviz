@@ -54,7 +54,7 @@ function FetchTextToHighlight() {
 function TextHighlighting() {
     const { state } = useContext(appContext)
 
-    const subtract = (endIndex: number, startIndex: number) => {
+    const subtract = (endIndex: number, startIndex: number): number => {
         const result = endIndex - startIndex + 1
         return result
     }
