@@ -40,7 +40,7 @@ function FetchTextToHighlight() {
     }
 
     React.useEffect(() => {
-        fetchJson(urls.veckhoven)
+        fetchJson(urls.schwartzenberth)
             .then(function(broccoli) {
                 console.log(broccoli)
                 dispatch({
@@ -54,19 +54,15 @@ function FetchTextToHighlight() {
 function TextHighlighting() {
     const { state } = useContext(appContext)
 
-    const subtract = (startIndex: number, endIndex: number) => {
-        const result = endIndex - startIndex
-        if (result > 0) {
-            return result + 1
-        } else {
-            return 1
-        }
+    const subtract = (endIndex: number, startIndex: number) => {
+        const result = endIndex - startIndex + 1
+        return result
     }
 
     const textToMark = state.text
     const markElement = `<mark>${state.text.slice(state.textToHighlight.start.line, state.textToHighlight.end.line + 1).join("\n")}</mark>`
 
-    textToMark.splice(state.textToHighlight.start.line, subtract(state.textToHighlight.start.line, state.textToHighlight.end.line), markElement)
+    textToMark.splice(state.textToHighlight.start.line, subtract(state.textToHighlight.end.line, state.textToHighlight.start.line), markElement)
 
     //Warning: "dangerouslySetInnerHTML" is susceptible to XSS attacks. This might fix it: https://www.npmjs.com/package/dompurify
     return <span dangerouslySetInnerHTML={{ __html: textToMark.join("\n") }} />
