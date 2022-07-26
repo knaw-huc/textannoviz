@@ -2,7 +2,9 @@ import React from "react"
 import { useContext } from "react"
 import { appContext } from "../state/context"
 import styled from "styled-components"
-import { Loading } from "../backend/utils/Loader"
+//import { Loading } from "../backend/utils/Loader"
+import { TextComponent } from "./TextComponent"
+import { TextHighlighting } from "./TextHighlighting"
 // import { fetchJson } from "../backend/utils/fetchJson"
 // import { ACTIONS } from "../state/actions"
 
@@ -18,7 +20,6 @@ const TextStyled = styled.div`
     line-height: 2.25rem;
     mark {
         background-color: #ffc04b;
-        color: black;
     }
 `
 
@@ -51,36 +52,14 @@ const TextStyled = styled.div`
 //     }, [])
 // }
 
-function TextHighlighting() {
-    const { state } = useContext(appContext)
-
-    const subtract = (endIndex: number, startIndex: number): number => {
-        const result = endIndex - startIndex + 1
-        return result
-    }
-    let textToMark = state.text
-
-    if (state.annItemOpen === true) {
-        const markElement = `<mark>${state.text.slice(state.textToHighlight.start.line, state.textToHighlight.end.line + 1).join("\n")}</mark>`
-
-        textToMark.splice(state.textToHighlight.start.line, subtract(state.textToHighlight.end.line, state.textToHighlight.start.line), markElement)
-
-        //Warning: "dangerouslySetInnerHTML" is susceptible to XSS attacks. This might fix it: https://www.npmjs.com/package/dompurify
-        return <span dangerouslySetInnerHTML={{ __html: textToMark.join("\n") }} />
-    } else {
-        console.log("ITEM IS DICHT")
-        textToMark = null
-        return <p>{state.text.join("\n")}</p>
-    }
-}
-
 export function Text() {
     const { state } = useContext(appContext)
     //FetchTextToHighlight()
 
     return (
         <TextStyled id="text">
-            {state.MirAnn ? <TextHighlighting /> : <Loading />}
+            {/* {state.MirAnn ? <TextComponent /> : <Loading />} */}
+            {state.annItemOpen ? <TextHighlighting /> : <TextComponent />}
         </TextStyled>
     )
 }

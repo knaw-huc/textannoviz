@@ -65,7 +65,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
                 zoom: 0.8 / boxToZoom.width
             }))
 
-            //Visualize annotations in text
+            //Set text to highlight
             fetchJson(`https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=${getBodyId(props.annotation)}`)
                 .then(function(textToHighlight) {
                     if (textToHighlight !== null) {
@@ -74,10 +74,14 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
                             type: ACTIONS.SET_TEXTTOHIGHLIGHT,
                             textToHighlight: textToHighlight
                         })
+                        console.log("text to highlight dispatch done")
                         dispatch({
                             type: ACTIONS.SET_ANNITEMOPEN,
                             annItemOpen: true
                         })
+                        console.log("set open dispatch done")
+                    } else {
+                        return
                     }
                 })
                 .catch(console.error)
