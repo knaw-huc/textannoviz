@@ -8,6 +8,9 @@ import findImageRegions from "../backend/utils/findImageRegions"
 import styled from "styled-components"
 import getAttendantInfo from "../backend/utils/getAttendantInfo"
 import getResolutionInfo from "../backend/utils/getResolutionInfo"
+import { fetchJson } from "../backend/utils/fetchJson"
+import getBodyId from "../backend/utils/getBodyId"
+import { ACTIONS } from "../state/actions"
 
 type AnnotationSnippetProps = {
     annot_id: React.Key,
@@ -35,12 +38,13 @@ const Clickable = styled.div`
 
 export function AnnotationItem(props: AnnotationSnippetProps) {
     const [isOpen, setOpen] = React.useState(false)
-    const { state } = React.useContext(appContext)
+    const { state, dispatch } = React.useContext(appContext)
 
     function toggleOpen() {
         setOpen(!isOpen)
 
         if(!isOpen) {
+            //Visualize annotation in Mirador
             const region = findImageRegions(props.annotation)
             const [x, y, w, h] = region[0].split(",")
             console.log(x, y, w, h)      
@@ -61,8 +65,29 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
                 zoom: 0.8 / boxToZoom.width
             }))
 
+            //Visualize annotations in text
+            fetchJson(`https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=${getBodyId(props.annotation)}`)
+                .then(function(textToHighlight) {
+                    if (textToHighlight !== null) {
+                        console.log(textToHighlight)
+                        dispatch({
+                            type: ACTIONS.SET_TEXTTOHIGHLIGHT,
+                            textToHighlight: textToHighlight
+                        })
+                        dispatch({
+                            type: ACTIONS.SET_ANNITEMOPEN,
+                            annItemOpen: true
+                        })
+                    }
+                })
+                .catch(console.error)
+
         } else {
             state.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
+            dispatch({
+                type: ACTIONS.SET_ANNITEMOPEN,
+                annItemOpen: false
+            })
         }
     }
 

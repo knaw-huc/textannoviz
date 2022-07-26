@@ -17,6 +17,7 @@ export interface AppState {
     text: string[]
     selectedAnn: ElucidateAnnotation
     textToHighlight: any
+    annItemOpen: boolean
 }
 
 interface SetStore {
@@ -49,6 +50,11 @@ interface SetTextToHighlight {
     textToHighlight: any
 }
 
+interface SetAnnItemOpen {
+    type: ACTIONS.SET_ANNITEMOPEN,
+    annItemOpen: boolean
+}
+
 interface BroccoliV0 {
     "type": string,
     "request": {
@@ -63,7 +69,7 @@ interface BroccoliV0 {
     "text": string[]
 }
 
-export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight
+export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen
 
 export const initAppState: AppState = {
     store: null,
@@ -71,7 +77,8 @@ export const initAppState: AppState = {
     anno: null,
     text: null,
     selectedAnn: undefined,
-    textToHighlight: null
+    textToHighlight: null,
+    annItemOpen: false
 }
 
 function setMiradorConfig(broccoli: BroccoliV0) {
@@ -206,6 +213,8 @@ function reducer(state: AppState, action: AppAction): AppState {
         return setSelectedAnn(state, action)
     case ACTIONS.SET_TEXTTOHIGHLIGHT:
         return setTextToHighlight(state, action)
+    case ACTIONS.SET_ANNITEMOPEN:
+        return setAnnItemOpen(state, action)
     default:
         return state
     }
@@ -250,5 +259,12 @@ function setTextToHighlight(state: AppState, action: SetTextToHighlight) {
     return {
         ...state,
         textToHighlight: action.textToHighlight
+    }
+}
+
+function setAnnItemOpen(state: AppState, action: SetAnnItemOpen) {
+    return {
+        ...state,
+        annItemOpen: action.annItemOpen
     }
 }

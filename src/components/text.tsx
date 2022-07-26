@@ -3,8 +3,8 @@ import { useContext } from "react"
 import { appContext } from "../state/context"
 import styled from "styled-components"
 import { Loading } from "../backend/utils/Loader"
-import { fetchJson } from "../backend/utils/fetchJson"
-import { ACTIONS } from "../state/actions"
+// import { fetchJson } from "../backend/utils/fetchJson"
+// import { ACTIONS } from "../state/actions"
 
 const TextStyled = styled.div`
     min-width: 300px;
@@ -22,34 +22,34 @@ const TextStyled = styled.div`
     }
 `
 
-function FetchTextToHighlight() {
-    const { dispatch } = useContext(appContext)
+// function FetchTextToHighlight() {
+//     const { dispatch } = useContext(appContext)
 
-    /**
-     * veckhoven = attendant over 1 line
-     * coulman = only "Coulman" highlighted, so with offsets
-     * schwartzenberth = entire line highlighted
-     * res3 = entire resolution highlighted
-     */
+//     /**
+//      * veckhoven = attendant over 1 line
+//      * coulman = only "Coulman" highlighted, so with offsets
+//      * schwartzenberth = entire line highlighted
+//      * res3 = entire resolution highlighted
+//      */
 
-    const urls = {
-        veckhoven: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-2",
-        coulman: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-6",
-        schwartzenberth: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-11",
-        res3: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-resolution-3"
-    }
+//     const urls = {
+//         veckhoven: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-2",
+//         coulman: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-6",
+//         schwartzenberth: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-attendant-11",
+//         res3: "https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=urn:example:republic:meeting-1728-06-19-session-1-resolution-3"
+//     }
 
-    React.useEffect(() => {
-        fetchJson(urls.schwartzenberth)
-            .then(function(broccoli) {
-                console.log(broccoli)
-                dispatch({
-                    type: ACTIONS.SET_TEXTTOHIGHLIGHT,
-                    textToHighlight: broccoli
-                })
-            })
-    }, [])
-}
+//     React.useEffect(() => {
+//         fetchJson(urls.schwartzenberth)
+//             .then(function(broccoli) {
+//                 console.log(broccoli)
+//                 dispatch({
+//                     type: ACTIONS.SET_TEXTTOHIGHLIGHT,
+//                     textToHighlight: broccoli
+//                 })
+//             })
+//     }, [])
+// }
 
 function TextHighlighting() {
     const { state } = useContext(appContext)
@@ -58,19 +58,25 @@ function TextHighlighting() {
         const result = endIndex - startIndex + 1
         return result
     }
+    let textToMark = state.text
 
-    const textToMark = state.text
-    const markElement = `<mark>${state.text.slice(state.textToHighlight.start.line, state.textToHighlight.end.line + 1).join("\n")}</mark>`
+    if (state.annItemOpen === true) {
+        const markElement = `<mark>${state.text.slice(state.textToHighlight.start.line, state.textToHighlight.end.line + 1).join("\n")}</mark>`
 
-    textToMark.splice(state.textToHighlight.start.line, subtract(state.textToHighlight.end.line, state.textToHighlight.start.line), markElement)
+        textToMark.splice(state.textToHighlight.start.line, subtract(state.textToHighlight.end.line, state.textToHighlight.start.line), markElement)
 
-    //Warning: "dangerouslySetInnerHTML" is susceptible to XSS attacks. This might fix it: https://www.npmjs.com/package/dompurify
-    return <span dangerouslySetInnerHTML={{ __html: textToMark.join("\n") }} />
+        //Warning: "dangerouslySetInnerHTML" is susceptible to XSS attacks. This might fix it: https://www.npmjs.com/package/dompurify
+        return <span dangerouslySetInnerHTML={{ __html: textToMark.join("\n") }} />
+    } else {
+        console.log("ITEM IS DICHT")
+        textToMark = null
+        return <p>{state.text.join("\n")}</p>
+    }
 }
 
 export function Text() {
     const { state } = useContext(appContext)
-    FetchTextToHighlight()
+    //FetchTextToHighlight()
 
     return (
         <TextStyled id="text">
