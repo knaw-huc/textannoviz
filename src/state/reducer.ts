@@ -15,7 +15,7 @@ export interface AppState {
     MirAnn: any
     anno: ElucidateAnnotation[]
     text: string[]
-    selectedAnn: ElucidateAnnotation
+    selectedAnn: ElucidateAnnotation | undefined
     textToHighlight: any
     annItemOpen: boolean
 }
@@ -42,7 +42,7 @@ interface SetText {
 
 interface SetSelectedAnn {
     type: ACTIONS.SET_SELECTEDANN,
-    selectedAnn: ElucidateAnnotation
+    selectedAnn: ElucidateAnnotation | undefined
 }
 
 interface SetTextToHighlight {

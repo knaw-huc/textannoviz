@@ -1,10 +1,10 @@
 import React from "react"
-import { useContext } from "react"
-import { appContext } from "../state/context"
+// import { useContext } from "react"
+// import { appContext } from "../state/context"
 import styled from "styled-components"
 //import { Loading } from "../backend/utils/Loader"
 import { TextComponent } from "./TextComponent"
-import { TextHighlighting } from "./TextHighlighting"
+//import { TextHighlighting } from "./TextHighlighting"
 // import { fetchJson } from "../backend/utils/fetchJson"
 // import { ACTIONS } from "../state/actions"
 
@@ -53,13 +53,13 @@ const TextStyled = styled.div`
 // }
 
 export function Text() {
-    const { state } = useContext(appContext)
+    //const { state } = useContext(appContext)
     //FetchTextToHighlight()
 
     return (
         <TextStyled id="text">
             {/* {state.MirAnn ? <TextComponent /> : <Loading />} */}
-            {state.annItemOpen ? <TextHighlighting /> : <TextComponent />}
+            <TextComponent />
         </TextStyled>
     )
 }

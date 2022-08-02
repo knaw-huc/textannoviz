@@ -6,7 +6,7 @@ import { AnnotationItem } from "./AnnotationItem"
 import styled from "styled-components"
 import { Loading } from "../backend/utils/Loader"
 import { Link } from "react-router-dom"
-//import { ACTIONS } from "../state/actions"
+import { ACTIONS } from "../state/actions"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;
@@ -26,7 +26,7 @@ const Button = styled.button`
 `
 
 export function Annotation() {
-    const { state } = useContext(appContext)
+    const { state, dispatch } = useContext(appContext)
     // const [selectedAnn, setSelectedAnn] = React.useState<ElucidateAnnotation>(undefined)
 
     const nextCanvas = () => {
@@ -46,11 +46,8 @@ export function Annotation() {
     }
 
     function handleSelected(selected: ElucidateAnnotation | undefined) {
-        // console.log(selected)
-        // console.log(state.selectedAnn)
-        // setSelectedAnn(selected)
         console.log(selected)
-        //return dispatch({type: ACTIONS.SET_SELECTEDANN, selectedAnn: selected})
+        return dispatch({type: ACTIONS.SET_SELECTEDANN, selectedAnn: selected})
     }
 
     return (
@@ -60,7 +57,7 @@ export function Annotation() {
             <Button onClick={testFunction}>Test button</Button>
             <Link to="/">Home</Link>
 
-            {state.anno ? state.anno.map((annotation: ElucidateAnnotation, index: React.Key) => (
+            {state.anno ? state.anno.map((annotation, index) => (
                 <AnnotationItem
                     key={index}
                     annot_id={index}

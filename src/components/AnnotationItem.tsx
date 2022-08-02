@@ -74,11 +74,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
                             textToHighlight: textToHighlight
                         })
                         console.log("text to highlight dispatch done")
-                        dispatch({
-                            type: ACTIONS.SET_ANNITEMOPEN,
-                            annItemOpen: true
-                        })
-                        console.log("set open dispatch done")
                     } else {
                         return
                     }
@@ -87,20 +82,16 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
         } else {
             state.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
-            dispatch({
-                type: ACTIONS.SET_ANNITEMOPEN,
-                annItemOpen: false
-            })
         }
     }
 
-    // React.useEffect(() => {
-    //     if (props.selected) {
-    //         props.onSelect(undefined)
-    //     } else {
-    //         props.onSelect(props.annotation)
-    //     }
-    // }, [isOpen, props])
+    React.useEffect(() => {
+        if (props.selected) {
+            props.onSelect(undefined)
+        } else {
+            props.onSelect(props.annotation)
+        }
+    }, [isOpen])
 
     /**
      * The next two functions might be performance intensive, especially for mobile users.
