@@ -3,7 +3,7 @@ export type AnnoRepoBody = {
     type: string,
 }
 
-export type SessionBody = {
+export type SessionBody = AnnoRepoBody & {
     metadata: {
         dateShiftStatus: string,
         hasSessionDateElement: boolean,
@@ -21,7 +21,7 @@ export type SessionBody = {
     }
 }
 
-export type ResolutionBody = {
+export type ResolutionBody = AnnoRepoBody & {
     metadata: {
         inventoryNum: number,
         sourceId: string,
@@ -48,7 +48,7 @@ export type ResolutionBody = {
     }
 }
 
-export type ReviewedBody = {
+export type ReviewedBody = AnnoRepoBody & {
     metadata: {
         inventoryNum: number,
         sourceId: string,
@@ -62,7 +62,7 @@ export type ReviewedBody = {
     }
 }
 
-export type AttendenceListBody = {
+export type AttendanceListBody = AnnoRepoBody & {
     metadata: {
         inventoryNum: number,
         sourceId: string,
@@ -88,7 +88,7 @@ type attendanceSpansType = {
     delegateScore: number
 }
 
-export type AttendantBody = {
+export type AttendantBody = AnnoRepoBody & {
     metadata: {
         offset: number,
         end: number,
@@ -100,7 +100,7 @@ export type AttendantBody = {
     }
 }
 
-export type Body = AnnoRepoBody | SessionBody | ResolutionBody | ReviewedBody | AttendantBody
+export type Body = AnnoRepoBody | SessionBody | ResolutionBody | ReviewedBody | AttendanceListBody | AttendantBody
 
 export type ImageFragmentTarget = {
     "type": "Image",
@@ -135,10 +135,10 @@ export type ImageTarget = {
 export type Target =  TextAnchorTarget | ImageFragmentTarget | TextTarget | ImageTarget
 
 export type AnnoRepoAnnotation = {
-    "id": string,
-    "body": Body
-    "target": Target | Target[],
-    "movivation": string
+    id: string,
+    body: AnnoRepoBody
+    target: Target | Target[],
+    movivation: string
 }
 
 type iiifAnnResource = {
