@@ -102,14 +102,14 @@ export type AttendantBody = AnnoRepoBody & {
 
 export type Body = AnnoRepoBody | SessionBody | ResolutionBody | ReviewedBody | AttendanceListBody | AttendantBody
 
-export type ImageFragmentTarget = {
-    "type": "Image",
-    "selector": {
-        "type": string,
-        "conformsTo": string,
-        "value": string,
+export type ImageTarget = {
+    type: "Image",
+    selector: {
+        type: string,
+        conformsTo: string,
+        value: string,
     } | undefined,
-    "source": string,
+    source: string,
 }
 
 export type TextAnchorTarget = {
@@ -119,6 +119,8 @@ export type TextAnchorTarget = {
         type: "urn:republic:TextAnchorSelector",
         end: number,
         start: number,
+        beginCharOffset: number,
+        endCharOffset: number
     },
 }
 
@@ -127,12 +129,7 @@ export type TextTarget = {
     type: "Text"
 }
 
-export type ImageTarget = {
-    source: string,
-    type: "Image"
-}
-
-export type Target =  TextAnchorTarget | ImageFragmentTarget | TextTarget | ImageTarget
+export type Target = TextAnchorTarget | ImageTarget | TextTarget
 
 export type AnnoRepoAnnotation = {
     id: string,

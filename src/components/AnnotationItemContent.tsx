@@ -1,10 +1,10 @@
 //import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 import React from "react"
-import getBodyValue from "../backend/utils/getBodyValue"
-import getAttendantName from "../backend/utils/getAttendantInfo"
-import getResolutionInfo from "../backend/utils/getResolutionInfo"
+// import getBodyType from "../backend/utils/getBodyType"
+// import getAttendantName from "../backend/utils/getAttendantInfo"
+// import getResolutionInfo from "../backend/utils/getResolutionInfo"
 import { HOSTS } from "../Config"
-import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation"
+import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody } from "../model/AnnoRepoAnnotation"
 import styled from "styled-components"
 
 type AnnotationContentProps = {
@@ -24,11 +24,11 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
             {ann && <div id="annotation-content">
                 <ul>
                     {/* <li>Annotation ID: <br /><code>{ann.id}</code></li> */}
-                    {getBodyValue(ann) === "attendant" ? <li>Attendant ID: <br /><code><a title="Link to RAA" rel="noreferrer" target="_blank" href={`${HOSTS.RAA}/${getAttendantName(ann, "http://example.org/customwebannotationfield#delegate_id")}`}>{getAttendantName(ann, "http://example.org/customwebannotationfield#delegate_id")}</a></code></li> : null}
-                    {getBodyValue(ann) === "attendant" ? <li>Attendant name: <br /><code>{getAttendantName(ann, "http://example.org/customwebannotationfield#delegate_name")}</code></li> : null}
-                    {getBodyValue(ann) === "resolution" ? <li>Proposition type: <br /><code>{getResolutionInfo(ann, "http://example.org/customwebannotationfield#proposition_type")}</code></li> : null}
-                    {getBodyValue(ann) === "session" ? <li>Date: <br /><code>{getAttendantName(ann, "http://example.org/customwebannotationfield#date")}</code></li> : null}
-                    {getBodyValue(ann) === "session" ? <li>Weekday: <br /><code>{getAttendantName(ann, "http://example.org/customwebannotationfield#weekday")}</code></li> : null}
+                    {props.ann.body.type === "Attendant" ? <li>Attendant ID: <br /><code><a title="Link to RAA" rel="noreferrer" target="_blank" href={`${HOSTS.RAA}/${(props.ann.body as AttendantBody).metadata.delegateId}`}>{(props.ann.body as AttendantBody).metadata.delegateId}</a></code></li> : null}
+                    {props.ann.body.type === "Attendant" ? <li>Attendant name: <br /><code>{(props.ann.body as AttendantBody).metadata.delegateName}</code></li> : null}
+                    {props.ann.body.type === "Resolution" ? <li>Proposition type: <br /><code>{(props.ann.body as ResolutionBody).metadata.resolutionType}</code></li> : null}
+                    {props.ann.body.type === "Session" ? <li>Date: <br /><code>{(props.ann.body as SessionBody).metadata.sessionDate}</code></li> : null}
+                    {props.ann.body.type === "Session" ? <li>Weekday: <br /><code>{(props.ann.body as SessionBody).metadata.sessionWeekday}</code></li> : null}
                     <li>
                         <button className="show-full" onClick={(e) => {
                             e.stopPropagation()
