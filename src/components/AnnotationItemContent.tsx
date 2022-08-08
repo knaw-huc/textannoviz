@@ -1,8 +1,4 @@
-//import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
 import React from "react"
-// import getBodyType from "../backend/utils/getBodyType"
-// import getAttendantName from "../backend/utils/getAttendantInfo"
-// import getResolutionInfo from "../backend/utils/getResolutionInfo"
 import { HOSTS } from "../Config"
 import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../model/AnnoRepoAnnotation"
 import styled from "styled-components"
