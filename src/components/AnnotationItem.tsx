@@ -6,7 +6,7 @@ import {AnnotationItemContent} from "./AnnotationItemContent"
 import mirador from "mirador"
 import findImageRegions from "../backend/utils/findImageRegions"
 import styled from "styled-components"
-import getAttendantInfo from "../backend/utils/getAttendantInfo"
+import getAttendantName from "../backend/utils/getAttendantInfo"
 import getResolutionInfo from "../backend/utils/getResolutionInfo"
 import { fetchJson } from "../backend/utils/fetchJson"
 import getBodyId from "../backend/utils/getBodyId"
@@ -112,11 +112,11 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
                 {(() => {
                     switch(getBodyValue(props.annotation)) {
                     case("attendant"):
-                        return getAttendantInfo(props.annotation, "http://example.org/customwebannotationfield#delegate_name") + " (" + `${getBodyValue(props.annotation)}` + ")"
+                        return getAttendantName(props.annotation, "http://example.org/customwebannotationfield#delegate_name") + " (" + `${getBodyValue(props.annotation)}` + ")"
                     case("resolution"):
                         return getResolutionInfo(props.annotation, "http://example.org/customwebannotationfield#proposition_type") + " (" + `${getBodyValue(props.annotation)}` + ")"
                     case("session"):
-                        return "Session: " + getAttendantInfo(props.annotation, "http://example.org/customwebannotationfield#weekday") + ", " + getAttendantInfo(props.annotation, "http://example.org/customwebannotationfield#date")
+                        return "Session: " + getAttendantName(props.annotation, "http://example.org/customwebannotationfield#weekday") + ", " + getAttendantName(props.annotation, "http://example.org/customwebannotationfield#date")
                     default:
                         return getBodyValue(props.annotation)
                     }
