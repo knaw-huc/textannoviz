@@ -1,6 +1,6 @@
-import { ElucidateAnnotation, AttendantBody } from "../../model/ElucidateAnnotation"
+import { AnnoRepoAnnotation, AttendantBody } from "../../model/AnnoRepoAnnotation"
 
-export default function getAttendantInfo(annotation: ElucidateAnnotation, info: string): string | number {
+export default function getAttendantInfo(annotation: AnnoRepoAnnotation, info: string): string | number {
     const body = (annotation.body as AttendantBody[]).find((b: AttendantBody) => b.value[info])
     return body.value[info]
 }

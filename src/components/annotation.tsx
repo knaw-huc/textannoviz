@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { appContext } from "../state/context"
 import mirador from "mirador"
-import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
+import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation"
 import { AnnotationItem } from "./AnnotationItem"
 import styled from "styled-components"
 import { Loading } from "../backend/utils/Loader"
@@ -45,7 +45,7 @@ export function Annotation() {
         console.log(state.store.dispatch(mirador.actions.receiveManifest("bla", "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest")))
     }
 
-    function handleSelected(selected: ElucidateAnnotation | undefined) {
+    function handleSelected(selected: AnnoRepoAnnotation | undefined) {
         console.log(selected)
         return dispatch({type: ACTIONS.SET_SELECTEDANN, selectedAnn: selected})
     }

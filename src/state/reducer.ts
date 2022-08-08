@@ -1,21 +1,20 @@
 import React, { useReducer } from "react"
 import { ACTIONS } from "./actions"
-import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
+import { AnnoRepoAnnotation, iiifAnn, iiifAnnResources } from "../model/AnnoRepoAnnotation"
+import { BroccoliV1 } from "../model/Broccoli"
 import mirador from "mirador"
 import annotationPlugins from "mirador-annotations/es"
 import findImageRegions from "../backend/utils/findImageRegions"
 import getBodyValue from "../backend/utils/getBodyValue"
 import { miradorConfig } from "../components/MiradorConfig"
 import { fetchJson } from "../backend/utils/fetchJson"
-import { iiifAnn } from "../model/ElucidateAnnotation"
-import { iiifAnnResources } from "../model/ElucidateAnnotation"
 
 export interface AppState {
     store: any
     MirAnn: any
-    anno: ElucidateAnnotation[]
+    anno: AnnoRepoAnnotation[]
     text: string[]
-    selectedAnn: ElucidateAnnotation | undefined
+    selectedAnn: AnnoRepoAnnotation | undefined
     textToHighlight: any
     annItemOpen: boolean
 }
@@ -32,7 +31,7 @@ interface SetMirAnn {
 
 interface SetAnno {
     type: ACTIONS.SET_ANNO,
-    anno: ElucidateAnnotation[]
+    anno: AnnoRepoAnnotation[]
 }
 
 interface SetText {
@@ -42,7 +41,7 @@ interface SetText {
 
 interface SetSelectedAnn {
     type: ACTIONS.SET_SELECTEDANN,
-    selectedAnn: ElucidateAnnotation | undefined
+    selectedAnn: AnnoRepoAnnotation | undefined
 }
 
 interface SetTextToHighlight {
@@ -53,20 +52,6 @@ interface SetTextToHighlight {
 interface SetAnnItemOpen {
     type: ACTIONS.SET_ANNITEMOPEN,
     annItemOpen: boolean
-}
-
-interface BroccoliV0 {
-    "type": string,
-    "request": {
-        "volume": string,
-        "opening": number
-    },
-    "iiif": {
-        "manifest": string,
-        "canvasId": string
-    },
-    "anno": ElucidateAnnotation[],
-    "text": string[]
 }
 
 export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen
@@ -81,12 +66,12 @@ export const initAppState: AppState = {
     annItemOpen: false
 }
 
-function setMiradorConfig(broccoli: BroccoliV0) {
+function setMiradorConfig(broccoli: BroccoliV1) {
     miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest
     miradorConfig.windows[0].canvasId = broccoli.iiif.canvasId
 }
 
-function visualizeAnnosMirador(broccoli: BroccoliV0, viewer: any): iiifAnn {
+function visualizeAnnosMirador(broccoli: BroccoliV1, viewer: any): iiifAnn {
     const currentState = viewer.store.getState()
     const iiifAnn: iiifAnn = {
         "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
@@ -95,7 +80,7 @@ function visualizeAnnosMirador(broccoli: BroccoliV0, viewer: any): iiifAnn {
         "resources": []
     }
 
-    const regions = broccoli.anno.flatMap((item: ElucidateAnnotation) => {
+    const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
         const region = findImageRegions(item)
         return region
     })
@@ -167,7 +152,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
 
     React.useEffect(() => {
         fetchJson("https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728")
-            .then(function(broccoli: BroccoliV0) {
+            .then(function(broccoli: BroccoliV1) {
                 console.log(broccoli)
                 setMiradorConfig(broccoli)
                 const viewer = mirador.viewer(miradorConfig, [...annotationPlugins])

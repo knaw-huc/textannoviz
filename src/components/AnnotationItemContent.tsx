@@ -4,11 +4,11 @@ import getBodyValue from "../backend/utils/getBodyValue"
 import getAttendantInfo from "../backend/utils/getAttendantInfo"
 import getResolutionInfo from "../backend/utils/getResolutionInfo"
 import { HOSTS } from "../Config"
-import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
+import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation"
 import styled from "styled-components"
 
 type AnnotationContentProps = {
-    ann: ElucidateAnnotation | undefined
+    ann: AnnoRepoAnnotation | undefined
 }
 
 const AnnPreview = styled.div`

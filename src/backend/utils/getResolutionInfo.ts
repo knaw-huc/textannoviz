@@ -1,6 +1,6 @@
-import { ElucidateAnnotation, ResolutionBody } from "../../model/ElucidateAnnotation"
+import { AnnoRepoAnnotation, ResolutionBody } from "../../model/AnnoRepoAnnotation"
 
-export default function getResolutionInfo(annotation: ElucidateAnnotation, info: string): string | number {
+export default function getResolutionInfo(annotation: AnnoRepoAnnotation, info: string): string | number {
     if (Array.isArray(annotation.body)) {
         const body = (annotation.body as ResolutionBody[]).find((b: ResolutionBody) => b[info])
         return body[info]

@@ -1,14 +1,14 @@
-import { ElucidateAnnotation, ElucidateBody } from "../../model/ElucidateAnnotation"
+import { AnnoRepoAnnotation, AnnoRepoBody } from "../../model/AnnoRepoAnnotation"
 
-export default function bodyValue(annotation: ElucidateAnnotation): string {
+export default function bodyValue(annotation: AnnoRepoAnnotation): string {
     if (Array.isArray(annotation.body)) {
-        const body = (annotation.body as ElucidateBody[]).find((b: { value: string; }) => b.value)
+        const body = (annotation.body as AnnoRepoBody[]).find((b: { value: string; }) => b.value)
         if (body) {
             return body.value
         } else {
             throw new Error("No body id found in " + JSON.stringify(annotation))
         }
     } else {
-        return (annotation.body as ElucidateBody).value
+        return (annotation.body as AnnoRepoBody).value
     }
 }

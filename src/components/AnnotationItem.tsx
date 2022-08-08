@@ -1,5 +1,5 @@
 import React from "react"
-import { ElucidateAnnotation } from "../model/ElucidateAnnotation"
+import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation"
 import { appContext } from "../state/context"
 import getBodyValue from "../backend/utils/getBodyValue"
 import {AnnotationItemContent} from "./AnnotationItemContent"
@@ -14,9 +14,9 @@ import { ACTIONS } from "../state/actions"
 
 type AnnotationSnippetProps = {
     annot_id: React.Key,
-    annotation: ElucidateAnnotation,
+    annotation: AnnoRepoAnnotation,
     selected: boolean
-    onSelect: (a: ElucidateAnnotation | undefined) => void
+    onSelect: (a: AnnoRepoAnnotation | undefined) => void
 }
 
 const AnnSnippet = styled.div`
