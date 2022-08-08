@@ -59,7 +59,8 @@ export type ReviewedBody = AnnoRepoBody & {
         docId: string,
         lang: string,
         paragraphIndex: number
-    }
+    },
+    text: string
 }
 
 export type AttendanceListBody = AnnoRepoBody & {

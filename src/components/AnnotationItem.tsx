@@ -38,6 +38,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
     function toggleOpen() {
         setOpen(!isOpen)
+        props.onSelect(props.annotation)
 
         if(!isOpen) {
             //Visualize annotation in Mirador
@@ -77,17 +78,10 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
             //     .catch(console.error)
 
         } else {
+            props.onSelect(undefined)
             state.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
         }
     }
-
-    React.useEffect(() => {
-        if (props.selected) {
-            props.onSelect(undefined)
-        } else {
-            props.onSelect(props.annotation)
-        }
-    }, [isOpen])
 
     /**
      * The next two functions might be performance intensive, especially for mobile users.
@@ -109,13 +103,10 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
                     switch(props.annotation.body.type) {
                     case("Attendant"):
                         return (props.annotation.body as AttendantBody).metadata.delegateName + " (" + `${props.annotation.body.type}` + ")"
-                        // return getAttendantName(props.annotation, "http://example.org/customwebannotationfield#delegate_name") + " (" + `${getBodyType(props.annotation)}` + ")"
                     case("Resolution"):
                         return (props.annotation.body as ResolutionBody).metadata.propositionType + " (" + `${props.annotation.body.type}` + ")"
-                        // return getResolutionInfo(props.annotation, "http://example.org/customwebannotationfield#proposition_type") + " (" + `${getBodyType(props.annotation)}` + ")"
                     case("Session"):
                         return (props.annotation.body as SessionBody).metadata.sessionWeekday + ", " + `${(props.annotation.body as SessionBody).metadata.sessionDate}`
-                        // return "Session: " + getAttendantName(props.annotation, "http://example.org/customwebannotationfield#weekday") + ", " + getAttendantName(props.annotation, "http://example.org/customwebannotationfield#date")
                     default:
                         return props.annotation.body.type
                     }
