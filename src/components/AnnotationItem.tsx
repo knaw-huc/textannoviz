@@ -3,12 +3,9 @@ import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody } from "
 import { appContext } from "../state/context"
 import {AnnotationItemContent} from "./AnnotationItemContent"
 import mirador from "mirador"
-// import findImageRegions from "../backend/utils/findImageRegions"
+import findImageRegions from "../backend/utils/findImageRegions"
 import styled from "styled-components"
-// import getAttendantName from "../backend/utils/getAttendantInfo"
-// import getResolutionInfo from "../backend/utils/getResolutionInfo"
 // import { fetchJson } from "../backend/utils/fetchJson"
-// import getBodyId from "../backend/utils/getBodyId"
 // import { ACTIONS } from "../state/actions"
 
 type AnnotationSnippetProps = {
@@ -44,27 +41,27 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
         if(!isOpen) {
             //Visualize annotation in Mirador
-            // const region = findImageRegions(props.annotation)
-            // const [x, y, w, h] = region[0].split(",")
-            // const boxToZoom = {
-            //     x: parseInt(x),
-            //     y: parseInt(y),
-            //     width: parseInt(w),
-            //     height: parseInt(h)
-            // }
-            // const zoomCenter = {
-            //     x: boxToZoom.x + boxToZoom.width / 2,
-            //     y: boxToZoom.y + boxToZoom.height / 2
-            // }
-            // state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
-            // state.store.dispatch(mirador.actions.updateViewport("republic", {
-            //     x: zoomCenter.x,
-            //     y: zoomCenter.y,
-            //     zoom: 0.8 / boxToZoom.width
-            // }))
+            const region = findImageRegions(props.annotation)
+            const [x, y, w, h] = region[0].split(",")
+            const boxToZoom = {
+                x: parseInt(x),
+                y: parseInt(y),
+                width: parseInt(w),
+                height: parseInt(h)
+            }
+            const zoomCenter = {
+                x: boxToZoom.x + boxToZoom.width / 2,
+                y: boxToZoom.y + boxToZoom.height / 2
+            }
+            state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
+            state.store.dispatch(mirador.actions.updateViewport("republic", {
+                x: zoomCenter.x,
+                y: zoomCenter.y,
+                zoom: 0.8 / boxToZoom.width
+            }))
 
-            // //Set text to highlight
-            // fetchJson(`https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=${getBodyId(props.annotation)}`)
+            //Set text to highlight
+            // fetchJson(`https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=${props.annotation.body.id}`)
             //     .then(function(textToHighlight) {
             //         if (textToHighlight !== null) {
             //             console.log(textToHighlight)
