@@ -27,18 +27,13 @@ const Button = styled.button`
 
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
-    // const [selectedAnn, setSelectedAnn] = React.useState<ElucidateAnnotation>(undefined)
 
     const nextCanvas = () => {
         state.store.dispatch(mirador.actions.setNextCanvas("republic"))
-        // fetchData()
-        //     .catch(console.error)
     }
 
     const previousCanvas = () => {
         state.store.dispatch(mirador.actions.setPreviousCanvas("republic"))
-        // fetchData()
-        //     .catch(console.error)
     }
 
     const testFunction = () => {

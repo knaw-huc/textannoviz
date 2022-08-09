@@ -112,7 +112,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
                     }
                 })()}
             </Clickable>
-            {isOpen && <AnnotationItemContent ann={props.annotation} />}
+            {isOpen && <AnnotationItemContent annotation={props.annotation} />}
         </AnnSnippet>
     )
 }

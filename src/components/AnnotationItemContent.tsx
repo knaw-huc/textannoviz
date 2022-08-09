@@ -4,7 +4,7 @@ import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, ReviewedBody, Sessio
 import styled from "styled-components"
 
 type AnnotationContentProps = {
-    ann: AnnoRepoAnnotation | undefined
+    annotation: AnnoRepoAnnotation | undefined
 }
 
 const AnnPreview = styled.div`
@@ -12,40 +12,39 @@ const AnnPreview = styled.div`
 `
 
 export function AnnotationItemContent(props: AnnotationContentProps) {
-    const ann = props.ann
     const [showFull, setShowFull] = React.useState(false)
 
     return (
         <>
-            {ann && <div id="annotation-content">
+            {props.annotation && <div id="annotation-content">
                 <ul>
                     {(() => {
-                        switch (props.ann.body.type) {
+                        switch (props.annotation.body.type) {
                         case ("Attendant"):
                             return (
                                 <>
-                                    <li>Attendant ID: <br /><code><a title="Link to RAA" rel="noreferrer" target="_blank" href={`${HOSTS.RAA}/${(props.ann.body as AttendantBody).metadata.delegateId}`}>{(props.ann.body as AttendantBody).metadata.delegateId}</a></code></li>
-                                    <li>Attendant name: <br /><code>{(props.ann.body as AttendantBody).metadata.delegateName}</code></li>
+                                    <li>Attendant ID: <br /><code><a title="Link to RAA" rel="noreferrer" target="_blank" href={`${HOSTS.RAA}/${(props.annotation.body as AttendantBody).metadata.delegateId}`}>{(props.annotation.body as AttendantBody).metadata.delegateId}</a></code></li>
+                                    <li>Attendant name: <br /><code>{(props.annotation.body as AttendantBody).metadata.delegateName}</code></li>
                                 </>
                             )
                         case ("Resolution"):
                             return (
                                 <>
-                                    <li>Proposition type: <br /><code>{(props.ann.body as ResolutionBody).metadata.propositionType}</code></li>
-                                    <li>Resolution type: <br /><code>{(props.ann.body as ResolutionBody).metadata.resolutionType}</code></li>
+                                    <li>Proposition type: <br /><code>{(props.annotation.body as ResolutionBody).metadata.propositionType}</code></li>
+                                    <li>Resolution type: <br /><code>{(props.annotation.body as ResolutionBody).metadata.resolutionType}</code></li>
                                 </>
                             )
                         case ("Session"):
                             return (
                                 <>
-                                    <li>Date: <br /><code>{(props.ann.body as SessionBody).metadata.sessionDate}</code></li>
-                                    <li>Weekday: <br /><code>{(props.ann.body as SessionBody).metadata.sessionWeekday}</code></li>
+                                    <li>Date: <br /><code>{(props.annotation.body as SessionBody).metadata.sessionDate}</code></li>
+                                    <li>Weekday: <br /><code>{(props.annotation.body as SessionBody).metadata.sessionWeekday}</code></li>
                                 </>
                             )
                         case ("Reviewed"):
                             return (
                                 <>
-                                    <li>Text: <br /><code>{(props.ann.body as ReviewedBody).text}</code></li>
+                                    <li>Text: <br /><code>{(props.annotation.body as ReviewedBody).text}</code></li>
                                 </>
                             )
                         default:
@@ -60,7 +59,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                         <br />
                         <AnnPreview id="annotation-preview">
                             {showFull && <pre>
-                                {JSON.stringify(ann, null, 2)}
+                                {JSON.stringify(props.annotation, null, 2)}
                             </pre>}
                         </AnnPreview>
                     </li>

@@ -10,7 +10,7 @@ import { fetchJson } from "../backend/utils/fetchJson"
 
 export interface AppState {
     store: any
-    MirAnn: any
+    MirAnn: iiifAnn
     anno: AnnoRepoAnnotation[]
     text: string[]
     selectedAnn: AnnoRepoAnnotation | undefined
@@ -25,7 +25,7 @@ interface SetStore {
 
 interface SetMirAnn {
     type: ACTIONS.SET_MIRANN,
-    MirAnn: any
+    MirAnn: iiifAnn
 }
 
 interface SetAnno {
@@ -73,7 +73,7 @@ function setMiradorConfig(broccoli: BroccoliV1) {
 function visualizeAnnosMirador(broccoli: BroccoliV1, viewer: any): iiifAnn {
     const currentState = viewer.store.getState()
     const iiifAnn: iiifAnn = {
-        "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
+        "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0285.jpg",
         "@context": "http://iiif.io/api/presentation/2/context.json",
         "@type": "sc:AnnotationList",
         "resources": []
@@ -95,6 +95,12 @@ function visualizeAnnosMirador(broccoli: BroccoliV1, viewer: any): iiifAnn {
             break
         case "Attendant":
             colour = "#DB4437"
+            break
+        case "Reviewed":
+            colour = "blue"
+            break
+        case "AttendanceList":
+            colour = "yellow"
             break
         default:
             colour = "white"
@@ -156,7 +162,6 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                 setMiradorConfig(broccoli)
                 const viewer = mirador.viewer(miradorConfig, [...annotationPlugins])
                 const iiifAnns = visualizeAnnosMirador(broccoli, viewer)
-                console.log(viewer)
                 dispatch({
                     type: ACTIONS.SET_STORE,
                     store: viewer.store
