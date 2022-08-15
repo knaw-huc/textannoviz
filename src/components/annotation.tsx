@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"
 import { ACTIONS } from "../state/actions"
 import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
 import { BroccoliV1 } from "../model/Broccoli"
-//import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
+import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;
@@ -36,7 +36,7 @@ export function Annotation() {
         fetchBroccoli(state.currentContext + 1)
             .then(function (broccoli: BroccoliV1) {
                 console.log(broccoli)
-                //const iiifAnns = visualizeAnnosMirador(broccoli, viewer)
+                const iiifAnns = visualizeAnnosMirador(broccoli, state.store)
 
                 dispatch({
                     type: ACTIONS.SET_CURRENTCONTEXT,
@@ -53,10 +53,10 @@ export function Annotation() {
                     text: broccoli.text
                 })
 
-                // dispatch({
-                //     type: ACTIONS.SET_MIRANN,
-                //     MirAnn: iiifAnns
-                // })
+                dispatch({
+                    type: ACTIONS.SET_MIRANN,
+                    MirAnn: iiifAnns
+                })
             })
             .catch(console.error)
     }
@@ -66,7 +66,7 @@ export function Annotation() {
         fetchBroccoli(state.currentContext - 1)
             .then(function (broccoli: BroccoliV1) {
                 console.log(broccoli)
-                // const iiifAnns = visualizeAnnosMirador(broccoli)
+                const iiifAnns = visualizeAnnosMirador(broccoli, state.store)
 
                 dispatch({
                     type: ACTIONS.SET_CURRENTCONTEXT,
@@ -83,10 +83,10 @@ export function Annotation() {
                     text: broccoli.text
                 })
 
-                // dispatch({
-                //     type: ACTIONS.SET_MIRANN,
-                //     MirAnn: iiifAnns
-                // })
+                dispatch({
+                    type: ACTIONS.SET_MIRANN,
+                    MirAnn: iiifAnns
+                })
             })
             .catch(console.error)
     }

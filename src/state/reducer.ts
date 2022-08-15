@@ -7,7 +7,7 @@ import annotationPlugins from "mirador-annotations/es"
 // import { findImageRegions } from "../backend/utils/findImageRegions"
 import { miradorConfig } from "../components/MiradorConfig"
 import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
-//import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador" 
+import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador" 
 
 export interface AppState {
     store: any
@@ -92,7 +92,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                     store: viewer.store
                 })
 
-                // const iiifAnns = visualizeAnnosMirador(broccoli, state.store)
+                const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store)
 
                 dispatch({
                     type: ACTIONS.SET_CURRENTCONTEXT,
@@ -109,10 +109,10 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                     text: broccoli.text
                 })
 
-                // dispatch({
-                //     type: ACTIONS.SET_MIRANN,
-                //     MirAnn: iiifAnns
-                // })
+                dispatch({
+                    type: ACTIONS.SET_MIRANN,
+                    MirAnn: iiifAnns
+                })
             })
             .catch(console.error)
     }, [])
