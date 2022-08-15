@@ -7,6 +7,9 @@ import styled from "styled-components"
 import { Loading } from "../backend/utils/Loader"
 import { Link } from "react-router-dom"
 import { ACTIONS } from "../state/actions"
+import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
+import { BroccoliV1 } from "../model/Broccoli"
+//import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;
@@ -30,10 +33,62 @@ export function Annotation() {
 
     const nextCanvas = () => {
         state.store.dispatch(mirador.actions.setNextCanvas("republic"))
+        fetchBroccoli(state.currentContext + 1)
+            .then(function (broccoli: BroccoliV1) {
+                console.log(broccoli)
+                //const iiifAnns = visualizeAnnosMirador(broccoli, viewer)
+
+                dispatch({
+                    type: ACTIONS.SET_CURRENTCONTEXT,
+                    currentContext: broccoli.request.opening
+                })
+                
+                dispatch({
+                    type: ACTIONS.SET_ANNO,
+                    anno: broccoli.anno
+                })
+
+                dispatch({
+                    type: ACTIONS.SET_TEXT,
+                    text: broccoli.text
+                })
+
+                // dispatch({
+                //     type: ACTIONS.SET_MIRANN,
+                //     MirAnn: iiifAnns
+                // })
+            })
+            .catch(console.error)
     }
 
     const previousCanvas = () => {
         state.store.dispatch(mirador.actions.setPreviousCanvas("republic"))
+        fetchBroccoli(state.currentContext - 1)
+            .then(function (broccoli: BroccoliV1) {
+                console.log(broccoli)
+                // const iiifAnns = visualizeAnnosMirador(broccoli)
+
+                dispatch({
+                    type: ACTIONS.SET_CURRENTCONTEXT,
+                    currentContext: broccoli.request.opening
+                })
+
+                dispatch({
+                    type: ACTIONS.SET_ANNO,
+                    anno: broccoli.anno
+                })
+
+                dispatch({
+                    type: ACTIONS.SET_TEXT,
+                    text: broccoli.text
+                })
+
+                // dispatch({
+                //     type: ACTIONS.SET_MIRANN,
+                //     MirAnn: iiifAnns
+                // })
+            })
+            .catch(console.error)
     }
 
     const testFunction = () => {

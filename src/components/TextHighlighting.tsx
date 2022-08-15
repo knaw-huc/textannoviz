@@ -10,7 +10,7 @@ export function TextHighlighting() {
         return result
     }
     
-    const textToMark: any = state.text
+    const textToMark = state.text
 
     React.useEffect(() => {
         console.log("if statement is true")

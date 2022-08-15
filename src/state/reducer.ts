@@ -1,12 +1,13 @@
 import React, { useReducer } from "react"
 import { ACTIONS } from "./actions"
-import { AnnoRepoAnnotation, iiifAnn, iiifAnnResources } from "../model/AnnoRepoAnnotation"
+import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
 import { BroccoliV1 } from "../model/Broccoli"
 import mirador from "mirador"
 import annotationPlugins from "mirador-annotations/es"
-import findImageRegions from "../backend/utils/findImageRegions"
+// import { findImageRegions } from "../backend/utils/findImageRegions"
 import { miradorConfig } from "../components/MiradorConfig"
-import { fetchJson } from "../backend/utils/fetchJson"
+import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
+//import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador" 
 
 export interface AppState {
     store: any
@@ -15,7 +16,8 @@ export interface AppState {
     text: string[]
     selectedAnn: AnnoRepoAnnotation | undefined
     textToHighlight: any
-    annItemOpen: boolean
+    annItemOpen: boolean,
+    currentContext: number
 }
 
 interface SetStore {
@@ -53,7 +55,12 @@ interface SetAnnItemOpen {
     annItemOpen: boolean
 }
 
-export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen
+interface SetCurrentContext {
+    type: ACTIONS.SET_CURRENTCONTEXT,
+    currentContext: number
+}
+
+export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen | SetCurrentContext
 
 export const initAppState: AppState = {
     store: null,
@@ -62,7 +69,8 @@ export const initAppState: AppState = {
     text: null,
     selectedAnn: undefined,
     textToHighlight: null,
-    annItemOpen: false
+    annItemOpen: false,
+    currentContext: null
 }
 
 function setMiradorConfig(broccoli: BroccoliV1) {
@@ -70,101 +78,25 @@ function setMiradorConfig(broccoli: BroccoliV1) {
     miradorConfig.windows[0].canvasId = broccoli.iiif.canvasId
 }
 
-function visualizeAnnosMirador(broccoli: BroccoliV1, viewer: any): iiifAnn {
-    const currentState = viewer.store.getState()
-    const iiifAnn: iiifAnn = {
-        "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0285.jpg",
-        "@context": "http://iiif.io/api/presentation/2/context.json",
-        "@type": "sc:AnnotationList",
-        "resources": []
-    }
-
-    const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
-        const region = findImageRegions(item)
-        return region
-    })
-
-    const resources = regions.flatMap((region: string, i: number) => {
-        const [x, y, w, h] = region.split(",")
-        // console.log(split)
-        let colour
-
-        switch (broccoli.anno[i].body.type) {
-        case "Resolution":
-            colour = "green"
-            break
-        case "Attendant":
-            colour = "#DB4437"
-            break
-        case "Reviewed":
-            colour = "blue"
-            break
-        case "AttendanceList":
-            colour = "yellow"
-            break
-        default:
-            colour = "white"
-        }
-
-        const resources: iiifAnnResources[] = [{
-            "@id": `${broccoli.anno[i].id}`,
-            "@type": "oa:Annotation",
-            "motivation": [
-                "oa:commenting", "oa:Tagging"
-            ],
-            "on": [{
-                "@type": "oa:SpecificResource",
-                "full": `${currentState.windows.republic.canvasId}`,
-                "selector": {
-                    "@type": "oa:Choice",
-                    "default": {
-                        "@type": "oa:FragmentSelector",
-                        "value": `xywh=${x},${y},${w},${h}`
-                    },
-                    "item": {
-                        "@type": "oa:SvgSelector",
-                        "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="${colour}" fill-opacity="0.5" stroke-width="1"/></svg>`
-                    }
-                },
-                "within": {
-                    "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
-                    "@type": "sc:Manifest"
-                }
-            }],
-            "resource": [{
-                "@type": "dctypes:Text",
-                "format": "text/html",
-                "chars": `${broccoli.anno[i].body.type}`
-            }, {
-                "@type": "oa:Tag",
-                "format": "text/html",
-                "chars": `${broccoli.anno[i].body.type}`
-            }]
-        }]
-
-        return resources
-    })
-    iiifAnn.resources.push(...resources)
-
-    console.log(viewer.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", iiifAnn)))
-
-    return iiifAnn
-    
-}
-
 export function useAppState(): [AppState, React.Dispatch<AppAction>] {
     const [state, dispatch] = useReducer(reducer, initAppState)
 
     React.useEffect(() => {
-        fetchJson("https://broccoli.tt.di.huc.knaw.nl/republic/v1?opening=285&volume=1728")
+        fetchBroccoli()
             .then(function(broccoli: BroccoliV1) {
                 console.log(broccoli)
                 setMiradorConfig(broccoli)
                 const viewer = mirador.viewer(miradorConfig, [...annotationPlugins])
-                const iiifAnns = visualizeAnnosMirador(broccoli, viewer)
                 dispatch({
                     type: ACTIONS.SET_STORE,
                     store: viewer.store
+                })
+
+                // const iiifAnns = visualizeAnnosMirador(broccoli, state.store)
+
+                dispatch({
+                    type: ACTIONS.SET_CURRENTCONTEXT,
+                    currentContext: broccoli.request.opening
                 })
 
                 dispatch({
@@ -177,10 +109,10 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                     text: broccoli.text
                 })
 
-                dispatch({
-                    type: ACTIONS.SET_MIRANN,
-                    MirAnn: iiifAnns
-                })
+                // dispatch({
+                //     type: ACTIONS.SET_MIRANN,
+                //     MirAnn: iiifAnns
+                // })
             })
             .catch(console.error)
     }, [])
@@ -204,6 +136,8 @@ function reducer(state: AppState, action: AppAction): AppState {
         return setTextToHighlight(state, action)
     case ACTIONS.SET_ANNITEMOPEN:
         return setAnnItemOpen(state, action)
+    case ACTIONS.SET_CURRENTCONTEXT:
+        return setCurrentContext(state, action)
     default:
         return state
     }
@@ -255,5 +189,12 @@ function setAnnItemOpen(state: AppState, action: SetAnnItemOpen) {
     return {
         ...state,
         annItemOpen: action.annItemOpen
+    }
+}
+
+function setCurrentContext(state: AppState, action: SetCurrentContext) {
+    return {
+        ...state,
+        currentContext: action.currentContext
     }
 }

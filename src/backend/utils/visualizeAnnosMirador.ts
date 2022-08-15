@@ -1,0 +1,86 @@
+import { BroccoliV1 } from "../../model/Broccoli"
+import { iiifAnn, iiifAnnResources, AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
+import { findImageRegions } from "./findImageRegions"
+import mirador from "mirador"
+
+export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn => {
+    const currentState = store.getState()
+    const iiifAnn: iiifAnn = {
+        "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0285.jpg",
+        "@context": "http://iiif.io/api/presentation/2/context.json",
+        "@type": "sc:AnnotationList",
+        "resources": []
+    }
+
+    const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
+        const region = findImageRegions(item)
+        return region
+    })
+
+    const resources = regions.flatMap((region: any, i: number) => {
+        const [x, y, w, h] = region.split(",")
+        // console.log(split)
+        let colour
+
+        switch (broccoli.anno[i].body.type) {
+        case "Resolution":
+            colour = "green"
+            break
+        case "Attendant":
+            colour = "#DB4437"
+            break
+        case "Reviewed":
+            colour = "blue"
+            break
+        case "AttendanceList":
+            colour = "yellow"
+            break
+        default:
+            colour = "white"
+        }
+
+        const resources: iiifAnnResources[] = [{
+            "@id": `${broccoli.anno[i].id}`,
+            "@type": "oa:Annotation",
+            "motivation": [
+                "oa:commenting", "oa:Tagging"
+            ],
+            "on": [{
+                "@type": "oa:SpecificResource",
+                "full": `${currentState.windows.republic.canvasId}`,
+                "selector": {
+                    "@type": "oa:Choice",
+                    "default": {
+                        "@type": "oa:FragmentSelector",
+                        "value": `xywh=${x},${y},${w},${h}`
+                    },
+                    "item": {
+                        "@type": "oa:SvgSelector",
+                        "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="${colour}" fill-opacity="0.5" stroke-width="1"/></svg>`
+                    }
+                },
+                "within": {
+                    "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
+                    "@type": "sc:Manifest"
+                }
+            }],
+            "resource": [{
+                "@type": "dctypes:Text",
+                "format": "text/html",
+                "chars": `${broccoli.anno[i].body.type}`
+            }, {
+                "@type": "oa:Tag",
+                "format": "text/html",
+                "chars": `${broccoli.anno[i].body.type}`
+            }]
+        }]
+
+        return resources
+    })
+    iiifAnn.resources.push(...resources)
+
+    console.log(store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", iiifAnn)))
+
+    return iiifAnn
+    
+}
