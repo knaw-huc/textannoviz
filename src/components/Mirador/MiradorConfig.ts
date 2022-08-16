@@ -1,10 +1,4 @@
-import LocalStorageAdapter from "mirador-annotations/es/LocalStorageAdapter"
-
 export const miradorConfig = {
-    annotation: {
-        adapter: (canvasId: never) => new LocalStorageAdapter(`localStorage://?canvasId=${canvasId}`),
-        exportLocalStorageAnnotations: false,
-    },
     id: "mirador",
     window: {
         allowFullscreen: false,

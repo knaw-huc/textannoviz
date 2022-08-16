@@ -3,7 +3,6 @@ import { ACTIONS } from "./actions"
 import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
 import { BroccoliV1 } from "../model/Broccoli"
 import mirador from "mirador"
-import annotationPlugins from "mirador-annotations/es"
 // import { findImageRegions } from "../backend/utils/findImageRegions"
 import { miradorConfig } from "../components/Mirador/MiradorConfig"
 import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
@@ -86,7 +85,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
             .then(function(broccoli: BroccoliV1) {
                 console.log(broccoli)
                 setMiradorConfig(broccoli)
-                const viewer = mirador.viewer(miradorConfig, [...annotationPlugins])
+                const viewer = mirador.viewer(miradorConfig)
                 dispatch({
                     type: ACTIONS.SET_STORE,
                     store: viewer.store
