@@ -1,6 +1,6 @@
 import React from "react"
 import { HOSTS } from "../../Config"
-import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
+import { AnnoRepoAnnotation, AttendanceListBody, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
 import styled from "styled-components"
 
 type AnnotationContentProps = {
@@ -43,9 +43,15 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                             )
                         case ("Reviewed"):
                             return (
-                                <>
-                                    <li>Text: <br /><code>{(props.annotation.body as ReviewedBody).text}</code></li>
-                                </>
+                                <li>Text: <br /><code>{(props.annotation.body as ReviewedBody).text}</code></li>
+                            )
+                        case ("AttendanceList"):
+                            return (
+                                (props.annotation.body as AttendanceListBody).attendanceSpans.map((attendant, i) => {
+                                    return (
+                                        attendant.delegateName != "" ? <li key={i}>Attendant: <code>{attendant.delegateName}</code></li> : null
+                                    )
+                                })
                             )
                         default:
                             return
