@@ -1,15 +1,15 @@
 import React, { useContext } from "react"
-import { appContext } from "../state/context"
+import { appContext } from "../../state/context"
 import mirador from "mirador"
-import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation"
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
 import { AnnotationItem } from "./AnnotationItem"
 import styled from "styled-components"
-import { Loading } from "../backend/utils/Loader"
+import { Loading } from "../../backend/utils/Loader"
 import { Link } from "react-router-dom"
-import { ACTIONS } from "../state/actions"
-import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
-import { BroccoliV1 } from "../model/Broccoli"
-import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
+import { ACTIONS } from "../../state/actions"
+import { fetchBroccoli } from "../../backend/utils/fetchBroccoli"
+import { BroccoliV1 } from "../../model/Broccoli"
+import { visualizeAnnosMirador } from "../../backend/utils/visualizeAnnosMirador"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;

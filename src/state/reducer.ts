@@ -5,7 +5,7 @@ import { BroccoliV1 } from "../model/Broccoli"
 import mirador from "mirador"
 import annotationPlugins from "mirador-annotations/es"
 // import { findImageRegions } from "../backend/utils/findImageRegions"
-import { miradorConfig } from "../components/MiradorConfig"
+import { miradorConfig } from "../components/Mirador/MiradorConfig"
 import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
 import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador" 
 

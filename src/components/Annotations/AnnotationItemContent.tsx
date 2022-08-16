@@ -1,6 +1,6 @@
 import React from "react"
-import { HOSTS } from "../Config"
-import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../model/AnnoRepoAnnotation"
+import { HOSTS } from "../../Config"
+import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
 import styled from "styled-components"
 
 type AnnotationContentProps = {

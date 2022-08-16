@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { appContext } from "../state/context"
+import { appContext } from "../../state/context"
 
 export function TextHighlighting() {
     const { state } = useContext(appContext)
