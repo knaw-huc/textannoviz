@@ -19,7 +19,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
 
     const resources = regions.flatMap((region: any, i: number) => {
         const [x, y, w, h] = region.split(",")
-        // console.log(split)
+        //console.log(split)
         let colour
 
         switch (broccoli.anno[i].body.type) {

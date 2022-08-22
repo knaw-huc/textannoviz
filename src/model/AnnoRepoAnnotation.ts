@@ -158,7 +158,7 @@ export type iiifAnnResources = {
                 "@type": string,
                 "value": string
             },
-            "item": {
+            "item"?: {
                 "@type": string,
                 "value": string
             }
