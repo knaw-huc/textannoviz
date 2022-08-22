@@ -113,7 +113,7 @@ export function Annotation() {
                     ],
                     "on": [{
                         "@type": "oa:SpecificResource",
-                        "full": "https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/75718d0a-5441-41fe-94c1-db773e0848e7",
+                        "full": "https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/fc860230-1fdc-432f-a8fa-2fff56f25f57",
                         "selector": {
                             "@type": "oa:Choice",
                             "default": {
@@ -122,7 +122,7 @@ export function Annotation() {
                             },
                             "item": {
                                 "@type": "oa:SvgSelector",
-                                "value": "<svg height=\"1590\" width=\"2153\"><path d=\"M1272 1563 L1292 1543 L1330 1547 L1352 1539 L1369 1539 L1380 1550 L1526 1540 L1539 1551 L1555 1552 L1587 1537 L1663 1537 L1672 1544 L1751 1536 L1951 1542 L1963 1530 L2086 1530 L2097 1541 L2141 1542 L2153 1552 L2153 1582 L2148 1576 L1957 1578 L1942 1586 L1934 1578 L1795 1577 L1783 1589 L1764 1590 L1752 1578 L1609 1579 L1592 1586 L1586 1580 L1282 1584 L1272 1575 Z\" fill='black'/></svg>"
+                                "value": "<svg height=\"2720\" width=\"2189\"><path d=\"M1275 428 L2189 428 L2189 2720 L1275 2720 Z\"/></svg>"
                             }
                         },
                         "within": {
