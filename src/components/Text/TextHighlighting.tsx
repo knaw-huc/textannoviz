@@ -3,7 +3,7 @@ import { appContext } from "../../state/context"
 
 export function TextHighlighting() {
     const { state } = useContext(appContext)
-    const [textToMark, setTextToMark] = React.useState(null)
+    const [textToMark, setTextToMark] = React.useState(state.text)
     console.log("text component begins")
 
     React.useEffect(() => {
