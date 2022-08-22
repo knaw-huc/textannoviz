@@ -17,10 +17,9 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
         return region
     })
 
-    const resources = regions.flatMap((region: any, i: number) => {
+    const resources = regions.flatMap((region: string, i: number) => {
         const [x, y, w, h] = region.split(",")
-        //console.log(split)
-        let colour
+        let colour: string
 
         switch (broccoli.anno[i].body.type) {
         case "Resolution":
@@ -39,7 +38,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
             colour = "white"
         }
 
-        const resources: iiifAnnResources[] = [{
+        const iiifAnnResources: iiifAnnResources[] = [{
             "@id": `${broccoli.anno[i].id}`,
             "@type": "oa:Annotation",
             "motivation": [
@@ -75,7 +74,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
             }]
         }]
 
-        return resources
+        return iiifAnnResources
     })
     iiifAnn.resources.push(...resources)
 

@@ -169,7 +169,7 @@ export type iiifAnnResources = {
         }
     }],
     "resource": iiifAnnResource[]
-} | undefined[]
+} | undefined
 
 export type iiifAnn = {
     "@context": string,

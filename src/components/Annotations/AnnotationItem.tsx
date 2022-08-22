@@ -88,17 +88,17 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
      * TODO: check performance of both functions
      */
 
-    function selectAnn() {
-        state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
-    }
+    // function selectAnn() {
+    //     state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
+    // }
 
-    function deselectAnn() {
-        state.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
-    }
+    // function deselectAnn() {
+    //     state.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
+    // }
 
     return (
         <AnnSnippet id="annotation-snippet">
-            <Clickable onMouseOver={selectAnn} onMouseLeave={deselectAnn} onClick={toggleOpen} id="clickable">
+            <Clickable onClick={toggleOpen} id="clickable">
                 {(() => {
                     switch(props.annotation.body.type) {
                     case("Attendant"):
