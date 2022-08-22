@@ -5,8 +5,8 @@ import {AnnotationItemContent} from "./AnnotationItemContent"
 import mirador from "mirador"
 import { findImageRegions } from "../../backend/utils/findImageRegions"
 import styled from "styled-components"
-// import { fetchJson } from "../backend/utils/fetchJson"
-// import { ACTIONS } from "../state/actions"
+import { fetchJson } from "../../backend/utils/fetchJson"
+import { ACTIONS } from "../../state/actions"
 
 type AnnotationSnippetProps = {
     annot_id: React.Key,
@@ -34,14 +34,14 @@ const Clickable = styled.div`
 
 export function AnnotationItem(props: AnnotationSnippetProps) {
     const [isOpen, setOpen] = React.useState(false)
-    const { state } = React.useContext(appContext)
+    const { state, dispatch } = React.useContext(appContext)
 
     function toggleOpen() {
         setOpen(!isOpen)
         props.onSelect(props.annotation)
 
         if(!isOpen) {
-            //Visualize annotation in Mirador
+            //Zoom in on annotation in Mirador
             const region = findImageRegions(props.annotation)
             const [x, y, w, h] = region[0].split(",")
             const boxToZoom = {
@@ -62,20 +62,24 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
             }))
 
             //Set text to highlight
-            // fetchJson(`https://broccoli.tt.di.huc.knaw.nl/republic/v0?opening=285&volume=1728&bodyId=${props.annotation.body.id}`)
-            //     .then(function(textToHighlight) {
-            //         if (textToHighlight !== null) {
-            //             console.log(textToHighlight)
-            //             dispatch({
-            //                 type: ACTIONS.SET_TEXTTOHIGHLIGHT,
-            //                 textToHighlight: textToHighlight
-            //             })
-            //             console.log("text to highlight dispatch done")
-            //         } else {
-            //             return
-            //         }
-            //     })
-            //     .catch(console.error)
+            fetchJson(`https://broccoli.tt.di.huc.knaw.nl/republic/v1?opening=285&volume=1728&bodyId=${props.annotation.body.id}`)
+                .then(function(textToHighlight) {
+                    if (textToHighlight !== null) {
+                        console.log(textToHighlight)
+                        dispatch({
+                            type: ACTIONS.SET_TEXTTOHIGHLIGHT,
+                            textToHighlight: textToHighlight
+                        })
+                        console.log("text to highlight dispatch done")
+                        dispatch({
+                            type: ACTIONS.SET_ANNITEMOPEN,
+                            annItemOpen: true
+                        })
+                    } else {
+                        return
+                    }
+                })
+                .catch(console.error)
 
         } else {
             props.onSelect(undefined)
