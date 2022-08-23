@@ -139,7 +139,7 @@ export type TextTarget = {
     type: "Text"
 }
 
-export type Target = TextAnchorTarget | ImageTarget | TextTarget
+export type Target = TextAnchorTarget | ImageTarget | TextTarget | SvgSelectorTarget
 
 export type AnnoRepoAnnotation = {
     id: string,
