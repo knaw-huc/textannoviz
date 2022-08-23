@@ -3,6 +3,7 @@ import { iiifAnn, iiifAnnResources, AnnoRepoAnnotation } from "../../model/AnnoR
 import { findImageRegions } from "./findImageRegions"
 import mirador from "mirador"
 import { findSvgSelector } from "../utils/findSvgSelector"
+import { svgStyler } from "../utils/svgStyler"
 
 export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn => {
     const currentState = store.getState()
@@ -20,24 +21,24 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
 
     const resources = regions.flatMap((region: string, i: number) => {
         const [x, y, w, h] = region.split(",")
-        // let colour: string
+        let colour: string
 
-        // switch (broccoli.anno[i].body.type) {
-        // case "Resolution":
-        //     colour = "green"
-        //     break
-        // case "Attendant":
-        //     colour = "#DB4437"
-        //     break
-        // case "Reviewed":
-        //     colour = "blue"
-        //     break
-        // case "AttendanceList":
-        //     colour = "yellow"
-        //     break
-        // default:
-        //     colour = "white"
-        // }
+        switch (broccoli.anno[i].body.type) {
+        case "Resolution":
+            colour = "green"
+            break
+        case "Attendant":
+            colour = "#DB4437"
+            break
+        case "Reviewed":
+            colour = "blue"
+            break
+        case "AttendanceList":
+            colour = "yellow"
+            break
+        default:
+            colour = "white"
+        }
 
         const iiifAnnResources: iiifAnnResources[] = [{
             "@id": `${broccoli.anno[i].id}`,
@@ -57,7 +58,8 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
                     "item": {
                         "@type": "oa:SvgSelector",
                         // "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="${colour}" fill-opacity="0.5" stroke-width="1"/></svg>`
-                        "value": findSvgSelector(broccoli.anno[i])
+                        // "value": findSvgSelector(broccoli.anno[i])
+                        "value": svgStyler(findSvgSelector(broccoli.anno[i]), colour)
                     }
                 },
                 "within": {
