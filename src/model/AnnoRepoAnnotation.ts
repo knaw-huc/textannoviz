@@ -113,6 +113,15 @@ export type ImageTarget = {
     source: string,
 }
 
+export type SvgSelectorTarget = {
+    source: string,
+    type: "Image",
+    selector: {
+        type: "SvgSelector",
+        value: string
+    }
+}
+
 export type TextAnchorTarget = {
     source: string,
     type: "Text",

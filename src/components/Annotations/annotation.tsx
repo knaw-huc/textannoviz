@@ -113,7 +113,7 @@ export function Annotation() {
                     ],
                     "on": [{
                         "@type": "oa:SpecificResource",
-                        "full": "https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/fc860230-1fdc-432f-a8fa-2fff56f25f57",
+                        "full": "https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/75718d0a-5441-41fe-94c1-db773e0848e7",
                         "selector": {
                             "@type": "oa:Choice",
                             "default": {
@@ -122,7 +122,8 @@ export function Annotation() {
                             },
                             "item": {
                                 "@type": "oa:SvgSelector",
-                                "value": "<svg height=\"2720\" width=\"2189\"><path d=\"M1275 428 L2189 428 L2189 2720 L1275 2720 Z\"/></svg>"
+                                "value": "<svg height=\"3304\" width=\"1232\"><path d=\"M355 3140 L1232 3140 L1232 3304 L355 3304 Z M1253 428 L2155 428 L2155 1364 L1253 1364 Z\"/></svg>"
+                                // "value": "<svg height=\"3304\" width=\"1232\"><path d=\"M355 3140 L1232 3140 L1232 3304 L355 3304 Z\"/><path d=\"M1253 428 L2155 428 L2155 1364 L1253 1364 Z\"/></svg>"
                             }
                         },
                         "within": {
