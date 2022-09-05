@@ -4,7 +4,7 @@ import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
 import { BroccoliV1 } from "../model/Broccoli"
 import mirador from "mirador"
 import { miradorConfig } from "../components/Mirador/MiradorConfig"
-import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
+import { fetchBroccoliOpening } from "../backend/utils/fetchBroccoli"
 import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
 import { useParams } from "react-router-dom"
 
@@ -93,7 +93,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
     console.log(parseInt(params.context))
 
     React.useEffect(() => {
-        fetchBroccoli(params.volume, params.context)
+        fetchBroccoliOpening(params.volume, params.context)
             .then(function(broccoli: BroccoliV1) {
                 console.log(broccoli)
                 setMiradorConfig(broccoli)
