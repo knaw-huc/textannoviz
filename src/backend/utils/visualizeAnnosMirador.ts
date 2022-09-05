@@ -59,7 +59,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
                         "@type": "oa:SvgSelector",
                         // "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="${colour}" fill-opacity="0.5" stroke-width="1"/></svg>`
                         // "value": findSvgSelector(broccoli.anno[i])
-                        "value": svgStyler(findSvgSelector(broccoli.anno[i]), colour)
+                        "value": svgStyler(findSvgSelector(broccoli.anno[i], broccoli.request.opening), colour)
                     }
                 },
                 "within": {

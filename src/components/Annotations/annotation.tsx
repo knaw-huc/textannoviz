@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { appContext } from "../../state/context"
 import mirador from "mirador"
-import { AnnoRepoAnnotation, iiifAnn, iiifAnnResources } from "../../model/AnnoRepoAnnotation"
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
 import { AnnotationItem } from "./AnnotationItem"
 import styled from "styled-components"
 import { Loading } from "../../backend/utils/Loader"
@@ -94,58 +94,6 @@ export function Annotation() {
     }
 
     const testFunction = () => {
-        fetchBroccoli()
-            .then(function (broccoli: BroccoliV1) {
-                console.log(broccoli)
-                const currentState = state.store.getState()
-                const iiifAnn: iiifAnn = {
-                    "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0285.jpg",
-                    "@context": "http://iiif.io/api/presentation/2/context.json",
-                    "@type": "sc:AnnotationList",
-                    "resources": []
-                }
-
-                const resources: iiifAnnResources[] = [{
-                    "@id": "https://annorepo.republic-caf.diginfra.org/w3c/volume-1728-3/26c4b477-b228-40a0-974a-6ce5bf61a79c",
-                    "@type": "oa:Annotation",
-                    "motivation": [
-                        "oa:commenting", "oa:Tagging"
-                    ],
-                    "on": [{
-                        "@type": "oa:SpecificResource",
-                        "full": "https://images.diginfra.net/api/pim/iiif/67533019-4ca0-4b08-b87e-fd5590e7a077/canvas/75718d0a-5441-41fe-94c1-db773e0848e7",
-                        "selector": {
-                            "@type": "oa:Choice",
-                            "default": {
-                                "@type": "oa:FragmentSelector",
-                                "value": "xywh=3382,1559,905,1768"
-                            },
-                            "item": {
-                                "@type": "oa:SvgSelector",
-                                "value": "<svg height=\"3304\" width=\"1232\"><path d=\"M355 3140 L1232 3140 L1232 3304 L355 3304 Z M1253 428 L2155 428 L2155 1364 L1253 1364 Z\"/></svg>"
-                                // "value": "<svg height=\"3304\" width=\"1232\"><path d=\"M355 3140 L1232 3140 L1232 3304 L355 3304 Z\"/><path d=\"M1253 428 L2155 428 L2155 1364 L1253 1364 Z\"/></svg>"
-                            }
-                        },
-                        "within": {
-                            "@id": "https://images.diginfra.net/api/pim/imageset/67533019-4ca0-4b08-b87e-fd5590e7a077/manifest",
-                            "@type": "sc:Manifest"
-                        }
-                    }],
-                    "resource": [{
-                        "@type": "dctypes:Text",
-                        "format": "text/html",
-                        "chars": "test"
-                    }, {
-                        "@type": "oa:Tag",
-                        "format": "text/html",
-                        "chars": "test2"
-                    }]
-                }]
-
-                iiifAnn.resources.push(...resources)
-        
-                console.log(state.store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", iiifAnn)))
-            })
         console.log(state.store.getState())
     }
 
