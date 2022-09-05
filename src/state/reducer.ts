@@ -5,7 +5,8 @@ import { BroccoliV1 } from "../model/Broccoli"
 import mirador from "mirador"
 import { miradorConfig } from "../components/Mirador/MiradorConfig"
 import { fetchBroccoli } from "../backend/utils/fetchBroccoli"
-import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador" 
+import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
+import { useParams } from "react-router-dom"
 
 export interface AppState {
     store: any
@@ -15,7 +16,10 @@ export interface AppState {
     selectedAnn: AnnoRepoAnnotation | undefined
     textToHighlight: any
     annItemOpen: boolean,
-    currentContext: number
+    currentContext: {
+        volume: number,
+        context: number
+    }
 }
 
 interface SetStore {
@@ -55,7 +59,10 @@ interface SetAnnItemOpen {
 
 interface SetCurrentContext {
     type: ACTIONS.SET_CURRENTCONTEXT,
-    currentContext: number
+    currentContext: {
+        volume: number,
+        context: number
+    }
 }
 
 export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen | SetCurrentContext
@@ -68,7 +75,10 @@ export const initAppState: AppState = {
     selectedAnn: undefined,
     textToHighlight: null,
     annItemOpen: false,
-    currentContext: null
+    currentContext: {
+        volume: null,
+        context: null
+    }
 }
 
 function setMiradorConfig(broccoli: BroccoliV1) {
@@ -78,9 +88,12 @@ function setMiradorConfig(broccoli: BroccoliV1) {
 
 export function useAppState(): [AppState, React.Dispatch<AppAction>] {
     const [state, dispatch] = useReducer(reducer, initAppState)
+    const params = useParams()
+    console.log(parseInt(params.volume))
+    console.log(parseInt(params.context))
 
     React.useEffect(() => {
-        fetchBroccoli()
+        fetchBroccoli(params.volume, params.context)
             .then(function(broccoli: BroccoliV1) {
                 console.log(broccoli)
                 setMiradorConfig(broccoli)
@@ -94,7 +107,10 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
 
                 dispatch({
                     type: ACTIONS.SET_CURRENTCONTEXT,
-                    currentContext: broccoli.request.opening
+                    currentContext: {
+                        volume: parseInt(broccoli.request.volume),
+                        context: broccoli.request.opening
+                    }
                 })
 
                 dispatch({
@@ -113,7 +129,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                 })
             })
             .catch(console.error)
-    }, [])
+    }, [params])
     return [state, dispatch]
 }
 

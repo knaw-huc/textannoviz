@@ -8,7 +8,7 @@ export default function AppRouter() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="detail" element={<App />} />
+                <Route path="detail/:volume/:context" element={<App />} />
                 <Route path="*" element={<p>There is nothing here!</p>} />
             </Routes>
         </BrowserRouter>

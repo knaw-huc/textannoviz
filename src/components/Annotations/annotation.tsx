@@ -7,9 +7,7 @@ import styled from "styled-components"
 import { Loading } from "../../backend/utils/Loader"
 import { Link } from "react-router-dom"
 import { ACTIONS } from "../../state/actions"
-import { fetchBroccoli } from "../../backend/utils/fetchBroccoli"
-import { BroccoliV1 } from "../../model/Broccoli"
-import { visualizeAnnosMirador } from "../../backend/utils/visualizeAnnosMirador"
+import { useNavigate } from "react-router-dom"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;
@@ -30,66 +28,25 @@ const Button = styled.button`
 
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
+    const navigate = useNavigate()
 
     const nextCanvas = () => {
         state.store.dispatch(mirador.actions.setNextCanvas("republic"))
-        fetchBroccoli(state.currentContext + 1)
-            .then(function (broccoli: BroccoliV1) {
-                console.log(broccoli)
-                const iiifAnns = visualizeAnnosMirador(broccoli, state.store)
+        const nextCanvas = state.currentContext.context + 1
+        const volume = state.currentContext.volume
 
-                dispatch({
-                    type: ACTIONS.SET_CURRENTCONTEXT,
-                    currentContext: broccoli.request.opening
-                })
-                
-                dispatch({
-                    type: ACTIONS.SET_ANNO,
-                    anno: broccoli.anno
-                })
+        navigate(`/detail/${volume}/${nextCanvas.toString()}`)
 
-                dispatch({
-                    type: ACTIONS.SET_TEXT,
-                    text: broccoli.text
-                })
-
-                dispatch({
-                    type: ACTIONS.SET_MIRANN,
-                    MirAnn: iiifAnns
-                })
-            })
-            .catch(console.error)
         console.log(state.store.getState())
     }
 
     const previousCanvas = () => {
         state.store.dispatch(mirador.actions.setPreviousCanvas("republic"))
-        fetchBroccoli(state.currentContext - 1)
-            .then(function (broccoli: BroccoliV1) {
-                console.log(broccoli)
-                const iiifAnns = visualizeAnnosMirador(broccoli, state.store)
+        const prevCanvas = state.currentContext.context - 1
+        const volume = state.currentContext.volume
 
-                dispatch({
-                    type: ACTIONS.SET_CURRENTCONTEXT,
-                    currentContext: broccoli.request.opening
-                })
+        navigate(`/detail/${volume}/${prevCanvas.toString()}`)
 
-                dispatch({
-                    type: ACTIONS.SET_ANNO,
-                    anno: broccoli.anno
-                })
-
-                dispatch({
-                    type: ACTIONS.SET_TEXT,
-                    text: broccoli.text
-                })
-
-                dispatch({
-                    type: ACTIONS.SET_MIRANN,
-                    MirAnn: iiifAnns
-                })
-            })
-            .catch(console.error)
         console.log(state.store.getState())
     }
 
