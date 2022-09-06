@@ -89,8 +89,6 @@ function setMiradorConfig(broccoli: BroccoliV1) {
 export function useAppState(): [AppState, React.Dispatch<AppAction>] {
     const [state, dispatch] = useReducer(reducer, initAppState)
     const params = useParams()
-    console.log(parseInt(params.volume))
-    console.log(parseInt(params.context))
 
     React.useEffect(() => {
         fetchBroccoliOpening(params.volume, params.context)
