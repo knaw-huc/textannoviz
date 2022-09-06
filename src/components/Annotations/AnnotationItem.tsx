@@ -42,7 +42,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
         if(!isOpen) {
             //Zoom in on annotation in Mirador
-            const region = findImageRegions(props.annotation)
+            const region = findImageRegions(props.annotation, state.currentContext.context.toString())
             const [x, y, w, h] = region[0].split(",")
             const boxToZoom = {
                 x: parseInt(x),

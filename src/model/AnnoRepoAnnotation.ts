@@ -105,13 +105,22 @@ export type Body = AnnoRepoBody | SessionBody | ResolutionBody | ReviewedBody | 
 
 export type ImageTarget = {
     type: "Image",
-    selector: {
-        type: string,
-        conformsTo: string,
-        value: string,
-    } | undefined,
+    selector: ImageSelector[] | undefined,
     source: string,
 }
+
+export type FragmentSelector = {
+    type: "FragmentSelector",
+    conformsTo: string,
+    value: string
+}
+
+export type SvgSelector = {
+    type: "SvgSelector",
+    value: string
+}
+
+export type ImageSelector = FragmentSelector | SvgSelector
 
 export type SvgSelectorTarget = {
     source: string,

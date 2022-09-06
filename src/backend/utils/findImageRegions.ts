@@ -5,8 +5,11 @@ function getImageRegions(value: string) {
     return result
 }
 
-export function findImageRegions(annotation: AnnoRepoAnnotation) {
-    const imageCoords = (annotation.target as ImageTarget[])[0].selector.value
+export function findImageRegions(annotation: AnnoRepoAnnotation, context: string) {
+    const imageCoords = (annotation.target as ImageTarget[])
+        .filter(t => t.source.includes(context))
+        .flatMap(t => t.selector && t.selector.filter(t => t.type === "FragmentSelector"))
+        .filter(t => t !== undefined)
 
-    return getImageRegions(imageCoords)
+    return getImageRegions(imageCoords[0].value)
 }

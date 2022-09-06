@@ -15,7 +15,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
     }
 
     const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
-        const region = findImageRegions(item)
+        const region = findImageRegions(item, broccoli.request.opening.toString())
         return region
     })
 
