@@ -1,10 +1,10 @@
 import React, { useReducer } from "react"
 import { ACTIONS } from "./actions"
 import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
-import { BroccoliV1 } from "../model/Broccoli"
+import { BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli"
 import mirador from "mirador"
 import { miradorConfig } from "../components/Mirador/MiradorConfig"
-import { fetchBroccoliOpening } from "../backend/utils/fetchBroccoli"
+import { fetchBroccoliOpening, fetchBroccoliResolution } from "../backend/utils/fetchBroccoli"
 import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
 import { useParams } from "react-router-dom"
 
@@ -17,8 +17,8 @@ export interface AppState {
     textToHighlight: any
     annItemOpen: boolean,
     currentContext: {
-        volume: number,
-        context: number
+        volumeId?: string
+        context: string | number
     }
 }
 
@@ -60,8 +60,8 @@ interface SetAnnItemOpen {
 interface SetCurrentContext {
     type: ACTIONS.SET_CURRENTCONTEXT,
     currentContext: {
-        volume: number,
-        context: number
+        volumeId?: string,
+        context: number | string
     }
 }
 
@@ -76,14 +76,14 @@ export const initAppState: AppState = {
     textToHighlight: null,
     annItemOpen: false,
     currentContext: {
-        volume: null,
+        volumeId: null,
         context: null
     }
 }
 
-function setMiradorConfig(broccoli: BroccoliV1) {
+function setMiradorConfig(broccoli: BroccoliV2) {
     miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest
-    miradorConfig.windows[0].canvasId = broccoli.iiif.canvasId
+    miradorConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0]
 }
 
 export function useAppState(): [AppState, React.Dispatch<AppAction>] {
@@ -91,42 +91,82 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
     const params = useParams()
 
     React.useEffect(() => {
-        fetchBroccoliOpening(params.volume, params.context)
-            .then(function(broccoli: BroccoliV1) {
-                console.log(broccoli)
-                setMiradorConfig(broccoli)
-                const viewer = mirador.viewer(miradorConfig)
-                dispatch({
-                    type: ACTIONS.SET_STORE,
-                    store: viewer.store
-                })
+        if (params.volume && params.context) {
+            fetchBroccoliOpening(params.volume, params.context)
+                .then(function (broccoli: BroccoliV2) {
+                    console.log(broccoli)
+                    setMiradorConfig(broccoli)
+                    const viewer = mirador.viewer(miradorConfig)
+                    dispatch({
+                        type: ACTIONS.SET_STORE,
+                        store: viewer.store
+                    })
 
-                const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store)
+                    const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store)
 
-                dispatch({
-                    type: ACTIONS.SET_CURRENTCONTEXT,
-                    currentContext: {
-                        volume: parseInt(broccoli.request.volume),
-                        context: broccoli.request.opening
-                    }
-                })
+                    dispatch({
+                        type: ACTIONS.SET_CURRENTCONTEXT,
+                        currentContext: {
+                            volumeId: (broccoli.request as OpeningRequest).volumeId,
+                            context: (broccoli.request as OpeningRequest).opening
+                        }
+                    })
 
-                dispatch({
-                    type: ACTIONS.SET_ANNO,
-                    anno: broccoli.anno
-                })
+                    dispatch({
+                        type: ACTIONS.SET_ANNO,
+                        anno: broccoli.anno
+                    })
 
-                dispatch({
-                    type: ACTIONS.SET_TEXT,
-                    text: broccoli.text
-                })
+                    dispatch({
+                        type: ACTIONS.SET_TEXT,
+                        text: broccoli.text.lines
+                    })
 
-                dispatch({
-                    type: ACTIONS.SET_MIRANN,
-                    MirAnn: iiifAnns
+                    dispatch({
+                        type: ACTIONS.SET_MIRANN,
+                        MirAnn: iiifAnns
+                    })
                 })
-            })
-            .catch(console.error)
+                .catch(console.error)
+        }
+
+        if (params.resolutionId) {
+            fetchBroccoliResolution(params.resolutionId)
+                .then(function (broccoli: BroccoliV2) {
+                    console.log(broccoli)
+                    setMiradorConfig(broccoli)
+                    const viewer = mirador.viewer(miradorConfig)
+                    dispatch({
+                        type: ACTIONS.SET_STORE,
+                        store: viewer.store
+                    })
+
+                    // const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store)
+
+                    dispatch({
+                        type: ACTIONS.SET_CURRENTCONTEXT,
+                        currentContext: {
+                            context: (broccoli.request as ResolutionRequest).resolutionId
+                        }
+                    })
+
+                    dispatch({
+                        type: ACTIONS.SET_ANNO,
+                        anno: broccoli.anno
+                    })
+
+                    dispatch({
+                        type: ACTIONS.SET_TEXT,
+                        text: broccoli.text.lines
+                    })
+
+                    // dispatch({
+                    //     type: ACTIONS.SET_MIRANN,
+                    //     MirAnn: iiifAnns
+                    // })
+                })
+                .catch(console.error)
+        }
     }, [params])
     return [state, dispatch]
 }

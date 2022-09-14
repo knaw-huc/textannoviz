@@ -10,6 +10,10 @@ export function findImageRegions(annotation: AnnoRepoAnnotation, context: string
         .filter(t => t.source.includes(context))
         .flatMap(t => t.selector && t.selector.filter(t => t.type === "FragmentSelector"))
         .filter(t => t !== undefined)
-
-    return getImageRegions(imageCoords[0].value)
+    
+    if (imageCoords[0] !== undefined) {
+        return getImageRegions(imageCoords[0].value)
+    } else {
+        console.log(annotation.body.id + " has no image targets")
+    }
 }

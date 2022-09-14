@@ -1,11 +1,11 @@
-import { BroccoliV1 } from "../../model/Broccoli"
+import { BroccoliV2, OpeningRequest } from "../../model/Broccoli"
 import { iiifAnn, iiifAnnResources, AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
 import { findImageRegions } from "./findImageRegions"
 import mirador from "mirador"
 import { findSvgSelector } from "../utils/findSvgSelector"
 import { svgStyler } from "../utils/svgStyler"
 
-export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn => {
+export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any): iiifAnn => {
     const currentState = store.getState()
     const iiifAnn: iiifAnn = {
         "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0285.jpg",
@@ -15,8 +15,13 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
     }
 
     const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
-        const region = findImageRegions(item, broccoli.request.opening.toString())
-        return region
+        const region = findImageRegions(item, (broccoli.request as OpeningRequest).opening.toString())
+
+        if (region !== undefined) {
+            return region
+        } else {
+            console.log(item.body.id + " region is undefined")
+        }
     })
 
     const resources = regions.flatMap((region: string, i: number) => {
@@ -59,7 +64,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV1, store: any): iiifAnn
                         "@type": "oa:SvgSelector",
                         // "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="${colour}" fill-opacity="0.5" stroke-width="1"/></svg>`
                         // "value": findSvgSelector(broccoli.anno[i])
-                        "value": svgStyler(findSvgSelector(broccoli.anno[i], broccoli.request.opening.toString()), colour)
+                        "value": svgStyler(findSvgSelector(broccoli.anno[i], (broccoli.request as OpeningRequest).opening.toString()), colour)
                     }
                 },
                 "within": {

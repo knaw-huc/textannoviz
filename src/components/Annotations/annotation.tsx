@@ -32,8 +32,8 @@ export function Annotation() {
 
     const nextCanvas = () => {
         state.store.dispatch(mirador.actions.setNextCanvas("republic"))
-        const nextCanvas = state.currentContext.context + 1
-        const volume = state.currentContext.volume
+        const nextCanvas = (state.currentContext.context as number) + 1
+        const volume = state.currentContext.volumeId
 
         navigate(`/detail/${volume}/${nextCanvas.toString()}`)
 
@@ -42,8 +42,8 @@ export function Annotation() {
 
     const previousCanvas = () => {
         state.store.dispatch(mirador.actions.setPreviousCanvas("republic"))
-        const prevCanvas = state.currentContext.context - 1
-        const volume = state.currentContext.volume
+        const prevCanvas = (state.currentContext.context as number) - 1
+        const volume = state.currentContext.volumeId
 
         navigate(`/detail/${volume}/${prevCanvas.toString()}`)
 
