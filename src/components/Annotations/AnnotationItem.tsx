@@ -52,8 +52,8 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
             }
             console.log(boxToZoom)
             const zoomCenter = {
-                x: boxToZoom.x + boxToZoom.width / 2,
-                y: boxToZoom.y + boxToZoom.height / 2
+                x: boxToZoom.x + (boxToZoom.width / 2),
+                y: boxToZoom.y + (boxToZoom.height / 2)
             }
 
             const miradorZoom = boxToZoom.width + boxToZoom.height / 2
@@ -63,7 +63,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
             state.store.dispatch(mirador.actions.updateViewport("republic", {
                 x: zoomCenter.x,
                 y: zoomCenter.y,
-                zoom: 1 / miradorZoom 
+                zoom: 1 / miradorZoom
             }))
 
             //Set text to highlight
