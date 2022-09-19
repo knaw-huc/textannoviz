@@ -11,8 +11,6 @@ export const findSvgSelector = (annotation: AnnoRepoAnnotation, context: string)
         .filter(t => t.source.includes(context))
         .flatMap(t => t.selector && t.selector.filter(t => t.type === "SvgSelector"))
         .filter(t => t !== undefined)
-    
-    console.log(svg)
 
     return (svg[0] as SvgSelector).value
 }

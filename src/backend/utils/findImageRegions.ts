@@ -11,8 +11,6 @@ export function findImageRegions(annotation: AnnoRepoAnnotation, canvasId: strin
         .flatMap(t => t.selector && t.selector.filter(t => t.type === "iiif:ImageApiSelector"))
         .filter(t => t !== undefined)
     
-    console.log(imageCoords)
-    
     if (imageCoords[0] as ImageApiSelector !== undefined) {
         return getImageRegions((imageCoords[0] as ImageApiSelector).region)
     } else {

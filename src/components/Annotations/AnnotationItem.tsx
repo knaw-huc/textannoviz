@@ -43,8 +43,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         if(!isOpen) {
             //Zoom in on annotation in Mirador
             const region = findImageRegions(props.annotation, state.currentContext.canvasId)
-            console.log(region)
-            console.log(state.currentContext.canvasId)
             const [x, y, w, h] = region[0].split(",")
             const boxToZoom = {
                 x: parseInt(x),
@@ -52,15 +50,20 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
                 width: parseInt(w),
                 height: parseInt(h)
             }
+            console.log(boxToZoom)
             const zoomCenter = {
                 x: boxToZoom.x + boxToZoom.width / 2,
                 y: boxToZoom.y + boxToZoom.height / 2
             }
+
+            const miradorZoom = boxToZoom.width + boxToZoom.height / 2
+
+            console.log(zoomCenter)
             state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
             state.store.dispatch(mirador.actions.updateViewport("republic", {
                 x: zoomCenter.x,
                 y: zoomCenter.y,
-                zoom: 0.8 / boxToZoom.width
+                zoom: 1 / miradorZoom 
             }))
 
             //Set text to highlight
