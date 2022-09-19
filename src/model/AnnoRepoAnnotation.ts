@@ -120,6 +120,19 @@ export type SvgSelector = {
     value: string
 }
 
+export type CanvasTarget = {
+    source: string,
+    type: "Canvas",
+    selector: CanvasSelector[] | undefined
+}
+
+export type ImageApiSelector = {
+    type: "iiif:ImageApiSelector",
+    region: string
+}
+
+export type CanvasSelector = ImageApiSelector | SvgSelector
+
 export type ImageSelector = FragmentSelector | SvgSelector
 
 export type SvgSelectorTarget = {
@@ -148,7 +161,7 @@ export type TextTarget = {
     type: "Text"
 }
 
-export type Target = TextAnchorTarget | ImageTarget | TextTarget | SvgSelectorTarget
+export type Target = TextAnchorTarget | ImageTarget | TextTarget | SvgSelectorTarget | CanvasTarget
 
 export type AnnoRepoAnnotation = {
     id: string,

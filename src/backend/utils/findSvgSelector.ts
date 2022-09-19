@@ -1,4 +1,4 @@
-import { AnnoRepoAnnotation, ImageTarget } from "../../model/AnnoRepoAnnotation"
+import { AnnoRepoAnnotation, CanvasTarget, SvgSelector } from "../../model/AnnoRepoAnnotation"
 
 export const findSvgSelector = (annotation: AnnoRepoAnnotation, context: string): string => {
     // const svg = (annotation.target as SvgSelectorTarget[])
@@ -7,10 +7,12 @@ export const findSvgSelector = (annotation: AnnoRepoAnnotation, context: string)
     
     // return svg.selector.value
 
-    const svg = (annotation.target as ImageTarget[])
+    const svg = (annotation.target as CanvasTarget[])
         .filter(t => t.source.includes(context))
         .flatMap(t => t.selector && t.selector.filter(t => t.type === "SvgSelector"))
         .filter(t => t !== undefined)
+    
+    console.log(svg)
 
-    return svg[0].value
+    return (svg[0] as SvgSelector).value
 }

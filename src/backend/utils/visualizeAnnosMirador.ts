@@ -1,4 +1,4 @@
-import { BroccoliV2, OpeningRequest } from "../../model/Broccoli"
+import { BroccoliV2 } from "../../model/Broccoli"
 import { iiifAnn, iiifAnnResources, AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
 import { findImageRegions } from "./findImageRegions"
 import mirador from "mirador"
@@ -15,7 +15,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any): iiifAnn
     }
 
     const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
-        const region = findImageRegions(item, (broccoli.request as OpeningRequest).opening.toString())
+        const region = findImageRegions(item, broccoli.iiif.canvasIds[0])
 
         if (region !== undefined) {
             return region
@@ -64,7 +64,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any): iiifAnn
                         "@type": "oa:SvgSelector",
                         // "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="${colour}" fill-opacity="0.5" stroke-width="1"/></svg>`
                         // "value": findSvgSelector(broccoli.anno[i])
-                        "value": svgStyler(findSvgSelector(broccoli.anno[i], (broccoli.request as OpeningRequest).opening.toString()), colour)
+                        "value": svgStyler(findSvgSelector(broccoli.anno[i], broccoli.iiif.canvasIds[0]), colour)
                     }
                 },
                 "within": {

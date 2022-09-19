@@ -17,8 +17,9 @@ export interface AppState {
     textToHighlight: any
     annItemOpen: boolean,
     currentContext: {
-        volumeId?: string
-        context: string | number
+        volumeId?: string,
+        context: string | number,
+        canvasId: string
     }
 }
 
@@ -61,7 +62,8 @@ interface SetCurrentContext {
     type: ACTIONS.SET_CURRENTCONTEXT,
     currentContext: {
         volumeId?: string,
-        context: number | string
+        context: number | string,
+        canvasId: string
     }
 }
 
@@ -77,7 +79,8 @@ export const initAppState: AppState = {
     annItemOpen: false,
     currentContext: {
         volumeId: null,
-        context: null
+        context: null,
+        canvasId: null,
     }
 }
 
@@ -108,7 +111,8 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         type: ACTIONS.SET_CURRENTCONTEXT,
                         currentContext: {
                             volumeId: (broccoli.request as OpeningRequest).volumeId,
-                            context: (broccoli.request as OpeningRequest).opening
+                            context: (broccoli.request as OpeningRequest).opening,
+                            canvasId: broccoli.iiif.canvasIds[0]
                         }
                     })
 
@@ -141,12 +145,13 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         store: viewer.store
                     })
 
-                    // const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store)
+                    const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store)
 
                     dispatch({
                         type: ACTIONS.SET_CURRENTCONTEXT,
                         currentContext: {
-                            context: (broccoli.request as ResolutionRequest).resolutionId
+                            context: (broccoli.request as ResolutionRequest).resolutionId,
+                            canvasId: broccoli.iiif.canvasIds[0]
                         }
                     })
 
@@ -160,10 +165,10 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         text: broccoli.text.lines
                     })
 
-                    // dispatch({
-                    //     type: ACTIONS.SET_MIRANN,
-                    //     MirAnn: iiifAnns
-                    // })
+                    dispatch({
+                        type: ACTIONS.SET_MIRANN,
+                        MirAnn: iiifAnns
+                    })
                 })
                 .catch(console.error)
         }
