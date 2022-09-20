@@ -5,7 +5,7 @@ import mirador from "mirador"
 import { findSvgSelector } from "../utils/findSvgSelector"
 import { svgStyler } from "../utils/svgStyler"
 
-export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any): iiifAnn => {
+export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any, canvasId: string): iiifAnn => {
     const currentState = store.getState()
     const iiifAnn: iiifAnn = {
         "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0285.jpg",
@@ -15,7 +15,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any): iiifAnn
     }
 
     const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
-        const region = findImageRegions(item, broccoli.iiif.canvasIds[0])
+        const region = findImageRegions(item, canvasId)
 
         if (region !== undefined) {
             return region
@@ -64,7 +64,7 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any): iiifAnn
                         "@type": "oa:SvgSelector",
                         // "value": `<svg xmlns='http://www.w3.org/2000/svg'><path xmlns="http://www.w3.org/2000/svg" id="testing" d="M${x},${parseInt(y) + parseInt(h)}v-${h}h${w}v${h}z" stroke="${colour}" fill="${colour}" fill-opacity="0.5" stroke-width="1"/></svg>`
                         // "value": findSvgSelector(broccoli.anno[i])
-                        "value": svgStyler(findSvgSelector(broccoli.anno[i], broccoli.iiif.canvasIds[0]), colour)
+                        "value": svgStyler(findSvgSelector(broccoli.anno[i], canvasId), colour)
                     }
                 },
                 "within": {

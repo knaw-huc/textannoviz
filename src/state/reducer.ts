@@ -21,6 +21,7 @@ export interface AppState {
         context: string | number,
         canvasId: string
     }
+    broccoli: BroccoliV2
 }
 
 interface SetStore {
@@ -67,7 +68,12 @@ interface SetCurrentContext {
     }
 }
 
-export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen | SetCurrentContext
+interface SetBroccoli {
+    type: ACTIONS.SET_BROCCOLI,
+    broccoli: BroccoliV2
+}
+
+export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen | SetCurrentContext | SetBroccoli
 
 export const initAppState: AppState = {
     store: null,
@@ -81,7 +87,8 @@ export const initAppState: AppState = {
         volumeId: null,
         context: null,
         canvasId: null,
-    }
+    },
+    broccoli: null
 }
 
 function setMiradorConfig(broccoli: BroccoliV2) {
@@ -105,7 +112,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         store: viewer.store
                     })
 
-                    const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store)
+                    const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store, broccoli.iiif.canvasIds[0])
 
                     dispatch({
                         type: ACTIONS.SET_CURRENTCONTEXT,
@@ -130,6 +137,11 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         type: ACTIONS.SET_MIRANN,
                         MirAnn: iiifAnns
                     })
+
+                    dispatch({
+                        type: ACTIONS.SET_BROCCOLI,
+                        broccoli: broccoli
+                    })
                 })
                 .catch(console.error)
         }
@@ -145,7 +157,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         store: viewer.store
                     })
 
-                    const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store)
+                    const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store, broccoli.iiif.canvasIds[0])
 
                     dispatch({
                         type: ACTIONS.SET_CURRENTCONTEXT,
@@ -168,6 +180,11 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                     dispatch({
                         type: ACTIONS.SET_MIRANN,
                         MirAnn: iiifAnns
+                    })
+
+                    dispatch({
+                        type: ACTIONS.SET_BROCCOLI,
+                        broccoli: broccoli
                     })
                 })
                 .catch(console.error)
@@ -195,6 +212,8 @@ function reducer(state: AppState, action: AppAction): AppState {
         return setAnnItemOpen(state, action)
     case ACTIONS.SET_CURRENTCONTEXT:
         return setCurrentContext(state, action)
+    case ACTIONS.SET_BROCCOLI:
+        return setBroccoli(state, action)
     default:
         return state
     }
@@ -253,5 +272,12 @@ function setCurrentContext(state: AppState, action: SetCurrentContext) {
     return {
         ...state,
         currentContext: action.currentContext
+    }
+}
+
+function setBroccoli(state: AppState, action: SetBroccoli) {
+    return {
+        ...state,
+        broccoli: action.broccoli
     }
 }

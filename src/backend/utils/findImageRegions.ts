@@ -1,11 +1,11 @@
 import { AnnoRepoAnnotation, CanvasTarget, ImageApiSelector } from "../../model/AnnoRepoAnnotation"
 
-function getImageRegions(value: string) {
+function getImageRegions(value: string): RegExpMatchArray {
     const result = value.match(/[0-9]+.*[0-9]+.*[0-9]+.*[0-9]+/i)
     return result
 }
 
-export function findImageRegions(annotation: AnnoRepoAnnotation, canvasId: string) {
+export function findImageRegions(annotation: AnnoRepoAnnotation, canvasId: string): RegExpMatchArray {
     const imageCoords = (annotation.target as CanvasTarget[])
         .filter(t => t.source.includes(canvasId))
         .flatMap(t => t.selector && t.selector.filter(t => t.type === "iiif:ImageApiSelector"))

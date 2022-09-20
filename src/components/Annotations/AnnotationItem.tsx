@@ -3,7 +3,7 @@ import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody } from "
 import { appContext } from "../../state/context"
 import {AnnotationItemContent} from "./AnnotationItemContent"
 import mirador from "mirador"
-import { findImageRegions } from "../../backend/utils/findImageRegions"
+import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
 import styled from "styled-components"
 import { fetchJson } from "../../backend/utils/fetchJson"
 import { ACTIONS } from "../../state/actions"
@@ -42,28 +42,13 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
         if(!isOpen) {
             //Zoom in on annotation in Mirador
-            const region = findImageRegions(props.annotation, state.currentContext.canvasId)
-            const [x, y, w, h] = region[0].split(",")
-            const boxToZoom = {
-                x: parseInt(x),
-                y: parseInt(y),
-                width: parseInt(w),
-                height: parseInt(h)
-            }
-            console.log(boxToZoom)
-            const zoomCenter = {
-                x: boxToZoom.x + (boxToZoom.width / 2),
-                y: boxToZoom.y + (boxToZoom.height / 2)
-            }
+            const zoom = zoomAnnMirador(props.annotation, state.broccoli.iiif.canvasIds[0])
 
-            const miradorZoom = boxToZoom.width + boxToZoom.height / 2
-
-            console.log(zoomCenter)
             state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
             state.store.dispatch(mirador.actions.updateViewport("republic", {
-                x: zoomCenter.x,
-                y: zoomCenter.y,
-                zoom: 1 / miradorZoom
+                x: zoom.zoomCenter.x,
+                y: zoom.zoomCenter.y,
+                zoom: 1 / zoom.miradorZoom
             }))
 
             //Set text to highlight

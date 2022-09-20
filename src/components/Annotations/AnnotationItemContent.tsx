@@ -1,7 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 import { HOSTS } from "../../Config"
 import { AnnoRepoAnnotation, AttendanceListBody, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
 import styled from "styled-components"
+import { appContext } from "../../state/context"
+import mirador from "mirador"
+import { visualizeAnnosMirador } from "../../backend/utils/visualizeAnnosMirador"
+import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
 
 type AnnotationContentProps = {
     annotation: AnnoRepoAnnotation | undefined
@@ -13,6 +17,27 @@ const AnnPreview = styled.div`
 
 export function AnnotationItemContent(props: AnnotationContentProps) {
     const [showFull, setShowFull] = React.useState(false)
+    const { state } = useContext(appContext)
+
+    console.log(state.broccoli.iiif.canvasIds)
+
+    const clickHandler = () => {
+        state.store.dispatch(mirador.actions.setCanvas("republic", state.broccoli.iiif.canvasIds[1]))
+
+        const iiifAnns = visualizeAnnosMirador(state.broccoli, state.store, state.broccoli.iiif.canvasIds[1])
+        console.log(iiifAnns)
+
+        setTimeout(() => {
+            const zoom = zoomAnnMirador(props.annotation, state.broccoli.iiif.canvasIds[1])
+
+            state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
+            state.store.dispatch(mirador.actions.updateViewport("republic", {
+                x: zoom.zoomCenter.x,
+                y: zoom.zoomCenter.y,
+                zoom: 1 / zoom.miradorZoom
+            }))
+        }, 100)
+    }
 
     return (
         <>
@@ -57,6 +82,15 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                             return
                         }
                     })()}
+                    <li>
+                        {(() => {
+                            if (state.broccoli.iiif.canvasIds.length > 1) {
+                                return (
+                                    <p onClick={clickHandler}>This annotation extends to the next opening.<br />Click here to view next opening.</p>
+                                )
+                            }
+                        })()}
+                    </li>
                     <li>
                         <button className="show-full" onClick={(e) => {
                             e.stopPropagation()
