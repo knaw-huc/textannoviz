@@ -5,9 +5,8 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
 import { AnnotationItem } from "./AnnotationItem"
 import styled from "styled-components"
 import { Loading } from "../../backend/utils/Loader"
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { ACTIONS } from "../../state/actions"
-import { useNavigate } from "react-router-dom"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;
@@ -29,6 +28,7 @@ const Button = styled.button`
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
     const navigate = useNavigate()
+    const params = useParams()
 
     const nextCanvas = () => {
         state.store.dispatch(mirador.actions.setNextCanvas("republic"))
@@ -64,7 +64,8 @@ export function Annotation() {
             <Button onClick={nextCanvas}>Next canvas</Button>
             <Button onClick={previousCanvas}>Previous canvas</Button>
             <Button onClick={testFunction}>Test button</Button>
-            <Link to="/">Home</Link>
+            <Link to="/">Home</Link> <br/>
+            {params.volume && params.context ? <Link to="/detail/resolutions/urn:republic:session-1728-06-19-ordinaris-num-1-resolution-16">Switch to resolutions</Link> : <Link to="/detail/volumes/1728/openings/285">Switch to openings</Link>}
 
             {state.anno ? state.anno.map((annotation, index) => (
                 <AnnotationItem
