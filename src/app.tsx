@@ -2,9 +2,8 @@ import React from "react"
 import { Annotation } from "./components/Annotations/annotation"
 import { Text } from "./components/Text/text"
 import { Mirador } from "./components/Mirador/Mirador"
-import { useAppState } from "./state/reducer"
-import { appContext } from "./state/context"
 import styled from "styled-components"
+import { Providers } from "./Providers"
 
 const AppContainer = styled.div`
     border-style: solid;
@@ -18,10 +17,9 @@ const Row = styled.div`
 `
 
 export function App() {
-    const [state, dispatch] = useAppState()
 
     return (
-        <appContext.Provider value={{ state, dispatch }}>
+        <Providers>
             <AppContainer id="appcontainer">
                 <Row id="row">
                     <Mirador />
@@ -29,6 +27,6 @@ export function App() {
                     <Annotation />
                 </Row>
             </AppContainer>
-        </appContext.Provider>
+        </Providers>
     )
 }

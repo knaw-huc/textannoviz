@@ -65,7 +65,7 @@ export function Annotation() {
             <Button onClick={previousCanvas}>Previous canvas</Button>
             <Button onClick={testFunction}>Test button</Button>
             <Link to="/">Home</Link> <br/>
-            {params.volume && params.context ? <Link to="/detail/resolutions/urn:republic:session-1728-06-19-ordinaris-num-1-resolution-16">Switch to resolutions</Link> : <Link to="/detail/volumes/1728/openings/285">Switch to openings</Link>}
+            {params.volume && params.context ? <Link to="/detail/resolutions/urn:republic:session-1728-06-19-ordinaris-num-1-resolution-16">Switch to resolution view</Link> : <Link to="/detail/volumes/1728/openings/285">Switch to opening view</Link>}
 
             {state.anno ? state.anno.map((annotation, index) => (
                 <AnnotationItem
