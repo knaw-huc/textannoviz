@@ -1,17 +1,25 @@
 import React from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { App } from "./app"
 import Home from "./components/Home"
 
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Home />
+    },
+    {
+        path: "detail/volumes/:volume/openings/:context",
+        element: <App />,
+        errorElement: <h2>Opening not found</h2>
+    },
+    {
+        path: "detail/resolutions/:resolutionId",
+        element: <App />,
+        errorElement: <h2>Resolution not found</h2>
+    }
+])
+
 export default function AppRouter() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="detail/volumes/:volume/openings/:context" element={<App />} />
-                <Route path="detail/resolutions/:resolutionId" element={<App />} />
-                <Route path="*" element={<p>There is nothing here!</p>} />
-            </Routes>
-        </BrowserRouter>
-    )
+    return <RouterProvider router={router} />
 }
