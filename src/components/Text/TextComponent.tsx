@@ -5,7 +5,7 @@ export function TextComponent() {
     const { state } = useContext(appContext)
     return (
         <>
-            {state.text ? state.text.join("\n") : null}
+            {state.text ? state.text.lines.join("\n") : null}
         </>
     )
 }

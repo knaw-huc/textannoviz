@@ -5,16 +5,16 @@ import { fetchBroccoliOpening, fetchBroccoliResolution } from "../backend/utils/
 import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
 import { miradorConfig } from "../components/Mirador/MiradorConfig"
 import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
-import { BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli"
+import { BroccoliText, BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli"
 import { ACTIONS } from "./actions"
 
 export interface AppState {
     store: any
     MirAnn: iiifAnn
     anno: AnnoRepoAnnotation[]
-    text: string[]
+    text: BroccoliText
     selectedAnn: AnnoRepoAnnotation | undefined
-    textToHighlight: any
+    textToHighlight: BroccoliText
     annItemOpen: boolean,
     currentContext: {
         volumeId?: string,
@@ -41,7 +41,7 @@ interface SetAnno {
 
 interface SetText {
     type: ACTIONS.SET_TEXT,
-    text: string[]
+    text: BroccoliText
 }
 
 interface SetSelectedAnn {
@@ -51,7 +51,7 @@ interface SetSelectedAnn {
 
 interface SetTextToHighlight {
     type: ACTIONS.SET_TEXTTOHIGHLIGHT,
-    textToHighlight: any
+    textToHighlight: BroccoliText
 }
 
 interface SetAnnItemOpen {
@@ -130,7 +130,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
 
                     dispatch({
                         type: ACTIONS.SET_TEXT,
-                        text: broccoli.text.lines
+                        text: broccoli.text
                     })
 
                     dispatch({
@@ -174,7 +174,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
 
                     dispatch({
                         type: ACTIONS.SET_TEXT,
-                        text: broccoli.text.lines
+                        text: broccoli.text
                     })
 
                     dispatch({

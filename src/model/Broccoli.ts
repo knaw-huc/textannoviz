@@ -33,8 +33,21 @@ export interface BroccoliV2 {
         canvasIds: string[]
     },
     anno: AnnoRepoAnnotation[],
-    text: {
-        location: string,
+    text: BroccoliText
+}
+
+export interface OpeningRequest {
+    volumeId: string,
+    opening: number
+}
+
+export interface ResolutionRequest {
+    resolutionId: string
+}
+
+export interface BroccoliText {
+    location: {
+        relativeTo: string,
         start: {
             line: number,
             offset: number,
@@ -45,15 +58,6 @@ export interface BroccoliV2 {
             offset: number,
             len: number
         },
-        lines: string[]
     }
-}
-
-export interface OpeningRequest {
-    volumeId: string,
-    opening: number
-}
-
-export interface ResolutionRequest {
-    resolutionId: string
+    lines: string[]
 }
