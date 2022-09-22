@@ -104,9 +104,6 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
         if (params.volume && params.context) {
             fetchBroccoliOpening(params.volume, params.context)
                 .then(function (broccoli: BroccoliV2) {
-                    if (broccoli as unknown as number === 404) {
-                        throw new Error("Could not fetch")
-                    }
                     console.log(broccoli)
                     setMiradorConfig(broccoli)
                     const viewer = mirador.viewer(miradorConfig)
