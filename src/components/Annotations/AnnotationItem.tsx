@@ -1,12 +1,12 @@
-import React from "react"
-import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody } from "../../model/AnnoRepoAnnotation"
-import { appContext } from "../../state/context"
-import {AnnotationItemContent} from "./AnnotationItemContent"
 import mirador from "mirador"
-import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
+import React from "react"
 import styled from "styled-components"
-import { fetchJson } from "../../backend/utils/fetchJson"
+import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
+import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody } from "../../model/AnnoRepoAnnotation"
 import { ACTIONS } from "../../state/actions"
+import { appContext } from "../../state/context"
+import { AnnotationItemContent } from "./AnnotationItemContent"
+import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli"
 
 type AnnotationSnippetProps = {
     annot_id: React.Key,
@@ -52,13 +52,13 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
             }))
 
             //Set text to highlight
-            fetchJson(`https://broccoli.tt.di.huc.knaw.nl/republic/v1?opening=285&volume=1728&bodyId=${props.annotation.body.id}`)
+            fetchBroccoliBodyId(state.currentContext.volumeId, state.currentContext.context.toString(), props.annotation.body.id)
                 .then(function(textToHighlight) {
                     if (textToHighlight !== null) {
                         console.log(textToHighlight)
                         dispatch({
                             type: ACTIONS.SET_TEXTTOHIGHLIGHT,
-                            textToHighlight: textToHighlight
+                            textToHighlight: textToHighlight.text
                         })
                         console.log("text to highlight dispatch done")
                         dispatch({

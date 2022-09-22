@@ -1,12 +1,12 @@
-import React, { useReducer } from "react"
-import { ACTIONS } from "./actions"
-import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
-import { BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli"
 import mirador from "mirador"
-import { miradorConfig } from "../components/Mirador/MiradorConfig"
+import React, { useReducer } from "react"
+import { useParams } from "react-router-dom"
 import { fetchBroccoliOpening, fetchBroccoliResolution } from "../backend/utils/fetchBroccoli"
 import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
-import { useParams } from "react-router-dom"
+import { miradorConfig } from "../components/Mirador/MiradorConfig"
+import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
+import { BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli"
+import { ACTIONS } from "./actions"
 
 export interface AppState {
     store: any

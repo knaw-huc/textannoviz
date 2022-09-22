@@ -1,11 +1,11 @@
-import React, { useContext } from "react"
-import { HOSTS } from "../../Config"
-import { AnnoRepoAnnotation, AttendanceListBody, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
-import styled from "styled-components"
-import { appContext } from "../../state/context"
 import mirador from "mirador"
+import React, { useContext } from "react"
+import styled from "styled-components"
 import { visualizeAnnosMirador } from "../../backend/utils/visualizeAnnosMirador"
 import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
+import { HOSTS } from "../../Config"
+import { AnnoRepoAnnotation, AttendanceListBody, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
+import { appContext } from "../../state/context"
 
 type AnnotationContentProps = {
     annotation: AnnoRepoAnnotation | undefined

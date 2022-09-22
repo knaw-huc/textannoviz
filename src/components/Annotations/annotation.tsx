@@ -1,12 +1,12 @@
-import React, { useContext } from "react"
-import { appContext } from "../../state/context"
 import mirador from "mirador"
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
-import { AnnotationItem } from "./AnnotationItem"
+import React, { useContext } from "react"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import { Loading } from "../../backend/utils/Loader"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
 import { ACTIONS } from "../../state/actions"
+import { appContext } from "../../state/context"
+import { AnnotationItem } from "./AnnotationItem"
 
 const AnnotationStyled = styled.div`
     min-width: 400px;

@@ -1,10 +1,9 @@
-import React from "react"
-import { useContext } from "react"
-import { appContext } from "../../state/context"
+import React, { useContext } from "react"
 import styled from "styled-components"
+import { appContext } from "../../state/context"
 //import { Loading } from "../backend/utils/Loader"
-//import { TextComponent } from "./TextComponent"
-import { TextHighlighting } from "./TextHighlighting"
+import { TextComponent } from "./TextComponent"
+//import { TextHighlighting } from "./TextHighlighting"
 // import { fetchJson } from "../backend/utils/fetchJson"
 // import { ACTIONS } from "../state/actions"
 
@@ -31,7 +30,7 @@ export function Text() {
             {/* {state.MirAnn ? <TextComponent /> : <Loading />} */}
             {/* <TextComponent /> */}
             {/* {state.annItemOpen ? <TextHighlighting /> : <TextComponent />} */}
-            {state.text && <TextHighlighting />}
+            {state.text && <TextComponent />}
         </TextStyled>
     )
 }
