@@ -1,8 +1,17 @@
 import { HOSTS } from "../../Config"
 
 export const fetchBroccoliOpening = async (volume = "1728", opening = "285") => {
+    if (parseInt(opening) < 1) {
+        alert("Opening number lower than 1 is not allowed!")
+        return
+    }
+
     const response = await fetch(`${HOSTS.BROCCOLI}/v2?volume=${volume}&opening=${opening}`)
-    if (!response.ok) return null
+    if (!response.ok) {
+        const error = await response.json()
+        alert(`${error.message}`)
+        return
+    }
     return response.json()
 }
 
