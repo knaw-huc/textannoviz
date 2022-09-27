@@ -28,14 +28,14 @@ const Button = styled.button`
 export function Annotation() {
     const { state, dispatch } = useContext(appContext)
     const navigate = useNavigate()
-    const params = useParams()
+    const { volumeNum, openingNum } = useParams<{ volumeNum: string, openingNum: string }>()
 
     const nextCanvas = () => {
-        state.store.dispatch(mirador.actions.setNextCanvas("republic"))
         const nextCanvas = (state.currentContext.context as number) + 1
         const volume = state.currentContext.volumeId
 
-        navigate(`/detail/${volume}/${nextCanvas.toString()}`)
+        navigate(`/detail/volumes/${volume}/openings/${nextCanvas.toString()}`)
+        state.store.dispatch(mirador.actions.setNextCanvas("republic"))
 
         console.log(state.store.getState())
     }
@@ -45,7 +45,7 @@ export function Annotation() {
         const prevCanvas = (state.currentContext.context as number) - 1
         const volume = state.currentContext.volumeId
 
-        navigate(`/detail/${volume}/${prevCanvas.toString()}`)
+        navigate(`/detail/volumes/${volume}/openings/${prevCanvas.toString()}`)
 
         console.log(state.store.getState())
     }
@@ -65,7 +65,7 @@ export function Annotation() {
             <Button onClick={previousCanvas}>Previous canvas</Button>
             <Button onClick={testFunction}>Test button</Button>
             <Link to="/">Home</Link> <br/>
-            {params.volume && params.context ? <Link to="/detail/resolutions/urn:republic:session-1728-06-19-ordinaris-num-1-resolution-16">Switch to resolution view</Link> : <Link to="/detail/volumes/1728/openings/285">Switch to opening view</Link>}
+            {volumeNum && openingNum ? <Link to="/detail/resolutions/urn:republic:session-1728-06-19-ordinaris-num-1-resolution-16">Switch to resolution view</Link> : <Link to="/detail/volumes/1728/openings/285">Switch to opening view</Link>}
 
             {state.anno ? state.anno.map((annotation, index) => (
                 <AnnotationItem

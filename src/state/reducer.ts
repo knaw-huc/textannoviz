@@ -19,9 +19,13 @@ export interface AppState {
     currentContext: {
         volumeId?: string,
         context: string | number,
-        canvasId: string
+        canvasId?: string
     }
-    broccoli: BroccoliV2
+    broccoli: BroccoliV2,
+    openingVol: {
+        opening: string,
+        volume: string,
+    }
 }
 
 interface SetStore {
@@ -73,7 +77,15 @@ interface SetBroccoli {
     broccoli: BroccoliV2
 }
 
-export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen | SetCurrentContext | SetBroccoli
+interface SetOpeningVol {
+    type: ACTIONS.SET_OPENINGVOL,
+    openingVol: {
+        opening: string,
+        volume: string
+    }
+}
+
+export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen | SetCurrentContext | SetBroccoli | SetOpeningVol
 
 export const initAppState: AppState = {
     store: null,
@@ -88,7 +100,11 @@ export const initAppState: AppState = {
         context: null,
         canvasId: null,
     },
-    broccoli: null
+    broccoli: null,
+    openingVol: {
+        opening: null,
+        volume: null
+    }
 }
 
 function setMiradorConfig(broccoli: BroccoliV2) {
@@ -98,11 +114,11 @@ function setMiradorConfig(broccoli: BroccoliV2) {
 
 export function useAppState(): [AppState, React.Dispatch<AppAction>] {
     const [state, dispatch] = useReducer(reducer, initAppState)
-    const params = useParams()
+    const { volumeNum, openingNum, resolutionId } = useParams<{ volumeNum: string, openingNum: string, resolutionId: string }>()
 
     React.useEffect(() => {
-        if (params.volume && params.context) {
-            fetchBroccoliOpening(params.volume, params.context)
+        if (volumeNum && openingNum) {
+            fetchBroccoliOpening(volumeNum, openingNum)
                 .then(function (broccoli: BroccoliV2) {
                     console.log(broccoli)
                     setMiradorConfig(broccoli)
@@ -145,9 +161,11 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                 })
                 .catch(console.error)
         }
+    }, [openingNum, volumeNum])
 
-        if (params.resolutionId) {
-            fetchBroccoliResolution(params.resolutionId)
+    React.useEffect(() => {
+        if (resolutionId) {
+            fetchBroccoliResolution(resolutionId)
                 .then(function (broccoli: BroccoliV2) {
                     console.log(broccoli)
                     setMiradorConfig(broccoli)
@@ -189,7 +207,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                 })
                 .catch(console.error)
         }
-    }, [params])
+    }, [resolutionId])
     return [state, dispatch]
 }
 
@@ -214,6 +232,8 @@ function reducer(state: AppState, action: AppAction): AppState {
         return setCurrentContext(state, action)
     case ACTIONS.SET_BROCCOLI:
         return setBroccoli(state, action)
+    case ACTIONS.SET_OPENINGVOL:
+        return setOpeningVol(state, action)
     default:
         return state
     }
@@ -279,5 +299,12 @@ function setBroccoli(state: AppState, action: SetBroccoli) {
     return {
         ...state,
         broccoli: action.broccoli
+    }
+}
+
+function setOpeningVol(state: AppState, action: SetOpeningVol) {
+    return {
+        ...state,
+        openingVol: action.openingVol
     }
 }
