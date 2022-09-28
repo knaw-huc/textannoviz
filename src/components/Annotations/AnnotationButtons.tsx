@@ -23,6 +23,8 @@ export const AnnotationButtons = () => {
 
         navigate(`/detail/volumes/${volume}/openings/${nextCanvas.toString()}`)
         state.store.dispatch(mirador.actions.setNextCanvas("republic"))
+
+        console.log(state.store.getState())
     }
 
     const previousCanvasClickHandler = () => {
@@ -38,7 +40,7 @@ export const AnnotationButtons = () => {
     }
 
     return (
-        <div>
+        <div id="annotation-buttons">
             <Button onClick={nextCanvasClickHandler}>Next canvas</Button>
             <Button onClick={previousCanvasClickHandler}>Previous canvas</Button>
             <Button onClick={testFunctionClickHandler}>Test button</Button>

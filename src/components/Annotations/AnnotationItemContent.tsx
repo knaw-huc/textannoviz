@@ -1,10 +1,9 @@
-import mirador from "mirador"
 import React, { useContext } from "react"
 import styled from "styled-components"
-import { visualizeAnnosMirador } from "../../backend/utils/visualizeAnnosMirador"
-import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
+//import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
 import { HOSTS } from "../../Config"
 import { AnnoRepoAnnotation, AttendanceListBody, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
+import { ACTIONS } from "../../state/actions"
 import { appContext } from "../../state/context"
 
 type AnnotationContentProps = {
@@ -17,26 +16,29 @@ const AnnPreview = styled.div`
 
 export function AnnotationItemContent(props: AnnotationContentProps) {
     const [showFull, setShowFull] = React.useState(false)
-    const { state } = useContext(appContext)
+    const { state, dispatch } = useContext(appContext)
 
     console.log(state.broccoli.iiif.canvasIds)
 
     const clickHandler = () => {
-        state.store.dispatch(mirador.actions.setCanvas("republic", state.broccoli.iiif.canvasIds[1]))
+        const canvasIds = state.canvas.canvasIds
+        const currentIndex = state.canvas.currentIndex
 
-        const iiifAnns = visualizeAnnosMirador(state.broccoli, state.store, state.broccoli.iiif.canvasIds[1])
-        console.log(iiifAnns)
+        if (currentIndex >= canvasIds.length - 1) {
+            console.log("NEE!")
+            return
+        }
 
-        setTimeout(() => {
-            const zoom = zoomAnnMirador(props.annotation, state.broccoli.iiif.canvasIds[1])
+        let nextCanvas = currentIndex
+        nextCanvas += 1
 
-            state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
-            state.store.dispatch(mirador.actions.updateViewport("republic", {
-                x: zoom.zoomCenter.x,
-                y: zoom.zoomCenter.y,
-                zoom: 1 / zoom.miradorZoom
-            }))
-        }, 100)
+        dispatch({
+            type: ACTIONS.SET_CANVAS,
+            canvas: {
+                canvasIds: canvasIds,
+                currentIndex: nextCanvas
+            }
+        })
     }
 
     return (
@@ -84,7 +86,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                     })()}
                     <li>
                         {(() => {
-                            if (state.broccoli.iiif.canvasIds.length > 1) {
+                            if (state.broccoli.iiif.canvasIds.length > 1 && state.canvas.currentIndex < state.canvas.canvasIds.length - 1) {
                                 return (
                                     <p onClick={clickHandler}>This annotation extends to the next opening.<br />Click here to view next opening.</p>
                                 )

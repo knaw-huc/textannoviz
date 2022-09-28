@@ -3,10 +3,12 @@ import React, { useReducer } from "react"
 import { useParams } from "react-router-dom"
 import { fetchBroccoliOpening, fetchBroccoliResolution } from "../backend/utils/fetchBroccoli"
 import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
+import { zoomAnnMirador } from "../backend/utils/zoomAnnMirador"
 import { miradorConfig } from "../components/Mirador/MiradorConfig"
 import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
 import { BroccoliText, BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli"
 import { ACTIONS } from "./actions"
+//import { findCurrentIndexCanvas } from "../backend/utils/findCurrentIndexCanvas"
 
 export interface AppState {
     store: any
@@ -18,13 +20,16 @@ export interface AppState {
     annItemOpen: boolean,
     currentContext: {
         volumeId?: string,
-        context: string | number,
-        canvasId?: string
+        context?: string | number,
     }
     broccoli: BroccoliV2,
     openingVol: {
         opening: string,
         volume: string,
+    },
+    canvas: {
+        canvasIds: string[],
+        currentIndex: number
     }
 }
 
@@ -67,8 +72,7 @@ interface SetCurrentContext {
     type: ACTIONS.SET_CURRENTCONTEXT,
     currentContext: {
         volumeId?: string,
-        context: number | string,
-        canvasId: string
+        context?: number | string,
     }
 }
 
@@ -85,7 +89,15 @@ interface SetOpeningVol {
     }
 }
 
-export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen | SetCurrentContext | SetBroccoli | SetOpeningVol
+interface SetCanvas {
+    type: ACTIONS.SET_CANVAS,
+    canvas: {
+        canvasIds: string[],
+        currentIndex: number
+    }
+}
+
+export type AppAction = SetStore | SetMirAnn | SetAnno | SetText | SetSelectedAnn | SetTextToHighlight | SetAnnItemOpen | SetCurrentContext | SetBroccoli | SetOpeningVol | SetCanvas
 
 export const initAppState: AppState = {
     store: null,
@@ -98,12 +110,15 @@ export const initAppState: AppState = {
     currentContext: {
         volumeId: null,
         context: null,
-        canvasId: null,
     },
     broccoli: null,
     openingVol: {
         opening: null,
         volume: null
+    },
+    canvas: {
+        canvasIds: null,
+        currentIndex: null
     }
 }
 
@@ -135,7 +150,14 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         currentContext: {
                             volumeId: (broccoli.request as OpeningRequest).volumeId,
                             context: (broccoli.request as OpeningRequest).opening,
-                            canvasId: broccoli.iiif.canvasIds[0]
+                        }
+                    })
+
+                    dispatch({
+                        type: ACTIONS.SET_CANVAS,
+                        canvas: {
+                            canvasIds: broccoli.iiif.canvasIds,
+                            currentIndex: 0 
                         }
                     })
 
@@ -181,7 +203,14 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         type: ACTIONS.SET_CURRENTCONTEXT,
                         currentContext: {
                             context: (broccoli.request as ResolutionRequest).resolutionId,
-                            canvasId: broccoli.iiif.canvasIds[0]
+                        }
+                    })
+
+                    dispatch({
+                        type: ACTIONS.SET_CANVAS,
+                        canvas: {
+                            canvasIds: broccoli.iiif.canvasIds,
+                            currentIndex: 0 
                         }
                     })
 
@@ -208,6 +237,29 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                 .catch(console.error)
         }
     }, [resolutionId])
+
+    React.useEffect(() => {
+        if (state.broccoli === null || state.canvas.canvasIds === null || state.canvas.currentIndex === null) return
+        
+        console.log(state.canvas.canvasIds[state.canvas.currentIndex])
+        state.store.dispatch(mirador.actions.setCanvas("republic", state.canvas.canvasIds[state.canvas.currentIndex]))
+        
+        const iiifAnns = visualizeAnnosMirador(state.broccoli, state.store, state.canvas.canvasIds[state.canvas.currentIndex])
+        console.log(iiifAnns)
+
+        setTimeout(() => {
+            const zoom = zoomAnnMirador(state.anno[0], state.canvas.canvasIds[state.canvas.currentIndex])
+
+            state.store.dispatch(mirador.actions.selectAnnotation("republic", state.anno[0]))
+            state.store.dispatch(mirador.actions.updateViewport("republic", {
+                x: zoom.zoomCenter.x,
+                y: zoom.zoomCenter.y,
+                zoom: 1 / zoom.miradorZoom
+            }))
+        }, 100)
+
+    }, [state.anno, state.broccoli, state.canvas.canvasIds, state.canvas.currentIndex, state.store])
+
     return [state, dispatch]
 }
 
@@ -234,6 +286,8 @@ function reducer(state: AppState, action: AppAction): AppState {
         return setBroccoli(state, action)
     case ACTIONS.SET_OPENINGVOL:
         return setOpeningVol(state, action)
+    case ACTIONS.SET_CANVAS:
+        return setCanvas(state, action)
     default:
         return state
     }
@@ -306,5 +360,12 @@ function setOpeningVol(state: AppState, action: SetOpeningVol) {
     return {
         ...state,
         openingVol: action.openingVol
+    }
+}
+
+function setCanvas(state: AppState, action: SetCanvas) {
+    return {
+        ...state,
+        canvas: action.canvas
     }
 }
