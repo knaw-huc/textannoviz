@@ -20,7 +20,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
 
     console.log(state.broccoli.iiif.canvasIds)
 
-    const clickHandler = () => {
+    const nextCanvasClickHandler = () => {
         const canvasIds = state.canvas.canvasIds
         const currentIndex = state.canvas.currentIndex
 
@@ -37,6 +37,29 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
             canvas: {
                 canvasIds: canvasIds,
                 currentIndex: nextCanvas
+            }
+        })
+    }
+
+    const prevCanvasClickHandler = () => {
+        const canvasIds = state.canvas.canvasIds
+        const currentIndex = state.canvas.currentIndex
+
+        console.log(currentIndex, canvasIds.length - 1)
+
+        if (currentIndex > canvasIds.length - 1) {
+            console.log("NEE!")
+            return
+        }
+
+        let prevCanvas = currentIndex
+        prevCanvas -= 1
+
+        dispatch({
+            type: ACTIONS.SET_CANVAS,
+            canvas: {
+                canvasIds: canvasIds,
+                currentIndex: prevCanvas
             }
         })
     }
@@ -86,9 +109,19 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                     })()}
                     <li>
                         {(() => {
-                            if (state.broccoli.iiif.canvasIds.length > 1 && state.canvas.currentIndex < state.canvas.canvasIds.length - 1) {
+                            if (state.canvas.canvasIds.length > 1 && state.canvas.currentIndex < state.canvas.canvasIds.length - 1) {
                                 return (
-                                    <p onClick={clickHandler}>This annotation extends to the next opening.<br />Click here to view next opening.</p>
+                                    <button onClick={nextCanvasClickHandler}>Next canvas</button>
+                                    // <p onClick={clickHandler}>This annotation extends to the next opening.<br />Click here to view next opening.</p>
+                                )
+                            }
+                        })()}
+                    </li>
+                    <li>
+                        {(() => {
+                            if (state.canvas.canvasIds.length > 1 && state.canvas.currentIndex > 0) {
+                                return (
+                                    <button onClick={prevCanvasClickHandler}>Previous canvas</button>
                                 )
                             }
                         })()}
