@@ -3,8 +3,8 @@ import styled from "styled-components"
 //import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
 import { HOSTS } from "../../Config"
 import { AnnoRepoAnnotation, AttendanceListBody, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
-import { ACTIONS } from "../../state/actions"
-import { appContext } from "../../state/context"
+import { ACTIONS } from "../../state/action/actions"
+import { appContext } from "../../state/context/context"
 
 type AnnotationContentProps = {
     annotation: AnnoRepoAnnotation | undefined

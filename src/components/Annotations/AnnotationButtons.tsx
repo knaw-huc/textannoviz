@@ -2,7 +2,7 @@ import mirador from "mirador"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { appContext } from "../../state/context"
+import { appContext } from "../../state/context/context"
 
 const Button = styled.button`
     background: #0d6efd;

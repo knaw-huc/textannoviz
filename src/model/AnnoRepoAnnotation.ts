@@ -176,6 +176,13 @@ type iiifAnnResource = {
     "chars": string
 }
 
+export type iiifAnn = {
+    "@context": string,
+    "@id": string,
+    "@type": string,
+    "resources": iiifAnnResources[]
+}
+
 export type iiifAnnResources = {
     "@id": string,
     "@type": string,
@@ -201,10 +208,3 @@ export type iiifAnnResources = {
     }],
     "resource": iiifAnnResource[]
 } | undefined
-
-export type iiifAnn = {
-    "@context": string,
-    "@id": string,
-    "@type": string,
-    "resources": iiifAnnResources[]
-}

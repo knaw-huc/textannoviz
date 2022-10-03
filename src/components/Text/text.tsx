@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import styled from "styled-components"
-import { appContext } from "../../state/context"
+import { appContext } from "../../state/context/context"
 //import { Loading } from "../backend/utils/Loader"
 //import { TextComponent } from "./TextComponent"
 import { TextHighlighting } from "./TextHighlighting"

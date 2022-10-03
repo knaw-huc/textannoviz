@@ -1,13 +1,13 @@
 import mirador from "mirador"
 import React, { useReducer } from "react"
 import { useParams } from "react-router-dom"
-import { fetchBroccoliOpening, fetchBroccoliResolution } from "../backend/utils/fetchBroccoli"
-import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
-import { zoomAnnMirador } from "../backend/utils/zoomAnnMirador"
-import { miradorConfig } from "../components/Mirador/MiradorConfig"
-import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
-import { BroccoliText, BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli"
-import { ACTIONS } from "./actions"
+import { fetchBroccoliOpening, fetchBroccoliResolution } from "../../backend/utils/fetchBroccoli"
+import { visualizeAnnosMirador } from "../../backend/utils/visualizeAnnosMirador"
+//import { zoomAnnMirador } from "../backend/utils/zoomAnnMirador"
+import { miradorConfig } from "../../components/Mirador/MiradorConfig"
+import { AnnoRepoAnnotation, iiifAnn } from "../../model/AnnoRepoAnnotation"
+import { BroccoliText, BroccoliV2, OpeningRequest, ResolutionRequest } from "../../model/Broccoli"
+import { ACTIONS } from "../action/actions"
 //import { findCurrentIndexCanvas } from "../backend/utils/findCurrentIndexCanvas"
 
 export interface AppState {
@@ -247,16 +247,16 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
         const iiifAnns = visualizeAnnosMirador(state.broccoli, state.store, state.canvas.canvasIds[state.canvas.currentIndex])
         console.log(iiifAnns)
 
-        setTimeout(() => {
-            const zoom = zoomAnnMirador(state.anno[0], state.canvas.canvasIds[state.canvas.currentIndex])
+        // setTimeout(() => {
+        //     const zoom = zoomAnnMirador(state.anno[0], state.canvas.canvasIds[state.canvas.currentIndex])
 
-            state.store.dispatch(mirador.actions.selectAnnotation("republic", state.anno[0]))
-            state.store.dispatch(mirador.actions.updateViewport("republic", {
-                x: zoom.zoomCenter.x,
-                y: zoom.zoomCenter.y,
-                zoom: 1 / zoom.miradorZoom
-            }))
-        }, 100)
+        //     state.store.dispatch(mirador.actions.selectAnnotation("republic", state.anno[0]))
+        //     state.store.dispatch(mirador.actions.updateViewport("republic", {
+        //         x: zoom.zoomCenter.x,
+        //         y: zoom.zoomCenter.y,
+        //         zoom: 1 / zoom.miradorZoom
+        //     }))
+        // }, 100)
 
     }, [state.anno, state.broccoli, state.canvas.canvasIds, state.canvas.currentIndex, state.store])
 
