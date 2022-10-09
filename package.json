@@ -4,9 +4,11 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "cp .env.development .env && webpack serve"
+    "start:development": "cp .env.development .env && webpack serve",
+    "start:testing": "cp .env.testing .env && webpack serve",
+    "build": "webpack build"
   },
-  "author": "",
+  "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@recogito/recogito-js": "^1.7.1",
