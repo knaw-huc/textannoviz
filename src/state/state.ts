@@ -2,47 +2,63 @@ import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
 import { BroccoliText, BroccoliV2 } from "../model/Broccoli"
 
 export interface AppState {
-    setStore: any
-    setMirAnn: iiifAnn
-    setAnno: AnnoRepoAnnotation[]
-    setText: BroccoliText
-    setSelectedAnn: AnnoRepoAnnotation | undefined
-    setTextToHighlight: BroccoliText
-    setAnnItemOpen: boolean,
-    setCurrentContext: {
-        volumeId?: string,
-        context?: string | number,
+    mirador: {
+        store: any,
+        mirAnn: iiifAnn
     }
-    setBroccoli: BroccoliV2,
-    setOpeningVol: {
-        opening: string,
-        volume: string,
-    },
-    setCanvas: {
-        canvasIds: string[],
-        currentIndex: number
+    annotations: {
+        annotations: AnnoRepoAnnotation[],
+        selectedAnn: AnnoRepoAnnotation | undefined,
+        annItemOpen: boolean
+    }
+    text: {
+        text: BroccoliText,
+        textToHighlight: BroccoliText
+    }
+    broccoli: BroccoliV2
+    app: {
+        currentContext: {
+            volumeId?: string,
+            context?: string | number
+        },
+        openingVol: {
+            opening: string,
+            volume: string
+        },
+        canvas: {
+            canvasIds: string[],
+            currentIndex: number
+        }
     }
 }
 
 export const initialAppState: AppState = {
-    setStore: null,
-    setMirAnn: null,
-    setAnno: null,
-    setText: null,
-    setSelectedAnn: undefined,
-    setTextToHighlight: null,
-    setAnnItemOpen: false,
-    setCurrentContext: {
-        volumeId: null,
-        context: null,
+    mirador: {
+        store: null,
+        mirAnn: null
     },
-    setBroccoli: null,
-    setOpeningVol: {
-        opening: null,
-        volume: null
+    annotations: {
+        annotations: null,
+        selectedAnn: undefined,
+        annItemOpen: false
     },
-    setCanvas: {
-        canvasIds: null,
-        currentIndex: null
+    text: {
+        text: null,
+        textToHighlight: null
+    },
+    broccoli: null,
+    app: {
+        currentContext: {
+            volumeId: null,
+            context: null
+        },
+        openingVol: {
+            opening: null,
+            volume: null
+        },
+        canvas: {
+            canvasIds: null,
+            currentIndex: null
+        }
     }
 }

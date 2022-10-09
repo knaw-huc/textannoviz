@@ -1,19 +1,15 @@
-import React, { createContext } from "react"
-import { AppAction, AppState, initAppState } from "../reducer/reducer"
-
-interface AppContext {
-    state: AppState
-    dispatch: React.Dispatch<AppAction>
-}
-
-const initAppContext: AppContext = {
-    state: initAppState,
-    dispatch: null
-}
-
-export const initialMiradorContextValue: any = null
-export const miradorContext = React.createContext(initialMiradorContextValue)
-
-export const appContext = createContext<AppContext>(initAppContext)
+import React from "react"
+import { AppAction } from "../action/actions"
+import { initialAppState } from "../state"
 
 export const DispatchContext = React.createContext<React.Dispatch<AppAction>>(null)
+
+export const MiradorContext = React.createContext(initialAppState.mirador)
+
+export const AnnotationsContext = React.createContext(initialAppState.annotations)
+
+export const TextContext = React.createContext(initialAppState.text)
+
+export const BroccoliContext = React.createContext(initialAppState.broccoli)
+
+export const AppContext = React.createContext(initialAppState.app)

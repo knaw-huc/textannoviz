@@ -15,67 +15,67 @@ export enum ACTIONS {
 }
 
 export type SetStore = 
-    Pick<AppState, "setStore"> &
+    Pick<AppState["mirador"], "store"> &
 {
     type: ACTIONS.SET_STORE
 }
 
 export type SetMirAnn =
-    Pick<AppState, "setMirAnn"> &
+    Pick<AppState["mirador"], "mirAnn"> &
 {
     type: ACTIONS.SET_MIRANN
 }
 
 export type SetAnno = 
-    Pick<AppState, "setAnno"> &
+    Pick<AppState["annotations"], "annotations"> &
 {
     type: ACTIONS.SET_ANNO
 }
 
 export type SetText = 
-    Pick<AppState, "setText"> &
+    Pick<AppState["text"], "text"> &
 {
     type: ACTIONS.SET_TEXT
 }
 
 export type SetSelectedAnn =
-    Pick<AppState, "setSelectedAnn"> &
+    Pick<AppState["annotations"], "selectedAnn"> &
 {
     type: ACTIONS.SET_SELECTEDANN
 }
 
 export type SetTextToHighlight =
-    Pick<AppState, "setTextToHighlight"> &
+    Pick<AppState["text"], "textToHighlight"> &
 {
     type: ACTIONS.SET_TEXTTOHIGHLIGHT
 }
 
 export type SetAnnItemOpen =
-    Pick<AppState, "setAnnItemOpen"> &
+    Pick<AppState["annotations"], "annItemOpen"> &
 {
     type: ACTIONS.SET_ANNITEMOPEN
 }
 
 export type SetCurrentContext =
-    Pick<AppState, "setCurrentContext"> &
+    Pick<AppState["app"], "currentContext"> &
 {
     type: ACTIONS.SET_CURRENTCONTEXT
 }
 
 export type SetBroccoli =
-    Pick<AppState, "setBroccoli"> &
+    Pick<AppState, "broccoli"> &
 {
     type: ACTIONS.SET_BROCCOLI
 }
 
 export type SetOpeningVol =
-    Pick<AppState, "setOpeningVol"> &
+    Pick<AppState["app"], "openingVol"> &
 {
     type: ACTIONS.SET_OPENINGVOL
 }
 
 export type SetCanvas =
-    Pick<AppState, "setCanvas"> &
+    Pick<AppState["app"], "canvas"> &
 {
     type: ACTIONS.SET_CANVAS
 }
