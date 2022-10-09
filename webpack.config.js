@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const Dotenv = require("dotenv-webpack")
 
 module.exports = {
     devServer: {
@@ -6,7 +7,7 @@ module.exports = {
         historyApiFallback: {
             disableDotRule: true
         },
-        host: "localhost",
+        host: "0.0.0.0",
         hot: true,
         port: 3000,
         proxy: {
@@ -40,15 +41,16 @@ module.exports = {
     output: {
         filename: "[name].bundle.js",
         chunkFilename: "js/[id].chunk.js",
-        path: __dirname + "/build-dev-server",
-        publicPath: "/",
+        // path: __dirname + "/build-dev-server",
+        // publicPath: "/",
     },
 
     plugins: [
         new HtmlWebpackPlugin({
             title: "Textannoviz",
             template: "index.template.html",
-        })
+        }),
+        new Dotenv()
     ],
 
     resolve: {

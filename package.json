@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "webpack serve"
+    "start": "cp .env.development .env && webpack serve"
   },
   "author": "",
   "license": "GPL-3.0-or-later",
@@ -30,6 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
     "css-loader": "^6.3.0",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.14.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
