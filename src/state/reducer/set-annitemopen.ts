@@ -4,6 +4,6 @@ import { AppState } from "../state"
 export const setAnnItemOpen = (state: AppState, action: SetAnnItemOpen) => {
     return {
         ...state,
-        setAnnItemOpen: action.setAnnItemOpen
+        annItemOpen: action.annItemOpen
     }
 }

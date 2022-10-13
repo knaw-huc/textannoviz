@@ -6,12 +6,12 @@ export interface AppState {
         store: any,
         mirAnn: iiifAnn
     }
-    annotations: {
+    annos: {
         annotations: AnnoRepoAnnotation[],
         selectedAnn: AnnoRepoAnnotation | undefined,
         annItemOpen: boolean
     }
-    text: {
+    textContainer: {
         text: BroccoliText,
         textToHighlight: BroccoliText
     }
@@ -37,12 +37,12 @@ export const initialAppState: AppState = {
         store: null,
         mirAnn: null
     },
-    annotations: {
+    annos: {
         annotations: null,
         selectedAnn: undefined,
         annItemOpen: false
     },
-    text: {
+    textContainer: {
         text: null,
         textToHighlight: null
     },

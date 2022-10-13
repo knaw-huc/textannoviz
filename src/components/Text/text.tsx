@@ -1,9 +1,9 @@
-import React, { useContext } from "react"
+import React from "react"
 import styled from "styled-components"
-import { appContext } from "../../state/context/context"
+import { useTextContext } from "./TextContext"
 //import { Loading } from "../backend/utils/Loader"
-//import { TextComponent } from "./TextComponent"
-import { TextHighlighting } from "./TextHighlighting"
+import { TextComponent } from "./TextComponent"
+//import { TextHighlighting } from "./TextHighlighting"
 // import { fetchJson } from "../backend/utils/fetchJson"
 // import { ACTIONS } from "../state/actions"
 
@@ -23,14 +23,14 @@ const TextStyled = styled.div`
 `
 
 export function Text() {
-    const { state } = useContext(appContext)
+    const textState = useTextContext().state
 
     return (
         <TextStyled id="text">
             {/* {state.MirAnn ? <TextComponent /> : <Loading />} */}
             {/* <TextComponent /> */}
             {/* {state.annItemOpen ? <TextHighlighting /> : <TextComponent />} */}
-            {state.text && <TextHighlighting />}
+            {textState.text && <TextComponent />}
         </TextStyled>
     )
 }

@@ -16,8 +16,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     console.log(action, state)
 
     switch (action.type) {
-    case ACTIONS.SET_STORE:
-        return setStore(state, action)
+    case ACTIONS.SET_STORE:{
+        return setStore(state, action)}
     case ACTIONS.SET_MIRANN:
         return setMirAnn(state, action)
     case ACTIONS.SET_ANNO:
@@ -39,6 +39,6 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case ACTIONS.SET_CANVAS:
         return setCanvas(state, action)
     default:
-        return state
+        break
     }
 }

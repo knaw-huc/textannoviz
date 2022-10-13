@@ -4,6 +4,6 @@ import { AppState } from "../state"
 export const setCanvas = (state: AppState, action: SetCanvas) => {
     return {
         ...state,
-        setCanvas: action.setCanvas
+        canvas: action.canvas
     }
 }

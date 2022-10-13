@@ -4,6 +4,6 @@ import { AppState } from "../state"
 export const setAnno = (state: AppState, action: SetAnno) => {
     return {
         ...state,
-        setAnno: action.setAnno
+        annotations: action.annotations
     }
 }

@@ -6,9 +6,9 @@ export const DispatchContext = React.createContext<React.Dispatch<AppAction>>(nu
 
 export const MiradorContext = React.createContext(initialAppState.mirador)
 
-export const AnnotationsContext = React.createContext(initialAppState.annotations)
+export const AnnotationsContext = React.createContext(initialAppState.annos)
 
-export const TextContext = React.createContext(initialAppState.text)
+export const TextContext = React.createContext(initialAppState.textContainer)
 
 export const BroccoliContext = React.createContext(initialAppState.broccoli)
 

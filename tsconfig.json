@@ -15,18 +15,20 @@
 		"module": "esnext",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
+		// "noUnusedLocals": true,
+		// "noUnusedParameters": true,
 		"outDir": "./build",
 		"removeComments": true,
 		"resolveJsonModule": true,
-		"target": "esnext",
-		"types": []
+		"target": "esnext"
 	},
 	"exclude": [
 		"./build",
 		"./dist",
 		"./node_modules"
 	],
-	"files": ["./src/index.tsx", "./src/index.d.ts"]
+	"files": [
+		"./src/index.tsx",
+		"./src/index.d.ts"
+	]
 }

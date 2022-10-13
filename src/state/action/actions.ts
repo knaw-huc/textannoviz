@@ -27,31 +27,31 @@ export type SetMirAnn =
 }
 
 export type SetAnno = 
-    Pick<AppState["annotations"], "annotations"> &
+    Pick<AppState["annos"], "annotations"> &
 {
     type: ACTIONS.SET_ANNO
 }
 
 export type SetText = 
-    Pick<AppState["text"], "text"> &
+    Pick<AppState["textContainer"], "text"> &
 {
     type: ACTIONS.SET_TEXT
 }
 
 export type SetSelectedAnn =
-    Pick<AppState["annotations"], "selectedAnn"> &
+    Pick<AppState["annos"], "selectedAnn"> &
 {
     type: ACTIONS.SET_SELECTEDANN
 }
 
 export type SetTextToHighlight =
-    Pick<AppState["text"], "textToHighlight"> &
+    Pick<AppState["textContainer"], "textToHighlight"> &
 {
     type: ACTIONS.SET_TEXTTOHIGHLIGHT
 }
 
 export type SetAnnItemOpen =
-    Pick<AppState["annotations"], "annItemOpen"> &
+    Pick<AppState["annos"], "annItemOpen"> &
 {
     type: ACTIONS.SET_ANNITEMOPEN
 }

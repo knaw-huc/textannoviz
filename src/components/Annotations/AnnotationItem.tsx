@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
 import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody } from "../../model/AnnoRepoAnnotation"
 import { ACTIONS } from "../../state/action/actions"
-import { appContext } from "../../state/context/context"
+import { AppContext, BroccoliContext, DispatchContext, MiradorContext } from "../../state/context/context"
 import { AnnotationItemContent } from "./AnnotationItemContent"
 import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli"
 
@@ -34,7 +34,10 @@ const Clickable = styled.div`
 
 export function AnnotationItem(props: AnnotationSnippetProps) {
     const [isOpen, setOpen] = React.useState(false)
-    const { state, dispatch } = React.useContext(appContext)
+    const app = React.useContext(AppContext)
+    const broccoli = React.useContext(BroccoliContext)
+    const dispatch = React.useContext(DispatchContext)
+    const mir = React.useContext(MiradorContext)
 
     function toggleOpen() {
         setOpen(!isOpen)
@@ -42,17 +45,17 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
         if(!isOpen) {
             //Zoom in on annotation in Mirador
-            const zoom = zoomAnnMirador(props.annotation, state.broccoli.iiif.canvasIds[0])
+            const zoom = zoomAnnMirador(props.annotation, broccoli.iiif.canvasIds[0])
 
-            state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
-            state.store.dispatch(mirador.actions.updateViewport("republic", {
+            mir.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
+            mir.store.dispatch(mirador.actions.updateViewport("republic", {
                 x: zoom.zoomCenter.x,
                 y: zoom.zoomCenter.y,
                 zoom: 1 / zoom.miradorZoom
             }))
 
             //Set text to highlight
-            fetchBroccoliBodyId(state.currentContext.volumeId, state.currentContext.context.toString(), props.annotation.body.id)
+            fetchBroccoliBodyId(app.currentContext.volumeId, app.currentContext.context.toString(), props.annotation.body.id)
                 .then(function(textToHighlight) {
                     if (textToHighlight !== null) {
                         console.log(textToHighlight)
@@ -73,7 +76,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
         } else {
             props.onSelect(undefined)
-            state.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
+            mir.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
         }
     }
 

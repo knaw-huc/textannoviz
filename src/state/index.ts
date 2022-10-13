@@ -9,6 +9,9 @@ import { BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli
 import { miradorConfig } from "../components/Mirador/MiradorConfig"
 import { ACTIONS } from "./action/actions"
 import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
+import { MiradorReducer } from "./mirador/MiradorReducer"
+import { initialMiradorState } from "./mirador/MiradorState"
+import { MIRADOR_ACTIONS } from "./mirador/MiradorActions"
 
 function setMiradorConfig(broccoli: BroccoliV2) {
     miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest
@@ -17,6 +20,12 @@ function setMiradorConfig(broccoli: BroccoliV2) {
 
 export const useAppState = (): [AppState, React.Dispatch<AppAction>] => {
     const [state, dispatch] = React.useReducer(appReducer, initialAppState)
+    const [miradorState, miradorDispatch] = React.useReducer(MiradorReducer, initialMiradorState)
+
+    miradorDispatch({
+        type: MIRADOR_ACTIONS.SET_STORE,
+        store: null
+    })
 
     const { volumeNum, openingNum, resolutionId } = useParams<{ volumeNum: string, openingNum: string, resolutionId: string }>()
 
@@ -29,45 +38,45 @@ export const useAppState = (): [AppState, React.Dispatch<AppAction>] => {
                     const viewer = mirador.viewer(miradorConfig)
                     dispatch({
                         type: ACTIONS.SET_STORE,
-                        setStore: viewer.store
+                        store: viewer.store
                     })
 
                     const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store, broccoli.iiif.canvasIds[0])
 
                     dispatch({
                         type: ACTIONS.SET_CURRENTCONTEXT,
-                        setCurrentContext: {
+                        currentContext: {
                             volumeId: (broccoli.request as OpeningRequest).volumeId,
-                            context: (broccoli.request as OpeningRequest).opening,
+                            context: (broccoli.request as OpeningRequest).opening
                         }
                     })
 
                     dispatch({
                         type: ACTIONS.SET_CANVAS,
-                        setCanvas: {
+                        canvas: {
                             canvasIds: broccoli.iiif.canvasIds,
-                            currentIndex: 0 
+                            currentIndex: 0
                         }
                     })
 
                     dispatch({
                         type: ACTIONS.SET_ANNO,
-                        setAnno: broccoli.anno
+                        annotations: broccoli.anno
                     })
 
                     dispatch({
                         type: ACTIONS.SET_TEXT,
-                        setText: broccoli.text
+                        text: broccoli.text
                     })
 
                     dispatch({
                         type: ACTIONS.SET_MIRANN,
-                        setMirAnn: iiifAnns
+                        mirAnn: iiifAnns
                     })
 
                     dispatch({
                         type: ACTIONS.SET_BROCCOLI,
-                        setBroccoli: broccoli
+                        broccoli: broccoli
                     })
                 })
                 .catch(console.error)
@@ -83,44 +92,44 @@ export const useAppState = (): [AppState, React.Dispatch<AppAction>] => {
                     const viewer = mirador.viewer(miradorConfig)
                     dispatch({
                         type: ACTIONS.SET_STORE,
-                        setStore: viewer.store
+                        store: viewer.store
                     })
 
                     const iiifAnns = visualizeAnnosMirador(broccoli, viewer.store, broccoli.iiif.canvasIds[0])
 
                     dispatch({
                         type: ACTIONS.SET_CURRENTCONTEXT,
-                        setCurrentContext: {
-                            context: (broccoli.request as ResolutionRequest).resolutionId,
+                        currentContext: {
+                            context: (broccoli.request as ResolutionRequest).resolutionId
                         }
                     })
 
                     dispatch({
                         type: ACTIONS.SET_CANVAS,
-                        setCanvas: {
+                        canvas: {
                             canvasIds: broccoli.iiif.canvasIds,
-                            currentIndex: 0 
+                            currentIndex: 0
                         }
                     })
 
                     dispatch({
                         type: ACTIONS.SET_ANNO,
-                        setAnno: broccoli.anno
+                        annotations: broccoli.anno
                     })
 
                     dispatch({
                         type: ACTIONS.SET_TEXT,
-                        setText: broccoli.text
+                        text: broccoli.text
                     })
 
                     dispatch({
                         type: ACTIONS.SET_MIRANN,
-                        setMirAnn: iiifAnns
+                        mirAnn: iiifAnns
                     })
 
                     dispatch({
                         type: ACTIONS.SET_BROCCOLI,
-                        setBroccoli: broccoli
+                        broccoli: broccoli
                     })
                 })
                 .catch(console.error)
@@ -128,12 +137,12 @@ export const useAppState = (): [AppState, React.Dispatch<AppAction>] => {
     }, [resolutionId])
 
     React.useEffect(() => {
-        if (state.setBroccoli === null || state.setCanvas.canvasIds === null || state.setCanvas.currentIndex === null) return
+        if (state.broccoli === null || state.app.canvas.canvasIds === null || state.app.canvas.currentIndex === null) return
         
-        console.log(state.setCanvas.canvasIds[state.setCanvas.currentIndex])
-        state.setStore.dispatch(mirador.actions.setCanvas("republic", state.setCanvas.canvasIds[state.setCanvas.currentIndex]))
+        console.log(state.app.canvas.canvasIds[state.app.canvas.currentIndex])
+        state.mirador.store.dispatch(mirador.actions.setCanvas("republic", state.app.canvas.canvasIds[state.app.canvas.currentIndex]))
         
-        const iiifAnns = visualizeAnnosMirador(state.setBroccoli, state.setStore, state.setCanvas.canvasIds[state.setCanvas.currentIndex])
+        const iiifAnns = visualizeAnnosMirador(state.broccoli, state.mirador.store, state.app.canvas.canvasIds[state.app.canvas.currentIndex])
         console.log(iiifAnns)
 
         // setTimeout(() => {
@@ -147,7 +156,7 @@ export const useAppState = (): [AppState, React.Dispatch<AppAction>] => {
         //     }))
         // }, 100)
 
-    }, [state.setAnno, state.setBroccoli, state.setCanvas.canvasIds, state.setCanvas.currentIndex, state.setStore])
+    }, [state.broccoli, state.app.canvas.canvasIds, state.app.canvas.currentIndex, state.mirador.store])
 
     return [state, dispatch]
 }

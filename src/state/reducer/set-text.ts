@@ -4,6 +4,6 @@ import { AppState } from "../state"
 export const setText = (state: AppState, action: SetText) => {
     return {
         ...state,
-        setText: action.setText
+        text: action.text
     }
 }
