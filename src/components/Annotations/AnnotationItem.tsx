@@ -3,10 +3,9 @@ import React from "react"
 import styled from "styled-components"
 import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
 import { AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody } from "../../model/AnnoRepoAnnotation"
-import { ACTIONS } from "../../state/action/actions"
-import { AppContext, BroccoliContext, DispatchContext, MiradorContext } from "../../state/context/context"
 import { AnnotationItemContent } from "./AnnotationItemContent"
-import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli"
+// import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli"
+import { useMiradorContext } from "../Mirador/MiradorContext"
 
 type AnnotationSnippetProps = {
     annot_id: React.Key,
@@ -34,10 +33,7 @@ const Clickable = styled.div`
 
 export function AnnotationItem(props: AnnotationSnippetProps) {
     const [isOpen, setOpen] = React.useState(false)
-    const app = React.useContext(AppContext)
-    const broccoli = React.useContext(BroccoliContext)
-    const dispatch = React.useContext(DispatchContext)
-    const mir = React.useContext(MiradorContext)
+    const miradorState = useMiradorContext().state
 
     function toggleOpen() {
         setOpen(!isOpen)
@@ -45,38 +41,38 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
         if(!isOpen) {
             //Zoom in on annotation in Mirador
-            const zoom = zoomAnnMirador(props.annotation, broccoli.iiif.canvasIds[0])
+            const zoom = zoomAnnMirador(props.annotation, miradorState.canvas.canvasIds[0])
 
-            mir.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
-            mir.store.dispatch(mirador.actions.updateViewport("republic", {
+            miradorState.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
+            miradorState.store.dispatch(mirador.actions.updateViewport("republic", {
                 x: zoom.zoomCenter.x,
                 y: zoom.zoomCenter.y,
                 zoom: 1 / zoom.miradorZoom
             }))
 
             //Set text to highlight
-            fetchBroccoliBodyId(app.currentContext.volumeId, app.currentContext.context.toString(), props.annotation.body.id)
-                .then(function(textToHighlight) {
-                    if (textToHighlight !== null) {
-                        console.log(textToHighlight)
-                        dispatch({
-                            type: ACTIONS.SET_TEXTTOHIGHLIGHT,
-                            textToHighlight: textToHighlight.text
-                        })
-                        console.log("text to highlight dispatch done")
-                        dispatch({
-                            type: ACTIONS.SET_ANNITEMOPEN,
-                            annItemOpen: true
-                        })
-                    } else {
-                        return
-                    }
-                })
-                .catch(console.error)
+            // fetchBroccoliBodyId(app.currentContext.volumeId, app.currentContext.context.toString(), props.annotation.body.id)
+            //     .then(function(textToHighlight) {
+            //         if (textToHighlight !== null) {
+            //             console.log(textToHighlight)
+            //             dispatch({
+            //                 type: ACTIONS.SET_TEXTTOHIGHLIGHT,
+            //                 textToHighlight: textToHighlight.text
+            //             })
+            //             console.log("text to highlight dispatch done")
+            //             dispatch({
+            //                 type: ACTIONS.SET_ANNITEMOPEN,
+            //                 annItemOpen: true
+            //             })
+            //         } else {
+            //             return
+            //         }
+            //     })
+            //     .catch(console.error)
 
         } else {
             props.onSelect(undefined)
-            mir.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
+            miradorState.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
         }
     }
 
