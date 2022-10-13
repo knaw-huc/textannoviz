@@ -17,11 +17,14 @@ const AnnotationStyled = styled.div`
 
 export function Annotation() {
     const annotationsState = useAnnotationsContext().state
+    const setAnnotationsState = useAnnotationsContext().setState
 
     function handleSelected(selected: AnnoRepoAnnotation | undefined) {
         console.log(selected)
-        return
-        // return dispatch({type: ACTIONS.SET_SELECTEDANN, selectedAnn: selected})
+        return setAnnotationsState({
+            ...annotationsState,
+            selectedAnn: selected
+        })
     }
 
     return (

@@ -9,7 +9,7 @@ import { useMiradorContext } from "./components/Mirador/MiradorContext"
 import { useTextContext } from "./components/Text/TextContext"
 import { fetchBroccoliOpening, fetchBroccoliResolution } from "./backend/utils/fetchBroccoli"
 import { useParams } from "react-router-dom"
-import { BroccoliV2 } from "./model/Broccoli"
+import { BroccoliV2, OpeningRequest } from "./model/Broccoli"
 import { miradorConfig } from "./components/Mirador/MiradorConfig"
 import { visualizeAnnosMirador } from "./backend/utils/visualizeAnnosMirador"
 
@@ -64,6 +64,14 @@ export const Detail = () => {
                         }
                     })
 
+                    setMiradorState({
+                        ...miradorState,
+                        currentContext: {
+                            volume: (broccoli.request as OpeningRequest).volumeId,
+                            opening: (broccoli.request as OpeningRequest).openingNr
+                        }
+                    })
+
                     setAnnotationsState({
                         ...annotationsState,
                         annotations: broccoli.anno
@@ -102,6 +110,14 @@ export const Detail = () => {
                         canvas: {
                             canvasIds: broccoli.iiif.canvasIds,
                             currentIndex: 0
+                        }
+                    })
+
+                    setMiradorState({
+                        ...miradorState,
+                        currentContext: {
+                            volume: (broccoli.request as OpeningRequest).volumeId,
+                            opening: (broccoli.request as OpeningRequest).openingNr
                         }
                     })
 

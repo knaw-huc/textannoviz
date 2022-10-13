@@ -12,6 +12,10 @@ export type MiradorStateType = {
     canvas: {
         canvasIds: string[],
         currentIndex: number
+    },
+    currentContext: {
+        volume: string,
+        opening: string | number
     }
 }
 
@@ -22,6 +26,10 @@ export const defaultMiradorContext = {
         canvas: {
             canvasIds: [],
             currentIndex: 0
+        },
+        currentContext: {
+            volume: "",
+            opening: 0
         }
     },
     setState: dummyProvider
