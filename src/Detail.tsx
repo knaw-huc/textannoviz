@@ -31,14 +31,12 @@ export const Detail = () => {
 
 
     return (
-        <Providers>
-            <AppContainer id="appcontainer">
-                <Row id="row">
-                    <Mirador />
-                    <Text />
-                    <Annotation />
-                </Row>
-            </AppContainer>
-        </Providers>
+        <AppContainer id="appcontainer">
+            <Row id="row">
+                <Mirador />
+                <Text />
+                <Annotation />
+            </Row>
+        </AppContainer>
     )
 }

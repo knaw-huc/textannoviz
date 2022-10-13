@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "./components/Home"
 import { Detail } from "./Detail"
 import { ErrorPage } from "./error-page"
+import { Providers } from "./Providers"
 
 const router = createBrowserRouter([
     {
@@ -23,5 +24,9 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
-    return <RouterProvider router={router} />
+    return (
+        <Providers>
+            <RouterProvider router={router} />
+        </Providers>
+    )
 }
