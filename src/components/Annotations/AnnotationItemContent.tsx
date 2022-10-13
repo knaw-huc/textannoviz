@@ -3,8 +3,7 @@ import styled from "styled-components"
 //import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
 import { HOSTS } from "../../Config"
 import { AnnoRepoAnnotation, AttendanceListBody, AttendantBody, ResolutionBody, ReviewedBody, SessionBody } from "../../model/AnnoRepoAnnotation"
-import { ACTIONS } from "../../state/action/actions"
-import { AppContext, DispatchContext } from "../../state/context/context"
+import { useMiradorContext } from "../Mirador/MiradorContext"
 
 type AnnotationContentProps = {
     annotation: AnnoRepoAnnotation | undefined
@@ -16,23 +15,23 @@ const AnnPreview = styled.div`
 
 export function AnnotationItemContent(props: AnnotationContentProps) {
     const [showFull, setShowFull] = React.useState(false)
-    const app = React.useContext(AppContext)
-    const dispatch = React.useContext(DispatchContext)
+
+    const miradorState = useMiradorContext().state
+    const setMiradorState = useMiradorContext().setState
 
     const nextCanvasClickHandler = () => {
-        const canvasIds = app.canvas.canvasIds
-        const currentIndex = app.canvas.currentIndex
+        const canvasIds = miradorState.canvas.canvasIds
+        const currentIndex = miradorState.canvas.currentIndex
 
         if (currentIndex >= canvasIds.length - 1) {
-            console.log("NEE!")
             return
         }
 
         let nextCanvas = currentIndex
         nextCanvas += 1
 
-        dispatch({
-            type: ACTIONS.SET_CANVAS,
+        setMiradorState({
+            ...miradorState,
             canvas: {
                 canvasIds: canvasIds,
                 currentIndex: nextCanvas
@@ -41,21 +40,20 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
     }
 
     const prevCanvasClickHandler = () => {
-        const canvasIds = app.canvas.canvasIds
-        const currentIndex = app.canvas.currentIndex
+        const canvasIds = miradorState.canvas.canvasIds
+        const currentIndex = miradorState.canvas.currentIndex
 
         console.log(currentIndex, canvasIds.length - 1)
 
         if (currentIndex > canvasIds.length - 1) {
-            console.log("NEE!")
             return
         }
 
         let prevCanvas = currentIndex
         prevCanvas -= 1
 
-        dispatch({
-            type: ACTIONS.SET_CANVAS,
+        setMiradorState({
+            ...miradorState,
             canvas: {
                 canvasIds: canvasIds,
                 currentIndex: prevCanvas
@@ -108,7 +106,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                     })()}
                     <li>
                         {(() => {
-                            if (app.canvas.canvasIds.length > 1 && app.canvas.currentIndex < app.canvas.canvasIds.length - 1) {
+                            if (miradorState.canvas.canvasIds.length > 1 && miradorState.canvas.currentIndex < miradorState.canvas.canvasIds.length - 1) {
                                 return (
                                     <button onClick={nextCanvasClickHandler}>Next canvas</button>
                                     // <p onClick={clickHandler}>This annotation extends to the next opening.<br />Click here to view next opening.</p>
@@ -118,7 +116,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                     </li>
                     <li>
                         {(() => {
-                            if (app.canvas.canvasIds.length > 1 && app.canvas.currentIndex > 0) {
+                            if (miradorState.canvas.canvasIds.length > 1 && miradorState.canvas.currentIndex > 0) {
                                 return (
                                     <button onClick={prevCanvasClickHandler}>Previous canvas</button>
                                 )
