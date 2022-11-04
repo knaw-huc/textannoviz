@@ -5,3 +5,6 @@ build
 textrepotav
 untangle2elucidate
 .env*
+.vscode
+.idea
+.fleet
