@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./
+      dockerfile: deploy/Dockerfile-dev
+    command: npm start
+    container_name: textannoviz_frontend
+    expose:
+      - 3000
+    networks:
+      - frontend_network
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/textannoviz/src
+      - ./tsconfig.json:/textannoviz/tsconfig.json
+      - ./webpack.config.js:/textannoviz/webpack.config.js
+      - ./index.template.html:/textannoviz/index.template.html
+      - ./eslintrc.json:/textannoviz/eslintrc.json
+
+  nginx:
+    container_name: textannoviz_nginx
+    depends_on:
+      - frontend
+    image: nginx:1.23
+    networks:
+      - frontend_network
+    ports:
+      - "8000:80"
+    volumes:
+      - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
+
+networks:
+  frontend_network:
