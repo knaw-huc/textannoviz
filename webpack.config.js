@@ -1,5 +1,4 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const Dotenv = require("dotenv-webpack")
 
 module.exports = {
     devServer: {
@@ -42,15 +41,14 @@ module.exports = {
         filename: "[name].bundle.js",
         chunkFilename: "js/[id].chunk.js",
         // path: __dirname + "/build-dev-server",
-        // publicPath: "/",
+        publicPath: "/",
     },
 
     plugins: [
         new HtmlWebpackPlugin({
             title: "Textannoviz",
             template: "index.template.html",
-        }),
-        new Dotenv()
+        })
     ],
 
     resolve: {
