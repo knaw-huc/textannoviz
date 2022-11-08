@@ -38,7 +38,7 @@ export interface BroccoliV2 {
 
 export interface OpeningRequest {
     volumeId: string,
-    opening: number
+    openingNr: number
 }
 
 export interface ResolutionRequest {

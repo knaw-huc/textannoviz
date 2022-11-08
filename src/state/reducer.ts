@@ -3,7 +3,6 @@ import React, { useReducer } from "react"
 import { useParams } from "react-router-dom"
 import { fetchBroccoliOpening, fetchBroccoliResolution } from "../backend/utils/fetchBroccoli"
 import { visualizeAnnosMirador } from "../backend/utils/visualizeAnnosMirador"
-import { zoomAnnMirador } from "../backend/utils/zoomAnnMirador"
 import { miradorConfig } from "../components/Mirador/MiradorConfig"
 import { AnnoRepoAnnotation, iiifAnn } from "../model/AnnoRepoAnnotation"
 import { BroccoliText, BroccoliV2, OpeningRequest, ResolutionRequest } from "../model/Broccoli"
@@ -149,7 +148,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         type: ACTIONS.SET_CURRENTCONTEXT,
                         currentContext: {
                             volumeId: (broccoli.request as OpeningRequest).volumeId,
-                            context: (broccoli.request as OpeningRequest).opening,
+                            context: (broccoli.request as OpeningRequest).openingNr,
                         }
                     })
 
@@ -157,7 +156,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         type: ACTIONS.SET_CANVAS,
                         canvas: {
                             canvasIds: broccoli.iiif.canvasIds,
-                            currentIndex: 0 
+                            currentIndex: 0
                         }
                     })
 
@@ -210,7 +209,7 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
                         type: ACTIONS.SET_CANVAS,
                         canvas: {
                             canvasIds: broccoli.iiif.canvasIds,
-                            currentIndex: 0 
+                            currentIndex: 0
                         }
                     })
 
@@ -238,27 +237,27 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
         }
     }, [resolutionId])
 
-    React.useEffect(() => {
-        if (state.broccoli === null || state.canvas.canvasIds === null || state.canvas.currentIndex === null) return
-        
-        console.log(state.canvas.canvasIds[state.canvas.currentIndex])
-        state.store.dispatch(mirador.actions.setCanvas("republic", state.canvas.canvasIds[state.canvas.currentIndex]))
-        
-        const iiifAnns = visualizeAnnosMirador(state.broccoli, state.store, state.canvas.canvasIds[state.canvas.currentIndex])
-        console.log(iiifAnns)
+    // React.useEffect(() => {
+    //     if (state.broccoli === null || state.canvas.canvasIds === null || state.canvas.currentIndex === null) return
 
-        setTimeout(() => {
-            const zoom = zoomAnnMirador(state.anno[0], state.canvas.canvasIds[state.canvas.currentIndex])
+    //     console.log(state.canvas.canvasIds[state.canvas.currentIndex])
+    //     state.store.dispatch(mirador.actions.setCanvas("republic", state.canvas.canvasIds[state.canvas.currentIndex]))
 
-            state.store.dispatch(mirador.actions.selectAnnotation("republic", state.anno[0]))
-            state.store.dispatch(mirador.actions.updateViewport("republic", {
-                x: zoom.zoomCenter.x,
-                y: zoom.zoomCenter.y,
-                zoom: 1 / zoom.miradorZoom
-            }))
-        }, 100)
+    //     const iiifAnns = visualizeAnnosMirador(state.broccoli, state.store, state.canvas.canvasIds[state.canvas.currentIndex])
+    //     console.log(iiifAnns)
 
-    }, [state.anno, state.broccoli, state.canvas.canvasIds, state.canvas.currentIndex, state.store])
+    //     setTimeout(() => {
+    //         const zoom = zoomAnnMirador(state.anno[0], state.canvas.canvasIds[state.canvas.currentIndex])
+
+    //         state.store.dispatch(mirador.actions.selectAnnotation("republic", state.anno[0]))
+    //         state.store.dispatch(mirador.actions.updateViewport("republic", {
+    //             x: zoom.zoomCenter.x,
+    //             y: zoom.zoomCenter.y,
+    //             zoom: 1 / zoom.miradorZoom
+    //         }))
+    //     }, 100)
+
+    // }, [state.anno, state.broccoli, state.canvas.canvasIds, state.canvas.currentIndex, state.store])
 
     return [state, dispatch]
 }
@@ -266,30 +265,30 @@ export function useAppState(): [AppState, React.Dispatch<AppAction>] {
 function reducer(state: AppState, action: AppAction): AppState {
     console.log(action, state)
     switch (action.type) {
-    case ACTIONS.SET_STORE:
-        return setStore(state, action)
-    case ACTIONS.SET_MIRANN:
-        return setMirAnn(state, action)
-    case ACTIONS.SET_ANNO:
-        return setAnno(state, action)
-    case ACTIONS.SET_TEXT:
-        return setText(state, action)
-    case ACTIONS.SET_SELECTEDANN:
-        return setSelectedAnn(state, action)
-    case ACTIONS.SET_TEXTTOHIGHLIGHT:
-        return setTextToHighlight(state, action)
-    case ACTIONS.SET_ANNITEMOPEN:
-        return setAnnItemOpen(state, action)
-    case ACTIONS.SET_CURRENTCONTEXT:
-        return setCurrentContext(state, action)
-    case ACTIONS.SET_BROCCOLI:
-        return setBroccoli(state, action)
-    case ACTIONS.SET_OPENINGVOL:
-        return setOpeningVol(state, action)
-    case ACTIONS.SET_CANVAS:
-        return setCanvas(state, action)
-    default:
-        return state
+        case ACTIONS.SET_STORE:
+            return setStore(state, action)
+        case ACTIONS.SET_MIRANN:
+            return setMirAnn(state, action)
+        case ACTIONS.SET_ANNO:
+            return setAnno(state, action)
+        case ACTIONS.SET_TEXT:
+            return setText(state, action)
+        case ACTIONS.SET_SELECTEDANN:
+            return setSelectedAnn(state, action)
+        case ACTIONS.SET_TEXTTOHIGHLIGHT:
+            return setTextToHighlight(state, action)
+        case ACTIONS.SET_ANNITEMOPEN:
+            return setAnnItemOpen(state, action)
+        case ACTIONS.SET_CURRENTCONTEXT:
+            return setCurrentContext(state, action)
+        case ACTIONS.SET_BROCCOLI:
+            return setBroccoli(state, action)
+        case ACTIONS.SET_OPENINGVOL:
+            return setOpeningVol(state, action)
+        case ACTIONS.SET_CANVAS:
+            return setCanvas(state, action)
+        default:
+            return state
     }
 }
 
