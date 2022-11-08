@@ -6,7 +6,7 @@ export const fetchBroccoliOpening = async (volume = "1728", opening = "285") => 
         return
     }
 
-    const response = await fetch(`${HOSTS.BROCCOLI}/v2?volume=${volume}&opening=${opening}`)
+    const response = await fetch(`${HOSTS.BROCCOLI}/v3/volumes/${volume}/openings/${opening}`)
     if (!response.ok) {
         const error = await response.json()
         alert(`${error.message}`)
@@ -16,7 +16,7 @@ export const fetchBroccoliOpening = async (volume = "1728", opening = "285") => 
 }
 
 export const fetchBroccoliResolution = async (resolutionId = "urn:republic:session-1728-09-24-ordinaris-num-1-resolution-1") => {
-    const response = await fetch(`${HOSTS.BROCCOLI}/v2/resolutions/${resolutionId}`)
+    const response = await fetch(`${HOSTS.BROCCOLI}/v3/bodies/${resolutionId}`)
     if (!response.ok) return null
     return response.json()
 }
