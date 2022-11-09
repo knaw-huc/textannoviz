@@ -69,7 +69,6 @@ module.exports = {
                 terserOptions: {
                     compress: {
                         drop_console: true,
-
                     }
                 }
             })
