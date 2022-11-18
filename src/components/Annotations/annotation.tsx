@@ -1,46 +1,52 @@
-import React from "react"
-import styled from "styled-components"
-import { Loading } from "../../backend/utils/Loader"
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation"
-import { AnnotationButtons } from "./AnnotationButtons"
-import { AnnotationItem } from "./AnnotationItem"
-import { AnnotationLinks } from "./AnnotationLinks"
-import { useAnnotationsContext } from "./AnnotationsContext"
+import React from "react";
+import styled from "styled-components";
+import { Loading } from "../../backend/utils/Loader";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
+import { ANNOTATION_ACTIONS } from "../../state/annotation/AnnotationActions";
+import { annotationContext } from "../../state/annotation/AnnotationContext";
+import { AnnotationButtons } from "./AnnotationButtons";
+import { AnnotationItem } from "./AnnotationItem";
+import { AnnotationLinks } from "./AnnotationLinks";
 
 const AnnotationStyled = styled.div`
-    min-width: 400px;
-    height: 800px;
-    padding: 0.7em;
-    overflow: auto;
-    white-space: pre-wrap;
-`
+  min-width: 400px;
+  height: 800px;
+  padding: 0.7em;
+  overflow: auto;
+  white-space: pre-wrap;
+`;
 
 export function Annotation() {
-    const annotationsState = useAnnotationsContext().state
-    const setAnnotationsState = useAnnotationsContext().setState
+  const { annotationState, annotationDispatch } =
+    React.useContext(annotationContext);
 
-    function handleSelected(selected: AnnoRepoAnnotation | undefined) {
-        console.log(selected)
-        return setAnnotationsState({
-            ...annotationsState,
-            selectedAnn: selected
-        })
-    }
+  function handleSelected(selected: AnnoRepoAnnotation | undefined) {
+    console.log(selected);
 
-    return (
-        <AnnotationStyled id="annotation">
-            <AnnotationButtons />
-            <AnnotationLinks />
+    annotationDispatch({
+      type: ANNOTATION_ACTIONS.SET_SELECTEDANNOTATION,
+      selectedAnnotation: selected,
+    });
+  }
 
-            {annotationsState.annotations.length > 0 ? annotationsState.annotations.map((annotation, index) => (
-                <AnnotationItem
-                    key={index}
-                    annot_id={index}
-                    annotation={annotation}
-                    selected={annotationsState.selectedAnn?.id === annotation.id}
-                    onSelect={handleSelected}
-                />
-            )) : <Loading />}
-        </AnnotationStyled>
-    )
+  return (
+    <AnnotationStyled id="annotation">
+      <AnnotationButtons />
+      <AnnotationLinks />
+
+      {annotationState.annotation && annotationState.annotation.length > 0 ? (
+        annotationState.annotation.map((annotation, index) => (
+          <AnnotationItem
+            key={index}
+            annot_id={index}
+            annotation={annotation}
+            selected={annotationState.selectedAnnotation?.id === annotation.id}
+            onSelect={handleSelected}
+          />
+        ))
+      ) : (
+        <Loading />
+      )}
+    </AnnotationStyled>
+  );
 }

@@ -1,30 +1,39 @@
-import React from "react"
-import { AnnotationsContext, TextContext } from "../../state/context/context"
+import React from "react";
+import { annotationContext } from "../../state/annotation/AnnotationContext";
+import { textContext } from "../../state/text/TextContext";
 
 export function TextHighlighting() {
-    const annos = React.useContext(AnnotationsContext)
-    const text = React.useContext(TextContext)
-    const [textToMark, setTextToMark] = React.useState(text.text.lines)
-    console.log("text component begins")
+  const { annotationState } = React.useContext(annotationContext);
+  const { textState } = React.useContext(textContext);
 
-    React.useEffect(() => {
-        if (annos.annItemOpen === true) {
-            console.log("IF STATEMENT TRUE")
-            console.log(text.textToHighlight)
-            const markElement = `<mark>${textToMark.slice(text.textToHighlight.location.start.line, text.textToHighlight.location.end.line + 1).join("\n")}</mark>`
-            console.log(markElement)
-            textToMark.splice(text.textToHighlight.location.start.line, text.textToHighlight.location.end.offset, markElement)
-            console.log(textToMark)
-        } else {
-            setTextToMark(text.text.lines)
-            console.log("IF IS FALSE")
-            console.log(textToMark)
-            console.log(text.text)
-        }
-    }, [annos.annItemOpen, text.text])
+  const [textToMark, setTextToMark] = React.useState(textState.text.lines);
+  console.log("text component begins");
 
-    //Warning: "dangerouslySetInnerHTML" is susceptible to XSS attacks. This might fix it: https://www.npmjs.com/package/dompurify
-    return (
-        <span dangerouslySetInnerHTML={{ __html: textToMark.join("\n") }} />
-    )
+  React.useEffect(() => {
+    if (annotationState.annotationItemOpen === true) {
+      console.log("IF STATEMENT TRUE");
+      console.log(textState.textToHighlight);
+      const markElement = `<mark>${textToMark
+        .slice(
+          textState.textToHighlight.location.start.line,
+          textState.textToHighlight.location.end.line + 1
+        )
+        .join("\n")}</mark>`;
+      console.log(markElement);
+      textToMark.splice(
+        textState.textToHighlight.location.start.line,
+        textState.textToHighlight.location.end.offset,
+        markElement
+      );
+      console.log(textToMark);
+    } else {
+      setTextToMark(textState.text.lines);
+      console.log("IF IS FALSE");
+      console.log(textToMark);
+      console.log(textState.text);
+    }
+  }, [annotationState.annotationItemOpen, textState.text]);
+
+  //Warning: "dangerouslySetInnerHTML" is susceptible to XSS attacks. This might fix it: https://www.npmjs.com/package/dompurify
+  return <span dangerouslySetInnerHTML={{ __html: textToMark.join("\n") }} />;
 }

@@ -1,11 +1,7 @@
-import React from "react"
-import { useTextContext } from "./TextContext"
+import React from "react";
+import { textContext } from "../../state/text/TextContext";
 
 export function TextComponent() {
-    const textState = useTextContext().state
-    return (
-        <>
-            {textState.text ? textState.text.lines.join("\n") : null}
-        </>
-    )
+  const { textState } = React.useContext(textContext);
+  return <>{textState.text ? textState.text.lines.join("\n") : null}</>;
 }
