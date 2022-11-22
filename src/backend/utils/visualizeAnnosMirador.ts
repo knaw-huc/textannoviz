@@ -29,20 +29,20 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any, canvasId
         let colour: string
 
         switch (broccoli.anno[i].body.type) {
-        case "Resolution":
-            colour = "green"
-            break
-        case "Attendant":
-            colour = "#DB4437"
-            break
-        case "Reviewed":
-            colour = "blue"
-            break
-        case "AttendanceList":
-            colour = "yellow"
-            break
-        default:
-            colour = "white"
+            case "Resolution":
+                colour = "green"
+                break
+            case "Attendant":
+                colour = "#DB4437"
+                break
+            case "Reviewed":
+                colour = "blue"
+                break
+            case "AttendanceList":
+                colour = "yellow"
+                break
+            default:
+                colour = "white"
         }
 
         const iiifAnnResources: iiifAnnResources[] = [{
@@ -87,8 +87,9 @@ export const visualizeAnnosMirador = (broccoli: BroccoliV2, store: any, canvasId
     })
     iiifAnn.resources.push(...resources)
 
-    console.log(store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", iiifAnn)))
+    const res = store.dispatch(mirador.actions.receiveAnnotation(`${currentState.windows.republic.canvasId}`, "annotation", iiifAnn))
+    console.log(res)
 
     return iiifAnn
-    
+
 }

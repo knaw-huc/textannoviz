@@ -1,0 +1,13 @@
+FROM node:18-alpine as build
+
+WORKDIR /textannoviz
+COPY ./package.json /textannoviz/package.json
+
+RUN npm install --force
+
+COPY . .
+RUN npm run build --config webpack.config-prod.js
+
+FROM nginx:alpine
+COPY --from=build /textannoviz/dist /usr/share/nginx/html
+EXPOSE 80

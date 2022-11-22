@@ -1,0 +1,6 @@
+FROM node:18-alpine as build
+
+WORKDIR /textannoviz
+COPY ./package.json /textannoviz/package.json
+
+RUN npm install --force

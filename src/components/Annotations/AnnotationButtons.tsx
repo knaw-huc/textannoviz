@@ -1,6 +1,6 @@
 import mirador from "mirador";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { miradorContext } from "../../state/mirador/MiradorContext";
 
@@ -15,6 +15,7 @@ const Button = styled.button`
 
 export const AnnotationButtons = () => {
   const { miradorState } = React.useContext(miradorContext);
+  const params = useParams();
   const navigate = useNavigate();
 
   const nextCanvasClickHandler = () => {
@@ -40,10 +41,14 @@ export const AnnotationButtons = () => {
   };
 
   return (
-    <div id="annotation-buttons">
-      <Button onClick={nextCanvasClickHandler}>Next canvas</Button>
-      <Button onClick={previousCanvasClickHandler}>Previous canvas</Button>
-      <Button onClick={testFunctionClickHandler}>Test button</Button>
-    </div>
+    <>
+      {params.volumeNum && params.openingNum ? (
+        <div>
+          <Button onClick={nextCanvasClickHandler}>Next canvas</Button>
+          <Button onClick={previousCanvasClickHandler}>Previous canvas</Button>
+          <Button onClick={testFunctionClickHandler}>Test button</Button>
+        </div>
+      ) : null}
+    </>
   );
 };

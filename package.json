@@ -1,12 +1,16 @@
 {
   "name": "textannoviz",
-  "version": "0.0.0",
+  "version": "0.1.6",
   "description": "",
   "private": true,
   "scripts": {
-    "start": "webpack serve"
+    "start": "webpack serve --config webpack.config-dev.js",
+    "build": "webpack build --config webpack.config-prod.js",
+    "docker:build": "./docker-build.sh",
+    "docker:tag": "./docker-tag.sh",
+    "docker:push": "./docker-push.sh"
   },
-  "author": "",
+  "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@recogito/recogito-js": "^1.7.1",
@@ -35,6 +39,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.3.2",
     "style-loader": "^3.3.0",
+    "terser-webpack-plugin": "^5.3.6",
     "ts-loader": "^9.2.6",
     "typescript": "^4.8.4",
     "webpack": "^5.57.1",
