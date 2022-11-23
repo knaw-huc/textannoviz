@@ -36,10 +36,9 @@ const setMiradorConfig = (broccoli: BroccoliV2) => {
 };
 
 export const Detail = () => {
-  const { miradorState, miradorDispatch } = React.useContext(miradorContext);
-  const { annotationState, annotationDispatch } =
-    React.useContext(annotationContext);
-  const { textState, textDispatch } = React.useContext(textContext);
+  const { miradorDispatch } = React.useContext(miradorContext);
+  const { annotationDispatch } = React.useContext(annotationContext);
+  const { textDispatch } = React.useContext(textContext);
   const { volumeNum, openingNum, resolutionId } = useParams<{
     volumeNum: string;
     openingNum: string;
