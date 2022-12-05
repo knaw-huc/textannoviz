@@ -1,6 +1,7 @@
 import mirador from "mirador";
 import React from "react";
 import styled from "styled-components";
+import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli";
 import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador";
 import {
   AnnoRepoAnnotation,
@@ -8,9 +9,12 @@ import {
   ResolutionBody,
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
+import { ANNOTATION_ACTIONS } from "../../state/annotation/AnnotationActions";
+import { annotationContext } from "../../state/annotation/AnnotationContext";
 import { miradorContext } from "../../state/mirador/MiradorContext";
+import { TEXT_ACTIONS } from "../../state/text/TextActions";
+import { textContext } from "../../state/text/TextContext";
 import { AnnotationItemContent } from "./AnnotationItemContent";
-// import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli"
 
 type AnnotationSnippetProps = {
   annot_id: React.Key;
@@ -39,6 +43,8 @@ const Clickable = styled.div`
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
   const { miradorState } = React.useContext(miradorContext);
+  const { textDispatch } = React.useContext(textContext);
+  const { annotationDispatch } = React.useContext(annotationContext);
 
   function toggleOpen() {
     setOpen(!isOpen);
@@ -62,25 +68,25 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         })
       );
 
-      //Set text to highlight
-      // fetchBroccoliBodyId(app.currentContext.volumeId, app.currentContext.context.toString(), props.annotation.body.id)
-      //     .then(function(textToHighlight) {
-      //         if (textToHighlight !== null) {
-      //             console.log(textToHighlight)
-      //             dispatch({
-      //                 type: ACTIONS.SET_TEXTTOHIGHLIGHT,
-      //                 textToHighlight: textToHighlight.text
-      //             })
-      //             console.log("text to highlight dispatch done")
-      //             dispatch({
-      //                 type: ACTIONS.SET_ANNITEMOPEN,
-      //                 annItemOpen: true
-      //             })
-      //         } else {
-      //             return
-      //         }
-      //     })
-      //     .catch(console.error)
+      // Set text to highlight
+      fetchBroccoliBodyId(props.annotation.body.id, "Scan")
+        .then(function (textToHighlight) {
+          if (textToHighlight !== null) {
+            console.log(textToHighlight);
+            textDispatch({
+              type: TEXT_ACTIONS.SET_TEXTTOHIGHLIGHT,
+              textToHighlight: textToHighlight.text,
+            });
+            console.log("text to highlight dispatch done");
+            annotationDispatch({
+              type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
+              annotationItemOpen: true,
+            });
+          } else {
+            return;
+          }
+        })
+        .catch(console.error);
     } else {
       props.onSelect(undefined);
       miradorState.store.dispatch(

@@ -33,12 +33,11 @@ export const fetchBroccoliResolution = async (
 };
 
 export const fetchBroccoliBodyId = async (
-  volume = "1728",
-  opening = "285",
-  bodyId = "urn:republic:session-1728-06-19-ordinaris-num-1-para-2"
+  bodyId = "urn:republic:session-1728-06-19-ordinaris-num-1-para-2",
+  relativeTo: string
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/v2?volume=${volume}&opening=${opening}&bodyId=${bodyId}`
+    `${HOSTS.BROCCOLI}/v3/bodies/${bodyId}?relativeTo=${relativeTo}`
   );
   if (!response.ok) return null;
   return response.json();
