@@ -30,6 +30,10 @@ const Row = styled.div`
   flex-direction: row;
 `;
 
+const LastUpdated = styled.div`
+  border-bottom: 1px solid black;
+`;
+
 const setMiradorConfig = (broccoli: BroccoliV2) => {
   miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
   miradorConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
@@ -115,6 +119,7 @@ export const Detail = () => {
 
   return (
     <AppContainer id="appcontainer">
+      <LastUpdated>Last updated: 7 december 2022</LastUpdated>
       <Row id="row">
         <Mirador />
         <Text />
