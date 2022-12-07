@@ -18,13 +18,10 @@ export function TextComponent() {
 
   React.useEffect(() => {
     if (annotationState.annotationItemOpen) {
-      console.log(textState.textToHighlight);
       const startIndex = textState.textToHighlight.location.start.line;
       const endIndex = textState.textToHighlight.location.end.line;
 
       const indices = createIndices(startIndex, endIndex);
-
-      console.log(indices);
 
       setHighlightedLines(indices);
     } else {
