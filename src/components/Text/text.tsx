@@ -8,29 +8,20 @@ import { TextComponent } from "./TextComponent";
 // import { ACTIONS } from "../state/actions"
 
 const TextStyled = styled.div`
-  min-width: 300px;
+  min-width: 350px;
   height: 800px;
   padding: 0.7em;
   overflow: auto;
-  white-space: pre-wrap;
   border-left: 1px solid black;
   border-right: 1px solid black;
   font-size: 1rem;
-  line-height: 2.25rem;
-  mark {
-    background-color: #ffc04b;
-  }
+  line-height: 1.25rem;
 `;
 
 export function Text() {
   const { textState } = React.useContext(textContext);
 
   return (
-    <TextStyled id="text">
-      {/* {state.MirAnn ? <TextComponent /> : <Loading />} */}
-      {/* <TextComponent /> */}
-      {/* {state.annItemOpen ? <TextHighlighting /> : <TextComponent />} */}
-      {textState.text && <TextComponent />}
-    </TextStyled>
+    <TextStyled id="text">{textState.text && <TextComponent />}</TextStyled>
   );
 }

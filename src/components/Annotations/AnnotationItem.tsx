@@ -92,6 +92,10 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       miradorState.store.dispatch(
         mirador.actions.deselectAnnotation("republic", props.annotation.id)
       );
+      annotationDispatch({
+        type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
+        annotationItemOpen: false,
+      });
     }
   }
 
