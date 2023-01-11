@@ -36,17 +36,17 @@ export const AnnotationButtons = () => {
     miradorState.store.dispatch(mirador.actions.setPreviousCanvas("republic"));
   };
 
-  const testFunctionClickHandler = () => {
-    console.log(miradorState.store.getState());
-  };
+  // const testFunctionClickHandler = () => {
+  //   console.log(miradorState.store.getState());
+  // };
 
   return (
     <>
       {params.volumeNum && params.openingNum ? (
         <div>
-          <Button onClick={nextCanvasClickHandler}>Next canvas</Button>
           <Button onClick={previousCanvasClickHandler}>Previous canvas</Button>
-          <Button onClick={testFunctionClickHandler}>Test button</Button>
+          <Button onClick={nextCanvasClickHandler}>Next canvas</Button>
+          {/* <Button onClick={testFunctionClickHandler}>Test button</Button> */}
         </div>
       ) : null}
     </>
