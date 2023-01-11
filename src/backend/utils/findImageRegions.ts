@@ -1,19 +1,29 @@
-import { AnnoRepoAnnotation, CanvasTarget, ImageApiSelector } from "../../model/AnnoRepoAnnotation"
+import {
+  AnnoRepoAnnotation,
+  CanvasTarget,
+  ImageApiSelector,
+} from "../../model/AnnoRepoAnnotation";
 
-function getImageRegions(value: string): RegExpMatchArray {
-    const result = value.match(/[0-9]+.*[0-9]+.*[0-9]+.*[0-9]+/i)
-    return result
-}
+const imageRegionRegex = /[0-9]+.*[0-9]+.*[0-9]+.*[0-9]+/i;
 
-export function findImageRegions(annotation: AnnoRepoAnnotation, canvasId: string): RegExpMatchArray {
-    const imageCoords = (annotation.target as CanvasTarget[])
-        .filter(t => t.source.includes(canvasId))
-        .flatMap(t => t.selector && t.selector.filter(t => t.type === "iiif:ImageApiSelector"))
-        .filter(t => t !== undefined)
-    
-    if (imageCoords[0] as ImageApiSelector !== undefined) {
-        return getImageRegions((imageCoords[0] as ImageApiSelector).region)
-    } else {
-        console.log(annotation.body.id + " has no image targets")
-    }
+export function findImageRegions(
+  annotation: AnnoRepoAnnotation,
+  canvasId: string
+): RegExpMatchArray | null {
+  const target = annotation.target as CanvasTarget[];
+  const imageCoords = target
+    .filter((t) => t.source.includes(canvasId))
+    .flatMap(
+      (t) =>
+        t.selector &&
+        t.selector.filter((t) => t.type === "iiif:ImageApiSelector")
+    );
+
+  if (imageCoords.length === 0) {
+    console.log(annotation.body.id + " has no image targets");
+    return null;
+  }
+
+  const selector = imageCoords[0] as ImageApiSelector;
+  return selector.region.match(imageRegionRegex);
 }
