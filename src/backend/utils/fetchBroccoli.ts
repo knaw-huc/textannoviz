@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { HOSTS } from "../../Config";
 
 export const fetchBroccoliOpening = async (
@@ -5,7 +6,7 @@ export const fetchBroccoliOpening = async (
   opening = "285"
 ) => {
   if (parseInt(opening) < 1) {
-    alert("Opening number lower than 1 is not allowed!");
+    toast("Opening number lower than 1 is not allowed!", { type: "error" });
     return;
   }
 
@@ -18,7 +19,7 @@ export const fetchBroccoliOpening = async (
   );
   if (!response.ok) {
     const error = await response.json();
-    alert(`${error.message}`);
+    toast(`${error.message}`, { type: "error" });
     return null;
   }
   return response.json();
