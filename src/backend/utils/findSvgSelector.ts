@@ -6,14 +6,15 @@ import {
 
 export const findSvgSelector = (
   annotation: AnnoRepoAnnotation,
-  context: string
+  canvasId: string
 ): string => {
-  const svg = (annotation.target as CanvasTarget[])
-    .filter((t) => t.source.includes(context))
-    .flatMap(
-      (t) => t.selector && t.selector.filter((t) => t.type === "SvgSelector")
-    )
-    .filter((t) => t !== undefined);
+  const canvasTargets = annotation.target as CanvasTarget[];
+  const filteredCanvasTargets = canvasTargets.filter((t) =>
+    t.source.includes(canvasId)
+  );
+  const svgSelectors = filteredCanvasTargets
+    .flatMap((t) => t.selector)
+    .filter((t) => t.type === "SvgSelector");
 
-  return (svg[0] as SvgSelector).value;
+  return (svgSelectors[0] as SvgSelector).value;
 };
