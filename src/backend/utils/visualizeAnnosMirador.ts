@@ -16,8 +16,7 @@ export const visualizeAnnosMirador = (
 ): iiifAnn => {
   const currentState = store.getState();
   const iiifAnn: iiifAnn = {
-    "@id":
-      "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0285.jpg",
+    "@id": "republic",
     "@context": "http://iiif.io/api/presentation/2/context.json",
     "@type": "sc:AnnotationList",
     resources: [],
@@ -26,15 +25,19 @@ export const visualizeAnnosMirador = (
   const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
     const region = findImageRegions(item, canvasId);
 
-    if (region !== undefined) {
+    if (region !== null) {
       return region;
     } else {
       console.log(item.body.id + " region is undefined");
+      return null;
     }
   });
 
-  const resources = regions.flatMap((region: string, i: number) => {
-    const [x, y, w, h] = region.split(",");
+  const resources = regions.flatMap((region: string | null, i: number) => {
+    if (region === null) {
+      return;
+    }
+    const [x, y, w, h] = (region as string).split(",");
     let colour: string;
 
     switch (broccoli.anno[i].body.type) {
