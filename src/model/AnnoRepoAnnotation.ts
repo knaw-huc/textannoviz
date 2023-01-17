@@ -1,210 +1,231 @@
-export type AnnoRepoBody = {
-    id: string,
-    type: string,
-}
-
 export type SessionBody = AnnoRepoBody & {
-    metadata: {
-        dateShiftStatus: string,
-        hasSessionDateElement: boolean,
-        inventoryNum: number,
-        isWorkday: boolean,
-        linesIncludeRestDay: boolean,
-        resolutionIds: [],
-        sessionDate: string,
-        sessionDay: number,
-        sessionMonth: number,
-        sessionNum: number,
-        sessionWeekday: string,
-        sessionYear: number,
-        textPageNum: number[]
-    }
-}
+  metadata: {
+    dateShiftStatus: string;
+    hasSessionDateElement: boolean;
+    inventoryNum: number;
+    isWorkday: boolean;
+    linesIncludeRestDay: boolean;
+    resolutionIds: [];
+    sessionDate: string;
+    sessionDay: number;
+    sessionMonth: number;
+    sessionNum: number;
+    sessionWeekday: string;
+    sessionYear: number;
+    textPageNum: number[];
+  };
+};
 
 export type ResolutionBody = AnnoRepoBody & {
-    metadata: {
-        inventoryNum: number,
-        sourceId: string,
-        sessionDate: string,
-        sessionId: string,
-        sessionNum: number,
-        president: null,
-        sessionYear: number,
-        sessionMonth: number,
-        sessionDay: number,
-        sessionWeekday: string,
-        propositionType: string,
-        proposer: null,
-        decision: null,
-        resolutionType: string,
-        textPageNum: number[],
-        propositionOrigin: {
-            location: {
-                text: string
-            }
-        },
-        propositionOrganisation: string,
-        proposerRole: string
-    }
-}
+  metadata: {
+    inventoryNum: number;
+    sourceId: string;
+    sessionDate: string;
+    sessionId: string;
+    sessionNum: number;
+    president: null;
+    sessionYear: number;
+    sessionMonth: number;
+    sessionDay: number;
+    sessionWeekday: string;
+    propositionType: string;
+    proposer: null;
+    decision: null;
+    resolutionType: string;
+    textPageNum: number[];
+    propositionOrigin: {
+      location: {
+        text: string;
+      };
+    };
+    propositionOrganisation: string;
+    proposerRole: string;
+  };
+};
 
 export type ReviewedBody = AnnoRepoBody & {
-    metadata: {
-        inventoryNum: number,
-        sourceId: string,
-        textPageNum: number[],
-        pageNum: number[],
-        startOffset: number,
-        iiifUrl: string,
-        docId: string,
-        lang: string,
-        paragraphIndex: number
-    },
-    text: string
-}
+  metadata: {
+    inventoryNum: number;
+    sourceId: string;
+    textPageNum: number[];
+    pageNum: number[];
+    startOffset: number;
+    iiifUrl: string;
+    docId: string;
+    lang: string;
+    paragraphIndex: number;
+  };
+  text: string;
+};
 
 export type AttendanceListBody = AnnoRepoBody & {
-    metadata: {
-        inventoryNum: number,
-        sourceId: string,
-        sessionDate: string,
-        sessionId: string,
-        sessionNum: number,
-        sessionYear: number,
-        sessionMonth: number,
-        sessionDay: number,
-        sessionWeekday: string,
-        textPageNum: number[]
-    },
-    attendanceSpans: attendanceSpansType[]
-}
+  metadata: {
+    inventoryNum: number;
+    sourceId: string;
+    sessionDate: string;
+    sessionId: string;
+    sessionNum: number;
+    sessionYear: number;
+    sessionMonth: number;
+    sessionDay: number;
+    sessionWeekday: string;
+    textPageNum: number[];
+  };
+  attendanceSpans: attendanceSpansType[];
+};
 
 type attendanceSpansType = {
-    offset: number,
-    end: number,
-    class: string,
-    pattern: string,
-    delegateId: number,
-    delegateName: string,
-    delegateScore: number
-}
+  offset: number;
+  end: number;
+  class: string;
+  pattern: string;
+  delegateId: number;
+  delegateName: string;
+  delegateScore: number;
+};
 
 export type AttendantBody = AnnoRepoBody & {
-    metadata: {
-        offset: number,
-        end: number,
-        class: string,
-        pattern: string,
-        delegateId: number,
-        delegateName: string,
-        delegateScore: number
-    }
-}
+  metadata: {
+    offset: number;
+    end: number;
+    class: string;
+    pattern: string;
+    delegateId: number;
+    delegateName: string;
+    delegateScore: number;
+  };
+};
 
-export type Body = AnnoRepoBody | SessionBody | ResolutionBody | ReviewedBody | AttendanceListBody | AttendantBody
+export type AnnoRepoBody = {
+  id: string;
+  type: string;
+  metadata:
+    | SessionBody
+    | ResolutionBody
+    | ReviewedBody
+    | AttendanceListBody
+    | AttendantBody;
+};
+
+export type Body =
+  | AnnoRepoBody
+  | SessionBody
+  | ResolutionBody
+  | ReviewedBody
+  | AttendanceListBody
+  | AttendantBody;
 
 export type ImageTarget = {
-    type: "Image",
-    selector: ImageSelector[] | undefined,
-    source: string,
-}
+  type: "Image";
+  selector: ImageSelector[] | undefined;
+  source: string;
+};
 
 export type FragmentSelector = {
-    type: "FragmentSelector",
-    conformsTo: string,
-    value: string
-}
+  type: "FragmentSelector";
+  conformsTo: string;
+  value: string;
+};
 
 export type SvgSelector = {
-    type: "SvgSelector",
-    value: string
-}
+  type: "SvgSelector";
+  value: string;
+};
 
 export type CanvasTarget = {
-    source: string,
-    type: "Canvas",
-    selector: CanvasSelector[] | undefined
-}
+  source: string;
+  type: "Canvas";
+  selector: CanvasSelector[] | undefined;
+};
 
 export type ImageApiSelector = {
-    type: "iiif:ImageApiSelector",
-    region: string
-}
+  type: "iiif:ImageApiSelector";
+  region: string;
+};
 
-export type CanvasSelector = ImageApiSelector | SvgSelector
+export type CanvasSelector = ImageApiSelector | SvgSelector;
 
-export type ImageSelector = FragmentSelector | SvgSelector
+export type ImageSelector = FragmentSelector | SvgSelector;
 
 export type SvgSelectorTarget = {
-    source: string,
-    type: "Image",
-    selector: {
-        type: "SvgSelector",
-        value: string
-    }
-}
+  source: string;
+  type: "Image";
+  selector: {
+    type: "SvgSelector";
+    value: string;
+  };
+};
 
 export type TextAnchorTarget = {
-    source: string,
-    type: "Text",
-    selector: {
-        type: "urn:republic:TextAnchorSelector",
-        end: number,
-        start: number,
-        beginCharOffset: number,
-        endCharOffset: number
-    },
-}
+  source: string;
+  type: "Text";
+  selector: {
+    type: "urn:republic:TextAnchorSelector";
+    end: number;
+    start: number;
+    beginCharOffset: number;
+    endCharOffset: number;
+  };
+};
 
 export type TextTarget = {
-    source: string,
-    type: "Text"
-}
+  source: string;
+  type: "Text";
+};
 
-export type Target = TextAnchorTarget | ImageTarget | TextTarget | SvgSelectorTarget | CanvasTarget
+export type Target =
+  | TextAnchorTarget
+  | ImageTarget
+  | TextTarget
+  | SvgSelectorTarget
+  | CanvasTarget;
 
 export type AnnoRepoAnnotation = {
-    id: string,
-    body: AnnoRepoBody
-    target: Target | Target[],
-    movivation: string
-}
+  id: string;
+  body: AnnoRepoBody;
+  target: Target | Target[];
+  movivation: string;
+};
 
 type iiifAnnResource = {
-    "@type": string,
-    "format": string,
-    "chars": string
-}
+  "@type": string;
+  format: string;
+  chars: string;
+};
 
 export type iiifAnn = {
-    "@context": string,
-    "@id": string,
-    "@type": string,
-    "resources": iiifAnnResources[]
-}
+  "@context": string;
+  "@id": string;
+  "@type": string;
+  resources: iiifAnnResources[];
+};
 
-export type iiifAnnResources = {
-    "@id": string,
-    "@type": string,
-    "motivation": string[]
-    "on": [{
-        "@type": string,
-        "full": string,
-        "selector": {
-            "@type": string,
-            "default": {
-                "@type": string,
-                "value": string
-            },
-            "item"?: {
-                "@type": string,
-                "value": string
-            }
-        },
-        "within": {
-            "@id": string,
-            "@type": string
+export type iiifAnnResources =
+  | {
+      "@id": string;
+      "@type": string;
+      motivation: string[];
+      on: [
+        {
+          "@type": string;
+          full: string;
+          selector: {
+            "@type": string;
+            default: {
+              "@type": string;
+              value: string;
+            };
+            item?: {
+              "@type": string;
+              value: string;
+            };
+          };
+          within: {
+            "@id": string;
+            "@type": string;
+          };
         }
-    }],
-    "resource": iiifAnnResource[]
-} | undefined
+      ];
+      resource: iiifAnnResource[];
+    }
+  | undefined;

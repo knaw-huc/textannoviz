@@ -1,16 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 //import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador"
-import { HOSTS } from "../../Config";
-import {
-  AnnoRepoAnnotation,
-  AttendanceListBody,
-  AttendantBody,
-  ResolutionBody,
-  ReviewedBody,
-  SessionBody,
-} from "../../model/AnnoRepoAnnotation";
-import { MIRADOR_ACTIONS } from "../../state/mirador/MiradorActions";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { miradorContext } from "../../state/mirador/MiradorContext";
 
 type AnnotationContentProps = {
@@ -26,54 +17,62 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
 
   const { miradorState, miradorDispatch } = React.useContext(miradorContext);
 
-  const nextCanvasClickHandler = () => {
-    const canvasIds = miradorState.canvas.canvasIds;
-    const currentIndex = miradorState.canvas.currentIndex;
+  // const nextCanvasClickHandler = () => {
+  //   const canvasIds = miradorState.canvas.canvasIds;
+  //   const currentIndex = miradorState.canvas.currentIndex;
 
-    if (currentIndex >= canvasIds.length - 1) {
-      return;
-    }
+  //   if (currentIndex >= canvasIds.length - 1) {
+  //     return;
+  //   }
 
-    let nextCanvas = currentIndex;
-    nextCanvas += 1;
+  //   let nextCanvas = currentIndex;
+  //   nextCanvas += 1;
 
-    miradorDispatch({
-      type: MIRADOR_ACTIONS.SET_CANVAS,
-      canvas: {
-        canvasIds: canvasIds,
-        currentIndex: nextCanvas,
-      },
-    });
-  };
+  //   miradorDispatch({
+  //     type: MIRADOR_ACTIONS.SET_CANVAS,
+  //     canvas: {
+  //       canvasIds: canvasIds,
+  //       currentIndex: nextCanvas,
+  //     },
+  //   });
+  // };
 
-  const prevCanvasClickHandler = () => {
-    const canvasIds = miradorState.canvas.canvasIds;
-    const currentIndex = miradorState.canvas.currentIndex;
+  // const prevCanvasClickHandler = () => {
+  //   const canvasIds = miradorState.canvas.canvasIds;
+  //   const currentIndex = miradorState.canvas.currentIndex;
 
-    console.log(currentIndex, canvasIds.length - 1);
+  //   console.log(currentIndex, canvasIds.length - 1);
 
-    if (currentIndex > canvasIds.length - 1) {
-      return;
-    }
+  //   if (currentIndex > canvasIds.length - 1) {
+  //     return;
+  //   }
 
-    let prevCanvas = currentIndex;
-    prevCanvas -= 1;
+  //   let prevCanvas = currentIndex;
+  //   prevCanvas -= 1;
 
-    miradorDispatch({
-      type: MIRADOR_ACTIONS.SET_CANVAS,
-      canvas: {
-        canvasIds: canvasIds,
-        currentIndex: prevCanvas,
-      },
-    });
-  };
+  //   miradorDispatch({
+  //     type: MIRADOR_ACTIONS.SET_CANVAS,
+  //     canvas: {
+  //       canvasIds: canvasIds,
+  //       currentIndex: prevCanvas,
+  //     },
+  //   });
+  // };
 
   return (
     <>
       {props.annotation && (
         <div id="annotation-content">
           <ul>
-            {(() => {
+            {props.annotation.body.metadata
+              ? Object.entries(props.annotation.body.metadata).map(
+                  ([key, value], i) => {
+                    console.log(`${key}: ${value}`);
+                    return <li key={i}>{`${key}: ${value}`}</li>;
+                  }
+                )
+              : null}
+            {/* {(() => {
               switch (props.annotation.body.type) {
                 case "Attendant":
                   return (
@@ -176,8 +175,8 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                 default:
                   return;
               }
-            })()}
-            <li>
+            })()} */}
+            {/* <li>
               {(() => {
                 if (
                   miradorState.canvas.canvasIds.length > 1 &&
@@ -206,7 +205,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
                   );
                 }
               })()}
-            </li>
+            </li> */}
             <li>
               <button
                 className="show-full"
