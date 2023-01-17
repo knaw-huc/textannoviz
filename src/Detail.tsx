@@ -119,7 +119,7 @@ export const Detail = () => {
 
   return (
     <AppContainer id="appcontainer">
-      <LastUpdated>Last updated: 7 december 2022</LastUpdated>
+      <LastUpdated>Last updated: 17 januari 2023</LastUpdated>
       <Row id="row">
         <Mirador />
         <Text />
