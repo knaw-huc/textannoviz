@@ -16,8 +16,15 @@ import { ANNOTATION_ACTIONS } from "./state/annotation/AnnotationActions";
 import { annotationContext } from "./state/annotation/AnnotationContext";
 import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
+import { PROJECT_ACTIONS } from "./state/project/ProjectAction";
+import { projectContext } from "./state/project/ProjectContext";
 import { TEXT_ACTIONS } from "./state/text/TextActions";
 import { textContext } from "./state/text/TextContext";
+
+interface DetailProps {
+  project: string;
+  config: any;
+}
 
 const AppContainer = styled.div`
   border-style: solid;
@@ -39,10 +46,11 @@ const setMiradorConfig = (broccoli: BroccoliV2) => {
   miradorConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
 };
 
-export const Detail = () => {
+export const Detail = (props: DetailProps) => {
   const { miradorDispatch } = React.useContext(miradorContext);
   const { annotationDispatch } = React.useContext(annotationContext);
   const { textDispatch } = React.useContext(textContext);
+  const { projectDispatch } = React.useContext(projectContext);
   const { volumeNum, openingNum, resolutionId } = useParams<{
     volumeNum: string;
     openingNum: string;
@@ -54,6 +62,16 @@ export const Detail = () => {
     setMiradorConfig(broccoli);
     const viewer = mirador.viewer(miradorConfig);
 
+    projectDispatch({
+      type: PROJECT_ACTIONS.SET_PROJECT,
+      project: props.project,
+    });
+
+    projectDispatch({
+      type: PROJECT_ACTIONS.SET_CONFIG,
+      config: props.config,
+    });
+
     miradorDispatch({
       type: MIRADOR_ACTIONS.SET_STORE,
       store: viewer.store,
@@ -62,7 +80,9 @@ export const Detail = () => {
     const iiifAnns = visualizeAnnosMirador(
       broccoli,
       viewer.store,
-      broccoli.iiif.canvasIds[0]
+      broccoli.iiif.canvasIds[0],
+      props.config.colours,
+      props.config.id
     );
 
     miradorDispatch({

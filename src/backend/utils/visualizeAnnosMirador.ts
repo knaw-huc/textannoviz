@@ -12,11 +12,13 @@ import { findImageRegions } from "./findImageRegions";
 export const visualizeAnnosMirador = (
   broccoli: BroccoliV2,
   store: any,
-  canvasId: string
+  canvasId: string,
+  colours: any,
+  projectId: string
 ): iiifAnn => {
   const currentState = store.getState();
   const iiifAnn: iiifAnn = {
-    "@id": "republic",
+    "@id": projectId,
     "@context": "http://iiif.io/api/presentation/2/context.json",
     "@type": "sc:AnnotationList",
     resources: [],
@@ -40,21 +42,23 @@ export const visualizeAnnosMirador = (
     const [x, y, w, h] = (region as string).split(",");
     let colour: string;
 
-    switch (broccoli.anno[i].body.type) {
-      case "Resolution":
-        colour = "green";
-        break;
-      case "Attendant":
-        colour = "#DB4437";
-        break;
-      case "Reviewed":
-        colour = "blue";
-        break;
-      case "AttendanceList":
-        colour = "yellow";
-        break;
-      default:
-        colour = "white";
+    if (projectId === "republic") {
+      switch (broccoli.anno[i].body.type) {
+        case "Resolution":
+          colour = colours.resolution;
+          break;
+        case "Attendant":
+          colour = colours.attendant;
+          break;
+        case "Reviewed":
+          colour = colours.reviewed;
+          break;
+        case "AttendanceList":
+          colour = colours.attendancelist;
+          break;
+        default:
+          colour = "white";
+      }
     }
 
     const iiifAnnResources: iiifAnnResources[] = [
