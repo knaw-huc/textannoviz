@@ -118,12 +118,14 @@ export const Detail = (props: DetailProps) => {
   }, []);
 
   React.useEffect(() => {
-    if (volumeNum && openingNum) {
-      fetchBroccoliOpening(volumeNum, openingNum)
-        .then((broccoli) => {
-          setState(broccoli);
-        })
-        .catch(console.error);
+    if (props.project === "republic") {
+      if (volumeNum && openingNum) {
+        fetchBroccoliOpening(volumeNum, openingNum)
+          .then((broccoli) => {
+            setState(broccoli);
+          })
+          .catch(console.error);
+      }
     }
   }, [volumeNum, openingNum, setState]);
 
