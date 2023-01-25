@@ -7,16 +7,16 @@ interface TextHighlightingProps {
 
 export function TextHighlighting(props: TextHighlightingProps) {
   return (
-    <div>
+    <div style={{ display: "grid" }}>
       {props.text.map((line, index) => (
-        <p
+        <span
           key={index}
           className={
             props.highlightedLines.includes(index) ? "highlighted" : ""
           }
         >
           {line}
-        </p>
+        </span>
       ))}
     </div>
   );
