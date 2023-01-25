@@ -41,9 +41,11 @@ const LastUpdated = styled.div`
   border-bottom: 1px solid black;
 `;
 
-const setMiradorConfig = (broccoli: BroccoliV2) => {
+const setMiradorConfig = (broccoli: BroccoliV2, project: string) => {
   miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
   miradorConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
+  miradorConfig.id = project;
+  miradorConfig.windows[0].id = project;
 };
 
 export const Detail = (props: DetailProps) => {
@@ -59,7 +61,7 @@ export const Detail = (props: DetailProps) => {
 
   const setState = React.useCallback((broccoli: BroccoliV2) => {
     console.log(broccoli);
-    setMiradorConfig(broccoli);
+    setMiradorConfig(broccoli, props.project);
     const viewer = mirador.viewer(miradorConfig);
 
     projectDispatch({
