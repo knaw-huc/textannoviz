@@ -1,5 +1,5 @@
 export const miradorConfig = {
-  id: "",
+  id: "mirador",
   window: {
     allowFullscreen: false,
     //highlightAllAnnotations: true, //this always highlights all annotations, handy for debugging
