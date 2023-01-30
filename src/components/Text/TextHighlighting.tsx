@@ -1,4 +1,5 @@
 import React from "react";
+import { projectContext } from "../../state/project/ProjectContext";
 
 interface TextHighlightingProps {
   text: string[];
@@ -6,8 +7,12 @@ interface TextHighlightingProps {
 }
 
 export function TextHighlighting(props: TextHighlightingProps) {
+  const { projectState } = React.useContext(projectContext);
+
   return (
-    <div style={{ display: "grid" }}>
+    <div
+      style={projectState.project === "republic" ? { display: "grid" } : null}
+    >
       {props.text.map((line, index) => (
         <span
           key={index}

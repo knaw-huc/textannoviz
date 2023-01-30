@@ -6,4 +6,6 @@ export const globaliseConfig = {
     textline: "DB4437",
     entity: "green",
   },
+
+  relativeTo: "px:Page",
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli";
 import { BroccoliText, BroccoliV2 } from "../../model/Broccoli";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
+import { projectContext } from "../../state/project/ProjectContext";
 import { TextHighlighting } from "./TextHighlighting";
 
 interface TextComponentProps {
@@ -17,14 +18,17 @@ const createIndices = (startIndex: number, endIndex: number) => {
 
 export function TextComponent(props: TextComponentProps) {
   const { annotationState } = React.useContext(annotationContext);
+  const { projectState } = React.useContext(projectContext);
 
   const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
+
+  const relativeTo = projectState.config.relativeTo;
 
   React.useEffect(() => {
     if (annotationState.annotationItemOpen) {
       fetchBroccoliBodyId(
         annotationState.selectedAnnotation.body.id,
-        "Scan"
+        relativeTo
       ).then(function (broccoli: BroccoliV2) {
         if (broccoli !== null) {
           console.log(broccoli);

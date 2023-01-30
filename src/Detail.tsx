@@ -15,6 +15,8 @@ import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
 import { BroccoliText, BroccoliV2, OpeningRequest } from "./model/Broccoli";
 import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
+import { PROJECT_ACTIONS } from "./state/project/ProjectAction";
+import { projectContext } from "./state/project/ProjectContext";
 
 interface DetailProps {
   project: string;
@@ -46,6 +48,7 @@ export const Detail = (props: DetailProps) => {
   const [annos, setAnnos] = React.useState<AnnoRepoAnnotation[]>([]);
   const [text, setText] = React.useState<BroccoliText>(null);
   const { miradorDispatch } = React.useContext(miradorContext);
+  const { projectDispatch } = React.useContext(projectContext);
   const { volumeNum, openingNum, resolutionId } = useParams<{
     volumeNum: string;
     openingNum: string;
@@ -60,6 +63,16 @@ export const Detail = (props: DetailProps) => {
     miradorDispatch({
       type: MIRADOR_ACTIONS.SET_STORE,
       store: viewer.store,
+    });
+
+    projectDispatch({
+      type: PROJECT_ACTIONS.SET_PROJECT,
+      project: props.project,
+    });
+
+    projectDispatch({
+      type: PROJECT_ACTIONS.SET_CONFIG,
+      config: props.config,
     });
 
     visualizeAnnosMirador(

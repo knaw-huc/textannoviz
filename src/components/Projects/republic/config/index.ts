@@ -7,4 +7,6 @@ export const republicConfig = {
     reviewed: "blue",
     attendancelist: "yellow",
   },
+
+  relativeTo: "Scan",
 };
