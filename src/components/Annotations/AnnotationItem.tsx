@@ -1,7 +1,6 @@
 import mirador from "mirador";
 import React from "react";
 import styled from "styled-components";
-import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli";
 import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador";
 import {
   AnnoRepoAnnotation,
@@ -12,8 +11,6 @@ import {
 import { ANNOTATION_ACTIONS } from "../../state/annotation/AnnotationActions";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
 import { miradorContext } from "../../state/mirador/MiradorContext";
-import { TEXT_ACTIONS } from "../../state/text/TextActions";
-import { textContext } from "../../state/text/TextContext";
 import { AnnotationItemContent } from "./AnnotationItemContent";
 
 type AnnotationSnippetProps = {
@@ -43,7 +40,6 @@ const Clickable = styled.div`
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
   const { miradorState } = React.useContext(miradorContext);
-  const { textDispatch } = React.useContext(textContext);
   const { annotationDispatch } = React.useContext(annotationContext);
 
   function toggleOpen() {
@@ -69,24 +65,10 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       );
 
       // Set text to highlight
-      fetchBroccoliBodyId(props.annotation.body.id, "Scan")
-        .then(function (textToHighlight) {
-          if (textToHighlight !== null) {
-            console.log(textToHighlight);
-            textDispatch({
-              type: TEXT_ACTIONS.SET_TEXTTOHIGHLIGHT,
-              textToHighlight: textToHighlight.text,
-            });
-            console.log("text to highlight dispatch done");
-            annotationDispatch({
-              type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
-              annotationItemOpen: true,
-            });
-          } else {
-            return;
-          }
-        })
-        .catch(console.error);
+      annotationDispatch({
+        type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
+        annotationItemOpen: true,
+      });
     } else {
       props.onSelect(undefined);
       miradorState.store.dispatch(
