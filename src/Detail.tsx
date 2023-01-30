@@ -13,11 +13,9 @@ import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
 import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
 import { BroccoliText, BroccoliV2, OpeningRequest } from "./model/Broccoli";
-import { ANNOTATION_ACTIONS } from "./state/annotation/AnnotationActions";
 import { annotationContext } from "./state/annotation/AnnotationContext";
 import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
-import { TEXT_ACTIONS } from "./state/text/TextActions";
 import { textContext } from "./state/text/TextContext";
 
 interface DetailProps {
@@ -97,18 +95,8 @@ export const Detail = (props: DetailProps) => {
       },
     });
 
-    annotationDispatch({
-      type: ANNOTATION_ACTIONS.SET_ANNOTATION,
-      annotation: broccoli.anno,
-    });
-
     setAnnos(broccoli.anno);
     setText(broccoli.text);
-
-    textDispatch({
-      type: TEXT_ACTIONS.SET_TEXT,
-      text: broccoli.text,
-    });
   }, []);
 
   React.useEffect(() => {
@@ -139,7 +127,7 @@ export const Detail = (props: DetailProps) => {
       <Row id="row">
         <Mirador />
         <Text text={text} />
-        <Annotation />
+        <Annotation annos={annos} />
       </Row>
     </AppContainer>
   );

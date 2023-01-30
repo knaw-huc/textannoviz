@@ -8,6 +8,10 @@ import { AnnotationButtons } from "./AnnotationButtons";
 import { AnnotationItem } from "./AnnotationItem";
 import { AnnotationLinks } from "./AnnotationLinks";
 
+interface AnnotationProps {
+  annos: AnnoRepoAnnotation[];
+}
+
 const AnnotationStyled = styled.div`
   min-width: 400px;
   height: 800px;
@@ -16,7 +20,7 @@ const AnnotationStyled = styled.div`
   white-space: pre-wrap;
 `;
 
-export function Annotation() {
+export function Annotation(props: AnnotationProps) {
   const { annotationState, annotationDispatch } =
     React.useContext(annotationContext);
 
@@ -34,8 +38,8 @@ export function Annotation() {
       <AnnotationButtons />
       <AnnotationLinks />
 
-      {annotationState.annotation && annotationState.annotation.length > 0 ? (
-        annotationState.annotation.map((annotation, index) => (
+      {props.annos && props.annos.length > 0 ? (
+        props.annos.map((annotation, index) => (
           <AnnotationItem
             key={index}
             annot_id={index}
