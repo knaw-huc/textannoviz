@@ -109,14 +109,13 @@ export const visualizeAnnosMirador = (
   });
   iiifAnn.resources.push(...resources);
 
-  const res = store.dispatch(
+  store.dispatch(
     mirador.actions.receiveAnnotation(
       `${currentState.windows.republic.canvasId}`,
       "annotation",
       iiifAnn
     )
   );
-  console.log(res);
 
   return iiifAnn;
 };
