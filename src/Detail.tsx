@@ -11,13 +11,12 @@ import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
-import { BroccoliV2, OpeningRequest } from "./model/Broccoli";
+import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
+import { BroccoliText, BroccoliV2, OpeningRequest } from "./model/Broccoli";
 import { ANNOTATION_ACTIONS } from "./state/annotation/AnnotationActions";
 import { annotationContext } from "./state/annotation/AnnotationContext";
 import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
-import { PROJECT_ACTIONS } from "./state/project/ProjectAction";
-import { projectContext } from "./state/project/ProjectContext";
 import { TEXT_ACTIONS } from "./state/text/TextActions";
 import { textContext } from "./state/text/TextContext";
 
@@ -44,15 +43,15 @@ const LastUpdated = styled.div`
 const setMiradorConfig = (broccoli: BroccoliV2, project: string) => {
   miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
   miradorConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
-  miradorConfig.id = project;
   miradorConfig.windows[0].id = project;
 };
 
 export const Detail = (props: DetailProps) => {
+  const [annos, setAnnos] = React.useState<AnnoRepoAnnotation[]>([]);
+  const [text, setText] = React.useState<BroccoliText>(null);
   const { miradorDispatch } = React.useContext(miradorContext);
   const { annotationDispatch } = React.useContext(annotationContext);
   const { textDispatch } = React.useContext(textContext);
-  const { projectDispatch } = React.useContext(projectContext);
   const { volumeNum, openingNum, resolutionId } = useParams<{
     volumeNum: string;
     openingNum: string;
@@ -63,16 +62,6 @@ export const Detail = (props: DetailProps) => {
     console.log(broccoli);
     setMiradorConfig(broccoli, props.project);
     const viewer = mirador.viewer(miradorConfig);
-
-    projectDispatch({
-      type: PROJECT_ACTIONS.SET_PROJECT,
-      project: props.project,
-    });
-
-    projectDispatch({
-      type: PROJECT_ACTIONS.SET_CONFIG,
-      config: props.config,
-    });
 
     miradorDispatch({
       type: MIRADOR_ACTIONS.SET_STORE,
@@ -113,6 +102,9 @@ export const Detail = (props: DetailProps) => {
       annotation: broccoli.anno,
     });
 
+    setAnnos(broccoli.anno);
+    setText(broccoli.text);
+
     textDispatch({
       type: TEXT_ACTIONS.SET_TEXT,
       text: broccoli.text,
@@ -146,7 +138,7 @@ export const Detail = (props: DetailProps) => {
       <LastUpdated>Last updated: 17 januari 2023</LastUpdated>
       <Row id="row">
         <Mirador />
-        <Text />
+        <Text text={text} />
         <Annotation />
       </Row>
     </AppContainer>

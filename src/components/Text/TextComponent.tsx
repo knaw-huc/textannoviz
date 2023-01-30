@@ -1,7 +1,12 @@
 import React from "react";
+import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli";
+import { BroccoliText, BroccoliV2 } from "../../model/Broccoli";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
-import { textContext } from "../../state/text/TextContext";
 import { TextHighlighting } from "./TextHighlighting";
+
+interface TextComponentProps {
+  text: BroccoliText;
+}
 
 const createIndices = (startIndex: number, endIndex: number) => {
   return Array.from(
@@ -10,30 +15,40 @@ const createIndices = (startIndex: number, endIndex: number) => {
   );
 };
 
-export function TextComponent() {
-  const { textState } = React.useContext(textContext);
+export function TextComponent(props: TextComponentProps) {
   const { annotationState } = React.useContext(annotationContext);
 
   const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
 
   React.useEffect(() => {
     if (annotationState.annotationItemOpen) {
-      const startIndex = textState.textToHighlight.location.start.line;
-      const endIndex = textState.textToHighlight.location.end.line;
+      fetchBroccoliBodyId(
+        annotationState.selectedAnnotation.body.id,
+        "Scan"
+      ).then(function (broccoli: BroccoliV2) {
+        if (broccoli !== null) {
+          console.log(broccoli);
 
-      const indices = createIndices(startIndex, endIndex);
+          const startIndex = broccoli.text.location.start.line;
+          const endIndex = broccoli.text.location.end.line;
 
-      setHighlightedLines(indices);
+          const indices = createIndices(startIndex, endIndex);
+
+          setHighlightedLines(indices);
+        } else {
+          return;
+        }
+      });
     } else {
       setHighlightedLines([]);
     }
-  }, [annotationState.annotationItemOpen, textState.textToHighlight]);
+  }, [annotationState.annotationItemOpen]);
 
   return (
     <>
-      {textState.text.lines && (
+      {props.text.lines && (
         <TextHighlighting
-          text={textState.text.lines}
+          text={props.text.lines}
           highlightedLines={highlightedLines}
         />
       )}

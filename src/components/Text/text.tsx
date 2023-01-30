@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { textContext } from "../../state/text/TextContext";
-//import { Loading } from "../backend/utils/Loader"
+import { BroccoliText } from "../../model/Broccoli";
 import { TextComponent } from "./TextComponent";
-//import { TextHighlighting } from "./TextHighlighting"
-// import { fetchJson } from "../backend/utils/fetchJson"
-// import { ACTIONS } from "../state/actions"
+
+interface TextProps {
+  text: BroccoliText;
+}
 
 const TextStyled = styled.div`
   min-width: 350px;
@@ -18,10 +18,10 @@ const TextStyled = styled.div`
   line-height: 2.25rem;
 `;
 
-export function Text() {
-  const { textState } = React.useContext(textContext);
-
+export function Text(props: TextProps) {
   return (
-    <TextStyled id="text">{textState.text && <TextComponent />}</TextStyled>
+    <TextStyled id="text">
+      {props.text && <TextComponent text={props.text} />}
+    </TextStyled>
   );
 }
