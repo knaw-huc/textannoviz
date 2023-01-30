@@ -13,10 +13,8 @@ import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
 import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
 import { BroccoliText, BroccoliV2, OpeningRequest } from "./model/Broccoli";
-import { annotationContext } from "./state/annotation/AnnotationContext";
 import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
-import { textContext } from "./state/text/TextContext";
 
 interface DetailProps {
   project: string;
@@ -48,8 +46,6 @@ export const Detail = (props: DetailProps) => {
   const [annos, setAnnos] = React.useState<AnnoRepoAnnotation[]>([]);
   const [text, setText] = React.useState<BroccoliText>(null);
   const { miradorDispatch } = React.useContext(miradorContext);
-  const { annotationDispatch } = React.useContext(annotationContext);
-  const { textDispatch } = React.useContext(textContext);
   const { volumeNum, openingNum, resolutionId } = useParams<{
     volumeNum: string;
     openingNum: string;
@@ -66,18 +62,13 @@ export const Detail = (props: DetailProps) => {
       store: viewer.store,
     });
 
-    const iiifAnns = visualizeAnnosMirador(
+    visualizeAnnosMirador(
       broccoli,
       viewer.store,
       broccoli.iiif.canvasIds[0],
       props.config.colours,
       props.config.id
     );
-
-    miradorDispatch({
-      type: MIRADOR_ACTIONS.SET_MIRANN,
-      mirAnn: iiifAnns,
-    });
 
     miradorDispatch({
       type: MIRADOR_ACTIONS.SET_CANVAS,
@@ -100,14 +91,12 @@ export const Detail = (props: DetailProps) => {
   }, []);
 
   React.useEffect(() => {
-    if (props.project === "republic") {
-      if (volumeNum && openingNum) {
-        fetchBroccoliOpening(volumeNum, openingNum)
-          .then((broccoli) => {
-            setState(broccoli);
-          })
-          .catch(console.error);
-      }
+    if (volumeNum && openingNum) {
+      fetchBroccoliOpening(volumeNum, openingNum)
+        .then((broccoli) => {
+          setState(broccoli);
+        })
+        .catch(console.error);
     }
   }, [volumeNum, openingNum, setState]);
 
