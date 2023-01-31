@@ -13,6 +13,7 @@ import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
 import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
 import { BroccoliText, BroccoliV3, OpeningRequest } from "./model/Broccoli";
+import { ProjectConfig } from "./model/ProjectConfig";
 import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
 import { PROJECT_ACTIONS } from "./state/project/ProjectAction";
@@ -20,7 +21,7 @@ import { projectContext } from "./state/project/ProjectContext";
 
 interface DetailProps {
   project: string;
-  config: any;
+  config: ProjectConfig;
 }
 
 const AppContainer = styled.div`
@@ -79,8 +80,7 @@ export const Detail = (props: DetailProps) => {
       broccoli,
       viewer.store,
       broccoli.iiif.canvasIds[0],
-      props.config.colours,
-      props.config.id
+      props.config
     );
 
     miradorDispatch({

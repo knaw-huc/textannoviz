@@ -5,6 +5,7 @@ import {
   iiifAnnResources,
 } from "../../model/AnnoRepoAnnotation";
 import { BroccoliV3 } from "../../model/Broccoli";
+import { ProjectConfig } from "../../model/ProjectConfig";
 import { findSvgSelector } from "../utils/findSvgSelector";
 import { svgStyler } from "../utils/svgStyler";
 import { findImageRegions } from "./findImageRegions";
@@ -13,12 +14,11 @@ export const visualizeAnnosMirador = (
   broccoli: BroccoliV3,
   store: any,
   canvasId: string,
-  colours: any,
-  projectId: string
+  projectConfig: ProjectConfig
 ): iiifAnn => {
   const currentState = store.getState();
   const iiifAnn: iiifAnn = {
-    "@id": projectId,
+    "@id": projectConfig.id,
     "@context": "http://iiif.io/api/presentation/2/context.json",
     "@type": "sc:AnnotationList",
     resources: [],
@@ -42,19 +42,19 @@ export const visualizeAnnosMirador = (
     const [x, y, w, h] = (region as string).split(",");
     let colour: string;
 
-    if (projectId === "republic") {
+    if (projectConfig.id === "republic") {
       switch (broccoli.anno[i].body.type) {
         case "Resolution":
-          colour = colours.resolution;
+          colour = projectConfig.colours.resolution;
           break;
         case "Attendant":
-          colour = colours.attendant;
+          colour = projectConfig.colours.attendant;
           break;
         case "Reviewed":
-          colour = colours.reviewed;
+          colour = projectConfig.colours.reviewed;
           break;
         case "AttendanceList":
-          colour = colours.attendancelist;
+          colour = projectConfig.colours.attendancelist;
           break;
         default:
           colour = "white";
