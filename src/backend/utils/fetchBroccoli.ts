@@ -1,21 +1,21 @@
 import { toast } from "react-toastify";
 import { HOSTS } from "../../Config";
+import { ProjectConfig } from "../../model/ProjectConfig";
 
-export const fetchBroccoliOpening = async (
-  volume = "1728",
-  opening = "285"
+export const fetchBroccoliScan = async (
+  tier0: string,
+  tier1: string,
+  config: ProjectConfig
 ) => {
-  if (parseInt(opening) < 1) {
+  if (parseInt(tier1) < 1) {
     toast("Opening number lower than 1 is not allowed!", { type: "error" });
     return;
   }
 
-  const annotationTypesToInclude = [
-    "Session, Resolution, Reviewed, AttendanceList, Attendant",
-  ]; //Exclude: "Line", "Page", "RepublicParagraph", "TextRegion", "Scan"
+  const annotationTypesToInclude = config.annotationTypesToInclude;
 
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/v3/volumes/${volume}/openings/${opening}?includeTypes=${annotationTypesToInclude}`
+    `${HOSTS.BROCCOLI}/${config.id}/${config.broccoliVersion}/${config.tier[0]}/${tier0}/${config.tier[1]}/${tier1}?includeTypes=${annotationTypesToInclude}`
   );
   if (!response.ok) {
     const error = await response.json();
@@ -25,20 +25,24 @@ export const fetchBroccoliOpening = async (
   return response.json();
 };
 
-export const fetchBroccoliResolution = async (
-  resolutionId = "urn:republic:session-1728-09-24-ordinaris-num-1-resolution-1"
+export const fetchBroccoliBodyId = async (
+  bodyId: string,
+  config: ProjectConfig
 ) => {
-  const response = await fetch(`${HOSTS.BROCCOLI}/v3/bodies/${resolutionId}`);
+  const response = await fetch(
+    `${HOSTS.BROCCOLI}/${config.id}/${config.broccoliVersion}/bodies/${bodyId}`
+  );
   if (!response.ok) return null;
   return response.json();
 };
 
-export const fetchBroccoliBodyId = async (
-  bodyId = "urn:republic:session-1728-06-19-ordinaris-num-1-para-2",
-  relativeTo: string
+export const fetchBroccoliBodyIdRelativeTo = async (
+  bodyId: string,
+  relativeTo: string,
+  config: ProjectConfig
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/v3/bodies/${bodyId}?relativeTo=${relativeTo}`
+    `${HOSTS.BROCCOLI}/${config.id}/${config.broccoliVersion}/bodies/${bodyId}?relativeTo=${relativeTo}`
   );
   if (!response.ok) return null;
   return response.json();

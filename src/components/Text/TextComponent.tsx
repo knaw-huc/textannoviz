@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli";
+import { fetchBroccoliBodyIdRelativeTo } from "../../backend/utils/fetchBroccoli";
 import { BroccoliText, BroccoliV3 } from "../../model/Broccoli";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
 import { projectContext } from "../../state/project/ProjectContext";
@@ -26,9 +26,10 @@ export function TextComponent(props: TextComponentProps) {
 
   React.useEffect(() => {
     if (annotationState.annotationItemOpen) {
-      fetchBroccoliBodyId(
+      fetchBroccoliBodyIdRelativeTo(
         annotationState.selectedAnnotation.body.id,
-        relativeTo
+        relativeTo,
+        projectState.config
       ).then(function (broccoli: BroccoliV3) {
         if (broccoli !== null) {
           console.log(broccoli);

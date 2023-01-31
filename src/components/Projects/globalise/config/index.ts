@@ -10,4 +10,9 @@ export const globaliseConfig: ProjectConfig = {
   },
 
   relativeTo: "px:Page",
+  annotationTypesToInclude: [
+    "px:TextRegion, px:TextLine, tt:Paragraph, tt:Entity, px:Page",
+  ],
+  broccoliVersion: "v0",
+  tier: ["documents", "openings"],
 };

@@ -3,8 +3,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
-  fetchBroccoliOpening,
-  fetchBroccoliResolution,
+  fetchBroccoliBodyId,
+  fetchBroccoliScan,
 } from "./backend/utils/fetchBroccoli";
 import { visualizeAnnosMirador } from "./backend/utils/visualizeAnnosMirador";
 import { Annotation } from "./components/Annotations/annotation";
@@ -105,7 +105,7 @@ export const Detail = (props: DetailProps) => {
 
   React.useEffect(() => {
     if (volumeNum && openingNum) {
-      fetchBroccoliOpening(volumeNum, openingNum)
+      fetchBroccoliScan(volumeNum, openingNum, props.config)
         .then((broccoli) => {
           setState(broccoli);
         })
@@ -115,7 +115,7 @@ export const Detail = (props: DetailProps) => {
 
   React.useEffect(() => {
     if (resolutionId) {
-      fetchBroccoliResolution(resolutionId)
+      fetchBroccoliBodyId(resolutionId, props.config)
         .then((broccoli) => {
           setState(broccoli);
         })

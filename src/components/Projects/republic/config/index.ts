@@ -11,4 +11,9 @@ export const republicConfig: ProjectConfig = {
   },
 
   relativeTo: "Scan",
+  annotationTypesToInclude: [
+    "Session, Resolution, Reviewed, AttendanceList, Attendant",
+  ],
+  broccoliVersion: "v3",
+  tier: ["volumes", "openings"],
 };
