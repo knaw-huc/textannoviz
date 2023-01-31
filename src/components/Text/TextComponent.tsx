@@ -1,4 +1,5 @@
 import React from "react";
+import { createIndices } from "../../backend/utils/createIndices";
 import { fetchBroccoliBodyIdRelativeTo } from "../../backend/utils/fetchBroccoli";
 import { BroccoliText, BroccoliV3 } from "../../model/Broccoli";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
@@ -8,13 +9,6 @@ import { TextHighlighting } from "./TextHighlighting";
 interface TextComponentProps {
   text: BroccoliText;
 }
-
-const createIndices = (startIndex: number, endIndex: number) => {
-  return Array.from(
-    { length: endIndex + 1 - startIndex },
-    (_, i) => i + startIndex
-  );
-};
 
 export function TextComponent(props: TextComponentProps) {
   const { annotationState } = React.useContext(annotationContext);
