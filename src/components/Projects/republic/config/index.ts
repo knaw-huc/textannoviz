@@ -1,4 +1,6 @@
-export const republicConfig = {
+import { ProjectConfig } from "../../../../model/ProjectConfig";
+
+export const republicConfig: ProjectConfig = {
   id: "republic",
 
   colours: {

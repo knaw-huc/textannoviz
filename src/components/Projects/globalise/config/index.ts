@@ -1,4 +1,6 @@
-export const globaliseConfig = {
+import { ProjectConfig } from "../../../../model/ProjectConfig";
+
+export const globaliseConfig: ProjectConfig = {
   id: "globalise",
 
   colours: {
