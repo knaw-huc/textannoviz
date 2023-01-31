@@ -1,6 +1,6 @@
 import React from "react";
 import { fetchBroccoliBodyId } from "../../backend/utils/fetchBroccoli";
-import { BroccoliText, BroccoliV2 } from "../../model/Broccoli";
+import { BroccoliText, BroccoliV3 } from "../../model/Broccoli";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
 import { projectContext } from "../../state/project/ProjectContext";
 import { TextHighlighting } from "./TextHighlighting";
@@ -29,7 +29,7 @@ export function TextComponent(props: TextComponentProps) {
       fetchBroccoliBodyId(
         annotationState.selectedAnnotation.body.id,
         relativeTo
-      ).then(function (broccoli: BroccoliV2) {
+      ).then(function (broccoli: BroccoliV3) {
         if (broccoli !== null) {
           console.log(broccoli);
 

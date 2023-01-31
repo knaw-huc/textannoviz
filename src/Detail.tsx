@@ -12,7 +12,7 @@ import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
 import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
-import { BroccoliText, BroccoliV2, OpeningRequest } from "./model/Broccoli";
+import { BroccoliText, BroccoliV3, OpeningRequest } from "./model/Broccoli";
 import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
 import { PROJECT_ACTIONS } from "./state/project/ProjectAction";
@@ -38,7 +38,7 @@ const LastUpdated = styled.div`
   border-bottom: 1px solid black;
 `;
 
-const setMiradorConfig = (broccoli: BroccoliV2, project: string) => {
+const setMiradorConfig = (broccoli: BroccoliV3, project: string) => {
   miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
   miradorConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
   miradorConfig.windows[0].id = project;
@@ -55,7 +55,7 @@ export const Detail = (props: DetailProps) => {
     resolutionId: string;
   }>();
 
-  const setState = React.useCallback((broccoli: BroccoliV2) => {
+  const setState = React.useCallback((broccoli: BroccoliV3) => {
     console.log(broccoli);
     setMiradorConfig(broccoli, props.project);
     const viewer = mirador.viewer(miradorConfig);

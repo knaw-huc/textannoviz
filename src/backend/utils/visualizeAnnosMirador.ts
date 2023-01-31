@@ -4,13 +4,13 @@ import {
   iiifAnn,
   iiifAnnResources,
 } from "../../model/AnnoRepoAnnotation";
-import { BroccoliV2 } from "../../model/Broccoli";
+import { BroccoliV3 } from "../../model/Broccoli";
 import { findSvgSelector } from "../utils/findSvgSelector";
 import { svgStyler } from "../utils/svgStyler";
 import { findImageRegions } from "./findImageRegions";
 
 export const visualizeAnnosMirador = (
-  broccoli: BroccoliV2,
+  broccoli: BroccoliV3,
   store: any,
   canvasId: string,
   colours: any,
