@@ -1,10 +1,6 @@
-import {
-  AnnoRepoAnnotation,
-  AttendantBody,
-  ResolutionBody,
-  SessionBody,
-} from "../../../../model/AnnoRepoAnnotation";
+import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { getAnnotationItem } from "../getAnnotationItem";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
@@ -24,30 +20,6 @@ export const republicConfig: ProjectConfig = {
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
 
-  renderAnnotationItem: (annotation: AnnoRepoAnnotation) => {
-    switch (annotation.body.type) {
-      case republicConfig.bodyType[0]:
-        return (
-          (annotation.body as SessionBody).metadata.sessionWeekday +
-          ", " +
-          `${(annotation.body as SessionBody).metadata.sessionDate}`
-        );
-      case republicConfig.bodyType[1]:
-        return (
-          (annotation.body as ResolutionBody).metadata.propositionType +
-          " (" +
-          `${annotation.body.type}` +
-          ")"
-        );
-      case republicConfig.bodyType[2]:
-        return (
-          (annotation.body as AttendantBody).metadata.delegateName +
-          " (" +
-          `${annotation.body.type}` +
-          ")"
-        );
-      default:
-        return annotation.body.type;
-    }
-  },
+  renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
+    getAnnotationItem(annotation),
 };

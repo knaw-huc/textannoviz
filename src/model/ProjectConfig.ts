@@ -1,3 +1,5 @@
+import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
+
 export interface ProjectConfig {
   id: string;
   colours: {
@@ -8,5 +10,5 @@ export interface ProjectConfig {
   broccoliVersion: string;
   tier: string[];
   bodyType: string[];
-  renderAnnotationItem: any;
+  renderAnnotationItem?: (annotation: AnnoRepoAnnotation) => string;
 }
