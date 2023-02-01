@@ -1,4 +1,5 @@
 import React from "react";
+import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   ProjectAction,
   PROJECT_ACTIONS,
@@ -8,7 +9,7 @@ import {
 
 export interface ProjectState {
   project: string;
-  config: any;
+  config: ProjectConfig;
 }
 
 export const initProjectState: ProjectState = {
