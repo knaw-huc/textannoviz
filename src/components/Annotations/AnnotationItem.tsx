@@ -2,15 +2,12 @@ import mirador from "mirador";
 import React from "react";
 import styled from "styled-components";
 import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador";
-import {
-  AnnoRepoAnnotation,
-  AttendantBody,
-  ResolutionBody,
-  SessionBody,
-} from "../../model/AnnoRepoAnnotation";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { ANNOTATION_ACTIONS } from "../../state/annotation/AnnotationActions";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
 import { miradorContext } from "../../state/mirador/MiradorContext";
+import { projectContext } from "../../state/project/ProjectContext";
+import { miradorConfig } from "../Mirador/MiradorConfig";
 import { AnnotationItemContent } from "./AnnotationItemContent";
 
 type AnnotationSnippetProps = {
@@ -40,6 +37,7 @@ const Clickable = styled.div`
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
   const { miradorState } = React.useContext(miradorContext);
+  const { projectState } = React.useContext(projectContext);
   const { annotationDispatch } = React.useContext(annotationContext);
 
   function toggleOpen() {
@@ -54,10 +52,13 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       );
 
       miradorState.store.dispatch(
-        mirador.actions.selectAnnotation("republic", props.annotation.id)
+        mirador.actions.selectAnnotation(
+          miradorConfig.windows[0].id,
+          props.annotation.id
+        )
       );
       miradorState.store.dispatch(
-        mirador.actions.updateViewport("republic", {
+        mirador.actions.updateViewport(miradorConfig.windows[0].id, {
           x: zoom.zoomCenter.x,
           y: zoom.zoomCenter.y,
           zoom: 1 / zoom.miradorZoom,
@@ -72,7 +73,10 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
     } else {
       props.onSelect(undefined);
       miradorState.store.dispatch(
-        mirador.actions.deselectAnnotation("republic", props.annotation.id)
+        mirador.actions.deselectAnnotation(
+          miradorConfig.windows[0].id,
+          props.annotation.id
+        )
       );
       annotationDispatch({
         type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
@@ -97,33 +101,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   return (
     <AnnSnippet id="annotation-snippet">
       <Clickable onClick={toggleOpen} id="clickable">
-        {(() => {
-          switch (props.annotation.body.type) {
-            case "Attendant":
-              return (
-                (props.annotation.body as AttendantBody).metadata.delegateName +
-                " (" +
-                `${props.annotation.body.type}` +
-                ")"
-              );
-            case "Resolution":
-              return (
-                (props.annotation.body as ResolutionBody).metadata
-                  .propositionType +
-                " (" +
-                `${props.annotation.body.type}` +
-                ")"
-              );
-            case "Session":
-              return (
-                (props.annotation.body as SessionBody).metadata.sessionWeekday +
-                ", " +
-                `${(props.annotation.body as SessionBody).metadata.sessionDate}`
-              );
-            default:
-              return props.annotation.body.type;
-          }
-        })()}
+        {projectState.config.renderAnnotationItem(props.annotation)}
       </Clickable>
       {isOpen && <AnnotationItemContent annotation={props.annotation} />}
     </AnnSnippet>

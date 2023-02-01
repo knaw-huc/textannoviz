@@ -7,4 +7,6 @@ export interface ProjectConfig {
   annotationTypesToInclude: string[];
   broccoliVersion: string;
   tier: string[];
+  bodyType: string[];
+  renderAnnotationItem: any;
 }

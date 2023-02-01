@@ -15,4 +15,6 @@ export const globaliseConfig: ProjectConfig = {
   ],
   broccoliVersion: "v0",
   tier: ["documents", "openings"],
+  bodyType: [""],
+  renderAnnotationItem: "",
 };
