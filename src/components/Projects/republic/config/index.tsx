@@ -1,6 +1,8 @@
+import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { getAnnotationItem } from "../getAnnotationItem";
+import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
@@ -22,4 +24,8 @@ export const republicConfig: ProjectConfig = {
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
+
+  renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => {
+    return <GetAnnotationItemContent annotation={annotation} />;
+  },
 };

@@ -11,4 +11,5 @@ export interface ProjectConfig {
   tier: string[];
   bodyType: string[];
   renderAnnotationItem?: (annotation: AnnoRepoAnnotation) => string;
+  renderAnnotationItemContent?: (annotation: AnnoRepoAnnotation) => JSX.Element;
 }

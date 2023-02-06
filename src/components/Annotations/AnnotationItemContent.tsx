@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
+import { projectContext } from "../../state/project/ProjectContext";
 
 type AnnotationContentProps = {
   annotation: AnnoRepoAnnotation | undefined;
@@ -12,20 +13,14 @@ const AnnPreview = styled.div`
 
 export function AnnotationItemContent(props: AnnotationContentProps) {
   const [showFull, setShowFull] = React.useState(false);
+  const { projectState } = React.useContext(projectContext);
 
   return (
     <>
       {props.annotation && (
         <div id="annotation-content">
           <ul>
-            {props.annotation.body.metadata
-              ? Object.entries(props.annotation.body.metadata).map(
-                  ([key, value], i) => {
-                    console.log(`${key}: ${value}`);
-                    return <li key={i}>{`${key}: ${value}`}</li>;
-                  }
-                )
-              : null}
+            {projectState.config.renderAnnotationItemContent(props.annotation)}
             <li>
               <button
                 className="show-full"
