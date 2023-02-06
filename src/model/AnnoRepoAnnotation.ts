@@ -184,7 +184,6 @@ export type AnnoRepoAnnotation = {
   id: string;
   body: AnnoRepoBody;
   target: Target | Target[];
-  movivation: string;
 };
 
 type iiifAnnResource = {
