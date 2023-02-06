@@ -15,5 +15,5 @@ export const globaliseConfig: ProjectConfig = {
   ],
   broccoliVersion: "v0",
   tier: ["documents", "openings"],
-  bodyType: [""],
+  bodyType: ["px:TextLine", "px:TextRegion", "tt:Paragraph", "tt:Entity"],
 };
