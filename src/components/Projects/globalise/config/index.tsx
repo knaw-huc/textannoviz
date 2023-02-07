@@ -2,6 +2,7 @@ import React from "react";
 import { createIndices } from "../../../../backend/utils/createIndices";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { getAnnotationItem } from "../getAnnotationItem";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 
@@ -65,5 +66,9 @@ export const globaliseConfig: ProjectConfig = {
 
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => {
     return <GetAnnotationItemContent annotation={annotation} />;
+  },
+
+  renderAnnotationButtons: () => {
+    return <GetAnnotationButtons />;
   },
 };

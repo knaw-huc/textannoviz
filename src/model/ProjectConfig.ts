@@ -17,5 +17,5 @@ export interface ProjectConfig {
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
-  renderAnnotationButtons?: () => JSX.Element;
+  renderAnnotationButtons: () => JSX.Element;
 }
