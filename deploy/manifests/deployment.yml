@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: textannoviz-deployment
+  labels:
+    app: textannoviz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: textannoviz
+  template:
+    metadata:
+      labels:
+        app: textannoviz
+    spec:
+      containers:
+      - name: textannoviz
+        image: registry.diginfra.net/tt/textannoviz-frontend:0.3.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
