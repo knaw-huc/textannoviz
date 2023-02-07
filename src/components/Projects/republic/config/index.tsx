@@ -1,8 +1,10 @@
 import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { getAnnotationItem } from "../getAnnotationItem";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
+import { GetAnnotationLinks } from "../GetAnnotationLinks";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
@@ -16,7 +18,11 @@ export const republicConfig: ProjectConfig = {
 
   relativeTo: "Scan",
   annotationTypesToInclude: [
-    "Session, Resolution, Reviewed, AttendanceList, Attendant",
+    "Session",
+    "Resolution",
+    "Reviewed",
+    "AttendanceList",
+    "Attendant",
   ],
   broccoliVersion: "v3",
   tier: ["volumes", "openings"],
@@ -27,5 +33,13 @@ export const republicConfig: ProjectConfig = {
 
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => {
     return <GetAnnotationItemContent annotation={annotation} />;
+  },
+
+  renderAnnotationLinks: () => {
+    return <GetAnnotationLinks />;
+  },
+
+  renderAnnotationButtons: () => {
+    return <GetAnnotationButtons />;
   },
 };

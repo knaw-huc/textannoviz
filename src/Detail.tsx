@@ -94,8 +94,8 @@ export const Detail = (props: DetailProps) => {
     miradorDispatch({
       type: MIRADOR_ACTIONS.SET_CURRENTCONTEXT,
       currentContext: {
-        volumeId: (broccoli.request as OpeningRequest).volumeId,
-        openingNr: (broccoli.request as OpeningRequest).openingNr,
+        tier0: (broccoli.request as OpeningRequest).volumeId,
+        tier1: (broccoli.request as OpeningRequest).openingNr,
       },
     });
 

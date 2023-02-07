@@ -1,82 +1,95 @@
-import React from "react"
-import { iiifAnn } from "../../model/AnnoRepoAnnotation"
-import { MiradorAction, MIRADOR_ACTIONS, SetCanvas, SetCurrentContext, SetMirAnn, SetStore } from "./MiradorActions"
+import React from "react";
+import { iiifAnn } from "../../model/AnnoRepoAnnotation";
+import {
+  MiradorAction,
+  MIRADOR_ACTIONS,
+  SetCanvas,
+  SetCurrentContext,
+  SetMirAnn,
+  SetStore,
+} from "./MiradorActions";
 
 export interface MiradorState {
-    store: any,
-    mirAnn: iiifAnn,
-    currentContext: {
-        volumeId: string,
-        openingNr: string | number
-    },
-    canvas: {
-        canvasIds: string[],
-        currentIndex: number
-    }
+  store: any;
+  mirAnn: iiifAnn;
+  currentContext: {
+    tier0: string;
+    tier1: number;
+  };
+  canvas: {
+    canvasIds: string[];
+    currentIndex: number;
+  };
 }
 
 export const initMiradorState: MiradorState = {
-    store: null,
-    mirAnn: null,
-    currentContext: {
-        volumeId: null,
-        openingNr: null
-    },
-    canvas: {
-        canvasIds: null,
-        currentIndex: null
-    }
-}
+  store: null,
+  mirAnn: null,
+  currentContext: {
+    tier0: null,
+    tier1: null,
+  },
+  canvas: {
+    canvasIds: null,
+    currentIndex: null,
+  },
+};
 
-export const useMiradorState = (): [MiradorState, React.Dispatch<MiradorAction>] => {
-    const [state, dispatch] = React.useReducer(miradorReducer, initMiradorState)
+export const useMiradorState = (): [
+  MiradorState,
+  React.Dispatch<MiradorAction>
+] => {
+  const [state, dispatch] = React.useReducer(miradorReducer, initMiradorState);
 
-    return [state, dispatch]
-}
+  return [state, dispatch];
+};
 
-const miradorReducer = (state: MiradorState, action: MiradorAction): MiradorState => {
-    console.log(action, state)
+const miradorReducer = (
+  state: MiradorState,
+  action: MiradorAction
+): MiradorState => {
+  console.log(action, state);
 
-    switch (action.type) {
-        case MIRADOR_ACTIONS.SET_STORE:
-            return setMirStore(state, action)
-        case MIRADOR_ACTIONS.SET_MIRANN:
-            return setMirAnn(state, action)
-        case MIRADOR_ACTIONS.SET_CANVAS:
-            return setCanvas(state, action)
-        case MIRADOR_ACTIONS.SET_CURRENTCONTEXT:
-            return setCurrentContext(state, action)
-        default:
-            break
-    }
+  switch (action.type) {
+    case MIRADOR_ACTIONS.SET_STORE:
+      return setMirStore(state, action);
+    case MIRADOR_ACTIONS.SET_MIRANN:
+      return setMirAnn(state, action);
+    case MIRADOR_ACTIONS.SET_CANVAS:
+      return setCanvas(state, action);
+    case MIRADOR_ACTIONS.SET_CURRENTCONTEXT:
+      return setCurrentContext(state, action);
+    default:
+      break;
+  }
 
-    return state
-}
+  return state;
+};
 
 const setMirStore = (state: MiradorState, action: SetStore) => {
-    return {
-        ...state,
-        store: action.store
-    }
-}
+  return {
+    ...state,
+    store: action.store,
+  };
+};
 
 const setMirAnn = (state: MiradorState, action: SetMirAnn) => {
-    return {
-        ...state,
-        mirAnn: action.mirAnn
-    }
-}
+  return {
+    ...state,
+    mirAnn: action.mirAnn,
+  };
+};
 
 const setCanvas = (state: MiradorState, action: SetCanvas) => {
-    return {
-        ...state,
-        canvas: action.canvas
-    }
-}
+  return {
+    ...state,
+    canvas: action.canvas,
+  };
+};
 
 const setCurrentContext = (state: MiradorState, action: SetCurrentContext) => {
-    return {
-        ...state,
-        currentContext: action.currentContext
-    }
-}
+  return {
+    ...state,
+    currentContext: action.currentContext,
+  };
+};

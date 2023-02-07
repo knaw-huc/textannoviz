@@ -10,6 +10,12 @@ export interface ProjectConfig {
   broccoliVersion: string;
   tier: string[];
   bodyType: string[];
-  renderAnnotationItem?: (annotation: AnnoRepoAnnotation) => string;
-  renderAnnotationItemContent?: (annotation: AnnoRepoAnnotation) => JSX.Element;
+  documents?: {
+    docNr: string;
+    index: number[];
+  }[];
+  renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
+  renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
+  renderAnnotationLinks?: () => JSX.Element;
+  renderAnnotationButtons?: () => JSX.Element;
 }
