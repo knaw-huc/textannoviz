@@ -15,7 +15,7 @@ const Button = styled.button`
   margin-right: 0.5em;
 `;
 
-export const AnnotationButtons = () => {
+export const GetAnnotationButtons = () => {
   const { miradorState } = React.useContext(miradorContext);
   const params = useParams();
   const navigate = useNavigate();
