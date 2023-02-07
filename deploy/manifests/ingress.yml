@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: textannoviz
+spec:
+  rules:
+    - host: textannoviz.foo.dev.clariah.nl
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: textannoviz
+                port:
+                  number: 80
