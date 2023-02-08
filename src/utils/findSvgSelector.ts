@@ -1,8 +1,8 @@
 import {
   AnnoRepoAnnotation,
   CanvasTarget,
-  SvgSelector,
-} from "../../model/AnnoRepoAnnotation";
+  SvgSelector
+} from "../model/AnnoRepoAnnotation";
 
 export const findSvgSelector = (
   annotation: AnnoRepoAnnotation,

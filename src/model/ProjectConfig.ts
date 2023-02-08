@@ -14,6 +14,7 @@ export interface ProjectConfig {
     docNr: string;
     index: number[];
   }[];
+  routerPath?: any;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;

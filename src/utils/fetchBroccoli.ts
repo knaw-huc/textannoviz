@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { HOSTS } from "../../Config";
-import { ProjectConfig } from "../../model/ProjectConfig";
+import { HOSTS } from "../Config";
+import { ProjectConfig } from "../model/ProjectConfig";
 
 export const fetchBroccoliScan = async (
   tier0: string,

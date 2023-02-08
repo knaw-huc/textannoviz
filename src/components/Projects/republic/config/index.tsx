@@ -27,6 +27,10 @@ export const republicConfig: ProjectConfig = {
   broccoliVersion: "v3",
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
+  routerPath: {
+    tier0: "detail/volumes/:volumeNum/openings/:openingNum",
+    tier1: "detail/resolutions/:resolutionId",
+  },
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

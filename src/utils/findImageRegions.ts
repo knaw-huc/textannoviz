@@ -1,8 +1,8 @@
 import {
   AnnoRepoAnnotation,
   CanvasTarget,
-  ImageApiSelector,
-} from "../../model/AnnoRepoAnnotation";
+  ImageApiSelector
+} from "../model/AnnoRepoAnnotation";
 
 const imageRegionRegex = /[0-9]+.*[0-9]+.*[0-9]+.*[0-9]+/i;
 

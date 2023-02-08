@@ -1,12 +1,12 @@
 import mirador from "mirador";
 import React from "react";
 import styled from "styled-components";
-import { zoomAnnMirador } from "../../backend/utils/zoomAnnMirador";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { ANNOTATION_ACTIONS } from "../../state/annotation/AnnotationActions";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
 import { miradorContext } from "../../state/mirador/MiradorContext";
 import { projectContext } from "../../state/project/ProjectContext";
+import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
 import { miradorConfig } from "../Mirador/MiradorConfig";
 import { AnnotationItemContent } from "./AnnotationItemContent";
 

@@ -2,11 +2,6 @@ import mirador from "mirador";
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import {
-  fetchBroccoliBodyId,
-  fetchBroccoliScan,
-} from "./backend/utils/fetchBroccoli";
-import { visualizeAnnosMirador } from "./backend/utils/visualizeAnnosMirador";
 import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
@@ -18,6 +13,11 @@ import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
 import { PROJECT_ACTIONS } from "./state/project/ProjectAction";
 import { projectContext } from "./state/project/ProjectContext";
+import {
+  fetchBroccoliBodyId,
+  fetchBroccoliScan
+} from "./utils/fetchBroccoli";
+import { visualizeAnnosMirador } from "./utils/visualizeAnnosMirador";
 
 interface DetailProps {
   project: string;

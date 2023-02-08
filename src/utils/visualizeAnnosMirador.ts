@@ -2,10 +2,10 @@ import mirador from "mirador";
 import {
   AnnoRepoAnnotation,
   iiifAnn,
-  iiifAnnResources,
-} from "../../model/AnnoRepoAnnotation";
-import { BroccoliV3 } from "../../model/Broccoli";
-import { ProjectConfig } from "../../model/ProjectConfig";
+  iiifAnnResources
+} from "../model/AnnoRepoAnnotation";
+import { BroccoliV3 } from "../model/Broccoli";
+import { ProjectConfig } from "../model/ProjectConfig";
 import { findSvgSelector } from "../utils/findSvgSelector";
 import { svgStyler } from "../utils/svgStyler";
 import { findImageRegions } from "./findImageRegions";

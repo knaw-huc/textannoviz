@@ -1,9 +1,9 @@
 import React from "react";
-import { createIndices } from "../../backend/utils/createIndices";
-import { fetchBroccoliBodyIdRelativeTo } from "../../backend/utils/fetchBroccoli";
 import { BroccoliText, BroccoliV3 } from "../../model/Broccoli";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
 import { projectContext } from "../../state/project/ProjectContext";
+import { createIndices } from "../../utils/createIndices";
+import { fetchBroccoliBodyIdRelativeTo } from "../../utils/fetchBroccoli";
 import { TextHighlighting } from "./TextHighlighting";
 
 interface TextComponentProps {

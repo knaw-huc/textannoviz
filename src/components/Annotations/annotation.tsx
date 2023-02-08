@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Loading } from "../../backend/utils/Loader";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { ANNOTATION_ACTIONS } from "../../state/annotation/AnnotationActions";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
+import { Loading } from "../../utils/Loader";
 import { AnnotationButtons } from "./AnnotationButtons";
 import { AnnotationItem } from "./AnnotationItem";
 import { AnnotationLinks } from "./AnnotationLinks";
