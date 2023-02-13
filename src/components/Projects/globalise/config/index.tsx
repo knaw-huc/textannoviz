@@ -5,6 +5,7 @@ import { createIndices } from "../../../../utils/createIndices";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { getAnnotationItem } from "../getAnnotationItem";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
+import { GetHome } from "../GetHome";
 
 export const globaliseConfig: ProjectConfig = {
   id: "globalise",
@@ -72,20 +73,26 @@ export const globaliseConfig: ProjectConfig = {
     return <GetAnnotationButtons />;
   },
 
-  createRouter: (comp1: React.ReactNode, comp2: React.ReactNode, errorComp: React.ReactNode) => {
-    return (
-      [
-        {
-          path: "/",
-          element: comp1,
-          errorElement: errorComp,
-        },
-        {
-          path: "detail/:documentId/:openingNum",
-          element: comp2,
-          errorElement: errorComp,
-        },
-      ]
-    )
-  }
+  createRouter: (
+    comp1: React.ReactNode,
+    comp2: React.ReactNode,
+    errorComp: React.ReactNode
+  ) => {
+    return [
+      {
+        path: "/",
+        element: comp1,
+        errorElement: errorComp,
+      },
+      {
+        path: "detail/:documentId/:openingNum",
+        element: comp2,
+        errorElement: errorComp,
+      },
+    ];
+  },
+
+  renderHome: () => {
+    return <GetHome />;
+  },
 };

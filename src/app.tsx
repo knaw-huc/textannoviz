@@ -7,9 +7,15 @@ import { ErrorPage } from "./error-page";
 import { Providers } from "./Providers";
 
 const project = "republic";
-const config = republicConfig
+const config = republicConfig;
 
-const router = createBrowserRouter(config.createRouter(<Home />, <Detail project={project} config={config} />, <ErrorPage />));
+const router = createBrowserRouter(
+  config.createRouter(
+    <Home project={project} config={config} />,
+    <Detail project={project} config={config} />,
+    <ErrorPage />
+  )
+);
 
 export default function App() {
   return (

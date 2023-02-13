@@ -5,6 +5,7 @@ import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { getAnnotationItem } from "../getAnnotationItem";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";
+import { GetHome } from "../GetHome";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
@@ -43,25 +44,31 @@ export const republicConfig: ProjectConfig = {
     return <GetAnnotationButtons />;
   },
 
-  createRouter: (comp1: React.ReactNode, comp2: React.ReactNode, errorComp: React.ReactNode) => {
-    return (
-      [
-        {
-          path: "/",
-          element: comp1,
-          errorElement: errorComp,
-        },
-        {
-          path: "detail/:volumeNum/:openingNum",
-          element: comp2,
-          errorElement: errorComp,
-        },
-        {
-          path: "detail/:resolutionId",
-          element: comp2,
-          errorElement: errorComp,
-        },
-      ]
-    )
-  }
+  createRouter: (
+    comp1: React.ReactNode,
+    comp2: React.ReactNode,
+    errorComp: React.ReactNode
+  ) => {
+    return [
+      {
+        path: "/",
+        element: comp1,
+        errorElement: errorComp,
+      },
+      {
+        path: "detail/:volumeNum/:openingNum",
+        element: comp2,
+        errorElement: errorComp,
+      },
+      {
+        path: "detail/:resolutionId",
+        element: comp2,
+        errorElement: errorComp,
+      },
+    ];
+  },
+
+  renderHome: () => {
+    return <GetHome />;
+  },
 };
