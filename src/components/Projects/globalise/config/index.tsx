@@ -1,7 +1,7 @@
 import React from "react";
-import { createIndices } from "../../../../backend/utils/createIndices";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { createIndices } from "../../../../utils/createIndices";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { getAnnotationItem } from "../getAnnotationItem";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
