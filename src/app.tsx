@@ -9,23 +9,7 @@ import { Providers } from "./Providers";
 const project = "republic";
 const config = republicConfig
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "detail/volumes/:volumeNum/openings/:openingNum",
-    element: <Detail project={project} config={config} />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "detail/resolutions/:resolutionId",
-    element: <Detail project={project} config={config} />,
-    errorElement: <ErrorPage />,
-  },
-]);
+const router = createBrowserRouter(config.createRouter(<Home />, <Detail project={project} config={config} />, <ErrorPage />));
 
 export default function App() {
   return (

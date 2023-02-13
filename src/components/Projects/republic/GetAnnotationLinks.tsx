@@ -11,11 +11,11 @@ export const GetAnnotationLinks = () => {
     <>
       {" | "}
       {volumeNum && openingNum ? (
-        <Link to="/detail/resolutions/urn:republic:session-1728-06-19-ordinaris-num-1-resolution-16">
+        <Link to="/detail/urn:republic:session-1728-06-19-ordinaris-num-1-resolution-16">
           Switch to resolution view
         </Link>
       ) : (
-        <Link to="/detail/volumes/1728/openings/285">
+        <Link to="/detail/1728/285">
           Switch to opening view
         </Link>
       )}

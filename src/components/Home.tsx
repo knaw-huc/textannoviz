@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 export default function Home() {
     return (
         <>
-            <Link to="detail/volumes/1728/openings/285">TextAnnoViz - Republic</Link>
+            <Link to="detail/1728/285">TextAnnoViz - Republic</Link>
         </>
     )
 }

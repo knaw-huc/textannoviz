@@ -14,9 +14,13 @@ export interface ProjectConfig {
     docNr: string;
     index: number[];
   }[];
-  routerPath?: any;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
   renderAnnotationButtons: () => JSX.Element;
+  createRouter: (comp1: React.ReactNode, comp2: React.ReactNode, errorComp: React.ReactNode) => {
+    path: string;
+    element: React.ReactNode;
+    errorElement: React.ReactNode;
+}[]
 }

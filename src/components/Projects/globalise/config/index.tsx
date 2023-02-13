@@ -71,4 +71,21 @@ export const globaliseConfig: ProjectConfig = {
   renderAnnotationButtons: () => {
     return <GetAnnotationButtons />;
   },
+
+  createRouter: (comp1: React.ReactNode, comp2: React.ReactNode, errorComp: React.ReactNode) => {
+    return (
+      [
+        {
+          path: "/",
+          element: comp1,
+          errorElement: errorComp,
+        },
+        {
+          path: "detail/:documentId/:openingNum",
+          element: comp2,
+          errorElement: errorComp,
+        },
+      ]
+    )
+  }
 };

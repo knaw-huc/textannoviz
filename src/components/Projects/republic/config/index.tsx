@@ -27,10 +27,6 @@ export const republicConfig: ProjectConfig = {
   broccoliVersion: "v3",
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
-  routerPath: {
-    tier0: "detail/volumes/:volumeNum/openings/:openingNum",
-    tier1: "detail/resolutions/:resolutionId",
-  },
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -46,4 +42,26 @@ export const republicConfig: ProjectConfig = {
   renderAnnotationButtons: () => {
     return <GetAnnotationButtons />;
   },
+
+  createRouter: (comp1: React.ReactNode, comp2: React.ReactNode, errorComp: React.ReactNode) => {
+    return (
+      [
+        {
+          path: "/",
+          element: comp1,
+          errorElement: errorComp,
+        },
+        {
+          path: "detail/:volumeNum/:openingNum",
+          element: comp2,
+          errorElement: errorComp,
+        },
+        {
+          path: "detail/:resolutionId",
+          element: comp2,
+          errorElement: errorComp,
+        },
+      ]
+    )
+  }
 };
