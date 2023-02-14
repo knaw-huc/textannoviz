@@ -2,6 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import { republicConfig } from "./components/Projects/republic/config";
+// import { globaliseConfig } from "./components/Projects/globalise/config/"
 import { Detail } from "./Detail";
 import { ErrorPage } from "./error-page";
 import { Providers } from "./Providers";

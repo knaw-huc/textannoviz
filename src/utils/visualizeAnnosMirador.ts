@@ -2,7 +2,7 @@ import mirador from "mirador";
 import {
   AnnoRepoAnnotation,
   iiifAnn,
-  iiifAnnResources
+  iiifAnnResources,
 } from "../model/AnnoRepoAnnotation";
 import { BroccoliV3 } from "../model/Broccoli";
 import { ProjectConfig } from "../model/ProjectConfig";
@@ -69,7 +69,11 @@ export const visualizeAnnosMirador = (
         on: [
           {
             "@type": "oa:SpecificResource",
-            full: `${currentState.windows.republic.canvasId}`,
+            full: `${
+              projectConfig.id === "republic"
+                ? currentState.windows.republic.canvasId
+                : currentState.windows.globalise.canvasid
+            }`,
             selector: {
               "@type": "oa:Choice",
               default: {
@@ -111,7 +115,11 @@ export const visualizeAnnosMirador = (
 
   store.dispatch(
     mirador.actions.receiveAnnotation(
-      `${currentState.windows.republic.canvasId}`,
+      `${
+        projectConfig.id === "republic"
+          ? currentState.windows.republic.canvasId
+          : currentState.windows.globalise.canvasid
+      }`,
       "annotation",
       iiifAnn
     )
