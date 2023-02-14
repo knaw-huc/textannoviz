@@ -8,7 +8,7 @@ interface TextProps {
 }
 
 const TextStyled = styled.div`
-  min-width: 350px;
+  width: 450px;
   height: 800px;
   padding: 0.7em;
   overflow: auto;
