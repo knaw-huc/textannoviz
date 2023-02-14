@@ -59,6 +59,20 @@ export const visualizeAnnosMirador = (
         default:
           colour = "white";
       }
+    } else {
+      switch (broccoli.anno[i].body.type) {
+        case "px:TextRegion":
+          colour = projectConfig.colours.textregion;
+          break;
+        case "px:TextLine":
+          colour = projectConfig.colours.textline;
+          break;
+        case "tt:Entity":
+          colour = projectConfig.colours.entity;
+          break;
+        default:
+          colour = "blue";
+      }
     }
 
     const iiifAnnResources: iiifAnnResources[] = [
@@ -72,7 +86,7 @@ export const visualizeAnnosMirador = (
             full: `${
               projectConfig.id === "republic"
                 ? currentState.windows.republic.canvasId
-                : currentState.windows.globalise.canvasid
+                : currentState.windows.globalise.canvasId
             }`,
             selector: {
               "@type": "oa:Choice",
@@ -118,7 +132,7 @@ export const visualizeAnnosMirador = (
       `${
         projectConfig.id === "republic"
           ? currentState.windows.republic.canvasId
-          : currentState.windows.globalise.canvasid
+          : currentState.windows.globalise.canvasId
       }`,
       "annotation",
       iiifAnn
