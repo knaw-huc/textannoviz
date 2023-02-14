@@ -56,12 +56,12 @@ export const republicConfig: ProjectConfig = {
         errorElement: errorComp,
       },
       {
-        path: "detail/:volumeNum/:openingNum",
+        path: "detail/:tier0/:tier1",
         element: comp2,
         errorElement: errorComp,
       },
       {
-        path: "detail/:resolutionId",
+        path: "detail/:tier2",
         element: comp2,
         errorElement: errorComp,
       },

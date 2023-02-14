@@ -85,7 +85,7 @@ export const globaliseConfig: ProjectConfig = {
         errorElement: errorComp,
       },
       {
-        path: "detail/:documentId/:openingNum",
+        path: "detail/:tier0/:tier1",
         element: comp2,
         errorElement: errorComp,
       },

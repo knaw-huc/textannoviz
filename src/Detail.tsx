@@ -13,10 +13,7 @@ import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
 import { miradorContext } from "./state/mirador/MiradorContext";
 import { PROJECT_ACTIONS } from "./state/project/ProjectAction";
 import { projectContext } from "./state/project/ProjectContext";
-import {
-  fetchBroccoliBodyId,
-  fetchBroccoliScan
-} from "./utils/fetchBroccoli";
+import { fetchBroccoliBodyId, fetchBroccoliScan } from "./utils/fetchBroccoli";
 import { visualizeAnnosMirador } from "./utils/visualizeAnnosMirador";
 
 interface DetailProps {
@@ -50,11 +47,7 @@ export const Detail = (props: DetailProps) => {
   const [text, setText] = React.useState<BroccoliText>(null);
   const { miradorDispatch } = React.useContext(miradorContext);
   const { projectDispatch } = React.useContext(projectContext);
-  const { volumeNum, openingNum, resolutionId } = useParams<{
-    volumeNum: string;
-    openingNum: string;
-    resolutionId: string;
-  }>();
+  const params = useParams();
 
   const setState = React.useCallback((broccoli: BroccoliV3) => {
     console.log(broccoli);
@@ -104,24 +97,24 @@ export const Detail = (props: DetailProps) => {
   }, []);
 
   React.useEffect(() => {
-    if (volumeNum && openingNum) {
-      fetchBroccoliScan(volumeNum, openingNum, props.config)
+    if (params.tier0 && params.tier1) {
+      fetchBroccoliScan(params.tier0, params.tier1, props.config)
         .then((broccoli) => {
           setState(broccoli);
         })
         .catch(console.error);
     }
-  }, [volumeNum, openingNum, setState]);
+  }, [params.tier0, params.tier1, setState]);
 
   React.useEffect(() => {
-    if (resolutionId) {
-      fetchBroccoliBodyId(resolutionId, props.config)
+    if (params.tier2) {
+      fetchBroccoliBodyId(params.tier2, props.config)
         .then((broccoli) => {
           setState(broccoli);
         })
         .catch(console.error);
     }
-  }, [resolutionId, setState]);
+  }, [params.tier2, setState]);
 
   return (
     <AppContainer id="appcontainer">

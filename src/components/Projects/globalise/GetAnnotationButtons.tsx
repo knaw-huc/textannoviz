@@ -69,7 +69,7 @@ export const GetAnnotationButtons = () => {
 
   return (
     <>
-      {params.documentId && params.openingNum ? (
+      {params.tier0 && params.tier1 ? (
         <div>
           <Button onClick={previousCanvasClickHandler}>Previous canvas</Button>
           <Button onClick={nextCanvasClickHandler}>Next canvas</Button>
