@@ -1,17 +1,14 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
-// import { republicConfig } from "./components/Projects/republic/config";
 import { globaliseConfig } from "./components/Projects/globalise/config/";
+import { republicConfig } from "./components/Projects/republic/config";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./error-page";
 import { Providers } from "./Providers";
 
-// const project = "republic"
-// const config = republicConfig
-
 const project = "globalise";
-const config = globaliseConfig;
+const config = project === "globalise" ? globaliseConfig : republicConfig;
 
 const router = createBrowserRouter(
   config.createRouter(
