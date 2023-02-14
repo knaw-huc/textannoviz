@@ -12,8 +12,8 @@ export interface BroccoliV3 {
 }
 
 export interface OpeningRequest {
-  volumeId: string;
-  openingNr: number;
+  tier0: string;
+  tier1: number;
 }
 
 export interface ResolutionRequest {

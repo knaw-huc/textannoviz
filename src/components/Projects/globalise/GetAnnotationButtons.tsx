@@ -42,7 +42,7 @@ export const GetAnnotationButtons = () => {
     }
     const document = miradorState.currentContext.tier0;
 
-    navigate(`/detail/documents/${document}/openings/${nextCanvas.toString()}`);
+    navigate(`/detail/${document}/${nextCanvas.toString()}`);
     miradorState.store.dispatch(mirador.actions.setNextCanvas("globalise"));
 
     console.log(miradorState.store.getState());
@@ -63,7 +63,7 @@ export const GetAnnotationButtons = () => {
 
     const document = miradorState.currentContext.tier0;
 
-    navigate(`/detail/documents/${document}/openings/${prevCanvas.toString()}`);
+    navigate(`/detail/${document}/${prevCanvas.toString()}`);
     miradorState.store.dispatch(mirador.actions.setPreviousCanvas("globalise"));
   };
 
