@@ -3,9 +3,4 @@ node_modules
 dist
 build
 .DS_Store
-textrepotav
-untangle2elucidate
-.env*
 .vscode
-.idea
-.fleet

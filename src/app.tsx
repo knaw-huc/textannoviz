@@ -7,7 +7,8 @@ import { Detail } from "./Detail";
 import { ErrorPage } from "./error-page";
 import { Providers } from "./Providers";
 
-const project = "globalise";
+// eslint-disable-next-line @typescript-eslint/no-inferrable-types
+const project: string = "globalise";
 const config = project === "globalise" ? globaliseConfig : republicConfig;
 
 const router = createBrowserRouter(
