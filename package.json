@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve --config webpack.config-dev.js",
     "build": "webpack build --config webpack.config-prod.js",
-    "docker:all": "./docker-all.sh"
+    "docker:republic-all": "./docker-republic-all.sh",
+    "docker:globalise-all": "./docker-globalise-all.sh"
   },
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
