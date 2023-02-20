@@ -1,3 +1,4 @@
+import produce from "immer";
 import React from "react";
 import { create } from "zustand";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
@@ -19,19 +20,36 @@ export const initAnnotationState: AnnotationState = {
 };
 
 interface SelectedAnn {
-  selectedAnn: string[];
-  updateSelectedAnn: (bodyId: string) => void;
+  selectedAnn: {
+    bodyId: string;
+    indicesToHighlight: number[];
+  }[];
+  updateSelectedAnn: (bodyId: string, indicesToHighlight: number[]) => void;
   removeSelectedAnn: (bodyId: string) => void;
 }
 
 export const useSelectedAnn = create<SelectedAnn>((set) => ({
   selectedAnn: [],
-  updateSelectedAnn: (bodyId: string) =>
-    set((state) => ({ selectedAnn: [...state.selectedAnn, bodyId] })),
+  updateSelectedAnn: (bodyId: string, indicesToHighlight: number[]) =>
+    // set((state) => ({ selectedAnn: [...state.selectedAnn, bodyId] })),
+    set(
+      produce((state: SelectedAnn) => {
+        state.selectedAnn.push({
+          bodyId: bodyId,
+          indicesToHighlight: indicesToHighlight,
+        });
+      })
+    ),
   removeSelectedAnn: (bodyId: string) =>
-    set((state) => ({
-      selectedAnn: state.selectedAnn.filter((ann) => ann !== bodyId),
-    })),
+    set(
+      produce((state: SelectedAnn) => {
+        const index = state.selectedAnn.findIndex((el) => el.bodyId === bodyId);
+        state.selectedAnn.splice(index, 1);
+      })
+    ),
+  // set((state) => ({
+  //   selectedAnn: state.selectedAnn.filter((ann) => ann !== bodyId),
+  // })),
 }));
 
 export const useAnnotationState = (): [

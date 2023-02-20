@@ -7,6 +7,7 @@ import { annotationContext } from "../../state/annotation/AnnotationContext";
 import { useSelectedAnn } from "../../state/annotation/AnnotationReducer";
 import { miradorContext } from "../../state/mirador/MiradorContext";
 import { projectContext } from "../../state/project/ProjectContext";
+import { fetchLinesToHighlight } from "../../utils/fetchLinesToHighlight";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
 import { miradorConfig } from "../Mirador/MiradorConfig";
 import { AnnotationItemContent } from "./AnnotationItemContent";
@@ -44,7 +45,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
   console.log(selectedAnn);
 
-  function toggleOpen() {
+  async function toggleOpen() {
     setOpen(!isOpen);
 
     if (!isOpen) {
@@ -67,7 +68,12 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
           zoom: 1 / zoom.miradorZoom,
         })
       );
-      updateSelectedAnn(props.annotation.body.id);
+      const indices = await fetchLinesToHighlight(
+        props.annotation.body.id,
+        projectState.config.relativeTo,
+        projectState.config
+      );
+      updateSelectedAnn(props.annotation.body.id, indices);
 
       annotationDispatch({
         type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
