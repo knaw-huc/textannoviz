@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { ANNOTATION_ACTIONS } from "../../state/annotation/AnnotationActions";
 import { annotationContext } from "../../state/annotation/AnnotationContext";
+import { useSelectedAnn } from "../../state/annotation/AnnotationReducer";
 import { miradorContext } from "../../state/mirador/MiradorContext";
 import { projectContext } from "../../state/project/ProjectContext";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
@@ -39,6 +40,11 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   const { miradorState } = React.useContext(miradorContext);
   const { projectState } = React.useContext(projectContext);
   const { annotationDispatch } = React.useContext(annotationContext);
+  const selectedAnn = useSelectedAnn((state) => state.selectedAnn);
+  const updateSelectedAnn = useSelectedAnn((state) => state.updateSelectedAnn);
+  const removeSelectedAnn = useSelectedAnn((state) => state.removeSelectedAnn);
+
+  console.log(selectedAnn);
 
   function toggleOpen() {
     setOpen(!isOpen);
@@ -66,6 +72,8 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       );
 
       // Set text to highlight
+      updateSelectedAnn(props.annotation.body.id);
+
       annotationDispatch({
         type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
         annotationItemOpen: true,
@@ -82,6 +90,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
         annotationItemOpen: false,
       });
+      removeSelectedAnn(props.annotation.body.id);
     }
   }
 

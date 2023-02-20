@@ -1,4 +1,5 @@
 import React from "react";
+import { create } from "zustand";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import {
   AnnotationAction,
@@ -19,6 +20,22 @@ export const initAnnotationState: AnnotationState = {
   selectedAnnotation: undefined,
   annotationItemOpen: false,
 };
+
+interface SelectedAnn {
+  selectedAnn: string[];
+  updateSelectedAnn: (bodyId: string) => void;
+  removeSelectedAnn: (bodyId: string) => void;
+}
+
+export const useSelectedAnn = create<SelectedAnn>((set) => ({
+  selectedAnn: [],
+  updateSelectedAnn: (bodyId: string) =>
+    set((state) => ({ selectedAnn: [...state.selectedAnn, bodyId] })),
+  removeSelectedAnn: (bodyId: string) =>
+    set((state) => ({
+      selectedAnn: state.selectedAnn.filter((ann) => ann !== bodyId),
+    })),
+}));
 
 export const useAnnotationState = (): [
   AnnotationState,
