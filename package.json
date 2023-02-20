@@ -12,6 +12,7 @@
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "immer": "^9.0.19",
     "mirador": "^3.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
