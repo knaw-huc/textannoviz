@@ -14,8 +14,6 @@ import { AnnotationItemContent } from "./AnnotationItemContent";
 type AnnotationSnippetProps = {
   annot_id: React.Key;
   annotation: AnnoRepoAnnotation;
-  selected: boolean;
-  onSelect: (a: AnnoRepoAnnotation | undefined) => void;
 };
 
 const AnnSnippet = styled.div`
@@ -48,7 +46,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
   function toggleOpen() {
     setOpen(!isOpen);
-    props.onSelect(props.annotation);
 
     if (!isOpen) {
       //Zoom in on annotation in Mirador
@@ -70,8 +67,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
           zoom: 1 / zoom.miradorZoom,
         })
       );
-
-      // Set text to highlight
       updateSelectedAnn(props.annotation.body.id);
 
       annotationDispatch({
@@ -79,7 +74,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         annotationItemOpen: true,
       });
     } else {
-      props.onSelect(undefined);
       miradorState.store.dispatch(
         mirador.actions.deselectAnnotation(
           miradorConfig.windows[0].id,

@@ -6,18 +6,15 @@ import {
   ANNOTATION_ACTIONS,
   SetAnnotation,
   SetAnnotationItemOpen,
-  SetSelectedAnnotation,
 } from "./AnnotationActions";
 
 export interface AnnotationState {
   annotation: AnnoRepoAnnotation[];
-  selectedAnnotation: AnnoRepoAnnotation | undefined;
   annotationItemOpen: boolean;
 }
 
 export const initAnnotationState: AnnotationState = {
   annotation: null,
-  selectedAnnotation: undefined,
   annotationItemOpen: false,
 };
 
@@ -58,8 +55,6 @@ const annotationReducer = (
   switch (action.type) {
     case ANNOTATION_ACTIONS.SET_ANNOTATION:
       return setAnnotation(state, action);
-    case ANNOTATION_ACTIONS.SET_SELECTEDANNOTATION:
-      return setSelectedAnnotation(state, action);
     case ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN:
       return setAnnotationItemOpen(state, action);
     default:
@@ -73,16 +68,6 @@ const setAnnotation = (state: AnnotationState, action: SetAnnotation) => {
   return {
     ...state,
     annotation: action.annotation,
-  };
-};
-
-const setSelectedAnnotation = (
-  state: AnnotationState,
-  action: SetSelectedAnnotation
-) => {
-  return {
-    ...state,
-    selectedAnnotation: action.selectedAnnotation,
   };
 };
 
