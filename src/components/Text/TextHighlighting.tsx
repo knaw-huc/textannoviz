@@ -10,10 +10,10 @@ export function TextHighlighting(props: TextHighlightingProps) {
   const { projectState } = React.useContext(projectContext);
 
   React.useEffect(() => {
-    if (props.highlightedLines.length > 1) {
+    if (props.highlightedLines.length >= 1) {
       const parentDOM = document.getElementById("textcontainer");
       const target = parentDOM.getElementsByClassName("highlighted")[0];
-      target.scrollIntoView({ behavior: "smooth" });
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [props.highlightedLines.length]);
 
