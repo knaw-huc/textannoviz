@@ -11,7 +11,6 @@ export function TextHighlighting(props: TextHighlightingProps) {
 
   React.useEffect(() => {
     if (props.highlightedLines.length > 1) {
-      console.log("lines is more than 1");
       const parentDOM = document.getElementById("textcontainer");
       const target = parentDOM.getElementsByClassName("highlighted")[0];
       target.scrollIntoView({ behavior: "smooth" });
