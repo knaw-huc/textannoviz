@@ -15,7 +15,7 @@ const TextStyled = styled.div`
   border-left: 1px solid black;
   border-right: 1px solid black;
   font-size: 1rem;
-  line-height: 2.25rem;
+  line-height: 1.8rem;
 `;
 
 export function Text(props: TextProps) {
