@@ -56,6 +56,9 @@ export const visualizeAnnosMirador = (
         case "AttendanceList":
           colour = projectConfig.colours.attendancelist;
           break;
+        case "TextRegion":
+          colour = projectConfig.colours.textregion;
+          break;
         default:
           colour = "white";
       }

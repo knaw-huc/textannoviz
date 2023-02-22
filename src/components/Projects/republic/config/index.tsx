@@ -13,8 +13,9 @@ export const republicConfig: ProjectConfig = {
   colours: {
     resolution: "green",
     attendant: "#DB4437",
-    reviewed: "blue",
+    reviewed: "cyan",
     attendancelist: "yellow",
+    textregion: "blue",
   },
 
   relativeTo: "Scan",
@@ -24,6 +25,7 @@ export const republicConfig: ProjectConfig = {
     "Reviewed",
     "AttendanceList",
     "Attendant",
+    "TextRegion",
   ],
   broccoliVersion: "v3",
   tier: ["volumes", "openings"],
