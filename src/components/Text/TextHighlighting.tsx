@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { projectContext } from "../../state/project/ProjectContext";
 
 interface TextHighlightingProps {
@@ -8,14 +9,16 @@ interface TextHighlightingProps {
 
 export function TextHighlighting(props: TextHighlightingProps) {
   const { projectState } = React.useContext(projectContext);
+  const params = useParams();
 
   React.useEffect(() => {
-    if (props.highlightedLines.length >= 1) {
+    if (props.highlightedLines.length >= 1 && !params.tier2) {
       const parentDOM = document.getElementById("textcontainer");
       const target = parentDOM.getElementsByClassName("highlighted")[0];
+      console.log(parentDOM.getElementsByClassName("highlighted"));
       target.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  }, [props.highlightedLines.length]);
+  }, [params.tier2, props.highlightedLines.length]);
 
   return (
     <div
