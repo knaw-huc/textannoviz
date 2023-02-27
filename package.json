@@ -14,8 +14,8 @@
   "dependencies": {
     "immer": "^9.0.19",
     "mirador": "^3.3.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.0",
     "react-toastify": "^9.1.1",
     "styled-components": "^5.3.6",
@@ -24,7 +24,7 @@
   "devDependencies": {
     "@blueprintjs/core": "^3.53.0",
     "@blueprintjs/icons": "^3.32.0",
-    "@types/react-dom": "^17.0.9",
+    "@types/react-dom": "^18.0.11",
     "@types/styled-components": "^5.1.26",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.3.0",
