@@ -31,7 +31,6 @@ interface SelectedAnn {
 export const useSelectedAnn = create<SelectedAnn>((set) => ({
   selectedAnn: [],
   updateSelectedAnn: (bodyId: string, indicesToHighlight: number[]) =>
-    // set((state) => ({ selectedAnn: [...state.selectedAnn, bodyId] })),
     set(
       produce((state: SelectedAnn) => {
         state.selectedAnn.push({
@@ -47,9 +46,6 @@ export const useSelectedAnn = create<SelectedAnn>((set) => ({
         state.selectedAnn.splice(index, 1);
       })
     ),
-  // set((state) => ({
-  //   selectedAnn: state.selectedAnn.filter((ann) => ann !== bodyId),
-  // })),
 }));
 
 export const useAnnotationState = (): [

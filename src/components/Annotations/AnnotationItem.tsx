@@ -43,7 +43,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   const updateSelectedAnn = useSelectedAnn((state) => state.updateSelectedAnn);
   const removeSelectedAnn = useSelectedAnn((state) => state.removeSelectedAnn);
 
-  console.log(selectedAnn);
+  // console.log(selectedAnn);
 
   async function toggleOpen() {
     setOpen(!isOpen);
