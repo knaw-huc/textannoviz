@@ -1,6 +1,6 @@
 import React from "react";
 import { BroccoliText } from "../../model/Broccoli";
-import { useSelectedAnn } from "../../state/annotation/AnnotationReducer";
+import { useAnnotationStore } from "../../stores/annotation";
 import { TextHighlighting } from "./TextHighlighting";
 
 interface TextComponentProps {
@@ -8,7 +8,7 @@ interface TextComponentProps {
 }
 
 export function TextComponent(props: TextComponentProps) {
-  const selectedAnn = useSelectedAnn((state) => state.selectedAnn);
+  const selectedAnn = useAnnotationStore((state) => state.selectedAnn);
 
   const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
 

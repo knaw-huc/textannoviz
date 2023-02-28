@@ -2,11 +2,9 @@ import mirador from "mirador";
 import React from "react";
 import styled from "styled-components";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
-import { ANNOTATION_ACTIONS } from "../../state/annotation/AnnotationActions";
-import { annotationContext } from "../../state/annotation/AnnotationContext";
-import { useSelectedAnn } from "../../state/annotation/AnnotationReducer";
 import { miradorContext } from "../../state/mirador/MiradorContext";
 import { projectContext } from "../../state/project/ProjectContext";
+import { useAnnotationStore } from "../../stores/annotation";
 import { fetchLinesToHighlight } from "../../utils/fetchLinesToHighlight";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
 import { miradorConfig } from "../Mirador/MiradorConfig";
@@ -38,12 +36,12 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
   const { miradorState } = React.useContext(miradorContext);
   const { projectState } = React.useContext(projectContext);
-  const { annotationDispatch } = React.useContext(annotationContext);
-  const selectedAnn = useSelectedAnn((state) => state.selectedAnn);
-  const updateSelectedAnn = useSelectedAnn((state) => state.updateSelectedAnn);
-  const removeSelectedAnn = useSelectedAnn((state) => state.removeSelectedAnn);
-
-  // console.log(selectedAnn);
+  const updateSelectedAnn = useAnnotationStore(
+    (state) => state.updateSelectedAnn
+  );
+  const removeSelectedAnn = useAnnotationStore(
+    (state) => state.removeSelectedAnn
+  );
 
   async function toggleOpen() {
     setOpen(!isOpen);
@@ -74,11 +72,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         projectState.config
       );
       updateSelectedAnn(props.annotation.body.id, indices);
-
-      annotationDispatch({
-        type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
-        annotationItemOpen: true,
-      });
     } else {
       miradorState.store.dispatch(
         mirador.actions.deselectAnnotation(
@@ -86,10 +79,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
           props.annotation.id
         )
       );
-      annotationDispatch({
-        type: ANNOTATION_ACTIONS.SET_ANNOTATIONITEMOPEN,
-        annotationItemOpen: false,
-      });
       removeSelectedAnn(props.annotation.body.id);
     }
   }
