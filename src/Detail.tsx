@@ -50,39 +50,51 @@ export const Detail = (props: DetailProps) => {
   const setCanvas = useMiradorStore((state) => state.setCanvas);
   const params = useParams();
 
-  const setState = React.useCallback((broccoli: BroccoliV3) => {
-    setMiradorConfig(broccoli, props.project);
-    const viewer = mirador.viewer(miradorConfig);
+  const setState = React.useCallback(
+    (broccoli: BroccoliV3) => {
+      setMiradorConfig(broccoli, props.project);
+      console.log(broccoli);
+      const viewer = mirador.viewer(miradorConfig);
 
-    setStore(viewer.store);
+      setStore(viewer.store);
 
-    setProjectName(props.project);
-    setProjectConfig(props.config);
+      setProjectName(props.project);
+      setProjectConfig(props.config);
 
-    visualizeAnnosMirador(
-      broccoli,
-      viewer.store,
-      broccoli.iiif.canvasIds[0],
-      props.config
-    );
+      visualizeAnnosMirador(
+        broccoli,
+        viewer.store,
+        broccoli.iiif.canvasIds[0],
+        props.config
+      );
 
-    const newCanvas = {
-      canvasIds: broccoli.iiif.canvasIds,
-      currentIndex: 0,
-    };
+      const newCanvas = {
+        canvasIds: broccoli.iiif.canvasIds,
+        currentIndex: 0,
+      };
 
-    setCanvas(newCanvas);
+      setCanvas(newCanvas);
 
-    const newCurrentContext = {
-      tier0: (broccoli.request as OpeningRequest).tier0,
-      tier1: (broccoli.request as OpeningRequest).tier1,
-    };
+      const newCurrentContext = {
+        tier0: (broccoli.request as OpeningRequest).tier0,
+        tier1: (broccoli.request as OpeningRequest).tier1,
+      };
 
-    setCurrentContext(newCurrentContext);
+      setCurrentContext(newCurrentContext);
 
-    setAnnos(broccoli.anno);
-    setText(broccoli.text);
-  }, []);
+      setAnnos(broccoli.anno);
+      setText(broccoli.text);
+    },
+    [
+      props.config,
+      props.project,
+      setCanvas,
+      setCurrentContext,
+      setProjectConfig,
+      setProjectName,
+      setStore,
+    ]
+  );
 
   React.useEffect(() => {
     if (params.tier0 && params.tier1) {
@@ -92,7 +104,7 @@ export const Detail = (props: DetailProps) => {
         })
         .catch(console.error);
     }
-  }, [params.tier0, params.tier1, setState]);
+  }, [params.tier0, params.tier1, props.config, setState]);
 
   React.useEffect(() => {
     if (params.tier2) {
@@ -102,7 +114,7 @@ export const Detail = (props: DetailProps) => {
         })
         .catch(console.error);
     }
-  }, [params.tier2, setState]);
+  }, [params.tier2, props.config, setState]);
 
   return (
     <AppContainer id="appcontainer">
