@@ -25,8 +25,6 @@ export const GetAnnotationButtons = () => {
 
     navigate(`/detail/${volume}/${nextCanvas.toString()}`);
     miradorStore.dispatch(mirador.actions.setNextCanvas("republic"));
-
-    console.log(miradorStore.getState());
   };
 
   const previousCanvasClickHandler = () => {
