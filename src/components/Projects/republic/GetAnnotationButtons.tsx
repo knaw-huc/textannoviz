@@ -2,7 +2,7 @@ import mirador from "mirador";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { miradorContext } from "../../../state/mirador/MiradorContext";
+import { useMiradorStore } from "../../../stores/mirador";
 
 const Button = styled.button`
   background: #0d6efd;
@@ -14,26 +14,27 @@ const Button = styled.button`
 `;
 
 export const GetAnnotationButtons = () => {
-  const { miradorState } = React.useContext(miradorContext);
+  const currentContext = useMiradorStore((state) => state.currentContext);
+  const miradorStore = useMiradorStore((state) => state.miradorStore);
   const params = useParams();
   const navigate = useNavigate();
 
   const nextCanvasClickHandler = () => {
-    const nextCanvas = (miradorState.currentContext.tier1 as number) + 1;
-    const volume = miradorState.currentContext.tier0;
+    const nextCanvas = (currentContext.tier1 as number) + 1;
+    const volume = currentContext.tier0;
 
     navigate(`/detail/${volume}/${nextCanvas.toString()}`);
-    miradorState.store.dispatch(mirador.actions.setNextCanvas("republic"));
+    miradorStore.dispatch(mirador.actions.setNextCanvas("republic"));
 
-    console.log(miradorState.store.getState());
+    console.log(miradorStore.getState());
   };
 
   const previousCanvasClickHandler = () => {
-    const prevCanvas = (miradorState.currentContext.tier1 as number) - 1;
-    const volume = miradorState.currentContext.tier0;
+    const prevCanvas = (currentContext.tier1 as number) - 1;
+    const volume = currentContext.tier0;
 
     navigate(`/detail/${volume}/${prevCanvas.toString()}`);
-    miradorState.store.dispatch(mirador.actions.setPreviousCanvas("republic"));
+    miradorStore.dispatch(mirador.actions.setPreviousCanvas("republic"));
   };
 
   return (

@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { projectContext } from "../../state/project/ProjectContext";
+import { useProjectStore } from "../../stores/project";
 
 export const AnnotationLinks = () => {
-  const { projectState } = React.useContext(projectContext);
+  const projectConfig = useProjectStore((state) => state.projectConfig);
 
   return (
     <div id="annotation-links">
       <Link to="/">Home</Link>
-      {projectState.config &&
-        projectState.config.renderAnnotationLinks &&
-        projectState.config.renderAnnotationLinks()}
+      {projectConfig &&
+        projectConfig.renderAnnotationLinks &&
+        projectConfig.renderAnnotationLinks()}
     </div>
   );
 };

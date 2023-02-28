@@ -2,9 +2,9 @@ import mirador from "mirador";
 import React from "react";
 import styled from "styled-components";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
-import { miradorContext } from "../../state/mirador/MiradorContext";
-import { projectContext } from "../../state/project/ProjectContext";
 import { useAnnotationStore } from "../../stores/annotation";
+import { useMiradorStore } from "../../stores/mirador";
+import { useProjectStore } from "../../stores/project";
 import { fetchLinesToHighlight } from "../../utils/fetchLinesToHighlight";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
 import { miradorConfig } from "../Mirador/MiradorConfig";
@@ -34,8 +34,9 @@ const Clickable = styled.div`
 
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
-  const { miradorState } = React.useContext(miradorContext);
-  const { projectState } = React.useContext(projectContext);
+  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const miradorStore = useMiradorStore((state) => state.miradorStore);
+  const canvas = useMiradorStore((state) => state.canvas);
   const updateSelectedAnn = useAnnotationStore(
     (state) => state.updateSelectedAnn
   );
@@ -48,18 +49,15 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
     if (!isOpen) {
       //Zoom in on annotation in Mirador
-      const zoom = zoomAnnMirador(
-        props.annotation,
-        miradorState.canvas.canvasIds[0]
-      );
+      const zoom = zoomAnnMirador(props.annotation, canvas.canvasIds[0]);
 
-      miradorState.store.dispatch(
+      miradorStore.dispatch(
         mirador.actions.selectAnnotation(
           miradorConfig.windows[0].id,
           props.annotation.id
         )
       );
-      miradorState.store.dispatch(
+      miradorStore.dispatch(
         mirador.actions.updateViewport(miradorConfig.windows[0].id, {
           x: zoom.zoomCenter.x,
           y: zoom.zoomCenter.y,
@@ -68,12 +66,12 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       );
       const indices = await fetchLinesToHighlight(
         props.annotation.body.id,
-        projectState.config.relativeTo,
-        projectState.config
+        projectConfig.relativeTo,
+        projectConfig
       );
       updateSelectedAnn(props.annotation.body.id, indices);
     } else {
-      miradorState.store.dispatch(
+      miradorStore.dispatch(
         mirador.actions.deselectAnnotation(
           miradorConfig.windows[0].id,
           props.annotation.id
@@ -99,7 +97,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   return (
     <AnnSnippet id="annotation-snippet">
       <Clickable onClick={toggleOpen} id="clickable">
-        {projectState.config.renderAnnotationItem(props.annotation)}
+        {projectConfig.renderAnnotationItem(props.annotation)}
       </Clickable>
       {isOpen && <AnnotationItemContent annotation={props.annotation} />}
     </AnnSnippet>

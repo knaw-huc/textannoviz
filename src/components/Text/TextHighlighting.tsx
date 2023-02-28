@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { projectContext } from "../../state/project/ProjectContext";
+import { useProjectStore } from "../../stores/project";
 
 interface TextHighlightingProps {
   text: string[];
@@ -8,7 +8,7 @@ interface TextHighlightingProps {
 }
 
 export function TextHighlighting(props: TextHighlightingProps) {
-  const { projectState } = React.useContext(projectContext);
+  const projectName = useProjectStore((state) => state.projectName);
   const params = useParams();
 
   React.useEffect(() => {
@@ -22,7 +22,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
 
   return (
     <div
-      style={projectState.project === "republic" ? { display: "grid" } : null}
+      style={projectName === "republic" ? { display: "grid" } : null}
       id="textcontainer"
     >
       {props.text.map((line, index) => (

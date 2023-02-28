@@ -1,7 +1,6 @@
-import React from "react";
-import { projectContext } from "../../state/project/ProjectContext";
+import { useProjectStore } from "../../stores/project";
 export const AnnotationButtons = () => {
-  const { projectState } = React.useContext(projectContext);
+  const projectConfig = useProjectStore((state) => state.projectConfig);
 
-  return projectState.config && projectState.config.renderAnnotationButtons();
+  return projectConfig && projectConfig.renderAnnotationButtons();
 };

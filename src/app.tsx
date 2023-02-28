@@ -5,7 +5,6 @@ import { globaliseConfig } from "./components/Projects/globalise/config/";
 import { republicConfig } from "./components/Projects/republic/config";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./error-page";
-import { Providers } from "./Providers";
 
 const project: string = process.env.PROJECT;
 const config = project === "globalise" ? globaliseConfig : republicConfig;
@@ -19,9 +18,5 @@ const router = createBrowserRouter(
 );
 
 export default function App() {
-  return (
-    <Providers>
-      <RouterProvider router={router} />
-    </Providers>
-  );
+  return <RouterProvider router={router} />;
 }

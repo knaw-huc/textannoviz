@@ -9,10 +9,8 @@ import { Text } from "./components/Text/text";
 import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
 import { BroccoliText, BroccoliV3, OpeningRequest } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
-import { MIRADOR_ACTIONS } from "./state/mirador/MiradorActions";
-import { miradorContext } from "./state/mirador/MiradorContext";
-import { PROJECT_ACTIONS } from "./state/project/ProjectAction";
-import { projectContext } from "./state/project/ProjectContext";
+import { useMiradorStore } from "./stores/mirador";
+import { useProjectStore } from "./stores/project";
 import { fetchBroccoliBodyId, fetchBroccoliScan } from "./utils/fetchBroccoli";
 import { visualizeAnnosMirador } from "./utils/visualizeAnnosMirador";
 
@@ -45,29 +43,21 @@ const setMiradorConfig = (broccoli: BroccoliV3, project: string) => {
 export const Detail = (props: DetailProps) => {
   const [annos, setAnnos] = React.useState<AnnoRepoAnnotation[]>([]);
   const [text, setText] = React.useState<BroccoliText>(null);
-  const { miradorDispatch } = React.useContext(miradorContext);
-  const { projectDispatch } = React.useContext(projectContext);
+  const setProjectName = useProjectStore((state) => state.setProjectName);
+  const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
+  const setStore = useMiradorStore((state) => state.setStore);
+  const setCurrentContext = useMiradorStore((state) => state.setCurrentContext);
+  const setCanvas = useMiradorStore((state) => state.setCanvas);
   const params = useParams();
 
   const setState = React.useCallback((broccoli: BroccoliV3) => {
-    console.log(broccoli);
     setMiradorConfig(broccoli, props.project);
     const viewer = mirador.viewer(miradorConfig);
 
-    miradorDispatch({
-      type: MIRADOR_ACTIONS.SET_STORE,
-      store: viewer.store,
-    });
+    setStore(viewer.store);
 
-    projectDispatch({
-      type: PROJECT_ACTIONS.SET_PROJECT,
-      project: props.project,
-    });
-
-    projectDispatch({
-      type: PROJECT_ACTIONS.SET_CONFIG,
-      config: props.config,
-    });
+    setProjectName(props.project);
+    setProjectConfig(props.config);
 
     visualizeAnnosMirador(
       broccoli,
@@ -76,21 +66,19 @@ export const Detail = (props: DetailProps) => {
       props.config
     );
 
-    miradorDispatch({
-      type: MIRADOR_ACTIONS.SET_CANVAS,
-      canvas: {
-        canvasIds: broccoli.iiif.canvasIds,
-        currentIndex: 0,
-      },
-    });
+    const newCanvas = {
+      canvasIds: broccoli.iiif.canvasIds,
+      currentIndex: 0,
+    };
 
-    miradorDispatch({
-      type: MIRADOR_ACTIONS.SET_CURRENTCONTEXT,
-      currentContext: {
-        tier0: (broccoli.request as OpeningRequest).tier0,
-        tier1: (broccoli.request as OpeningRequest).tier1,
-      },
-    });
+    setCanvas(newCanvas);
+
+    const newCurrentContext = {
+      tier0: (broccoli.request as OpeningRequest).tier0,
+      tier1: (broccoli.request as OpeningRequest).tier1,
+    };
+
+    setCurrentContext(newCurrentContext);
 
     setAnnos(broccoli.anno);
     setText(broccoli.text);

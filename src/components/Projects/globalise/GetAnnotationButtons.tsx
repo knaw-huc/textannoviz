@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import { miradorContext } from "../../../state/mirador/MiradorContext";
+import { useMiradorStore } from "../../../stores/mirador";
 import { globaliseConfig } from "./config";
 
 const Button = styled.button`
@@ -16,12 +16,13 @@ const Button = styled.button`
 `;
 
 export const GetAnnotationButtons = () => {
-  const { miradorState } = React.useContext(miradorContext);
+  const miradorStore = useMiradorStore((state) => state.miradorStore);
+  const currentContext = useMiradorStore((state) => state.currentContext);
   const params = useParams();
   const navigate = useNavigate();
 
   const documentIndices = globaliseConfig.documents?.find(
-    (document) => miradorState.currentContext.tier0 === document.docNr
+    (document) => currentContext.tier0 === document.docNr
   );
 
   if (!documentIndices) return null;
@@ -29,42 +30,42 @@ export const GetAnnotationButtons = () => {
   const indices = documentIndices.index;
 
   const nextCanvasClickHandler = () => {
-    const currentIndex = indices.indexOf(miradorState.currentContext.tier1);
+    const currentIndex = indices.indexOf(currentContext.tier1);
     const nextCanvas = indices[currentIndex + 1];
     if (!indices.includes(nextCanvas)) {
       toast(
         `Opening ${indices[currentIndex] + 1} does not exist in document ${
-          miradorState.currentContext.tier0
+          currentContext.tier0
         }!`,
         { type: "error" }
       );
       return;
     }
-    const document = miradorState.currentContext.tier0;
+    const document = currentContext.tier0;
 
     navigate(`/detail/${document}/${nextCanvas.toString()}`);
-    miradorState.store.dispatch(mirador.actions.setNextCanvas("globalise"));
+    miradorStore.dispatch(mirador.actions.setNextCanvas("globalise"));
 
-    console.log(miradorState.store.getState());
+    console.log(miradorStore.getState());
   };
 
   const previousCanvasClickHandler = () => {
-    const currentIndex = indices.indexOf(miradorState.currentContext.tier1);
+    const currentIndex = indices.indexOf(currentContext.tier1);
     const prevCanvas = indices[currentIndex - 1];
     if (!indices.includes(prevCanvas)) {
       toast(
         `Opening ${indices[currentIndex] - 1} does not exist in document ${
-          miradorState.currentContext.tier0
+          currentContext.tier0
         }!`,
         { type: "error" }
       );
       return;
     }
 
-    const document = miradorState.currentContext.tier0;
+    const document = currentContext.tier0;
 
     navigate(`/detail/${document}/${prevCanvas.toString()}`);
-    miradorState.store.dispatch(mirador.actions.setPreviousCanvas("globalise"));
+    miradorStore.dispatch(mirador.actions.setPreviousCanvas("globalise"));
   };
 
   return (
