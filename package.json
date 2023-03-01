@@ -12,6 +12,10 @@
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.11",
+    "@mui/styled-engine-sc": "^5.11.11",
     "immer": "^9.0.19",
     "mirador": "^3.3.0",
     "react": "^18.2.0",
