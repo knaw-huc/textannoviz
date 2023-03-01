@@ -1,9 +1,9 @@
-import Skeleton from "@mui/material/Skeleton";
 import React from "react";
 import styled from "styled-components";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
+import { Loading } from "../../utils/Loader";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { AnnotationButtons } from "./AnnotationButtons";
 import { AnnotationFilter } from "./AnnotationFilter";
@@ -67,7 +67,7 @@ export function Annotation() {
             />
           ))
         : null}
-      {loading ? <Skeleton variant="text" height={70} /> : null}
+      {loading ? <Loading /> : null}
     </AnnotationStyled>
   );
 }

@@ -23,11 +23,11 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
     }
   };
 
-  const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const changeHandler = (event: any) => {
     props.loading(true);
     const selectedOptions = Array.from(
       event.target.selectedOptions,
-      (option) => option.value
+      (option: any) => option.value
     );
     console.log(selectedOptions);
 
@@ -43,26 +43,30 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   };
 
   return (
-    <div>
-      <button onClick={buttonClickHandler}>Filter annotations</button>
-      {isOpen && (
+    <>
+      {projectConfig && (
         <div>
-          <select multiple onChange={changeHandler}>
-            {projectConfig.annotationTypes.map((annType, index) => {
-              return (
-                <option
-                  key={index}
-                  selected={projectConfig.annotationTypesToInclude.includes(
-                    annType
-                  )}
-                >
-                  {annType}
-                </option>
-              );
-            })}
-          </select>
+          <button onClick={buttonClickHandler}>Filter annotations</button>
+          {isOpen && (
+            <div>
+              <select multiple onChange={changeHandler}>
+                {projectConfig.annotationTypes.map((annType, index) => {
+                  return (
+                    <option
+                      key={index}
+                      selected={projectConfig.annotationTypesToInclude.includes(
+                        annType
+                      )}
+                    >
+                      {annType}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
