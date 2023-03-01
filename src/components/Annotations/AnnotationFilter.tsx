@@ -23,11 +23,11 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
     }
   };
 
-  const changeHandler = (event: any) => {
+  const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     props.loading(true);
     const selectedOptions = Array.from(
       event.target.selectedOptions,
-      (option: any) => option.value
+      (option) => option.value
     );
     console.log(selectedOptions);
 
@@ -40,14 +40,6 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
       props.loading(false);
       setAnnotations(result.anno);
     });
-
-    // const filteredAnnotations: BroccoliV3 = fetchBroccoliScan(
-    //   params.tier0,
-    //   params.tier1,
-    //   projectConfig,
-    //   selectedOptions
-    // );
-    // setAnnotations(filteredAnnotations.anno);
   };
 
   return (
