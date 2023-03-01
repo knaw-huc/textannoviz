@@ -5,14 +5,13 @@ import { ProjectConfig } from "../model/ProjectConfig";
 export const fetchBroccoliScan = async (
   tier0: string,
   tier1: string,
-  config: ProjectConfig
+  config: ProjectConfig,
+  annotationTypesToInclude: string[]
 ) => {
   if (parseInt(tier1) < 1) {
     toast("Opening number lower than 1 is not allowed!", { type: "error" });
     return;
   }
-
-  const annotationTypesToInclude = config.annotationTypesToInclude;
 
   const response = await fetch(
     `${HOSTS.BROCCOLI}/${config.id}/${config.broccoliVersion}/${config.tier[0]}/${tier0}/${config.tier[1]}/${tier1}?includeTypes=${annotationTypesToInclude}`

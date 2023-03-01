@@ -6,13 +6,12 @@ import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
-import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
 import { BroccoliText, BroccoliV3, OpeningRequest } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
+import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
 import { useProjectStore } from "./stores/project";
 import { fetchBroccoliBodyId, fetchBroccoliScan } from "./utils/fetchBroccoli";
-import { visualizeAnnosMirador } from "./utils/visualizeAnnosMirador";
 
 interface DetailProps {
   project: string;
@@ -41,13 +40,13 @@ const setMiradorConfig = (broccoli: BroccoliV3, project: string) => {
 };
 
 export const Detail = (props: DetailProps) => {
-  const [annos, setAnnos] = React.useState<AnnoRepoAnnotation[]>([]);
   const [text, setText] = React.useState<BroccoliText>(null);
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
   const setStore = useMiradorStore((state) => state.setStore);
   const setCurrentContext = useMiradorStore((state) => state.setCurrentContext);
   const setCanvas = useMiradorStore((state) => state.setCanvas);
+  const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
   const params = useParams();
 
   const setState = React.useCallback(
@@ -60,13 +59,6 @@ export const Detail = (props: DetailProps) => {
 
       setProjectName(props.project);
       setProjectConfig(props.config);
-
-      visualizeAnnosMirador(
-        broccoli,
-        viewer.store,
-        broccoli.iiif.canvasIds[0],
-        props.config
-      );
 
       const newCanvas = {
         canvasIds: broccoli.iiif.canvasIds,
@@ -82,12 +74,13 @@ export const Detail = (props: DetailProps) => {
 
       setCurrentContext(newCurrentContext);
 
-      setAnnos(broccoli.anno);
+      setAnnotations(broccoli.anno);
       setText(broccoli.text);
     },
     [
       props.config,
       props.project,
+      setAnnotations,
       setCanvas,
       setCurrentContext,
       setProjectConfig,
@@ -98,7 +91,12 @@ export const Detail = (props: DetailProps) => {
 
   React.useEffect(() => {
     if (params.tier0 && params.tier1) {
-      fetchBroccoliScan(params.tier0, params.tier1, props.config)
+      fetchBroccoliScan(
+        params.tier0,
+        params.tier1,
+        props.config,
+        props.config.annotationTypesToInclude
+      )
         .then((broccoli) => {
           setState(broccoli);
         })
@@ -122,7 +120,7 @@ export const Detail = (props: DetailProps) => {
       <Row id="row">
         <Mirador />
         <Text text={text} />
-        <Annotation annos={annos} />
+        <Annotation />
       </Row>
     </AppContainer>
   );

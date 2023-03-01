@@ -1,5 +1,6 @@
 import produce from "immer";
 import { create, StateCreator } from "zustand";
+import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation";
 
 export interface SelectedAnnSlice {
   selectedAnn: {
@@ -10,8 +11,13 @@ export interface SelectedAnnSlice {
   removeSelectedAnn: (bodyId: string) => void;
 }
 
+export interface AnnotationsSlice {
+  annotations: AnnoRepoAnnotation[];
+  setAnnotations: (newAnnotations: AnnotationsSlice["annotations"]) => void;
+}
+
 const createSelectedAnnSlice: StateCreator<
-  SelectedAnnSlice,
+  SelectedAnnSlice & AnnotationsSlice,
   [],
   [],
   SelectedAnnSlice
@@ -35,6 +41,20 @@ const createSelectedAnnSlice: StateCreator<
     ),
 });
 
-export const useAnnotationStore = create<SelectedAnnSlice>()((...a) => ({
-  ...createSelectedAnnSlice(...a),
-}));
+const createAnnotationSlice: StateCreator<
+  SelectedAnnSlice & AnnotationsSlice,
+  [],
+  [],
+  AnnotationsSlice
+> = (set) => ({
+  annotations: undefined,
+  setAnnotations: (newAnnotations) =>
+    set(() => ({ annotations: newAnnotations })),
+});
+
+export const useAnnotationStore = create<SelectedAnnSlice & AnnotationsSlice>()(
+  (...a) => ({
+    ...createSelectedAnnSlice(...a),
+    ...createAnnotationSlice(...a),
+  })
+);

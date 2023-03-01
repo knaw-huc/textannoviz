@@ -4,14 +4,13 @@ import {
   iiifAnn,
   iiifAnnResources,
 } from "../model/AnnoRepoAnnotation";
-import { BroccoliV3 } from "../model/Broccoli";
 import { ProjectConfig } from "../model/ProjectConfig";
 import { findSvgSelector } from "../utils/findSvgSelector";
 import { svgStyler } from "../utils/svgStyler";
 import { findImageRegions } from "./findImageRegions";
 
 export const visualizeAnnosMirador = (
-  broccoli: BroccoliV3,
+  annotations: AnnoRepoAnnotation[],
   store: any,
   canvasId: string,
   projectConfig: ProjectConfig
@@ -24,7 +23,7 @@ export const visualizeAnnosMirador = (
     resources: [],
   };
 
-  const regions = broccoli.anno.flatMap((item: AnnoRepoAnnotation) => {
+  const regions = annotations.flatMap((item: AnnoRepoAnnotation) => {
     const region = findImageRegions(item, canvasId);
 
     if (region !== null) {
@@ -43,7 +42,7 @@ export const visualizeAnnosMirador = (
     let colour: string;
 
     if (projectConfig.id === "republic") {
-      switch (broccoli.anno[i].body.type) {
+      switch (annotations[i].body.type) {
         case "Resolution":
           colour = projectConfig.colours.resolution;
           break;
@@ -63,7 +62,7 @@ export const visualizeAnnosMirador = (
           colour = "white";
       }
     } else {
-      switch (broccoli.anno[i].body.type) {
+      switch (annotations[i].body.type) {
         case "px:TextRegion":
           colour = projectConfig.colours.textregion;
           break;
@@ -80,7 +79,7 @@ export const visualizeAnnosMirador = (
 
     const iiifAnnResources: iiifAnnResources[] = [
       {
-        "@id": `${broccoli.anno[i].id}`,
+        "@id": `${annotations[i].id}`,
         "@type": "oa:Annotation",
         motivation: ["oa:commenting", "oa:Tagging"],
         on: [
@@ -100,13 +99,13 @@ export const visualizeAnnosMirador = (
               item: {
                 "@type": "oa:SvgSelector",
                 value: svgStyler(
-                  findSvgSelector(broccoli.anno[i], canvasId),
+                  findSvgSelector(annotations[i], canvasId),
                   colour
                 ),
               },
             },
             within: {
-              "@id": `${broccoli.iiif.manifest}`,
+              "@id": "does not need to be set",
               "@type": "sc:Manifest",
             },
           },
@@ -115,12 +114,12 @@ export const visualizeAnnosMirador = (
           {
             "@type": "dctypes:Text",
             format: "text/html",
-            chars: `${broccoli.anno[i].body.type}`,
+            chars: `${annotations[i].body.type}`,
           },
           {
             "@type": "oa:Tag",
             format: "text/html",
-            chars: `${broccoli.anno[i].body.type}`,
+            chars: `${annotations[i].body.type}`,
           },
         ],
       },

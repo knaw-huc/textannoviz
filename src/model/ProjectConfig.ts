@@ -6,6 +6,7 @@ export interface ProjectConfig {
     [key: string]: string;
   };
   relativeTo: string;
+  annotationTypes?: string[];
   annotationTypesToInclude: string[];
   broccoliVersion: string;
   tier: string[];
