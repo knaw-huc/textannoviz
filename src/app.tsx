@@ -6,7 +6,7 @@ import { republicConfig } from "./components/Projects/republic/config";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./error-page";
 
-const project: string = process.env.PROJECT;
+const project: string = import.meta.env.VITE_PROJECT;
 const config = project === "globalise" ? globaliseConfig : republicConfig;
 
 const router = createBrowserRouter(

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title><%= title %></title>
     <link rel="icon" type="image/gif" href="/static/favicon.ico" />
     <style>
       body {
@@ -12,6 +12,7 @@
   </head>
   <body>
     <div id="container"></div>
+    <script type="module" src="./src/index.tsx"></script>
   </body>
   <noscript>
     <div

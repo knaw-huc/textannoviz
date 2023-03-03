@@ -6,7 +6,7 @@ COPY ./package.json /textannoviz/package.json
 RUN npm install --force
 
 COPY . .
-RUN npm run build --config webpack.config-prod.js
+RUN npm run build
 
 FROM nginx:1.23-alpine
 COPY --from=build /textannoviz/dist /usr/share/nginx/html
