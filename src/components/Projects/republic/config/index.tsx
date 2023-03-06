@@ -20,16 +20,16 @@ export const republicConfig: ProjectConfig = {
 
   relativeTo: "Scan",
   annotationTypes: [
-    "Session",
-    "Resolution",
-    "Reviewed",
     "AttendanceList",
     "Attendant",
-    "TextRegion",
     "Line",
     "Page",
     "RepublicParagraph",
+    "Resolution",
+    "Reviewed",
     "Scan",
+    "Session",
+    "TextRegion",
   ],
   annotationTypesToInclude: [
     "Session",
