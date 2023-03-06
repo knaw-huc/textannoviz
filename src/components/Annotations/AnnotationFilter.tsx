@@ -31,11 +31,11 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
     }
   };
 
-  const changeHandler = (event: any) => {
+  const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     props.loading(true);
     const selectedOptions = Array.from(
       event.target.selectedOptions,
-      (option: any) => option.value
+      (option) => option.value
     );
     console.log(selectedOptions);
 
