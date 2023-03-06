@@ -53,11 +53,11 @@ export function Annotation() {
 
   return (
     <AnnotationStyled id="annotation">
+      <AnnotationLinks />
       <ButtonsStyled>
         <AnnotationButtons /> {"|"}{" "}
         <AnnotationFilter loading={loadingHandler} />
       </ButtonsStyled>
-      <AnnotationLinks />
       {annotations && annotations.length > 0 && !loading
         ? annotations.map((annotation, index) => (
             <AnnotationItem

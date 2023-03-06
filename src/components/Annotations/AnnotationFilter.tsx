@@ -49,7 +49,11 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
           <button onClick={buttonClickHandler}>Filter annotations</button>
           {isOpen && (
             <div>
-              <select multiple onChange={changeHandler}>
+              <select
+                multiple
+                onChange={changeHandler}
+                style={{ height: "200px", width: "150px" }}
+              >
                 {projectConfig.annotationTypes.map((annType, index) => {
                   return (
                     <option

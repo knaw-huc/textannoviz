@@ -6,7 +6,7 @@ export const AnnotationLinks = () => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
 
   return (
-    <div id="annotation-links">
+    <div id="annotation-links" style={{ paddingBottom: "5px" }}>
       <Link to="/">Home</Link>
       {projectConfig &&
         projectConfig.renderAnnotationLinks &&
