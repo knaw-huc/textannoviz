@@ -1,17 +1,8 @@
 import mirador from "mirador";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
 import { useMiradorStore } from "../../../stores/mirador";
-
-const Button = styled.button`
-  background: #0d6efd;
-  border-radius: 3px;
-  border: none;
-  color: white;
-  padding: 5px;
-  margin-right: 0.5em;
-`;
+import { Button } from "../../Button";
 
 export const GetAnnotationButtons = () => {
   const currentContext = useMiradorStore((state) => state.currentContext);

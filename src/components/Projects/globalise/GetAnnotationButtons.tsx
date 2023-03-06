@@ -2,18 +2,9 @@ import mirador from "mirador";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import styled from "styled-components";
 import { useMiradorStore } from "../../../stores/mirador";
+import { Button } from "../../Button";
 import { globaliseConfig } from "./config";
-
-const Button = styled.button`
-  background: #0d6efd;
-  border-radius: 3px;
-  border: none;
-  color: white;
-  padding: 5px;
-  margin-right: 0.5em;
-`;
 
 export const GetAnnotationButtons = () => {
   const miradorStore = useMiradorStore((state) => state.miradorStore);

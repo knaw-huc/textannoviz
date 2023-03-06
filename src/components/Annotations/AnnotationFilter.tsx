@@ -4,6 +4,7 @@ import { BroccoliV3 } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { fetchBroccoliScan } from "../../utils/fetchBroccoli";
+import { Button } from "../Button";
 
 interface AnnotationFilterProps {
   loading: (bool: boolean) => void;
@@ -14,6 +15,13 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
   const params = useParams();
+  const ref = React.useRef(null);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      ref.current.focus();
+    }
+  }, [isOpen]);
 
   const buttonClickHandler = () => {
     if (!isOpen) {
@@ -46,10 +54,11 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
     <>
       {projectConfig && (
         <div>
-          <button onClick={buttonClickHandler}>Filter annotations</button>
+          <Button onClick={buttonClickHandler}>Filter annotations</Button>
           {isOpen && (
             <div>
               <select
+                ref={ref}
                 multiple
                 onChange={changeHandler}
                 style={{ height: "200px", width: "150px" }}
