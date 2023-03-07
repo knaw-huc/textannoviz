@@ -17,8 +17,6 @@ export const fetchLinesToHighlight = async (
     projectConfig
   );
 
-  console.log(result);
-
   const startIndex = (
     result.text as BroccoliTextGeneric
   ).locations.annotations.find((anno) => anno.id === bodyId).start.line;
