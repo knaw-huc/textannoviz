@@ -6,7 +6,7 @@ import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
-import { BroccoliText, BroccoliV3, OpeningRequest } from "./model/Broccoli";
+import { BroccoliTextV3, BroccoliV3, OpeningRequest } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
@@ -40,7 +40,7 @@ const setMiradorConfig = (broccoli: BroccoliV3, project: string) => {
 };
 
 export const Detail = (props: DetailProps) => {
-  const [text, setText] = React.useState<BroccoliText>(null);
+  const [text, setText] = React.useState<BroccoliTextV3>(null);
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
   const setStore = useMiradorStore((state) => state.setStore);
@@ -75,7 +75,7 @@ export const Detail = (props: DetailProps) => {
       setCurrentContext(newCurrentContext);
 
       setAnnotations(broccoli.anno);
-      setText(broccoli.text);
+      setText(broccoli.text as BroccoliTextV3);
     },
     [
       props.config,

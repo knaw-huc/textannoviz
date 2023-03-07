@@ -38,10 +38,11 @@ export const fetchBroccoliBodyId = async (
 export const fetchBroccoliBodyIdRelativeTo = async (
   bodyId: string,
   relativeTo: string,
+  includeResults: string[],
   config: ProjectConfig
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/${config.id}/${config.broccoliVersion}/bodies/${bodyId}?relativeTo=${relativeTo}`
+    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?includeResults=${includeResults}&relativeTo=${relativeTo}`
   );
   if (!response.ok) return null;
   return response.json();

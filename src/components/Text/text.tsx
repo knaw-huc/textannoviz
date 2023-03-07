@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { BroccoliText } from "../../model/Broccoli";
+import { BroccoliTextV3 } from "../../model/Broccoli";
 import { TextComponent } from "./TextComponent";
 
 interface TextProps {
-  text: BroccoliText;
+  text: BroccoliTextV3;
 }
 
 const TextStyled = styled.div`

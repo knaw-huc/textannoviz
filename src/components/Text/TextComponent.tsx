@@ -1,10 +1,10 @@
 import React from "react";
-import { BroccoliText } from "../../model/Broccoli";
+import { BroccoliTextV3 } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { TextHighlighting } from "./TextHighlighting";
 
 interface TextComponentProps {
-  text: BroccoliText;
+  text: BroccoliTextV3;
 }
 
 export function TextComponent(props: TextComponentProps) {

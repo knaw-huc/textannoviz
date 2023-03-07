@@ -8,7 +8,7 @@ export interface BroccoliV3 {
     canvasIds: string[];
   };
   anno: AnnoRepoAnnotation[];
-  text: BroccoliText;
+  text: BroccoliTextV3 | BroccoliTextGeneric;
 }
 
 export interface OpeningRequest {
@@ -20,7 +20,7 @@ export interface ResolutionRequest {
   resolutionId: string;
 }
 
-export interface BroccoliText {
+export interface BroccoliTextV3 {
   location: {
     relativeTo: string;
     start: {
@@ -35,4 +35,25 @@ export interface BroccoliText {
     };
   };
   lines: string[];
+}
+
+export interface BroccoliTextGeneric {
+  lines: string[];
+  locations: {
+    relativeTo: {
+      type: string;
+      bodyId: string;
+    };
+    annotations: {
+      id: string;
+      start: {
+        line: number;
+        offset?: number;
+      };
+      end: {
+        line: number;
+        offset?: number;
+      };
+    }[];
+  };
 }

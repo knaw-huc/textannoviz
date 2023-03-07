@@ -55,7 +55,7 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
       {projectConfig && (
         <div>
           <Button onClick={buttonClickHandler}>
-            Filter annotations {String.fromCharCode(isOpen ? 9663 : 9657)}
+            Filter annotations {String.fromCharCode(isOpen ? 9662 : 9656)}
           </Button>
           {isOpen && (
             <div>
