@@ -19,12 +19,12 @@ export const fetchLinesToHighlight = async (
 
   const startIndex = (
     result.text as BroccoliTextGeneric
-  ).locations.annotations.find((anno) => anno.id === bodyId).start.line;
+  ).locations.annotations.find((anno) => anno.bodyId === bodyId).start.line;
 
   console.log(startIndex);
   const endIndex = (
     result.text as BroccoliTextGeneric
-  ).locations.annotations.find((anno) => anno.id === bodyId).end.line;
+  ).locations.annotations.find((anno) => anno.bodyId === bodyId).end.line;
 
   const indices = createIndices(startIndex, endIndex);
 

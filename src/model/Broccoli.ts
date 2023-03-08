@@ -45,7 +45,7 @@ export interface BroccoliTextGeneric {
       bodyId: string;
     };
     annotations: {
-      id: string;
+      bodyId: string;
       start: {
         line: number;
         offset?: number;
