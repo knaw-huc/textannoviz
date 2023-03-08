@@ -19,12 +19,12 @@ export default defineConfig({
         },
       },
     }),
-    react({
-      include: "**/*.{jsx,tsx}",
-    }),
+    react(),
   ],
 
   test: {
+    globals: true,
     environment: "jsdom",
+    setupFiles: "./src/test/setup.ts",
   },
 });

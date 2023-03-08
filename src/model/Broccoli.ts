@@ -2,7 +2,7 @@ import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
 export interface BroccoliV3 {
   type: string;
-  request: OpeningRequest | ResolutionRequest;
+  request: OpeningRequest | ResolutionRequest; //in generic version overlapTypes is optional
   iiif: {
     manifest: string;
     canvasIds: string[];

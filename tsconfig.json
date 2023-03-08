@@ -6,8 +6,10 @@
     "importHelpers": true,
     "incremental": true,
     "isolatedModules": true,
-    "jsx": "react",
-    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -16,8 +18,8 @@
     "outDir": "./build",
     "removeComments": true,
     "resolveJsonModule": true,
-    "target": "esnext",
-    "types": ["node", "vite/client"]
+    "target": "ES6",
+    "types": ["node", "vite/client", "vitest/globals"]
   },
   "exclude": ["./build", "./dist", "./node_modules"],
   "files": ["./src/index.tsx", "./src/index.d.ts"]
