@@ -2,8 +2,9 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { BroccoliV3 } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
+import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
-import { fetchBroccoliScan } from "../../utils/fetchBroccoli";
+import { fetchBroccoliScanWithOverlap } from "../../utils/fetchBroccoli";
 import { Button } from "../Button";
 
 interface AnnotationFilterProps {
@@ -14,6 +15,7 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   const [isOpen, setOpen] = React.useState(false);
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
+  const currentContext = useMiradorStore((state) => state.currentContext);
   const params = useParams();
   const ref = React.useRef(null);
 
@@ -39,12 +41,14 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
     );
     console.log(selectedOptions);
 
-    fetchBroccoliScan(
-      params.tier0,
-      params.tier1,
-      projectConfig,
-      selectedOptions
-    ).then(function (result: BroccoliV3) {
+    const includeResults = ["anno"];
+
+    fetchBroccoliScanWithOverlap(
+      currentContext.bodyId,
+      selectedOptions,
+      includeResults,
+      projectConfig
+    ).then((result: BroccoliV3) => {
       props.loading(false);
       setAnnotations(result.anno);
     });

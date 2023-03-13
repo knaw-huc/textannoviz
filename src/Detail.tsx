@@ -11,7 +11,11 @@ import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
 import { useProjectStore } from "./stores/project";
-import { fetchBroccoliBodyId, fetchBroccoliScan } from "./utils/fetchBroccoli";
+import {
+  fetchBroccoliBodyId,
+  fetchBroccoliBodyIdOfScan,
+  fetchBroccoliScanWithOverlap,
+} from "./utils/fetchBroccoli";
 
 interface DetailProps {
   project: string;
@@ -50,7 +54,7 @@ export const Detail = (props: DetailProps) => {
   const params = useParams();
 
   const setState = React.useCallback(
-    (broccoli: BroccoliV3) => {
+    (broccoli: BroccoliV3, currentBodyId?: string) => {
       setMiradorConfig(broccoli, props.project);
       console.log(broccoli);
       const viewer = mirador.viewer(miradorConfig);
@@ -70,6 +74,7 @@ export const Detail = (props: DetailProps) => {
       const newCurrentContext = {
         tier0: (broccoli.request as OpeningRequest).tier0,
         tier1: (broccoli.request as OpeningRequest).tier1,
+        bodyId: currentBodyId,
       };
 
       setCurrentContext(newCurrentContext);
@@ -91,16 +96,21 @@ export const Detail = (props: DetailProps) => {
 
   React.useEffect(() => {
     if (params.tier0 && params.tier1) {
-      fetchBroccoliScan(
-        params.tier0,
-        params.tier1,
-        props.config,
-        props.config.annotationTypesToInclude
-      )
-        .then((broccoli) => {
-          setState(broccoli);
-        })
-        .catch(console.error);
+      fetchBroccoliBodyIdOfScan(params.tier0, params.tier1, props.config).then(
+        (result) => {
+          const bodyId = result.bodyId;
+          const includeResults = ["anno", "text", "iiif"];
+          const overlapTypes = props.config.annotationTypesToInclude;
+          fetchBroccoliScanWithOverlap(
+            result.bodyId,
+            overlapTypes,
+            includeResults,
+            props.config
+          ).then((broccoli) => {
+            setState(broccoli, bodyId);
+          });
+        }
+      );
     }
   }, [params.tier0, params.tier1, props.config, setState]);
 
