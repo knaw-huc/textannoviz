@@ -1,11 +1,7 @@
-import React from "react";
 import styled from "styled-components";
-import { BroccoliTextV3 } from "../../model/Broccoli";
 import { TextComponent } from "./TextComponent";
-
-interface TextProps {
-  text: BroccoliTextV3;
-}
+import React from "react";
+import { useTextStore } from "../../stores/text";
 
 const TextStyled = styled.div`
   width: 450px;
@@ -18,10 +14,8 @@ const TextStyled = styled.div`
   line-height: 1.8rem;
 `;
 
-export function Text(props: TextProps) {
-  return (
-    <TextStyled id="text">
-      {props.text && <TextComponent text={props.text} />}
-    </TextStyled>
-  );
+export function Text() {
+  const text = useTextStore((state) => state.text);
+
+  return <TextStyled id="text">{text && <TextComponent />}</TextStyled>;
 }

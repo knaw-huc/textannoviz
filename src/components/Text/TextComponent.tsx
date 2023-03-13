@@ -1,29 +1,29 @@
 import React from "react";
-import { BroccoliTextV3 } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
+import { useTextStore } from "../../stores/text";
 import { TextHighlighting } from "./TextHighlighting";
 
-interface TextComponentProps {
-  text: BroccoliTextV3;
-}
-
-export function TextComponent(props: TextComponentProps) {
+export function TextComponent() {
+  const text = useTextStore((state) => state.text);
   const selectedAnn = useAnnotationStore((state) => state.selectedAnn);
 
   const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
+
+  console.log(text);
 
   React.useEffect(() => {
     const indices = selectedAnn.flatMap((ann) => {
       return ann.indicesToHighlight;
     });
+
     setHighlightedLines(indices);
   }, [selectedAnn]);
 
   return (
     <>
-      {props.text.lines && (
+      {text.lines && (
         <TextHighlighting
-          text={props.text.lines}
+          text={text.lines}
           highlightedLines={highlightedLines}
         />
       )}
