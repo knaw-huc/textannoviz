@@ -66,11 +66,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
           zoom: 1 / zoom.miradorZoom,
         })
       );
-      // const indices = await createLinesToHighlight(
-      //   props.annotation.body.id,
-      //   projectConfig.relativeTo,
-      //   projectConfig
-      // );
 
       const startIndex = text.locations.annotations.find(
         (anno) => anno.bodyId === props.annotation.body.id
