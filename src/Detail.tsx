@@ -6,11 +6,7 @@ import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
-import {
-  BroccoliTextGeneric,
-  BroccoliV3,
-  OpeningRequest,
-} from "./model/Broccoli";
+import { BroccoliV3, OpeningRequest } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
@@ -85,7 +81,7 @@ export const Detail = (props: DetailProps) => {
       setCurrentContext(newCurrentContext);
 
       setAnnotations(broccoli.anno);
-      setText(broccoli.text as BroccoliTextGeneric);
+      setText(broccoli.text);
     },
     [
       props.config,
