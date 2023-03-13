@@ -1,5 +1,4 @@
 import mirador from "mirador";
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMiradorStore } from "../../../stores/mirador";
 import { Button } from "../../Button";
@@ -11,7 +10,7 @@ export const GetAnnotationButtons = () => {
   const navigate = useNavigate();
 
   const nextCanvasClickHandler = () => {
-    const nextCanvas = (currentContext.tier1 as number) + 1;
+    const nextCanvas = parseInt(currentContext.tier1) + 1;
     const volume = currentContext.tier0;
 
     navigate(`/detail/${volume}/${nextCanvas.toString()}`);
@@ -19,7 +18,7 @@ export const GetAnnotationButtons = () => {
   };
 
   const previousCanvasClickHandler = () => {
-    const prevCanvas = (currentContext.tier1 as number) - 1;
+    const prevCanvas = parseInt(currentContext.tier1) - 1;
     const volume = currentContext.tier0;
 
     navigate(`/detail/${volume}/${prevCanvas.toString()}`);

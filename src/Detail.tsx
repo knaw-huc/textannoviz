@@ -6,7 +6,7 @@ import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
-import { Broccoli, OpeningRequest } from "./model/Broccoli";
+import { Broccoli } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
@@ -73,8 +73,8 @@ export const Detail = (props: DetailProps) => {
       setCanvas(newCanvas);
 
       const newCurrentContext = {
-        tier0: (broccoli.request as OpeningRequest).tier0,
-        tier1: (broccoli.request as OpeningRequest).tier1,
+        tier0: params.tier0,
+        tier1: params.tier1,
         bodyId: currentBodyId,
       };
 
@@ -84,6 +84,8 @@ export const Detail = (props: DetailProps) => {
       setText(broccoli.text);
     },
     [
+      params.tier0,
+      params.tier1,
       props.config,
       props.project,
       setAnnotations,
