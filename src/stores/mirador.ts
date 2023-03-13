@@ -10,6 +10,7 @@ export interface CurrentContextSlice {
     | {
         tier0: string;
         tier1: number;
+        bodyId: string;
       }
     | undefined;
   setCurrentContext: (
