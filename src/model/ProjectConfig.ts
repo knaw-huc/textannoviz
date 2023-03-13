@@ -11,6 +11,7 @@ export interface ProjectConfig {
   broccoliVersion: string;
   tier: string[];
   bodyType: string[];
+  scanAnnotation?: string;
   documents?: {
     docNr: string;
     index: number[];
