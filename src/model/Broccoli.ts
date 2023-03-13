@@ -1,6 +1,6 @@
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
-export interface BroccoliV3 {
+export interface Broccoli {
   type: string;
   request: OpeningRequest | ResolutionRequest; //in generic version overlapTypes is optional
   iiif: {

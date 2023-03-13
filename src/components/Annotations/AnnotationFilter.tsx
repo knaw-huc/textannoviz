@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { BroccoliV3 } from "../../model/Broccoli";
+import { Broccoli } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
@@ -48,7 +48,7 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
       selectedOptions,
       includeResults,
       projectConfig
-    ).then((result: BroccoliV3) => {
+    ).then((result: Broccoli) => {
       props.loading(false);
       setAnnotations(result.anno);
     });
