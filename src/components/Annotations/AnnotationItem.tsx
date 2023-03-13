@@ -5,7 +5,8 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
-import { fetchLinesToHighlight } from "../../utils/fetchLinesToHighlight";
+import { useTextStore } from "../../stores/text";
+import { createIndices } from "../../utils/createIndices";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
 import { miradorConfig } from "../Mirador/MiradorConfig";
 import { AnnotationItemContent } from "./AnnotationItemContent";
@@ -34,6 +35,7 @@ const Clickable = styled.div`
 
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
+  const text = useTextStore((state) => state.text);
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const canvas = useMiradorStore((state) => state.canvas);
@@ -64,11 +66,22 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
           zoom: 1 / zoom.miradorZoom,
         })
       );
-      const indices = await fetchLinesToHighlight(
-        props.annotation.body.id,
-        projectConfig.relativeTo,
-        projectConfig
-      );
+      // const indices = await createLinesToHighlight(
+      //   props.annotation.body.id,
+      //   projectConfig.relativeTo,
+      //   projectConfig
+      // );
+
+      const startIndex = text.locations.annotations.find(
+        (anno) => anno.bodyId === props.annotation.body.id
+      ).start.line;
+
+      const endIndex = text.locations.annotations.find(
+        (anno) => anno.bodyId === props.annotation.body.id
+      ).end.line;
+
+      const indices = createIndices(startIndex, endIndex);
+
       updateSelectedAnn(props.annotation.body.id, indices);
     } else {
       miradorStore.dispatch(
