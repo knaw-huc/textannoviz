@@ -9,8 +9,6 @@ export function TextComponent() {
 
   const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
 
-  console.log(text);
-
   React.useEffect(() => {
     const indices = selectedAnn.flatMap((ann) => {
       return ann.indicesToHighlight;
