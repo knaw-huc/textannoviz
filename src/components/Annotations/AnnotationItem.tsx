@@ -39,11 +39,10 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const canvas = useMiradorStore((state) => state.canvas);
-  const updateSelectedAnn = useAnnotationStore(
-    (state) => state.updateSelectedAnn
-  );
-  const removeSelectedAnn = useAnnotationStore(
-    (state) => state.removeSelectedAnn
+  const updateOpenAnn = useAnnotationStore((state) => state.updateOpenAnn);
+  const removeOpenAnn = useAnnotationStore((state) => state.removeOpenAnn);
+  const setCurrentSelectedAnn = useAnnotationStore(
+    (state) => state.setCurrentSelectedAnn
   );
 
   async function toggleOpen() {
@@ -77,7 +76,9 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
       const indices = createIndices(startIndex, endIndex);
 
-      updateSelectedAnn(props.annotation.body.id, indices);
+      setCurrentSelectedAnn(props.annotation.body.id);
+
+      updateOpenAnn(props.annotation.body.id, indices);
     } else {
       miradorStore.dispatch(
         mirador.actions.deselectAnnotation(
@@ -85,7 +86,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
           props.annotation.id
         )
       );
-      removeSelectedAnn(props.annotation.body.id);
+      removeOpenAnn(props.annotation.body.id);
     }
   }
 

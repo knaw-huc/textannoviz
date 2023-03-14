@@ -5,25 +5,22 @@ import { TextHighlighting } from "./TextHighlighting";
 
 export function TextComponent() {
   const text = useTextStore((state) => state.text);
-  const selectedAnn = useAnnotationStore((state) => state.selectedAnn);
+  const openAnn = useAnnotationStore((state) => state.openAnn);
 
   const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
 
   React.useEffect(() => {
-    const indices = selectedAnn.flatMap((ann) => {
+    const indices = openAnn.flatMap((ann) => {
       return ann.indicesToHighlight;
     });
 
     setHighlightedLines(indices);
-  }, [selectedAnn]);
+  }, [openAnn]);
 
   return (
     <>
       {text.lines && (
-        <TextHighlighting
-          text={text.lines}
-          highlightedLines={highlightedLines}
-        />
+        <TextHighlighting text={text} highlightedLines={highlightedLines} />
       )}
     </>
   );

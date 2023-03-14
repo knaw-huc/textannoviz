@@ -2,13 +2,18 @@ import produce from "immer";
 import { create, StateCreator } from "zustand";
 import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation";
 
-export interface SelectedAnnSlice {
-  selectedAnn: {
+export interface OpenAnnSlice {
+  openAnn: {
     bodyId: string;
     indicesToHighlight: number[];
   }[];
-  updateSelectedAnn: (bodyId: string, indicesToHighlight: number[]) => void;
-  removeSelectedAnn: (bodyId: string) => void;
+  updateOpenAnn: (bodyId: string, indicesToHighlight: number[]) => void;
+  removeOpenAnn: (bodyId: string) => void;
+}
+
+export interface CurrentSelectedAnnSlice {
+  currentSelectedAnn: string | undefined;
+  setCurrentSelectedAnn: (bodyId: string) => void;
 }
 
 export interface AnnotationsSlice {
@@ -16,33 +21,33 @@ export interface AnnotationsSlice {
   setAnnotations: (newAnnotations: AnnotationsSlice["annotations"]) => void;
 }
 
-const createSelectedAnnSlice: StateCreator<
-  SelectedAnnSlice & AnnotationsSlice,
+const createOpenAnnSlice: StateCreator<
+  OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice,
   [],
   [],
-  SelectedAnnSlice
+  OpenAnnSlice
 > = (set) => ({
-  selectedAnn: [],
-  updateSelectedAnn: (bodyId: string, indicesToHighlight: number[]) =>
+  openAnn: [],
+  updateOpenAnn: (bodyId: string, indicesToHighlight: number[]) =>
     set(
-      produce((state: SelectedAnnSlice) => {
-        state.selectedAnn.push({
+      produce((state: OpenAnnSlice) => {
+        state.openAnn.push({
           bodyId: bodyId,
           indicesToHighlight: indicesToHighlight,
         });
       })
     ),
-  removeSelectedAnn: (bodyId: string) =>
+  removeOpenAnn: (bodyId: string) =>
     set(
-      produce((state: SelectedAnnSlice) => {
-        const index = state.selectedAnn.findIndex((el) => el.bodyId === bodyId);
-        state.selectedAnn.splice(index, 1);
+      produce((state: OpenAnnSlice) => {
+        const index = state.openAnn.findIndex((el) => el.bodyId === bodyId);
+        state.openAnn.splice(index, 1);
       })
     ),
 });
 
 const createAnnotationSlice: StateCreator<
-  SelectedAnnSlice & AnnotationsSlice,
+  OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice,
   [],
   [],
   AnnotationsSlice
@@ -52,9 +57,21 @@ const createAnnotationSlice: StateCreator<
     set(() => ({ annotations: newAnnotations })),
 });
 
-export const useAnnotationStore = create<SelectedAnnSlice & AnnotationsSlice>()(
-  (...a) => ({
-    ...createSelectedAnnSlice(...a),
-    ...createAnnotationSlice(...a),
-  })
-);
+const createCurrentSelectedAnnSlice: StateCreator<
+  OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice,
+  [],
+  [],
+  CurrentSelectedAnnSlice
+> = (set) => ({
+  currentSelectedAnn: undefined,
+  setCurrentSelectedAnn: (newCurrentSelectedAnn) =>
+    set(() => ({ currentSelectedAnn: newCurrentSelectedAnn })),
+});
+
+export const useAnnotationStore = create<
+  OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice
+>()((...a) => ({
+  ...createOpenAnnSlice(...a),
+  ...createAnnotationSlice(...a),
+  ...createCurrentSelectedAnnSlice(...a),
+}));
