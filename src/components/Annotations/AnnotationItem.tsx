@@ -12,7 +12,6 @@ import { miradorConfig } from "../Mirador/MiradorConfig";
 import { AnnotationItemContent } from "./AnnotationItemContent";
 
 type AnnotationSnippetProps = {
-  annot_id: React.Key;
   annotation: AnnoRepoAnnotation;
 };
 

@@ -60,11 +60,7 @@ export function Annotation() {
       </ButtonsStyled>
       {annotations && annotations.length > 0 && !loading
         ? annotations.map((annotation, index) => (
-            <AnnotationItem
-              key={index}
-              annot_id={index}
-              annotation={annotation}
-            />
+            <AnnotationItem key={index} annotation={annotation} />
           ))
         : null}
       {loading ? <Loading /> : null}
