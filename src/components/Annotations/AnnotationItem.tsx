@@ -94,24 +94,24 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
    * TODO: check performance of both functions
    */
 
-  const selectAnn = () => {
-    miradorStore.dispatch(
-      mirador.actions.selectAnnotation("republic", props.annotation.id)
-    );
-  };
+  // const selectAnn = () => {
+  //   miradorStore.dispatch(
+  //     mirador.actions.selectAnnotation("republic", props.annotation.id)
+  //   );
+  // };
 
-  const deselectAnn = () => {
-    miradorStore.dispatch(
-      mirador.actions.deselectAnnotation("republic", props.annotation.id)
-    );
-  };
+  // const deselectAnn = () => {
+  //   miradorStore.dispatch(
+  //     mirador.actions.deselectAnnotation("republic", props.annotation.id)
+  //   );
+  // };
 
   return (
     <AnnSnippet id="annotation-snippet">
       <Clickable
         onClick={toggleOpen}
-        onMouseEnter={selectAnn}
-        onMouseLeave={deselectAnn}
+        // onMouseEnter={selectAnn}
+        // onMouseLeave={deselectAnn}
         id="clickable"
       >
         {projectConfig.renderAnnotationItem(props.annotation)}
