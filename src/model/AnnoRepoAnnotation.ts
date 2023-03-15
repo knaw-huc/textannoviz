@@ -195,10 +195,10 @@ export type iiifAnn = {
 
 export type iiifAnnResources =
   | {
-      on?: [
+      on: [
         {
-          full?: string;
-          selector?: {
+          full: string;
+          selector: {
             item: {
               "@type": string;
               value: string;
