@@ -1,7 +1,7 @@
 import {
   AnnoRepoAnnotation,
   CanvasTarget,
-  ImageApiSelector
+  ImageApiSelector,
 } from "../model/AnnoRepoAnnotation";
 
 const imageRegionRegex = /[0-9]+.*[0-9]+.*[0-9]+.*[0-9]+/i;
@@ -19,7 +19,9 @@ export function findImageRegions(
         t.selector.filter((t) => t.type === "iiif:ImageApiSelector")
     );
 
-  if (imageCoords.length === 0) {
+  console.log(imageCoords);
+
+  if (imageCoords[0] === undefined) {
     console.log(annotation.body.id + " has no image targets");
     return null;
   }
