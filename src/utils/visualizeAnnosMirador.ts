@@ -38,7 +38,6 @@ export const visualizeAnnosMirador = (
     if (region === null) {
       return;
     }
-    const [x, y, w, h] = (region as string).split(",");
     let colour: string;
 
     if (projectConfig.id === "republic") {
@@ -79,6 +78,7 @@ export const visualizeAnnosMirador = (
 
     const iiifAnnResources: iiifAnnResources[] = [
       {
+        "@id": `${annotations[i].id}`,
         on: [
           {
             full: `${
