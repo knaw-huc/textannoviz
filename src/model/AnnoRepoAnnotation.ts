@@ -195,6 +195,7 @@ export type iiifAnn = {
 
 export type iiifAnnResources =
   | {
+      "@id": string;
       on: [
         {
           full: string;
