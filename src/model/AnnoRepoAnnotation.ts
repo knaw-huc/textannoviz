@@ -186,12 +186,6 @@ export type AnnoRepoAnnotation = {
   target: Target | Target[];
 };
 
-type iiifAnnResource = {
-  "@type": string;
-  format: string;
-  chars: string;
-};
-
 export type iiifAnn = {
   "@context": string;
   "@id": string;
@@ -201,30 +195,16 @@ export type iiifAnn = {
 
 export type iiifAnnResources =
   | {
-      "@id": string;
-      "@type": string;
-      motivation: string[];
-      on: [
+      on?: [
         {
-          "@type": string;
-          full: string;
-          selector: {
-            "@type": string;
-            default: {
+          full?: string;
+          selector?: {
+            item: {
               "@type": string;
               value: string;
             };
-            item?: {
-              "@type": string;
-              value: string;
-            };
-          };
-          within: {
-            "@id": string;
-            "@type": string;
           };
         }
       ];
-      resource: iiifAnnResource[];
     }
   | undefined;

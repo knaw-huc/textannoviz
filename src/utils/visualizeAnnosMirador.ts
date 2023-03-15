@@ -79,23 +79,14 @@ export const visualizeAnnosMirador = (
 
     const iiifAnnResources: iiifAnnResources[] = [
       {
-        "@id": `${annotations[i].id}`,
-        "@type": "oa:Annotation",
-        motivation: ["oa:commenting", "oa:Tagging"],
         on: [
           {
-            "@type": "oa:SpecificResource",
             full: `${
               projectConfig.id === "republic"
                 ? currentState.windows.republic.canvasId
                 : currentState.windows.globalise.canvasId
             }`,
             selector: {
-              "@type": "oa:Choice",
-              default: {
-                "@type": "oa:FragmentSelector",
-                value: `xywh=${x},${y},${w},${h}`,
-              },
               item: {
                 "@type": "oa:SvgSelector",
                 value: svgStyler(
@@ -104,22 +95,6 @@ export const visualizeAnnosMirador = (
                 ),
               },
             },
-            within: {
-              "@id": "does not need to be set",
-              "@type": "sc:Manifest",
-            },
-          },
-        ],
-        resource: [
-          {
-            "@type": "dctypes:Text",
-            format: "text/html",
-            chars: `${annotations[i].body.type}`,
-          },
-          {
-            "@type": "oa:Tag",
-            format: "text/html",
-            chars: `${annotations[i].body.type}`,
           },
         ],
       },
