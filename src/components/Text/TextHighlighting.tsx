@@ -34,7 +34,6 @@ export function TextHighlighting(props: TextHighlightingProps) {
       const target = parentDOM.getElementsByClassName(
         `${currentSelectedAnn}`
       )[0];
-      console.log(parentDOM.getElementsByClassName("highlighted"));
       target.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [currentSelectedAnn, params.tier2]);
