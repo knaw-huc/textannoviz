@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { Broccoli } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
@@ -16,7 +15,6 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
   const currentContext = useMiradorStore((state) => state.currentContext);
-  const params = useParams();
   const ref = React.useRef(null);
 
   React.useEffect(() => {
