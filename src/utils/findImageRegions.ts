@@ -19,8 +19,6 @@ export function findImageRegions(
         t.selector.filter((t) => t.type === "iiif:ImageApiSelector")
     );
 
-  console.log(imageCoords);
-
   if (imageCoords[0] === undefined) {
     console.log(annotation.body.id + " has no image targets");
     return null;
