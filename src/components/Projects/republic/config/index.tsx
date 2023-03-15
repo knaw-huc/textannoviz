@@ -39,7 +39,6 @@ export const republicConfig: ProjectConfig = {
     "Session",
     "TextRegion",
   ],
-  broccoliVersion: "v3",
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
   scanAnnotation: "Scan",

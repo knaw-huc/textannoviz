@@ -33,7 +33,6 @@ export const globaliseConfig: ProjectConfig = {
     "tt:Entity",
     "tt:Paragraph",
   ],
-  broccoliVersion: "v0",
   tier: ["documents", "openings"],
   bodyType: ["px:TextLine", "px:TextRegion", "tt:Paragraph", "tt:Entity"],
   scanAnnotation: "px:Page",

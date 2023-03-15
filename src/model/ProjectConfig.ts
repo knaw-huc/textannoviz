@@ -8,7 +8,6 @@ export interface ProjectConfig {
   relativeTo: string;
   annotationTypes: string[];
   annotationTypesToInclude: string[];
-  broccoliVersion: string;
   tier: string[];
   bodyType: string[];
   scanAnnotation?: string;
