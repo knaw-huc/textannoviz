@@ -11,7 +11,6 @@ export function TextComponent() {
 
   React.useEffect(() => {
     if (openAnn) {
-      console.log(openAnn);
       const indices = openAnn.flatMap((ann) => {
         return ann.indicesToHighlight;
       });

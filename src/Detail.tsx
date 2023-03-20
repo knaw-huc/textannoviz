@@ -99,23 +99,29 @@ export const Detail = (props: DetailProps) => {
   );
 
   React.useEffect(() => {
+    let ignore = false;
     if (params.tier0 && params.tier1) {
       fetchBroccoliBodyIdOfScan(params.tier0, params.tier1, props.config).then(
         (result) => {
-          const bodyId = result.bodyId;
-          const includeResults = ["anno", "text", "iiif"];
-          const overlapTypes = props.config.annotationTypesToInclude;
-          fetchBroccoliScanWithOverlap(
-            result.bodyId,
-            overlapTypes,
-            includeResults,
-            props.config
-          ).then((broccoli) => {
-            setState(broccoli, bodyId);
-          });
+          if (!ignore) {
+            const bodyId = result.bodyId;
+            const includeResults = ["anno", "text", "iiif"];
+            const overlapTypes = props.config.annotationTypesToInclude;
+            fetchBroccoliScanWithOverlap(
+              result.bodyId,
+              overlapTypes,
+              includeResults,
+              props.config
+            ).then((broccoli) => {
+              setState(broccoli, bodyId);
+            });
+          }
         }
       );
     }
+    return () => {
+      ignore = true;
+    };
   }, [params.tier0, params.tier1, props.config, setState]);
 
   React.useEffect(() => {
