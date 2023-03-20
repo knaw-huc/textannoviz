@@ -11,6 +11,10 @@ export default defineConfig({
     outDir: "./dist",
   },
 
+  esbuild: {
+    drop: ["console"],
+  },
+
   plugins: [
     createHtmlPlugin({
       inject: {
