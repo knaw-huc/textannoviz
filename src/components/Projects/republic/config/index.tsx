@@ -61,6 +61,7 @@ export const republicConfig: ProjectConfig = {
   createRouter: (
     comp1: React.ReactNode,
     comp2: React.ReactNode,
+    comp3: React.ReactNode,
     errorComp: React.ReactNode
   ) => {
     return [
@@ -72,6 +73,11 @@ export const republicConfig: ProjectConfig = {
       {
         path: "detail/:tier0/:tier1",
         element: comp2,
+        errorElement: errorComp,
+      },
+      {
+        path: "search",
+        element: comp3,
         errorElement: errorComp,
       },
       {

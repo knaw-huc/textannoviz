@@ -22,6 +22,7 @@ export interface ProjectConfig {
   createRouter: (
     comp1: React.ReactNode,
     comp2: React.ReactNode,
+    comp3: React.ReactNode,
     errorComp: React.ReactNode
   ) => {
     path: string;
