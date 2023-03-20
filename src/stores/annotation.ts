@@ -9,6 +9,7 @@ export interface OpenAnnSlice {
   }[];
   updateOpenAnn: (bodyId: string, indicesToHighlight: number[]) => void;
   removeOpenAnn: (bodyId: string) => void;
+  resetOpenAnn: () => void;
 }
 
 export interface CurrentSelectedAnnSlice {
@@ -44,6 +45,7 @@ const createOpenAnnSlice: StateCreator<
         state.openAnn.splice(index, 1);
       })
     ),
+  resetOpenAnn: () => set(() => ({ openAnn: [] })),
 });
 
 const createAnnotationSlice: StateCreator<
