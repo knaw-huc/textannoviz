@@ -10,11 +10,14 @@ export function TextComponent() {
   const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
 
   React.useEffect(() => {
-    const indices = openAnn.flatMap((ann) => {
-      return ann.indicesToHighlight;
-    });
+    if (openAnn) {
+      console.log(openAnn);
+      const indices = openAnn.flatMap((ann) => {
+        return ann.indicesToHighlight;
+      });
 
-    setHighlightedLines(indices);
+      setHighlightedLines(indices);
+    }
   }, [openAnn]);
 
   return (
