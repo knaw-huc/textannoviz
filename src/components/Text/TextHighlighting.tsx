@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
@@ -28,15 +27,12 @@ export function TextHighlighting(props: TextHighlightingProps) {
     }
   });
 
-  React.useEffect(() => {
-    if (currentSelectedAnn && !params.tier2) {
-      const parentDOM = document.getElementById("textcontainer");
-      const target = parentDOM.getElementsByClassName(
-        `${currentSelectedAnn}`
-      )[0];
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }, [currentSelectedAnn, params.tier2]);
+  if (currentSelectedAnn && !params.tier2) {
+    console.log("scroll into view");
+    const parentDOM = document.getElementById("textcontainer");
+    const target = parentDOM.getElementsByClassName(`${currentSelectedAnn}`)[0];
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
   return (
     <div
