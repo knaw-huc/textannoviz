@@ -5,8 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "vite serve",
-    "build": "vite build",
+    "start": "vite serve --config vite.config.local.ts",
+    "build": "vite build --config vite.config.prod.ts",
     "preview": "vite preview",
     "test": "vitest",
     "docker:republic-all": "./docker-republic-all.sh",
