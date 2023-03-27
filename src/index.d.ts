@@ -1,1 +1,1 @@
-declare module "mirador"
+declare module "mirador";
