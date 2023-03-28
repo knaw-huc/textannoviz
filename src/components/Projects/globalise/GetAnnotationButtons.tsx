@@ -1,8 +1,8 @@
 import mirador from "mirador";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Button } from "reactions";
 import { useMiradorStore } from "../../../stores/mirador";
-import { Button } from "../../Button";
 import { globaliseConfig } from "./config";
 
 export const GetAnnotationButtons = () => {

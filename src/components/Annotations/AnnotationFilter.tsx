@@ -1,10 +1,10 @@
 import React from "react";
+import { Button } from "reactions";
 import { Broccoli } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
 import { fetchBroccoliScanWithOverlap } from "../../utils/fetchBroccoli";
-import { Button } from "../Button";
 
 interface AnnotationFilterProps {
   loading: (bool: boolean) => void;
