@@ -1,8 +1,9 @@
 #container {
   display: flex;
-  justify-content: center;
+  justify-content: column;
   align-items: center;
-  margin: 10px auto;
+  justify-content: center;
+  width: 100%;
 }
 
 .highlighted {

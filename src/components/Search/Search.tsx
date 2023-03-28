@@ -1,30 +1,24 @@
-import { Link } from "react-router-dom";
 import { FullTextFacet } from "reactions";
 import styled from "styled-components";
-import { createIndices } from "../../utils/createIndices";
+import { SearchItem } from "./SearchItem";
 
 const Wrapper = styled.div`
-  line-height: 1.5em;
+  display: flex;
+  flex-direction: row;
+  float: left;
 `;
 
 export const Search = () => {
-  const indices = createIndices(51, 532);
-
   const handleFullTextFacet = (value: string) => {
     console.log(value);
   };
 
   return (
-    <Wrapper style={{ display: "inline" }}>
-      <FullTextFacet valueHandler={handleFullTextFacet} />
-      {indices.map((index, key) => (
-        <>
-          <Link key={key} to={`/detail/1728/${index}`}>
-            Scan {index}
-          </Link>
-          <br />
-        </>
-      ))}
-    </Wrapper>
+    <>
+      <Wrapper style={{ display: "inline" }}>
+        <FullTextFacet valueHandler={handleFullTextFacet} />
+      </Wrapper>
+      <SearchItem />
+    </>
   );
 };
