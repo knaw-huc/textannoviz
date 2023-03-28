@@ -12,6 +12,11 @@ html {
   font-size: 100%;
 }
 
+a {
+  color: black;
+  /* text-decoration: none; */
+}
+
 .appContainer {
   display: flex;
   flex-direction: column;
@@ -22,7 +27,7 @@ html {
 
 .appContainer > * {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
 }
 
 .row {
@@ -64,7 +69,6 @@ html {
 
 .searchItem:hover {
   background: #eee7;
-  cursor: pointer;
 }
 
 .searchItemTextPreview {
