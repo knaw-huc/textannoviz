@@ -14,7 +14,7 @@ html {
 
 a {
   color: black;
-  /* text-decoration: none; */
+  text-decoration: none;
 }
 
 .appContainer {
@@ -58,6 +58,10 @@ a {
 .searchItemTitle {
   display: grid;
   grid-template-columns: 3fr 1fr;
+}
+
+.searchItemTitle:hover {
+  text-decoration: underline;
 }
 
 .searchItem {
