@@ -1,0 +1,113 @@
+[
+  {
+    "bodyId": "urn:republic:session-1728-01-02-ordinaris-num-1-resolution-1",
+    "bodyType": "Resolution",
+    "sessionDate": "1728-01-02",
+    "sessionDay": 2,
+    "sessionMonth": 1,
+    "sessionYear": 1728,
+    "sessionWeekday": "Sabbathi",
+    "propositionType": "missive",
+    "hits": [
+      {
+        "preview": "ONtfangen een Missive van <em>den</em> Raadi wvan Staate, geschreven alhier in <em>den</em> Hage <em>den</em> twee en twintighsten der voorlede maandt, houdende, in gevolge en tot voldoeninge van haar Hoogh Mogende Resolutie van <em>den</em> veertienden November daar te vooren, der selver advis op de Re- queste van de Regenten van St. ",
+        "locations": [
+          {
+            "start": {
+              "line": 18,
+              "offset": 38
+            },
+            "end": {
+              "line": 18,
+              "offset": 41
+            }
+          },
+          {
+            "start": {
+              "line": 19,
+              "offset": 0
+            },
+            "end": {
+              "line": 19,
+              "offset": 8
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "bodyId": "urn:republic:session-1728-01-02-ordinaris-num-1-resolution-2",
+    "bodyType": "Resolution",
+    "sessionDate": "1728-01-03",
+    "sessionDay": 3,
+    "sessionMonth": 1,
+    "sessionYear": 1728,
+    "sessionWeekday": "Sabbathi",
+    "propositionType": "missive",
+    "hits": [
+      {
+        "preview": "ONtfangen een Missive van <em>den</em> Raadi wvan Staate, geschreven alhier in <em>den</em> Hage <em>den</em> twee en twintighsten der voorlede maandt, houdende, in gevolge en tot voldoeninge van haar Hoogh Mogende Resolutie van <em>den</em> veertienden November daar te vooren, der selver advis op de Re- queste van de Regenten van St. ",
+        "locations": [
+          {
+            "start": {
+              "line": 18,
+              "offset": 38
+            },
+            "end": {
+              "line": 18,
+              "offset": 41
+            }
+          },
+          {
+            "start": {
+              "line": 19,
+              "offset": 0
+            },
+            "end": {
+              "line": 19,
+              "offset": 8
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "bodyId": "urn:republic:session-1728-01-02-ordinaris-num-1-resolution-1",
+    "bodyType": "Resolution",
+    "sessionDate": "1728-01-02",
+    "sessionDay": 2,
+    "sessionMonth": 1,
+    "sessionYear": 1728,
+    "sessionWeekday": "Sabbathi",
+    "propositionType": "missive",
+    "hits": [
+      {
+        "preview": "ONtfangen een Missive van <em>den</em> Raadi wvan Staate, geschreven alhier in <em>den</em> Hage <em>den</em> twee en twintighsten der voorlede maandt, houdende, in gevolge en tot voldoeninge van haar Hoogh Mogende Resolutie van <em>den</em> veertienden November daar te vooren, der selver advis op de Re- queste van de Regenten van St. ",
+        "locations": [
+          {
+            "start": {
+              "line": 18,
+              "offset": 38
+            },
+            "end": {
+              "line": 18,
+              "offset": 41
+            }
+          },
+          {
+            "start": {
+              "line": 19,
+              "offset": 0
+            },
+            "end": {
+              "line": 19,
+              "offset": 8
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
