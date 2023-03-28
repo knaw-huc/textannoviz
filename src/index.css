@@ -34,6 +34,7 @@ html {
 }
 
 .searchContainer {
+  padding-top: 30px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -47,7 +48,6 @@ html {
 
 .searchResults {
   width: calc(100% - 350px);
-  margin-top: 10px;
 }
 
 .searchItemTitle {
@@ -60,7 +60,11 @@ html {
   margin: 0 0 20px;
   padding: 10px 16px;
   border: 1px solid #ddd;
-  background-color: #eee;
+}
+
+.searchItem:hover {
+  background: #eee7;
+  cursor: pointer;
 }
 
 .searchItemTextPreview {
