@@ -1,5 +1,4 @@
 import mirador from "mirador";
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useMiradorStore } from "../../../stores/mirador";
@@ -21,7 +20,7 @@ export const GetAnnotationButtons = () => {
   const indices = documentIndices.index;
 
   const nextCanvasClickHandler = () => {
-    const currentIndex = indices.indexOf(currentContext.tier1);
+    const currentIndex = indices.indexOf(parseInt(currentContext.tier1));
     const nextCanvas = indices[currentIndex + 1];
     if (!indices.includes(nextCanvas)) {
       toast(
@@ -41,7 +40,7 @@ export const GetAnnotationButtons = () => {
   };
 
   const previousCanvasClickHandler = () => {
-    const currentIndex = indices.indexOf(currentContext.tier1);
+    const currentIndex = indices.indexOf(parseInt(currentContext.tier1));
     const prevCanvas = indices[currentIndex - 1];
     if (!indices.includes(prevCanvas)) {
       toast(
