@@ -1,12 +1,31 @@
 import { FullTextFacet } from "reactions";
-import styled from "styled-components";
+import mock from "./mock.json";
 import { SearchItem } from "./SearchItem";
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  float: left;
-`;
+export interface mockDataType {
+  bodyId: string;
+  bodyType: string;
+  sessionDate: string;
+  sessionDay: number;
+  sessionMonth: number;
+  sessionYear: number;
+  sessionWeekday: string;
+  propositionType: string;
+  hits: {
+    preview: string;
+    locations: {
+      start: {
+        line: number;
+        offset: number;
+      };
+      end: {
+        line: number;
+        offset: number;
+      };
+    }[];
+  }[];
+}
+[];
 
 export const Search = () => {
   const handleFullTextFacet = (value: string) => {
@@ -15,10 +34,19 @@ export const Search = () => {
 
   return (
     <>
-      <Wrapper style={{ display: "inline" }}>
-        <FullTextFacet valueHandler={handleFullTextFacet} />
-      </Wrapper>
-      <SearchItem />
+      <div className="appContainer">
+        <div className="searchContainer">
+          <div className="searchFacets">
+            <FullTextFacet valueHandler={handleFullTextFacet} />
+          </div>
+          <div className="searchResults">
+            {mock &&
+              mock.map((result, index) => (
+                <SearchItem key={index} result={result} />
+              ))}
+          </div>
+        </div>
+      </div>
     </>
   );
 };
