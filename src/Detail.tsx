@@ -1,7 +1,6 @@
 import mirador from "mirador";
 import React from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
 import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
@@ -22,21 +21,6 @@ interface DetailProps {
   project: string;
   config: ProjectConfig;
 }
-
-const AppContainer = styled.div`
-  border-style: solid;
-  border-color: black;
-  border-width: 2px;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const LastUpdated = styled.div`
-  border-bottom: 1px solid black;
-`;
 
 const setMiradorConfig = (broccoli: Broccoli, project: string) => {
   miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
@@ -135,13 +119,13 @@ export const Detail = (props: DetailProps) => {
   }, [params.tier2, props.config, setState]);
 
   return (
-    <AppContainer id="appcontainer">
-      <LastUpdated>Last updated: 20 March 2023</LastUpdated>
-      <Row id="row">
+    <div className="appContainer">
+      <div className="lastUpdated">Last updated: 20 March 2023</div>
+      <div className="row">
         <Mirador />
         <Text />
         <Annotation />
-      </Row>
-    </AppContainer>
+      </div>
+    </div>
   );
 };
