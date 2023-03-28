@@ -17,15 +17,17 @@ export function TextHighlighting(props: TextHighlightingProps) {
 
   const classes = new Map<number, string[]>();
 
-  props.text.locations.annotations.forEach((it) => {
-    for (let i = it.start.line; i <= it.end.line; i++) {
-      if (classes.has(i)) {
-        classes.get(i).push(it.bodyId);
-      } else {
-        classes.set(i, [it.bodyId]);
+  if (props.text.locations) {
+    props.text.locations.annotations.forEach((it) => {
+      for (let i = it.start.line; i <= it.end.line; i++) {
+        if (classes.has(i)) {
+          classes.get(i).push(it.bodyId);
+        } else {
+          classes.set(i, [it.bodyId]);
+        }
       }
-    }
-  });
+    });
+  }
 
   if (currentSelectedAnn && !params.tier2) {
     console.log("scroll into view");
@@ -39,18 +41,22 @@ export function TextHighlighting(props: TextHighlightingProps) {
       style={projectName === "republic" ? { display: "grid" } : null}
       id="textcontainer"
     >
-      {props.text.lines.map((line, index) => (
-        <span
-          key={index}
-          className={
-            props.highlightedLines.includes(index)
-              ? classes.get(index).join(" ") + " highlighted"
-              : classes.get(index).join(" ")
-          }
-        >
-          {line}
-        </span>
-      ))}
+      {classes.size >= 1 ? (
+        props.text.lines.map((line, index) => (
+          <span
+            key={index}
+            className={
+              props.highlightedLines.includes(index)
+                ? classes.get(index).join(" ") + " highlighted"
+                : classes.get(index).join(" ")
+            }
+          >
+            {line}
+          </span>
+        ))
+      ) : (
+        <span>{props.text.lines.join("\n")}</span>
+      )}
     </div>
   );
 }
