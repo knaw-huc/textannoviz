@@ -1,6 +1,0 @@
-{
-    "@id": "https://images.diginfra.net/api/annotation/getTextAnnotations?uri=https%3A%2F%2Fimages.diginfra.net%2Fiiif%2FNL-HaNA_1.01.02%2F3783%2FNL-HaNA_1.01.02_3783_0286.jpg",
-    "@context": "http://iiif.io/api/presentation/2/context.json",
-    "@type": "sc:AnnotationList",
-    "resources": []
-}
