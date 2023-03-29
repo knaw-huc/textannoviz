@@ -15,7 +15,7 @@ import {
   fetchBroccoliBodyId,
   fetchBroccoliBodyIdOfScan,
   fetchBroccoliScanWithOverlap,
-} from "./utils/fetchBroccoli";
+} from "./utils/broccoli";
 
 interface DetailProps {
   project: string;

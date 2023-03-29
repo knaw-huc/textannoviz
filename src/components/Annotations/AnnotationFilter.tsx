@@ -4,7 +4,7 @@ import { Broccoli } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
-import { fetchBroccoliScanWithOverlap } from "../../utils/fetchBroccoli";
+import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
 
 interface AnnotationFilterProps {
   loading: (bool: boolean) => void;
