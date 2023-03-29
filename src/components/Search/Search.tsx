@@ -28,8 +28,35 @@ export interface mockDataType {
 [];
 
 export const Search = () => {
+  const doSearch = (value: string) => {
+    const searchQuery = {
+      bool: {
+        must: [
+          {
+            range: {
+              sessionDate: {
+                relation: "within",
+                gte: "1728-01-01",
+                lte: "1728-12-31",
+              },
+            },
+          },
+          {
+            match_phrase_prefix: {
+              text: `${value}`,
+            },
+          },
+        ],
+      },
+    };
+
+    console.log(searchQuery);
+    console.log(JSON.stringify(searchQuery));
+  };
+
   const handleFullTextFacet = (value: string) => {
-    console.log(value);
+    if (value === "") return;
+    doSearch(value);
   };
 
   return (
