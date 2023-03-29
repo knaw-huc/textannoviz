@@ -106,7 +106,7 @@ em {
   justify-content: space-between;
 }
 
-input {
+input[type="text"] {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #e1ebf3;
