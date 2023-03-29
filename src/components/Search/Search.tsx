@@ -1,5 +1,6 @@
+import React from "react";
 import { FullTextFacet } from "reactions";
-import mock from "./mock.json";
+import { sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
 export interface mockDataType {
@@ -28,7 +29,10 @@ export interface mockDataType {
 [];
 
 export const Search = () => {
-  const doSearch = (value: string) => {
+  const [results, setResults] = React.useState([]);
+  const [fragmenter, setFragmenter] = React.useState("");
+
+  const doSearch = async (value: string) => {
     const searchQuery = {
       bool: {
         must: [
@@ -41,6 +45,19 @@ export const Search = () => {
               },
             },
           },
+          // {
+          //   terms: {
+          //     sessionMonth: [1, 8, 12],
+          //   },
+          // },
+          // {
+          //   term: {
+          //     sessionWeekday: {
+          //       value: "veneris",
+          //       // case_insensitive: true,
+          //     },
+          //   },
+          // },
           {
             match_phrase_prefix: {
               text: `${value}`,
@@ -50,13 +67,19 @@ export const Search = () => {
       },
     };
 
-    console.log(searchQuery);
-    console.log(JSON.stringify(searchQuery));
+    const data = await sendSearchQuery(searchQuery, fragmenter);
+
+    setResults(data);
   };
 
   const handleFullTextFacet = (value: string) => {
     if (value === "") return;
     doSearch(value);
+  };
+
+  const checkboxHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (event.currentTarget.value === "") return;
+    setFragmenter(event.currentTarget.value);
   };
 
   return (
@@ -65,10 +88,16 @@ export const Search = () => {
         <div className="searchContainer">
           <div className="searchFacets">
             <FullTextFacet valueHandler={handleFullTextFacet} />
+            <label>Fragmenter </label>
+            <select onChange={checkboxHandler}>
+              <option>Scan</option>
+              <option>Sentence</option>
+              <option>None</option>
+            </select>
           </div>
           <div className="searchResults">
-            {mock &&
-              mock.map((result, index) => (
+            {results &&
+              results.map((result, index) => (
                 <SearchItem key={index} result={result} />
               ))}
           </div>
