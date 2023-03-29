@@ -6,7 +6,7 @@
     "sessionDay": 2,
     "sessionMonth": 1,
     "sessionYear": 1728,
-    "sessionWeekday": "Sabbathi",
+    "sessionWeekday": "Veneris",
     "propositionType": "missive",
     "hits": [
       {
@@ -14,22 +14,82 @@
         "locations": [
           {
             "start": {
-              "line": 18,
-              "offset": 38
+              "line": 0,
+              "offset": 26
             },
             "end": {
-              "line": 18,
-              "offset": 41
+              "line": 0,
+              "offset": 28
             }
           },
           {
             "start": {
-              "line": 19,
+              "line": 1,
+              "offset": 34
+            },
+            "end": {
+              "line": 1,
+              "offset": 36
+            }
+          },
+          {
+            "start": {
+              "line": 2,
+              "offset": 5
+            },
+            "end": {
+              "line": 2,
+              "offset": 7
+            }
+          },
+          {
+            "start": {
+              "line": 5,
+              "offset": 14
+            },
+            "end": {
+              "line": 5,
+              "offset": 16
+            }
+          }
+        ]
+      },
+      {
+        "preview": "Michiels Gestel voornoemdt, <em>den</em> veertienden November seventien hon- dert twee opgenomen van Simom de Ras, welcke echter een Gemeentens schuldt sou- de zyn, ten Comptoire der beeden moge werden geregistreert.. ",
+        "locations": [
+          {
+            "start": {
+              "line": 13,
               "offset": 0
             },
             "end": {
+              "line": 13,
+              "offset": 2
+            }
+          }
+        ]
+      },
+      {
+        "preview": "WAAR op gedelibereert zynde, is goedtgevonden ende verstaan, dat <em>den</em> Ontfanger der beeden over het Quartier van 's Hertogenbosch sal wer- <em>den</em> aangeschreven en gelast , soo als gelast werdt mits desen, de voorschreve Obligatie te registreeren, onder verminderinge noch- tans van een tiende gedeelte van het capi- taal.",
+        "locations": [
+          {
+            "start": {
               "line": 19,
-              "offset": 8
+              "offset": 14
+            },
+            "end": {
+              "line": 19,
+              "offset": 16
+            }
+          },
+          {
+            "start": {
+              "line": 21,
+              "offset": 0
+            },
+            "end": {
+              "line": 21,
+              "offset": 2
             }
           }
         ]
