@@ -57,7 +57,7 @@ a {
 
 .searchItemTitle {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 4fr 1fr;
 }
 
 .searchItemTitle:hover {
@@ -78,6 +78,10 @@ a {
 .searchItemTextPreview {
   list-style: none;
   padding: 0;
+}
+
+.searchItemTextPreview > li {
+  margin-bottom: 20px;
 }
 
 em {
