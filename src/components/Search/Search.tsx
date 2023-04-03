@@ -1,4 +1,6 @@
 import React from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { FullTextFacet } from "reactions";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
@@ -31,6 +33,8 @@ export interface mockDataType {
 export const Search = () => {
   const [results, setResults] = React.useState([]);
   const [fragmenter, setFragmenter] = React.useState("");
+  const [dateFrom, setDateFrom] = React.useState("1728-01-01");
+  const [dateTo, setDateTo] = React.useState("1728-12-31");
 
   const doSearch = async (value: string) => {
     const searchQuery = {
@@ -40,8 +44,8 @@ export const Search = () => {
             range: {
               sessionDate: {
                 relation: "within",
-                gte: "1728-01-01",
-                lte: "1728-12-31",
+                gte: `${dateFrom}`,
+                lte: `${dateTo}`,
               },
             },
           },
@@ -82,6 +86,32 @@ export const Search = () => {
     setFragmenter(event.currentTarget.value);
   };
 
+  const calendarFromChangeHandler = (newFromDate: Date) => {
+    const timezoneCorrectedNewFromDate = new Date(
+      newFromDate.getTime() - newFromDate.getTimezoneOffset() * 600000
+    );
+
+    const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/i;
+
+    const newDateISOString = timezoneCorrectedNewFromDate.toISOString();
+    const regexedDate = newDateISOString.match(regex);
+
+    setDateFrom(regexedDate.toString());
+  };
+
+  const calendarToChangeHandler = (newToDate: Date) => {
+    const timezoneCorrectedNewToDate = new Date(
+      newToDate.getTime() - newToDate.getTimezoneOffset() * 600000
+    );
+
+    const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/i;
+
+    const newDateISOString = timezoneCorrectedNewToDate.toISOString();
+    const regexedDate = newDateISOString.match(regex);
+
+    setDateTo(regexedDate.toString());
+  };
+
   return (
     <>
       <div className="appContainer">
@@ -93,7 +123,24 @@ export const Search = () => {
               <option>Scan</option>
               <option>Sentence</option>
               <option>None</option>
-            </select>
+            </select>{" "}
+            <br />
+            <br />
+            <label>From</label>
+            <Calendar
+              className={"calendarFrom"}
+              onChange={calendarFromChangeHandler}
+              defaultActiveStartDate={new Date(1728, 0, 1)}
+              defaultValue={new Date(1728, 0, 1)}
+            />{" "}
+            <br />
+            <label>To</label>
+            <Calendar
+              className={"calendarTo"}
+              onChange={calendarToChangeHandler}
+              defaultActiveStartDate={new Date(1728, 11, 31)}
+              defaultValue={new Date(1728, 11, 31)}
+            />
           </div>
           <div className="searchResults">
             {results &&
