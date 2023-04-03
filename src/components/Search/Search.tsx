@@ -130,6 +130,7 @@ export const Search = () => {
               onChange={calendarFromChangeHandler}
               defaultActiveStartDate={new Date(1728, 0, 1)}
               defaultValue={new Date(1728, 0, 1)}
+              minDate={new Date(1728, 0, 1)}
             />{" "}
             <br />
             <label>To</label>
@@ -138,6 +139,7 @@ export const Search = () => {
               onChange={calendarToChangeHandler}
               defaultActiveStartDate={new Date(1728, 11, 31)}
               defaultValue={new Date(1728, 11, 31)}
+              maxDate={new Date(1728, 11, 31)}
             />
           </div>
           <div className="searchResults">
