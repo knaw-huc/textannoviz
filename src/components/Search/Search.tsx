@@ -86,28 +86,26 @@ export const Search = () => {
     setFragmenter(event.currentTarget.value);
   };
 
-  const calendarFromChangeHandler = (newFromDate: Date) => {
-    const timezoneCorrectedNewFromDate = new Date(
-      newFromDate.getTime() - newFromDate.getTimezoneOffset() * 600000
-    );
+  const correctDateByTimezone = (date: Date) => {
+    return new Date(date.getTime() - date.getTimezoneOffset() * 600000);
+  };
 
-    const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/i;
+  const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/i;
+
+  const calendarFromChangeHandler = (newFromDate: Date) => {
+    const timezoneCorrectedNewFromDate = correctDateByTimezone(newFromDate);
 
     const newDateISOString = timezoneCorrectedNewFromDate.toISOString();
-    const regexedDate = newDateISOString.match(regex);
+    const regexedDate = newDateISOString.match(dateRegex);
 
     setDateFrom(regexedDate.toString());
   };
 
   const calendarToChangeHandler = (newToDate: Date) => {
-    const timezoneCorrectedNewToDate = new Date(
-      newToDate.getTime() - newToDate.getTimezoneOffset() * 600000
-    );
-
-    const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/i;
+    const timezoneCorrectedNewToDate = correctDateByTimezone(newToDate);
 
     const newDateISOString = timezoneCorrectedNewToDate.toISOString();
-    const regexedDate = newDateISOString.match(regex);
+    const regexedDate = newDateISOString.match(dateRegex);
 
     setDateTo(regexedDate.toString());
   };
