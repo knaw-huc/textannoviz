@@ -81,7 +81,7 @@ export const Search = () => {
     doSearch(value);
   };
 
-  const checkboxHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
   };
@@ -117,7 +117,7 @@ export const Search = () => {
           <div className="searchFacets">
             <FullTextFacet valueHandler={handleFullTextFacet} />
             <label>Fragmenter </label>
-            <select onChange={checkboxHandler}>
+            <select onChange={selectHandler}>
               <option>Scan</option>
               <option>Sentence</option>
               <option>None</option>
