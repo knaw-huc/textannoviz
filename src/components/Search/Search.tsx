@@ -32,7 +32,7 @@ export interface mockDataType {
 
 export const Search = () => {
   const [results, setResults] = React.useState([]);
-  const [fragmenter, setFragmenter] = React.useState("");
+  const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState("1728-01-01");
   const [dateTo, setDateTo] = React.useState("1728-12-31");
 
