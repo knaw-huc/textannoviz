@@ -77,7 +77,7 @@ export const Search = () => {
   };
 
   const handleFullTextFacet = (value: string) => {
-    if (value === "") return;
+    // if (value === "") return;
     doSearch(value);
   };
 
