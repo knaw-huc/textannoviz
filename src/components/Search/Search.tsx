@@ -1,7 +1,6 @@
 import React from "react";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { FullTextFacet } from "reactions";
+import { DateFacet, FullTextFacet } from "reactions";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
@@ -54,14 +53,14 @@ export const Search = () => {
           //     sessionMonth: [1, 8, 12],
           //   },
           // },
-          // {
-          //   term: {
-          //     sessionWeekday: {
-          //       value: "veneris",
-          //       // case_insensitive: true,
-          //     },
-          //   },
-          // },
+          {
+            term: {
+              bodyType: {
+                value: "attendancelist",
+                // case_insensitive: true,
+              },
+            },
+          },
           {
             match_phrase_prefix: {
               text: `${value}`,
@@ -94,6 +93,7 @@ export const Search = () => {
 
   const calendarFromChangeHandler = (newFromDate: Date) => {
     const timezoneCorrectedNewFromDate = correctDateByTimezone(newFromDate);
+    console.log(timezoneCorrectedNewFromDate, newFromDate.toUTCString());
 
     const newDateISOString = timezoneCorrectedNewFromDate.toISOString();
     const regexedDate = newDateISOString.match(dateRegex);
@@ -125,20 +125,22 @@ export const Search = () => {
             <br />
             <br />
             <label>From</label>
-            <Calendar
+            <DateFacet
               className={"calendarFrom"}
               onChange={calendarFromChangeHandler}
               defaultActiveStartDate={new Date(1728, 0, 1)}
               defaultValue={new Date(1728, 0, 1)}
               minDate={new Date(1728, 0, 1)}
+              maxDate={new Date(1728, 11, 31)}
             />{" "}
             <br />
             <label>To</label>
-            <Calendar
+            <DateFacet
               className={"calendarTo"}
               onChange={calendarToChangeHandler}
               defaultActiveStartDate={new Date(1728, 11, 31)}
               defaultValue={new Date(1728, 11, 31)}
+              minDate={new Date(1728, 0, 1)}
               maxDate={new Date(1728, 11, 31)}
             />
           </div>
