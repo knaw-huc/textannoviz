@@ -21,9 +21,13 @@ export const SearchItem = (props: SearchItemProps) => {
         </div>
       </Link>
       <ul className="searchItemTextPreview">
-        {props.result.hits.map((hit, key) => (
-          <li key={key} dangerouslySetInnerHTML={{ __html: hit.preview }}></li>
-        ))}
+        {props.result.hits &&
+          props.result.hits.map((hit, key) => (
+            <li
+              key={key}
+              dangerouslySetInnerHTML={{ __html: hit.preview }}
+            ></li>
+          ))}
       </ul>
     </div>
   );
