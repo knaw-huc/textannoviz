@@ -71,7 +71,7 @@ export const Search = () => {
       },
     };
 
-    const data = await sendSearchQuery(searchQuery, fragmenter);
+    const data = await sendSearchQuery(searchQuery, fragmenter, 50);
 
     setResults(data);
   };

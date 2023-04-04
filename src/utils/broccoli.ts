@@ -76,9 +76,14 @@ export const fetchBroccoliScanWithOverlap = async (
   return response.json();
 };
 
-export const sendSearchQuery = async (searchQuery: any, fragmenter: string) => {
+export const sendSearchQuery = async (
+  searchQuery: any,
+  fragmenter: string,
+  size: number,
+  from = 0
+) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/republic/search?frag=${fragmenter}`,
+    `${HOSTS.BROCCOLI}/projects/republic/search?frag=${fragmenter}&size=${size}&from=${from}`,
     {
       method: "POST",
       headers: headers,
