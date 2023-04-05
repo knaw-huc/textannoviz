@@ -44,8 +44,6 @@ export const Search = () => {
     "Sabbathi",
   ];
 
-  console.log(weekdaysChecked);
-
   const doSearch = async (value: string) => {
     const searchQuery = {
       bool: {
@@ -104,7 +102,6 @@ export const Search = () => {
 
   const calendarFromChangeHandler = (newFromDate: Date) => {
     const timezoneCorrectedNewFromDate = correctDateByTimezone(newFromDate);
-    console.log(timezoneCorrectedNewFromDate, newFromDate.toUTCString());
 
     const newDateISOString = timezoneCorrectedNewFromDate.toISOString();
     const regexedDate = newDateISOString.match(dateRegex);
