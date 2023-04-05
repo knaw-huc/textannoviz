@@ -1,6 +1,6 @@
 import React from "react";
 import "react-calendar/dist/Calendar.css";
-import { DateFacet, FullTextFacet } from "reactions";
+import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
@@ -34,6 +34,17 @@ export const Search = () => {
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState("1728-01-01");
   const [dateTo, setDateTo] = React.useState("1728-12-31");
+  const [weekdaysChecked, setWeekdaysChecked] = React.useState<string[]>([]);
+  const weekdays = [
+    "Lunae",
+    "Martis",
+    "Mercurii",
+    "Jovis",
+    "Veneris",
+    "Sabbathi",
+  ];
+
+  console.log(weekdaysChecked);
 
   const doSearch = async (value: string) => {
     const searchQuery = {
@@ -48,19 +59,19 @@ export const Search = () => {
               },
             },
           },
-          // {
-          //   terms: {
-          //     sessionMonth: [1, 8, 12],
-          //   },
-          // },
           {
-            term: {
-              bodyType: {
-                value: "attendancelist",
-                // case_insensitive: true,
-              },
+            terms: {
+              sessionWeekday: weekdaysChecked,
             },
           },
+          // {
+          //   term: {
+          //     bodyType: {
+          //       value: "attendancelist",
+          //       // case_insensitive: true,
+          //     },
+          //   },
+          // },
           {
             match_phrase_prefix: {
               text: `${value}`,
@@ -70,7 +81,7 @@ export const Search = () => {
       },
     };
 
-    const data = await sendSearchQuery(searchQuery, fragmenter, 50);
+    const data = await sendSearchQuery(searchQuery, fragmenter, 10);
 
     setResults(data);
   };
@@ -110,6 +121,16 @@ export const Search = () => {
     setDateTo(regexedDate.toString());
   };
 
+  const weekdaysCheckedHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    weekdays.map((weekday) => {
+      weekday === event.currentTarget.value
+        ? setWeekdaysChecked([...weekdaysChecked, weekday])
+        : weekday;
+    });
+  };
+
   return (
     <>
       <div className="appContainer">
@@ -143,12 +164,23 @@ export const Search = () => {
               minDate={new Date(1728, 0, 1)}
               maxDate={new Date(1728, 11, 31)}
             />
+            {weekdays.map((weekday, index) => (
+              <CheckboxFacet
+                key={index}
+                id={weekday}
+                name="weekdays"
+                value={weekday}
+                labelName={weekday}
+                onChange={weekdaysCheckedHandler}
+              />
+            ))}
           </div>
           <div className="searchResults">
-            {results &&
-              results.map((result, index) => (
-                <SearchItem key={index} result={result} />
-              ))}
+            {results && results.length >= 1
+              ? results.map((result, index) => (
+                  <SearchItem key={index} result={result} />
+                ))
+              : "No results"}
           </div>
         </div>
       </div>
