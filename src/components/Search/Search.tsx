@@ -1,7 +1,7 @@
 import React from "react";
 import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions";
-import { sendSearchQuery } from "../../utils/broccoli";
+import { getFacets, sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
 export interface mockDataType {
@@ -29,20 +29,32 @@ export interface mockDataType {
 }
 [];
 
+interface FacetType {
+  sessionWeekday: {
+    Veneris: number;
+    Lunae: number;
+    Martis: number;
+    Jovis: number;
+    Sabbathi: number;
+    Mercurii: number;
+  };
+}
+
 export const Search = () => {
   const [results, setResults] = React.useState([]);
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState("1728-01-01");
   const [dateTo, setDateTo] = React.useState("1728-12-31");
   const [weekdaysChecked, setWeekdaysChecked] = React.useState<string[]>([]);
-  const weekdays = [
-    "Lunae",
-    "Martis",
-    "Mercurii",
-    "Jovis",
-    "Veneris",
-    "Sabbathi",
-  ];
+  const [facets, setFacets] = React.useState<FacetType[]>([]);
+
+  React.useEffect(() => {
+    getFacets().then((data) => {
+      setFacets(data);
+    });
+  }, []);
+
+  const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
 
   const doSearch = async (value: string) => {
     const searchQuery = {
@@ -85,7 +97,6 @@ export const Search = () => {
   };
 
   const handleFullTextFacet = (value: string) => {
-    // if (value === "") return;
     doSearch(value);
   };
 
@@ -121,7 +132,7 @@ export const Search = () => {
   const weekdaysCheckedHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    weekdays.map((weekday) => {
+    Object.keys(sessionWeekdays.sessionWeekday).map((weekday) => {
       weekday === event.currentTarget.value
         ? setWeekdaysChecked([...weekdaysChecked, weekday])
         : weekday;
@@ -161,16 +172,19 @@ export const Search = () => {
               minDate={new Date(1728, 0, 1)}
               maxDate={new Date(1728, 11, 31)}
             />
-            {weekdays.map((weekday, index) => (
-              <CheckboxFacet
-                key={index}
-                id={weekday}
-                name="weekdays"
-                value={weekday}
-                labelName={weekday}
-                onChange={weekdaysCheckedHandler}
-              />
-            ))}
+            {sessionWeekdays &&
+              Object.keys(sessionWeekdays.sessionWeekday).map(
+                (weekday, index) => (
+                  <CheckboxFacet
+                    key={index}
+                    id={weekday}
+                    name="weekdays"
+                    value={weekday}
+                    labelName={weekday}
+                    onChange={weekdaysCheckedHandler}
+                  />
+                )
+              )}
           </div>
           <div className="searchResults">
             {results && results.length >= 1
