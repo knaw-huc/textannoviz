@@ -38,6 +38,21 @@ interface FacetType {
     Sabbathi: number;
     Mercurii: number;
   };
+  propositionType: {
+    missive: number;
+    requeste: number;
+    rapport: number;
+    memorie: number;
+    resolutie: number;
+    onbekend: number;
+    oraal: number;
+    voordracht: number;
+    rekening: number;
+    declaratie: number;
+    advies: number;
+    conclusie: number;
+    instructie: number;
+  };
 }
 
 export const Search = () => {
@@ -46,6 +61,9 @@ export const Search = () => {
   const [dateFrom, setDateFrom] = React.useState("1728-01-01");
   const [dateTo, setDateTo] = React.useState("1728-12-31");
   const [weekdaysChecked, setWeekdaysChecked] = React.useState<string[]>([]);
+  const [propositionTypesChecked, setPropositionTypesChecked] = React.useState<
+    string[]
+  >([]);
   const [facets, setFacets] = React.useState<FacetType[]>([]);
 
   React.useEffect(() => {
@@ -55,6 +73,7 @@ export const Search = () => {
   }, []);
 
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
+  const propositionTypes = facets.find((facet) => facet.propositionType);
 
   const doSearch = async (value: string) => {
     const searchQuery = {
@@ -72,6 +91,7 @@ export const Search = () => {
           {
             terms: {
               sessionWeekday: weekdaysChecked,
+              // propositionType: propositionTypesChecked,
             },
           },
           // {
@@ -139,6 +159,19 @@ export const Search = () => {
     });
   };
 
+  const propositionTypesCheckedHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    Object.keys(propositionTypes.propositionType).map((propositionType) => {
+      propositionType === event.currentTarget.value
+        ? setPropositionTypesChecked([
+            ...propositionTypesChecked,
+            propositionType,
+          ])
+        : propositionType;
+    });
+  };
+
   return (
     <>
       <div className="appContainer">
@@ -182,6 +215,20 @@ export const Search = () => {
                     value={weekday}
                     labelName={weekday}
                     onChange={weekdaysCheckedHandler}
+                  />
+                )
+              )}
+            <br />
+            {propositionTypes &&
+              Object.keys(propositionTypes.propositionType).map(
+                (propositionType, index) => (
+                  <CheckboxFacet
+                    key={index}
+                    id={propositionType}
+                    name="propositionTypes"
+                    value={propositionType}
+                    labelName={propositionType}
+                    onChange={propositionTypesCheckedHandler}
                   />
                 )
               )}

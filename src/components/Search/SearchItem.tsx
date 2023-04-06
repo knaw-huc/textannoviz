@@ -18,6 +18,9 @@ export const SearchItem = (props: SearchItemProps) => {
             {"-"}
             {props.result.sessionYear}
           </h3>
+          <h3>
+            {props.result.propositionType && props.result.propositionType}
+          </h3>
         </div>
       </Link>
       <ul className="searchItemTextPreview">
