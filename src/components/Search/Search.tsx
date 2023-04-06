@@ -75,6 +75,8 @@ export const Search = () => {
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
   const propositionTypes = facets.find((facet) => facet.propositionType);
 
+  console.log(weekdaysChecked, propositionTypesChecked);
+
   const doSearch = async (value: string) => {
     const searchQuery = {
       bool: {
@@ -152,24 +154,40 @@ export const Search = () => {
   const weekdaysCheckedHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    Object.keys(sessionWeekdays.sessionWeekday).map((weekday) => {
-      weekday === event.currentTarget.value
-        ? setWeekdaysChecked([...weekdaysChecked, weekday])
-        : weekday;
-    });
+    if (event.currentTarget.checked === false) {
+      setWeekdaysChecked(
+        weekdaysChecked.filter(
+          (weekday) => weekday !== event.currentTarget.value
+        )
+      );
+    } else {
+      Object.keys(sessionWeekdays.sessionWeekday).map((weekday) => {
+        weekday === event.currentTarget.value
+          ? setWeekdaysChecked([...weekdaysChecked, weekday])
+          : weekday;
+      });
+    }
   };
 
   const propositionTypesCheckedHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    Object.keys(propositionTypes.propositionType).map((propositionType) => {
-      propositionType === event.currentTarget.value
-        ? setPropositionTypesChecked([
-            ...propositionTypesChecked,
-            propositionType,
-          ])
-        : propositionType;
-    });
+    if (event.currentTarget.checked === false) {
+      setPropositionTypesChecked(
+        propositionTypesChecked.filter(
+          (propositionType) => propositionType !== event.currentTarget.value
+        )
+      );
+    } else {
+      Object.keys(propositionTypes.propositionType).map((propositionType) => {
+        propositionType === event.currentTarget.value
+          ? setPropositionTypesChecked([
+              ...propositionTypesChecked,
+              propositionType,
+            ])
+          : propositionType;
+      });
+    }
   };
 
   return (
