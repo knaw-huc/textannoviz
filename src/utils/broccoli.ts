@@ -105,3 +105,15 @@ export const sendSearchQuery = async (
 
   return data;
 };
+
+export const getFacets = async (projectConfig: ProjectConfig) => {
+  const response = await fetch(
+    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/facets`
+  );
+  if (!response.ok) {
+    const error = await response.json();
+    toast(`${error.message}`, { type: "error" });
+    return null;
+  }
+  return response.json();
+};
