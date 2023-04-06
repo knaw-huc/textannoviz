@@ -75,8 +75,6 @@ export const Search = () => {
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
   const propositionTypes = facets.find((facet) => facet.propositionType);
 
-  console.log(weekdaysChecked, propositionTypesChecked);
-
   const doSearch = async (value: string) => {
     const searchQuery = {
       bool: {
@@ -90,10 +88,14 @@ export const Search = () => {
               },
             },
           },
+          // {
+          //   terms: {
+          //     sessionWeekday: weekdaysChecked,
+          //   },
+          // },
           {
             terms: {
-              sessionWeekday: weekdaysChecked,
-              // propositionType: propositionTypesChecked,
+              propositionType: propositionTypesChecked,
             },
           },
           // {
