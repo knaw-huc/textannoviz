@@ -88,7 +88,7 @@ export const sendSearchQuery = async (
       method: "POST",
       headers: headers,
       body: JSON.stringify(searchQuery),
-    }
+    } //TODO: ADD PROJECTCONFIG
   );
 
   console.log(response);
@@ -106,10 +106,8 @@ export const sendSearchQuery = async (
   return data;
 };
 
-export const getFacets = async (projectConfig: ProjectConfig) => {
-  const response = await fetch(
-    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/facets`
-  );
+export const getFacets = async () => {
+  const response = await fetch(`${HOSTS.BROCCOLI}/brinta/republic/facets`); //TODO: ADD PROJECTCONFIG
   if (!response.ok) {
     const error = await response.json();
     toast(`${error.message}`, { type: "error" });
