@@ -93,11 +93,11 @@ export const Search = () => {
           //     sessionWeekday: weekdaysChecked,
           //   },
           // },
-          {
-            terms: {
-              propositionType: propositionTypesChecked,
-            },
-          },
+          // {
+          //   terms: {
+          //     propositionType: propositionTypesChecked,
+          //   },
+          // },
           // {
           //   term: {
           //     bodyType: {
@@ -106,16 +106,20 @@ export const Search = () => {
           //     },
           //   },
           // },
-          {
-            match_phrase_prefix: {
-              text: `${value}`,
-            },
-          },
+          // {
+          //   match_phrase_prefix: {
+          //     text: `${value}`,
+          //   },
+          // },
         ],
       },
     };
 
-    const data = await sendSearchQuery(searchQuery, fragmenter, 10);
+    const sort = {
+      sessionDate: { order: "asc" },
+    };
+
+    const data = await sendSearchQuery(searchQuery, fragmenter, 100, 0, sort);
 
     setResults(data);
   };
