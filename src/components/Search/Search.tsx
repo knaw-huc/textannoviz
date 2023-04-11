@@ -93,11 +93,11 @@ export const Search = () => {
           //     sessionWeekday: weekdaysChecked,
           //   },
           // },
-          // {
-          //   terms: {
-          //     propositionType: propositionTypesChecked,
-          //   },
-          // },
+          {
+            terms: {
+              propositionType: propositionTypesChecked,
+            },
+          },
           // {
           //   term: {
           //     bodyType: {
@@ -106,11 +106,11 @@ export const Search = () => {
           //     },
           //   },
           // },
-          // {
-          //   match_phrase_prefix: {
-          //     text: `${value}`,
-          //   },
-          // },
+          {
+            match_phrase_prefix: {
+              text: `${value}`,
+            },
+          },
         ],
       },
     };
@@ -119,7 +119,7 @@ export const Search = () => {
       sessionDate: { order: "asc" },
     };
 
-    const data = await sendSearchQuery(searchQuery, fragmenter, 100, 0, sort);
+    const data = await sendSearchQuery(searchQuery, fragmenter, 10, 0, sort);
 
     setResults(data);
   };
@@ -128,7 +128,9 @@ export const Search = () => {
     doSearch(value);
   };
 
-  const selectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const fragmenterSelectHandler = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
   };
@@ -203,7 +205,7 @@ export const Search = () => {
           <div className="searchFacets">
             <FullTextFacet valueHandler={handleFullTextFacet} />
             <label>Fragmenter </label>
-            <select onChange={selectHandler}>
+            <select onChange={fragmenterSelectHandler}>
               <option>Scan</option>
               <option>Sentence</option>
               <option>None</option>
