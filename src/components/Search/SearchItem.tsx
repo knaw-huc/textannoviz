@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import { SearchResult } from "../../model/Search";
+import { SearchResultBody } from "../../model/Search";
 
 interface SearchItemProps {
-  result: SearchResult;
+  result: SearchResultBody;
 }
 
 export const SearchItem = (props: SearchItemProps) => {
   return (
     <div className="searchItem">
-      <Link to={`/detail/${props.result.bodyId}`}>
+      <Link to={`/detail/${props.result._id}`}>
         <div className="searchItemTitle">
           <h3>{props.result.bodyType}</h3>
           <h3>
@@ -24,8 +24,8 @@ export const SearchItem = (props: SearchItemProps) => {
         </div>
       </Link>
       <ul className="searchItemTextPreview">
-        {props.result.hits &&
-          props.result.hits.map((hit, key) => (
+        {props.result._hits &&
+          props.result._hits.map((hit, key) => (
             <li
               key={key}
               dangerouslySetInnerHTML={{ __html: hit.preview }}

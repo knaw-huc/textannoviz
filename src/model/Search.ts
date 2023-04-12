@@ -3,27 +3,29 @@ export interface SearchResult {
     value: number;
     relation: string;
   };
-  results: {
-    _id: string;
-    bodyType: string;
-    sessionDate: string;
-    sessionDay: number;
-    sessionMonth: number;
-    sessionYear: number;
-    sessionWeekday: string;
-    propositionType: string;
-    _hits: {
-      preview: string;
-      locations: {
-        start: {
-          line: number;
-          offset: number;
-        };
-        end: {
-          line: number;
-          offset: number;
-        };
-      }[];
+  results: SearchResultBody[];
+}
+
+export interface SearchResultBody {
+  _id: string;
+  bodyType: string;
+  sessionDate: string;
+  sessionDay: number;
+  sessionMonth: number;
+  sessionYear: number;
+  sessionWeekday: string;
+  propositionType: string;
+  _hits: {
+    preview: string;
+    locations: {
+      start: {
+        line: number;
+        offset: number;
+      };
+      end: {
+        line: number;
+        offset: number;
+      };
     }[];
   }[];
 }

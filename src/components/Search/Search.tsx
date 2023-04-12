@@ -2,8 +2,7 @@ import React from "react";
 import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions";
 import { ProjectConfig } from "../../model/ProjectConfig";
-import { FacetType } from "../../model/Search";
-import { useProjectStore } from "../../stores/project";
+import { FacetType, SearchResult } from "../../model/Search";
 import { getFacets, sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
@@ -13,9 +12,7 @@ interface SearchProps {
 }
 
 export const Search = (props: SearchProps) => {
-  const setProjectName = useProjectStore((state) => state.setProjectName);
-  const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
-  const [results, setResults] = React.useState([]);
+  const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState("1728-01-01");
   const [dateTo, setDateTo] = React.useState("1728-12-31");
@@ -24,9 +21,6 @@ export const Search = (props: SearchProps) => {
     string[]
   >([]);
   const [facets, setFacets] = React.useState<FacetType[]>([]);
-
-  setProjectName(props.project);
-  setProjectConfig(props.projectConfig);
 
   React.useEffect(() => {
     getFacets(props.projectConfig).then((data) => {
@@ -90,7 +84,7 @@ export const Search = (props: SearchProps) => {
       props.projectConfig
     );
 
-    setResults(data);
+    setSearchResults(data);
   };
 
   const handleFullTextFacet = (value: string) => {
@@ -229,8 +223,9 @@ export const Search = (props: SearchProps) => {
               )}
           </div>
           <div className="searchResults">
-            {results && results.length >= 1
-              ? results.map((result, index) => (
+            {searchResults && `${searchResults.total.value} results`}
+            {searchResults && searchResults.results.length >= 1
+              ? searchResults.results.map((result, index) => (
                   <SearchItem key={index} result={result} />
                 ))
               : "No results"}
