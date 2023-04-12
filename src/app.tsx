@@ -13,7 +13,7 @@ const router = createBrowserRouter(
   config.createRouter(
     <Home project={project} config={config} />,
     <Detail project={project} config={config} />,
-    <Search />,
+    <Search project={project} projectConfig={config} />,
     <ErrorPage />
   )
 );

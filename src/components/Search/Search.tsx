@@ -1,11 +1,20 @@
 import React from "react";
 import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions";
+import { ProjectConfig } from "../../model/ProjectConfig";
 import { FacetType } from "../../model/Search";
+import { useProjectStore } from "../../stores/project";
 import { getFacets, sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
-export const Search = () => {
+interface SearchProps {
+  project: string;
+  projectConfig: ProjectConfig;
+}
+
+export const Search = (props: SearchProps) => {
+  const setProjectName = useProjectStore((state) => state.setProjectName);
+  const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
   const [results, setResults] = React.useState([]);
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState("1728-01-01");
@@ -16,11 +25,14 @@ export const Search = () => {
   >([]);
   const [facets, setFacets] = React.useState<FacetType[]>([]);
 
+  setProjectName(props.project);
+  setProjectConfig(props.projectConfig);
+
   React.useEffect(() => {
-    getFacets().then((data) => {
+    getFacets(props.projectConfig).then((data) => {
       setFacets(data);
     });
-  }, []);
+  }, [props.projectConfig]);
 
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
   const propositionTypes = facets.find((facet) => facet.propositionType);
@@ -69,7 +81,14 @@ export const Search = () => {
       sessionDate: { order: "asc" },
     };
 
-    const data = await sendSearchQuery(searchQuery, fragmenter, 10, 0, sort);
+    const data = await sendSearchQuery(
+      searchQuery,
+      fragmenter,
+      10,
+      0,
+      sort,
+      props.projectConfig
+    );
 
     setResults(data);
   };
