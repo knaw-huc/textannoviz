@@ -1,59 +1,9 @@
 import React from "react";
 import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions";
+import { FacetType } from "../../model/Search";
 import { getFacets, sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
-
-export interface mockDataType {
-  bodyId: string;
-  bodyType: string;
-  sessionDate: string;
-  sessionDay: number;
-  sessionMonth: number;
-  sessionYear: number;
-  sessionWeekday: string;
-  propositionType: string;
-  hits: {
-    preview: string;
-    locations: {
-      start: {
-        line: number;
-        offset: number;
-      };
-      end: {
-        line: number;
-        offset: number;
-      };
-    }[];
-  }[];
-}
-[];
-
-interface FacetType {
-  sessionWeekday: {
-    Veneris: number;
-    Lunae: number;
-    Martis: number;
-    Jovis: number;
-    Sabbathi: number;
-    Mercurii: number;
-  };
-  propositionType: {
-    missive: number;
-    requeste: number;
-    rapport: number;
-    memorie: number;
-    resolutie: number;
-    onbekend: number;
-    oraal: number;
-    voordracht: number;
-    rekening: number;
-    declaratie: number;
-    advies: number;
-    conclusie: number;
-    instructie: number;
-  };
-}
 
 export const Search = () => {
   const [results, setResults] = React.useState([]);

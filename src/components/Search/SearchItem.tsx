@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { mockDataType } from "./Search";
+import { SearchResult } from "../../model/Search";
 
 interface SearchItemProps {
-  result: mockDataType;
+  result: SearchResult;
 }
 
 export const SearchItem = (props: SearchItemProps) => {
