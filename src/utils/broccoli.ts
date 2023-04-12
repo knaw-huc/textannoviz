@@ -81,7 +81,8 @@ export const sendSearchQuery = async (
   fragParam: string,
   sizeParam: number,
   fromParam = 0,
-  sortParam: any
+  sortParam: any,
+  projectConfig: ProjectConfig
 ) => {
   const params = new URLSearchParams({
     frag: fragParam,
@@ -91,12 +92,12 @@ export const sendSearchQuery = async (
   });
 
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/republic/search?${params}`,
+    `${HOSTS.BROCCOLI}/projects/${projectConfig.id}/search?${params}`,
     {
       method: "POST",
       headers: headers,
       body: JSON.stringify(searchQuery),
-    } //TODO: ADD PROJECTCONFIG
+    }
   );
 
   console.log(response);
@@ -114,8 +115,10 @@ export const sendSearchQuery = async (
   return data;
 };
 
-export const getFacets = async () => {
-  const response = await fetch(`${HOSTS.BROCCOLI}/brinta/republic/facets`); //TODO: ADD PROJECTCONFIG
+export const getFacets = async (projectConfig: ProjectConfig) => {
+  const response = await fetch(
+    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/facets`
+  );
   if (!response.ok) {
     const error = await response.json();
     toast(`${error.message}`, { type: "error" });
