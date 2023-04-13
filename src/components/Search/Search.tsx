@@ -21,12 +21,18 @@ export const Search = (props: SearchProps) => {
     string[]
   >([]);
   const [facets, setFacets] = React.useState<FacetType[]>([]);
+  const [query, setQuery] = React.useState<any>();
+  const [pageNumber, setPageNumber] = React.useState(1);
+  const [elasticSize, setElasticSize] = React.useState(10);
+  const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
 
   React.useEffect(() => {
     getFacets(props.projectConfig).then((data) => {
       setFacets(data);
     });
   }, [props.projectConfig]);
+
+  console.log(elasticFrom);
 
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
   const propositionTypes = facets.find((facet) => facet.propositionType);
@@ -49,11 +55,11 @@ export const Search = (props: SearchProps) => {
           //     sessionWeekday: weekdaysChecked,
           //   },
           // },
-          {
-            terms: {
-              propositionType: propositionTypesChecked,
-            },
-          },
+          // {
+          //   terms: {
+          //     propositionType: propositionTypesChecked,
+          //   },
+          // },
           // {
           //   term: {
           //     bodyType: {
@@ -75,16 +81,20 @@ export const Search = (props: SearchProps) => {
       sessionDate: { order: "asc" },
     };
 
+    setQuery(searchQuery);
+
     const data = await sendSearchQuery(
       searchQuery,
       fragmenter,
-      10,
+      elasticSize,
       0,
       sort,
       props.projectConfig
     );
 
     setSearchResults(data);
+    setElasticFrom(elasticSize);
+    setPageNumber(1);
   };
 
   const handleFullTextFacet = (value: string) => {
@@ -161,6 +171,57 @@ export const Search = (props: SearchProps) => {
     }
   };
 
+  async function prevPageClickHandler() {
+    setElasticFrom((prevNumber) => prevNumber - elasticSize);
+    setPageNumber((prevPageNumber) => prevPageNumber - 1);
+    const sort = {
+      sessionDate: { order: "asc" },
+    };
+
+    const data = await sendSearchQuery(
+      query,
+      fragmenter,
+      elasticSize,
+      elasticFrom,
+      sort,
+      props.projectConfig
+    );
+
+    // const target = document.getElementsByClassName("searchContainer")[0];
+    // target.scrollIntoView({ behavior: "smooth" });
+
+    setSearchResults(data);
+  }
+
+  async function nextPageClickHandler() {
+    if (searchResults.total.value < elasticFrom) return;
+    setElasticFrom((prevNumber) => prevNumber + elasticSize);
+    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+    const sort = {
+      sessionDate: { order: "asc" },
+    };
+    const data = await sendSearchQuery(
+      query,
+      fragmenter,
+      elasticSize,
+      elasticFrom,
+      sort,
+      props.projectConfig
+    );
+
+    // const target = document.getElementsByClassName("searchContainer")[0];
+    // target.scrollIntoView({ behavior: "smooth" });
+
+    setSearchResults(data);
+  }
+
+  const resultsPerPageSelectHandler = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (event.currentTarget.value === "") return;
+    setElasticSize(parseInt(event.currentTarget.value));
+  };
+
   return (
     <>
       <div className="appContainer">
@@ -223,12 +284,33 @@ export const Search = (props: SearchProps) => {
               )}
           </div>
           <div className="searchResults">
-            {searchResults && `${searchResults.total.value} results`}
+            {searchResults &&
+              `Showing ${elasticFrom - elasticSize + 1}-${elasticFrom} of ${
+                searchResults.total.value
+              } results`}
+            <div>
+              Results per page
+              <select onChange={resultsPerPageSelectHandler} defaultValue={10}>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
             {searchResults && searchResults.results.length >= 1
               ? searchResults.results.map((result, index) => (
                   <SearchItem key={index} result={result} />
                 ))
               : "No results"}
+            {searchResults && (
+              <div className="searchPagination">
+                <button onClick={prevPageClickHandler}>Prev</button>
+                {`Page: ${pageNumber} of ${Math.ceil(
+                  searchResults.total.value / elasticSize
+                )}`}
+                <button onClick={nextPageClickHandler}>Next</button>
+              </div>
+            )}
           </div>
         </div>
       </div>
