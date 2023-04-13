@@ -32,8 +32,6 @@ export const Search = (props: SearchProps) => {
     });
   }, [props.projectConfig]);
 
-  console.log(elasticFrom);
-
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
   const propositionTypes = facets.find((facet) => facet.propositionType);
 
