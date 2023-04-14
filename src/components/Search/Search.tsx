@@ -171,6 +171,7 @@ export const Search = (props: SearchProps) => {
 
   async function prevPageClickHandler() {
     setElasticFrom((prevNumber) => prevNumber - elasticSize);
+    const from = elasticFrom - elasticSize * 2;
     setPageNumber((prevPageNumber) => prevPageNumber - 1);
     const sort = {
       sessionDate: { order: "asc" },
@@ -180,7 +181,7 @@ export const Search = (props: SearchProps) => {
       query,
       fragmenter,
       elasticSize,
-      elasticFrom,
+      from,
       sort,
       props.projectConfig
     );
@@ -219,6 +220,32 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "") return;
     setElasticSize(parseInt(event.currentTarget.value));
   };
+
+  async function jumpToPageHandler(
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) {
+    setElasticFrom(parseInt(event.currentTarget.value) * elasticSize);
+    const from =
+      parseInt(event.currentTarget.value) * elasticSize - elasticSize;
+    setPageNumber(parseInt(event.currentTarget.value));
+
+    const sort = {
+      sessionDate: { order: "asc" },
+    };
+    const data = await sendSearchQuery(
+      query,
+      fragmenter,
+      elasticSize,
+      from,
+      sort,
+      props.projectConfig
+    );
+
+    // const target = document.getElementsByClassName("searchContainer")[0];
+    // target.scrollIntoView({ behavior: "smooth" });
+
+    setSearchResults(data);
+  }
 
   return (
     <>
@@ -309,6 +336,20 @@ export const Search = (props: SearchProps) => {
                 {`Page: ${pageNumber} of ${Math.ceil(
                   searchResults.total.value / elasticSize
                 )}`}
+                <select onChange={jumpToPageHandler} value={pageNumber}>
+                  {Array.from(
+                    {
+                      length: Math.ceil(
+                        searchResults.total.value / elasticSize
+                      ),
+                    },
+                    (_, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        {i + 1}
+                      </option>
+                    )
+                  )}
+                </select>
                 <button onClick={nextPageClickHandler}>Next</button>
               </div>
             )}
