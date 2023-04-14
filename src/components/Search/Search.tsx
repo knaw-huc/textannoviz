@@ -25,6 +25,9 @@ export const Search = (props: SearchProps) => {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
+  const [sort, setSort] = React.useState({
+    sessionDate: { order: "asc" },
+  });
 
   React.useEffect(() => {
     getFacets(props.projectConfig).then((data) => {
@@ -73,10 +76,6 @@ export const Search = (props: SearchProps) => {
           },
         ],
       },
-    };
-
-    const sort = {
-      sessionDate: { order: "asc" },
     };
 
     setQuery(searchQuery);
@@ -173,9 +172,6 @@ export const Search = (props: SearchProps) => {
     setElasticFrom((prevNumber) => prevNumber - elasticSize);
     const from = elasticFrom - elasticSize * 2;
     setPageNumber((prevPageNumber) => prevPageNumber - 1);
-    const sort = {
-      sessionDate: { order: "asc" },
-    };
 
     const data = await sendSearchQuery(
       query,
@@ -196,9 +192,6 @@ export const Search = (props: SearchProps) => {
     if (searchResults.total.value < elasticFrom) return;
     setElasticFrom((prevNumber) => prevNumber + elasticSize);
     setPageNumber((prevPageNumber) => prevPageNumber + 1);
-    const sort = {
-      sessionDate: { order: "asc" },
-    };
     const data = await sendSearchQuery(
       query,
       fragmenter,
@@ -229,9 +222,6 @@ export const Search = (props: SearchProps) => {
       parseInt(event.currentTarget.value) * elasticSize - elasticSize;
     setPageNumber(parseInt(event.currentTarget.value));
 
-    const sort = {
-      sessionDate: { order: "asc" },
-    };
     const data = await sendSearchQuery(
       query,
       fragmenter,
