@@ -84,6 +84,12 @@ a {
   margin-bottom: 20px;
 }
 
+.searchPagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 em {
   font-weight: bold;
   font-style: normal;
