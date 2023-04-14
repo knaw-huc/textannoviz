@@ -234,7 +234,7 @@ export const Search = (props: SearchProps) => {
             </select>{" "}
             <br />
             <br />
-            <label>From</label>
+            <h4>From</h4>
             <DateFacet
               className={"calendarFrom"}
               onChange={calendarFromChangeHandler}
@@ -244,7 +244,7 @@ export const Search = (props: SearchProps) => {
               maxDate={new Date(1728, 11, 31)}
             />{" "}
             <br />
-            <label>To</label>
+            <h4>To</h4>
             <DateFacet
               className={"calendarTo"}
               onChange={calendarToChangeHandler}
@@ -253,9 +253,10 @@ export const Search = (props: SearchProps) => {
               minDate={new Date(1728, 0, 1)}
               maxDate={new Date(1728, 11, 31)}
             />
+            <h4>Session weekdays</h4>
             {sessionWeekdays &&
-              Object.keys(sessionWeekdays.sessionWeekday).map(
-                (weekday, index) => (
+              Object.entries(sessionWeekdays.sessionWeekday).map(
+                ([weekday, amount], index) => (
                   <CheckboxFacet
                     key={index}
                     id={weekday}
@@ -263,13 +264,14 @@ export const Search = (props: SearchProps) => {
                     value={weekday}
                     labelName={weekday}
                     onChange={weekdaysCheckedHandler}
+                    amount={amount}
                   />
                 )
               )}
-            <br />
+            <h4>Proposition types</h4>
             {propositionTypes &&
-              Object.keys(propositionTypes.propositionType).map(
-                (propositionType, index) => (
+              Object.entries(propositionTypes.propositionType).map(
+                ([propositionType, amount], index) => (
                   <CheckboxFacet
                     key={index}
                     id={propositionType}
@@ -277,6 +279,7 @@ export const Search = (props: SearchProps) => {
                     value={propositionType}
                     labelName={propositionType}
                     onChange={propositionTypesCheckedHandler}
+                    amount={amount}
                   />
                 )
               )}
