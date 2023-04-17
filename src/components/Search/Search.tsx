@@ -20,6 +20,7 @@ export const Search = (props: SearchProps) => {
   const [propositionTypesChecked, setPropositionTypesChecked] = React.useState<
     string[]
   >([]);
+  const [bodyTypesChecked, setBodyTypesChecked] = React.useState<string[]>([]);
   const [facets, setFacets] = React.useState<FacetType[]>([]);
   const [query, setQuery] = React.useState<any>();
   const [pageNumber, setPageNumber] = React.useState(1);
@@ -37,6 +38,7 @@ export const Search = (props: SearchProps) => {
 
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
   const propositionTypes = facets.find((facet) => facet.propositionType);
+  const bodyTypes = facets.find((facet) => facet.bodyType);
 
   const doSearch = async (value: string) => {
     const searchQuery = {
@@ -69,6 +71,11 @@ export const Search = (props: SearchProps) => {
           //     },
           //   },
           // },
+          {
+            terms: {
+              bodyType: bodyTypesChecked,
+            },
+          },
           {
             match_phrase_prefix: {
               text: `${value}`,
@@ -237,6 +244,22 @@ export const Search = (props: SearchProps) => {
     setSearchResults(data);
   }
 
+  function bodyTypesCheckedHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.currentTarget.checked === false) {
+      setBodyTypesChecked(
+        bodyTypesChecked.filter(
+          (bodyType) => bodyType !== event.currentTarget.value
+        )
+      );
+    } else {
+      Object.keys(bodyTypes.bodyType).map((bodyType) => {
+        bodyType === event.currentTarget.value
+          ? setBodyTypesChecked([...bodyTypesChecked, bodyType])
+          : bodyType;
+      });
+    }
+  }
+
   return (
     <>
       <div className="appContainer">
@@ -250,7 +273,21 @@ export const Search = (props: SearchProps) => {
               <option>None</option>
             </select>{" "}
             <br />
-            <br />
+            <h4>Types</h4>
+            {bodyTypes &&
+              Object.entries(bodyTypes.bodyType).map(
+                ([bodyType, amount], index) => (
+                  <CheckboxFacet
+                    key={index}
+                    id={bodyType}
+                    name="bodyTypes"
+                    value={bodyType}
+                    labelName={bodyType}
+                    onChange={bodyTypesCheckedHandler}
+                    amount={amount}
+                  />
+                )
+              )}
             <h4>From</h4>
             <DateFacet
               className={"calendarFrom"}
