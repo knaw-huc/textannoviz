@@ -265,7 +265,9 @@ export const Search = (props: SearchProps) => {
       <div className="appContainer">
         <div className="searchContainer">
           <div className="searchFacets">
+            <h4>Text search</h4>
             <FullTextFacet valueHandler={handleFullTextFacet} />
+            <br />
             <label>Fragmenter </label>
             <select onChange={fragmenterSelectHandler}>
               <option>Scan</option>

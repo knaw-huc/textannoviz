@@ -96,15 +96,20 @@ em {
   background-color: yellow;
 }
 
-.hcFacet {
-  margin-bottom: 1rem;
+.searchFacet {
+  margin-bottom: 0.5rem;
   max-width: 250px;
 }
 
-.hcFacetTitle {
+.checkboxFacet {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+}
+
+.searchFacetSmallText {
+  color: #666;
+  font-size: 0.9rem;
+  margin-left: 0.5em;
 }
 
 .hcFacetSearch {
