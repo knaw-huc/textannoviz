@@ -80,7 +80,7 @@ a {
   padding: 0;
 }
 
-.searchItemTextPreview > li {
+.searchItemTextPreview li {
   margin-bottom: 20px;
 }
 
@@ -109,6 +109,16 @@ em {
 .searchFacetSmallText {
   color: #666;
   font-size: 0.9rem;
+  margin-left: 0.5em;
+}
+
+.searchResultsHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.searchResultsPerPage select {
   margin-left: 0.5em;
 }
 

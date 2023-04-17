@@ -71,11 +71,11 @@ export const Search = (props: SearchProps) => {
           //     },
           //   },
           // },
-          {
-            terms: {
-              bodyType: bodyTypesChecked,
-            },
-          },
+          // {
+          //   terms: {
+          //     bodyType: bodyTypesChecked,
+          //   },
+          // },
           {
             match_phrase_prefix: {
               text: `${value}`,
@@ -353,18 +353,25 @@ export const Search = (props: SearchProps) => {
             </div>
           </div>
           <div className="searchResults">
-            {searchResults &&
-              `Showing ${elasticFrom - elasticSize + 1}-${elasticFrom} of ${
-                searchResults.total.value
-              } results`}
-            <div>
-              Results per page
-              <select onChange={resultsPerPageSelectHandler} defaultValue={10}>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
+            <div className="searchResultsHeader">
+              <div>
+                {searchResults &&
+                  `Showing ${elasticFrom - elasticSize + 1}-${elasticFrom} of ${
+                    searchResults.total.value
+                  } results`}
+              </div>
+              <div className="searchResultsPerPage">
+                Results per page
+                <select
+                  onChange={resultsPerPageSelectHandler}
+                  defaultValue={10}
+                >
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+              </div>
             </div>
             {searchResults && searchResults.results.length >= 1
               ? searchResults.results.map((result, index) => (
