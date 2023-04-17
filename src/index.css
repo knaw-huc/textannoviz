@@ -113,9 +113,11 @@ em {
 }
 
 .searchResultsHeader {
+  background-color: #f6f6f6;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 2em;
 }
 
 .searchResultsPerPage select {
