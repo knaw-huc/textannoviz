@@ -265,8 +265,10 @@ export const Search = (props: SearchProps) => {
       <div className="appContainer">
         <div className="searchContainer">
           <div className="searchFacets">
-            <h4>Text search</h4>
-            <FullTextFacet valueHandler={handleFullTextFacet} />
+            <div className="searchFacet">
+              <h4>Text search</h4>
+              <FullTextFacet valueHandler={handleFullTextFacet} />
+            </div>
             <br />
             <label>Fragmenter </label>
             <select onChange={fragmenterSelectHandler}>
@@ -275,70 +277,80 @@ export const Search = (props: SearchProps) => {
               <option>None</option>
             </select>{" "}
             <br />
-            <h4>Type</h4>
-            {bodyTypes &&
-              Object.entries(bodyTypes.bodyType).map(
-                ([bodyType, amount], index) => (
-                  <CheckboxFacet
-                    key={index}
-                    id={bodyType}
-                    name="bodyTypes"
-                    value={bodyType}
-                    labelName={bodyType}
-                    onChange={bodyTypesCheckedHandler}
-                    amount={amount}
-                  />
-                )
-              )}
-            <h4>From</h4>
-            <DateFacet
-              className={"calendarFrom"}
-              onChange={calendarFromChangeHandler}
-              defaultActiveStartDate={new Date(1728, 0, 1)}
-              defaultValue={new Date(1728, 0, 1)}
-              minDate={new Date(1728, 0, 1)}
-              maxDate={new Date(1728, 11, 31)}
-            />{" "}
+            <div className="searchFacet">
+              <h4>Type</h4>
+              {bodyTypes &&
+                Object.entries(bodyTypes.bodyType).map(
+                  ([bodyType, amount], index) => (
+                    <CheckboxFacet
+                      key={index}
+                      id={`${bodyType}-${index}`}
+                      name="bodyTypes"
+                      value={bodyType}
+                      labelName={bodyType}
+                      onChange={bodyTypesCheckedHandler}
+                      amount={amount}
+                    />
+                  )
+                )}
+            </div>
+            <div className="searchFacet">
+              <h4>From</h4>
+              <DateFacet
+                className={"calendarFrom"}
+                onChange={calendarFromChangeHandler}
+                defaultActiveStartDate={new Date(1728, 0, 1)}
+                defaultValue={new Date(1728, 0, 1)}
+                minDate={new Date(1728, 0, 1)}
+                maxDate={new Date(1728, 11, 31)}
+              />{" "}
+            </div>
             <br />
-            <h4>To</h4>
-            <DateFacet
-              className={"calendarTo"}
-              onChange={calendarToChangeHandler}
-              defaultActiveStartDate={new Date(1728, 11, 31)}
-              defaultValue={new Date(1728, 11, 31)}
-              minDate={new Date(1728, 0, 1)}
-              maxDate={new Date(1728, 11, 31)}
-            />
-            <h4>Session weekday</h4>
-            {sessionWeekdays &&
-              Object.entries(sessionWeekdays.sessionWeekday).map(
-                ([weekday, amount], index) => (
-                  <CheckboxFacet
-                    key={index}
-                    id={weekday}
-                    name="weekdays"
-                    value={weekday}
-                    labelName={weekday}
-                    onChange={weekdaysCheckedHandler}
-                    amount={amount}
-                  />
-                )
-              )}
-            <h4>Proposition type</h4>
-            {propositionTypes &&
-              Object.entries(propositionTypes.propositionType).map(
-                ([propositionType, amount], index) => (
-                  <CheckboxFacet
-                    key={index}
-                    id={propositionType}
-                    name="propositionTypes"
-                    value={propositionType}
-                    labelName={propositionType}
-                    onChange={propositionTypesCheckedHandler}
-                    amount={amount}
-                  />
-                )
-              )}
+            <div className="searchFacet">
+              <h4>To</h4>
+              <DateFacet
+                className={"calendarTo"}
+                onChange={calendarToChangeHandler}
+                defaultActiveStartDate={new Date(1728, 11, 31)}
+                defaultValue={new Date(1728, 11, 31)}
+                minDate={new Date(1728, 0, 1)}
+                maxDate={new Date(1728, 11, 31)}
+              />
+            </div>
+            <div className="searchFacet">
+              <h4>Session weekday</h4>
+              {sessionWeekdays &&
+                Object.entries(sessionWeekdays.sessionWeekday).map(
+                  ([weekday, amount], index) => (
+                    <CheckboxFacet
+                      key={index}
+                      id={`${weekday}-${index}`}
+                      name="weekdays"
+                      value={weekday}
+                      labelName={weekday}
+                      onChange={weekdaysCheckedHandler}
+                      amount={amount}
+                    />
+                  )
+                )}
+            </div>
+            <div className="searchFacet">
+              <h4>Proposition type</h4>
+              {propositionTypes &&
+                Object.entries(propositionTypes.propositionType).map(
+                  ([propositionType, amount], index) => (
+                    <CheckboxFacet
+                      key={index}
+                      id={`${propositionType}-${index}`}
+                      name="propositionTypes"
+                      value={propositionType}
+                      labelName={propositionType}
+                      onChange={propositionTypesCheckedHandler}
+                      amount={amount}
+                    />
+                  )
+                )}
+            </div>
           </div>
           <div className="searchResults">
             {searchResults &&
