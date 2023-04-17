@@ -266,19 +266,19 @@ export const Search = (props: SearchProps) => {
         <div className="searchContainer">
           <div className="searchFacets">
             <div className="searchFacet">
-              <h4>Text search</h4>
+              <div className="searchFacetTitle">Text search</div>
               <FullTextFacet valueHandler={handleFullTextFacet} />
             </div>
-            <br />
-            <label>Fragmenter </label>
-            <select onChange={fragmenterSelectHandler}>
-              <option>Scan</option>
-              <option>Sentence</option>
-              <option>None</option>
-            </select>{" "}
-            <br />
             <div className="searchFacet">
-              <h4>Type</h4>
+              <label>Fragmenter </label>
+              <select onChange={fragmenterSelectHandler}>
+                <option>Scan</option>
+                <option>Sentence</option>
+                <option>None</option>
+              </select>
+            </div>
+            <div className="searchFacet">
+              <div className="searchFacetTitle">Type</div>
               {bodyTypes &&
                 Object.entries(bodyTypes.bodyType).map(
                   ([bodyType, amount], index) => (
@@ -295,7 +295,7 @@ export const Search = (props: SearchProps) => {
                 )}
             </div>
             <div className="searchFacet">
-              <h4>From</h4>
+              <div className="searchFacetTitle">From</div>
               <DateFacet
                 className={"calendarFrom"}
                 onChange={calendarFromChangeHandler}
@@ -305,9 +305,8 @@ export const Search = (props: SearchProps) => {
                 maxDate={new Date(1728, 11, 31)}
               />{" "}
             </div>
-            <br />
             <div className="searchFacet">
-              <h4>To</h4>
+              <div className="searchFacetTitle">To</div>
               <DateFacet
                 className={"calendarTo"}
                 onChange={calendarToChangeHandler}
@@ -318,7 +317,7 @@ export const Search = (props: SearchProps) => {
               />
             </div>
             <div className="searchFacet">
-              <h4>Session weekday</h4>
+              <div className="searchFacetTitle">Session weekday</div>
               {sessionWeekdays &&
                 Object.entries(sessionWeekdays.sessionWeekday).map(
                   ([weekday, amount], index) => (
@@ -335,7 +334,7 @@ export const Search = (props: SearchProps) => {
                 )}
             </div>
             <div className="searchFacet">
-              <h4>Proposition type</h4>
+              <div className="searchFacetTitle">Proposition type</div>
               {propositionTypes &&
                 Object.entries(propositionTypes.propositionType).map(
                   ([propositionType, amount], index) => (
