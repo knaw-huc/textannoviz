@@ -273,7 +273,7 @@ export const Search = (props: SearchProps) => {
               <option>None</option>
             </select>{" "}
             <br />
-            <h4>Types</h4>
+            <h4>Type</h4>
             {bodyTypes &&
               Object.entries(bodyTypes.bodyType).map(
                 ([bodyType, amount], index) => (
@@ -307,7 +307,7 @@ export const Search = (props: SearchProps) => {
               minDate={new Date(1728, 0, 1)}
               maxDate={new Date(1728, 11, 31)}
             />
-            <h4>Session weekdays</h4>
+            <h4>Session weekday</h4>
             {sessionWeekdays &&
               Object.entries(sessionWeekdays.sessionWeekday).map(
                 ([weekday, amount], index) => (
@@ -322,7 +322,7 @@ export const Search = (props: SearchProps) => {
                   />
                 )
               )}
-            <h4>Proposition types</h4>
+            <h4>Proposition type</h4>
             {propositionTypes &&
               Object.entries(propositionTypes.propositionType).map(
                 ([propositionType, amount], index) => (
