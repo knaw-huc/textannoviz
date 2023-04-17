@@ -31,6 +31,10 @@ export interface SearchResultBody {
 }
 
 export interface FacetType {
+  bodyType: {
+    Resolution: number;
+    AttendanceList: number;
+  };
   sessionWeekday: {
     Veneris: number;
     Lunae: number;
