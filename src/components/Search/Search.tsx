@@ -26,9 +26,7 @@ export const Search = (props: SearchProps) => {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
-  const [sort, setSort] = React.useState({
-    sessionDate: { order: "asc" },
-  });
+  const [sort, setSort] = React.useState("_score");
 
   React.useEffect(() => {
     getFacets(props.projectConfig).then((data) => {
@@ -44,15 +42,15 @@ export const Search = (props: SearchProps) => {
     const searchQuery = {
       bool: {
         must: [
-          {
-            range: {
-              sessionDate: {
-                relation: "within",
-                gte: `${dateFrom}`,
-                lte: `${dateTo}`,
-              },
-            },
-          },
+          // {
+          //   range: {
+          //     sessionDate: {
+          //       relation: "within",
+          //       gte: `${dateFrom}`,
+          //       lte: `${dateTo}`,
+          //     },
+          //   },
+          // },
           // {
           //   terms: {
           //     sessionWeekday: weekdaysChecked,

@@ -59,22 +59,20 @@ export function TextHighlighting(props: TextHighlightingProps) {
     <div id="textcontainer">
       {textLinesToDisplay.map((line, key) => (
         <div key={key} className={`textLines-${projectName}`}>
-          {classes.size >= 1 ? (
-            line.map((token, index) => (
-              <span
-                key={index}
-                className={
-                  props.highlightedLines.includes(index + offset)
-                    ? classes.get(index + offset).join(" ") + " highlighted"
-                    : classes.get(index + offset).join(" ")
-                }
-              >
-                {token}
-              </span>
-            ))
-          ) : (
-            <span>{textLinesToDisplay.join("\n")}</span>
-          )}
+          {classes.size >= 1
+            ? line.map((token, index) => (
+                <span
+                  key={index}
+                  className={
+                    props.highlightedLines.includes(index + offset)
+                      ? classes.get(index + offset).join(" ") + " highlighted"
+                      : classes.get(index + offset).join(" ")
+                  }
+                >
+                  {token}
+                </span>
+              ))
+            : line.map((token, index) => <span key={index}>{token}</span>)}
           {doOffset(line.length)}
         </div>
       ))}

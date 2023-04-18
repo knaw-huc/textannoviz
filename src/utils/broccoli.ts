@@ -88,7 +88,7 @@ export const sendSearchQuery = async (
     frag: fragParam,
     size: sizeParam.toString(),
     from: fromParam.toString(),
-    sort: JSON.stringify(sortParam),
+    sort: sortParam,
   });
 
   const response = await fetch(

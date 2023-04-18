@@ -96,6 +96,20 @@ export type AttendantBody = AnnoRepoBody & {
   };
 };
 
+export type TeiDivBody = AnnoRepoBody & {
+  metadata: {
+    lang: string;
+    type: string;
+  };
+};
+
+export type TeiRsBody = AnnoRepoBody & {
+  metadata: {
+    type: string;
+    anno: string;
+  };
+};
+
 export type AnnoRepoBody = {
   id: string;
   type: string;
@@ -104,7 +118,9 @@ export type AnnoRepoBody = {
     | ResolutionBody
     | ReviewedBody
     | AttendanceListBody
-    | AttendantBody;
+    | AttendantBody
+    | TeiDivBody
+    | TeiRsBody;
 };
 
 export type Body =
@@ -113,7 +129,8 @@ export type Body =
   | ResolutionBody
   | ReviewedBody
   | AttendanceListBody
-  | AttendantBody;
+  | AttendantBody
+  | TeiDivBody;
 
 export type ImageTarget = {
   type: "Image";

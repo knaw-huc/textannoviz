@@ -188,6 +188,11 @@ export const mondriaanConfig: ProjectConfig = {
         element: comp3,
         errorElement: errorComp,
       },
+      {
+        path: "/detail/:tier2",
+        element: comp2,
+        errorElement: errorComp,
+      },
     ];
   },
 
