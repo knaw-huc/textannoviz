@@ -126,3 +126,15 @@ export const getFacets = async (projectConfig: ProjectConfig) => {
   }
   return response.json();
 };
+
+export const getElasticIndices = async (projectConfig: ProjectConfig) => {
+  const response = await fetch(
+    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/indices`
+  );
+  if (!response.ok) {
+    const error = await response.json();
+    toast(`${error.message}`, { type: "error" });
+    return null;
+  }
+  return response.json();
+};
