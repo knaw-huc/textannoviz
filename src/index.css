@@ -38,6 +38,14 @@ a {
   flex-direction: row;
 }
 
+.textLines-globalise {
+  margin-bottom: 0.5em;
+}
+
+.textLines-republic {
+  display: grid;
+}
+
 .searchContainer {
   padding-top: 30px;
   display: flex;

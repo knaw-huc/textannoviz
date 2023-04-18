@@ -17,6 +17,17 @@ export function TextHighlighting(props: TextHighlightingProps) {
 
   const classes = new Map<number, string[]>();
 
+  const textLinesToDisplay: string[][] = [[]];
+
+  props.text.lines.map((token) => {
+    if (token.charAt(0) === "\n") {
+      textLinesToDisplay.push([]);
+    }
+    textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
+  });
+
+  console.log(textLinesToDisplay);
+
   if (props.text.locations) {
     props.text.locations.annotations.forEach((it) => {
       for (let i = it.start.line; i <= it.end.line; i++) {
@@ -33,30 +44,40 @@ export function TextHighlighting(props: TextHighlightingProps) {
     console.log("scroll into view");
     const parentDOM = document.getElementById("textcontainer");
     const target = parentDOM.getElementsByClassName(`${currentSelectedAnn}`)[0];
+    console.log(parentDOM);
+    console.log(currentSelectedAnn);
     target.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
+  let offset = 0;
+
+  function doOffset(length: number) {
+    offset = offset + length;
+  }
+
   return (
-    <div
-      style={projectName === "republic" ? { display: "grid" } : null}
-      id="textcontainer"
-    >
-      {classes.size >= 1 ? (
-        props.text.lines.map((line, index) => (
-          <span
-            key={index}
-            className={
-              props.highlightedLines.includes(index)
-                ? classes.get(index).join(" ") + " highlighted"
-                : classes.get(index).join(" ")
-            }
-          >
-            {line}
-          </span>
-        ))
-      ) : (
-        <span>{props.text.lines.join("\n")}</span>
-      )}
+    <div id="textcontainer">
+      {textLinesToDisplay.map((line, key) => (
+        <div key={key} className={`textLines-${projectName}`}>
+          {classes.size >= 1 ? (
+            line.map((token, index) => (
+              <span
+                key={index}
+                className={
+                  props.highlightedLines.includes(index + offset)
+                    ? classes.get(index + offset).join(" ") + " highlighted"
+                    : classes.get(index + offset).join(" ")
+                }
+              >
+                {token}
+              </span>
+            ))
+          ) : (
+            <span>{textLinesToDisplay.join("\n")}</span>
+          )}
+          {doOffset(line.length)}
+        </div>
+      ))}
     </div>
   );
 }
