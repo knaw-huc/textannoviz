@@ -26,8 +26,6 @@ export function TextHighlighting(props: TextHighlightingProps) {
     textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
   });
 
-  console.log(textLinesToDisplay);
-
   if (props.text.locations) {
     props.text.locations.annotations.forEach((it) => {
       for (let i = it.start.line; i <= it.end.line; i++) {
@@ -41,11 +39,8 @@ export function TextHighlighting(props: TextHighlightingProps) {
   }
 
   if (currentSelectedAnn && !params.tier2) {
-    console.log("scroll into view");
     const parentDOM = document.getElementById("textcontainer");
     const target = parentDOM.getElementsByClassName(`${currentSelectedAnn}`)[0];
-    console.log(parentDOM);
-    console.log(currentSelectedAnn);
     target.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
