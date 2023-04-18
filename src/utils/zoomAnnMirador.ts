@@ -6,6 +6,9 @@ export const zoomAnnMirador = (
   canvasId: string
 ) => {
   const region = findImageRegions(annotation, canvasId);
+
+  if (!region) return null;
+
   const [x, y, w, h] = region[0].split(",").map(Number);
   const boxToZoom = { x, y, width: w, height: h };
   const zoomCenter = {

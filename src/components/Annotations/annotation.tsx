@@ -26,18 +26,21 @@ export function Annotation() {
   const [loading, setLoading] = React.useState(false);
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectName = useProjectStore((state) => state.projectName);
   const canvas = useMiradorStore((state) => state.canvas);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
 
   React.useEffect(() => {
     if (!canvas && !annotations && !miradorStore && !projectConfig) return;
-    visualizeAnnosMirador(
-      annotations,
-      miradorStore,
-      canvas.canvasIds[0],
-      projectConfig
-    );
-  }, [annotations, canvas, miradorStore, projectConfig]);
+    if (projectName !== "mondriaan") {
+      visualizeAnnosMirador(
+        annotations,
+        miradorStore,
+        canvas.canvasIds[0],
+        projectConfig
+      );
+    }
+  }, [annotations, canvas, miradorStore, projectConfig, projectName]);
 
   React.useEffect(() => {
     if (!annotations) {

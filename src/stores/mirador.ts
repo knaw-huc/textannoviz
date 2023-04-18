@@ -6,13 +6,11 @@ export interface StoreSlice {
 }
 
 export interface CurrentContextSlice {
-  currentContext:
-    | {
-        tier0: string;
-        tier1: string;
-        bodyId: string;
-      }
-    | undefined;
+  currentContext: {
+    tier0: string;
+    tier1: string;
+    bodyId: string;
+  };
   setCurrentContext: (
     newCurrentContext: CurrentContextSlice["currentContext"]
   ) => void;

@@ -1,13 +1,27 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import { globaliseConfig } from "./components/Projects/globalise/config/";
+import { mondriaanConfig } from "./components/Projects/mondriaan/config";
 import { republicConfig } from "./components/Projects/republic/config";
 import { Search } from "./components/Search/Search";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./error-page";
+import { ProjectConfig } from "./model/ProjectConfig";
 
 const project: string = import.meta.env.VITE_PROJECT;
-const config = project === "globalise" ? globaliseConfig : republicConfig;
+let config: ProjectConfig;
+
+switch (project) {
+  case "republic":
+    config = republicConfig;
+    break;
+  case "globalise":
+    config = globaliseConfig;
+    break;
+  case "mondriaan":
+    config = mondriaanConfig;
+    break;
+}
 
 const router = createBrowserRouter(
   config.createRouter(

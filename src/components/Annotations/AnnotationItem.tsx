@@ -51,19 +51,21 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       //Zoom in on annotation in Mirador
       const zoom = zoomAnnMirador(props.annotation, canvas.canvasIds[0]);
 
-      miradorStore.dispatch(
-        mirador.actions.selectAnnotation(
-          miradorConfig.windows[0].id,
-          props.annotation.id
-        )
-      );
-      miradorStore.dispatch(
-        mirador.actions.updateViewport(miradorConfig.windows[0].id, {
-          x: zoom.zoomCenter.x,
-          y: zoom.zoomCenter.y,
-          zoom: 1 / zoom.miradorZoom,
-        })
-      );
+      if (zoom !== null) {
+        miradorStore.dispatch(
+          mirador.actions.selectAnnotation(
+            miradorConfig.windows[0].id,
+            props.annotation.id
+          )
+        );
+        miradorStore.dispatch(
+          mirador.actions.updateViewport(miradorConfig.windows[0].id, {
+            x: zoom.zoomCenter.x,
+            y: zoom.zoomCenter.y,
+            zoom: 1 / zoom.miradorZoom,
+          })
+        );
+      }
 
       const startIndex = text.locations.annotations.find(
         (anno) => anno.bodyId === props.annotation.body.id
@@ -74,6 +76,8 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       ).end.line;
 
       const indices = createIndices(startIndex, endIndex);
+
+      console.log(indices);
 
       setCurrentSelectedAnn(props.annotation.body.id);
 

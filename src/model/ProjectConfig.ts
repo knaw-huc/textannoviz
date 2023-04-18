@@ -2,9 +2,11 @@ import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
 export interface ProjectConfig {
   id: string;
-  colours: {
-    [key: string]: string;
-  };
+  colours:
+    | {
+        [key: string]: string;
+      }
+    | undefined;
   relativeTo: string;
   annotationTypes: string[];
   annotationTypesToInclude: string[];
@@ -15,6 +17,7 @@ export interface ProjectConfig {
     docNr: string;
     index: number[];
   }[];
+  letters?: string[];
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
