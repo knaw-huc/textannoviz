@@ -3,7 +3,11 @@ import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { FacetType, SearchResult } from "../../model/Search";
-import { getFacets, sendSearchQuery } from "../../utils/broccoli";
+import {
+  getElasticIndices,
+  getFacets,
+  sendSearchQuery,
+} from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
 interface SearchProps {
@@ -27,11 +31,18 @@ export const Search = (props: SearchProps) => {
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
   const [sort, setSort] = React.useState("_score");
+  const [elasticIndices, setElasticIndices] = React.useState<any>();
 
   React.useEffect(() => {
     getFacets(props.projectConfig).then((data) => {
       setFacets(data);
     });
+  }, [props.projectConfig]);
+
+  React.useEffect(() => {
+    getElasticIndices(props.projectConfig).then((data) =>
+      setElasticIndices(data)
+    );
   }, [props.projectConfig]);
 
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
