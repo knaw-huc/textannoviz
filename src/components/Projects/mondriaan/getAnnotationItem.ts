@@ -46,12 +46,16 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
         ")"
       );
     case "tei:Date":
-      return (
-        annotation.body.type +
-        " (" +
-        `${(annotation.body as TeiDateBody).metadata.when}` +
-        ")"
-      );
+      if ((annotation.body as TeiDateBody).metadata) {
+        return (
+          annotation.body.type +
+          " (" +
+          `${(annotation.body as TeiDateBody).metadata.when}` +
+          ")"
+        );
+      } else {
+        return annotation.body.type;
+      }
     case "tei:Ptr":
       if (
         (annotation.body as TeiPtrBody).metadata.target &&
@@ -98,12 +102,16 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
 
       break;
     case "tei:Ref":
-      return (
-        annotation.body.type +
-        " (" +
-        `${(annotation.body as TeiRefBody).metadata.target}` +
-        ")"
-      );
+      if ((annotation.body as TeiRefBody).metadata) {
+        return (
+          annotation.body.type +
+          " (" +
+          `${(annotation.body as TeiRefBody).metadata.target}` +
+          ")"
+        );
+      } else {
+        return annotation.body.type;
+      }
     case "tei:Reg":
       return (
         annotation.body.type +
