@@ -110,6 +110,50 @@ export type TeiRsBody = AnnoRepoBody & {
   };
 };
 
+export type TeiObjectdescBody = AnnoRepoBody & {
+  metadata: {
+    form: string;
+  };
+};
+
+export type TeiCorrespactionBody = AnnoRepoBody & {
+  metadata: {
+    type: string;
+  };
+};
+
+export type TeiDateBody = AnnoRepoBody & {
+  metadata: {
+    when: string;
+  };
+};
+
+export type TeiPtrBody = AnnoRepoBody & {
+  metadata: {
+    target: string;
+    type?: string;
+  };
+};
+
+export type TeiNoteBody = AnnoRepoBody & {
+  metadata: {
+    type?: string;
+    id?: string;
+  };
+};
+
+export type TeiRefBody = AnnoRepoBody & {
+  metadata: {
+    target: string;
+  };
+};
+
+export type TeiRegBody = AnnoRepoBody & {
+  metadata: {
+    type: string;
+  };
+};
+
 export type AnnoRepoBody = {
   id: string;
   type: string;
@@ -120,7 +164,14 @@ export type AnnoRepoBody = {
     | AttendanceListBody
     | AttendantBody
     | TeiDivBody
-    | TeiRsBody;
+    | TeiRsBody
+    | TeiObjectdescBody
+    | TeiCorrespactionBody
+    | TeiDateBody
+    | TeiPtrBody
+    | TeiNoteBody
+    | TeiRefBody
+    | TeiRegBody;
 };
 
 export type Body =
