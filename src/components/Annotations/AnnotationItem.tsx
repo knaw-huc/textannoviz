@@ -77,8 +77,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
       const indices = createIndices(startIndex, endIndex);
 
-      console.log(indices);
-
       setCurrentSelectedAnn(props.annotation.body.id);
 
       updateOpenAnn(props.annotation.body.id, indices);
