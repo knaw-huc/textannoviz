@@ -92,6 +92,10 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
         );
       }
 
+      if (!(annotation.body as TeiNoteBody).metadata) {
+        return annotation.body.type;
+      }
+
       break;
     case "tei:Ref":
       return (
