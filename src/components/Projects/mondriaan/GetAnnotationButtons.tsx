@@ -1,7 +1,7 @@
 import mirador from "mirador";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button } from "reactions";
+import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../../stores/annotation";
 import { useMiradorStore } from "../../../stores/mirador";
 import { mondriaanConfig } from "./config";

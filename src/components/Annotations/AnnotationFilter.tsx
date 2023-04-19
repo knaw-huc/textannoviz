@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "reactions";
+import { Button } from "reactions-knaw-huc";
 import { Broccoli } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";

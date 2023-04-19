@@ -1,6 +1,6 @@
 import React from "react";
 import "react-calendar/dist/Calendar.css";
-import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions";
+import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { FacetType, SearchResult } from "../../model/Search";
 import {

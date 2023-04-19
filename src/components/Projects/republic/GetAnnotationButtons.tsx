@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAnnotationStore } from "../../../stores/annotation";
 import { useMiradorStore } from "../../../stores/mirador";
 // import { Button } from "../../Button";
-import { Button } from "reactions";
+import { Button } from "reactions-knaw-huc";
 
 export const GetAnnotationButtons = () => {
   const currentContext = useMiradorStore((state) => state.currentContext);
