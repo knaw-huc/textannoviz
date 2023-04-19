@@ -74,7 +74,7 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
         );
       }
     case "tei:Note":
-      if ((annotation.body as TeiNoteBody).metadata.id) {
+      if ((annotation.body as TeiNoteBody).metadata?.id) {
         return (
           annotation.body.type +
           " (id:" +
@@ -83,7 +83,7 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
         );
       }
 
-      if ((annotation.body as TeiNoteBody).metadata.type) {
+      if ((annotation.body as TeiNoteBody).metadata?.type) {
         return (
           annotation.body.type +
           " (type:" +
