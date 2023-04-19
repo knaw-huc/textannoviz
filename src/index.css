@@ -12,7 +12,7 @@ html {
   font-size: 100%;
 }
 
-a {
+.searchItem a {
   color: black;
   text-decoration: none;
 }

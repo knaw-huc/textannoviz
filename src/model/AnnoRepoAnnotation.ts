@@ -105,6 +105,7 @@ export type TeiDivBody = AnnoRepoBody & {
 
 export type TeiRsBody = AnnoRepoBody & {
   metadata: {
+    key: string;
     type: string;
     anno: string;
   };
