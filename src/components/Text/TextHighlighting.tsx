@@ -61,7 +61,8 @@ export function TextHighlighting(props: TextHighlightingProps) {
                   className={
                     props.highlightedLines.includes(index + offset)
                       ? classes.get(index + offset).join(" ") + " highlighted"
-                      : classes.get(index + offset).join(" ")
+                      : classes.get(index + offset) &&
+                        classes.get(index + offset).join(" ")
                   }
                 >
                   {token}

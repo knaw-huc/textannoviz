@@ -7,6 +7,7 @@ import { Search } from "./components/Search/Search";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./error-page";
 import { ProjectConfig } from "./model/ProjectConfig";
+import { useAnnotationStore } from "./stores/annotation";
 
 const project: string = import.meta.env.VITE_PROJECT;
 let config: ProjectConfig;
@@ -33,5 +34,10 @@ const router = createBrowserRouter(
 );
 
 export default function App() {
+  const setAnnotationTypesToInclude = useAnnotationStore(
+    (state) => state.setAnnotationTypesToInclude
+  );
+
+  setAnnotationTypesToInclude(config.annotationTypesToInclude);
   return <RouterProvider router={router} />;
 }

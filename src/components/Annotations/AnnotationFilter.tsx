@@ -1,10 +1,7 @@
 import React from "react";
 import { Button } from "reactions-knaw-huc";
-import { Broccoli } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
-import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
 
 interface AnnotationFilterProps {
   loading: (bool: boolean) => void;
@@ -13,8 +10,12 @@ interface AnnotationFilterProps {
 export const AnnotationFilter = (props: AnnotationFilterProps) => {
   const [isOpen, setOpen] = React.useState(false);
   const projectConfig = useProjectStore((state) => state.projectConfig);
-  const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
-  const currentContext = useMiradorStore((state) => state.currentContext);
+  const setAnnotationTypesToInclude = useAnnotationStore(
+    (state) => state.setAnnotationTypesToInclude
+  );
+  const annotationTypesToInclude = useAnnotationStore(
+    (state) => state.annotationTypesToInclude
+  );
   const ref = React.useRef(null);
 
   React.useEffect(() => {
@@ -37,19 +38,11 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
       event.target.selectedOptions,
       (option) => option.value
     );
-    console.log(selectedOptions);
+    setAnnotationTypesToInclude(selectedOptions);
+  };
 
-    const includeResults = ["anno"];
-
-    fetchBroccoliScanWithOverlap(
-      currentContext.bodyId,
-      selectedOptions,
-      includeResults,
-      projectConfig
-    ).then((result: Broccoli) => {
-      props.loading(false);
-      setAnnotations(result.anno);
-    });
+  const resetFilterClickHandler = () => {
+    setAnnotationTypesToInclude(projectConfig.annotationTypesToInclude);
   };
 
   return (
@@ -71,15 +64,14 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
                   return (
                     <option
                       key={index}
-                      selected={projectConfig.annotationTypesToInclude.includes(
-                        annType
-                      )}
+                      selected={annotationTypesToInclude.includes(annType)}
                     >
                       {annType}
                     </option>
                   );
                 })}
               </select>
+              <Button onClick={resetFilterClickHandler}>Reset filter</Button>
             </div>
           )}
         </div>

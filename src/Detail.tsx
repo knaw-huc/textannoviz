@@ -36,6 +36,9 @@ export const Detail = (props: DetailProps) => {
   const setCurrentContext = useMiradorStore((state) => state.setCurrentContext);
   const setCanvas = useMiradorStore((state) => state.setCanvas);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
+  const annotationTypesToInclude = useAnnotationStore(
+    (state) => state.annotationTypesToInclude
+  );
   const params = useParams();
 
   const setState = React.useCallback(
@@ -90,7 +93,8 @@ export const Detail = (props: DetailProps) => {
           if (!ignore) {
             const bodyId = result.bodyId;
             const includeResults = ["anno", "text", "iiif"];
-            const overlapTypes = props.config.annotationTypesToInclude;
+            const overlapTypes = annotationTypesToInclude;
+            console.log(overlapTypes);
             fetchBroccoliScanWithOverlap(
               result.bodyId,
               overlapTypes,
@@ -106,7 +110,13 @@ export const Detail = (props: DetailProps) => {
     return () => {
       ignore = true;
     };
-  }, [params.tier0, params.tier1, props.config, setState]);
+  }, [
+    annotationTypesToInclude,
+    params.tier0,
+    params.tier1,
+    props.config,
+    setState,
+  ]);
 
   React.useEffect(() => {
     if (params.tier2) {

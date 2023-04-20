@@ -22,6 +22,13 @@ export interface AnnotationsSlice {
   setAnnotations: (newAnnotations: AnnotationsSlice["annotations"]) => void;
 }
 
+export interface AnnotationTypesToIncludeSlice {
+  annotationTypesToInclude: string[];
+  setAnnotationTypesToInclude: (
+    newAnnotationTypesToInclude: AnnotationTypesToIncludeSlice["annotationTypesToInclude"]
+  ) => void;
+}
+
 const createOpenAnnSlice: StateCreator<
   OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice,
   [],
@@ -49,7 +56,10 @@ const createOpenAnnSlice: StateCreator<
 });
 
 const createAnnotationSlice: StateCreator<
-  OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice,
+  OpenAnnSlice &
+    AnnotationsSlice &
+    CurrentSelectedAnnSlice &
+    AnnotationTypesToIncludeSlice,
   [],
   [],
   AnnotationsSlice
@@ -60,7 +70,10 @@ const createAnnotationSlice: StateCreator<
 });
 
 const createCurrentSelectedAnnSlice: StateCreator<
-  OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice,
+  OpenAnnSlice &
+    AnnotationsSlice &
+    CurrentSelectedAnnSlice &
+    AnnotationTypesToIncludeSlice,
   [],
   [],
   CurrentSelectedAnnSlice
@@ -70,10 +83,28 @@ const createCurrentSelectedAnnSlice: StateCreator<
     set(() => ({ currentSelectedAnn: newCurrentSelectedAnn })),
 });
 
+const createAnnotationTypesToIncluceSlice: StateCreator<
+  OpenAnnSlice &
+    AnnotationsSlice &
+    CurrentSelectedAnnSlice &
+    AnnotationTypesToIncludeSlice,
+  [],
+  [],
+  AnnotationTypesToIncludeSlice
+> = (set) => ({
+  annotationTypesToInclude: undefined,
+  setAnnotationTypesToInclude: (newAnnotationTypesToInclude) =>
+    set(() => ({ annotationTypesToInclude: newAnnotationTypesToInclude })),
+});
+
 export const useAnnotationStore = create<
-  OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice
+  OpenAnnSlice &
+    AnnotationsSlice &
+    CurrentSelectedAnnSlice &
+    AnnotationTypesToIncludeSlice
 >()((...a) => ({
   ...createOpenAnnSlice(...a),
   ...createAnnotationSlice(...a),
   ...createCurrentSelectedAnnSlice(...a),
+  ...createAnnotationTypesToIncluceSlice(...a),
 }));
