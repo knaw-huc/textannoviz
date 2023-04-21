@@ -162,8 +162,12 @@ export const mondriaanConfig: ProjectConfig = {
     return <GetAnnotationItemContent annotation={annotation} />;
   },
 
-  renderAnnotationButtons: () => {
-    return <GetAnnotationButtons />;
+  renderAnnotationButtons: (
+    nextOrPrevButtonClicked: (clicked: boolean) => boolean
+  ) => {
+    return (
+      <GetAnnotationButtons nextOrPrevButtonClicked={nextOrPrevButtonClicked} />
+    );
   },
 
   createRouter: (

@@ -21,7 +21,9 @@ export interface ProjectConfig {
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
-  renderAnnotationButtons: () => JSX.Element;
+  renderAnnotationButtons: (
+    nextOrPrevButtonClicked: (clicked: boolean) => boolean
+  ) => JSX.Element;
   createRouter: (
     comp1: React.ReactNode,
     comp2: React.ReactNode,

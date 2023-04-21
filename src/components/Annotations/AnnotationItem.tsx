@@ -13,6 +13,7 @@ import { AnnotationItemContent } from "./AnnotationItemContent";
 
 type AnnotationSnippetProps = {
   annotation: AnnoRepoAnnotation;
+  nextOrPrevButtonClicked: boolean;
 };
 
 const AnnSnippet = styled.div`
@@ -43,6 +44,12 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   const setCurrentSelectedAnn = useAnnotationStore(
     (state) => state.setCurrentSelectedAnn
   );
+
+  React.useEffect(() => {
+    if (props.nextOrPrevButtonClicked === true) {
+      setOpen(false);
+    }
+  }, [props.nextOrPrevButtonClicked]);
 
   async function toggleOpen() {
     setOpen(!isOpen);
