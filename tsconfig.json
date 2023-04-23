@@ -1,26 +1,24 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "incremental": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
+    "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    "outDir": "./build",
-    "removeComments": true,
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "target": "ES6",
-    "types": ["node", "vite/client", "vitest/globals"]
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "exclude": ["./build", "./dist", "./node_modules"],
-  "files": ["./src/index.tsx", "./src/index.d.ts"]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
