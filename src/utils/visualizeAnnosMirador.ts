@@ -15,7 +15,6 @@ export const visualizeAnnosMirador = (
   canvasId: string,
   projectConfig: ProjectConfig
 ): iiifAnn => {
-  console.log(store);
   const currentState = store.getState && store.getState();
   const iiifAnn: iiifAnn = {
     "@id": projectConfig.id,
