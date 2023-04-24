@@ -36,8 +36,13 @@ export function Annotation() {
   const params = useParams();
 
   React.useEffect(() => {
-    if (!canvas || !annotations || !miradorStore || !projectConfig) return;
-    if (projectName !== "mondriaan") {
+    if (
+      canvas &&
+      annotations &&
+      miradorStore &&
+      projectConfig &&
+      projectName !== "mondriaan"
+    ) {
       visualizeAnnosMirador(
         annotations,
         miradorStore,
@@ -79,7 +84,7 @@ export function Annotation() {
         />{" "}
         {"|"} <AnnotationFilter loading={loadingHandler} />
       </ButtonsStyled>
-      {annotations && annotations.length > 0 && !loading
+      {annotations?.length > 0 && !loading
         ? annotations.map((annotation, index) => (
             <AnnotationItem
               key={index}
