@@ -94,7 +94,6 @@ export const Detail = (props: DetailProps) => {
             const bodyId = result.bodyId;
             const includeResults = ["anno", "text", "iiif"];
             const overlapTypes = annotationTypesToInclude;
-            console.log(overlapTypes);
             fetchBroccoliScanWithOverlap(
               result.bodyId,
               overlapTypes,
