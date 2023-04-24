@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
@@ -41,7 +42,7 @@ export function Annotation() {
         annotations,
         miradorStore,
         canvas.canvasIds[0],
-        projectConfig
+        projectConfig as ProjectConfig
       );
     }
   }, [annotations, canvas, miradorStore, projectConfig, projectName]);

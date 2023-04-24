@@ -30,7 +30,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
     props.text.locations.annotations.forEach((it) => {
       for (let i = it.start.line; i <= it.end.line; i++) {
         if (classes.has(i)) {
-          classes.get(i).push(it.bodyId);
+          classes.get(i)?.push(it.bodyId);
         } else {
           classes.set(i, [it.bodyId]);
         }
@@ -40,8 +40,12 @@ export function TextHighlighting(props: TextHighlightingProps) {
 
   if (currentSelectedAnn && !params.tier2) {
     const parentDOM = document.getElementById("textcontainer");
-    const target = parentDOM.getElementsByClassName(`${currentSelectedAnn}`)[0];
-    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (parentDOM) {
+      const target = parentDOM.getElementsByClassName(
+        `${currentSelectedAnn}`
+      )[0];
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   }
 
   let offset = 0;
@@ -60,9 +64,9 @@ export function TextHighlighting(props: TextHighlightingProps) {
                   key={index}
                   className={
                     props.highlightedLines.includes(index + offset)
-                      ? classes.get(index + offset).join(" ") + " highlighted"
+                      ? classes.get(index + offset)?.join(" ") + " highlighted"
                       : classes.get(index + offset) &&
-                        classes.get(index + offset).join(" ")
+                        classes.get(index + offset)?.join(" ")
                   }
                 >
                   {token}

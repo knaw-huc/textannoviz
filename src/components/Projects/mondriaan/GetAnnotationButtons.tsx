@@ -24,8 +24,9 @@ export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
 
   const nextCanvasClickHandler = () => {
     props.nextOrPrevButtonClicked(true);
-    setCurrentSelectedAnn(undefined);
+    setCurrentSelectedAnn("");
     resetOpenAnn();
+    if (!letters) return;
     const currentIndex = letters?.indexOf(currentContext.tier1);
     const nextCanvas = letters[currentIndex + 1];
     if (!nextCanvas) {
@@ -43,8 +44,9 @@ export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
 
   const prevCanvasClickHandler = () => {
     props.nextOrPrevButtonClicked(true);
-    setCurrentSelectedAnn(undefined);
+    setCurrentSelectedAnn("");
     resetOpenAnn();
+    if (!letters) return;
     const currentIndex = letters.indexOf(currentContext.tier1);
     const prevCanvas = letters[currentIndex - 1];
     if (!prevCanvas) {

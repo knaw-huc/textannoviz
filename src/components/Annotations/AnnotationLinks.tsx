@@ -11,7 +11,7 @@ export const AnnotationLinks = () => {
 
   const linkClickHandler = () => {
     resetOpenAnn();
-    setCurrentSelectedAnn(undefined);
+    setCurrentSelectedAnn("");
   };
 
   return (

@@ -36,3 +36,13 @@ export interface BroccoliTextGeneric {
     }[];
   };
 }
+
+export interface BroccoliBodyIdResult {
+  request: {
+    projectId: string;
+    bodyType: string;
+    tier: string[];
+    includedResults: string[];
+  };
+  bodyId: string;
+}

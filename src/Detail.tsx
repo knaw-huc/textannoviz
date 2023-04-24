@@ -5,7 +5,7 @@ import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { Text } from "./components/Text/text";
-import { Broccoli } from "./model/Broccoli";
+import { Broccoli, BroccoliBodyIdResult } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
@@ -42,7 +42,7 @@ export const Detail = (props: DetailProps) => {
   const params = useParams();
 
   const setState = React.useCallback(
-    (broccoli: Broccoli, currentBodyId?: string) => {
+    (broccoli: Broccoli, currentBodyId: string) => {
       setMiradorConfig(broccoli, props.project);
       console.log(broccoli);
       const viewer = mirador.viewer(miradorConfig);
@@ -60,8 +60,8 @@ export const Detail = (props: DetailProps) => {
       setCanvas(newCanvas);
 
       const newCurrentContext = {
-        tier0: params.tier0,
-        tier1: params.tier1,
+        tier0: params.tier0 as string,
+        tier1: params.tier1 as string,
         bodyId: currentBodyId,
       };
 
@@ -86,29 +86,27 @@ export const Detail = (props: DetailProps) => {
   );
 
   React.useEffect(() => {
-    let ignore = false;
+    // let ignore = false;
     if (params.tier0 && params.tier1) {
       fetchBroccoliBodyIdOfScan(params.tier0, params.tier1, props.config).then(
-        (result) => {
-          if (!ignore) {
-            const bodyId: string = result.bodyId;
-            const includeResults = ["anno", "text", "iiif"];
-            const overlapTypes = annotationTypesToInclude;
-            fetchBroccoliScanWithOverlap(
-              result.bodyId,
-              overlapTypes,
-              includeResults,
-              props.config
-            ).then((broccoli) => {
-              setState(broccoli, bodyId);
-            });
-          }
+        (result: BroccoliBodyIdResult) => {
+          const bodyId = result.bodyId;
+          const includeResults = ["anno", "text", "iiif"];
+          const overlapTypes = annotationTypesToInclude;
+          fetchBroccoliScanWithOverlap(
+            result.bodyId,
+            overlapTypes,
+            includeResults,
+            props.config
+          ).then((broccoli: Broccoli) => {
+            setState(broccoli, bodyId);
+          });
         }
       );
     }
-    return () => {
-      ignore = true;
-    };
+    // return () => {
+    //   ignore = true;
+    // };
   }, [
     annotationTypesToInclude,
     params.tier0,
@@ -120,8 +118,9 @@ export const Detail = (props: DetailProps) => {
   React.useEffect(() => {
     if (params.tier2) {
       fetchBroccoliBodyId(params.tier2, props.config)
-        .then((broccoli) => {
-          setState(broccoli);
+        .then((broccoli: Broccoli) => {
+          const bodyId = broccoli.request.bodyId;
+          setState(broccoli, bodyId);
         })
         .catch(console.error);
     }

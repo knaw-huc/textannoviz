@@ -21,6 +21,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "files": ["./src/index.d.ts"],
+  "files": ["./src/index.tsx", "./src/index.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

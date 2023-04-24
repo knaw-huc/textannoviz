@@ -42,7 +42,9 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   };
 
   const resetFilterClickHandler = () => {
-    setAnnotationTypesToInclude(projectConfig.annotationTypesToInclude);
+    if (projectConfig) {
+      setAnnotationTypesToInclude(projectConfig.annotationTypesToInclude);
+    }
   };
 
   return (

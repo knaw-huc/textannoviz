@@ -17,12 +17,10 @@ export interface CurrentContextSlice {
 }
 
 export interface CanvasSlice {
-  canvas:
-    | {
-        canvasIds: string[];
-        currentIndex: number;
-      }
-    | undefined;
+  canvas: {
+    canvasIds: string[];
+    currentIndex: number;
+  };
   setCanvas: (newCanvas: CanvasSlice["canvas"]) => void;
 }
 

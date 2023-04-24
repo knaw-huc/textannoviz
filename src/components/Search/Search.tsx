@@ -1,13 +1,9 @@
 import React from "react";
 import "react-calendar/dist/Calendar.css";
-import { CheckboxFacet, DateFacet, FullTextFacet } from "reactions-knaw-huc";
+import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { FacetType, SearchResult } from "../../model/Search";
-import {
-  getElasticIndices,
-  getFacets,
-  sendSearchQuery,
-} from "../../utils/broccoli";
+import { getFacets, sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
 interface SearchProps {
@@ -30,8 +26,8 @@ export const Search = (props: SearchProps) => {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
-  const [sort, setSort] = React.useState("_score");
-  const [elasticIndices, setElasticIndices] = React.useState<any>();
+  const [sort] = React.useState("_score");
+  // const [elasticIndices, setElasticIndices] = React.useState<any>();
 
   React.useEffect(() => {
     getFacets(props.projectConfig).then((data) => {
@@ -39,11 +35,11 @@ export const Search = (props: SearchProps) => {
     });
   }, [props.projectConfig]);
 
-  React.useEffect(() => {
-    getElasticIndices(props.projectConfig).then((data) =>
-      setElasticIndices(data)
-    );
-  }, [props.projectConfig]);
+  // React.useEffect(() => {
+  //   getElasticIndices(props.projectConfig).then((data) =>
+  //     setElasticIndices(data)
+  //   );
+  // }, [props.projectConfig]);
 
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
   const propositionTypes = facets.find((facet) => facet.propositionType);
@@ -53,15 +49,15 @@ export const Search = (props: SearchProps) => {
     const searchQuery = {
       bool: {
         must: [
-          // {
-          //   range: {
-          //     sessionDate: {
-          //       relation: "within",
-          //       gte: `${dateFrom}`,
-          //       lte: `${dateTo}`,
-          //     },
-          //   },
-          // },
+          {
+            range: {
+              sessionDate: {
+                relation: "within",
+                gte: `${dateFrom}`,
+                lte: `${dateTo}`,
+              },
+            },
+          },
           // {
           //   terms: {
           //     sessionWeekday: weekdaysChecked,
@@ -121,28 +117,16 @@ export const Search = (props: SearchProps) => {
     setFragmenter(event.currentTarget.value);
   };
 
-  const correctDateByTimezone = (date: Date) => {
-    return new Date(date.getTime() - date.getTimezoneOffset() * 600000);
+  const calendarFromChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDateFrom(event.target.value);
   };
 
-  const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/i;
-
-  const calendarFromChangeHandler = (newFromDate: Date) => {
-    const timezoneCorrectedNewFromDate = correctDateByTimezone(newFromDate);
-
-    const newDateISOString = timezoneCorrectedNewFromDate.toISOString();
-    const regexedDate = newDateISOString.match(dateRegex);
-
-    setDateFrom(regexedDate.toString());
-  };
-
-  const calendarToChangeHandler = (newToDate: Date) => {
-    const timezoneCorrectedNewToDate = correctDateByTimezone(newToDate);
-
-    const newDateISOString = timezoneCorrectedNewToDate.toISOString();
-    const regexedDate = newDateISOString.match(dateRegex);
-
-    setDateTo(regexedDate.toString());
+  const calendarToChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDateTo(event.target.value);
   };
 
   const weekdaysCheckedHandler = (
@@ -155,11 +139,13 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      Object.keys(sessionWeekdays.sessionWeekday).map((weekday) => {
-        weekday === event.currentTarget.value
-          ? setWeekdaysChecked([...weekdaysChecked, weekday])
-          : weekday;
-      });
+      if (sessionWeekdays) {
+        Object.keys(sessionWeekdays.sessionWeekday).map((weekday) => {
+          weekday === event.currentTarget.value
+            ? setWeekdaysChecked([...weekdaysChecked, weekday])
+            : weekday;
+        });
+      }
     }
   };
 
@@ -173,14 +159,16 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      Object.keys(propositionTypes.propositionType).map((propositionType) => {
-        propositionType === event.currentTarget.value
-          ? setPropositionTypesChecked([
-              ...propositionTypesChecked,
-              propositionType,
-            ])
-          : propositionType;
-      });
+      if (propositionTypes) {
+        Object.keys(propositionTypes.propositionType).map((propositionType) => {
+          propositionType === event.currentTarget.value
+            ? setPropositionTypesChecked([
+                ...propositionTypesChecked,
+                propositionType,
+              ])
+            : propositionType;
+        });
+      }
     }
   };
 
@@ -205,7 +193,7 @@ export const Search = (props: SearchProps) => {
   }
 
   async function nextPageClickHandler() {
-    if (searchResults.total.value < elasticFrom) return;
+    if (searchResults && searchResults.total.value < elasticFrom) return;
     setElasticFrom((prevNumber) => prevNumber + elasticSize);
     setPageNumber((prevPageNumber) => prevPageNumber + 1);
     const data = await sendSearchQuery(
@@ -261,11 +249,13 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      Object.keys(bodyTypes.bodyType).map((bodyType) => {
-        bodyType === event.currentTarget.value
-          ? setBodyTypesChecked([...bodyTypesChecked, bodyType])
-          : bodyType;
-      });
+      if (bodyTypes) {
+        Object.keys(bodyTypes.bodyType).map((bodyType) => {
+          bodyType === event.currentTarget.value
+            ? setBodyTypesChecked([...bodyTypesChecked, bodyType])
+            : bodyType;
+        });
+      }
     }
   }
 
@@ -305,24 +295,24 @@ export const Search = (props: SearchProps) => {
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">From</div>
-              <DateFacet
-                className={"calendarFrom"}
+              <input
+                type="date"
+                id="start"
+                value={dateFrom}
+                min={dateFrom}
+                max={dateTo}
                 onChange={calendarFromChangeHandler}
-                defaultActiveStartDate={new Date(1728, 0, 1)}
-                defaultValue={new Date(1728, 0, 1)}
-                minDate={new Date(1728, 0, 1)}
-                maxDate={new Date(1728, 11, 31)}
-              />{" "}
+              />
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">To</div>
-              <DateFacet
-                className={"calendarTo"}
+              <input
+                type="date"
+                id="end"
+                value={dateTo}
+                min={dateFrom}
+                max={dateTo}
                 onChange={calendarToChangeHandler}
-                defaultActiveStartDate={new Date(1728, 11, 31)}
-                defaultValue={new Date(1728, 11, 31)}
-                minDate={new Date(1728, 0, 1)}
-                maxDate={new Date(1728, 11, 31)}
               />
             </div>
             <div className="searchFacet">

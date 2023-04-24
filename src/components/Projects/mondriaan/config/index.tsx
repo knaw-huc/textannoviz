@@ -8,7 +8,7 @@ import { getAnnotationItem } from "../getAnnotationItem";
 
 export const mondriaanConfig: ProjectConfig = {
   id: "mondriaan",
-  colours: undefined,
+  colours: {},
   relativeTo: "Letter",
   annotationTypes: [
     "tei:Add",
