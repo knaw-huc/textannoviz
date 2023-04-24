@@ -91,7 +91,7 @@ export const Detail = (props: DetailProps) => {
       fetchBroccoliBodyIdOfScan(params.tier0, params.tier1, props.config).then(
         (result) => {
           if (!ignore) {
-            const bodyId = result.bodyId;
+            const bodyId: string = result.bodyId;
             const includeResults = ["anno", "text", "iiif"];
             const overlapTypes = annotationTypesToInclude;
             fetchBroccoliScanWithOverlap(
