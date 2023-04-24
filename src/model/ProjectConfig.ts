@@ -18,7 +18,7 @@ export interface ProjectConfig {
     index: number[];
   }[];
   letters?: string[];
-  renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
+  renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
   renderAnnotationButtons: (

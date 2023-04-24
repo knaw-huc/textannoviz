@@ -1,4 +1,3 @@
-import React from "react";
 import { Search } from "../Search/Search";
 import { republicConfig } from "./republic/config";
 

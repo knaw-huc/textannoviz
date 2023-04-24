@@ -26,7 +26,7 @@ export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
     props.nextOrPrevButtonClicked(true);
     setCurrentSelectedAnn(undefined);
     resetOpenAnn();
-    const currentIndex = letters.indexOf(currentContext.tier1);
+    const currentIndex = letters?.indexOf(currentContext.tier1);
     const nextCanvas = letters[currentIndex + 1];
     if (!nextCanvas) {
       toast(`This is the last letter in folder ${currentContext.tier0}!`, {

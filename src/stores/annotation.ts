@@ -14,7 +14,7 @@ export interface OpenAnnSlice {
 
 export interface CurrentSelectedAnnSlice {
   currentSelectedAnn: string | undefined;
-  setCurrentSelectedAnn: (bodyId: string) => void;
+  setCurrentSelectedAnn: (bodyId: string | undefined) => void;
 }
 
 export interface AnnotationsSlice {
