@@ -11,16 +11,36 @@ interface SearchProps {
   projectConfig: ProjectConfig;
 }
 
+interface TermsQuery {
+  terms: {
+    [key: string]: string[];
+  };
+}
+
+interface FullTextQuery {
+  match_phrase_prefix: {
+    text: string;
+  };
+}
+
+interface newQuery {
+  text: string;
+  terms: {
+    [key: string]: string[];
+  };
+  aggs: string[];
+  date: {
+    from: string;
+    to: string;
+    name: string;
+  };
+}
+
 export const Search = (props: SearchProps) => {
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState("1728-01-01");
   const [dateTo, setDateTo] = React.useState("1728-12-31");
-  const [weekdaysChecked, setWeekdaysChecked] = React.useState<string[]>([]);
-  const [propositionTypesChecked, setPropositionTypesChecked] = React.useState<
-    string[]
-  >([]);
-  const [bodyTypesChecked, setBodyTypesChecked] = React.useState<string[]>([]);
   const [facets, setFacets] = React.useState<FacetType[]>([]);
   const [query, setQuery] = React.useState<any>();
   const [pageNumber, setPageNumber] = React.useState(1);
@@ -28,6 +48,12 @@ export const Search = (props: SearchProps) => {
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
   const [sort] = React.useState("_score");
   // const [elasticIndices, setElasticIndices] = React.useState<any>();
+  const [weekdayChecked, setWeekdayChecked] = React.useState<string[]>([]);
+  const [propositionTypeChecked, setPropositionTypeChecked] = React.useState<
+    string[]
+  >([]);
+  const [bodyTypeChecked, setBodyTypeChecked] = React.useState<string[]>([]);
+  const [fullText, setFullText] = React.useState<string>();
 
   React.useEffect(() => {
     getFacets(props.projectConfig).then((data) => {
@@ -44,53 +70,71 @@ export const Search = (props: SearchProps) => {
   const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
   const propositionTypes = facets.find((facet) => facet.propositionType);
   const bodyTypes = facets.find((facet) => facet.bodyType);
+  let sessionWeekdayQuery: TermsQuery;
+  let propositionTypeQuery: TermsQuery;
+  let bodyTypeQuery: TermsQuery;
+  let fullTextQuery: FullTextQuery;
 
-  const doSearch = async (value: string) => {
-    const searchQuery = {
-      bool: {
-        must: [
-          {
-            range: {
-              sessionDate: {
-                relation: "within",
-                gte: `${dateFrom}`,
-                lte: `${dateTo}`,
-              },
+  const searchQuery: any = {
+    bool: {
+      must: [
+        {
+          range: {
+            sessionDate: {
+              relation: "within",
+              gte: `${dateFrom}`,
+              lte: `${dateTo}`,
             },
           },
-          // {
-          //   terms: {
-          //     sessionWeekday: weekdaysChecked,
-          //   },
-          // },
-          // {
-          //   terms: {
-          //     propositionType: propositionTypesChecked,
-          //   },
-          // },
-          // {
-          //   term: {
-          //     bodyType: {
-          //       value: "attendancelist",
-          //       // case_insensitive: true,
-          //     },
-          //   },
-          // },
-          // {
-          //   terms: {
-          //     bodyType: bodyTypesChecked,
-          //   },
-          // },
-          {
-            match_phrase_prefix: {
-              text: `${value}`,
-            },
-          },
-        ],
-      },
-    };
+        },
+      ],
+    },
+  };
+
+  const doSearch = async () => {
+    if (weekdayChecked) {
+      sessionWeekdayQuery = {
+        terms: {
+          sessionWeekday: weekdayChecked,
+        },
+      };
+    }
+
+    if (propositionTypeChecked) {
+      propositionTypeQuery = {
+        terms: {
+          propositionType: propositionTypeChecked,
+        },
+      };
+    }
+
+    if (bodyTypeChecked) {
+      bodyTypeQuery = {
+        terms: {
+          bodyType: bodyTypeChecked,
+        },
+      };
+    }
+
+    if (fullText) {
+      fullTextQuery = {
+        match_phrase_prefix: {
+          text: fullText,
+        },
+      };
+    }
+
+    sessionWeekdayQuery.terms.sessionWeekday.length >= 1 &&
+      searchQuery["bool"]["must"].push(sessionWeekdayQuery);
+    propositionTypeQuery.terms.propositionType.length >= 1 &&
+      searchQuery["bool"]["must"].push(propositionTypeQuery);
+    bodyTypeQuery.terms.bodyType.length >= 1 &&
+      searchQuery["bool"]["must"].push(bodyTypeQuery);
+    fullTextQuery?.match_phrase_prefix?.text &&
+      searchQuery["bool"]["must"].push(fullTextQuery);
 
     setQuery(searchQuery);
+    console.log(searchQuery);
 
     const data = await sendSearchQuery(
       searchQuery,
@@ -107,7 +151,13 @@ export const Search = (props: SearchProps) => {
   };
 
   const handleFullTextFacet = (value: string) => {
-    doSearch(value);
+    setFullText(value);
+  };
+
+  const fullTextEnterPressedHandler = (pressed: boolean) => {
+    if (pressed) {
+      doSearch();
+    }
   };
 
   const fragmenterSelectHandler = (
@@ -133,17 +183,17 @@ export const Search = (props: SearchProps) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.currentTarget.checked === false) {
-      setWeekdaysChecked(
-        weekdaysChecked.filter(
+      setWeekdayChecked(
+        weekdayChecked.filter(
           (weekday) => weekday !== event.currentTarget.value
         )
       );
     } else {
       if (sessionWeekdays) {
         Object.keys(sessionWeekdays.sessionWeekday).map((weekday) => {
-          weekday === event.currentTarget.value
-            ? setWeekdaysChecked([...weekdaysChecked, weekday])
-            : weekday;
+          if (weekday === event.currentTarget.value) {
+            setWeekdayChecked([...weekdayChecked, weekday]);
+          }
         });
       }
     }
@@ -153,20 +203,20 @@ export const Search = (props: SearchProps) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.currentTarget.checked === false) {
-      setPropositionTypesChecked(
-        propositionTypesChecked.filter(
+      setPropositionTypeChecked(
+        propositionTypeChecked.filter(
           (propositionType) => propositionType !== event.currentTarget.value
         )
       );
     } else {
       if (propositionTypes) {
         Object.keys(propositionTypes.propositionType).map((propositionType) => {
-          propositionType === event.currentTarget.value
-            ? setPropositionTypesChecked([
-                ...propositionTypesChecked,
-                propositionType,
-              ])
-            : propositionType;
+          if (propositionType === event.currentTarget.value) {
+            setPropositionTypeChecked([
+              ...propositionTypeChecked,
+              propositionType,
+            ]);
+          }
         });
       }
     }
@@ -243,17 +293,17 @@ export const Search = (props: SearchProps) => {
 
   function bodyTypesCheckedHandler(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.currentTarget.checked === false) {
-      setBodyTypesChecked(
-        bodyTypesChecked.filter(
+      setBodyTypeChecked(
+        bodyTypeChecked.filter(
           (bodyType) => bodyType !== event.currentTarget.value
         )
       );
     } else {
       if (bodyTypes) {
         Object.keys(bodyTypes.bodyType).map((bodyType) => {
-          bodyType === event.currentTarget.value
-            ? setBodyTypesChecked([...bodyTypesChecked, bodyType])
-            : bodyType;
+          if (bodyType === event.currentTarget.value) {
+            setBodyTypeChecked([...bodyTypeChecked, bodyType]);
+          }
         });
       }
     }
@@ -266,7 +316,11 @@ export const Search = (props: SearchProps) => {
           <div className="searchFacets">
             <div className="searchFacet">
               <div className="searchFacetTitle">Text search</div>
-              <FullTextFacet valueHandler={handleFullTextFacet} />
+              <FullTextFacet
+                valueHandler={handleFullTextFacet}
+                enterPressedHandler={fullTextEnterPressedHandler}
+              />
+              <button onClick={() => doSearch()}>Search</button>
             </div>
             <div className="searchFacet">
               <label>Fragmenter </label>
