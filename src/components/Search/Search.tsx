@@ -222,6 +222,24 @@ export const Search = (props: SearchProps) => {
     }
   };
 
+  function bodyTypesCheckedHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.currentTarget.checked === false) {
+      setBodyTypeChecked(
+        bodyTypeChecked.filter(
+          (bodyType) => bodyType !== event.currentTarget.value
+        )
+      );
+    } else {
+      if (bodyTypes) {
+        Object.keys(bodyTypes.bodyType).map((bodyType) => {
+          if (bodyType === event.currentTarget.value) {
+            setBodyTypeChecked([...bodyTypeChecked, bodyType]);
+          }
+        });
+      }
+    }
+  }
+
   async function prevPageClickHandler() {
     setElasticFrom((prevNumber) => prevNumber - elasticSize);
     const from = elasticFrom - elasticSize * 2;
@@ -289,24 +307,6 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
-  }
-
-  function bodyTypesCheckedHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.currentTarget.checked === false) {
-      setBodyTypeChecked(
-        bodyTypeChecked.filter(
-          (bodyType) => bodyType !== event.currentTarget.value
-        )
-      );
-    } else {
-      if (bodyTypes) {
-        Object.keys(bodyTypes.bodyType).map((bodyType) => {
-          if (bodyType === event.currentTarget.value) {
-            setBodyTypeChecked([...bodyTypeChecked, bodyType]);
-          }
-        });
-      }
-    }
   }
 
   return (
