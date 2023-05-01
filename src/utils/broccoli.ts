@@ -81,8 +81,8 @@ export const sendSearchQuery = async (
   fragParam: string,
   sizeParam: number,
   fromParam = 0,
-  sortParam: any,
-  projectConfig: ProjectConfig
+  projectConfig: ProjectConfig,
+  sortParam = "_score"
 ) => {
   const params = new URLSearchParams({
     frag: fragParam,

@@ -141,7 +141,6 @@ export const Search = (props: SearchProps) => {
       fragmenter,
       elasticSize,
       0,
-      sort,
       props.projectConfig
     );
 
@@ -250,7 +249,6 @@ export const Search = (props: SearchProps) => {
       fragmenter,
       elasticSize,
       from,
-      sort,
       props.projectConfig
     );
 
@@ -269,7 +267,6 @@ export const Search = (props: SearchProps) => {
       fragmenter,
       elasticSize,
       elasticFrom,
-      sort,
       props.projectConfig
     );
 
@@ -299,7 +296,6 @@ export const Search = (props: SearchProps) => {
       fragmenter,
       elasticSize,
       from,
-      sort,
       props.projectConfig
     );
 
