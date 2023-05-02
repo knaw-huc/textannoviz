@@ -3,7 +3,7 @@ import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { FacetType, SearchResult } from "../../model/Search";
-import { getFacets, sendSearchQuery } from "../../utils/broccoli";
+import { sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
 interface SearchProps {
@@ -46,7 +46,7 @@ export const Search = (props: SearchProps) => {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
-  const [sort] = React.useState("_score");
+  const [sort, setSort] = React.useState<any>("_score");
   // const [elasticIndices, setElasticIndices] = React.useState<any>();
   const [weekdayChecked, setWeekdayChecked] = React.useState<string[]>([]);
   const [propositionTypeChecked, setPropositionTypeChecked] = React.useState<
@@ -56,10 +56,26 @@ export const Search = (props: SearchProps) => {
   const [fullText, setFullText] = React.useState<string>();
 
   React.useEffect(() => {
-    getFacets(props.projectConfig).then((data) => {
-      setFacets(data);
+    sendSearchQuery(
+      {
+        date: {
+          name: "sessionDate",
+          from: "1728-01-01",
+          to: "1728-12-31",
+        },
+      },
+      fragmenter,
+      0,
+      0,
+      props.projectConfig
+    ).then((data) => {
+      setFacets(data.aggs);
     });
-  }, [props.projectConfig]);
+    // getFacets(props.projectConfig).then((data) => {
+    //   console.log(data);
+    //   setFacets(data);
+    // });
+  }, [elasticSize, fragmenter, props.projectConfig]);
 
   // React.useEffect(() => {
   //   getElasticIndices(props.projectConfig).then((data) =>
@@ -402,23 +418,33 @@ export const Search = (props: SearchProps) => {
           </div>
           <div className="searchResults">
             <div className="searchResultsHeader">
-              <div>
+              <div className="searchResultsHeaderLeft">
                 {searchResults &&
                   `Showing ${elasticFrom - elasticSize + 1}-${elasticFrom} of ${
                     searchResults.total.value
                   } results`}
               </div>
-              <div className="searchResultsPerPage">
-                Results per page
-                <select
-                  onChange={resultsPerPageSelectHandler}
-                  defaultValue={10}
-                >
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
+              <div className="searchResultsHeaderRight">
+                <div className="sortBy">
+                  Sort by:{" "}
+                  <select>
+                    <option>Relevance</option>
+                    <option>Session date (asc)</option>
+                    <option>Session date (dsc)</option>
+                  </select>
+                </div>
+                <div className="searchResultsPerPage">
+                  Results per page
+                  <select
+                    onChange={resultsPerPageSelectHandler}
+                    defaultValue={10}
+                  >
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                  </select>
+                </div>
               </div>
             </div>
             {searchResults && searchResults.results.length >= 1

@@ -128,6 +128,39 @@ em {
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 2em;
+  align-items: center;
+  top: 0px;
+  z-index: 30;
+  /* position: fixed; */
+  /* width: 100%; */
+}
+
+.searchResultsHeaderLeft {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: auto;
+  margin-right: auto;
+  width: 83.333333%;
+}
+
+.searchResultsHeaderRight {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.sortBy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchResultsPerPage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .searchResultsPerPage select {
