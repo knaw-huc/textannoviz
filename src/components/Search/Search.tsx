@@ -2,7 +2,7 @@ import React from "react";
 import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
-import { FacetType, SearchResult } from "../../model/Search";
+import { SearchResult } from "../../model/Search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
@@ -12,15 +12,11 @@ interface SearchProps {
 }
 
 interface TermsQuery {
-  terms: {
-    [key: string]: string[];
-  };
+  [key: string]: string[];
 }
 
 interface FullTextQuery {
-  match_phrase_prefix: {
-    text: string;
-  };
+  text: string;
 }
 
 interface newQuery {
@@ -41,13 +37,12 @@ export const Search = (props: SearchProps) => {
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState("1728-01-01");
   const [dateTo, setDateTo] = React.useState("1728-12-31");
-  const [facets, setFacets] = React.useState<FacetType[]>([]);
+  const [facets, setFacets] = React.useState<any>([]);
   const [query, setQuery] = React.useState<any>();
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
   const [sort, setSort] = React.useState<any>("_score");
-  // const [elasticIndices, setElasticIndices] = React.useState<any>();
   const [weekdayChecked, setWeekdayChecked] = React.useState<string[]>([]);
   const [propositionTypeChecked, setPropositionTypeChecked] = React.useState<
     string[]
@@ -56,98 +51,66 @@ export const Search = (props: SearchProps) => {
   const [fullText, setFullText] = React.useState<string>();
 
   React.useEffect(() => {
-    sendSearchQuery(
-      {
-        date: {
-          name: "sessionDate",
-          from: "1728-01-01",
-          to: "1728-12-31",
-        },
-      },
-      fragmenter,
-      0,
-      0,
-      props.projectConfig
-    ).then((data) => {
+    sendSearchQuery({}, fragmenter, 0, 0, props.projectConfig).then((data) => {
       setFacets(data.aggs);
     });
-    // getFacets(props.projectConfig).then((data) => {
-    //   console.log(data);
-    //   setFacets(data);
-    // });
   }, [elasticSize, fragmenter, props.projectConfig]);
 
-  // React.useEffect(() => {
-  //   getElasticIndices(props.projectConfig).then((data) =>
-  //     setElasticIndices(data)
-  //   );
-  // }, [props.projectConfig]);
-
-  const sessionWeekdays = facets.find((facet) => facet.sessionWeekday);
-  const propositionTypes = facets.find((facet) => facet.propositionType);
-  const bodyTypes = facets.find((facet) => facet.bodyType);
+  const bodyTypes: [string, any][] = Object.entries(facets).filter(([key]) =>
+    key.includes("bodyType")
+  );
+  const sessionWeekdays: [string, any][] = Object.entries(facets).filter(
+    ([key]) => key.includes("sessionWeekday")
+  );
+  const propositionTypes: [string, any][] = Object.entries(facets).filter(
+    ([key]) => key.includes("propositionType")
+  );
   let sessionWeekdayQuery: TermsQuery;
   let propositionTypeQuery: TermsQuery;
   let bodyTypeQuery: TermsQuery;
   let fullTextQuery: FullTextQuery;
 
   const searchQuery: any = {
-    bool: {
-      must: [
-        {
-          range: {
-            sessionDate: {
-              relation: "within",
-              gte: `${dateFrom}`,
-              lte: `${dateTo}`,
-            },
-          },
-        },
-      ],
+    date: {
+      name: "sessionDate",
+      from: "1728-01-01",
+      to: "1728-12-31",
     },
+    terms: {},
   };
 
   const doSearch = async () => {
     if (weekdayChecked) {
       sessionWeekdayQuery = {
-        terms: {
-          sessionWeekday: weekdayChecked,
-        },
+        sessionWeekday: weekdayChecked,
       };
     }
 
     if (propositionTypeChecked) {
       propositionTypeQuery = {
-        terms: {
-          propositionType: propositionTypeChecked,
-        },
+        propositionType: propositionTypeChecked,
       };
     }
 
     if (bodyTypeChecked) {
       bodyTypeQuery = {
-        terms: {
-          bodyType: bodyTypeChecked,
-        },
+        bodyType: bodyTypeChecked,
       };
     }
 
     if (fullText) {
       fullTextQuery = {
-        match_phrase_prefix: {
-          text: fullText,
-        },
+        text: fullText,
       };
     }
 
-    sessionWeekdayQuery.terms.sessionWeekday.length >= 1 &&
-      searchQuery["bool"]["must"].push(sessionWeekdayQuery);
-    propositionTypeQuery.terms.propositionType.length >= 1 &&
-      searchQuery["bool"]["must"].push(propositionTypeQuery);
-    bodyTypeQuery.terms.bodyType.length >= 1 &&
-      searchQuery["bool"]["must"].push(bodyTypeQuery);
-    fullTextQuery?.match_phrase_prefix?.text &&
-      searchQuery["bool"]["must"].push(fullTextQuery);
+    sessionWeekdayQuery.sessionWeekday.length >= 1 &&
+      Object.assign(searchQuery["terms"], sessionWeekdayQuery);
+    propositionTypeQuery.propositionType.length >= 1 &&
+      Object.assign(searchQuery["terms"], propositionTypeQuery);
+    bodyTypeQuery.bodyType.length >= 1 &&
+      Object.assign(searchQuery["terms"], bodyTypeQuery);
+    fullTextQuery.text && Object.assign(searchQuery, fullTextQuery);
 
     setQuery(searchQuery);
     console.log(searchQuery);
@@ -163,6 +126,7 @@ export const Search = (props: SearchProps) => {
     setSearchResults(data);
     setElasticFrom(elasticSize);
     setPageNumber(1);
+    setFacets(data.aggs);
   };
 
   const handleFullTextFacet = (value: string) => {
@@ -204,8 +168,8 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      if (sessionWeekdays) {
-        Object.keys(sessionWeekdays.sessionWeekday).map((weekday) => {
+      if (sessionWeekdays.length > 0) {
+        Object.keys(sessionWeekdays[0][1]).map((weekday) => {
           if (weekday === event.currentTarget.value) {
             setWeekdayChecked([...weekdayChecked, weekday]);
           }
@@ -224,8 +188,8 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      if (propositionTypes) {
-        Object.keys(propositionTypes.propositionType).map((propositionType) => {
+      if (propositionTypes.length > 0) {
+        Object.keys(propositionTypes[0][1]).map((propositionType) => {
           if (propositionType === event.currentTarget.value) {
             setPropositionTypeChecked([
               ...propositionTypeChecked,
@@ -245,8 +209,8 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      if (bodyTypes) {
-        Object.keys(bodyTypes.bodyType).map((bodyType) => {
+      if (bodyTypes.length > 0) {
+        Object.keys(bodyTypes[0][1]).map((bodyType) => {
           if (bodyType === event.currentTarget.value) {
             setBodyTypeChecked([...bodyTypeChecked, bodyType]);
           }
@@ -344,8 +308,8 @@ export const Search = (props: SearchProps) => {
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">Type</div>
-              {bodyTypes &&
-                Object.entries(bodyTypes.bodyType).map(
+              {bodyTypes.length > 0 &&
+                Object.entries(bodyTypes[0][1]).map(
                   ([bodyType, amount], index) => (
                     <CheckboxFacet
                       key={index}
@@ -354,7 +318,7 @@ export const Search = (props: SearchProps) => {
                       value={bodyType}
                       labelName={bodyType}
                       onChange={bodyTypesCheckedHandler}
-                      amount={amount}
+                      amount={amount as number}
                     />
                   )
                 )}
@@ -383,25 +347,25 @@ export const Search = (props: SearchProps) => {
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">Session weekday</div>
-              {sessionWeekdays &&
-                Object.entries(sessionWeekdays.sessionWeekday).map(
-                  ([weekday, amount], index) => (
+              {sessionWeekdays.length > 0 &&
+                Object.entries(sessionWeekdays[0][1]).map(
+                  ([sessionWeekday, amount], index) => (
                     <CheckboxFacet
                       key={index}
-                      id={`${weekday}-${index}`}
-                      name="weekdays"
-                      value={weekday}
-                      labelName={weekday}
+                      id={`${sessionWeekday}-${index}`}
+                      name="sessionWeekdays"
+                      value={sessionWeekday}
+                      labelName={sessionWeekday}
                       onChange={weekdaysCheckedHandler}
-                      amount={amount}
+                      amount={amount as number}
                     />
                   )
                 )}
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">Proposition type</div>
-              {propositionTypes &&
-                Object.entries(propositionTypes.propositionType).map(
+              {propositionTypes.length > 0 &&
+                Object.entries(propositionTypes[0][1]).map(
                   ([propositionType, amount], index) => (
                     <CheckboxFacet
                       key={index}
@@ -410,7 +374,7 @@ export const Search = (props: SearchProps) => {
                       value={propositionType}
                       labelName={propositionType}
                       onChange={propositionTypesCheckedHandler}
-                      amount={amount}
+                      amount={amount as number}
                     />
                   )
                 )}
