@@ -73,8 +73,8 @@ export const Search = (props: SearchProps) => {
   const searchQuery: any = {
     date: {
       name: "sessionDate",
-      from: "1728-01-01",
-      to: "1728-12-31",
+      from: `${dateFrom}`,
+      to: `${dateTo}`,
     },
     terms: {},
   };
