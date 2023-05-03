@@ -20,11 +20,11 @@ interface FullTextQuery {
 }
 
 interface newQuery {
-  text: string;
+  text?: string;
   terms: {
     [key: string]: string[];
   };
-  aggs: string[];
+  aggs?: string[];
   date: {
     from: string;
     to: string;
@@ -70,7 +70,7 @@ export const Search = (props: SearchProps) => {
   let bodyTypeQuery: TermsQuery;
   let fullTextQuery: FullTextQuery;
 
-  const searchQuery: any = {
+  const searchQuery: newQuery = {
     date: {
       name: "sessionDate",
       from: `${dateFrom}`,
