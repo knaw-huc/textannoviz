@@ -11,12 +11,8 @@ interface SearchProps {
   projectConfig: ProjectConfig;
 }
 
-interface TermsQuery {
-  [key: string]: string[];
-}
-
-interface FullTextQuery {
-  text: string;
+interface Facet {
+  [key: string]: number;
 }
 
 interface newQuery {
@@ -49,6 +45,7 @@ export const Search = (props: SearchProps) => {
   >([]);
   const [bodyTypeChecked, setBodyTypeChecked] = React.useState<string[]>([]);
   const [fullText, setFullText] = React.useState<string>();
+  const [dirty, setDirty] = React.useState<number>(0);
 
   React.useEffect(() => {
     sendSearchQuery({}, fragmenter, 0, 0, props.projectConfig).then((data) => {
@@ -56,61 +53,42 @@ export const Search = (props: SearchProps) => {
     });
   }, [elasticSize, fragmenter, props.projectConfig]);
 
-  const bodyTypes: [string, any][] = Object.entries(facets).filter(([key]) =>
-    key.includes("bodyType")
-  );
-  const sessionWeekdays: [string, any][] = Object.entries(facets).filter(
-    ([key]) => key.includes("sessionWeekday")
-  );
-  const propositionTypes: [string, any][] = Object.entries(facets).filter(
-    ([key]) => key.includes("propositionType")
-  );
-  let sessionWeekdayQuery: TermsQuery;
-  let propositionTypeQuery: TermsQuery;
-  let bodyTypeQuery: TermsQuery;
-  let fullTextQuery: FullTextQuery;
+  function refresh() {
+    setDirty((prev) => prev + 1);
+  }
 
-  const searchQuery: newQuery = {
-    date: {
-      name: "sessionDate",
-      from: `${dateFrom}`,
-      to: `${dateTo}`,
-    },
-    terms: {},
-  };
+  const bodyTypes: Facet = facets["bodyType"];
+  console.log(bodyTypes);
+
+  const sessionWeekdays: Facet = facets["sessionWeekday"];
+
+  const propositionTypes: Facet = facets["propositionType"];
 
   const doSearch = async () => {
-    if (weekdayChecked) {
-      sessionWeekdayQuery = {
-        sessionWeekday: weekdayChecked,
-      };
+    const searchQuery: newQuery = {
+      date: {
+        name: "sessionDate",
+        from: `${dateFrom}`,
+        to: `${dateTo}`,
+      },
+      terms: {},
+    };
+
+    if (weekdayChecked.length) {
+      searchQuery["terms"]["sessionWeekday"] = weekdayChecked;
     }
 
-    if (propositionTypeChecked) {
-      propositionTypeQuery = {
-        propositionType: propositionTypeChecked,
-      };
+    if (propositionTypeChecked.length) {
+      searchQuery["terms"]["propositionType"] = propositionTypeChecked;
     }
 
-    if (bodyTypeChecked) {
-      bodyTypeQuery = {
-        bodyType: bodyTypeChecked,
-      };
+    if (bodyTypeChecked.length) {
+      searchQuery["terms"]["bodyType"] = bodyTypeChecked;
     }
 
     if (fullText) {
-      fullTextQuery = {
-        text: fullText,
-      };
+      searchQuery["text"] = fullText;
     }
-
-    sessionWeekdayQuery.sessionWeekday.length >= 1 &&
-      Object.assign(searchQuery["terms"], sessionWeekdayQuery);
-    propositionTypeQuery.propositionType.length >= 1 &&
-      Object.assign(searchQuery["terms"], propositionTypeQuery);
-    bodyTypeQuery.bodyType.length >= 1 &&
-      Object.assign(searchQuery["terms"], bodyTypeQuery);
-    fullTextQuery.text && Object.assign(searchQuery, fullTextQuery);
 
     setQuery(searchQuery);
     console.log(searchQuery);
@@ -135,7 +113,7 @@ export const Search = (props: SearchProps) => {
 
   const fullTextEnterPressedHandler = (pressed: boolean) => {
     if (pressed) {
-      doSearch();
+      refresh();
     }
   };
 
@@ -168,8 +146,8 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      if (sessionWeekdays.length > 0) {
-        Object.keys(sessionWeekdays[0][1]).map((weekday) => {
+      if (sessionWeekdays) {
+        Object.keys(sessionWeekdays).map((weekday) => {
           if (weekday === event.currentTarget.value) {
             setWeekdayChecked([...weekdayChecked, weekday]);
           }
@@ -188,8 +166,8 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      if (propositionTypes.length > 0) {
-        Object.keys(propositionTypes[0][1]).map((propositionType) => {
+      if (propositionTypes) {
+        Object.keys(propositionTypes).map((propositionType) => {
           if (propositionType === event.currentTarget.value) {
             setPropositionTypeChecked([
               ...propositionTypeChecked,
@@ -209,8 +187,8 @@ export const Search = (props: SearchProps) => {
         )
       );
     } else {
-      if (bodyTypes.length > 0) {
-        Object.keys(bodyTypes[0][1]).map((bodyType) => {
+      if (bodyTypes) {
+        Object.keys(bodyTypes).map((bodyType) => {
           if (bodyType === event.currentTarget.value) {
             setBodyTypeChecked([...bodyTypeChecked, bodyType]);
           }
@@ -285,6 +263,22 @@ export const Search = (props: SearchProps) => {
     setSearchResults(data);
   }
 
+  function removeFacet(value: string) {
+    setPropositionTypeChecked(
+      propositionTypeChecked.filter(
+        (propositionType) => propositionType !== value
+      )
+    );
+
+    refresh();
+  }
+
+  React.useEffect(() => {
+    if (dirty > 0) {
+      doSearch();
+    }
+  }, [dirty]);
+
   return (
     <>
       <div className="appContainer">
@@ -296,7 +290,7 @@ export const Search = (props: SearchProps) => {
                 valueHandler={handleFullTextFacet}
                 enterPressedHandler={fullTextEnterPressedHandler}
               />
-              <button onClick={() => doSearch()}>Search</button>
+              <button onClick={() => refresh()}>Search</button>
             </div>
             <div className="searchFacet">
               <label>Fragmenter </label>
@@ -308,20 +302,19 @@ export const Search = (props: SearchProps) => {
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">Type</div>
-              {bodyTypes.length > 0 &&
-                Object.entries(bodyTypes[0][1]).map(
-                  ([bodyType, amount], index) => (
-                    <CheckboxFacet
-                      key={index}
-                      id={`${bodyType}-${index}`}
-                      name="bodyTypes"
-                      value={bodyType}
-                      labelName={bodyType}
-                      onChange={bodyTypesCheckedHandler}
-                      amount={amount as number}
-                    />
-                  )
-                )}
+              {bodyTypes &&
+                Object.entries(bodyTypes).map(([bodyType, amount], index) => (
+                  <CheckboxFacet
+                    key={index}
+                    id={bodyType}
+                    name="bodyTypes"
+                    value={bodyType}
+                    labelName={bodyType}
+                    onChange={bodyTypesCheckedHandler}
+                    amount={amount as number}
+                    checked={bodyTypeChecked.includes(bodyType)}
+                  />
+                ))}
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">From</div>
@@ -347,8 +340,8 @@ export const Search = (props: SearchProps) => {
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">Session weekday</div>
-              {sessionWeekdays.length > 0 &&
-                Object.entries(sessionWeekdays[0][1]).map(
+              {sessionWeekdays &&
+                Object.entries(sessionWeekdays).map(
                   ([sessionWeekday, amount], index) => (
                     <CheckboxFacet
                       key={index}
@@ -358,14 +351,15 @@ export const Search = (props: SearchProps) => {
                       labelName={sessionWeekday}
                       onChange={weekdaysCheckedHandler}
                       amount={amount as number}
+                      checked={weekdayChecked.includes(sessionWeekday)}
                     />
                   )
                 )}
             </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">Proposition type</div>
-              {propositionTypes.length > 0 &&
-                Object.entries(propositionTypes[0][1]).map(
+              {propositionTypes &&
+                Object.entries(propositionTypes).map(
                   ([propositionType, amount], index) => (
                     <CheckboxFacet
                       key={index}
@@ -375,6 +369,7 @@ export const Search = (props: SearchProps) => {
                       labelName={propositionType}
                       onChange={propositionTypesCheckedHandler}
                       amount={amount as number}
+                      checked={propositionTypeChecked.includes(propositionType)}
                     />
                   )
                 )}
@@ -383,20 +378,30 @@ export const Search = (props: SearchProps) => {
           <div className="searchResults">
             <div className="searchResultsHeader">
               <div className="searchResultsHeaderLeft">
-                {searchResults &&
-                  `Showing ${elasticFrom - elasticSize + 1}-${elasticFrom} of ${
-                    searchResults.total.value
-                  } results`}
+                <div className="searchResultsNumbers">
+                  {searchResults &&
+                    `Showing ${
+                      elasticFrom - elasticSize + 1
+                    }-${elasticFrom} of ${searchResults.total.value} results`}
+                </div>
+                <div className="selectedFacets">
+                  Selected facets:
+                  {propositionTypeChecked.map((checked, index) => (
+                    <div key={index} onClick={() => removeFacet(checked)}>
+                      {checked}
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="searchResultsHeaderRight">
-                <div className="sortBy">
+                {/* <div className="sortBy">
                   Sort by:{" "}
                   <select>
                     <option>Relevance</option>
                     <option>Session date (asc)</option>
                     <option>Session date (dsc)</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="searchResultsPerPage">
                   Results per page
                   <select
