@@ -3,7 +3,7 @@ import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { SearchResult } from "../../model/Search";
-import { sendSearchQuery } from "../../utils/broccoli";
+import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
 interface SearchProps {
@@ -46,6 +46,7 @@ export const Search = (props: SearchProps) => {
   const [bodyTypeChecked, setBodyTypeChecked] = React.useState<string[]>([]);
   const [fullText, setFullText] = React.useState<string>();
   const [dirty, setDirty] = React.useState<number>(0);
+  const [elasticIndices, setElasticIndices] = React.useState<any>();
 
   React.useEffect(() => {
     sendSearchQuery({}, fragmenter, 0, 0, props.projectConfig).then((data) => {
@@ -53,12 +54,19 @@ export const Search = (props: SearchProps) => {
     });
   }, [elasticSize, fragmenter, props.projectConfig]);
 
+  React.useEffect(() => {
+    getElasticIndices(props.projectConfig).then((data) =>
+      setElasticIndices(data)
+    );
+  }, [props.projectConfig]);
+
+  console.log(elasticIndices);
+
   function refresh() {
     setDirty((prev) => prev + 1);
   }
 
   const bodyTypes: Facet = facets["bodyType"];
-  console.log(bodyTypes);
 
   const sessionWeekdays: Facet = facets["sessionWeekday"];
 
