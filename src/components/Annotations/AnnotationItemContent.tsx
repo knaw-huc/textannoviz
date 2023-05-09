@@ -20,7 +20,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
       {props.annotation && (
         <div id="annotation-content">
           <ul>
-            {projectConfig.renderAnnotationItemContent(props.annotation)}
+            {projectConfig?.renderAnnotationItemContent(props.annotation)}
             <li>
               <button
                 className="show-full"

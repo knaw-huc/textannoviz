@@ -16,11 +16,11 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   const annotationTypesToInclude = useAnnotationStore(
     (state) => state.annotationTypesToInclude
   );
-  const ref = React.useRef(null);
+  const ref = React.useRef<HTMLSelectElement>(null);
 
   React.useEffect(() => {
     if (isOpen) {
-      ref.current.focus();
+      ref.current?.focus();
     }
   }, [isOpen]);
 
@@ -42,7 +42,9 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   };
 
   const resetFilterClickHandler = () => {
-    setAnnotationTypesToInclude(projectConfig.annotationTypesToInclude);
+    if (projectConfig) {
+      setAnnotationTypesToInclude(projectConfig.annotationTypesToInclude);
+    }
   };
 
   return (

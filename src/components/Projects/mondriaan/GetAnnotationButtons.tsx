@@ -6,18 +6,28 @@ import { useAnnotationStore } from "../../../stores/annotation";
 import { useMiradorStore } from "../../../stores/mirador";
 import { mondriaanConfig } from "./config";
 
-export const GetAnnotationButtons = () => {
+interface GetAnnotationButtonsProps {
+  nextOrPrevButtonClicked: (clicked: boolean) => boolean;
+}
+
+export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const currentContext = useMiradorStore((state) => state.currentContext);
   const resetOpenAnn = useAnnotationStore((state) => state.resetOpenAnn);
+  const setCurrentSelectedAnn = useAnnotationStore(
+    (state) => state.setCurrentSelectedAnn
+  );
   const params = useParams();
   const navigate = useNavigate();
 
   const letters = mondriaanConfig.letters;
 
   const nextCanvasClickHandler = () => {
+    props.nextOrPrevButtonClicked(true);
+    setCurrentSelectedAnn("");
     resetOpenAnn();
-    const currentIndex = letters.indexOf(currentContext.tier1);
+    if (!letters) return;
+    const currentIndex = letters?.indexOf(currentContext.tier1);
     const nextCanvas = letters[currentIndex + 1];
     if (!nextCanvas) {
       toast(`This is the last letter in folder ${currentContext.tier0}!`, {
@@ -33,7 +43,10 @@ export const GetAnnotationButtons = () => {
   };
 
   const prevCanvasClickHandler = () => {
+    props.nextOrPrevButtonClicked(true);
+    setCurrentSelectedAnn("");
     resetOpenAnn();
+    if (!letters) return;
     const currentIndex = letters.indexOf(currentContext.tier1);
     const prevCanvas = letters[currentIndex - 1];
     if (!prevCanvas) {

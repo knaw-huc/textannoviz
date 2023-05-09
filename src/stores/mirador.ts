@@ -17,12 +17,10 @@ export interface CurrentContextSlice {
 }
 
 export interface CanvasSlice {
-  canvas:
-    | {
-        canvasIds: string[];
-        currentIndex: number;
-      }
-    | undefined;
+  canvas: {
+    canvasIds: string[];
+    currentIndex: number;
+  };
   setCanvas: (newCanvas: CanvasSlice["canvas"]) => void;
 }
 
@@ -42,7 +40,11 @@ const createCurrentContextSlice: StateCreator<
   [],
   CurrentContextSlice
 > = (set) => ({
-  currentContext: undefined,
+  currentContext: {
+    tier0: "",
+    tier1: "",
+    bodyId: "",
+  },
   setCurrentContext: (newCurrentContext) =>
     set(() => ({ currentContext: newCurrentContext })),
 });
@@ -53,7 +55,10 @@ const createCanvasSlice: StateCreator<
   [],
   CanvasSlice
 > = (set) => ({
-  canvas: undefined,
+  canvas: {
+    canvasIds: [],
+    currentIndex: 0,
+  },
   setCanvas: (newCanvas) => set(() => ({ canvas: newCanvas })),
 });
 

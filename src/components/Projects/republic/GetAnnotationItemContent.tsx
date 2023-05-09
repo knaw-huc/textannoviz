@@ -1,4 +1,3 @@
-import React from "react";
 import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation";
 
 interface GetAnnotationItemContentProps {

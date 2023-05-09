@@ -13,7 +13,7 @@ export interface OpenAnnSlice {
 }
 
 export interface CurrentSelectedAnnSlice {
-  currentSelectedAnn: string | undefined;
+  currentSelectedAnn: string;
   setCurrentSelectedAnn: (bodyId: string) => void;
 }
 
@@ -64,7 +64,7 @@ const createAnnotationSlice: StateCreator<
   [],
   AnnotationsSlice
 > = (set) => ({
-  annotations: undefined,
+  annotations: [],
   setAnnotations: (newAnnotations) =>
     set(() => ({ annotations: newAnnotations })),
 });
@@ -78,7 +78,7 @@ const createCurrentSelectedAnnSlice: StateCreator<
   [],
   CurrentSelectedAnnSlice
 > = (set) => ({
-  currentSelectedAnn: undefined,
+  currentSelectedAnn: "",
   setCurrentSelectedAnn: (newCurrentSelectedAnn) =>
     set(() => ({ currentSelectedAnn: newCurrentSelectedAnn })),
 });
@@ -92,7 +92,7 @@ const createAnnotationTypesToIncluceSlice: StateCreator<
   [],
   AnnotationTypesToIncludeSlice
 > = (set) => ({
-  annotationTypesToInclude: undefined,
+  annotationTypesToInclude: [],
   setAnnotationTypesToInclude: (newAnnotationTypesToInclude) =>
     set(() => ({ annotationTypesToInclude: newAnnotationTypesToInclude })),
 });

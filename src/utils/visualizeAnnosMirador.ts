@@ -15,7 +15,7 @@ export const visualizeAnnosMirador = (
   canvasId: string,
   projectConfig: ProjectConfig
 ): iiifAnn => {
-  const currentState = store.getState();
+  const currentState = store.getState && store.getState();
   const iiifAnn: iiifAnn = {
     "@id": projectConfig.id,
     "@context": "http://iiif.io/api/presentation/2/context.json",

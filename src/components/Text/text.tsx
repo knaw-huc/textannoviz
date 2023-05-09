@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { TextComponent } from "./TextComponent";
-import React from "react";
 import { useTextStore } from "../../stores/text";
+import { TextComponent } from "./TextComponent";
 
 const TextStyled = styled.div`
   width: 450px;

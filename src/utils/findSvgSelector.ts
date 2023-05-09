@@ -1,7 +1,7 @@
 import {
   AnnoRepoAnnotation,
   CanvasTarget,
-  SvgSelector
+  SvgSelector,
 } from "../model/AnnoRepoAnnotation";
 
 export const findSvgSelector = (
@@ -14,7 +14,7 @@ export const findSvgSelector = (
   );
   const svgSelectors = filteredCanvasTargets
     .flatMap((t) => t.selector)
-    .filter((t) => t.type === "SvgSelector");
+    .filter((t) => t?.type === "SvgSelector");
 
   return (svgSelectors[0] as SvgSelector).value;
 };

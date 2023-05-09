@@ -13,6 +13,7 @@ import { AnnotationItemContent } from "./AnnotationItemContent";
 
 type AnnotationSnippetProps = {
   annotation: AnnoRepoAnnotation;
+  nextOrPrevButtonClicked: boolean;
 };
 
 const AnnSnippet = styled.div`
@@ -44,6 +45,12 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
     (state) => state.setCurrentSelectedAnn
   );
 
+  React.useEffect(() => {
+    if (props.nextOrPrevButtonClicked === true) {
+      setOpen(false);
+    }
+  }, [props.nextOrPrevButtonClicked]);
+
   async function toggleOpen() {
     setOpen(!isOpen);
 
@@ -69,17 +76,18 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
       const startIndex = text.locations.annotations.find(
         (anno) => anno.bodyId === props.annotation.body.id
-      ).start.line;
+      )?.start.line;
 
       const endIndex = text.locations.annotations.find(
         (anno) => anno.bodyId === props.annotation.body.id
-      ).end.line;
+      )?.end.line;
 
-      const indices = createIndices(startIndex, endIndex);
+      if (typeof startIndex === "number" && typeof endIndex === "number") {
+        const indices = createIndices(startIndex, endIndex);
+        updateOpenAnn(props.annotation.body.id, indices);
+      }
 
       setCurrentSelectedAnn(props.annotation.body.id);
-
-      updateOpenAnn(props.annotation.body.id, indices);
     } else {
       miradorStore.dispatch(
         mirador.actions.deselectAnnotation(
@@ -116,7 +124,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         // onMouseLeave={deselectAnn}
         id="clickable"
       >
-        {projectConfig.renderAnnotationItem(props.annotation)}
+        {projectConfig?.renderAnnotationItem(props.annotation)}
       </Clickable>
       {isOpen && <AnnotationItemContent annotation={props.annotation} />}
     </AnnSnippet>

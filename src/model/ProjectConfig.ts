@@ -2,11 +2,9 @@ import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
 export interface ProjectConfig {
   id: string;
-  colours:
-    | {
-        [key: string]: string;
-      }
-    | undefined;
+  colours: {
+    [key: string]: string;
+  };
   relativeTo: string;
   annotationTypes: string[];
   annotationTypesToInclude: string[];
@@ -18,10 +16,12 @@ export interface ProjectConfig {
     index: number[];
   }[];
   letters?: string[];
-  renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
+  renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
-  renderAnnotationButtons: () => JSX.Element;
+  renderAnnotationButtons: (
+    nextOrPrevButtonClicked: (clicked: boolean) => boolean
+  ) => JSX.Element;
   createRouter: (
     comp1: React.ReactNode,
     comp2: React.ReactNode,

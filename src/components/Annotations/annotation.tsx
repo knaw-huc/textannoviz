@@ -1,5 +1,7 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
@@ -24,20 +26,28 @@ const ButtonsStyled = styled.div`
 
 export function Annotation() {
   const [loading, setLoading] = React.useState(false);
+  const [nextOrPrevButtonClicked, setNextOrPrevButtonClicked] =
+    React.useState(false);
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const projectName = useProjectStore((state) => state.projectName);
   const canvas = useMiradorStore((state) => state.canvas);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
+  const params = useParams();
 
   React.useEffect(() => {
-    if (!canvas && !annotations && !miradorStore && !projectConfig) return;
-    if (projectName !== "mondriaan") {
+    if (
+      canvas &&
+      annotations &&
+      miradorStore &&
+      projectConfig &&
+      projectName !== "mondriaan"
+    ) {
       visualizeAnnosMirador(
         annotations,
         miradorStore,
         canvas.canvasIds[0],
-        projectConfig
+        projectConfig as ProjectConfig
       );
     }
   }, [annotations, canvas, miradorStore, projectConfig, projectName]);
@@ -54,16 +64,33 @@ export function Annotation() {
     setLoading(bool);
   };
 
+  const nextOrPrevButtonClickedHandler = (clicked: boolean) => {
+    setNextOrPrevButtonClicked(clicked);
+    return clicked;
+  };
+
+  React.useEffect(() => {
+    if (params.tier0 && params.tier1) {
+      setNextOrPrevButtonClicked(false);
+    }
+  }, [params.tier0, params.tier1]);
+
   return (
     <AnnotationStyled id="annotation">
       <AnnotationLinks />
       <ButtonsStyled>
-        <AnnotationButtons /> {"|"}{" "}
-        <AnnotationFilter loading={loadingHandler} />
+        <AnnotationButtons
+          nextOrPrevButtonClicked={nextOrPrevButtonClickedHandler}
+        />{" "}
+        {"|"} <AnnotationFilter loading={loadingHandler} />
       </ButtonsStyled>
-      {annotations && annotations.length > 0 && !loading
+      {annotations?.length > 0 && !loading
         ? annotations.map((annotation, index) => (
-            <AnnotationItem key={index} annotation={annotation} />
+            <AnnotationItem
+              key={index}
+              annotation={annotation}
+              nextOrPrevButtonClicked={nextOrPrevButtonClicked}
+            />
           ))
         : null}
       {loading ? <Loading /> : null}

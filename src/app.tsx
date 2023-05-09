@@ -10,7 +10,7 @@ import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
 
 const project: string = import.meta.env.VITE_PROJECT;
-let config: ProjectConfig;
+let config!: ProjectConfig;
 
 switch (project) {
   case "republic":

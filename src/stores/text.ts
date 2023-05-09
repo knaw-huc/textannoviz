@@ -2,12 +2,21 @@ import { create, StateCreator } from "zustand";
 import { BroccoliTextGeneric } from "../model/Broccoli";
 
 export interface TextSlice {
-  text: BroccoliTextGeneric | undefined;
+  text: BroccoliTextGeneric;
   setText: (newText: TextSlice["text"]) => void;
 }
 
 const createTextSlice: StateCreator<TextSlice, [], [], TextSlice> = (set) => ({
-  text: undefined,
+  text: {
+    lines: [],
+    locations: {
+      relativeTo: {
+        type: "",
+        bodyId: "",
+      },
+      annotations: [],
+    },
+  },
   setText: (newText) => set(() => ({ text: newText })),
 });
 
