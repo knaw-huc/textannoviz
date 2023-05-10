@@ -30,32 +30,29 @@ export interface SearchResultBody {
   }[];
 }
 
-export interface FacetType {
-  bodyType: {
-    Resolution: number;
-    AttendanceList: number;
+export interface Indices {
+  [key: string]: {
+    [key: string]: string;
   };
-  sessionWeekday: {
-    Veneris: number;
-    Lunae: number;
-    Martis: number;
-    Jovis: number;
-    Sabbathi: number;
-    Mercurii: number;
+}
+
+export interface FacetValue {
+  [key: string]: number;
+}
+
+export interface Facets {
+  [key: string]: FacetValue;
+}
+
+export interface SearchQuery {
+  text?: string;
+  terms: {
+    [key: string]: string[];
   };
-  propositionType: {
-    missive: number;
-    requeste: number;
-    rapport: number;
-    memorie: number;
-    resolutie: number;
-    onbekend: number;
-    oraal: number;
-    voordracht: number;
-    rekening: number;
-    declaratie: number;
-    advies: number;
-    conclusie: number;
-    instructie: number;
+  aggs?: string[];
+  date?: {
+    from: string;
+    to: string;
+    name: string;
   };
 }

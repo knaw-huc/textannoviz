@@ -2,7 +2,13 @@ import React from "react";
 import "react-calendar/dist/Calendar.css";
 import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
-import { SearchResult } from "../../model/Search";
+import {
+  FacetValue,
+  Facets,
+  Indices,
+  SearchQuery,
+  SearchResult,
+} from "../../model/Search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
 
@@ -12,33 +18,6 @@ interface SearchProps {
   indices: Indices;
   facets: Facets;
   indexName: string;
-}
-
-interface Indices {
-  [key: string]: {
-    [key: string]: string;
-  };
-}
-
-interface FacetValue {
-  [key: string]: number;
-}
-
-interface Facets {
-  [key: string]: FacetValue;
-}
-
-interface SearchQuery {
-  text?: string;
-  terms: {
-    [key: string]: string[];
-  };
-  aggs?: string[];
-  date?: {
-    from: string;
-    to: string;
-    name: string;
-  };
 }
 
 export const Search = (props: SearchProps) => {
