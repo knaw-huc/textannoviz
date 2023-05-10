@@ -16,6 +16,9 @@ export interface ProjectConfig {
     index: number[];
   }[];
   letters?: string[];
+  elasticIndexName?: string;
+  initialDateFrom?: string;
+  initialDateTo?: string;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;

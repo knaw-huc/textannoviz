@@ -2,10 +2,10 @@ import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
-import { getAnnotationItem } from "../getAnnotationItem";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";
 import { GetHome } from "../GetHome";
+import { getAnnotationItem } from "../getAnnotationItem";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
@@ -42,6 +42,9 @@ export const republicConfig: ProjectConfig = {
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
   scanAnnotation: "Scan",
+  elasticIndexName: "resolutions",
+  initialDateFrom: "1728-01-01",
+  initialDateTo: "1728-12-31",
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
