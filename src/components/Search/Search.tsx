@@ -34,7 +34,7 @@ interface SearchQuery {
     [key: string]: string[];
   };
   aggs?: string[];
-  date: {
+  date?: {
     from: string;
     to: string;
     name: string;
@@ -44,8 +44,12 @@ interface SearchQuery {
 export const Search = (props: SearchProps) => {
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
-  const [dateFrom, setDateFrom] = React.useState("1728-01-01");
-  const [dateTo, setDateTo] = React.useState("1728-12-31");
+  const [dateFrom, setDateFrom] = React.useState(
+    props.projectConfig.initialDateFrom ?? ""
+  );
+  const [dateTo, setDateTo] = React.useState(
+    props.projectConfig.initialDateTo ?? ""
+  );
   const [facets, setFacets] = React.useState<Facets>(props.facets);
   const [query, setQuery] = React.useState<SearchQuery>();
   const [pageNumber, setPageNumber] = React.useState(1);
@@ -75,11 +79,6 @@ export const Search = (props: SearchProps) => {
 
   const doSearch = async () => {
     const searchQuery: SearchQuery = {
-      date: {
-        name: "sessionDate",
-        from: `${dateFrom}`,
-        to: `${dateTo}`,
-      },
       terms: {},
     };
 
@@ -98,6 +97,14 @@ export const Search = (props: SearchProps) => {
           }
         }
       });
+    });
+
+    getDateFacets().map(([facetName]) => {
+      searchQuery["date"] = {
+        name: facetName,
+        from: dateFrom,
+        to: dateTo,
+      };
     });
 
     setQuery(searchQuery);
@@ -132,18 +139,6 @@ export const Search = (props: SearchProps) => {
   ) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
-  };
-
-  const calendarFromChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setDateFrom(event.target.value);
-  };
-
-  const calendarToChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setDateTo(event.target.value);
   };
 
   async function prevPageClickHandler() {
@@ -218,13 +213,21 @@ export const Search = (props: SearchProps) => {
     }
   }, [dirty]);
 
-  function getKeywordFacets() {
+  function getFacets(type: string) {
     return Object.entries(facets).filter(([key]) => {
-      return props.indices && props.indices[props.indexName][key] === "keyword";
+      return props.indices && props.indices[props.indexName][key] === type;
     });
   }
 
-  function renderFacets() {
+  function getKeywordFacets() {
+    return getFacets("keyword");
+  }
+
+  function getDateFacets() {
+    return getFacets("date");
+  }
+
+  function renderKeywordFacets() {
     return getKeywordFacets().map(([facetName, facetValues], index) => {
       return (
         <div key={index} className="searchFacet">
@@ -255,6 +258,42 @@ export const Search = (props: SearchProps) => {
     });
   }
 
+  function renderDateFacets() {
+    return getDateFacets().map(([facetName], index) => {
+      return (
+        <div key={index} className="searchFacet">
+          <div className="searchFacetTitle">{facetName}</div>
+          <div>
+            <div className="searchFacetTitle">From</div>
+            <input
+              type="date"
+              id="start"
+              value={dateFrom}
+              min={dateFrom}
+              max={dateTo}
+              onChange={(event) => setDateFrom(event.target.value)}
+            />
+
+            <div className="searchFacetTitle">To</div>
+            <input
+              type="date"
+              id="end"
+              value={dateTo}
+              min={dateFrom}
+              max={dateTo}
+              onChange={(event) => setDateTo(event.target.value)}
+            />
+          </div>
+        </div>
+      );
+    });
+  }
+
+  function removeFacet(key: string) {
+    setCheckBoxStates(new Map(checkboxStates.set(key, false)));
+    refresh();
+  }
+
   return (
     <>
       <div className="appContainer">
@@ -276,29 +315,8 @@ export const Search = (props: SearchProps) => {
                 <option>None</option>
               </select>
             </div>
-            <div className="searchFacet">
-              <div className="searchFacetTitle">From</div>
-              <input
-                type="date"
-                id="start"
-                value={dateFrom}
-                min={dateFrom}
-                max={dateTo}
-                onChange={calendarFromChangeHandler}
-              />
-            </div>
-            <div className="searchFacet">
-              <div className="searchFacetTitle">To</div>
-              <input
-                type="date"
-                id="end"
-                value={dateTo}
-                min={dateFrom}
-                max={dateTo}
-                onChange={calendarToChangeHandler}
-              />
-            </div>
-            {checkboxStates.size > 0 && renderFacets()}
+            {facets && renderDateFacets()}
+            {checkboxStates.size > 0 && renderKeywordFacets()}
           </div>
           <div className="searchResults">
             <div className="searchResultsHeader">
@@ -308,6 +326,25 @@ export const Search = (props: SearchProps) => {
                     `Showing ${
                       elasticFrom - elasticSize + 1
                     }-${elasticFrom} of ${searchResults.total.value} results`}
+                </div>
+                <div>
+                  Selected facets:
+                  {facets &&
+                    getKeywordFacets().map(([facetName, facetValues]) => {
+                      return Object.keys(facetValues).map(
+                        (facetValueName, index) => {
+                          const key = `${facetName}-${facetValueName}`;
+
+                          if (checkboxStates.get(key)) {
+                            return (
+                              <div key={index} onClick={() => removeFacet(key)}>
+                                {key}
+                              </div>
+                            );
+                          }
+                        }
+                      );
+                    })}
                 </div>
               </div>
               <div className="searchResultsHeaderRight">
