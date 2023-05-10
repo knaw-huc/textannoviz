@@ -154,6 +154,7 @@ export const mondriaanConfig: ProjectConfig = {
     "19091025y_IONG_1298",
     "19100131_SAAL_ARNO_0018",
   ],
+  elasticIndexName: "divs",
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
