@@ -9,9 +9,15 @@ import { SearchItem } from "./SearchItem";
 interface SearchProps {
   project: string;
   projectConfig: ProjectConfig;
-  indices: any;
-  facets: any;
+  indices: Indices;
+  facets: Facets;
   indexName: string;
+}
+
+interface Indices {
+  [key: string]: {
+    [key: string]: string;
+  };
 }
 
 interface FacetValue {
@@ -54,20 +60,14 @@ export const Search = (props: SearchProps) => {
   React.useEffect(() => {
     const newMap = new Map<string, boolean>();
     props.facets &&
-      Object.entries(props.facets)
-        .filter(([key, _]) => {
-          return (
-            props.indices && props.indices["resolutions"][key] === "keyword"
-          );
-        })
-        .map(([facetName, facetValues]) => {
-          Object.keys(facetValues as FacetValue).forEach((facetValueName) => {
-            const key = `${facetName}-${facetValueName}`;
-            newMap.set(key, false);
-          });
+      getKeywordFacets().map(([facetName, facetValues]) => {
+        Object.keys(facetValues).forEach((facetValueName) => {
+          const key = `${facetName}-${facetValueName}`;
+          newMap.set(key, false);
         });
+      });
     setCheckBoxStates(newMap);
-  }, [props.facets, props.indices]);
+  }, [props.facets, props.indexName, props.indices]);
 
   function refresh() {
     setDirty((prev) => prev + 1);
@@ -219,7 +219,7 @@ export const Search = (props: SearchProps) => {
   }, [dirty]);
 
   function getKeywordFacets() {
-    return Object.entries(facets).filter(([key, _]) => {
+    return Object.entries(facets).filter(([key]) => {
       return props.indices && props.indices[props.indexName][key] === "keyword";
     });
   }
@@ -229,7 +229,7 @@ export const Search = (props: SearchProps) => {
       return (
         <div key={index} className="searchFacet">
           <div className="searchFacetTitle">{facetName}</div>
-          {Object.entries(facetValues as FacetValue).map(
+          {Object.entries(facetValues).map(
             ([facetValueName, facetValueAmount]) => {
               const key = `${facetName}-${facetValueName}`;
               return (
@@ -239,7 +239,7 @@ export const Search = (props: SearchProps) => {
                   name={facetValueName}
                   value={facetValueName}
                   labelName={facetValueName}
-                  amount={facetValueAmount as number}
+                  amount={facetValueAmount}
                   onChange={(event) =>
                     setCheckBoxStates(
                       new Map(checkboxStates.set(key, event.target.checked))
