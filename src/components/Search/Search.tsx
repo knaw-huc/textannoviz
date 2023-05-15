@@ -313,26 +313,6 @@ export const Search = (props: SearchProps) => {
       <div className="appContainer">
         <div className="searchContainer">
           <div className="searchFacets">
-            <div className="selectedFacetList searchFacet">
-              Selected facets:
-              {getKeywordFacets().map(([facetName, facetValues]) => {
-                return Object.keys(facetValues).map((facetValueName, index) => {
-                  const key = `${facetName}-${facetValueName}`;
-
-                  if (checkboxStates.get(key)) {
-                    return (
-                      <div
-                        className="selectedFacet"
-                        key={index}
-                        onClick={() => removeFacet(key)}
-                      >
-                        {key} {"[x]"}
-                      </div>
-                    );
-                  }
-                });
-              })}
-            </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">Text search</div>
               <FullTextFacet
@@ -359,6 +339,26 @@ export const Search = (props: SearchProps) => {
                 <SearchSortBy onChange={sortByChangeHandler} />
                 <SearchResultsPerPage onChange={resultsPerPageSelectHandler} />
               </div>
+            </div>
+            <div className="selectedFacetList">
+              <div className="searchFacetTitle">Selected facets:</div>
+              {getKeywordFacets().map(([facetName, facetValues]) => {
+                return Object.keys(facetValues).map((facetValueName, index) => {
+                  const key = `${facetName}-${facetValueName}`;
+
+                  if (checkboxStates.get(key)) {
+                    return (
+                      <div
+                        className="selectedFacet"
+                        key={index}
+                        onClick={() => removeFacet(key)}
+                      >
+                        {key} {"[x]"}
+                      </div>
+                    );
+                  }
+                });
+              })}
             </div>
             {searchResults && searchResults.results.length >= 1
               ? searchResults.results.map((result, index) => (
