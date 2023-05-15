@@ -32,7 +32,7 @@ export const Search = (props: SearchProps) => {
     props.projectConfig.initialDateTo ?? ""
   );
   const [facets, setFacets] = React.useState<Facets>(props.facets);
-  const [query, setQuery] = React.useState<SearchQuery>();
+  const [query, setQuery] = React.useState<SearchQuery>({});
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);

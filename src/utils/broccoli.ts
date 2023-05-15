@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { HOSTS } from "../Config";
 import { ProjectConfig } from "../model/ProjectConfig";
+import { SearchQuery } from "../model/Search";
 
 const headers = {
   "Content-Type": "application/json",
@@ -77,7 +78,7 @@ export const fetchBroccoliScanWithOverlap = async (
 };
 
 export const sendSearchQuery = async (
-  searchQuery: any,
+  searchQuery: SearchQuery,
   fragParam: string,
   sizeParam: number,
   fromParam = 0,

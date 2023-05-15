@@ -44,15 +44,17 @@ export interface Facets {
   [key: string]: FacetValue;
 }
 
-export type SearchQuery = {
-  text?: string;
-  terms: {
-    [key: string]: string[];
-  };
-  aggs?: string[];
-  date?: {
-    from: string;
-    to: string;
-    name: string;
-  };
-};
+export type SearchQuery =
+  | {
+      text?: string;
+      terms: {
+        [key: string]: string[];
+      };
+      aggs?: string[];
+      date?: {
+        from: string;
+        to: string;
+        name: string;
+      };
+    }
+  | Record<string, never>;
