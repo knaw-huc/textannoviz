@@ -313,6 +313,26 @@ export const Search = (props: SearchProps) => {
       <div className="appContainer">
         <div className="searchContainer">
           <div className="searchFacets">
+            <div className="selectedFacetList searchFacet">
+              Selected facets:
+              {getKeywordFacets().map(([facetName, facetValues]) => {
+                return Object.keys(facetValues).map((facetValueName, index) => {
+                  const key = `${facetName}-${facetValueName}`;
+
+                  if (checkboxStates.get(key)) {
+                    return (
+                      <div
+                        className="selectedFacet"
+                        key={index}
+                        onClick={() => removeFacet(key)}
+                      >
+                        {key} {"[x]"}
+                      </div>
+                    );
+                  }
+                });
+              })}
+            </div>
             <div className="searchFacet">
               <div className="searchFacetTitle">Text search</div>
               <FullTextFacet
@@ -333,25 +353,6 @@ export const Search = (props: SearchProps) => {
                     `Showing ${
                       elasticFrom - elasticSize + 1
                     }-${elasticFrom} of ${searchResults.total.value} results`}
-                </div>
-                <div>
-                  Selected facets:
-                  {facets &&
-                    getKeywordFacets().map(([facetName, facetValues]) => {
-                      return Object.keys(facetValues).map(
-                        (facetValueName, index) => {
-                          const key = `${facetName}-${facetValueName}`;
-
-                          if (checkboxStates.get(key)) {
-                            return (
-                              <div key={index} onClick={() => removeFacet(key)}>
-                                {key}
-                              </div>
-                            );
-                          }
-                        }
-                      );
-                    })}
                 </div>
               </div>
               <div className="searchResultsHeaderRight">

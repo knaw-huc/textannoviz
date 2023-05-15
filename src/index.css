@@ -104,6 +104,19 @@ em {
   background-color: yellow;
 }
 
+.selectedFacet {
+  padding: 0.2rem 0.5rem;
+  background-color: #f6f6f6;
+  border: 1px solid #d3d3d3;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.selectedFacetList {
+  margin-bottom: 1em;
+}
+
 .searchFacet {
   margin-bottom: 1em;
   max-width: 300px;
