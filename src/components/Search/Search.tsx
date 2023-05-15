@@ -9,7 +9,9 @@ import {
   SearchResult,
 } from "../../model/Search";
 import { sendSearchQuery } from "../../utils/broccoli";
+import { Fragmenter } from "./Fragmenter";
 import { SearchItem } from "./SearchItem";
+import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
 
 interface SearchProps {
@@ -34,8 +36,8 @@ export const Search = (props: SearchProps) => {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
-  const [sortBy, setSortBy] = React.useState<any>("_score");
-  const [sortOrder, setSortOrder] = React.useState<any>("desc");
+  const [sortBy, setSortBy] = React.useState<string>("_score");
+  const [sortOrder, setSortOrder] = React.useState<string>("desc");
   const [fullText, setFullText] = React.useState<string>();
   const [dirty, setDirty] = React.useState<number>(0);
   const [checkboxStates, setCheckBoxStates] = React.useState(
@@ -170,6 +172,8 @@ export const Search = (props: SearchProps) => {
   ) => {
     if (event.currentTarget.value === "") return;
     setElasticSize(parseInt(event.currentTarget.value));
+
+    refresh();
   };
 
   async function jumpToPageHandler(
@@ -317,14 +321,7 @@ export const Search = (props: SearchProps) => {
               />
               <button onClick={() => refresh()}>Search</button>
             </div>
-            <div className="searchFacet">
-              <label>Fragmenter </label>
-              <select onChange={fragmenterSelectHandler}>
-                <option>Scan</option>
-                <option>Sentence</option>
-                <option>None</option>
-              </select>
-            </div>
+            <Fragmenter onChange={fragmenterSelectHandler} />
             {facets && renderDateFacets()}
             {checkboxStates.size > 0 && renderKeywordFacets()}
           </div>
@@ -358,21 +355,8 @@ export const Search = (props: SearchProps) => {
                 </div>
               </div>
               <div className="searchResultsHeaderRight">
-                <SearchSortBy
-                  onChange={(event) => sortByChangeHandler(event)}
-                />
-                <div className="searchResultsPerPage">
-                  Results per page
-                  <select
-                    onChange={resultsPerPageSelectHandler}
-                    defaultValue={10}
-                  >
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                </div>
+                <SearchSortBy onChange={sortByChangeHandler} />
+                <SearchResultsPerPage onChange={resultsPerPageSelectHandler} />
               </div>
             </div>
             {searchResults && searchResults.results.length >= 1
