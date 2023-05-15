@@ -44,7 +44,7 @@ export interface Facets {
   [key: string]: FacetValue;
 }
 
-export interface SearchQuery {
+export type SearchQuery = {
   text?: string;
   terms: {
     [key: string]: string[];
@@ -55,4 +55,4 @@ export interface SearchQuery {
     to: string;
     name: string;
   };
-}
+};

@@ -33,6 +33,8 @@ export const Search = (props: SearchProps) => {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
+  const [sortBy, setSortBy] = React.useState<any>("_score");
+  const [sortOrder, setSortOrder] = React.useState<any>("desc");
   const [fullText, setFullText] = React.useState<string>();
   const [dirty, setDirty] = React.useState<number>(0);
   const [checkboxStates, setCheckBoxStates] = React.useState(
@@ -93,7 +95,9 @@ export const Search = (props: SearchProps) => {
       fragmenter,
       elasticSize,
       0,
-      props.projectConfig
+      props.projectConfig,
+      sortBy,
+      sortOrder
     );
 
     setSearchResults(data);
@@ -129,7 +133,9 @@ export const Search = (props: SearchProps) => {
       fragmenter,
       elasticSize,
       from,
-      props.projectConfig
+      props.projectConfig,
+      sortBy,
+      sortOrder
     );
 
     // const target = document.getElementsByClassName("searchContainer")[0];
@@ -147,7 +153,9 @@ export const Search = (props: SearchProps) => {
       fragmenter,
       elasticSize,
       elasticFrom,
-      props.projectConfig
+      props.projectConfig,
+      sortBy,
+      sortOrder
     );
 
     // const target = document.getElementsByClassName("searchContainer")[0];
@@ -176,7 +184,9 @@ export const Search = (props: SearchProps) => {
       fragmenter,
       elasticSize,
       from,
-      props.projectConfig
+      props.projectConfig,
+      sortBy,
+      sortOrder
     );
 
     // const target = document.getElementsByClassName("searchContainer")[0];
@@ -203,6 +213,23 @@ export const Search = (props: SearchProps) => {
 
   function getDateFacets() {
     return getFacets("date");
+  }
+
+  function sortByChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+    if (event.currentTarget.value === "_score") {
+      setSortBy("_score");
+      setSortOrder("desc");
+    }
+
+    if (event.currentTarget.value === "sessionDateAsc") {
+      setSortBy("sessionDate");
+      setSortOrder("asc");
+    }
+
+    if (event.currentTarget.value === "sessionDateDesc") {
+      setSortBy("sessionDate");
+      setSortOrder("desc");
+    }
   }
 
   function renderKeywordFacets() {
@@ -326,6 +353,14 @@ export const Search = (props: SearchProps) => {
                 </div>
               </div>
               <div className="searchResultsHeaderRight">
+                <div className="sortBy">
+                  Sort by:
+                  <select onChange={sortByChangeHandler}>
+                    <option value="_score">Relevance</option>
+                    <option value="sessionDateAsc">Session date (asc)</option>
+                    <option value="sessionDateDesc">Session date (desc)</option>
+                  </select>
+                </div>
                 <div className="searchResultsPerPage">
                   Results per page
                   <select

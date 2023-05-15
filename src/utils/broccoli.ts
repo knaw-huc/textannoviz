@@ -82,13 +82,15 @@ export const sendSearchQuery = async (
   sizeParam: number,
   fromParam = 0,
   projectConfig: ProjectConfig,
-  sortParam = "_score"
+  sortBy = "_score",
+  sortOrder = "desc"
 ) => {
   const params = new URLSearchParams({
     frag: fragParam,
     size: sizeParam.toString(),
     from: fromParam.toString(),
-    sort: sortParam,
+    sortBy: sortBy,
+    sortOrder: sortOrder,
   });
 
   const response = await fetch(
