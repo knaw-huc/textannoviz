@@ -10,6 +10,7 @@ import {
 } from "../../model/Search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { SearchItem } from "./SearchItem";
+import { SearchSortBy } from "./SearchSortBy";
 
 interface SearchProps {
   project: string;
@@ -216,20 +217,24 @@ export const Search = (props: SearchProps) => {
   }
 
   function sortByChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+    const facetName = getDateFacets()[0][0];
+
     if (event.currentTarget.value === "_score") {
       setSortBy("_score");
       setSortOrder("desc");
     }
 
-    if (event.currentTarget.value === "sessionDateAsc") {
-      setSortBy("sessionDate");
+    if (event.currentTarget.value === "dateAsc") {
+      setSortBy(facetName);
       setSortOrder("asc");
     }
 
-    if (event.currentTarget.value === "sessionDateDesc") {
-      setSortBy("sessionDate");
+    if (event.currentTarget.value === "dateDesc") {
+      setSortBy(facetName);
       setSortOrder("desc");
     }
+
+    refresh();
   }
 
   function renderKeywordFacets() {
@@ -353,14 +358,9 @@ export const Search = (props: SearchProps) => {
                 </div>
               </div>
               <div className="searchResultsHeaderRight">
-                <div className="sortBy">
-                  Sort by:
-                  <select onChange={sortByChangeHandler}>
-                    <option value="_score">Relevance</option>
-                    <option value="sessionDateAsc">Session date (asc)</option>
-                    <option value="sessionDateDesc">Session date (desc)</option>
-                  </select>
-                </div>
+                <SearchSortBy
+                  onChange={(event) => sortByChangeHandler(event)}
+                />
                 <div className="searchResultsPerPage">
                   Results per page
                   <select
