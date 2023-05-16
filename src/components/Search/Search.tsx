@@ -36,10 +36,10 @@ export const Search = (props: SearchProps) => {
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
   const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
-  const [sortBy, setSortBy] = React.useState<string>("_score");
-  const [sortOrder, setSortOrder] = React.useState<string>("desc");
-  const [fullText, setFullText] = React.useState<string>();
-  const [dirty, setDirty] = React.useState<number>(0);
+  const [sortBy, setSortBy] = React.useState("_score");
+  const [sortOrder, setSortOrder] = React.useState("desc");
+  const [fullText, setFullText] = React.useState("");
+  const [dirty, setDirty] = React.useState(0);
   const [checkboxStates, setCheckBoxStates] = React.useState(
     new Map<string, boolean>()
   );
