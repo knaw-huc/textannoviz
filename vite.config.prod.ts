@@ -21,6 +21,10 @@ export default defineConfig({
     react(),
   ],
 
+  build: {
+    target: "esnext",
+  },
+
   test: {
     globals: true,
     environment: "jsdom",
