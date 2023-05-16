@@ -353,7 +353,7 @@ export const Search = (props: SearchProps) => {
                         key={index}
                         onClick={() => removeFacet(key)}
                       >
-                        {key} {"[x]"}
+                        {facetName}: {facetValueName} {"[x]"}
                       </div>
                     );
                   }
