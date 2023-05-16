@@ -31,14 +31,14 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
           ")"
         );
       }
-    case "tei:Objectdesc":
+    case "tei:ObjectDesc":
       return (
         annotation.body.type +
         " (" +
         `${(annotation.body as TeiObjectdescBody).metadata.form}` +
         ")"
       );
-    case "tei:Correspaction":
+    case "tei:CorrespAction":
       return (
         annotation.body.type +
         " (" +
@@ -113,12 +113,16 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
         return annotation.body.type;
       }
     case "tei:Reg":
-      return (
-        annotation.body.type +
-        " (" +
-        `${(annotation.body as TeiRegBody).metadata.type}` +
-        ")"
-      );
+      if ((annotation.body as TeiRegBody).metadata) {
+        return (
+          annotation.body.type +
+          " (" +
+          `${(annotation.body as TeiRegBody).metadata.type}` +
+          ")"
+        );
+      } else {
+        return annotation.body.type;
+      }
     default:
       return annotation.body.type;
   }
