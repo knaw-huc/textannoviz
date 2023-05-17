@@ -1,6 +1,6 @@
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
-export interface ProjectConfig {
+export type ProjectConfig = {
   id: string;
   colours: {
     [key: string]: string;
@@ -19,6 +19,7 @@ export interface ProjectConfig {
   elasticIndexName?: string;
   initialDateFrom?: string;
   initialDateTo?: string;
+  searchFacetTitles?: Record<string, string>;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
@@ -36,4 +37,4 @@ export interface ProjectConfig {
     errorElement: React.ReactNode;
   }[];
   renderHome: () => JSX.Element;
-}
+};

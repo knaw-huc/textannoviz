@@ -1,4 +1,6 @@
+import { Base64 } from "js-base64";
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -14,13 +16,14 @@ import { SearchItem } from "./SearchItem";
 import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
 
-interface SearchProps {
+type SearchProps = {
   project: string;
   projectConfig: ProjectConfig;
   indices: Indices;
   facets: Facets;
   indexName: string;
-}
+  searchFacetTitles: Record<string, string>;
+};
 
 export const Search = (props: SearchProps) => {
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
@@ -35,7 +38,7 @@ export const Search = (props: SearchProps) => {
   const [query, setQuery] = React.useState<SearchQuery>({});
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
-  const [elasticFrom, setElasticFrom] = React.useState(elasticSize);
+  const [elasticFrom, setElasticFrom] = React.useState(0);
   const [sortBy, setSortBy] = React.useState("_score");
   const [sortOrder, setSortOrder] = React.useState("desc");
   const [fullText, setFullText] = React.useState("");
@@ -43,6 +46,7 @@ export const Search = (props: SearchProps) => {
   const [checkboxStates, setCheckBoxStates] = React.useState(
     new Map<string, boolean>()
   );
+  const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
     const newMap = new Map<string, boolean>();
@@ -104,9 +108,18 @@ export const Search = (props: SearchProps) => {
     );
 
     setSearchResults(data);
-    setElasticFrom(elasticSize);
+    setElasticFrom(0);
     setPageNumber(1);
     setFacets(data.aggs);
+    setSearchParams({
+      page: pageNumber.toString(),
+      size: elasticSize.toString(),
+      from: elasticFrom.toString(),
+      frag: fragmenter,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+      query: Base64.toBase64(JSON.stringify(searchQuery)),
+    });
   };
 
   const handleFullTextFacet = (value: string) => {
@@ -127,15 +140,17 @@ export const Search = (props: SearchProps) => {
   };
 
   async function prevPageClickHandler() {
-    setElasticFrom((prevNumber) => prevNumber - elasticSize);
-    const from = elasticFrom - elasticSize * 2;
-    setPageNumber((prevPageNumber) => prevPageNumber - 1);
+    if (pageNumber <= 1) return;
+    const prevPage = pageNumber - 1;
+    const newFrom = elasticFrom - elasticSize;
+    setElasticFrom((prevFrom) => prevFrom - elasticSize);
+    setPageNumber(prevPage);
 
     const data = await sendSearchQuery(
       query,
       fragmenter,
       elasticSize,
-      from,
+      newFrom,
       props.projectConfig,
       sortBy,
       sortOrder
@@ -145,17 +160,24 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
+    setSearchParams((searchParams) => {
+      searchParams.set("page", prevPage.toString());
+      searchParams.set("from", newFrom.toString());
+      return searchParams;
+    });
   }
 
   async function nextPageClickHandler() {
-    if (searchResults && searchResults.total.value < elasticFrom) return;
-    setElasticFrom((prevNumber) => prevNumber + elasticSize);
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+    const newFrom = elasticFrom + elasticSize;
+    if (searchResults && searchResults.total.value <= newFrom) return;
+    const nextPage = pageNumber + 1;
+    setElasticFrom(newFrom);
+    setPageNumber(nextPage);
     const data = await sendSearchQuery(
       query,
       fragmenter,
       elasticSize,
-      elasticFrom,
+      newFrom,
       props.projectConfig,
       sortBy,
       sortOrder
@@ -165,6 +187,11 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
+    setSearchParams((searchParams) => {
+      searchParams.set("page", nextPage.toString());
+      searchParams.set("from", newFrom.toString());
+      return searchParams;
+    });
   }
 
   const resultsPerPageSelectHandler = (
@@ -179,16 +206,15 @@ export const Search = (props: SearchProps) => {
   async function jumpToPageHandler(
     event: React.ChangeEvent<HTMLSelectElement>
   ) {
-    setElasticFrom(parseInt(event.currentTarget.value) * elasticSize);
-    const from =
-      parseInt(event.currentTarget.value) * elasticSize - elasticSize;
+    const newFrom = (parseInt(event.currentTarget.value) - 1) * elasticSize;
+    setElasticFrom(newFrom);
     setPageNumber(parseInt(event.currentTarget.value));
 
     const data = await sendSearchQuery(
       query,
       fragmenter,
       elasticSize,
-      from,
+      newFrom,
       props.projectConfig,
       sortBy,
       sortOrder
@@ -245,7 +271,9 @@ export const Search = (props: SearchProps) => {
     return getKeywordFacets().map(([facetName, facetValues], index) => {
       return (
         <div key={index} className="searchFacet">
-          <div className="searchFacetTitle">{facetName}</div>
+          <div className="searchFacetTitle">
+            {props.searchFacetTitles[facetName] ?? facetName}
+          </div>
           {Object.entries(facetValues).map(
             ([facetValueName, facetValueAmount]) => {
               const key = `${facetName}-${facetValueName}`;
@@ -276,7 +304,9 @@ export const Search = (props: SearchProps) => {
     return getDateFacets().map(([facetName], index) => {
       return (
         <div key={index} className="searchFacet">
-          <div className="searchFacetTitle">{facetName}</div>
+          <div className="searchFacetTitle">
+            {props.searchFacetTitles[facetName] ?? facetName}
+          </div>
           <div>
             <div className="searchFacetTitle">From</div>
             <input
@@ -330,9 +360,10 @@ export const Search = (props: SearchProps) => {
               <div className="searchResultsHeaderLeft">
                 <div className="searchResultsNumbers">
                   {searchResults &&
-                    `Showing ${
-                      elasticFrom - elasticSize + 1
-                    }-${elasticFrom} of ${searchResults.total.value} results`}
+                    `Showing ${elasticFrom + 1}-${Math.min(
+                      elasticFrom + elasticSize,
+                      searchResults.total.value
+                    )} of ${searchResults.total.value} results`}
                 </div>
               </div>
               <div className="searchResultsHeaderRight">

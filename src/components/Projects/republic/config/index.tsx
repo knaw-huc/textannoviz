@@ -45,6 +45,12 @@ export const republicConfig: ProjectConfig = {
   elasticIndexName: "resolutions",
   initialDateFrom: "1728-01-01",
   initialDateTo: "1728-12-31",
+  searchFacetTitles: {
+    sessionDate: "Date",
+    sessionWeekday: "Weekday",
+    bodyType: "Body type",
+    propositionType: "Proposition type",
+  },
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

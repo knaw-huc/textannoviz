@@ -38,6 +38,7 @@ const router = createBrowserRouter(
       indices={indices}
       facets={aggs}
       indexName={config.elasticIndexName ?? ""}
+      searchFacetTitles={config.searchFacetTitles ?? {}}
     />,
     <ErrorPage />
   )
