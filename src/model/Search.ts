@@ -1,10 +1,13 @@
-export interface SearchResult {
+export type SearchResult = {
+  aggs: {
+    [key: string]: Record<string, number>;
+  };
   total: {
     value: number;
     relation: string;
   };
   results: SearchResultBody[];
-}
+} | null;
 
 export interface SearchResultBody {
   _id: string;
