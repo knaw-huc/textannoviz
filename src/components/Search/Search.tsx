@@ -137,6 +137,10 @@ export const Search = (props: SearchProps) => {
   ) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
+
+    if (searchResults) {
+      refresh();
+    }
   };
 
   async function prevPageClickHandler() {
@@ -200,7 +204,9 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "") return;
     setElasticSize(parseInt(event.currentTarget.value));
 
-    refresh();
+    if (searchResults) {
+      refresh();
+    }
   };
 
   async function jumpToPageHandler(
@@ -264,7 +270,9 @@ export const Search = (props: SearchProps) => {
       setSortOrder("desc");
     }
 
-    refresh();
+    if (searchResults) {
+      refresh();
+    }
   }
 
   function renderKeywordFacets() {
@@ -335,7 +343,9 @@ export const Search = (props: SearchProps) => {
 
   function removeFacet(key: string) {
     setCheckBoxStates(new Map(checkboxStates.set(key, false)));
-    refresh();
+    if (searchResults) {
+      refresh();
+    }
   }
 
   return (
