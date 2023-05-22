@@ -291,11 +291,7 @@ export const Search = (props: SearchProps) => {
                   value={facetValueName}
                   labelName={facetValueName}
                   amount={facetValueAmount}
-                  onChange={(event) =>
-                    setCheckBoxStates(
-                      new Map(checkboxStates.set(key, event.target.checked))
-                    )
-                  }
+                  onChange={(event) => keywordFacetChangeHandler(key, event)}
                   checked={checkboxStates.get(key) ?? false}
                 />
               );
@@ -343,6 +339,16 @@ export const Search = (props: SearchProps) => {
 
   function removeFacet(key: string) {
     setCheckBoxStates(new Map(checkboxStates.set(key, false)));
+    if (searchResults) {
+      refresh();
+    }
+  }
+
+  function keywordFacetChangeHandler(
+    key: string,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setCheckBoxStates(new Map(checkboxStates.set(key, event.target.checked)));
     if (searchResults) {
       refresh();
     }
