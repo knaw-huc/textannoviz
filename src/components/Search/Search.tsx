@@ -1,6 +1,4 @@
-import { Base64 } from "js-base64";
 import React from "react";
-import { useSearchParams } from "react-router-dom";
 import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -46,7 +44,7 @@ export const Search = (props: SearchProps) => {
   const [checkboxStates, setCheckBoxStates] = React.useState(
     new Map<string, boolean>()
   );
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
     const newMap = new Map<string, boolean>();
@@ -111,15 +109,15 @@ export const Search = (props: SearchProps) => {
     setElasticFrom(0);
     setPageNumber(1);
     setFacets(data.aggs);
-    setSearchParams({
-      page: pageNumber.toString(),
-      size: elasticSize.toString(),
-      from: elasticFrom.toString(),
-      frag: fragmenter,
-      sortBy: sortBy,
-      sortOrder: sortOrder,
-      query: Base64.toBase64(JSON.stringify(searchQuery)),
-    });
+    // setSearchParams({
+    //   page: pageNumber.toString(),
+    //   size: elasticSize.toString(),
+    //   from: elasticFrom.toString(),
+    //   frag: fragmenter,
+    //   sortBy: sortBy,
+    //   sortOrder: sortOrder,
+    //   query: Base64.toBase64(JSON.stringify(searchQuery)),
+    // });
   };
 
   const handleFullTextFacet = (value: string) => {
@@ -164,11 +162,11 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
-    setSearchParams((searchParams) => {
-      searchParams.set("page", prevPage.toString());
-      searchParams.set("from", newFrom.toString());
-      return searchParams;
-    });
+    // setSearchParams((searchParams) => {
+    //   searchParams.set("page", prevPage.toString());
+    //   searchParams.set("from", newFrom.toString());
+    //   return searchParams;
+    // });
   }
 
   async function nextPageClickHandler() {
@@ -191,11 +189,11 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
-    setSearchParams((searchParams) => {
-      searchParams.set("page", nextPage.toString());
-      searchParams.set("from", newFrom.toString());
-      return searchParams;
-    });
+    // setSearchParams((searchParams) => {
+    //   searchParams.set("page", nextPage.toString());
+    //   searchParams.set("from", newFrom.toString());
+    //   return searchParams;
+    // });
   }
 
   const resultsPerPageSelectHandler = (
@@ -326,7 +324,9 @@ export const Search = (props: SearchProps) => {
               onChange={(event) => setDateFrom(event.target.value)}
             />
 
-            <div className="searchFacetTitle">To</div>
+            <div className="searchFacetTitle" style={{ marginTop: "10px" }}>
+              To
+            </div>
             <input
               type="date"
               id="end"
