@@ -3,9 +3,9 @@ import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { createIndices } from "../../../../utils/createIndices";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
-import { getAnnotationItem } from "../getAnnotationItem";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetHome } from "../GetHome";
+import { getAnnotationItem } from "../getAnnotationItem";
 
 export const globaliseConfig: ProjectConfig = {
   id: "globalise",
@@ -70,6 +70,12 @@ export const globaliseConfig: ProjectConfig = {
       index: createIndices(183, 190),
     },
   ],
+  elasticIndexName: "docs",
+  searchFacetTitles: {
+    bodyType: "Body type",
+    className: "Class name",
+    classDescription: "Class description",
+  },
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -96,6 +102,11 @@ export const globaliseConfig: ProjectConfig = {
       },
       {
         path: "detail/:tier0/:tier1",
+        element: comp2,
+        errorElement: errorComp,
+      },
+      {
+        path: "detail/:tier2",
         element: comp2,
         errorElement: errorComp,
       },
