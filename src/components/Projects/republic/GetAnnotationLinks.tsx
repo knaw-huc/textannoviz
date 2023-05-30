@@ -1,7 +1,29 @@
+import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { ScanBody } from "../../../model/AnnoRepoAnnotation";
+import { Broccoli } from "../../../model/Broccoli";
+import { useProjectStore } from "../../../stores/project";
+import { fetchBroccoliScanWithOverlap } from "../../../utils/broccoli";
 
 export const GetAnnotationLinks = () => {
   const params = useParams();
+  const [opening, setOpening] = React.useState<number>(0);
+  const [volume, setVolume] = React.useState<string>("");
+  const projectConfig = useProjectStore((state) => state.projectConfig);
+
+  React.useEffect(() => {
+    if (params.tier2 && projectConfig) {
+      fetchBroccoliScanWithOverlap(
+        params.tier2,
+        ["Scan"],
+        ["anno"],
+        projectConfig
+      ).then((result: Broccoli) => {
+        setOpening((result.anno[0].body as ScanBody).metadata.opening);
+        setVolume((result.anno[0].body as ScanBody).metadata.volume);
+      });
+    }
+  }, [params.tier2, projectConfig]);
 
   return (
     <>
@@ -11,7 +33,9 @@ export const GetAnnotationLinks = () => {
           Switch to resolution view
         </Link>
       ) : (
-        <Link to="/detail/1728/285">Switch to opening view</Link>
+        <Link to={`/detail/${volume}/${opening.toString()}`}>
+          Switch to opening view
+        </Link>
       )}
     </>
   );

@@ -96,6 +96,13 @@ export type AttendantBody = AnnoRepoBody & {
   };
 };
 
+export type ScanBody = AnnoRepoBody & {
+  metadata: {
+    volume: string;
+    opening: number;
+  };
+};
+
 export type TeiDivBody = AnnoRepoBody & {
   metadata: {
     lang: string;
