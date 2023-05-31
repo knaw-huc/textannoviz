@@ -81,8 +81,8 @@ export const mondriaanConfig: ProjectConfig = {
     "tf:Page",
   ],
   annotationTypesToInclude: [
-    "nlp:Sentence",
-    "nlp:Token",
+    // "nlp:Sentence",
+    // "nlp:Token",
     "tei:Abbr",
     "tei:AccMat",
     "tei:Add",
@@ -172,6 +172,10 @@ export const mondriaanConfig: ProjectConfig = {
   elasticIndexName: "divs",
   initialDateFrom: "1909-01-01",
   initialDateTo: "1910-12-31",
+  textPanelTitles: {
+    textNL: "Originele tekst",
+    textEN: "Engelse vertaling",
+  },
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

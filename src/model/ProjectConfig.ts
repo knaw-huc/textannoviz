@@ -20,6 +20,7 @@ export type ProjectConfig = {
   initialDateFrom?: string;
   initialDateTo?: string;
   searchFacetTitles?: Record<string, string>;
+  textPanelTitles?: Record<string, string>;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
