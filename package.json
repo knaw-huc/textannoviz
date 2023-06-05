@@ -15,9 +15,11 @@
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "immer": "^9.0.19",
     "js-base64": "^3.7.5",
     "mirador": "^3.3.0",
+    "primereact": "^9.5.0",
     "react": "^18.2.0",
     "react-calendar": "^4.1.0",
     "react-dom": "^18.2.0",
