@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
-import { Text } from "./components/Text/Text";
+import { TextComponent } from "./components/Text/TextComponent";
 import { Broccoli, BroccoliBodyIdResult } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
@@ -133,7 +133,7 @@ export const Detail = (props: DetailProps) => {
       <div className="lastUpdated">Last updated: 30 May 2023</div>
       <div className="row">
         <Mirador />
-        <Text panels={["textNL", "textEN"]} />
+        <TextComponent panels={["textNL", "textEN"]} />
         <Annotation />
       </div>
     </div>
