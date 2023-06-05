@@ -23,6 +23,15 @@ const TextStyled = styled.div`
 export const TextPanel = (props: TextPanelProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
 
+  const textLinesToDisplay: string[][] = [[]];
+
+  props.text.map((token) => {
+    if (token.charAt(0) === "\n") {
+      textLinesToDisplay.push([]);
+    }
+    textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
+  });
+
   function renderPanel() {
     return (
       <TextStyled>
@@ -41,7 +50,14 @@ export const TextPanel = (props: TextPanelProps) => {
             projectConfig.textPanelTitles[`${props.panel}`]) ??
             props.panel}
         </strong>
-        {props.text}
+        {textLinesToDisplay.map((line, key) => (
+          <div key={key}>
+            {line.map((token) => (
+              <span key={key}>{token}</span>
+            ))}
+          </div>
+        ))}
+        {/* {props.text} */}
       </TextStyled>
     );
   }
