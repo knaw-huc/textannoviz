@@ -28,12 +28,48 @@ html {
 .appContainer > * {
   width: 100%;
   max-width: 1700px;
+  align-self: stretch;
+  align-items: stretch;
+  flex-grow: 1;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.toggleTextPanelsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.toggleTextPanelCheckbox {
+  align-items: center;
+  display: flex;
+}
+
+.toggleTextPanelCheckboxLabel {
+  margin-left: 0.5rem;
 }
 
 .row {
   border-style: solid;
   border-color: black;
   border-width: 2px;
+  display: flex;
+  flex-direction: row;
+}
+
+.textContainer {
+  width: 50%;
+  align-self: stretch;
+  flex-grow: 1;
+  position: relative;
+}
+
+.textPanelsContainer {
   display: flex;
   flex-direction: row;
 }
