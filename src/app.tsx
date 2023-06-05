@@ -1,3 +1,5 @@
+import "primereact/resources/primereact.min.css";
+import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import { globaliseConfig } from "./components/Projects/globalise/config/";
