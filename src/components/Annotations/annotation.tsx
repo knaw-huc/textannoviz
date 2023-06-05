@@ -13,11 +13,14 @@ import { AnnotationItem } from "./AnnotationItem";
 import { AnnotationLinks } from "./AnnotationLinks";
 
 const AnnotationStyled = styled.div`
-  min-width: 400px;
-  height: 800px;
+  width: 20%;
+  height: 850px;
   padding: 0.7em;
   overflow: auto;
   white-space: pre-wrap;
+  align-self: stretch;
+  flex-grow: 1;
+  position: relative;
 `;
 
 const ButtonsStyled = styled.div`
