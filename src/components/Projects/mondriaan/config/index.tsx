@@ -175,6 +175,8 @@ export const mondriaanConfig: ProjectConfig = {
   textPanelTitles: {
     textNL: "Originele tekst",
     textEN: "Engelse vertaling",
+    textNotes: "Notities",
+    textFull: "Volledige tekst",
   },
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
