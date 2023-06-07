@@ -1,11 +1,13 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import styled from "styled-components";
 import { useProjectStore } from "../../stores/project";
+import { TextHighlighting } from "./TextHighlighting";
 
 type TextPanelProps = {
   panel: string;
-  text: string[];
+  text: any;
   closePanelHandler: (panelToClose: string) => void;
+  highlightedLines: number[];
 };
 
 const TextStyled = styled.div`
@@ -25,16 +27,18 @@ export const TextPanel = (props: TextPanelProps) => {
 
   const textLinesToDisplay: string[][] = [[]];
 
-  props.text.map((token) => {
-    if (token.charAt(0) === "\n") {
-      textLinesToDisplay.push([]);
-    }
-    textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
-  });
+  if (props.panel !== "textFull") {
+    props.text.map((token: any) => {
+      if (token.charAt(0) === "\n") {
+        textLinesToDisplay.push([]);
+      }
+      textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
+    });
+  }
 
   function renderPanel() {
     return (
-      <TextStyled>
+      <TextStyled id={props.panel}>
         <XMarkIcon
           style={{
             height: "1.5rem",
@@ -50,14 +54,20 @@ export const TextPanel = (props: TextPanelProps) => {
             projectConfig.textPanelTitles[`${props.panel}`]) ??
             props.panel}
         </strong>
-        {textLinesToDisplay.map((line, key) => (
-          <div key={key}>
-            {line.map((token) => (
-              <span key={key}>{token}</span>
-            ))}
-          </div>
-        ))}
-        {/* {props.text} */}
+        {props.panel === "textFull" ? (
+          <TextHighlighting
+            text={props.text}
+            highlightedLines={props.highlightedLines}
+          />
+        ) : (
+          textLinesToDisplay.map((line, key) => (
+            <div key={key}>
+              {line.map((token, index) => (
+                <span key={index}>{token}</span>
+              ))}
+            </div>
+          ))
+        )}
       </TextStyled>
     );
   }
