@@ -30,9 +30,11 @@ export const TextComponent = (props: TextComponentProps) => {
     if (event.checked) {
       if (textPanels && !(event.value in textPanels)) {
         toast(
-          `Text panel "${projectConfig?.textPanelTitles[
-            `${event.value}`
-          ].toLowerCase()}" is not available for letter "${params.tier1}".`,
+          `Text panel "${
+            projectConfig &&
+            typeof projectConfig.textPanelTitles === "object" &&
+            projectConfig.textPanelTitles[`${event.value}`].toLowerCase()
+          }" is not available for letter "${params.tier1}".`,
           {
             type: "error",
           }
