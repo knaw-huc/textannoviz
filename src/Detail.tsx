@@ -36,6 +36,7 @@ export const Detail = (props: DetailProps) => {
   const setCurrentContext = useMiradorStore((state) => state.setCurrentContext);
   const setCanvas = useMiradorStore((state) => state.setCanvas);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
+  const setViews = useTextStore((state) => state.setViews);
   const annotationTypesToInclude = useAnnotationStore(
     (state) => state.annotationTypesToInclude
   );
@@ -69,6 +70,7 @@ export const Detail = (props: DetailProps) => {
 
       setAnnotations(broccoli.anno);
       setText(broccoli.text);
+      setViews(broccoli.views);
     },
     [
       params.tier0,
@@ -82,6 +84,7 @@ export const Detail = (props: DetailProps) => {
       setProjectName,
       setStore,
       setText,
+      setViews,
     ]
   );
 
@@ -92,7 +95,15 @@ export const Detail = (props: DetailProps) => {
         (result: BroccoliBodyIdResult) => {
           if (!ignore) {
             const bodyId = result.bodyId;
-            const includeResults = ["anno", "text", "iiif"];
+            const includeResults = [
+              "anno",
+              "text",
+              "iiif",
+              typeof props.config.allPossibleTextPanels === "object"
+                ? props.config.allPossibleTextPanels.toString()
+                : "",
+            ];
+
             const overlapTypes = annotationTypesToInclude;
             fetchBroccoliScanWithOverlap(
               result.bodyId,
@@ -133,7 +144,10 @@ export const Detail = (props: DetailProps) => {
       <div className="lastUpdated">Last updated: 30 May 2023</div>
       <div className="row">
         <Mirador />
-        <TextComponent panels={["textNL", "textEN"]} />
+        <TextComponent
+          panelsToRender={props.config.defaultTextPanels!}
+          allPossiblePanels={props.config.allPossibleTextPanels!}
+        />
         <Annotation />
       </div>
     </div>

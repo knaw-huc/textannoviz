@@ -14,13 +14,19 @@ export interface Broccoli {
   };
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
+  views: {
+    notesEN: BroccoliTextGeneric;
+    textOrig: BroccoliTextGeneric;
+    textTrans: BroccoliTextGeneric;
+    title: BroccoliTextGeneric;
+  };
 }
 
 export interface BroccoliTextGeneric {
   lines: string[];
   locations: {
     relativeTo: {
-      type: string;
+      bodyType: string;
       bodyId: string;
     };
     annotations: {

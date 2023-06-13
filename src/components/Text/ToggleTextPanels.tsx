@@ -24,9 +24,9 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
             <Checkbox
               inputId="panel1"
               name="textPanels"
-              value="textNL"
+              value="textOrig"
               onChange={props.textPanelsCheckboxHandler}
-              checked={props.panels.includes("textNL")}
+              checked={props.panels.includes("textOrig")}
             />
             <label className="toggleTextPanelCheckboxLabel" htmlFor="panel1">
               Originele tekst
@@ -36,21 +36,21 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
             <Checkbox
               inputId="panel2"
               name="textPanels"
-              value="textEN"
+              value="textTrans"
               onChange={props.textPanelsCheckboxHandler}
-              checked={props.panels.includes("textEN")}
+              checked={props.panels.includes("textTrans")}
             />
             <label className="toggleTextPanelCheckboxLabel" htmlFor="panel2">
-              Engelse vertaling
+              Vertaling
             </label>
           </div>
           <div className="toggleTextPanelCheckbox">
             <Checkbox
               inputId="panel3"
               name="textPanels"
-              value="textNotes"
+              value="notesEN"
               onChange={props.textPanelsCheckboxHandler}
-              checked={props.panels.includes("textNotes")}
+              checked={props.panels.includes("notesEN")}
             />
             <label className="toggleTextPanelCheckboxLabel" htmlFor="panel3">
               Notities
@@ -66,6 +66,18 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
             />
             <label className="toggleTextPanelCheckboxLabel" htmlFor="panel4">
               Volledige tekst
+            </label>
+          </div>
+          <div className="toggleTextPanelCheckbox">
+            <Checkbox
+              inputId="panel5"
+              name="textPanels"
+              value="title"
+              onChange={props.textPanelsCheckboxHandler}
+              checked={props.panels.includes("title")}
+            />
+            <label className="toggleTextPanelCheckboxLabel" htmlFor="title">
+              Titel
             </label>
           </div>
         </>

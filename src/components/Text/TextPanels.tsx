@@ -24,10 +24,11 @@ export const TextPanels = (props: TextPanelsProps) => {
 
   function renderPanels() {
     return props.panels.map((panel, key) => {
+      if (!(panel in props.text)) return;
       return (
         <TextPanel
           key={key}
-          text={props.text.views[`${panel}`]}
+          text={props.text[`${panel}`]}
           panel={panel}
           closePanelHandler={props.closePanelHandler}
           highlightedLines={highlightedLines}

@@ -173,11 +173,20 @@ export const mondriaanConfig: ProjectConfig = {
   initialDateFrom: "1909-01-01",
   initialDateTo: "1910-12-31",
   textPanelTitles: {
-    textNL: "Originele tekst",
-    textEN: "Engelse vertaling",
-    textNotes: "Notities",
+    textOrig: "Originele tekst",
+    textTrans: "Vertaling",
+    notesEN: "Notities",
+    title: "Titel",
     textFull: "Volledige tekst",
   },
+  allPossibleTextPanels: [
+    "textOrig",
+    "textTrans",
+    "notesEN",
+    "title",
+    "postalData",
+  ],
+  defaultTextPanels: ["textOrig", "textTrans"],
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

@@ -21,6 +21,8 @@ export type ProjectConfig = {
   initialDateTo?: string;
   searchFacetTitles?: Record<string, string>;
   textPanelTitles?: Record<string, string>;
+  allPossibleTextPanels?: string[];
+  defaultTextPanels?: string[];
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
