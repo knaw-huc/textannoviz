@@ -76,7 +76,7 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
               onChange={props.textPanelsCheckboxHandler}
               checked={props.panels.includes("title")}
             />
-            <label className="toggleTextPanelCheckboxLabel" htmlFor="title">
+            <label className="toggleTextPanelCheckboxLabel" htmlFor="panel5">
               Titel
             </label>
           </div>
