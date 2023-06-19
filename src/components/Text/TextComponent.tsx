@@ -25,8 +25,6 @@ export const TextComponent = (props: TextComponentProps) => {
   const params = useParams();
   const origText = useTextStore((state) => state.text);
 
-  console.log(origText);
-
   function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
     const checkedTextPanels = [...panelsToRender];
 
