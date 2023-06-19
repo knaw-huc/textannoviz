@@ -178,6 +178,7 @@ export const mondriaanConfig: ProjectConfig = {
     notesEN: "Notities",
     title: "Titel",
     textFull: "Volledige tekst",
+    postalData: "Adresgegevens",
   },
   allPossibleTextPanels: [
     "textOrig",
