@@ -53,7 +53,7 @@ export const TextPanel = (props: TextPanelProps) => {
             props.panel}
         </strong>
         {textLinesToDisplay.map((line, key) => (
-          <div key={key}>
+          <div key={key} className={`textLines-${projectConfig?.id}`}>
             {line.map((token, index) => (
               <span key={index}>{token}</span>
             ))}

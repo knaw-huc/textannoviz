@@ -51,6 +51,11 @@ export const republicConfig: ProjectConfig = {
     bodyType: "Body type",
     propositionType: "Proposition type",
   },
+  textPanelTitles: {
+    fullText: "Full text",
+  },
+  allPossibleTextPanels: ["fullText"],
+  defaultTextPanels: ["fullText"],
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

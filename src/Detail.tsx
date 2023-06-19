@@ -99,7 +99,8 @@ export const Detail = (props: DetailProps) => {
               "anno",
               "text",
               "iiif",
-              typeof props.config.allPossibleTextPanels === "object"
+              typeof props.config.allPossibleTextPanels === "object" &&
+              !props.config.allPossibleTextPanels.includes("fullText")
                 ? props.config.allPossibleTextPanels.toString()
                 : "",
             ];

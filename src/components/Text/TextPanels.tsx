@@ -1,11 +1,10 @@
 import React from "react";
-import { Broccoli } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { TextPanel } from "./TextPanel";
 
 type TextPanelsProps = {
   panels: string[];
-  text: Broccoli["views"];
+  text: any;
   closePanelHandler: (panelToClose: string) => void;
 };
 
@@ -25,11 +24,10 @@ export const TextPanels = (props: TextPanelsProps) => {
 
   function renderPanels() {
     return props.panels.map((panel, key) => {
-      if (!(panel in props.text)) return;
       return (
         <TextPanel
           key={key}
-          text={props.text[`${panel}`]}
+          text={props.text[`${panel}`] ? props.text[`${panel}`] : props.text}
           panel={panel}
           closePanelHandler={props.closePanelHandler}
           highlightedLines={highlightedLines}

@@ -23,6 +23,9 @@ export const TextComponent = (props: TextComponentProps) => {
   const textPanels = useTextStore((state) => state.views);
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const params = useParams();
+  const origText = useTextStore((state) => state.text);
+
+  console.log(origText);
 
   function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
     const checkedTextPanels = [...panelsToRender];
@@ -68,7 +71,13 @@ export const TextComponent = (props: TextComponentProps) => {
             text={textPanels}
             closePanelHandler={closePanelHandler}
           />
-        ) : null}
+        ) : (
+          <TextPanels
+            panels={panelsToRender}
+            text={origText}
+            closePanelHandler={closePanelHandler}
+          />
+        )}
       </div>
     </div>
   );
