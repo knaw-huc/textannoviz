@@ -1,10 +1,11 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import styled from "styled-components";
+import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useProjectStore } from "../../stores/project";
 
 type TextPanelProps = {
   panel: string;
-  text: any;
+  text: BroccoliTextGeneric;
   closePanelHandler: (panelToClose: string) => void;
   highlightedLines: number[];
 };
@@ -26,7 +27,7 @@ export const TextPanel = (props: TextPanelProps) => {
 
   const textLinesToDisplay: string[][] = [[]];
 
-  props.text.lines.map((token: any) => {
+  props.text.lines.map((token: string) => {
     if (token.charAt(0) === "\n") {
       textLinesToDisplay.push([]);
     }

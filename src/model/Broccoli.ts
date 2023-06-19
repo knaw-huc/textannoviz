@@ -15,10 +15,7 @@ export interface Broccoli {
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
   views: {
-    notesEN: BroccoliTextGeneric;
-    textOrig: BroccoliTextGeneric;
-    textTrans: BroccoliTextGeneric;
-    title: BroccoliTextGeneric;
+    [key: string]: BroccoliTextGeneric;
   };
 }
 

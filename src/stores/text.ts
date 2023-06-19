@@ -1,5 +1,5 @@
 import { create, StateCreator } from "zustand";
-import { BroccoliTextGeneric } from "../model/Broccoli";
+import { Broccoli, BroccoliTextGeneric } from "../model/Broccoli";
 
 export type TextSlice = {
   text: BroccoliTextGeneric;
@@ -7,14 +7,7 @@ export type TextSlice = {
 };
 
 export type TextPanelsSlice = {
-  views:
-    | {
-        notesEN: BroccoliTextGeneric;
-        textOrig: BroccoliTextGeneric;
-        textTrans: BroccoliTextGeneric;
-        title: BroccoliTextGeneric;
-      }
-    | undefined;
+  views: Broccoli["views"] | undefined;
   setViews: (newViews: TextPanelsSlice["views"]) => void;
 };
 

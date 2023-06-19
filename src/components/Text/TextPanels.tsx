@@ -1,10 +1,11 @@
 import React from "react";
+import { Broccoli } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { TextPanel } from "./TextPanel";
 
 type TextPanelsProps = {
   panels: string[];
-  text: any;
+  text: Broccoli["views"];
   closePanelHandler: (panelToClose: string) => void;
 };
 
