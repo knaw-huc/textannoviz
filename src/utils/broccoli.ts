@@ -77,6 +77,18 @@ export const fetchBroccoliScanWithOverlap = async (
   return response.json();
 };
 
+export const selectDistinctBodyTypes = async (
+  projectId: string
+): Promise<string[]> => {
+  const response = await fetch(`${HOSTS.BROCCOLI}/projects/${projectId}`);
+  if (!response.ok) {
+    const error = await response.json();
+    toast(`${error.message}`, { type: "error" });
+    return [];
+  }
+  return response.json();
+};
+
 export const sendSearchQuery = async (
   searchQuery: SearchQuery,
   fragParam: string,

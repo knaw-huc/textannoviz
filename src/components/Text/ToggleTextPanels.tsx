@@ -14,6 +14,54 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
   const views = useTextStore((state) => state.views);
   const projectConfig = useProjectStore((state) => state.projectConfig);
 
+  function renderCheckboxes() {
+    if (views) {
+      return projectConfig?.allPossibleTextPanels?.map((panel, index) => {
+        return panel in views ? (
+          <div key={index} className="toggleTextPanelCheckbox">
+            <Checkbox
+              inputId={`panel-${index}`}
+              name="textPanels"
+              value={panel}
+              onChange={props.textPanelsCheckboxHandler}
+              checked={props.panels.includes(panel)}
+            />
+            <label
+              className="toggleTextPanelCheckboxLabel"
+              htmlFor={`panel-${index}`}
+            >
+              {projectConfig &&
+                projectConfig.textPanelTitles &&
+                projectConfig.textPanelTitles[panel]}
+            </label>
+          </div>
+        ) : null;
+      });
+    } else {
+      return projectConfig?.allPossibleTextPanels?.map((panel, index) => {
+        return (
+          <div key={index} className="toggleTextPanelCheckbox">
+            <Checkbox
+              inputId={`panel-${index}`}
+              name="textPanels"
+              value={panel}
+              onChange={props.textPanelsCheckboxHandler}
+              checked={props.panels.includes(panel)}
+            />
+            <label
+              className="toggleTextPanelCheckboxLabel"
+              htmlFor={`panel-${index}`}
+            >
+              {projectConfig &&
+                projectConfig.textPanelTitles &&
+                projectConfig.textPanelTitles[panel]}
+            </label>
+          </div>
+        );
+      });
+    }
+  }
+
   return (
     <div className="toggleTextPanelsContainer">
       <Button
@@ -22,31 +70,7 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
         onClick={() => setShow(!show)}
         raised
       />
-      {show && (
-        <>
-          {projectConfig?.allPossibleTextPanels?.map((panel, index) =>
-            views && panel in views ? (
-              <div key={index} className="toggleTextPanelCheckbox">
-                <Checkbox
-                  inputId={`panel-${index}`}
-                  name="textPanels"
-                  value={panel}
-                  onChange={props.textPanelsCheckboxHandler}
-                  checked={props.panels.includes(panel)}
-                />
-                <label
-                  className="toggleTextPanelCheckboxLabel"
-                  htmlFor={`panel-${index}`}
-                >
-                  {projectConfig &&
-                    projectConfig.textPanelTitles &&
-                    projectConfig.textPanelTitles[panel]}
-                </label>
-              </div>
-            ) : null
-          )}
-        </>
-      )}
+      {show && <>{renderCheckboxes()}</>}
     </div>
   );
 };

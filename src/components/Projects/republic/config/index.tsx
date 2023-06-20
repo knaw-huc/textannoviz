@@ -1,6 +1,7 @@
 import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { selectDistinctBodyTypes } from "../../../../utils/broccoli";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";
@@ -19,18 +20,7 @@ export const republicConfig: ProjectConfig = {
   },
 
   relativeTo: "Scan",
-  annotationTypes: [
-    "AttendanceList",
-    "Attendant",
-    "Line",
-    "Page",
-    "RepublicParagraph",
-    "Resolution",
-    "Reviewed",
-    "Scan",
-    "Session",
-    "TextRegion",
-  ],
+  annotationTypes: await selectDistinctBodyTypes("republic"),
   annotationTypesToInclude: [
     "AttendanceList",
     "Attendant",

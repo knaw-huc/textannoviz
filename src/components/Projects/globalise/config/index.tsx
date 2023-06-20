@@ -1,6 +1,7 @@
 import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { selectDistinctBodyTypes } from "../../../../utils/broccoli";
 import { createIndices } from "../../../../utils/createIndices";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
@@ -17,15 +18,7 @@ export const globaliseConfig: ProjectConfig = {
   },
 
   relativeTo: "px:Page",
-  annotationTypes: [
-    "px:Page",
-    "px:TextLine",
-    "px:TextRegion",
-    "tt:Entity",
-    "tt:Paragraph",
-    "tt:Token",
-    "tt:Word",
-  ],
+  annotationTypes: await selectDistinctBodyTypes("globalise"),
   annotationTypesToInclude: [
     "px:Page",
     "px:TextLine",
@@ -77,10 +70,10 @@ export const globaliseConfig: ProjectConfig = {
     classDescription: "Class description",
   },
   textPanelTitles: {
-    fullText: "Full text",
+    text: "Full text",
   },
-  allPossibleTextPanels: ["fullText"],
-  defaultTextPanels: ["fullText"],
+  allPossibleTextPanels: ["text"],
+  defaultTextPanels: ["text"],
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
