@@ -97,10 +97,8 @@ export const Detail = (props: DetailProps) => {
             const bodyId = result.bodyId;
             const includeResults = [
               "anno",
-              "text",
               "iiif",
-              typeof props.config.allPossibleTextPanels === "object" &&
-              !props.config.allPossibleTextPanels.includes("fullText")
+              typeof props.config.allPossibleTextPanels === "object"
                 ? props.config.allPossibleTextPanels.toString()
                 : "",
             ];
