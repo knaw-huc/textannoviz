@@ -74,20 +74,22 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         );
       }
 
-      const startIndex = text.locations.annotations.find(
-        (anno) => anno.bodyId === props.annotation.body.id
-      )?.start.line;
+      if (text !== undefined) {
+        const startIndex = text.locations.annotations.find(
+          (anno) => anno.bodyId === props.annotation.body.id
+        )?.start.line;
 
-      const endIndex = text.locations.annotations.find(
-        (anno) => anno.bodyId === props.annotation.body.id
-      )?.end.line;
+        const endIndex = text.locations.annotations.find(
+          (anno) => anno.bodyId === props.annotation.body.id
+        )?.end.line;
 
-      if (typeof startIndex === "number" && typeof endIndex === "number") {
-        const indices = createIndices(startIndex, endIndex);
-        updateOpenAnn(props.annotation.body.id, indices);
+        if (typeof startIndex === "number" && typeof endIndex === "number") {
+          const indices = createIndices(startIndex, endIndex);
+          updateOpenAnn(props.annotation.body.id, indices);
+        }
+
+        setCurrentSelectedAnn(props.annotation.body.id);
       }
-
-      setCurrentSelectedAnn(props.annotation.body.id);
     } else {
       miradorStore.dispatch(
         mirador.actions.deselectAnnotation(
