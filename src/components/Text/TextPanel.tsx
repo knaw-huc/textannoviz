@@ -1,13 +1,15 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import React from "react";
 import styled from "styled-components";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
+import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
+import { TextHighlighting } from "./TextHighlighting";
 
 type TextPanelProps = {
   panel: string;
   text: BroccoliTextGeneric;
   closePanelHandler: (panelToClose: string) => void;
-  highlightedLines: number[];
 };
 
 const TextStyled = styled.div`
@@ -24,15 +26,18 @@ const TextStyled = styled.div`
 
 export const TextPanel = (props: TextPanelProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
+  const openAnn = useAnnotationStore((state) => state.openAnn);
+  const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
 
-  const textLinesToDisplay: string[][] = [[]];
+  React.useEffect(() => {
+    if (openAnn) {
+      const indices = openAnn.flatMap((ann) => {
+        return ann.indicesToHighlight;
+      });
 
-  props.text.lines.map((token: string) => {
-    if (token.charAt(0) === "\n") {
-      textLinesToDisplay.push([]);
+      setHighlightedLines(indices);
     }
-    textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
-  });
+  }, [openAnn]);
 
   function renderPanel() {
     return (
@@ -52,13 +57,10 @@ export const TextPanel = (props: TextPanelProps) => {
             projectConfig.textPanelTitles[`${props.panel}`]) ??
             props.panel}
         </strong>
-        {textLinesToDisplay.map((line, key) => (
-          <div key={key} className={`textLines-${projectConfig?.id}`}>
-            {line.map((token, index) => (
-              <span key={index}>{token}</span>
-            ))}
-          </div>
-        ))}
+        <TextHighlighting
+          text={props.text}
+          highlightedLines={highlightedLines}
+        />
       </TextStyled>
     );
   }
