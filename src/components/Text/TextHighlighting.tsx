@@ -44,7 +44,10 @@ export function TextHighlighting(props: TextHighlightingProps) {
       const target = parentDOM.getElementsByClassName(
         `${currentSelectedAnn}`
       )[0];
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     }
   }
 
@@ -64,7 +67,12 @@ export function TextHighlighting(props: TextHighlightingProps) {
                   key={index}
                   className={
                     props.highlightedLines.includes(index + offset)
-                      ? classes.get(index + offset)?.join(" ") + " highlighted"
+                      ? classes
+                          .get(index + offset)
+                          ?.includes(currentSelectedAnn)
+                        ? classes.get(index + offset)?.join(" ") +
+                          " highlighted"
+                        : classes.get(index + offset)?.join(" ")
                       : classes.get(index + offset) &&
                         classes.get(index + offset)?.join(" ")
                   }

@@ -36,6 +36,7 @@ const Clickable = styled.div`
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
   const text = useTextStore((state) => state.text);
+  const views = useTextStore((state) => state.views);
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const canvas = useMiradorStore((state) => state.canvas);
@@ -89,6 +90,38 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         }
 
         setCurrentSelectedAnn(props.annotation.body.id);
+      } else {
+        if (views) {
+          let startIndex = -1;
+          let endIndex = -1;
+          Object.values(views).map((view) => {
+            const tempStartIndex = view.locations.annotations.find(
+              (anno) => anno.bodyId === props.annotation.body.id
+            )?.start.line;
+
+            if (tempStartIndex !== undefined) {
+              startIndex = tempStartIndex;
+            }
+
+            const tempEndIndex = view.locations.annotations.find(
+              (anno) => anno.bodyId === props.annotation.body.id
+            )?.end.line;
+
+            if (tempEndIndex !== undefined) {
+              endIndex = tempEndIndex;
+            }
+          });
+
+          console.log(startIndex);
+          console.log(endIndex);
+
+          if (startIndex >= 0 && endIndex >= 0) {
+            const indices = createIndices(startIndex, endIndex);
+            updateOpenAnn(props.annotation.body.id, indices);
+          }
+
+          setCurrentSelectedAnn(props.annotation.body.id);
+        }
       }
     } else {
       miradorStore.dispatch(
