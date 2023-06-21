@@ -112,9 +112,6 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
             }
           });
 
-          console.log(startIndex);
-          console.log(endIndex);
-
           if (startIndex >= 0 && endIndex >= 0) {
             const indices = createIndices(startIndex, endIndex);
             updateOpenAnn(props.annotation.body.id, indices);
