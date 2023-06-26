@@ -12,10 +12,10 @@ import { useMiradorStore } from "./stores/mirador";
 import { useProjectStore } from "./stores/project";
 import { useTextStore } from "./stores/text";
 import {
-  fetchBroccoliBodyId,
   fetchBroccoliBodyIdOfScan,
   fetchBroccoliScanWithOverlap,
 } from "./utils/broccoli";
+import { zoomAnnMirador } from "./utils/zoomAnnMirador";
 
 interface DetailProps {
   project: string;
@@ -71,10 +71,35 @@ export const Detail = (props: DetailProps) => {
       setAnnotations(broccoli.anno);
       setText(broccoli.text);
       setViews(broccoli.views);
+
+      if (params.tier2) {
+        setTimeout(() => {
+          const zoom = zoomAnnMirador(
+            broccoli.anno[0],
+            broccoli.iiif.canvasIds[0]
+          );
+          viewer.store.dispatch(
+            mirador.actions.selectAnnotation(
+              `${props.project}`,
+              broccoli.anno[0].id
+            )
+          );
+          if (typeof zoom === "object") {
+            viewer.store.dispatch(
+              mirador.actions.updateViewport(`${props.project}`, {
+                x: zoom?.zoomCenter.x,
+                y: zoom?.zoomCenter.y,
+                zoom: 1 / zoom.miradorZoom,
+              })
+            );
+          }
+        }, 200);
+      }
     },
     [
       params.tier0,
       params.tier1,
+      params.tier2,
       props.config,
       props.project,
       setAnnotations,
@@ -129,14 +154,28 @@ export const Detail = (props: DetailProps) => {
 
   React.useEffect(() => {
     if (params.tier2) {
-      fetchBroccoliBodyId(params.tier2, props.config)
+      const bodyId = params.tier2;
+      const includeResults = [
+        "anno",
+        "iiif",
+        typeof props.config.allPossibleTextPanels === "object"
+          ? props.config.allPossibleTextPanels.toString()
+          : "",
+      ];
+      const overlapTypes = ["Resolution", "AttendanceList", "Attendant"];
+      fetchBroccoliScanWithOverlap(
+        bodyId,
+        overlapTypes,
+        includeResults,
+        props.config
+      )
         .then((broccoli: Broccoli) => {
           const bodyId = broccoli.request.bodyId;
           setState(broccoli, bodyId);
         })
         .catch(console.error);
     }
-  }, [params.tier2, props.config, setState]);
+  }, [annotationTypesToInclude, params.tier2, props.config, setState]);
 
   return (
     <div className="appContainer">
