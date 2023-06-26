@@ -13,6 +13,8 @@ export function TextHighlighting(props: TextHighlightingProps) {
   const currentSelectedAnn = useAnnotationStore(
     (state) => state.currentSelectedAnn
   );
+  const openAnnos = useAnnotationStore((state) => state.openAnn);
+
   const params = useParams();
 
   const classes = new Map<number, string[]>();
@@ -67,12 +69,16 @@ export function TextHighlighting(props: TextHighlightingProps) {
                   key={index}
                   className={
                     props.highlightedLines.includes(index + offset)
-                      ? classes
-                          .get(index + offset)
-                          ?.includes(currentSelectedAnn)
-                        ? classes.get(index + offset)?.join(" ") +
-                          " highlighted"
-                        : classes.get(index + offset)?.join(" ")
+                      ? openAnnos
+                          .map((openAnn) =>
+                            classes
+                              .get(index + offset)
+                              ?.includes(openAnn.bodyId)
+                              ? classes.get(index + offset)?.join(" ") +
+                                " highlighted"
+                              : classes.get(index + offset)?.join(" ")
+                          )
+                          .join(" ")
                       : classes.get(index + offset) &&
                         classes.get(index + offset)?.join(" ")
                   }
