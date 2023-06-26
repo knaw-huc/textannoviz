@@ -40,7 +40,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
     });
   }
 
-  if (currentSelectedAnn && !params.tier2) {
+  if (currentSelectedAnn) {
     const parentDOM = document.getElementById("textcontainer");
     if (parentDOM) {
       const target = parentDOM.getElementsByClassName(
