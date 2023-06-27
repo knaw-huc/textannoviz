@@ -8,6 +8,7 @@ export type ProjectConfig = {
   relativeTo: string;
   annotationTypes: string[];
   annotationTypesToInclude: string[];
+  annotationTypesTitles?: Record<string, string>;
   tier: string[];
   bodyType: string[];
   scanAnnotation?: string;
