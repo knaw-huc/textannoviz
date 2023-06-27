@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
@@ -14,8 +13,6 @@ export function TextHighlighting(props: TextHighlightingProps) {
     (state) => state.currentSelectedAnn
   );
   const openAnnos = useAnnotationStore((state) => state.openAnn);
-
-  const params = useParams();
 
   const classes = new Map<number, string[]>();
 
@@ -69,8 +66,6 @@ export function TextHighlighting(props: TextHighlightingProps) {
             collectedClasses.add(indexClass)
           );
           collectedClasses.add("highlighted");
-        } else {
-          collectedClasses.add(openAnn.bodyId);
         }
       });
     } else {
