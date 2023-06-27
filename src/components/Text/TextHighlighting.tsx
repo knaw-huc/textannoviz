@@ -59,30 +59,43 @@ export function TextHighlighting(props: TextHighlightingProps) {
     offset = offset + length;
   }
 
+  function collectClasses(index: number) {
+    const collectedClasses = new Set<string>();
+    if (props.highlightedLines.includes(index)) {
+      openAnnos.map((openAnn) => {
+        const indexClasses = classes.get(index);
+        if (indexClasses?.includes(openAnn.bodyId)) {
+          indexClasses.forEach((indexClass) =>
+            collectedClasses.add(indexClass)
+          );
+          collectedClasses.add("highlighted");
+        } else {
+          collectedClasses.add(openAnn.bodyId);
+        }
+      });
+    } else {
+      const indexClass = classes.get(index);
+      if (typeof indexClass === "object") {
+        collectedClasses.add(indexClass.join(" "));
+      }
+    }
+
+    let classesAsStr = "";
+
+    collectedClasses.forEach(
+      (it: string) => (classesAsStr = classesAsStr.concat(it) + " ")
+    );
+
+    return classesAsStr;
+  }
+
   return (
     <div id="textcontainer">
       {textLinesToDisplay.map((line, key) => (
         <div key={key} className={`textLines-${projectName}`}>
           {classes.size >= 1
             ? line.map((token, index) => (
-                <span
-                  key={index}
-                  className={
-                    props.highlightedLines.includes(index + offset)
-                      ? openAnnos
-                          .map((openAnn) =>
-                            classes
-                              .get(index + offset)
-                              ?.includes(openAnn.bodyId)
-                              ? classes.get(index + offset)?.join(" ") +
-                                " highlighted"
-                              : classes.get(index + offset)?.join(" ")
-                          )
-                          .join(" ")
-                      : classes.get(index + offset) &&
-                        classes.get(index + offset)?.join(" ")
-                  }
-                >
+                <span key={index} className={collectClasses(index + offset)}>
                   {token}
                 </span>
               ))
