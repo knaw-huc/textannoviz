@@ -85,9 +85,10 @@ export function Annotation() {
         <AnnotationButtons
           nextOrPrevButtonClicked={nextOrPrevButtonClickedHandler}
         />{" "}
-        {params.tier0 && params.tier1 ? (
+        {/* {params.tier0 && params.tier1 ? (
           <AnnotationFilter loading={loadingHandler} />
-        ) : null}
+        ) : null} */}
+        <AnnotationFilter loading={loadingHandler} />
       </ButtonsStyled>
       {annotations?.length > 0 && !loading
         ? annotations.map((annotation, index) => (

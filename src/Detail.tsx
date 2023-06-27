@@ -162,7 +162,7 @@ export const Detail = (props: DetailProps) => {
           ? props.config.allPossibleTextPanels.toString()
           : "",
       ];
-      const overlapTypes = ["Resolution", "AttendanceList", "Attendant"];
+      const overlapTypes = annotationTypesToInclude;
       fetchBroccoliScanWithOverlap(
         bodyId,
         overlapTypes,
