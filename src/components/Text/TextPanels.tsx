@@ -12,7 +12,7 @@ export const TextPanels = (props: TextPanelsProps) => {
       return (
         <TextPanel
           key={key}
-          text={props.text[`${panel}`] ? props.text[`${panel}`] : props.text}
+          text={props.text[`${panel}`]}
           panel={panel}
           closePanelHandler={props.closePanelHandler}
         />

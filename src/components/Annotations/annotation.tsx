@@ -90,6 +90,23 @@ export function Annotation() {
         ) : null} */}
         <AnnotationFilter loading={loadingHandler} />
       </ButtonsStyled>
+      {/* <TabView>
+        <TabPanel header="Metadata">
+          {projectConfig?.renderMetadataPanel(annotations)}
+        </TabPanel>
+        <TabPanel header="Web annotations">
+          {annotations?.length > 0 && !loading
+            ? annotations.map((annotation, index) => (
+                <AnnotationItem
+                  key={index}
+                  annotation={annotation}
+                  nextOrPrevButtonClicked={nextOrPrevButtonClicked}
+                />
+              ))
+            : null}
+          {loading ? <Loading /> : null}
+        </TabPanel>
+      </TabView> */}
       {annotations?.length > 0 && !loading
         ? annotations.map((annotation, index) => (
             <AnnotationItem

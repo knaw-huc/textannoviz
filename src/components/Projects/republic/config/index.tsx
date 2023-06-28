@@ -6,6 +6,7 @@ import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";
 import { GetHome } from "../GetHome";
+import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
 
 export const republicConfig: ProjectConfig = {
@@ -28,6 +29,7 @@ export const republicConfig: ProjectConfig = {
     "Reviewed",
     "Session",
     "TextRegion",
+    "Scan",
   ],
   annotationTypesTitles: {
     AttendanceList: "Attendance list",
@@ -55,10 +57,10 @@ export const republicConfig: ProjectConfig = {
     propositionType: "Proposition type",
   },
   textPanelTitles: {
-    text: "Full text",
+    self: "Full text",
   },
-  allPossibleTextPanels: ["text"],
-  defaultTextPanels: ["text"],
+  allPossibleTextPanels: ["self"],
+  defaultTextPanels: ["self"],
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -73,6 +75,10 @@ export const republicConfig: ProjectConfig = {
 
   renderAnnotationButtons: () => {
     return <GetAnnotationButtons />;
+  },
+
+  renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => {
+    return <RenderMetadataPanel annotations={annotations} />;
   },
 
   createRouter: (

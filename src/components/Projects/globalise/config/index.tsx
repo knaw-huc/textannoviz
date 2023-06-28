@@ -70,10 +70,10 @@ export const globaliseConfig: ProjectConfig = {
     classDescription: "Class description",
   },
   textPanelTitles: {
-    text: "Full text",
+    self: "Full text",
   },
-  allPossibleTextPanels: ["text"],
-  defaultTextPanels: ["text"],
+  allPossibleTextPanels: ["self"],
+  defaultTextPanels: ["self"],
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

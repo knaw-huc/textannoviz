@@ -69,7 +69,6 @@ export const Detail = (props: DetailProps) => {
       setCurrentContext(newCurrentContext);
 
       setAnnotations(broccoli.anno);
-      setText(broccoli.text);
       setViews(broccoli.views);
 
       if (params.tier2) {
@@ -89,7 +88,7 @@ export const Detail = (props: DetailProps) => {
               mirador.actions.updateViewport(`${props.project}`, {
                 x: zoom?.zoomCenter.x,
                 y: zoom?.zoomCenter.y,
-                zoom: 1 / zoom.miradorZoom,
+                zoom: 1 / zoom!.miradorZoom,
               })
             );
           }
@@ -108,7 +107,6 @@ export const Detail = (props: DetailProps) => {
       setProjectConfig,
       setProjectName,
       setStore,
-      setText,
       setViews,
     ]
   );
@@ -120,19 +118,19 @@ export const Detail = (props: DetailProps) => {
         (result: BroccoliBodyIdResult) => {
           if (!ignore) {
             const bodyId = result.bodyId;
-            const includeResults = [
-              "anno",
-              "iiif",
+            const includeResults = ["anno", "iiif", "text"];
+
+            const views =
               typeof props.config.allPossibleTextPanels === "object"
                 ? props.config.allPossibleTextPanels.toString()
-                : "",
-            ];
+                : "";
 
             const overlapTypes = annotationTypesToInclude;
             fetchBroccoliScanWithOverlap(
               result.bodyId,
               overlapTypes,
               includeResults,
+              views,
               props.config
             ).then((broccoli: Broccoli) => {
               setState(broccoli, bodyId);
@@ -155,18 +153,19 @@ export const Detail = (props: DetailProps) => {
   React.useEffect(() => {
     if (params.tier2) {
       const bodyId = params.tier2;
-      const includeResults = [
-        "anno",
-        "iiif",
+      const includeResults = ["anno", "iiif", "text"];
+
+      const views =
         typeof props.config.allPossibleTextPanels === "object"
           ? props.config.allPossibleTextPanels.toString()
-          : "",
-      ];
+          : "";
+
       const overlapTypes = annotationTypesToInclude;
       fetchBroccoliScanWithOverlap(
         bodyId,
         overlapTypes,
         includeResults,
+        views,
         props.config
       )
         .then((broccoli: Broccoli) => {

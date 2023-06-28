@@ -30,6 +30,7 @@ export type ProjectConfig = {
   renderAnnotationButtons: (
     nextOrPrevButtonClicked: (clicked: boolean) => boolean
   ) => JSX.Element;
+  renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => JSX.Element;
   createRouter: (
     comp1: React.ReactNode,
     comp2: React.ReactNode,

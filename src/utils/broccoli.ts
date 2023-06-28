@@ -64,17 +64,18 @@ export const fetchBroccoliScanWithOverlap = async (
   bodyId: string,
   overlapTypes: string[],
   includeResults: string[],
+  views: string,
   config: ProjectConfig
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&relativeTo=${config.relativeTo}`
+    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${config.relativeTo}`
   );
   if (!response.ok) {
     const error = await response.json();
     toast(`${error.message}`, { type: "error" });
     return null;
   }
-  return response.json();
+  return await response.json();
 };
 
 export const selectDistinctBodyTypes = async (
