@@ -17,6 +17,7 @@ export const GetAnnotationLinks = () => {
         params.tier2,
         ["Scan"],
         ["anno"],
+        "self",
         projectConfig
       ).then((result: Broccoli) => {
         setOpening((result.anno[0].body as ScanBody).metadata.opening);
