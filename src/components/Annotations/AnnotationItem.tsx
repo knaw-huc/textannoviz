@@ -75,50 +75,33 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         );
       }
 
-      if (text !== undefined) {
-        const startIndex = text.locations.annotations.find(
-          (anno) => anno.bodyId === props.annotation.body.id
-        )?.start.line;
+      if (views) {
+        let startIndex = -1;
+        let endIndex = -1;
+        Object.values(views).map((view) => {
+          const tempStartIndex = view.locations.annotations.find(
+            (anno) => anno.bodyId === props.annotation.body.id
+          )?.start.line;
 
-        const endIndex = text.locations.annotations.find(
-          (anno) => anno.bodyId === props.annotation.body.id
-        )?.end.line;
+          if (tempStartIndex !== undefined) {
+            startIndex = tempStartIndex;
+          }
 
-        if (typeof startIndex === "number" && typeof endIndex === "number") {
+          const tempEndIndex = view.locations.annotations.find(
+            (anno) => anno.bodyId === props.annotation.body.id
+          )?.end.line;
+
+          if (tempEndIndex !== undefined) {
+            endIndex = tempEndIndex;
+          }
+        });
+
+        if (startIndex >= 0 && endIndex >= 0) {
           const indices = createIndices(startIndex, endIndex);
           updateOpenAnn(props.annotation.body.id, indices);
         }
 
         setCurrentSelectedAnn(props.annotation.body.id);
-      } else {
-        if (views) {
-          let startIndex = -1;
-          let endIndex = -1;
-          Object.values(views).map((view) => {
-            const tempStartIndex = view.locations.annotations.find(
-              (anno) => anno.bodyId === props.annotation.body.id
-            )?.start.line;
-
-            if (tempStartIndex !== undefined) {
-              startIndex = tempStartIndex;
-            }
-
-            const tempEndIndex = view.locations.annotations.find(
-              (anno) => anno.bodyId === props.annotation.body.id
-            )?.end.line;
-
-            if (tempEndIndex !== undefined) {
-              endIndex = tempEndIndex;
-            }
-          });
-
-          if (startIndex >= 0 && endIndex >= 0) {
-            const indices = createIndices(startIndex, endIndex);
-            updateOpenAnn(props.annotation.body.id, indices);
-          }
-
-          setCurrentSelectedAnn(props.annotation.body.id);
-        }
       }
     } else {
       miradorStore.dispatch(
