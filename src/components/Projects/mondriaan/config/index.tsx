@@ -119,7 +119,6 @@ export const mondriaanConfig: ProjectConfig = {
     "notesEN",
     "title",
     "postalData",
-    "self",
   ],
   defaultTextPanels: ["textOrig", "textTrans"],
 
