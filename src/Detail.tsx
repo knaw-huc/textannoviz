@@ -75,14 +75,12 @@ export const Detail = (props: DetailProps) => {
       if (params.tier2) {
         let annoToZoom: AnnoRepoAnnotation[];
         if (params.tier2.includes("resolution")) {
-          console.log("resolution");
           annoToZoom = broccoli.anno.filter(
             (annotation) => annotation.body.type === "Resolution"
           );
         }
 
         if (params.tier2.includes("attendance_list")) {
-          console.log("attendancelist");
           annoToZoom = broccoli.anno.filter(
             (annotation) => annotation.body.type === "AttendanceList"
           );
