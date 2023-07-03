@@ -121,39 +121,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     }
   }
 
-  function renderMetadataPanelScanView() {
-    return (
-      <ul className="metadataPanelUl">
-        <li className="metadataPanelLi">
-          <div className="metadataPanelLiContent">
-            <strong>Date: </strong>
-            {(session[0].body as SessionBody).metadata.sessionWeekday}{" "}
-            {(session[0].body as SessionBody).metadata.sessionDay}
-            {"-"}
-            {(session[0].body as SessionBody).metadata.sessionMonth}
-            {"-"}
-            {(session[0].body as SessionBody).metadata.sessionYear}
-          </div>
-        </li>
-        <li className="metadataPanelLi">
-          <div className="metadataPanelLiContent">
-            <strong>Volume: </strong>
-            {(scan[0].body as ScanBody).metadata.volume}
-          </div>
-        </li>
-        <li className="metadataPanelLi">
-          <div className="metadataPanelLiContent">
-            <strong>Opening: </strong>
-            {(scan[0].body as ScanBody).metadata.opening}
-          </div>
-        </li>
-        <strong>Attendants: </strong>
-        {renderAttendants()}
-      </ul>
-    );
-  }
-
-  function renderMetadataPanelResolutionView() {
+  function renderResolutionView() {
     return (
       <>
         <ul className="metadataPanelUl">
@@ -189,10 +157,48 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     );
   }
 
+  function renderMetadataPanelScanView() {
+    return (
+      <ul className="metadataPanelUl">
+        <li className="metadataPanelLi">
+          <div className="metadataPanelLiContent">
+            <strong>Date: </strong>
+            {(session[0].body as SessionBody).metadata.sessionWeekday}{" "}
+            {(session[0].body as SessionBody).metadata.sessionDay}
+            {"-"}
+            {(session[0].body as SessionBody).metadata.sessionMonth}
+            {"-"}
+            {(session[0].body as SessionBody).metadata.sessionYear}
+          </div>
+        </li>
+        <li className="metadataPanelLi">
+          <div className="metadataPanelLiContent">
+            <strong>Volume: </strong>
+            {(scan[0].body as ScanBody).metadata.volume}
+          </div>
+        </li>
+        <li className="metadataPanelLi">
+          <div className="metadataPanelLiContent">
+            <strong>Opening: </strong>
+            {(scan[0].body as ScanBody).metadata.opening}
+          </div>
+        </li>
+        <strong>Attendants: </strong>
+        {renderAttendants()}
+      </ul>
+    );
+  }
+
+  function renderMetadataPanelAnnotationView() {
+    if (resolution.length > 0) {
+      return renderResolutionView();
+    }
+  }
+
   return (
     <>
       {params.tier0 && params.tier1 ? renderMetadataPanelScanView() : null}
-      {params.tier2 ? renderMetadataPanelResolutionView() : null}
+      {params.tier2 ? renderMetadataPanelAnnotationView() : null}
     </>
   );
 };
