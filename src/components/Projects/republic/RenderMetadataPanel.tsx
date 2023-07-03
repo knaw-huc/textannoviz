@@ -1,7 +1,10 @@
+import { UserIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useParams } from "react-router-dom";
+import { HOSTS } from "../../../Config";
 import {
   AnnoRepoAnnotation,
+  AttendanceListBody,
   ResolutionBody,
   ScanBody,
   SessionBody,
@@ -39,9 +42,8 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     const session = props.annotations.filter(
       (annotation) => annotation.body.type === "Session"
     );
+    setAttendanceList(undefined);
     async function fetchData() {
-      setAttendanceList(undefined);
-
       const result: Broccoli = await fetchBroccoliScanWithOverlap(
         session[0].body.id,
         ["AttendanceList"],
@@ -65,6 +67,52 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     };
   }, [projectConfig, props.annotations]);
 
+  function renderAttendants() {
+    const broccoliAttendanceList = props.annotations.filter(
+      (anno) => anno.body.type === "AttendanceList"
+    );
+
+    if (attendanceList) {
+      return (
+        attendanceList.anno[0].body as AttendanceListBody
+      ).attendanceSpans.map((attendant, index) =>
+        attendant.delegateName !== "" ? (
+          <li key={index}>
+            {<UserIcon style={{ height: "0.75rem", width: "0.75rem" }} />}
+            <a
+              title="Link"
+              rel="noreferrer"
+              target="_blank"
+              href={`${HOSTS.RAA}/${attendant.delegateId}`}
+            >
+              {attendant.delegateName}
+            </a>
+          </li>
+        ) : null
+      );
+    }
+
+    if (broccoliAttendanceList.length > 0) {
+      return (
+        broccoliAttendanceList[0].body as AttendanceListBody
+      ).attendanceSpans.map((attendant, index) =>
+        attendant.delegateName !== "" ? (
+          <li key={index}>
+            {<UserIcon style={{ height: "0.75rem", width: "0.75rem" }} />}
+            <a
+              title="Link"
+              rel="noreferrer"
+              target="_blank"
+              href={`${HOSTS.RAA}/${attendant.delegateId}`}
+            >
+              {attendant.delegateName}
+            </a>
+          </li>
+        ) : null
+      );
+    }
+  }
+
   function renderMetadataPanelScanView() {
     return (
       <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
@@ -85,31 +133,39 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
           {"-"}
           {(session[0].body as SessionBody).metadata.sessionYear}
         </li>
+        <strong>Attendants: </strong>
+        {renderAttendants()}
       </ul>
     );
   }
 
   function renderMetadataPanelResolutionView() {
     return (
-      <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-        <li>
-          <strong>Date: </strong>
-          {(resolution[0].body as ResolutionBody).metadata.sessionWeekday}{" "}
-          {(resolution[0].body as ResolutionBody).metadata.sessionDay}
-          {"-"}
-          {(resolution[0].body as ResolutionBody).metadata.sessionMonth}
-          {"-"}
-          {(resolution[0].body as ResolutionBody).metadata.sessionYear}
-        </li>
-        <li>
-          <strong>Proposition type: </strong>
-          {(resolution[0].body as ResolutionBody).metadata.propositionType}
-        </li>
-        <li>
-          <strong>Resolution type: </strong>
-          {(resolution[0].body as ResolutionBody).metadata.resolutionType}
-        </li>
-      </ul>
+      <>
+        <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+          <li>
+            <strong>Date: </strong>
+            {
+              (resolution[0].body as ResolutionBody).metadata.sessionWeekday
+            }{" "}
+            {(resolution[0].body as ResolutionBody).metadata.sessionDay}
+            {"-"}
+            {(resolution[0].body as ResolutionBody).metadata.sessionMonth}
+            {"-"}
+            {(resolution[0].body as ResolutionBody).metadata.sessionYear}
+          </li>
+          <li>
+            <strong>Proposition type: </strong>
+            {(resolution[0].body as ResolutionBody).metadata.propositionType}
+          </li>
+          <li>
+            <strong>Resolution type: </strong>
+            {(resolution[0].body as ResolutionBody).metadata.resolutionType}
+          </li>
+          <strong>Attendants: </strong>
+          {renderAttendants()}
+        </ul>
+      </>
     );
   }
 
