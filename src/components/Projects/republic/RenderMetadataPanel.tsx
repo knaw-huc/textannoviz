@@ -89,23 +89,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     );
   }
 
-  async function getAttendanceList() {
-    const attendanceList: Broccoli = await fetchBroccoliScanWithOverlap(
-      session[0].body.id,
-      ["AttendanceList"],
-      ["anno", "iiif", "text"],
-      "self",
-      projectConfig!
-    );
-
-    return attendanceList;
-  }
-
   function renderMetadataPanelResolutionView() {
-    getAttendanceList().then((result) => {
-      return result;
-    });
-
     return (
       <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
         <li>
