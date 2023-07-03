@@ -1,3 +1,4 @@
+import React from "react";
 import { useParams } from "react-router-dom";
 import {
   AnnoRepoAnnotation,
@@ -15,6 +16,7 @@ type RenderMetadataPanelProps = {
 
 export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
+  const [attendanceList, setAttendanceList] = React.useState<Broccoli>();
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const attendants = props.annotations.filter(
     (annotation) => annotation.body.type === "Attendant"
@@ -24,15 +26,44 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     (annotation) => annotation.body.type === "Resolution"
   );
 
-  const session = props.annotations.filter(
-    (annotation) => annotation.body.type === "Session"
-  );
-
   const scan = props.annotations.filter(
     (annotation) => annotation.body.type === "Scan"
   );
 
-  console.log(attendants);
+  const session = props.annotations.filter(
+    (annotation) => annotation.body.type === "Session"
+  );
+
+  React.useEffect(() => {
+    const bodyTypes = props.annotations.map((anno) => anno.body.type);
+    const session = props.annotations.filter(
+      (annotation) => annotation.body.type === "Session"
+    );
+    async function fetchData() {
+      setAttendanceList(undefined);
+
+      const result: Broccoli = await fetchBroccoliScanWithOverlap(
+        session[0].body.id,
+        ["AttendanceList"],
+        ["anno", "iiif", "text"],
+        "self",
+        projectConfig!
+      );
+      if (!ignore) {
+        setAttendanceList(result);
+      }
+    }
+
+    let ignore = false;
+
+    if (!bodyTypes.includes("AttendanceList")) {
+      fetchData();
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [projectConfig, props.annotations]);
 
   function renderMetadataPanelScanView() {
     return (
@@ -63,6 +94,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
       session[0].body.id,
       ["AttendanceList"],
       ["anno", "iiif", "text"],
+      "self",
       projectConfig!
     );
 
