@@ -14,8 +14,8 @@ import { AnnotationItem } from "./AnnotationItem";
 import { AnnotationLinks } from "./AnnotationLinks";
 
 const AnnotationStyled = styled.div`
-  width: 20%;
-  height: 850px;
+  width: 30%;
+  height: 900px;
   padding: 0.7em;
   overflow: auto;
   white-space: pre-wrap;

@@ -27,7 +27,7 @@ html {
 
 .appContainer > * {
   width: 100%;
-  max-width: 1700px;
+  /* max-width: 1700px; */
   align-self: stretch;
   align-items: stretch;
   flex-grow: 1;
@@ -55,15 +55,14 @@ html {
 }
 
 .row {
-  border-style: solid;
-  border-color: black;
-  border-width: 2px;
+  border-top: black solid 1px;
+  border-bottom: black solid 1px;
   display: flex;
   flex-direction: row;
 }
 
 .textContainer {
-  width: 50%;
+  width: 40%;
   align-self: stretch;
   flex-grow: 1;
   position: relative;
