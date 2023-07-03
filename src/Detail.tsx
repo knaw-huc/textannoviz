@@ -5,6 +5,7 @@ import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { TextComponent } from "./components/Text/TextComponent";
+import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
 import { Broccoli, BroccoliBodyIdResult } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
@@ -72,15 +73,30 @@ export const Detail = (props: DetailProps) => {
       setViews(broccoli.views);
 
       if (params.tier2) {
+        let annoToZoom: AnnoRepoAnnotation[];
+        if (params.tier2.includes("resolution")) {
+          console.log("resolution");
+          annoToZoom = broccoli.anno.filter(
+            (annotation) => annotation.body.type === "Resolution"
+          );
+        }
+
+        if (params.tier2.includes("attendance_list")) {
+          console.log("attendancelist");
+          annoToZoom = broccoli.anno.filter(
+            (annotation) => annotation.body.type === "AttendanceList"
+          );
+        }
+
         setTimeout(() => {
           const zoom = zoomAnnMirador(
-            broccoli.anno[0],
+            annoToZoom ? annoToZoom[0] : broccoli.anno[0],
             broccoli.iiif.canvasIds[0]
           );
           viewer.store.dispatch(
             mirador.actions.selectAnnotation(
               `${props.project}`,
-              broccoli.anno[0].id
+              annoToZoom ? annoToZoom[0].id : broccoli.anno[0].id
             )
           );
           if (typeof zoom === "object") {
