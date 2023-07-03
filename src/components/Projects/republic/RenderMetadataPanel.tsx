@@ -74,64 +74,78 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
     if (attendanceList) {
       return (
-        attendanceList.anno[0].body as AttendanceListBody
-      ).attendanceSpans.map((attendant, index) =>
-        attendant.delegateName !== "" ? (
-          <li key={index}>
-            {<UserIcon style={{ height: "0.75rem", width: "0.75rem" }} />}
-            <a
-              title="Link"
-              rel="noreferrer"
-              target="_blank"
-              href={`${HOSTS.RAA}/${attendant.delegateId}`}
-            >
-              {attendant.delegateName}
-            </a>
-          </li>
-        ) : null
+        <div className="metadataPanelLiContent">
+          {(
+            attendanceList.anno[0].body as AttendanceListBody
+          ).attendanceSpans.map((attendant, index) =>
+            attendant.delegateName !== "" ? (
+              <li key={index}>
+                {<UserIcon style={{ height: "0.75rem", width: "0.75rem" }} />}
+                <a
+                  title="Link"
+                  rel="noreferrer"
+                  target="_blank"
+                  href={`${HOSTS.RAA}/${attendant.delegateId}`}
+                >
+                  {attendant.delegateName}
+                </a>
+              </li>
+            ) : null
+          )}
+        </div>
       );
     }
 
     if (broccoliAttendanceList.length > 0) {
       return (
-        broccoliAttendanceList[0].body as AttendanceListBody
-      ).attendanceSpans.map((attendant, index) =>
-        attendant.delegateName !== "" ? (
-          <li key={index}>
-            {<UserIcon style={{ height: "0.75rem", width: "0.75rem" }} />}
-            <a
-              title="Link"
-              rel="noreferrer"
-              target="_blank"
-              href={`${HOSTS.RAA}/${attendant.delegateId}`}
-            >
-              {attendant.delegateName}
-            </a>
-          </li>
-        ) : null
+        <div className="metadataPanelLiContent">
+          {(
+            broccoliAttendanceList[0].body as AttendanceListBody
+          ).attendanceSpans.map((attendant, index) =>
+            attendant.delegateName !== "" ? (
+              <li key={index}>
+                {<UserIcon style={{ height: "0.75rem", width: "0.75rem" }} />}
+                <a
+                  title="Link"
+                  rel="noreferrer"
+                  target="_blank"
+                  href={`${HOSTS.RAA}/${attendant.delegateId}`}
+                >
+                  {attendant.delegateName}
+                </a>
+              </li>
+            ) : null
+          )}
+        </div>
       );
     }
   }
 
   function renderMetadataPanelScanView() {
     return (
-      <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-        <li>
-          <strong>Volume: </strong>
-          {(scan[0].body as ScanBody).metadata.volume}
+      <ul className="metadataPanelUl">
+        <li className="metadataPanelLi">
+          <div className="metadataPanelLiContent">
+            <strong>Date: </strong>
+            {(session[0].body as SessionBody).metadata.sessionWeekday}{" "}
+            {(session[0].body as SessionBody).metadata.sessionDay}
+            {"-"}
+            {(session[0].body as SessionBody).metadata.sessionMonth}
+            {"-"}
+            {(session[0].body as SessionBody).metadata.sessionYear}
+          </div>
         </li>
-        <li>
-          <strong>Opening: </strong>
-          {(scan[0].body as ScanBody).metadata.opening}
+        <li className="metadataPanelLi">
+          <div className="metadataPanelLiContent">
+            <strong>Volume: </strong>
+            {(scan[0].body as ScanBody).metadata.volume}
+          </div>
         </li>
-        <li>
-          <strong>Date: </strong>
-          {(session[0].body as SessionBody).metadata.sessionWeekday}{" "}
-          {(session[0].body as SessionBody).metadata.sessionDay}
-          {"-"}
-          {(session[0].body as SessionBody).metadata.sessionMonth}
-          {"-"}
-          {(session[0].body as SessionBody).metadata.sessionYear}
+        <li className="metadataPanelLi">
+          <div className="metadataPanelLiContent">
+            <strong>Opening: </strong>
+            {(scan[0].body as ScanBody).metadata.opening}
+          </div>
         </li>
         <strong>Attendants: </strong>
         {renderAttendants()}
@@ -142,25 +156,31 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   function renderMetadataPanelResolutionView() {
     return (
       <>
-        <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-          <li>
-            <strong>Date: </strong>
-            {
-              (resolution[0].body as ResolutionBody).metadata.sessionWeekday
-            }{" "}
-            {(resolution[0].body as ResolutionBody).metadata.sessionDay}
-            {"-"}
-            {(resolution[0].body as ResolutionBody).metadata.sessionMonth}
-            {"-"}
-            {(resolution[0].body as ResolutionBody).metadata.sessionYear}
+        <ul className="metadataPanelUl">
+          <li className="metadataPanelLi">
+            <div className="metadataPanelLiContent">
+              <strong>Date: </strong>
+              {
+                (resolution[0].body as ResolutionBody).metadata.sessionWeekday
+              }{" "}
+              {(resolution[0].body as ResolutionBody).metadata.sessionDay}
+              {"-"}
+              {(resolution[0].body as ResolutionBody).metadata.sessionMonth}
+              {"-"}
+              {(resolution[0].body as ResolutionBody).metadata.sessionYear}
+            </div>
           </li>
-          <li>
-            <strong>Proposition type: </strong>
-            {(resolution[0].body as ResolutionBody).metadata.propositionType}
+          <li className="metadataPanelLi">
+            <div className="metadataPanelLiContent">
+              <strong>Proposition type: </strong>
+              {(resolution[0].body as ResolutionBody).metadata.propositionType}
+            </div>
           </li>
-          <li>
-            <strong>Resolution type: </strong>
-            {(resolution[0].body as ResolutionBody).metadata.resolutionType}
+          <li className="metadataPanelLi">
+            <div className="metadataPanelLiContent">
+              <strong>Resolution type: </strong>
+              {(resolution[0].body as ResolutionBody).metadata.resolutionType}
+            </div>
           </li>
           <strong>Attendants: </strong>
           {renderAttendants()}

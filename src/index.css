@@ -236,6 +236,21 @@ input[type="text"] {
 }
 
 .highlighted {
-  background-color: lightgray;
+  background-color: rgb(254, 240, 138);
   color: black;
+}
+
+.metadataPanelUl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.metadataPanelLi {
+  margin-bottom: 2rem;
+}
+
+.metadataPanelLiContent {
+  display: grid;
+  grid-template-columns: 250px;
 }
