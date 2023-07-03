@@ -69,8 +69,9 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
                       selected={annotationTypesToInclude.includes(annType)}
                       value={annType}
                     >
-                      {projectConfig.annotationTypesTitles &&
-                        projectConfig.annotationTypesTitles[annType]}
+                      {(projectConfig.annotationTypesTitles &&
+                        projectConfig.annotationTypesTitles[annType]) ??
+                        annType}
                     </option>
                   );
                 })}

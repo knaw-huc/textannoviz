@@ -1,4 +1,3 @@
-import { TabPanel, TabView } from "primereact/tabview";
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -91,7 +90,7 @@ export function Annotation() {
         ) : null} */}
         <AnnotationFilter loading={loadingHandler} />
       </ButtonsStyled>
-      <TabView>
+      {/* <TabView>
         <TabPanel header="Metadata">
           {projectConfig?.renderMetadataPanel(annotations)}
         </TabPanel>
@@ -107,8 +106,8 @@ export function Annotation() {
             : null}
           {loading ? <Loading /> : null}
         </TabPanel>
-      </TabView>
-      {/* {annotations?.length > 0 && !loading
+      </TabView> */}
+      {annotations?.length > 0 && !loading
         ? annotations.map((annotation, index) => (
             <AnnotationItem
               key={index}
@@ -117,7 +116,7 @@ export function Annotation() {
             />
           ))
         : null}
-      {loading ? <Loading /> : null} */}
+      {loading ? <Loading /> : null}
     </AnnotationStyled>
   );
 }
