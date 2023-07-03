@@ -252,5 +252,5 @@ input[type="text"] {
 
 .metadataPanelLiContent {
   display: grid;
-  grid-template-columns: 250px;
+  grid-template-columns: 350px;
 }
