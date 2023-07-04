@@ -82,7 +82,11 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                   title="Link"
                   rel="noreferrer"
                   target="_blank"
-                  href={`${HOSTS.RAA}/${attendant.delegateId}`}
+                  href={
+                    attendant.delegateId > 0
+                      ? `${HOSTS.RAA}/${attendant.delegateId}`
+                      : undefined
+                  }
                 >
                   {attendant.delegateName}
                 </a>
@@ -242,6 +246,8 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     if (params.tier2?.includes("attendance_list")) {
       return renderAttendanceListView();
     }
+
+    return <div>No panel defined for this annotation type.</div>;
   }
 
   return (
