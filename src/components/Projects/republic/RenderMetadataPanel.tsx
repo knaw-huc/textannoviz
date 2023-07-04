@@ -168,35 +168,38 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     const broccoliAttendanceList = props.annotations.filter(
       (anno) => anno.body.type === "AttendanceList"
     );
-    return (
-      <ul className="metadataPanelUl">
-        <li className="metadataPanelLi">
-          <div className="metadataPanelLiContent">
-            <strong>Date: </strong>
-            {
-              (broccoliAttendanceList[0].body as AttendanceListBody).metadata
-                .sessionWeekday
-            }{" "}
-            {
-              (broccoliAttendanceList[0].body as AttendanceListBody).metadata
-                .sessionDay
-            }
-            {"-"}
-            {
-              (broccoliAttendanceList[0].body as AttendanceListBody).metadata
-                .sessionMonth
-            }
-            {"-"}
-            {
-              (broccoliAttendanceList[0].body as AttendanceListBody).metadata
-                .sessionYear
-            }
-          </div>
-        </li>
-        <strong>Attendants: </strong>
-        {renderAttendants()}
-      </ul>
-    );
+
+    if (broccoliAttendanceList.length >= 1) {
+      return (
+        <ul className="metadataPanelUl">
+          <li className="metadataPanelLi">
+            <div className="metadataPanelLiContent">
+              <strong>Date: </strong>
+              {
+                (broccoliAttendanceList[0].body as AttendanceListBody).metadata
+                  .sessionWeekday
+              }{" "}
+              {
+                (broccoliAttendanceList[0].body as AttendanceListBody).metadata
+                  .sessionDay
+              }
+              {"-"}
+              {
+                (broccoliAttendanceList[0].body as AttendanceListBody).metadata
+                  .sessionMonth
+              }
+              {"-"}
+              {
+                (broccoliAttendanceList[0].body as AttendanceListBody).metadata
+                  .sessionYear
+              }
+            </div>
+          </li>
+          <strong>Attendants: </strong>
+          {renderAttendants()}
+        </ul>
+      );
+    }
   }
 
   function renderMetadataPanelScanView() {
