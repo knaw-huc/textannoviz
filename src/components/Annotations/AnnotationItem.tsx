@@ -35,7 +35,6 @@ const Clickable = styled.div`
 
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
-  const text = useTextStore((state) => state.text);
   const views = useTextStore((state) => state.views);
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
