@@ -47,7 +47,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
       const result: Broccoli = await fetchBroccoliScanWithOverlap(
         session[0].body.id,
         ["AttendanceList"],
-        ["anno", "iiif", "text"],
+        ["anno"],
         "self",
         projectConfig!
       );
