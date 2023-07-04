@@ -24,11 +24,11 @@ export const republicConfig: ProjectConfig = {
   annotationTypes: await selectDistinctBodyTypes("republic"),
   annotationTypesToInclude: [
     "AttendanceList",
-    "Attendant",
+    // "Attendant",
     "Resolution",
-    "Reviewed",
+    // "Reviewed",
     "Session",
-    "TextRegion",
+    // "TextRegion",
     "Scan",
   ],
   annotationTypesTitles: {
