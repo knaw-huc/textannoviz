@@ -21,9 +21,6 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
   const [attendanceList, setAttendanceList] = React.useState<Broccoli>();
   const projectConfig = useProjectStore((state) => state.projectConfig);
-  const attendants = props.annotations.filter(
-    (annotation) => annotation.body.type === "Attendant"
-  );
 
   const resolution = props.annotations.filter(
     (annotation) => annotation.body.type === "Resolution"
@@ -141,19 +138,64 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
           <li className="metadataPanelLi">
             <div className="metadataPanelLiContent">
               <strong>Proposition type: </strong>
-              {(resolution[0].body as ResolutionBody).metadata.propositionType}
+              {(resolution[0].body as ResolutionBody).metadata.propositionType
+                .charAt(0)
+                .toUpperCase() +
+                (
+                  resolution[0].body as ResolutionBody
+                ).metadata.propositionType.slice(1)}
             </div>
           </li>
           <li className="metadataPanelLi">
             <div className="metadataPanelLiContent">
               <strong>Resolution type: </strong>
-              {(resolution[0].body as ResolutionBody).metadata.resolutionType}
+              {(resolution[0].body as ResolutionBody).metadata.resolutionType
+                .charAt(0)
+                .toUpperCase() +
+                (
+                  resolution[0].body as ResolutionBody
+                ).metadata.resolutionType.slice(1)}
             </div>
           </li>
           <strong>Attendants: </strong>
           {renderAttendants()}
         </ul>
       </>
+    );
+  }
+
+  function renderAttendanceListView() {
+    const broccoliAttendanceList = props.annotations.filter(
+      (anno) => anno.body.type === "AttendanceList"
+    );
+    return (
+      <ul className="metadataPanelUl">
+        <li className="metadataPanelLi">
+          <div className="metadataPanelLiContent">
+            <strong>Date: </strong>
+            {
+              (broccoliAttendanceList[0].body as AttendanceListBody).metadata
+                .sessionWeekday
+            }{" "}
+            {
+              (broccoliAttendanceList[0].body as AttendanceListBody).metadata
+                .sessionDay
+            }
+            {"-"}
+            {
+              (broccoliAttendanceList[0].body as AttendanceListBody).metadata
+                .sessionMonth
+            }
+            {"-"}
+            {
+              (broccoliAttendanceList[0].body as AttendanceListBody).metadata
+                .sessionYear
+            }
+          </div>
+        </li>
+        <strong>Attendants: </strong>
+        {renderAttendants()}
+      </ul>
     );
   }
 
@@ -190,8 +232,12 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   }
 
   function renderMetadataPanelAnnotationView() {
-    if (resolution.length > 0) {
+    if (params.tier2?.includes("resolution") && resolution.length > 0) {
       return renderResolutionView();
+    }
+
+    if (params.tier2?.includes("attendance_list")) {
+      return renderAttendanceListView();
     }
   }
 
