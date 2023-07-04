@@ -30,7 +30,6 @@ const setMiradorConfig = (broccoli: Broccoli, project: string) => {
 };
 
 export const Detail = (props: DetailProps) => {
-  const setText = useTextStore((state) => state.setText);
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
   const setStore = useMiradorStore((state) => state.setStore);
