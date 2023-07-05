@@ -24,6 +24,7 @@ export type ProjectConfig = {
   textPanelTitles?: Record<string, string>;
   allPossibleTextPanels?: string[];
   defaultTextPanels?: string[];
+  metadataPanelTitles?: Record<string, string>;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;

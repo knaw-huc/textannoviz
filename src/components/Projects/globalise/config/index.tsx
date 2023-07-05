@@ -6,6 +6,7 @@ import { createIndices } from "../../../../utils/createIndices";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetHome } from "../GetHome";
+import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
 
 export const globaliseConfig: ProjectConfig = {
@@ -84,6 +85,10 @@ export const globaliseConfig: ProjectConfig = {
 
   renderAnnotationButtons: () => {
     return <GetAnnotationButtons />;
+  },
+
+  renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => {
+    return <RenderMetadataPanel annotations={annotations} />;
   },
 
   createRouter: (

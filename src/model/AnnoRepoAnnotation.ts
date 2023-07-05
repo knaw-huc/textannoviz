@@ -162,6 +162,23 @@ export type TeiRegBody = AnnoRepoBody & {
   };
 };
 
+export type TfLetterBody = AnnoRepoBody & {
+  metadata: {
+    correspondent: string;
+    country: string;
+    file: string;
+    institution: string;
+    letterid: string;
+    location: string;
+    msid: string;
+    period: string;
+    periodlong: string;
+    sender: string;
+    type: string;
+    folder: string;
+  };
+};
+
 export type AnnoRepoBody = {
   id: string;
   type: string;
@@ -179,7 +196,8 @@ export type AnnoRepoBody = {
     | TeiPtrBody
     | TeiNoteBody
     | TeiRefBody
-    | TeiRegBody;
+    | TeiRegBody
+    | TfLetterBody;
 };
 
 export type Body =

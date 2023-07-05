@@ -5,6 +5,7 @@ import { selectDistinctBodyTypes } from "../../../../utils/broccoli";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetHome } from "../GetHome";
+import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
 
 export const mondriaanConfig: ProjectConfig = {
@@ -121,6 +122,20 @@ export const mondriaanConfig: ProjectConfig = {
     "postalData",
   ],
   defaultTextPanels: ["textOrig", "textTrans"],
+  metadataPanelTitles: {
+    correspondent: "Correspondent",
+    country: "Country",
+    file: "File",
+    institution: "Institution",
+    letterid: "Letter ID",
+    location: "Location",
+    msid: "Shelfmark",
+    period: "Period",
+    periodlong: "Period (long)",
+    sender: "Sender",
+    type: "Type",
+    folder: "Folder",
+  },
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -135,6 +150,10 @@ export const mondriaanConfig: ProjectConfig = {
     return (
       <GetAnnotationButtons nextOrPrevButtonClicked={nextOrPrevButtonClicked} />
     );
+  },
+
+  renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => {
+    return <RenderMetadataPanel annotations={annotations} />;
   },
 
   createRouter: (
