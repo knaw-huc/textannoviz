@@ -26,6 +26,7 @@ export const globaliseConfig: ProjectConfig = {
     "px:TextRegion",
     "tt:Entity",
     "tt:Paragraph",
+    "Document",
   ],
   tier: ["documents", "openings"],
   bodyType: ["px:TextLine", "px:TextRegion", "tt:Paragraph", "tt:Entity"],

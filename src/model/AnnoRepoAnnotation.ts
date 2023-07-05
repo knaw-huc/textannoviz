@@ -179,6 +179,13 @@ export type TfLetterBody = AnnoRepoBody & {
   };
 };
 
+export type DocumentBody = AnnoRepoBody & {
+  metadata: {
+    document: string;
+    manifest: string;
+  };
+};
+
 export type AnnoRepoBody = {
   id: string;
   type: string;
