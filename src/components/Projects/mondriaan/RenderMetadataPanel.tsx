@@ -14,8 +14,6 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     (anno) => anno.body.type === "tf:Letter"
   );
 
-  console.log(letterAnno);
-
   return (
     <>
       <ul className="metadataPanelUl">
