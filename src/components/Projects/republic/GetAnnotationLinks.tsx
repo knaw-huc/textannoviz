@@ -1,30 +1,12 @@
-import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { ScanBody } from "../../../model/AnnoRepoAnnotation";
-import { Broccoli } from "../../../model/Broccoli";
-import { useProjectStore } from "../../../stores/project";
-import { fetchBroccoliScanWithOverlap } from "../../../utils/broccoli";
+import { useAnnotationStore } from "../../../stores/annotation";
 
 export const GetAnnotationLinks = () => {
   const params = useParams();
-  const [opening, setOpening] = React.useState<number>(0);
-  const [volume, setVolume] = React.useState<string>("");
-  const projectConfig = useProjectStore((state) => state.projectConfig);
 
-  React.useEffect(() => {
-    if (params.tier2 && projectConfig) {
-      fetchBroccoliScanWithOverlap(
-        params.tier2,
-        ["Scan"],
-        ["anno"],
-        "self",
-        projectConfig
-      ).then((result: Broccoli) => {
-        setOpening((result.anno[0].body as ScanBody).metadata.opening);
-        setVolume((result.anno[0].body as ScanBody).metadata.volume);
-      });
-    }
-  }, [params.tier2, projectConfig]);
+  const annotations = useAnnotationStore((state) => state.annotations);
+  const scanAnno = annotations.filter((anno) => anno.body.type === "Scan");
 
   return (
     <>
@@ -34,7 +16,11 @@ export const GetAnnotationLinks = () => {
           Switch to resolution view
         </Link>
       ) : (
-        <Link to={`/detail/${volume}/${opening.toString()}`}>
+        <Link
+          to={`/detail/${(scanAnno[0].body as ScanBody).metadata.volume}/${(
+            scanAnno[0].body as ScanBody
+          ).metadata.opening.toString()}`}
+        >
           Switch to opening view
         </Link>
       )}
