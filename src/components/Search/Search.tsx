@@ -1,4 +1,6 @@
+import { Base64 } from "js-base64";
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -39,24 +41,106 @@ export const Search = (props: SearchProps) => {
   const [elasticFrom, setElasticFrom] = React.useState(0);
   const [sortBy, setSortBy] = React.useState("_score");
   const [sortOrder, setSortOrder] = React.useState("desc");
+  const [internalSortValue, setInternalSortValue] = React.useState("_score");
   const [fullText, setFullText] = React.useState("");
   const [dirty, setDirty] = React.useState(0);
   const [checkboxStates, setCheckBoxStates] = React.useState(
     new Map<string, boolean>()
   );
-  // const [searchParams, setSearchParams] = useSearchParams();
+  const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
+  const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
+    const queryEncoded = searchParams.get("query");
+    const queryDecoded: SearchQuery =
+      queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
+
+    if (queryDecoded) {
+      if (queryDecoded.text) {
+        setFullText(queryDecoded.text);
+      }
+    }
     const newMap = new Map<string, boolean>();
+    const selectedFacets: string[] = [];
+
+    if (queryDecoded) {
+      Object.entries(queryDecoded.terms).forEach(([key, value]) => {
+        selectedFacets.push(`${key}-${value}`);
+      });
+    }
+
     props.facets &&
       getKeywordFacets().map(([facetName, facetValues]) => {
         Object.keys(facetValues).forEach((facetValueName) => {
           const key = `${facetName}-${facetValueName}`;
           newMap.set(key, false);
+          if (selectedFacets.includes(key)) {
+            newMap.set(key, true);
+          }
         });
       });
     setCheckBoxStates(newMap);
   }, [props.facets, props.indexName, props.indices]);
+
+  React.useEffect(() => {
+    async function search(
+      query: SearchQuery,
+      frag: string,
+      size: string,
+      from: string,
+      sortBy: string,
+      sortOrder: string,
+      page: string
+    ) {
+      const data = await sendSearchQuery(
+        query,
+        frag,
+        parseInt(size),
+        parseInt(from),
+        props.projectConfig,
+        sortBy,
+        sortOrder
+      );
+      setSearchResults(data);
+      setElasticFrom(parseInt(from));
+      setPageNumber(parseInt(page));
+      setElasticSize(parseInt(size));
+      setSortBy(sortBy);
+      setSortOrder(sortOrder);
+      setFacets(data.aggs);
+      setQuery(query);
+      setFragmenter(frag);
+      if (query.date) {
+        setDateFrom(query.date?.from);
+        setDateTo(query.date?.to);
+      }
+
+      if (sortBy === "_score") {
+        setInternalSortValue("_score");
+      }
+      if (sortBy === "sessionDate") {
+        if (sortOrder === "desc") {
+          setInternalSortValue("dateDesc");
+        }
+        if (sortOrder === "asc") {
+          setInternalSortValue("dateAsc");
+        }
+      }
+    }
+    if ([...searchParams.keys()].length > 0) {
+      const page = searchParams.get("page");
+      const size = searchParams.get("size");
+      const from = searchParams.get("from");
+      const frag = searchParams.get("frag");
+      const sortBy = searchParams.get("sortBy");
+      const sortOrder = searchParams.get("sortOrder");
+      const queryEncoded = searchParams.get("query");
+      const queryDecoded: SearchQuery =
+        queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
+      search(queryDecoded, frag, size, from, sortBy, sortOrder, page);
+    }
+  }, [props.projectConfig, searchParams]);
 
   function refresh() {
     setDirty((prev) => prev + 1);
@@ -94,6 +178,7 @@ export const Search = (props: SearchProps) => {
 
     setQuery(searchQuery);
     console.log(searchQuery);
+    setQueryHistory([searchQuery, ...queryHistory]);
 
     const data = await sendSearchQuery(
       searchQuery,
@@ -109,15 +194,15 @@ export const Search = (props: SearchProps) => {
     setElasticFrom(0);
     setPageNumber(1);
     setFacets(data.aggs);
-    // setSearchParams({
-    //   page: pageNumber.toString(),
-    //   size: elasticSize.toString(),
-    //   from: elasticFrom.toString(),
-    //   frag: fragmenter,
-    //   sortBy: sortBy,
-    //   sortOrder: sortOrder,
-    //   query: Base64.toBase64(JSON.stringify(searchQuery)),
-    // });
+    setSearchParams({
+      page: pageNumber.toString(),
+      size: elasticSize.toString(),
+      from: elasticFrom.toString(),
+      frag: fragmenter,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+      query: Base64.toBase64(JSON.stringify(searchQuery)),
+    });
   };
 
   const handleFullTextFacet = (value: string) => {
@@ -136,9 +221,10 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
 
-    if (searchResults) {
-      refresh();
-    }
+    setSearchParams((searchParams) => {
+      searchParams.set("frag", event.currentTarget.value);
+      return searchParams;
+    });
   };
 
   async function prevPageClickHandler() {
@@ -162,11 +248,11 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
-    // setSearchParams((searchParams) => {
-    //   searchParams.set("page", prevPage.toString());
-    //   searchParams.set("from", newFrom.toString());
-    //   return searchParams;
-    // });
+    setSearchParams((searchParams) => {
+      searchParams.set("page", prevPage.toString());
+      searchParams.set("from", newFrom.toString());
+      return searchParams;
+    });
   }
 
   async function nextPageClickHandler() {
@@ -189,11 +275,11 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
-    // setSearchParams((searchParams) => {
-    //   searchParams.set("page", nextPage.toString());
-    //   searchParams.set("from", newFrom.toString());
-    //   return searchParams;
-    // });
+    setSearchParams((searchParams) => {
+      searchParams.set("page", nextPage.toString());
+      searchParams.set("from", newFrom.toString());
+      return searchParams;
+    });
   }
 
   const resultsPerPageSelectHandler = (
@@ -202,9 +288,10 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "") return;
     setElasticSize(parseInt(event.currentTarget.value));
 
-    if (searchResults) {
-      refresh();
-    }
+    setSearchParams((searchParams) => {
+      searchParams.set("size", event.currentTarget.value);
+      return searchParams;
+    });
   };
 
   async function jumpToPageHandler(
@@ -213,21 +300,14 @@ export const Search = (props: SearchProps) => {
     const newFrom = (parseInt(event.currentTarget.value) - 1) * elasticSize;
     setElasticFrom(newFrom);
     setPageNumber(parseInt(event.currentTarget.value));
-
-    const data = await sendSearchQuery(
-      query,
-      fragmenter,
-      elasticSize,
-      newFrom,
-      props.projectConfig,
-      sortBy,
-      sortOrder
-    );
+    setSearchParams((searchParams) => {
+      searchParams.set("page", event.currentTarget.value);
+      searchParams.set("from", newFrom.toString());
+      return searchParams;
+    });
 
     // const target = document.getElementsByClassName("searchContainer")[0];
     // target.scrollIntoView({ behavior: "smooth" });
-
-    setSearchResults(data);
   }
 
   React.useEffect(() => {
@@ -256,20 +336,34 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "_score") {
       setSortBy("_score");
       setSortOrder("desc");
+      setInternalSortValue("_score");
+      setSearchParams((searchParams) => {
+        searchParams.set("sortBy", "_score");
+        searchParams.set("sortOrder", "desc");
+        return searchParams;
+      });
     }
 
     if (event.currentTarget.value === "dateAsc") {
       setSortBy(facetName);
       setSortOrder("asc");
+      setInternalSortValue("dateAsc");
+      setSearchParams((searchParams) => {
+        searchParams.set("sortBy", facetName);
+        searchParams.set("sortOrder", "asc");
+        return searchParams;
+      });
     }
 
     if (event.currentTarget.value === "dateDesc") {
       setSortBy(facetName);
       setSortOrder("desc");
-    }
-
-    if (searchResults) {
-      refresh();
+      setInternalSortValue("dateDesc");
+      setSearchParams((searchParams) => {
+        searchParams.set("sortBy", facetName);
+        searchParams.set("sortOrder", "desc");
+        return searchParams;
+      });
     }
   }
 
@@ -354,6 +448,17 @@ export const Search = (props: SearchProps) => {
     }
   }
 
+  function historyClickHandler() {
+    setHistoryIsOpen(!historyIsOpen);
+  }
+
+  function goToQuery(query: SearchQuery) {
+    setSearchParams((searchParams) => {
+      searchParams.set("query", Base64.toBase64(JSON.stringify(query)));
+      return searchParams;
+    });
+  }
+
   return (
     <>
       <div className="appContainer">
@@ -364,10 +469,39 @@ export const Search = (props: SearchProps) => {
               <FullTextFacet
                 valueHandler={handleFullTextFacet}
                 enterPressedHandler={fullTextEnterPressedHandler}
+                value={fullText}
               />
               <button onClick={() => refresh()}>Search</button>
             </div>
-            <Fragmenter onChange={fragmenterSelectHandler} />
+            <div className="searchFacet">
+              <button onClick={historyClickHandler}>History</button>
+              {historyIsOpen ? (
+                <ol>
+                  {queryHistory.length > 0 &&
+                    queryHistory.map((query, index) => (
+                      <li key={index} onClick={() => goToQuery(query)}>
+                        {query.text ? <div>Full text: {query.text}</div> : null}
+                        {query.date ? (
+                          <>
+                            <div>From: {query.date.from}</div>{" "}
+                            <div>To: {query.date.to}</div>
+                          </>
+                        ) : null}
+                        {query.terms
+                          ? Object.entries(query.terms).map(
+                              ([key, value], index) => (
+                                <div key={index}>
+                                  {`Selected facets: ${key}-${value}`}
+                                </div>
+                              )
+                            )
+                          : null}
+                      </li>
+                    ))}
+                </ol>
+              ) : null}
+            </div>
+            <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
             {facets && renderDateFacets()}
             {checkboxStates.size > 0 && renderKeywordFacets()}
           </div>
@@ -383,8 +517,14 @@ export const Search = (props: SearchProps) => {
                 </div>
               </div>
               <div className="searchResultsHeaderRight">
-                <SearchSortBy onChange={sortByChangeHandler} />
-                <SearchResultsPerPage onChange={resultsPerPageSelectHandler} />
+                <SearchSortBy
+                  onChange={sortByChangeHandler}
+                  value={internalSortValue}
+                />
+                <SearchResultsPerPage
+                  onChange={resultsPerPageSelectHandler}
+                  value={elasticSize}
+                />
               </div>
             </div>
             <div className="selectedFacetList">
