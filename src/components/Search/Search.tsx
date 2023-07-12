@@ -81,7 +81,7 @@ export const Search = (props: SearchProps) => {
         });
       });
     setCheckBoxStates(newMap);
-  }, [props.facets, props.indexName, props.indices]);
+  }, [props.facets, props.indexName, props.indices, searchParams]);
 
   React.useEffect(() => {
     async function search(
