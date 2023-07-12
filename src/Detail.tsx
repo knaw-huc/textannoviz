@@ -139,11 +139,14 @@ export const Detail = (props: DetailProps) => {
                 : "";
 
             const overlapTypes = annotationTypesToInclude;
+            const relativeTo = "Scan";
+
             fetchBroccoliScanWithOverlap(
               result.bodyId,
               overlapTypes,
               includeResults,
               views,
+              relativeTo,
               props.config
             ).then((broccoli: Broccoli) => {
               setState(broccoli, bodyId);
@@ -174,11 +177,14 @@ export const Detail = (props: DetailProps) => {
           : "";
 
       const overlapTypes = annotationTypesToInclude;
+      const relativeTo = "Origin";
+
       fetchBroccoliScanWithOverlap(
         bodyId,
         overlapTypes,
         includeResults,
         views,
+        relativeTo,
         props.config
       )
         .then((broccoli: Broccoli) => {

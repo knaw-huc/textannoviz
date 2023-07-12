@@ -46,6 +46,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
         ["AttendanceList"],
         ["anno"],
         "self",
+        "Scan",
         projectConfig!
       );
       if (!ignore) {

@@ -65,10 +65,11 @@ export const fetchBroccoliScanWithOverlap = async (
   overlapTypes: string[],
   includeResults: string[],
   views: string,
+  relativeTo: string,
   config: ProjectConfig
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${config.relativeTo}`
+    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`
   );
   if (!response.ok) {
     const error = await response.json();
