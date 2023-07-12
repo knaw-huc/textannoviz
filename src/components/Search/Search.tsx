@@ -510,7 +510,10 @@ export const Search = (props: SearchProps) => {
                             ) : null}
                             {Object.entries(query.terms).map(
                               ([key, value], index) => (
-                                <div key={index}>{`${key}-${value}`}</div>
+                                <div key={index}>{`${
+                                  props.projectConfig.searchFacetTitles &&
+                                  props.projectConfig.searchFacetTitles[key]
+                                }: ${value}`}</div>
                               )
                             )}
                           </div>
