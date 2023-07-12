@@ -506,7 +506,9 @@ export const Search = (props: SearchProps) => {
                         ) : null}
                         {query.terms ? (
                           <div>
-                            <strong>Selected facets:</strong>
+                            {Object.keys(query.terms).length > 0 ? (
+                              <strong>Selected facets:</strong>
+                            ) : null}
                             {Object.entries(query.terms).map(
                               ([key, value], index) => (
                                 <div key={index}>{`${key}-${value}`}</div>
