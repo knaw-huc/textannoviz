@@ -131,7 +131,7 @@ export const Search = (props: SearchProps) => {
     if ([...searchParams.keys()].length > 0) {
       const page = searchParams.get("page");
       const size = searchParams.get("size");
-      const from = searchParams.get("from");
+      const from = parseInt(page) * parseInt(size) - parseInt(size);
       const frag = searchParams.get("frag");
       const sortBy = searchParams.get("sortBy");
       const sortOrder = searchParams.get("sortOrder");
@@ -197,7 +197,7 @@ export const Search = (props: SearchProps) => {
     setSearchParams({
       page: pageNumber.toString(),
       size: elasticSize.toString(),
-      from: elasticFrom.toString(),
+      // from: elasticFrom.toString(),
       frag: fragmenter,
       sortBy: sortBy,
       sortOrder: sortOrder,
