@@ -197,7 +197,6 @@ export const Search = (props: SearchProps) => {
     setSearchParams({
       page: pageNumber.toString(),
       size: elasticSize.toString(),
-      // from: elasticFrom.toString(),
       frag: fragmenter,
       sortBy: sortBy,
       sortOrder: sortOrder,
