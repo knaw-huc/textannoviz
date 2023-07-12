@@ -1,6 +1,6 @@
 import { Base64 } from "js-base64";
 import React from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -466,38 +466,59 @@ export const Search = (props: SearchProps) => {
           <div className="searchFacets">
             <div className="searchFacet">
               <div className="searchFacetTitle">Text search</div>
-              <FullTextFacet
-                valueHandler={handleFullTextFacet}
-                enterPressedHandler={fullTextEnterPressedHandler}
-                value={fullText}
-              />
-              <button onClick={() => refresh()}>Search</button>
+              <div className="hcFacetSearch">
+                <FullTextFacet
+                  valueHandler={handleFullTextFacet}
+                  enterPressedHandler={fullTextEnterPressedHandler}
+                  value={fullText}
+                />
+                <button onClick={() => refresh()}>Search</button>
+              </div>
+              <Link to={"/search"} reloadDocument>
+                New search
+              </Link>
             </div>
             <div className="searchFacet">
-              <button onClick={historyClickHandler}>History</button>
+              <button onClick={historyClickHandler}>Search history</button>
               {historyIsOpen ? (
                 <ol>
-                  {queryHistory.length > 0 &&
-                    queryHistory.map((query, index) => (
-                      <li key={index} onClick={() => goToQuery(query)}>
-                        {query.text ? <div>Full text: {query.text}</div> : null}
+                  {queryHistory.length > 0 ? (
+                    queryHistory.slice(0, 10).map((query, index) => (
+                      <li
+                        key={index}
+                        onClick={() => goToQuery(query)}
+                        className="queryHistoryLi"
+                      >
+                        {query.text ? (
+                          <div>
+                            <strong>Full text: </strong> {query.text}
+                          </div>
+                        ) : null}
                         {query.date ? (
                           <>
-                            <div>From: {query.date.from}</div>{" "}
-                            <div>To: {query.date.to}</div>
+                            <div>
+                              <strong>From: </strong> {query.date.from}
+                            </div>{" "}
+                            <div>
+                              <strong>To: </strong> {query.date.to}
+                            </div>
                           </>
                         ) : null}
-                        {query.terms
-                          ? Object.entries(query.terms).map(
+                        {query.terms ? (
+                          <div>
+                            <strong>Selected facets:</strong>
+                            {Object.entries(query.terms).map(
                               ([key, value], index) => (
-                                <div key={index}>
-                                  {`Selected facets: ${key}-${value}`}
-                                </div>
+                                <div key={index}>{`${key}-${value}`}</div>
                               )
-                            )
-                          : null}
+                            )}
+                          </div>
+                        ) : null}
                       </li>
-                    ))}
+                    ))
+                  ) : (
+                    <div>No search history.</div>
+                  )}
                 </ol>
               ) : null}
             </div>

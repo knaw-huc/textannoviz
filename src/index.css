@@ -225,7 +225,7 @@ em {
   justify-content: space-between;
 }
 
-input[type="text"] {
+input[type="search"] {
   width: 100%;
   padding: 0.5em;
   border: 1px solid #e1ebf3;
@@ -253,4 +253,18 @@ input[type="text"] {
 .metadataPanelLiContent {
   display: grid;
   grid-template-columns: 350px;
+}
+
+.queryHistoryLi {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.queryHistoryLi:hover {
+  text-decoration: underline;
+}
+
+.queryHistoryLiContent {
+  display: grid;
+  grid-template-columns: 300px;
 }
