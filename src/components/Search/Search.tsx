@@ -88,7 +88,7 @@ export const Search = (props: SearchProps) => {
       query: SearchQuery,
       frag: string,
       size: string,
-      from: string,
+      from: number,
       sortBy: string,
       sortOrder: string,
       page: string
@@ -97,13 +97,13 @@ export const Search = (props: SearchProps) => {
         query,
         frag,
         parseInt(size),
-        parseInt(from),
+        from,
         props.projectConfig,
         sortBy,
         sortOrder
       );
       setSearchResults(data);
-      setElasticFrom(parseInt(from));
+      setElasticFrom(from);
       setPageNumber(parseInt(page));
       setElasticSize(parseInt(size));
       setSortBy(sortBy);
@@ -131,14 +131,23 @@ export const Search = (props: SearchProps) => {
     if ([...searchParams.keys()].length > 0) {
       const page = searchParams.get("page");
       const size = searchParams.get("size");
-      const from = parseInt(page) * parseInt(size) - parseInt(size);
+      const from =
+        parseInt(page ?? "1") * parseInt(size ?? "10") - parseInt(size ?? "10");
       const frag = searchParams.get("frag");
       const sortBy = searchParams.get("sortBy");
       const sortOrder = searchParams.get("sortOrder");
       const queryEncoded = searchParams.get("query");
       const queryDecoded: SearchQuery =
         queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
-      search(queryDecoded, frag, size, from, sortBy, sortOrder, page);
+      search(
+        queryDecoded,
+        frag ?? "",
+        size ?? "",
+        from,
+        sortBy ?? "",
+        sortOrder ?? "",
+        page ?? ""
+      );
     }
   }, [props.projectConfig, searchParams]);
 
