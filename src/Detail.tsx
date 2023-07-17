@@ -139,7 +139,7 @@ export const Detail = (props: DetailProps) => {
                 : "";
 
             const overlapTypes = annotationTypesToInclude;
-            const relativeTo = "Scan";
+            const relativeTo = props.config.relativeTo;
 
             fetchBroccoliScanWithOverlap(
               result.bodyId,
