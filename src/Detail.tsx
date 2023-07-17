@@ -197,7 +197,7 @@ export const Detail = (props: DetailProps) => {
 
   return (
     <div className="appContainer">
-      <div className="lastUpdated">Last updated: 26 June 2023</div>
+      <div className="lastUpdated">Last updated: 17 July 2023</div>
       <div className="row">
         <Mirador />
         <TextComponent
