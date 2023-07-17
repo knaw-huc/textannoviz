@@ -417,8 +417,8 @@ export const Search = (props: SearchProps) => {
               type="date"
               id="start"
               value={dateFrom}
-              min={dateFrom}
-              max={dateTo}
+              min={props.projectConfig.initialDateFrom}
+              max={props.projectConfig.initialDateTo}
               onChange={(event) => setDateFrom(event.target.value)}
             />
 
@@ -429,8 +429,8 @@ export const Search = (props: SearchProps) => {
               type="date"
               id="end"
               value={dateTo}
-              min={dateFrom}
-              max={dateTo}
+              min={props.projectConfig.initialDateFrom}
+              max={props.projectConfig.initialDateTo}
               onChange={(event) => setDateTo(event.target.value)}
             />
           </div>
