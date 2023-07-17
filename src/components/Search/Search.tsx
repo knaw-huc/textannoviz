@@ -13,6 +13,7 @@ import {
 import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
 import { SearchItem } from "./SearchItem";
+import { SearchQueryHistory } from "./SearchQueryHistory";
 import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
 
@@ -486,55 +487,13 @@ export const Search = (props: SearchProps) => {
                 New search
               </Link>
             </div>
-            <div className="searchFacet">
-              <button onClick={historyClickHandler}>Search history</button>
-              {historyIsOpen ? (
-                <ol>
-                  {queryHistory.length > 0 ? (
-                    queryHistory.slice(0, 10).map((query, index) => (
-                      <li
-                        key={index}
-                        onClick={() => goToQuery(query)}
-                        className="queryHistoryLi"
-                      >
-                        {query.text ? (
-                          <div>
-                            <strong>Full text: </strong> {query.text}
-                          </div>
-                        ) : null}
-                        {query.date ? (
-                          <>
-                            <div>
-                              <strong>From: </strong> {query.date.from}
-                            </div>{" "}
-                            <div>
-                              <strong>To: </strong> {query.date.to}
-                            </div>
-                          </>
-                        ) : null}
-                        {query.terms ? (
-                          <div>
-                            {Object.keys(query.terms).length > 0 ? (
-                              <strong>Selected facets:</strong>
-                            ) : null}
-                            {Object.entries(query.terms).map(
-                              ([key, value], index) => (
-                                <div key={index}>{`${
-                                  props.projectConfig.searchFacetTitles &&
-                                  props.projectConfig.searchFacetTitles[key]
-                                }: ${value}`}</div>
-                              )
-                            )}
-                          </div>
-                        ) : null}
-                      </li>
-                    ))
-                  ) : (
-                    <div>No search history.</div>
-                  )}
-                </ol>
-              ) : null}
-            </div>
+            <SearchQueryHistory
+              historyClickHandler={historyClickHandler}
+              historyIsOpen={historyIsOpen}
+              queryHistory={queryHistory}
+              goToQuery={goToQuery}
+              projectConfig={props.projectConfig}
+            />
             <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
             {facets && renderDateFacets()}
             {checkboxStates.size > 0 && renderKeywordFacets()}
