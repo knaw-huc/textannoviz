@@ -536,8 +536,9 @@ export const Search = (props: SearchProps) => {
                         key={index}
                         onClick={() => removeFacet(key)}
                       >
-                        {props.projectConfig.searchFacetTitles &&
-                          props.projectConfig.searchFacetTitles[facetName]}
+                        {(props.projectConfig.searchFacetTitles &&
+                          props.projectConfig.searchFacetTitles[facetName]) ??
+                          facetName}
                         : {facetValueName} {"[x]"}
                       </div>
                     );
