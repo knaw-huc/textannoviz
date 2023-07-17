@@ -10,8 +10,6 @@ type SearchQueryHistoryProps = {
 };
 
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
-  console.log(props.queryHistory);
-
   return (
     <div className="searchFacet">
       <button onClick={props.historyClickHandler}>Search history</button>
