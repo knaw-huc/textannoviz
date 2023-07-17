@@ -455,9 +455,9 @@ export const Search = (props: SearchProps) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     setCheckBoxStates(new Map(checkboxStates.set(key, event.target.checked)));
-    // if (searchResults) {
-    //   refresh();
-    // }
+    if (searchResults) {
+      refresh();
+    }
   }
 
   function historyClickHandler() {
@@ -523,7 +523,7 @@ export const Search = (props: SearchProps) => {
                 />
               </div>
             </div>
-            {/* <div className="selectedFacetList">
+            <div className="selectedFacetList">
               <div className="searchFacetTitle">Selected facets:</div>
               {getKeywordFacets().map(([facetName, facetValues]) => {
                 return Object.keys(facetValues).map((facetValueName, index) => {
@@ -544,7 +544,7 @@ export const Search = (props: SearchProps) => {
                   }
                 });
               })}
-            </div> */}
+            </div>
             {searchResults && searchResults.results.length >= 1
               ? searchResults.results.map((result, index) => (
                   <SearchItem key={index} result={result} />
