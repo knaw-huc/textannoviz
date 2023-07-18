@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { HOSTS } from "../Config";
 import { ProjectConfig } from "../model/ProjectConfig";
-import { SearchQuery } from "../model/Search";
+import { SearchQuery, SearchResult } from "../model/Search";
 
 const headers = {
   "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export const sendSearchQuery = async (
   projectConfig: ProjectConfig,
   sortBy = "_score",
   sortOrder = "desc"
-) => {
+): Promise<SearchResult> => {
   const params = new URLSearchParams({
     frag: fragParam,
     size: sizeParam.toString(),
