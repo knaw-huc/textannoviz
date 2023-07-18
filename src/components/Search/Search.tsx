@@ -106,6 +106,7 @@ export const Search = (props: SearchProps) => {
         sortBy,
         sortOrder
       );
+
       setSearchResults(data);
       setElasticFrom(from);
       setPageNumber(parseInt(page));
@@ -203,12 +204,14 @@ export const Search = (props: SearchProps) => {
       sortOrder
     );
 
+    const page = 1;
+
     setSearchResults(data);
     setElasticFrom(0);
-    setPageNumber(1);
+    setPageNumber(page);
     setFacets(data.aggs);
     setSearchParams({
-      page: pageNumber.toString(),
+      page: page.toString(),
       size: elasticSize.toString(),
       frag: fragmenter,
       sortBy: sortBy,
