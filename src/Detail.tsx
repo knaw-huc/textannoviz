@@ -4,13 +4,16 @@ import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
+import { SearchItem } from "./components/Search/SearchItem";
 import { TextComponent } from "./components/Text/TextComponent";
 import { AnnoRepoAnnotation } from "./model/AnnoRepoAnnotation";
 import { Broccoli, BroccoliBodyIdResult } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
+import { SearchResultBody } from "./model/Search";
 import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
 import { useProjectStore } from "./stores/project";
+import { useSearchStore } from "./stores/search";
 import { useTextStore } from "./stores/text";
 import {
   fetchBroccoliBodyIdOfScan,
@@ -30,6 +33,7 @@ const setMiradorConfig = (broccoli: Broccoli, project: string) => {
 };
 
 export const Detail = (props: DetailProps) => {
+  const [showSearchResults, setShowSearchResults] = React.useState(false);
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
   const setStore = useMiradorStore((state) => state.setStore);
@@ -39,6 +43,9 @@ export const Detail = (props: DetailProps) => {
   const setViews = useTextStore((state) => state.setViews);
   const annotationTypesToInclude = useAnnotationStore(
     (state) => state.annotationTypesToInclude
+  );
+  const globalSearchResults = useSearchStore(
+    (state) => state.globalSearchResults
   );
   const params = useParams();
 
@@ -197,8 +204,28 @@ export const Detail = (props: DetailProps) => {
 
   return (
     <div className="appContainer">
-      <div className="lastUpdated">Last updated: 17 July 2023</div>
+      <div className="lastUpdated">
+        Last updated: 17 July 2023{" "}
+        {globalSearchResults && globalSearchResults.results.length >= 1 ? (
+          <button onClick={() => setShowSearchResults(!showSearchResults)}>
+            Show results
+          </button>
+        ) : null}
+      </div>
+
       <div className="row">
+        <div>
+          {showSearchResults
+            ? globalSearchResults && globalSearchResults.results.length >= 1
+              ? globalSearchResults.results.map(
+                  (result: SearchResultBody, index: number) => (
+                    <SearchItem key={index} result={result} />
+                  )
+                )
+              : null
+            : null}
+        </div>
+
         <Mirador />
         <TextComponent
           panelsToRender={props.config.defaultTextPanels!}

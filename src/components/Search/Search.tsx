@@ -10,6 +10,7 @@ import {
   SearchQuery,
   SearchResult,
 } from "../../model/Search";
+import { useSearchStore } from "../../stores/search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
 import { SearchItem } from "./SearchItem";
@@ -51,6 +52,9 @@ export const Search = (props: SearchProps) => {
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
   const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const setGlobalSearchResults = useSearchStore(
+    (state) => state.setGlobalSearchResults
+  );
 
   React.useEffect(() => {
     const queryEncoded = searchParams.get("query");
@@ -108,6 +112,7 @@ export const Search = (props: SearchProps) => {
       );
 
       setSearchResults(data);
+      setGlobalSearchResults(data);
       setElasticFrom(from);
       setPageNumber(parseInt(page));
       setElasticSize(parseInt(size));
@@ -207,6 +212,7 @@ export const Search = (props: SearchProps) => {
     const page = 1;
 
     setSearchResults(data);
+    setGlobalSearchResults(data);
     setElasticFrom(0);
     setPageNumber(page);
     setFacets(data.aggs);
@@ -263,6 +269,7 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
+    setGlobalSearchResults(data);
     setSearchParams((searchParams) => {
       searchParams.set("page", prevPage.toString());
       searchParams.set("from", newFrom.toString());
@@ -290,6 +297,7 @@ export const Search = (props: SearchProps) => {
     // target.scrollIntoView({ behavior: "smooth" });
 
     setSearchResults(data);
+    setGlobalSearchResults(data);
     setSearchParams((searchParams) => {
       searchParams.set("page", nextPage.toString());
       searchParams.set("from", newFrom.toString());
