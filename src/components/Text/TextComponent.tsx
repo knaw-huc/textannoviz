@@ -1,10 +1,10 @@
 import { CheckboxChangeEvent } from "primereact/checkbox";
+import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
-import { Loading } from "../../utils/Loader";
 import { TextPanels } from "./TextPanels";
 import { ToggleTextPanels } from "./ToggleTextPanels";
 
@@ -71,7 +71,11 @@ export const TextComponent = (props: TextComponentProps) => {
             closePanelHandler={closePanelHandler}
           />
         ) : (
-          <Loading />
+          <div className="skeletonContainerText">
+            <Skeleton width="30rem" className="skeleton"></Skeleton>
+            <Skeleton width="15rem" className="skeleton"></Skeleton>
+            <Skeleton width="7.5rem" className="skeleton"></Skeleton>
+          </div>
         )}
       </div>
     </div>

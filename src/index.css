@@ -273,3 +273,12 @@ input[type="search"] {
   overflow: auto;
   height: 900px;
 }
+
+.skeleton {
+  margin-bottom: 0.5rem;
+}
+
+.skeletonContainerText {
+  padding-top: 1rem;
+  padding-left: 0.5rem;
+}

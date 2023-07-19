@@ -1,3 +1,4 @@
+import { Skeleton } from "primereact/skeleton";
 import { TabPanel, TabView } from "primereact/tabview";
 import React from "react";
 import { useParams } from "react-router-dom";
@@ -6,7 +7,6 @@ import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
-import { Loading } from "../../utils/Loader";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { AnnotationButtons } from "./AnnotationButtons";
 import { AnnotationFilter } from "./AnnotationFilter";
@@ -87,19 +87,29 @@ export function Annotation(props: AnnotationProps) {
           {annotations.length > 0 && !props.isLoading ? (
             projectConfig?.renderMetadataPanel(annotations)
           ) : (
-            <Loading />
+            <div>
+              <Skeleton width="25rem" className="skeleton"></Skeleton>
+              <Skeleton width="12.5rem" className="skeleton"></Skeleton>
+              <Skeleton width="6.25rem" className="skeleton"></Skeleton>
+            </div>
           )}
         </TabPanel>
         <TabPanel header="Web annotations">
-          {annotations?.length > 0
-            ? annotations.map((annotation, index) => (
-                <AnnotationItem
-                  key={index}
-                  annotation={annotation}
-                  nextOrPrevButtonClicked={nextOrPrevButtonClicked}
-                />
-              ))
-            : null}
+          {annotations?.length > 0 && !props.isLoading ? (
+            annotations.map((annotation, index) => (
+              <AnnotationItem
+                key={index}
+                annotation={annotation}
+                nextOrPrevButtonClicked={nextOrPrevButtonClicked}
+              />
+            ))
+          ) : (
+            <div>
+              <Skeleton width="25rem" className="skeleton"></Skeleton>
+              <Skeleton width="12.5rem" className="skeleton"></Skeleton>
+              <Skeleton width="6.25rem" className="skeleton"></Skeleton>
+            </div>
+          )}
         </TabPanel>
       </TabView>
       {/* {annotations?.length > 0 && !loading
