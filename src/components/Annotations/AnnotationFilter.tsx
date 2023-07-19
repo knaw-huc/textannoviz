@@ -3,11 +3,7 @@ import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 
-interface AnnotationFilterProps {
-  loading: (bool: boolean) => void;
-}
-
-export const AnnotationFilter = (props: AnnotationFilterProps) => {
+export const AnnotationFilter = () => {
   const [isOpen, setOpen] = React.useState(false);
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const setAnnotationTypesToInclude = useAnnotationStore(
@@ -33,7 +29,6 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   };
 
   const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    props.loading(true);
     const selectedOptions = Array.from(
       event.target.selectedOptions,
       (option) => option.value

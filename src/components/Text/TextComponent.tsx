@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
+import { Loading } from "../../utils/Loader";
 import { TextPanels } from "./TextPanels";
 import { ToggleTextPanels } from "./ToggleTextPanels";
 
 type TextComponentProps = {
   panelsToRender: string[];
   allPossiblePanels: string[];
+  isLoading: boolean;
 };
 
 export type Text = {
@@ -62,12 +64,14 @@ export const TextComponent = (props: TextComponentProps) => {
         panels={panelsToRender}
       />
       <div className="textPanelsContainer">
-        {textPanels && (
+        {textPanels && !props.isLoading ? (
           <TextPanels
             panels={panelsToRender}
             text={textPanels}
             closePanelHandler={closePanelHandler}
           />
+        ) : (
+          <Loading />
         )}
       </div>
     </div>

@@ -13,6 +13,10 @@ import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
 import { AnnotationLinks } from "./AnnotationLinks";
 
+type AnnotationProps = {
+  isLoading: boolean;
+};
+
 const AnnotationStyled = styled.div`
   width: 30%;
   height: 900px;
@@ -28,8 +32,7 @@ const ButtonsStyled = styled.div`
   display: flex;
 `;
 
-export function Annotation() {
-  const [loading, setLoading] = React.useState(false);
+export function Annotation(props: AnnotationProps) {
   const [nextOrPrevButtonClicked, setNextOrPrevButtonClicked] =
     React.useState(false);
   const annotations = useAnnotationStore((state) => state.annotations);
@@ -56,18 +59,6 @@ export function Annotation() {
     }
   }, [annotations, canvas, miradorStore, projectConfig, projectName]);
 
-  React.useEffect(() => {
-    if (!annotations) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [annotations]);
-
-  const loadingHandler = (bool: boolean) => {
-    setLoading(bool);
-  };
-
   const nextOrPrevButtonClickedHandler = (clicked: boolean) => {
     setNextOrPrevButtonClicked(clicked);
     return clicked;
@@ -89,14 +80,18 @@ export function Annotation() {
         {/* {params.tier0 && params.tier1 ? (
           <AnnotationFilter loading={loadingHandler} />
         ) : null} */}
-        <AnnotationFilter loading={loadingHandler} />
+        <AnnotationFilter />
       </ButtonsStyled>
       <TabView>
         <TabPanel header="Metadata">
-          {projectConfig?.renderMetadataPanel(annotations)}
+          {annotations.length > 0 && !props.isLoading ? (
+            projectConfig?.renderMetadataPanel(annotations)
+          ) : (
+            <Loading />
+          )}
         </TabPanel>
         <TabPanel header="Web annotations">
-          {annotations?.length > 0 && !loading
+          {annotations?.length > 0
             ? annotations.map((annotation, index) => (
                 <AnnotationItem
                   key={index}
@@ -105,7 +100,6 @@ export function Annotation() {
                 />
               ))
             : null}
-          {loading ? <Loading /> : null}
         </TabPanel>
       </TabView>
       {/* {annotations?.length > 0 && !loading

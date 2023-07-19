@@ -33,6 +33,7 @@ const setMiradorConfig = (broccoli: Broccoli, project: string) => {
 };
 
 export const Detail = (props: DetailProps) => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const [showSearchResults, setShowSearchResults] = React.useState(false);
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
@@ -133,6 +134,7 @@ export const Detail = (props: DetailProps) => {
 
   React.useEffect(() => {
     let ignore = false;
+    setIsLoading(true);
     if (params.tier0 && params.tier1) {
       fetchBroccoliBodyIdOfScan(params.tier0, params.tier1, props.config).then(
         (result: BroccoliBodyIdResult) => {
@@ -157,6 +159,7 @@ export const Detail = (props: DetailProps) => {
               props.config
             ).then((broccoli: Broccoli) => {
               setState(broccoli, bodyId);
+              setIsLoading(false);
             });
           }
         }
@@ -164,6 +167,7 @@ export const Detail = (props: DetailProps) => {
     }
     return () => {
       ignore = true;
+      setIsLoading(false);
     };
   }, [
     annotationTypesToInclude,
@@ -174,6 +178,7 @@ export const Detail = (props: DetailProps) => {
   ]);
 
   React.useEffect(() => {
+    setIsLoading(true);
     if (params.tier2) {
       const bodyId = params.tier2;
       const includeResults = ["anno", "iiif", "text"];
@@ -197,6 +202,7 @@ export const Detail = (props: DetailProps) => {
         .then((broccoli: Broccoli) => {
           const bodyId = broccoli.request.bodyId;
           setState(broccoli, bodyId);
+          setIsLoading(false);
         })
         .catch(console.error);
     }
@@ -208,7 +214,7 @@ export const Detail = (props: DetailProps) => {
         Last updated: 17 July 2023{" "}
         {globalSearchResults && globalSearchResults.results.length >= 1 ? (
           <button onClick={() => setShowSearchResults(!showSearchResults)}>
-            Show results
+            Show search results in side panel
           </button>
         ) : null}
       </div>
@@ -230,8 +236,9 @@ export const Detail = (props: DetailProps) => {
         <TextComponent
           panelsToRender={props.config.defaultTextPanels!}
           allPossiblePanels={props.config.allPossibleTextPanels!}
+          isLoading={isLoading}
         />
-        <Annotation />
+        <Annotation isLoading={isLoading} />
       </div>
     </div>
   );
