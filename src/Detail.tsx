@@ -214,7 +214,7 @@ export const Detail = (props: DetailProps) => {
       </div>
 
       <div className="row">
-        <div>
+        <div className="searchResultsDetailPage">
           {showSearchResults
             ? globalSearchResults && globalSearchResults.results.length >= 1
               ? globalSearchResults.results.map(
