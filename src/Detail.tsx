@@ -35,6 +35,7 @@ const setMiradorConfig = (broccoli: Broccoli, project: string) => {
 export const Detail = (props: DetailProps) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [showSearchResults, setShowSearchResults] = React.useState(false);
+  const [count, setCount] = React.useState(0);
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
   const setStore = useMiradorStore((state) => state.setStore);
@@ -50,13 +51,17 @@ export const Detail = (props: DetailProps) => {
   );
   const params = useParams();
 
+  console.log(count);
+
   const setState = React.useCallback(
     (broccoli: Broccoli, currentBodyId: string) => {
       setMiradorConfig(broccoli, props.project);
       console.log(broccoli);
-      const viewer = mirador.viewer(miradorConfig);
-
-      setStore(viewer.store);
+      let viewer: any;
+      if (count < 1) {
+        viewer = mirador.viewer(miradorConfig);
+        setStore(viewer.store);
+      }
 
       setProjectName(props.project);
       setProjectConfig(props.config);
@@ -135,6 +140,7 @@ export const Detail = (props: DetailProps) => {
   React.useEffect(() => {
     let ignore = false;
     setIsLoading(true);
+    setCount((prevState) => prevState + 1);
     if (params.tier0 && params.tier1) {
       fetchBroccoliBodyIdOfScan(params.tier0, params.tier1, props.config).then(
         (result: BroccoliBodyIdResult) => {
@@ -179,6 +185,7 @@ export const Detail = (props: DetailProps) => {
 
   React.useEffect(() => {
     setIsLoading(true);
+    setCount((prevState) => prevState + 1);
     if (params.tier2) {
       const bodyId = params.tier2;
       const includeResults = ["anno", "iiif", "text"];
