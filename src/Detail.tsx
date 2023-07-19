@@ -51,8 +51,6 @@ export const Detail = (props: DetailProps) => {
   );
   const params = useParams();
 
-  console.log(count);
-
   const setState = React.useCallback(
     (broccoli: Broccoli, currentBodyId: string) => {
       setMiradorConfig(broccoli, props.project);
