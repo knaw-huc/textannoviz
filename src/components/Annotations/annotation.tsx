@@ -77,9 +77,6 @@ export function Annotation(props: AnnotationProps) {
         <AnnotationButtons
           nextOrPrevButtonClicked={nextOrPrevButtonClickedHandler}
         />{" "}
-        {/* {params.tier0 && params.tier1 ? (
-          <AnnotationFilter loading={loadingHandler} />
-        ) : null} */}
         <AnnotationFilter />
       </ButtonsStyled>
       <TabView>
@@ -112,16 +109,6 @@ export function Annotation(props: AnnotationProps) {
           )}
         </TabPanel>
       </TabView>
-      {/* {annotations?.length > 0 && !loading
-        ? annotations.map((annotation, index) => (
-            <AnnotationItem
-              key={index}
-              annotation={annotation}
-              nextOrPrevButtonClicked={nextOrPrevButtonClicked}
-            />
-          ))
-        : null}
-      {loading ? <Loading /> : null} */}
     </AnnotationStyled>
   );
 }
