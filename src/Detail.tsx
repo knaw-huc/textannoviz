@@ -55,11 +55,14 @@ export const Detail = (props: DetailProps) => {
     (broccoli: Broccoli, currentBodyId: string) => {
       setMiradorConfig(broccoli, props.project);
       console.log(broccoli);
-      let viewer: any;
-      if (count < 1) {
-        viewer = mirador.viewer(miradorConfig);
-        setStore(viewer.store);
-      }
+      // let viewer: any;
+      // if (count < 1) {
+      //   viewer = mirador.viewer(miradorConfig);
+      //   setStore(viewer.store);
+      // }
+
+      const viewer = mirador.viewer(miradorConfig);
+      setStore(viewer.store);
 
       setProjectName(props.project);
       setProjectConfig(props.config);

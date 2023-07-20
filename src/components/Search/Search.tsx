@@ -78,16 +78,15 @@ export const Search = (props: SearchProps) => {
       });
     }
 
-    props.facets &&
-      getKeywordFacets().map(([facetName, facetValues]) => {
-        Object.keys(facetValues).forEach((facetValueName) => {
-          const key = `${facetName}-${facetValueName}`;
-          newMap.set(key, false);
-          if (selectedFacets.includes(key)) {
-            newMap.set(key, true);
-          }
-        });
+    getKeywordFacets().map(([facetName, facetValues]) => {
+      Object.keys(facetValues).forEach((facetValueName) => {
+        const key = `${facetName}-${facetValueName}`;
+        newMap.set(key, false);
+        if (selectedFacets.includes(key)) {
+          newMap.set(key, true);
+        }
       });
+    });
     setCheckBoxStates(newMap);
   }, [props.facets, props.indexName, props.indices, searchParams]);
 
@@ -341,7 +340,7 @@ export const Search = (props: SearchProps) => {
 
   function getFacets(type: string) {
     return Object.entries(facets).filter(([key]) => {
-      return props.indices && props.indices[props.indexName][key] === type;
+      return props.indices[props.indexName][key] === type;
     });
   }
 
@@ -509,7 +508,7 @@ export const Search = (props: SearchProps) => {
               projectConfig={props.projectConfig}
             />
             <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
-            {facets && renderDateFacets()}
+            {renderDateFacets()}
             {checkboxStates.size > 0 && renderKeywordFacets()}
           </div>
           <div className="searchResults">
