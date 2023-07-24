@@ -9,10 +9,21 @@ import { createHtmlPlugin } from "vite-plugin-html";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
-  const tailwindConfig =
-    env.VITE_PROJECT === "republic"
-      ? "tailwind.config.republic.js"
-      : "tailwind.config.mondriaan.js";
+  let tailwindConfig: string;
+
+  switch (env.VITE_PROJECT) {
+    case "republic":
+      tailwindConfig = "tailwind.config.republic.js";
+      break;
+    case "mondriaan":
+      tailwindConfig = "tailwind.config.mondriaan.js";
+      break;
+    case "globalise":
+      tailwindConfig = "tailwind.config.globalise.js";
+      break;
+    default:
+      tailwindConfig = "tailwind.config.js";
+  }
 
   return {
     plugins: [
