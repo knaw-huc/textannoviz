@@ -12,7 +12,7 @@ export interface MiradorConfig {
       loadedManifest: string;
       canvasId: string;
       id: string;
-    }
+    },
   ];
   workspace: {
     showZoomControls: boolean;

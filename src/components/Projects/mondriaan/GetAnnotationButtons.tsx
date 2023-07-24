@@ -15,7 +15,7 @@ export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
   const currentContext = useMiradorStore((state) => state.currentContext);
   const resetOpenAnn = useAnnotationStore((state) => state.resetOpenAnn);
   const setCurrentSelectedAnn = useAnnotationStore(
-    (state) => state.setCurrentSelectedAnn
+    (state) => state.setCurrentSelectedAnn,
   );
   const params = useParams();
   const navigate = useNavigate();

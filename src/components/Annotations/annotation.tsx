@@ -54,7 +54,7 @@ export function Annotation(props: AnnotationProps) {
         annotations,
         miradorStore,
         canvas.canvasIds[0],
-        projectConfig as ProjectConfig
+        projectConfig as ProjectConfig,
       );
     }
   }, [annotations, canvas, miradorStore, projectConfig, projectName]);

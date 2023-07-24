@@ -20,7 +20,7 @@ export type Text = {
 
 export const TextComponent = (props: TextComponentProps) => {
   const [panelsToRender, setPanelsToRender] = React.useState(
-    props.panelsToRender
+    props.panelsToRender,
   );
   const textPanels = useTextStore((state) => state.views);
   const projectConfig = useProjectStore((state) => state.projectConfig);
@@ -39,7 +39,7 @@ export const TextComponent = (props: TextComponentProps) => {
           }" is not available for letter "${params.tier1}".`,
           {
             type: "error",
-          }
+          },
         );
         return;
       }
@@ -53,7 +53,7 @@ export const TextComponent = (props: TextComponentProps) => {
 
   function closePanelHandler(panelToClose: string) {
     setPanelsToRender(
-      panelsToRender?.filter((panel) => panel !== panelToClose)
+      panelsToRender?.filter((panel) => panel !== panelToClose),
     );
   }
 

@@ -25,7 +25,7 @@ export interface AnnotationsSlice {
 export interface AnnotationTypesToIncludeSlice {
   annotationTypesToInclude: string[];
   setAnnotationTypesToInclude: (
-    newAnnotationTypesToInclude: AnnotationTypesToIncludeSlice["annotationTypesToInclude"]
+    newAnnotationTypesToInclude: AnnotationTypesToIncludeSlice["annotationTypesToInclude"],
   ) => void;
 }
 
@@ -43,14 +43,14 @@ const createOpenAnnSlice: StateCreator<
           bodyId: bodyId,
           indicesToHighlight: indicesToHighlight,
         });
-      })
+      }),
     ),
   removeOpenAnn: (bodyId: string) =>
     set(
       produce((state: OpenAnnSlice) => {
         const index = state.openAnn.findIndex((el) => el.bodyId === bodyId);
         state.openAnn.splice(index, 1);
-      })
+      }),
     ),
   resetOpenAnn: () => set(() => ({ openAnn: [] })),
 });

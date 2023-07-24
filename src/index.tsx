@@ -15,5 +15,5 @@ root.render(
   <React.StrictMode>
     <ToastContainer />
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

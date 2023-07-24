@@ -7,10 +7,10 @@ export const AnnotationFilter = () => {
   const [isOpen, setOpen] = React.useState(false);
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const setAnnotationTypesToInclude = useAnnotationStore(
-    (state) => state.setAnnotationTypesToInclude
+    (state) => state.setAnnotationTypesToInclude,
   );
   const annotationTypesToInclude = useAnnotationStore(
-    (state) => state.annotationTypesToInclude
+    (state) => state.annotationTypesToInclude,
   );
   const ref = React.useRef<HTMLSelectElement>(null);
 
@@ -31,7 +31,7 @@ export const AnnotationFilter = () => {
   const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOptions = Array.from(
       event.target.selectedOptions,
-      (option) => option.value
+      (option) => option.value,
     );
     setAnnotationTypesToInclude(selectedOptions);
   };

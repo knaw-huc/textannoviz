@@ -29,14 +29,14 @@ export type ProjectConfig = {
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
   renderAnnotationButtons: (
-    nextOrPrevButtonClicked: (clicked: boolean) => boolean
+    nextOrPrevButtonClicked: (clicked: boolean) => boolean,
   ) => JSX.Element;
   renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => JSX.Element;
   createRouter: (
     comp1: React.ReactNode,
     comp2: React.ReactNode,
     comp3: React.ReactNode,
-    errorComp: React.ReactNode
+    errorComp: React.ReactNode,
   ) => {
     path: string;
     element: React.ReactNode;

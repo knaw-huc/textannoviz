@@ -11,7 +11,7 @@ export const AnnotationButtons = (props: AnnotationButtonsProps) => {
   return (
     (projectConfig as ProjectConfig) &&
     (projectConfig as ProjectConfig).renderAnnotationButtons(
-      props.nextOrPrevButtonClicked
+      props.nextOrPrevButtonClicked,
     )
   );
 };

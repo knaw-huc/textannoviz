@@ -42,7 +42,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   const updateOpenAnn = useAnnotationStore((state) => state.updateOpenAnn);
   const removeOpenAnn = useAnnotationStore((state) => state.removeOpenAnn);
   const setCurrentSelectedAnn = useAnnotationStore(
-    (state) => state.setCurrentSelectedAnn
+    (state) => state.setCurrentSelectedAnn,
   );
 
   React.useEffect(() => {
@@ -62,15 +62,15 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         miradorStore.dispatch(
           mirador.actions.selectAnnotation(
             miradorConfig.windows[0].id,
-            props.annotation.id
-          )
+            props.annotation.id,
+          ),
         );
         miradorStore.dispatch(
           mirador.actions.updateViewport(miradorConfig.windows[0].id, {
             x: zoom.zoomCenter.x,
             y: zoom.zoomCenter.y,
             zoom: 1 / zoom.miradorZoom,
-          })
+          }),
         );
       }
 
@@ -79,7 +79,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         let endIndex = -1;
         Object.values(views).map((view) => {
           const tempStartIndex = view.locations.annotations.find(
-            (anno) => anno.bodyId === props.annotation.body.id
+            (anno) => anno.bodyId === props.annotation.body.id,
           )?.start.line;
 
           if (tempStartIndex !== undefined) {
@@ -87,7 +87,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
           }
 
           const tempEndIndex = view.locations.annotations.find(
-            (anno) => anno.bodyId === props.annotation.body.id
+            (anno) => anno.bodyId === props.annotation.body.id,
           )?.end.line;
 
           if (tempEndIndex !== undefined) {
@@ -106,8 +106,8 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       miradorStore.dispatch(
         mirador.actions.deselectAnnotation(
           miradorConfig.windows[0].id,
-          props.annotation.id
-        )
+          props.annotation.id,
+        ),
       );
       removeOpenAnn(props.annotation.body.id);
     }
@@ -120,13 +120,13 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
   const selectAnn = () => {
     miradorStore.dispatch(
-      mirador.actions.selectAnnotation("republic", props.annotation.id)
+      mirador.actions.selectAnnotation("republic", props.annotation.id),
     );
   };
 
   const deselectAnn = () => {
     miradorStore.dispatch(
-      mirador.actions.deselectAnnotation("republic", props.annotation.id)
+      mirador.actions.deselectAnnotation("republic", props.annotation.id),
     );
   };
 

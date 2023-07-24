@@ -5,7 +5,7 @@ interface GetAnnotationItemContentProps {
 }
 
 export const GetAnnotationItemContent = (
-  props: GetAnnotationItemContentProps
+  props: GetAnnotationItemContentProps,
 ) => {
   return (
     <>
@@ -13,7 +13,7 @@ export const GetAnnotationItemContent = (
         ? Object.entries(props.annotation.body.metadata).map(
             ([key, value], i) => {
               return <li key={i}>{`${key}: ${value}`}</li>;
-            }
+            },
           )
         : null}
     </>

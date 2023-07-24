@@ -42,13 +42,13 @@ const router = createBrowserRouter(
       indexName={config.elasticIndexName ?? ""}
       searchFacetTitles={config.searchFacetTitles ?? {}}
     />,
-    <ErrorPage />
-  )
+    <ErrorPage />,
+  ),
 );
 
 export default function App() {
   const setAnnotationTypesToInclude = useAnnotationStore(
-    (state) => state.setAnnotationTypesToInclude
+    (state) => state.setAnnotationTypesToInclude,
   );
 
   setAnnotationTypesToInclude(config.annotationTypesToInclude);

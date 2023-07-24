@@ -44,10 +44,10 @@ export const Detail = (props: DetailProps) => {
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
   const setViews = useTextStore((state) => state.setViews);
   const annotationTypesToInclude = useAnnotationStore(
-    (state) => state.annotationTypesToInclude
+    (state) => state.annotationTypesToInclude,
   );
   const globalSearchResults = useSearchStore(
-    (state) => state.globalSearchResults
+    (state) => state.globalSearchResults,
   );
   const params = useParams();
 
@@ -89,26 +89,26 @@ export const Detail = (props: DetailProps) => {
         let annoToZoom: AnnoRepoAnnotation[];
         if (params.tier2.includes("resolution")) {
           annoToZoom = broccoli.anno.filter(
-            (annotation) => annotation.body.type === "Resolution"
+            (annotation) => annotation.body.type === "Resolution",
           );
         }
 
         if (params.tier2.includes("attendance_list")) {
           annoToZoom = broccoli.anno.filter(
-            (annotation) => annotation.body.type === "AttendanceList"
+            (annotation) => annotation.body.type === "AttendanceList",
           );
         }
 
         setTimeout(() => {
           const zoom = zoomAnnMirador(
             annoToZoom ? annoToZoom[0] : broccoli.anno[0],
-            broccoli.iiif.canvasIds[0]
+            broccoli.iiif.canvasIds[0],
           );
           viewer.store.dispatch(
             mirador.actions.selectAnnotation(
               `${props.project}`,
-              annoToZoom ? annoToZoom[0].id : broccoli.anno[0].id
-            )
+              annoToZoom ? annoToZoom[0].id : broccoli.anno[0].id,
+            ),
           );
           if (typeof zoom === "object") {
             viewer.store.dispatch(
@@ -116,7 +116,7 @@ export const Detail = (props: DetailProps) => {
                 x: zoom?.zoomCenter.x,
                 y: zoom?.zoomCenter.y,
                 zoom: 1 / zoom!.miradorZoom,
-              })
+              }),
             );
           }
         }, 200);
@@ -135,7 +135,7 @@ export const Detail = (props: DetailProps) => {
       setProjectName,
       setStore,
       setViews,
-    ]
+    ],
   );
 
   React.useEffect(() => {
@@ -163,13 +163,13 @@ export const Detail = (props: DetailProps) => {
               includeResults,
               views,
               relativeTo,
-              props.config
+              props.config,
             ).then((broccoli: Broccoli) => {
               setState(broccoli, bodyId);
               setIsLoading(false);
             });
           }
-        }
+        },
       );
     }
     return () => {
@@ -205,7 +205,7 @@ export const Detail = (props: DetailProps) => {
         includeResults,
         views,
         relativeTo,
-        props.config
+        props.config,
       )
         .then((broccoli: Broccoli) => {
           const bodyId = broccoli.request.bodyId;
@@ -234,7 +234,7 @@ export const Detail = (props: DetailProps) => {
               ? globalSearchResults.results.map(
                   (result: SearchResultBody, index: number) => (
                     <SearchItem key={index} result={result} />
-                  )
+                  ),
                 )
               : null
             : null}

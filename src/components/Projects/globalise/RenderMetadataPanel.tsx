@@ -9,7 +9,7 @@ type RenderMetadataPanelProps = {
 
 export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   const documentAnno = props.annotations.filter(
-    (anno) => anno.body.type === "Document"
+    (anno) => anno.body.type === "Document",
   );
 
   return (

@@ -12,7 +12,7 @@ export const GetAnnotationButtons = () => {
   const navigate = useNavigate();
 
   const documentIndices = globaliseConfig.documents?.find(
-    (document) => currentContext.tier0 === document.docNr
+    (document) => currentContext.tier0 === document.docNr,
   );
 
   if (!documentIndices) return null;
@@ -27,7 +27,7 @@ export const GetAnnotationButtons = () => {
         `Opening ${indices[currentIndex] + 1} does not exist in document ${
           currentContext.tier0
         }!`,
-        { type: "error" }
+        { type: "error" },
       );
       return;
     }
@@ -47,7 +47,7 @@ export const GetAnnotationButtons = () => {
         `Opening ${indices[currentIndex] - 1} does not exist in document ${
           currentContext.tier0
         }!`,
-        { type: "error" }
+        { type: "error" },
       );
       return;
     }

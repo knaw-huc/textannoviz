@@ -306,7 +306,7 @@ export type iiifAnnResources =
               value: string;
             };
           };
-        }
+        },
       ];
     }
   | undefined;

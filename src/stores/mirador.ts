@@ -12,7 +12,7 @@ export interface CurrentContextSlice {
     bodyId: string;
   };
   setCurrentContext: (
-    newCurrentContext: CurrentContextSlice["currentContext"]
+    newCurrentContext: CurrentContextSlice["currentContext"],
   ) => void;
 }
 

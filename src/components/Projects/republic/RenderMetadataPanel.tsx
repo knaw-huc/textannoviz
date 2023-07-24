@@ -23,21 +23,21 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
 
   const resolution = props.annotations.filter(
-    (annotation) => annotation.body.type === "Resolution"
+    (annotation) => annotation.body.type === "Resolution",
   );
 
   const scan = props.annotations.filter(
-    (annotation) => annotation.body.type === "Scan"
+    (annotation) => annotation.body.type === "Scan",
   );
 
   const session = props.annotations.filter(
-    (annotation) => annotation.body.type === "Session"
+    (annotation) => annotation.body.type === "Session",
   );
 
   React.useEffect(() => {
     const bodyTypes = props.annotations.map((anno) => anno.body.type);
     const session = props.annotations.filter(
-      (annotation) => annotation.body.type === "Session"
+      (annotation) => annotation.body.type === "Session",
     );
     setAttendanceList(undefined);
     async function fetchData() {
@@ -47,7 +47,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
         ["anno"],
         "self",
         "Scan",
-        projectConfig!
+        projectConfig!,
       );
       if (!ignore) {
         setAttendanceList(result);
@@ -67,7 +67,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
   function renderAttendants() {
     const broccoliAttendanceList = props.annotations.filter(
-      (anno) => anno.body.type === "AttendanceList"
+      (anno) => anno.body.type === "AttendanceList",
     );
 
     if (attendanceList) {
@@ -92,7 +92,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                   {attendant.delegateName}
                 </a>
               </li>
-            ) : null
+            ) : null,
           )}
         </div>
       );
@@ -116,7 +116,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                   {attendant.delegateName}
                 </a>
               </li>
-            ) : null
+            ) : null,
           )}
         </div>
       );
@@ -171,7 +171,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
   function renderAttendanceListView() {
     const broccoliAttendanceList = props.annotations.filter(
-      (anno) => anno.body.type === "AttendanceList"
+      (anno) => anno.body.type === "AttendanceList",
     );
 
     if (broccoliAttendanceList.length >= 1) {

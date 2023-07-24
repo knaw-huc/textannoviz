@@ -145,7 +145,7 @@ export const mondriaanConfig: ProjectConfig = {
   },
 
   renderAnnotationButtons: (
-    nextOrPrevButtonClicked: (clicked: boolean) => boolean
+    nextOrPrevButtonClicked: (clicked: boolean) => boolean,
   ) => {
     return (
       <GetAnnotationButtons nextOrPrevButtonClicked={nextOrPrevButtonClicked} />
@@ -160,7 +160,7 @@ export const mondriaanConfig: ProjectConfig = {
     comp1: React.ReactNode,
     comp2: React.ReactNode,
     comp3: React.ReactNode,
-    errorComp: React.ReactNode
+    errorComp: React.ReactNode,
   ) => {
     return [
       {

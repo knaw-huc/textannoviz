@@ -9,7 +9,7 @@ export interface ProjectSlice {
 export interface ProjectConfigSlice {
   projectConfig: ProjectConfig | undefined;
   setProjectConfig: (
-    newProjectConfig: ProjectConfigSlice["projectConfig"]
+    newProjectConfig: ProjectConfigSlice["projectConfig"],
   ) => void;
 }
 
@@ -39,5 +39,5 @@ export const useProjectStore = create<ProjectSlice & ProjectConfigSlice>()(
   (...a) => ({
     ...createProjectSlice(...a),
     ...createProjectConfigSlice(...a),
-  })
+  }),
 );

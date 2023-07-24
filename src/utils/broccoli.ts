@@ -9,10 +9,10 @@ const headers = {
 
 export const fetchBroccoliBodyId = async (
   bodyId: string,
-  config: ProjectConfig
+  config: ProjectConfig,
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}`
+    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}`,
   );
   if (!response.ok) {
     const error = await response.json();
@@ -26,10 +26,10 @@ export const fetchBroccoliBodyIdRelativeTo = async (
   bodyId: string,
   relativeTo: string,
   includeResults: string[],
-  config: ProjectConfig
+  config: ProjectConfig,
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?includeResults=${includeResults}&relativeTo=${relativeTo}`
+    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?includeResults=${includeResults}&relativeTo=${relativeTo}`,
   );
   if (!response.ok) {
     const error = await response.json();
@@ -42,7 +42,7 @@ export const fetchBroccoliBodyIdRelativeTo = async (
 export const fetchBroccoliBodyIdOfScan = async (
   tier0: string,
   tier1: string,
-  config: ProjectConfig
+  config: ProjectConfig,
 ) => {
   if (parseInt(tier1) < 1) {
     toast("Opening number lower than 1 is not allowed!", { type: "error" });
@@ -50,7 +50,7 @@ export const fetchBroccoliBodyIdOfScan = async (
   }
 
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${config.scanAnnotation}/${tier0}/${tier1}?includeResults=bodyId`
+    `${HOSTS.BROCCOLI}/projects/${config.id}/${config.scanAnnotation}/${tier0}/${tier1}?includeResults=bodyId`,
   );
   if (!response.ok) {
     const error = await response.json();
@@ -66,10 +66,10 @@ export const fetchBroccoliScanWithOverlap = async (
   includeResults: string[],
   views: string,
   relativeTo: string,
-  config: ProjectConfig
+  config: ProjectConfig,
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`
+    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`,
   );
   if (!response.ok) {
     const error = await response.json();
@@ -80,7 +80,7 @@ export const fetchBroccoliScanWithOverlap = async (
 };
 
 export const selectDistinctBodyTypes = async (
-  projectId: string
+  projectId: string,
 ): Promise<string[]> => {
   const response = await fetch(`${HOSTS.BROCCOLI}/projects/${projectId}`);
   if (!response.ok) {
@@ -98,7 +98,7 @@ export const sendSearchQuery = async (
   fromParam = 0,
   projectConfig: ProjectConfig,
   sortBy = "_score",
-  sortOrder = "desc"
+  sortOrder = "desc",
 ): Promise<SearchResult> => {
   const params = new URLSearchParams({
     frag: fragParam,
@@ -114,7 +114,7 @@ export const sendSearchQuery = async (
       method: "POST",
       headers: headers,
       body: JSON.stringify(searchQuery),
-    }
+    },
   );
 
   console.log(response);
@@ -134,7 +134,7 @@ export const sendSearchQuery = async (
 
 export const getFacets = async (projectConfig: ProjectConfig) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/facets`
+    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/facets`,
   );
   if (!response.ok) {
     const error = await response.json();
@@ -146,7 +146,7 @@ export const getFacets = async (projectConfig: ProjectConfig) => {
 
 export const getElasticIndices = async (projectConfig: ProjectConfig) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/indices`
+    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/indices`,
   );
   if (!response.ok) {
     const error = await response.json();

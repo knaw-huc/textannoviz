@@ -31,10 +31,10 @@ export const Search = (props: SearchProps) => {
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState(
-    props.projectConfig.initialDateFrom ?? ""
+    props.projectConfig.initialDateFrom ?? "",
   );
   const [dateTo, setDateTo] = React.useState(
-    props.projectConfig.initialDateTo ?? ""
+    props.projectConfig.initialDateTo ?? "",
   );
   const [facets, setFacets] = React.useState<Facets>(props.facets);
   const [query, setQuery] = React.useState<SearchQuery>({});
@@ -47,13 +47,13 @@ export const Search = (props: SearchProps) => {
   const [fullText, setFullText] = React.useState("");
   const [dirty, setDirty] = React.useState(0);
   const [checkboxStates, setCheckBoxStates] = React.useState(
-    new Map<string, boolean>()
+    new Map<string, boolean>(),
   );
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
   const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const setGlobalSearchResults = useSearchStore(
-    (state) => state.setGlobalSearchResults
+    (state) => state.setGlobalSearchResults,
   );
 
   React.useEffect(() => {
@@ -98,7 +98,7 @@ export const Search = (props: SearchProps) => {
       from: number,
       sortBy: string,
       sortOrder: string,
-      page: string
+      page: string,
     ) {
       const data = await sendSearchQuery(
         query,
@@ -107,7 +107,7 @@ export const Search = (props: SearchProps) => {
         from,
         props.projectConfig,
         sortBy,
-        sortOrder
+        sortOrder,
       );
 
       setSearchResults(data);
@@ -155,7 +155,7 @@ export const Search = (props: SearchProps) => {
         from,
         sortBy ?? "",
         sortOrder ?? "",
-        page ?? ""
+        page ?? "",
       );
     }
   }, [props.projectConfig, searchParams]);
@@ -205,7 +205,7 @@ export const Search = (props: SearchProps) => {
       0,
       props.projectConfig,
       sortBy,
-      sortOrder
+      sortOrder,
     );
 
     const page = 1;
@@ -236,7 +236,7 @@ export const Search = (props: SearchProps) => {
   };
 
   const fragmenterSelectHandler = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
@@ -261,7 +261,7 @@ export const Search = (props: SearchProps) => {
       newFrom,
       props.projectConfig,
       sortBy,
-      sortOrder
+      sortOrder,
     );
 
     // const target = document.getElementsByClassName("searchContainer")[0];
@@ -289,7 +289,7 @@ export const Search = (props: SearchProps) => {
       newFrom,
       props.projectConfig,
       sortBy,
-      sortOrder
+      sortOrder,
     );
 
     // const target = document.getElementsByClassName("searchContainer")[0];
@@ -305,7 +305,7 @@ export const Search = (props: SearchProps) => {
   }
 
   const resultsPerPageSelectHandler = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     if (event.currentTarget.value === "") return;
     setElasticSize(parseInt(event.currentTarget.value));
@@ -317,7 +317,7 @@ export const Search = (props: SearchProps) => {
   };
 
   async function jumpToPageHandler(
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) {
     const newFrom = (parseInt(event.currentTarget.value) - 1) * elasticSize;
     setElasticFrom(newFrom);
@@ -411,7 +411,7 @@ export const Search = (props: SearchProps) => {
                   checked={checkboxStates.get(key) ?? false}
                 />
               );
-            }
+            },
           )}
         </div>
       );
@@ -462,7 +462,7 @@ export const Search = (props: SearchProps) => {
 
   function keywordFacetChangeHandler(
     key: string,
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) {
     setCheckBoxStates(new Map(checkboxStates.set(key, event.target.checked)));
     if (searchResults) {
@@ -518,7 +518,7 @@ export const Search = (props: SearchProps) => {
                   {searchResults &&
                     `Showing ${elasticFrom + 1}-${Math.min(
                       elasticFrom + elasticSize,
-                      searchResults.total.value
+                      searchResults.total.value,
                     )} of ${searchResults.total.value} results`}
                 </div>
               </div>
@@ -565,20 +565,20 @@ export const Search = (props: SearchProps) => {
               <div className="searchPagination">
                 <button onClick={prevPageClickHandler}>Prev</button>
                 {`Page: ${pageNumber} of ${Math.ceil(
-                  searchResults.total.value / elasticSize
+                  searchResults.total.value / elasticSize,
                 )}`}
                 <select onChange={jumpToPageHandler} value={pageNumber}>
                   {Array.from(
                     {
                       length: Math.ceil(
-                        searchResults.total.value / elasticSize
+                        searchResults.total.value / elasticSize,
                       ),
                     },
                     (_, i) => (
                       <option key={i + 1} value={i + 1}>
                         {i + 1}
                       </option>
-                    )
+                    ),
                   )}
                 </select>
                 <button onClick={nextPageClickHandler}>Next</button>

@@ -13,7 +13,7 @@ export const visualizeAnnosMirador = (
   annotations: AnnoRepoAnnotation[],
   store: any,
   canvasId: string,
-  projectConfig: ProjectConfig
+  projectConfig: ProjectConfig,
 ): iiifAnn => {
   const currentState = store.getState && store.getState();
   const iiifAnn: iiifAnn = {
@@ -91,7 +91,7 @@ export const visualizeAnnosMirador = (
                 "@type": "oa:SvgSelector",
                 value: svgStyler(
                   findSvgSelector(annotations[i], canvasId),
-                  colour
+                  colour,
                 ),
               },
             },
@@ -112,8 +112,8 @@ export const visualizeAnnosMirador = (
           : currentState.windows.globalise.canvasId
       }`,
       "annotation",
-      iiifAnn
-    )
+      iiifAnn,
+    ),
   );
 
   return iiifAnn;

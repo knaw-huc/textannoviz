@@ -11,7 +11,7 @@ type RenderMetadataPanelProps = {
 export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const letterAnno = props.annotations.filter(
-    (anno) => anno.body.type === "tf:Letter"
+    (anno) => anno.body.type === "tf:Letter",
   );
 
   return (
@@ -29,7 +29,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                 {value}
               </div>
             </li>
-          )
+          ),
         )}
       </ul>
     </>

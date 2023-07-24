@@ -3,7 +3,7 @@ import { findImageRegions } from "./findImageRegions";
 
 export const zoomAnnMirador = (
   annotation: AnnoRepoAnnotation,
-  canvasId: string
+  canvasId: string,
 ) => {
   const region = findImageRegions(annotation, canvasId);
 

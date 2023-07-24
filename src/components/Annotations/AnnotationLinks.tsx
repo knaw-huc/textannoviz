@@ -6,7 +6,7 @@ export const AnnotationLinks = () => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const resetOpenAnn = useAnnotationStore((state) => state.resetOpenAnn);
   const setCurrentSelectedAnn = useAnnotationStore(
-    (state) => state.setCurrentSelectedAnn
+    (state) => state.setCurrentSelectedAnn,
   );
 
   const linkClickHandler = () => {

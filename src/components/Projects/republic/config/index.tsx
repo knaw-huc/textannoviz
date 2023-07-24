@@ -85,7 +85,7 @@ export const republicConfig: ProjectConfig = {
     comp1: React.ReactNode,
     comp2: React.ReactNode,
     comp3: React.ReactNode,
-    errorComp: React.ReactNode
+    errorComp: React.ReactNode,
   ) => {
     return [
       {

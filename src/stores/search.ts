@@ -4,7 +4,7 @@ import { SearchResult } from "../model/Search";
 export type SearchResultsSlice = {
   globalSearchResults: SearchResult | undefined;
   setGlobalSearchResults: (
-    newSearchResults: SearchResultsSlice["globalSearchResults"]
+    newSearchResults: SearchResultsSlice["globalSearchResults"],
   ) => void;
 };
 

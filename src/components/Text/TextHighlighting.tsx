@@ -10,7 +10,7 @@ interface TextHighlightingProps {
 export function TextHighlighting(props: TextHighlightingProps) {
   const projectName = useProjectStore((state) => state.projectName);
   const currentSelectedAnn = useAnnotationStore(
-    (state) => state.currentSelectedAnn
+    (state) => state.currentSelectedAnn,
   );
   const openAnnos = useAnnotationStore((state) => state.openAnn);
 
@@ -41,7 +41,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
     const parentDOM = document.getElementById("textcontainer");
     if (parentDOM) {
       const target = parentDOM.getElementsByClassName(
-        `${currentSelectedAnn}`
+        `${currentSelectedAnn}`,
       )[0];
 
       if (target) {
@@ -63,7 +63,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
         const indexClasses = classes.get(index);
         if (indexClasses?.includes(openAnn.bodyId)) {
           indexClasses.forEach((indexClass) =>
-            collectedClasses.add(indexClass)
+            collectedClasses.add(indexClass),
           );
           collectedClasses.add("highlighted");
         }
@@ -78,7 +78,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
     let classesAsStr = "";
 
     collectedClasses.forEach(
-      (it: string) => (classesAsStr = classesAsStr.concat(it) + " ")
+      (it: string) => (classesAsStr = classesAsStr.concat(it) + " "),
     );
 
     return classesAsStr;
