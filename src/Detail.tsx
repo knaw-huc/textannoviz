@@ -2,6 +2,7 @@ import mirador from "mirador";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
+import { Footer } from "./components/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
 import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { SearchItem } from "./components/Search/SearchItem";
@@ -216,6 +217,11 @@ export const Detail = (props: DetailProps) => {
     }
   }, [annotationTypesToInclude, params.tier2, props.config, setState]);
 
+  function nextOrPrevButtonClicked(clicked: boolean) {
+    console.log(clicked);
+    return clicked;
+  }
+
   return (
     <div className="appContainer">
       <div className="lastUpdated">
@@ -247,6 +253,7 @@ export const Detail = (props: DetailProps) => {
           isLoading={isLoading}
         />
         <Annotation isLoading={isLoading} />
+        <Footer nextOrPrevButtonClicked={nextOrPrevButtonClicked} />
       </div>
     </div>
   );
