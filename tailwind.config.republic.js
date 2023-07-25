@@ -9,7 +9,7 @@ export default {
         public: ["Public Sans", "sans-serif"],
       },
       colors: {
-        rpBrand1: {
+        brand1: {
           50: "hsl(48, 45%, 97%)",
           100: "hsl(48, 45%, 90%)",
           200: "hsl(48, 45%, 80%)",
@@ -21,7 +21,7 @@ export default {
           800: "hsl(48, 45%, 20%)",
           900: "hsl(48, 45%, 10%)",
         },
-        rpBrand1grey: {
+        brand1Grey: {
           50: "hsl(48, 15%, 97%)",
           100: "hsl(48, 15%, 90%)",
           200: "hsl(48, 15%, 80%)",
@@ -33,7 +33,7 @@ export default {
           800: "hsl(48, 15%, 20%)",
           900: "hsl(48, 15%, 10%)",
         },
-        rpBrand2: {
+        brand2: {
           50: "hsl(195, 30%, 97%)",
           100: "hsl(195, 30%, 90%)",
           200: "hsl(195, 30%, 80%)",
