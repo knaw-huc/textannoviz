@@ -1,6 +1,7 @@
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Header } from "./components/Header";
 import Home from "./components/Home";
 import { globaliseConfig } from "./components/Projects/globalise/config/";
 import { mondriaanConfig } from "./components/Projects/mondriaan/config";
@@ -52,5 +53,10 @@ export default function App() {
   );
 
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Header project={project} />
+      <RouterProvider router={router} />
+    </>
+  );
 }

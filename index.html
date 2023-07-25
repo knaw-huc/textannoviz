@@ -3,15 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <title><%= title %> - %VITE_PROJECT%</title>
-    <link rel="icon" type="image/gif" href="/static/favicon.ico" />
+    <link rel="icon" type="image/gif" href="/src/assets/favicon.png" />
     <style>
       body {
         margin: 0;
       }
     </style>
   </head>
-  <body>
-    <div id="container"></div>
+  <body class="min-h-screen font-public">
+    <div
+      id="container"
+      class="w-full h-full min-h-screen flex flex-col justify-stretch items-stretch"
+    ></div>
     <script type="module" src="./src/index.tsx"></script>
   </body>
   <noscript>
