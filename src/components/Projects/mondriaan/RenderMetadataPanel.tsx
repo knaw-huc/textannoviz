@@ -16,11 +16,11 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
   return (
     <>
-      <ul className="metadataPanelUl">
+      <ul className="list-none m-0 p-0">
         {Object.entries((letterAnno[0].body as TfLetterBody).metadata).map(
           ([key, value], index) => (
-            <li className="metadataPanelLi" key={index}>
-              <div className="metadataPanelLiContent">
+            <li className="mb-8" key={index}>
+              <div className="grid grid-cols-1">
                 <strong>
                   {projectConfig &&
                     projectConfig.metadataPanelTitles &&

@@ -36,6 +36,8 @@ const setMiradorConfig = (broccoli: Broccoli, project: string) => {
 export const Detail = (props: DetailProps) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [showSearchResults, setShowSearchResults] = React.useState(false);
+  const [showIiifViewer, setShowIiifViewer] = React.useState(true);
+  const [showAnnotationPanel, setShowAnnotationPanel] = React.useState(true);
   const [count, setCount] = React.useState(0);
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
@@ -222,9 +224,18 @@ export const Detail = (props: DetailProps) => {
     return clicked;
   }
 
+  function showIiifViewerHandler() {
+    setShowIiifViewer(!showIiifViewer);
+  }
+
+  function showAnnotationPanelHandler() {
+    setShowAnnotationPanel(!showAnnotationPanel);
+  }
+
   return (
-    <div className="flex flex-row h-full w-full items-stretch grow content-stretch self-stretch max-w-[1700px] mx-auto">
-      {/* <div className="lastUpdated">
+    <>
+      <div className="flex flex-row h-full w-full items-stretch grow content-stretch self-stretch mx-auto">
+        {/* <div className="lastUpdated">
         Last updated: 17 July 2023{" "}
         {globalSearchResults && globalSearchResults.results.length >= 1 ? (
           <button onClick={() => setShowSearchResults(!showSearchResults)}>
@@ -232,26 +243,33 @@ export const Detail = (props: DetailProps) => {
           </button>
         ) : null}
       </div> */}
-      <div className="searchResultsDetailPage">
-        {showSearchResults
-          ? globalSearchResults && globalSearchResults.results.length >= 1
-            ? globalSearchResults.results.map(
-                (result: SearchResultBody, index: number) => (
-                  <SearchItem key={index} result={result} />
-                ),
-              )
-            : null
-          : null}
-      </div>
+        <div className="searchResultsDetailPage">
+          {showSearchResults
+            ? globalSearchResults && globalSearchResults.results.length >= 1
+              ? globalSearchResults.results.map(
+                  (result: SearchResultBody, index: number) => (
+                    <SearchItem key={index} result={result} />
+                  ),
+                )
+              : null
+            : null}
+        </div>
 
-      <Mirador />
-      <TextComponent
-        panelsToRender={props.config.defaultTextPanels!}
-        allPossiblePanels={props.config.allPossibleTextPanels!}
-        isLoading={isLoading}
-      />
-      <Annotation isLoading={isLoading} />
-      <Footer nextOrPrevButtonClicked={nextOrPrevButtonClicked} />
-    </div>
+        {showIiifViewer ? <Mirador /> : null}
+        <TextComponent
+          panelsToRender={props.config.defaultTextPanels!}
+          allPossiblePanels={props.config.allPossibleTextPanels!}
+          isLoading={isLoading}
+        />
+        {showAnnotationPanel ? <Annotation isLoading={isLoading} /> : null}
+      </div>
+      <div>
+        <Footer
+          nextOrPrevButtonClicked={nextOrPrevButtonClicked}
+          showIiifViewerHandler={showIiifViewerHandler}
+          showAnnotationPanelHandler={showAnnotationPanelHandler}
+        />
+      </div>
+    </>
   );
 };

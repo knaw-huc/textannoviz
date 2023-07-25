@@ -41,7 +41,10 @@ export const TextPanel = (props: TextPanelProps) => {
 
   function renderPanel() {
     return (
-      <TextStyled id={props.panel}>
+      <div
+        id={props.panel}
+        className="mx-auto w-full max-w-xl font-serif prose text-lg p-3 border-x border-y border-brand1Grey-100"
+      >
         <XMarkIcon
           style={{
             height: "1.5rem",
@@ -51,7 +54,7 @@ export const TextPanel = (props: TextPanelProps) => {
           }}
           onClick={() => props.closePanelHandler(props.panel)}
         />
-        <strong style={{ display: "block", paddingBottom: "0.5em" }}>
+        <strong className="block mb-4 border-b-2">
           {(projectConfig &&
             projectConfig.textPanelTitles &&
             projectConfig.textPanelTitles[`${props.panel}`]) ??
@@ -61,7 +64,7 @@ export const TextPanel = (props: TextPanelProps) => {
           text={props.text}
           highlightedLines={highlightedLines}
         />
-      </TextStyled>
+      </div>
     );
   }
 

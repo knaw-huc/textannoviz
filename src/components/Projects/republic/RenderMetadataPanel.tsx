@@ -34,6 +34,8 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     (annotation) => annotation.body.type === "Session",
   );
 
+  const gridOneColumn = "grid grid-cols-1";
+
   React.useEffect(() => {
     const bodyTypes = props.annotations.map((anno) => anno.body.type);
     const session = props.annotations.filter(
@@ -72,13 +74,13 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
     if (attendanceList) {
       return (
-        <div className="metadataPanelLiContent">
+        <div className={gridOneColumn}>
           {(
             attendanceList.anno[0].body as AttendanceListBody
           ).attendanceSpans.map((attendant, index) =>
             attendant.delegateName !== "" ? (
               <li key={index}>
-                {<UserIcon style={{ height: "0.75rem", width: "0.75rem" }} />}
+                {<UserIcon className="h-3 w-3 inline" />}
                 <a
                   title="Link"
                   rel="noreferrer"
@@ -100,13 +102,13 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
     if (broccoliAttendanceList.length > 0) {
       return (
-        <div className="metadataPanelLiContent">
+        <div className={gridOneColumn}>
           {(
             broccoliAttendanceList[0].body as AttendanceListBody
           ).attendanceSpans.map((attendant, index) =>
             attendant.delegateName !== "" ? (
-              <li key={index}>
-                {<UserIcon style={{ height: "0.75rem", width: "0.75rem" }} />}
+              <li key={index} className="">
+                {<UserIcon className="h-3 w-3 inline" />}
                 <a
                   title="Link"
                   rel="noreferrer"
@@ -126,9 +128,9 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   function renderResolutionView() {
     return (
       <>
-        <ul className="metadataPanelUl">
-          <li className="metadataPanelLi">
-            <div className="metadataPanelLiContent">
+        <ul className="list-none m-0 p-0">
+          <li className="mb-8">
+            <div className={gridOneColumn}>
               <strong>Date: </strong>
               {
                 (resolution[0].body as ResolutionBody).metadata.sessionWeekday
@@ -140,8 +142,8 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
               {(resolution[0].body as ResolutionBody).metadata.sessionYear}
             </div>
           </li>
-          <li className="metadataPanelLi">
-            <div className="metadataPanelLiContent">
+          <li className="mb-8">
+            <div className={gridOneColumn}>
               <strong>Proposition type: </strong>
               {(resolution[0].body as ResolutionBody).metadata.propositionType
                 .charAt(0)
@@ -151,8 +153,8 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                 ).metadata.propositionType.slice(1)}
             </div>
           </li>
-          <li className="metadataPanelLi">
-            <div className="metadataPanelLiContent">
+          <li className="mb-8">
+            <div className={gridOneColumn}>
               <strong>Resolution type: </strong>
               {(resolution[0].body as ResolutionBody).metadata.resolutionType
                 .charAt(0)
@@ -176,9 +178,9 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
     if (broccoliAttendanceList.length >= 1) {
       return (
-        <ul className="metadataPanelUl">
-          <li className="metadataPanelLi">
-            <div className="metadataPanelLiContent">
+        <ul className="list-none m-0 p-0">
+          <li className="mb-8">
+            <div className={gridOneColumn}>
               <strong>Date: </strong>
               {
                 (broccoliAttendanceList[0].body as AttendanceListBody).metadata
@@ -209,9 +211,9 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
   function renderMetadataPanelScanView() {
     return (
-      <ul className="metadataPanelUl">
-        <li className="metadataPanelLi">
-          <div className="metadataPanelLiContent">
+      <ul className="list-none m-0 p-0">
+        <li className="mb-8">
+          <div className={gridOneColumn}>
             <strong>Date: </strong>
             {(session[0].body as SessionBody).metadata.sessionWeekday}{" "}
             {(session[0].body as SessionBody).metadata.sessionDay}
@@ -221,14 +223,14 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
             {(session[0].body as SessionBody).metadata.sessionYear}
           </div>
         </li>
-        <li className="metadataPanelLi">
-          <div className="metadataPanelLiContent">
+        <li className="mb-8">
+          <div className={gridOneColumn}>
             <strong>Volume: </strong>
             {(scan[0].body as ScanBody).metadata.volume}
           </div>
         </li>
-        <li className="metadataPanelLi">
-          <div className="metadataPanelLiContent">
+        <li className="mb-8">
+          <div className={gridOneColumn}>
             <strong>Opening: </strong>
             {(scan[0].body as ScanBody).metadata.opening}
           </div>

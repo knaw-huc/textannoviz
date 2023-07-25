@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  a {
+    @apply text-blue-600 hover:text-blue-800 underline;
+  }
+}
+
 .searchItem a {
   color: black;
   text-decoration: none;
