@@ -1,11 +1,8 @@
-import { useProjectStore } from "../stores/project";
-
 type HeaderProps = {
   project: string;
 };
 
 export const Header = (props: HeaderProps) => {
-  const projectConfig = useProjectStore((state) => state.projectConfig);
   return (
     <header className="border-b border-brand1-200 text-brand1-700">
       <div className="mx-auto w-full max-w-[1700px] px-6">
