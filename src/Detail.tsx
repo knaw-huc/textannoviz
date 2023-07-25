@@ -223,38 +223,35 @@ export const Detail = (props: DetailProps) => {
   }
 
   return (
-    <div className="appContainer">
-      <div className="lastUpdated">
+    <div className="flex flex-row h-full w-full items-stretch grow content-stretch self-stretch max-w-[1700px] mx-auto">
+      {/* <div className="lastUpdated">
         Last updated: 17 July 2023{" "}
         {globalSearchResults && globalSearchResults.results.length >= 1 ? (
           <button onClick={() => setShowSearchResults(!showSearchResults)}>
             Show search results in side panel
           </button>
         ) : null}
+      </div> */}
+      <div className="searchResultsDetailPage">
+        {showSearchResults
+          ? globalSearchResults && globalSearchResults.results.length >= 1
+            ? globalSearchResults.results.map(
+                (result: SearchResultBody, index: number) => (
+                  <SearchItem key={index} result={result} />
+                ),
+              )
+            : null
+          : null}
       </div>
 
-      <div className="row">
-        <div className="searchResultsDetailPage">
-          {showSearchResults
-            ? globalSearchResults && globalSearchResults.results.length >= 1
-              ? globalSearchResults.results.map(
-                  (result: SearchResultBody, index: number) => (
-                    <SearchItem key={index} result={result} />
-                  ),
-                )
-              : null
-            : null}
-        </div>
-
-        <Mirador />
-        <TextComponent
-          panelsToRender={props.config.defaultTextPanels!}
-          allPossiblePanels={props.config.allPossibleTextPanels!}
-          isLoading={isLoading}
-        />
-        <Annotation isLoading={isLoading} />
-        <Footer nextOrPrevButtonClicked={nextOrPrevButtonClicked} />
-      </div>
+      <Mirador />
+      <TextComponent
+        panelsToRender={props.config.defaultTextPanels!}
+        allPossiblePanels={props.config.allPossibleTextPanels!}
+        isLoading={isLoading}
+      />
+      <Annotation isLoading={isLoading} />
+      <Footer nextOrPrevButtonClicked={nextOrPrevButtonClicked} />
     </div>
   );
 };

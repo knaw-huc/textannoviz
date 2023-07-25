@@ -1,13 +1,8 @@
-import styled from "styled-components";
-
-const MiradorStyled = styled.div`
-  position: relative;
-  width: 30%;
-  flex-grow: 1;
-  align-self: stretch;
-  max-height: 100vh;
-  top: 0px;
-`;
 export function Mirador() {
-  return <MiradorStyled id="mirador" />;
+  return (
+    <div
+      id="mirador"
+      className="sticky top-0 hidden max-h-screen w-2/5 grow self-stretch bg-brand1Grey-50 lg:flex"
+    ></div>
+  );
 }
