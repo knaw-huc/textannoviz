@@ -80,7 +80,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
           ).attendanceSpans.map((attendant, index) =>
             attendant.delegateName !== "" ? (
               <li key={index}>
-                {<UserIcon className="h-3 w-3 inline" />}
+                {<UserIcon className="inline h-3 w-3" />}
                 <a
                   title="Link"
                   rel="noreferrer"
@@ -108,7 +108,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
           ).attendanceSpans.map((attendant, index) =>
             attendant.delegateName !== "" ? (
               <li key={index} className="">
-                {<UserIcon className="h-3 w-3 inline" />}
+                {<UserIcon className="inline h-3 w-3" />}
                 <a
                   title="Link"
                   rel="noreferrer"
@@ -128,7 +128,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   function renderResolutionView() {
     return (
       <>
-        <ul className="list-none m-0 p-0">
+        <ul className="m-0 list-none p-0">
           <li className="mb-8">
             <div className={gridOneColumn}>
               <strong>Date: </strong>
@@ -178,7 +178,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
     if (broccoliAttendanceList.length >= 1) {
       return (
-        <ul className="list-none m-0 p-0">
+        <ul className="m-0 list-none p-0">
           <li className="mb-8">
             <div className={gridOneColumn}>
               <strong>Date: </strong>
@@ -211,7 +211,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
   function renderMetadataPanelScanView() {
     return (
-      <ul className="list-none m-0 p-0">
+      <ul className="m-0 list-none p-0">
         <li className="mb-8">
           <div className={gridOneColumn}>
             <strong>Date: </strong>

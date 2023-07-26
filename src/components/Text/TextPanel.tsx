@@ -43,7 +43,7 @@ export const TextPanel = (props: TextPanelProps) => {
     return (
       <div
         id={props.panel}
-        className="mx-auto w-full max-w-xl font-serif prose text-lg p-3 border-x border-y border-brand1Grey-100"
+        className="prose border-brand1Grey-100 mx-auto w-full max-w-xl border-x border-y p-3 font-serif text-lg"
       >
         <XMarkIcon
           style={{
@@ -54,7 +54,7 @@ export const TextPanel = (props: TextPanelProps) => {
           }}
           onClick={() => props.closePanelHandler(props.panel)}
         />
-        <strong className="block mb-4 border-b-2">
+        <strong className="mb-4 block border-b-2">
           {(projectConfig &&
             projectConfig.textPanelTitles &&
             projectConfig.textPanelTitles[`${props.panel}`]) ??

@@ -234,7 +234,7 @@ export const Detail = (props: DetailProps) => {
 
   return (
     <>
-      <div className="flex flex-row h-full w-full items-stretch grow content-stretch self-stretch mx-auto">
+      <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
         {/* <div className="lastUpdated">
         Last updated: 17 July 2023{" "}
         {globalSearchResults && globalSearchResults.results.length >= 1 ? (

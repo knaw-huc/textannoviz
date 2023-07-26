@@ -58,13 +58,13 @@ export const TextComponent = (props: TextComponentProps) => {
   }
 
   return (
-    <div className="w-2/5 grow self-stretch relative">
+    <div className="relative w-2/5 grow self-stretch">
       {/* <TextTopBar /> */}
       <ToggleTextPanels
         textPanelsCheckboxHandler={textPanelsCheckboxHandler}
         panels={panelsToRender}
       />
-      <div className="flex flex-row h-full">
+      <div className="flex h-full flex-row">
         {textPanels && !props.isLoading ? (
           <TextPanels
             panels={panelsToRender}

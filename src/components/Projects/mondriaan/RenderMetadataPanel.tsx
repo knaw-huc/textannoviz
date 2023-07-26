@@ -16,7 +16,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
   return (
     <>
-      <ul className="list-none m-0 p-0">
+      <ul className="m-0 list-none p-0">
         {Object.entries((letterAnno[0].body as TfLetterBody).metadata).map(
           ([key, value], index) => (
             <li className="mb-8" key={index}>

@@ -512,7 +512,7 @@ export const Search = (props: SearchProps) => {
             {checkboxStates.size > 0 && renderKeywordFacets()}
           </div>
           <div className="searchResults">
-            <div className="flex flex-row justify-between mb-8 items-center top-0 z-30 bg-brand1-500">
+            <div className="bg-brand1-500 top-0 z-30 mb-8 flex flex-row items-center justify-between">
               <div className="searchResultsHeaderLeft">
                 <div className="searchResultsNumbers">
                   {searchResults &&
