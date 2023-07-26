@@ -232,6 +232,10 @@ export const Detail = (props: DetailProps) => {
     setShowAnnotationPanel(!showAnnotationPanel);
   }
 
+  function showSearchResultsHandler() {
+    setShowSearchResults(!showSearchResults);
+  }
+
   return (
     <>
       <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
@@ -243,7 +247,7 @@ export const Detail = (props: DetailProps) => {
           </button>
         ) : null}
       </div> */}
-        <div className="searchResultsDetailPage">
+        <div className="h-full overflow-auto">
           {showSearchResults
             ? globalSearchResults && globalSearchResults.results.length >= 1
               ? globalSearchResults.results.map(
@@ -268,6 +272,7 @@ export const Detail = (props: DetailProps) => {
           nextOrPrevButtonClicked={nextOrPrevButtonClicked}
           showIiifViewerHandler={showIiifViewerHandler}
           showAnnotationPanelHandler={showAnnotationPanelHandler}
+          showSearchResultsHandler={showSearchResultsHandler}
         />
       </div>
     </>

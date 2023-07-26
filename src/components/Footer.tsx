@@ -9,6 +9,7 @@ type FooterProps = {
   nextOrPrevButtonClicked: (clicked: boolean) => boolean;
   showIiifViewerHandler: () => void;
   showAnnotationPanelHandler: () => void;
+  showSearchResultsHandler: () => void;
 };
 
 export const Footer = (props: FooterProps) => {
@@ -25,7 +26,10 @@ export const Footer = (props: FooterProps) => {
               Back to search
             </Link>
           </button>
-          <button className="hover:text-brand1-600 flex flex-row items-center gap-1 text-neutral-500">
+          <button
+            className="hover:text-brand1-600 flex flex-row items-center gap-1 text-neutral-500"
+            onClick={props.showSearchResultsHandler}
+          >
             Show results
           </button>
           <button
