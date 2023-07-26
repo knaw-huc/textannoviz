@@ -10,6 +10,7 @@ type FooterProps = {
   showIiifViewerHandler: () => void;
   showAnnotationPanelHandler: () => void;
   showSearchResultsHandler: () => void;
+  showSearchResultsDisabled: boolean;
 };
 
 export const Footer = (props: FooterProps) => {
@@ -27,8 +28,9 @@ export const Footer = (props: FooterProps) => {
             </Link>
           </button>
           <button
-            className="hover:text-brand1-600 flex flex-row items-center gap-1 text-neutral-500"
+            className="hover:text-brand1-600 flex flex-row items-center gap-1 text-neutral-500 disabled:text-neutral-300"
             onClick={props.showSearchResultsHandler}
+            disabled={props.showSearchResultsDisabled}
           >
             Show results
           </button>

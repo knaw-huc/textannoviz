@@ -273,6 +273,9 @@ export const Detail = (props: DetailProps) => {
           showIiifViewerHandler={showIiifViewerHandler}
           showAnnotationPanelHandler={showAnnotationPanelHandler}
           showSearchResultsHandler={showSearchResultsHandler}
+          showSearchResultsDisabled={
+            globalSearchResults === undefined ? true : false
+          }
         />
       </div>
     </>
