@@ -1,7 +1,7 @@
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import mirador from "mirador";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../../stores/annotation";
 import { useMiradorStore } from "../../../stores/mirador";
 import { mondriaanConfig } from "./config";
@@ -65,10 +65,21 @@ export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
   return (
     <>
       {params.tier0 && params.tier1 ? (
-        <div>
-          <Button onClick={prevCanvasClickHandler}>Prev letter</Button>
-          <Button onClick={nextCanvasClickHandler}>Next letter</Button>
-        </div>
+        <>
+          <button
+            className="flex flex-row items-center gap-1 py-1 pl-16"
+            onClick={prevCanvasClickHandler}
+          >
+            <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" /> Prev letter
+          </button>
+          <button
+            className="flex flex-row items-center gap-1 py-1 pr-10"
+            onClick={nextCanvasClickHandler}
+          >
+            Next letter{" "}
+            <ChevronRightIcon className="h-4 w-4 fill-neutral-500" />
+          </button>
+        </>
       ) : null}
     </>
   );

@@ -70,7 +70,7 @@ export function Annotation(props: AnnotationProps) {
       <Tabs className="flex flex-col">
         <TabList
           aria-label="annotation-panel"
-          className="text border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"
+          className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"
         >
           <Tab
             id="metadata"

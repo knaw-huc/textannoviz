@@ -1,9 +1,8 @@
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import mirador from "mirador";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAnnotationStore } from "../../../stores/annotation";
 import { useMiradorStore } from "../../../stores/mirador";
-// import { Button } from "../../Button";
-import { Button } from "reactions-knaw-huc";
 
 export const GetAnnotationButtons = () => {
   const currentContext = useMiradorStore((state) => state.currentContext);
@@ -33,10 +32,22 @@ export const GetAnnotationButtons = () => {
   return (
     <>
       {params.tier0 && params.tier1 ? (
-        <div>
-          <Button onClick={previousCanvasClickHandler}>Previous canvas</Button>
-          <Button onClick={nextCanvasClickHandler}>Next canvas</Button>
-        </div>
+        <>
+          <button
+            className="flex flex-row items-center gap-1 py-1 pl-16 text-neutral-500"
+            onClick={previousCanvasClickHandler}
+          >
+            <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" /> Previous
+            canvas
+          </button>
+          <button
+            className="flex flex-row items-center gap-1 py-1 pr-10 text-neutral-500"
+            onClick={nextCanvasClickHandler}
+          >
+            Next canvas{" "}
+            <ChevronRightIcon className="h-4 w-4 fill-neutral-500" />
+          </button>
+        </>
       ) : null}
     </>
   );
