@@ -1,4 +1,4 @@
-import { Button } from "primereact/button";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import React from "react";
 import { useProjectStore } from "../../stores/project";
@@ -64,11 +64,9 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
 
   return (
     <div className="toggleTextPanelsContainer">
-      <Button
-        size="small"
-        label="Add/remove text panels"
+      <PlusCircleIcon
+        className="text-brand1-500 hover:text-brand1-600 active:text-brand1-700 h-8 w-8 cursor-pointer"
         onClick={() => setShow(!show)}
-        raised
       />
       {show && <>{renderCheckboxes()}</>}
     </div>
