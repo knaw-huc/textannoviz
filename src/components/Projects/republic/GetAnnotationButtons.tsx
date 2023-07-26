@@ -34,14 +34,14 @@ export const GetAnnotationButtons = () => {
       {params.tier0 && params.tier1 ? (
         <>
           <button
-            className="flex flex-row items-center gap-1 py-1 pl-16 text-neutral-500"
+            className="hover:text-brand1-600 flex flex-row items-center gap-1 py-1 pl-16 text-neutral-500"
             onClick={previousCanvasClickHandler}
           >
             <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" /> Previous
             canvas
           </button>
           <button
-            className="flex flex-row items-center gap-1 py-1 pr-10 text-neutral-500"
+            className="hover:text-brand1-600 flex flex-row items-center gap-1 py-1 pr-10 text-neutral-500"
             onClick={nextCanvasClickHandler}
           >
             Next canvas{" "}

@@ -17,16 +17,19 @@ export const Footer = (props: FooterProps) => {
       <div className="mx-auto flex w-full flex-col justify-between lg:flex-row">
         <div className="flex w-full flex-row justify-start gap-8 lg:w-2/5">
           <button className="flex flex-row items-center gap-1 py-1 pl-10 text-neutral-500">
-            <Link to="/search">
+            <Link
+              to="/search"
+              className="hover:text-brand1-600 text-inherit no-underline"
+            >
               <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
               Back to search
             </Link>
           </button>
-          <button className="flex flex-row items-center gap-1 text-neutral-500">
+          <button className="hover:text-brand1-600 flex flex-row items-center gap-1 text-neutral-500">
             Show results
           </button>
           <button
-            className="flex flex-row items-center gap-1 text-neutral-500"
+            className="hover:text-brand1-600 flex flex-row items-center gap-1 text-neutral-500"
             onClick={props.showIiifViewerHandler}
           >
             Hide facsimile
@@ -39,7 +42,7 @@ export const Footer = (props: FooterProps) => {
         </div>
         <div className="flex w-full flex-row justify-end lg:w-1/5">
           <button
-            className="flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
+            className="hover:text-brand1-600 flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
             onClick={props.showAnnotationPanelHandler}
           >
             Hide info{" "}

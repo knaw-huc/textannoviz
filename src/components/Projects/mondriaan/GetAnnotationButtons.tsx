@@ -67,13 +67,13 @@ export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
       {params.tier0 && params.tier1 ? (
         <>
           <button
-            className="flex flex-row items-center gap-1 py-1 pl-16"
+            className="hover:text-brand1-600 flex flex-row items-center gap-1 py-1 pl-16"
             onClick={prevCanvasClickHandler}
           >
             <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" /> Prev letter
           </button>
           <button
-            className="flex flex-row items-center gap-1 py-1 pr-10"
+            className="hover:text-brand1-600 flex flex-row items-center gap-1 py-1 pr-10"
             onClick={nextCanvasClickHandler}
           >
             Next letter{" "}
