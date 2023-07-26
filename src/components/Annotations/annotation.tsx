@@ -1,6 +1,7 @@
+// import { TabPanel, TabView } from "primereact/tabview";
 import { Skeleton } from "primereact/skeleton";
-import { TabPanel, TabView } from "primereact/tabview";
 import React from "react";
+import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ProjectConfig } from "../../model/ProjectConfig";
@@ -58,7 +59,7 @@ export function Annotation(props: AnnotationProps) {
   }, [params.tier0, params.tier1]);
 
   return (
-    <div className="border-x border-brand1Grey-100 w-1/5 grow self-stretch relative hidden md:block">
+    <div className="border-brand1Grey-100 relative hidden w-1/5 grow self-stretch border-x md:block">
       {/* <AnnotationLinks /> */}
       {/* <ButtonsStyled>
         <AnnotationButtons
@@ -66,8 +67,25 @@ export function Annotation(props: AnnotationProps) {
         />{" "}
         <AnnotationFilter />
       </ButtonsStyled> */}
-      <TabView>
-        <TabPanel header="Metadata">
+      <Tabs className="flex flex-col">
+        <TabList
+          aria-label="annotation-panel"
+          className="text border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"
+        >
+          <Tab
+            id="metadata"
+            className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
+          >
+            Metadata
+          </Tab>
+          <Tab
+            id="webannos"
+            className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
+          >
+            Web annotations
+          </Tab>
+        </TabList>
+        <TabPanel id="metadata" className="text-brand1-800 p-5">
           {annotations.length > 0 && !props.isLoading ? (
             projectConfig?.renderMetadataPanel(annotations)
           ) : (
@@ -78,7 +96,7 @@ export function Annotation(props: AnnotationProps) {
             </div>
           )}
         </TabPanel>
-        <TabPanel header="Web annotations">
+        <TabPanel id="webannos" className="text-brand1-800 p-5">
           <>
             <ButtonsStyled>
               <AnnotationFilter />
@@ -100,7 +118,7 @@ export function Annotation(props: AnnotationProps) {
             )}
           </>
         </TabPanel>
-      </TabView>
+      </Tabs>
     </div>
   );
 }
