@@ -522,7 +522,7 @@ export const Search = (props: SearchProps) => {
               valueHandler={handleFullTextFacet}
               enterPressedHandler={fullTextEnterPressedHandler}
               value={fullText}
-              className="border-brand2-700 w-full rounded-l border px-3 py-1"
+              className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
             />
             <Button
               className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
