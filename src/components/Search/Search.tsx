@@ -539,6 +539,7 @@ export const Search = (props: SearchProps) => {
             queryHistory={queryHistory}
             goToQuery={goToQuery}
             projectConfig={props.projectConfig}
+            disabled={queryHistory.length === 0 ? true : false}
           />
         </div>
         <div className="w-full max-w-[450px]">
