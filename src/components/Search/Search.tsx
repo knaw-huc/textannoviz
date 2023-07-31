@@ -550,58 +550,64 @@ export const Search = (props: SearchProps) => {
       </div>
 
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
-        <div className=" mb-8 flex flex-col items-center justify-between gap-2 md:flex-row">
-          <span className="font-semibold">
-            {searchResults &&
-              `Showing ${elasticFrom + 1}-${Math.min(
-                elasticFrom + elasticSize,
-                searchResults.total.value,
-              )} of ${searchResults.total.value} results`}
-          </span>
-          <div className="flex items-center justify-between gap-10">
-            <SearchSortBy
-              onChange={sortByChangeHandler}
-              value={internalSortValue}
-            />
-            <SearchResultsPerPage
-              onChange={resultsPerPageSelectHandler}
-              value={elasticSize}
-            />
+        {searchResults ? (
+          <div className=" mb-8 flex flex-col items-center justify-between gap-2 md:flex-row">
+            <span className="font-semibold">
+              {searchResults &&
+                `Showing ${elasticFrom + 1}-${Math.min(
+                  elasticFrom + elasticSize,
+                  searchResults.total.value,
+                )} of ${searchResults.total.value} results`}
+            </span>
+            <div className="flex items-center justify-between gap-10">
+              <SearchSortBy
+                onChange={sortByChangeHandler}
+                value={internalSortValue}
+              />
+              <SearchResultsPerPage
+                onChange={resultsPerPageSelectHandler}
+                value={elasticSize}
+              />
+            </div>
           </div>
-        </div>
-        <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-start gap-2 border-b px-10 pb-8">
-          <span className="text-brand1Grey-600 text-sm">Filters: </span>
-          {getKeywordFacets().map(([facetName, facetValues]) => {
-            return Object.keys(facetValues).map((facetValueName, index) => {
-              const key = `${facetName}-${facetValueName}`;
+        ) : null}
+        {searchResults ? (
+          <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-start gap-2 border-b px-10 pb-8">
+            <span className="text-brand1Grey-600 text-sm">Filters: </span>
+            {getKeywordFacets().map(([facetName, facetValues]) => {
+              return Object.keys(facetValues).map((facetValueName, index) => {
+                const key = `${facetName}-${facetValueName}`;
 
-              if (checkboxStates.get(key)) {
-                return (
-                  <div
-                    className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
-                    key={index}
-                  >
-                    {(props.projectConfig.searchFacetTitles &&
-                      props.projectConfig.searchFacetTitles[facetName]) ??
-                      facetName}
-                    : {facetValueName}{" "}
-                    {
-                      <XMarkIcon
-                        className="h-5 w-5"
-                        onClick={() => removeFacet(key)}
-                      />
-                    }
-                  </div>
-                );
-              }
-            });
-          })}
-        </div>
-        {searchResults && searchResults.results.length >= 1
-          ? searchResults.results.map((result, index) => (
-              <SearchItem key={index} result={result} />
-            ))
-          : "No results"}
+                if (checkboxStates.get(key)) {
+                  return (
+                    <div
+                      className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
+                      key={index}
+                    >
+                      {(props.projectConfig.searchFacetTitles &&
+                        props.projectConfig.searchFacetTitles[facetName]) ??
+                        facetName}
+                      : {facetValueName}{" "}
+                      {
+                        <XMarkIcon
+                          className="h-5 w-5"
+                          onClick={() => removeFacet(key)}
+                        />
+                      }
+                    </div>
+                  );
+                }
+              });
+            })}
+          </div>
+        ) : null}
+        {searchResults && searchResults.results.length >= 1 ? (
+          searchResults.results.map((result, index) => (
+            <SearchItem key={index} result={result} />
+          ))
+        ) : (
+          <div className="italic">No results</div>
+        )}
         {searchResults && (
           <nav aria-label="Pagination" className="my-6">
             <ul className="list-style-none flex justify-center gap-1">
