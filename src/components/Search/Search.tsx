@@ -1,7 +1,9 @@
+import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { CheckboxFacet, FullTextFacet } from "reactions-knaw-huc";
+import { Button } from "react-aria-components";
+import { useSearchParams } from "react-router-dom";
+import { FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   FacetValue,
@@ -392,24 +394,46 @@ export const Search = (props: SearchProps) => {
   function renderKeywordFacets() {
     return getKeywordFacets().map(([facetName, facetValues], index) => {
       return (
-        <div key={index} className="searchFacet">
-          <div className="searchFacetTitle">
+        <div key={index} className="w-full max-w-[450px]">
+          <div className="font-semibold">
             {props.searchFacetTitles[facetName] ?? facetName}
           </div>
           {Object.entries(facetValues).map(
             ([facetValueName, facetValueAmount]) => {
               const key = `${facetName}-${facetValueName}`;
               return (
-                <CheckboxFacet
+                // <CheckboxFacet
+                //   key={key}
+                //   id={key}
+                //   name={facetValueName}
+                //   value={facetValueName}
+                //   labelName={facetValueName}
+                //   amount={facetValueAmount}
+                //   onChange={(event) => keywordFacetChangeHandler(key, event)}
+                //   checked={checkboxStates.get(key) ?? false}
+                // />
+                <div
                   key={key}
-                  id={key}
-                  name={facetValueName}
-                  value={facetValueName}
-                  labelName={facetValueName}
-                  amount={facetValueAmount}
-                  onChange={(event) => keywordFacetChangeHandler(key, event)}
-                  checked={checkboxStates.get(key) ?? false}
-                />
+                  className="mb-2 flex w-full flex-row items-center justify-between gap-2"
+                >
+                  <div className="flex flex-row items-center">
+                    <input
+                      className="text-brand1-700 focus:ring-brand1-700 mr-2 h-5 w-5 rounded border-gray-300"
+                      type="checkbox"
+                      id={key}
+                      name={facetValueName}
+                      value={facetValueName}
+                      onChange={(event) =>
+                        keywordFacetChangeHandler(key, event)
+                      }
+                      checked={checkboxStates.get(key) ?? false}
+                    />
+                    <label htmlFor={key}>{facetValueName}</label>
+                  </div>
+                  <div className="text-sm text-neutral-500">
+                    {facetValueAmount}
+                  </div>
+                </div>
               );
             },
           )}
@@ -421,13 +445,16 @@ export const Search = (props: SearchProps) => {
   function renderDateFacets() {
     return getDateFacets().map(([facetName], index) => {
       return (
-        <div key={index} className="searchFacet">
-          <div className="searchFacetTitle">
-            {props.searchFacetTitles[facetName] ?? facetName}
-          </div>
+        <div
+          key={index}
+          className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row"
+        >
           <div>
-            <div className="searchFacetTitle">From</div>
+            <label htmlFor="start" className="font-semibold">
+              From date
+            </label>
             <input
+              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
               type="date"
               id="start"
               value={dateFrom}
@@ -435,11 +462,13 @@ export const Search = (props: SearchProps) => {
               max={props.projectConfig.initialDateTo}
               onChange={(event) => setDateFrom(event.target.value)}
             />
-
-            <div className="searchFacetTitle" style={{ marginTop: "10px" }}>
-              To
-            </div>
+          </div>
+          <div>
+            <label htmlFor="end" className="font-semibold">
+              Till date
+            </label>
             <input
+              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
               type="date"
               id="end"
               value={dateTo}
@@ -482,111 +511,147 @@ export const Search = (props: SearchProps) => {
   }
 
   return (
-    <>
-      <div className="appContainer">
-        <div className="searchContainer">
-          <div className="searchFacets">
-            <div className="searchFacet">
-              <div className="searchFacetTitle">Text search</div>
-              <div className="hcFacetSearch">
-                <FullTextFacet
-                  valueHandler={handleFullTextFacet}
-                  enterPressedHandler={fullTextEnterPressedHandler}
-                  value={fullText}
-                />
-                <button onClick={() => refresh()}>Search</button>
-              </div>
-              <Link to={"/search"} reloadDocument>
-                New search
-              </Link>
-            </div>
-            <SearchQueryHistory
-              historyClickHandler={historyClickHandler}
-              historyIsOpen={historyIsOpen}
-              queryHistory={queryHistory}
-              goToQuery={goToQuery}
-              projectConfig={props.projectConfig}
+    <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
+      <div className="hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10">
+        <div className="w-full max-w-[450px]">
+          <label htmlFor="fullText" className="font-semibold">
+            Search for text
+          </label>
+          <div className="flex w-full flex-row">
+            <FullTextFacet
+              valueHandler={handleFullTextFacet}
+              enterPressedHandler={fullTextEnterPressedHandler}
+              value={fullText}
+              className="border-brand2-700 w-full rounded-l border px-3 py-1"
             />
-            <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
-            {renderDateFacets()}
-            {checkboxStates.size > 0 && renderKeywordFacets()}
-          </div>
-          <div className="searchResults">
-            <div className="bg-brand1-500 top-0 z-30 mb-8 flex flex-row items-center justify-between">
-              <div className="searchResultsHeaderLeft">
-                <div className="searchResultsNumbers">
-                  {searchResults &&
-                    `Showing ${elasticFrom + 1}-${Math.min(
-                      elasticFrom + elasticSize,
-                      searchResults.total.value,
-                    )} of ${searchResults.total.value} results`}
-                </div>
-              </div>
-              <div className="searchResultsHeaderRight">
-                <SearchSortBy
-                  onChange={sortByChangeHandler}
-                  value={internalSortValue}
-                />
-                <SearchResultsPerPage
-                  onChange={resultsPerPageSelectHandler}
-                  value={elasticSize}
-                />
-              </div>
-            </div>
-            <div className="selectedFacetList">
-              <div className="searchFacetTitle">Selected facets:</div>
-              {getKeywordFacets().map(([facetName, facetValues]) => {
-                return Object.keys(facetValues).map((facetValueName, index) => {
-                  const key = `${facetName}-${facetValueName}`;
-
-                  if (checkboxStates.get(key)) {
-                    return (
-                      <div
-                        className="selectedFacet"
-                        key={index}
-                        onClick={() => removeFacet(key)}
-                      >
-                        {(props.projectConfig.searchFacetTitles &&
-                          props.projectConfig.searchFacetTitles[facetName]) ??
-                          facetName}
-                        : {facetValueName} {"[x]"}
-                      </div>
-                    );
-                  }
-                });
-              })}
-            </div>
-            {searchResults && searchResults.results.length >= 1
-              ? searchResults.results.map((result, index) => (
-                  <SearchItem key={index} result={result} />
-                ))
-              : "No results"}
-            {searchResults && (
-              <div className="searchPagination">
-                <button onClick={prevPageClickHandler}>Prev</button>
-                {`Page: ${pageNumber} of ${Math.ceil(
-                  searchResults.total.value / elasticSize,
-                )}`}
-                <select onChange={jumpToPageHandler} value={pageNumber}>
-                  {Array.from(
-                    {
-                      length: Math.ceil(
-                        searchResults.total.value / elasticSize,
-                      ),
-                    },
-                    (_, i) => (
-                      <option key={i + 1} value={i + 1}>
-                        {i + 1}
-                      </option>
-                    ),
-                  )}
-                </select>
-                <button onClick={nextPageClickHandler}>Next</button>
-              </div>
-            )}
+            <Button
+              className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
+              aria-label="Click to search"
+            >
+              <MagnifyingGlassIcon className="h-4 w-4 fill-white" />
+            </Button>
           </div>
         </div>
+        <div className="w-full max-w-[450px]">
+          <SearchQueryHistory
+            historyClickHandler={historyClickHandler}
+            historyIsOpen={historyIsOpen}
+            queryHistory={queryHistory}
+            goToQuery={goToQuery}
+            projectConfig={props.projectConfig}
+          />
+        </div>
+        <div className="w-full max-w-[450px]">
+          <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
+        </div>
+        {renderDateFacets()}
+        {checkboxStates.size > 0 && renderKeywordFacets()}
       </div>
-    </>
+
+      <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
+        <div className=" mb-8 flex flex-col items-center justify-between gap-2 md:flex-row">
+          <span className="font-semibold">
+            {searchResults &&
+              `Showing ${elasticFrom + 1}-${Math.min(
+                elasticFrom + elasticSize,
+                searchResults.total.value,
+              )} of ${searchResults.total.value} results`}
+          </span>
+          <div className="flex items-center justify-between gap-10">
+            <SearchSortBy
+              onChange={sortByChangeHandler}
+              value={internalSortValue}
+            />
+            <SearchResultsPerPage
+              onChange={resultsPerPageSelectHandler}
+              value={elasticSize}
+            />
+          </div>
+        </div>
+        <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-start gap-2 border-b px-10 pb-8">
+          <span className="text-brand1Grey-600 text-sm">Filters: </span>
+          {getKeywordFacets().map(([facetName, facetValues]) => {
+            return Object.keys(facetValues).map((facetValueName, index) => {
+              const key = `${facetName}-${facetValueName}`;
+
+              if (checkboxStates.get(key)) {
+                return (
+                  <div
+                    className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
+                    key={index}
+                  >
+                    {(props.projectConfig.searchFacetTitles &&
+                      props.projectConfig.searchFacetTitles[facetName]) ??
+                      facetName}
+                    : {facetValueName}{" "}
+                    {
+                      <XMarkIcon
+                        className="h-5 w-5"
+                        onClick={() => removeFacet(key)}
+                      />
+                    }
+                  </div>
+                );
+              }
+            });
+          })}
+        </div>
+        {searchResults && searchResults.results.length >= 1
+          ? searchResults.results.map((result, index) => (
+              <SearchItem key={index} result={result} />
+            ))
+          : "No results"}
+        {searchResults && (
+          <nav aria-label="Pagination" className="my-6">
+            <ul className="list-style-none flex justify-center gap-1">
+              <li>
+                <Button
+                  className={({ isPressed }) =>
+                    isPressed
+                      ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
+                      : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
+                  }
+                  onPress={prevPageClickHandler}
+                >
+                  Prev
+                </Button>
+              </li>
+              <li>
+                <div className="text-brand1Grey-800 relative block bg-transparent px-3 py-1.5">
+                  {`Page: ${pageNumber} of ${Math.ceil(
+                    searchResults.total.value / elasticSize,
+                  )}`}
+                </div>
+              </li>
+              <li>
+                <Button
+                  className={({ isPressed }) =>
+                    isPressed
+                      ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
+                      : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
+                  }
+                  onPress={nextPageClickHandler}
+                >
+                  Next
+                </Button>
+              </li>
+            </ul>
+
+            {/* <select onChange={jumpToPageHandler} value={pageNumber}>
+              {Array.from(
+                {
+                  length: Math.ceil(searchResults.total.value / elasticSize),
+                },
+                (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1}
+                  </option>
+                ),
+              )}
+            </select> */}
+          </nav>
+        )}
+      </div>
+    </div>
   );
 };

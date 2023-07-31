@@ -130,9 +130,11 @@
 }
 
 em {
-  font-weight: bold;
+  padding: 0.25rem; /* 4px */
+  border-radius: 0.25rem; /* 4px */
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 240 138 / var(--tw-bg-opacity));
   font-style: normal;
-  background-color: yellow;
 }
 
 .selectedFacet {

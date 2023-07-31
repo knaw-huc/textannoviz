@@ -5,9 +5,13 @@ interface SearchResultsPerPageProps {
 
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   return (
-    <div className="searchResultsPerPage">
-      Results per page
-      <select value={props.value} onChange={props.onChange}>
+    <div className="flex items-center">
+      <div className="mr-1 text-sm">Results per page</div>
+      <select
+        value={props.value}
+        onChange={props.onChange}
+        className="border-brand1Grey-700 rounded border bg-white px-2 py-1 text-sm"
+      >
         <option value={10}>10</option>
         <option value={20}>20</option>
         <option value={50}>50</option>

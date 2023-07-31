@@ -5,9 +5,13 @@ interface FragmenterProps {
 
 export const Fragmenter = (props: FragmenterProps) => {
   return (
-    <div className="searchFacet">
-      <label>Fragmenter </label>
-      <select value={props.value} onChange={props.onChange}>
+    <div className="flex items-center">
+      <label className="mr-1">Fragmenter </label>
+      <select
+        value={props.value}
+        onChange={props.onChange}
+        className="border-brand1Grey-700 rounded border bg-white px-2 py-1 text-sm"
+      >
         <option>Scan</option>
         <option>Sentence</option>
         <option>None</option>
