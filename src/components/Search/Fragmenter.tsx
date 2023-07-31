@@ -5,8 +5,8 @@ interface FragmenterProps {
 
 export const Fragmenter = (props: FragmenterProps) => {
   return (
-    <div className="flex items-center">
-      <label className="mr-1">Fragmenter </label>
+    <div className="flex items-center justify-between">
+      <label className="mr-1 font-semibold">Fragmenter </label>
       <select
         value={props.value}
         onChange={props.onChange}
