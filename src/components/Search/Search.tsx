@@ -2,7 +2,7 @@ import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import React from "react";
 import { Button } from "react-aria-components";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -532,6 +532,17 @@ export const Search = (props: SearchProps) => {
             </Button>
           </div>
         </div>
+        {searchResults ? (
+          <div className="w-full max-w-[450px]">
+            <Link
+              to="/search"
+              reloadDocument
+              className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm no-underline"
+            >
+              New search
+            </Link>
+          </div>
+        ) : null}
         <div className="w-full max-w-[450px]">
           <SearchQueryHistory
             historyClickHandler={historyClickHandler}
