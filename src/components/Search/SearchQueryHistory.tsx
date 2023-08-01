@@ -21,13 +21,13 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         Search history
       </button>
       {props.historyIsOpen ? (
-        <ol>
+        <ol className="ml-6 mt-4 list-decimal">
           {props.queryHistory.length > 0 ? (
             props.queryHistory.slice(0, 10).map((query, index) => (
               <li
                 key={index}
                 onClick={() => props.goToQuery(query)}
-                className="queryHistoryLi"
+                className="mb-4 cursor-pointer hover:underline"
               >
                 {query.text ? (
                   <div>

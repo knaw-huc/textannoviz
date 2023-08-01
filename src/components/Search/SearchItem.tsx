@@ -7,7 +7,7 @@ interface SearchItemProps {
 
 export const SearchItem = (props: SearchItemProps) => {
   return (
-    <ul>
+    <ul className="border-brand1Grey-500 mb-4 border-b">
       <li className="mb-3 text-base">
         {props.result.sessionWeekday}{" "}
         <strong className="font-semibold">
