@@ -276,6 +276,8 @@ export const Detail = (props: DetailProps) => {
           showSearchResultsDisabled={
             globalSearchResults === undefined ? true : false
           }
+          facsimileShowState={showIiifViewer}
+          panelShowState={showAnnotationPanel}
         />
       </div>
     </>

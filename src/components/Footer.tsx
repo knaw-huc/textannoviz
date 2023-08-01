@@ -11,6 +11,8 @@ type FooterProps = {
   showAnnotationPanelHandler: () => void;
   showSearchResultsHandler: () => void;
   showSearchResultsDisabled: boolean;
+  facsimileShowState: boolean;
+  panelShowState: boolean;
 };
 
 export const Footer = (props: FooterProps) => {
@@ -38,7 +40,9 @@ export const Footer = (props: FooterProps) => {
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
             onClick={props.showIiifViewerHandler}
           >
-            Toggle facsimile
+            {props.facsimileShowState === true
+              ? "Hide facsimile"
+              : "Show facsimile"}
           </button>
         </div>
         <div className="flex w-full flex-row justify-between lg:w-2/5">
@@ -51,7 +55,7 @@ export const Footer = (props: FooterProps) => {
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
             onClick={props.showAnnotationPanelHandler}
           >
-            Toggle info{" "}
+            {props.panelShowState === true ? "Hide info" : "Show info"}{" "}
             <InformationCircleIcon className="inline h-5 w-5 fill-neutral-500" />
           </button>
         </div>
