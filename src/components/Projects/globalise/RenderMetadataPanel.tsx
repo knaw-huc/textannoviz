@@ -13,9 +13,9 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   );
 
   return (
-    <ul className="metadataPanelUl">
-      <li className="metadataPanelLi">
-        <div className="metadataPanelLiContent">
+    <ul className="m-0 list-none p-0">
+      <li className="mb-8">
+        <div className="grid grid-cols-1">
           <strong>Document: </strong>
           {(documentAnno[0].body as DocumentBody).metadata.document}
         </div>
