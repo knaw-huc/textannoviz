@@ -54,7 +54,7 @@ export const TextPanel = (props: TextPanelProps) => {
           }}
           onClick={() => props.closePanelHandler(props.panel)}
         />
-        <strong className="mb-4 block border-b-2">
+        <strong className="text-brand1Grey-800 mb-4 block border-b-2">
           {(projectConfig &&
             projectConfig.textPanelTitles &&
             projectConfig.textPanelTitles[`${props.panel}`]) ??
