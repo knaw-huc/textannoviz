@@ -67,7 +67,7 @@ export function Annotation(props: AnnotationProps) {
         />{" "}
         <AnnotationFilter />
       </ButtonsStyled> */}
-      <Tabs className="flex flex-col">
+      <Tabs className="flex h-full flex-col">
         <TabList
           aria-label="annotation-panel"
           className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"
@@ -85,7 +85,7 @@ export function Annotation(props: AnnotationProps) {
             Web annotations
           </Tab>
         </TabList>
-        <TabPanel id="metadata" className="text-brand1-800 p-5">
+        <TabPanel id="metadata" className="text-brand1-800 h-full p-5">
           {annotations.length > 0 && !props.isLoading ? (
             projectConfig?.renderMetadataPanel(annotations)
           ) : (
