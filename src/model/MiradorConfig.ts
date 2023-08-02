@@ -1,6 +1,8 @@
-export interface MiradorConfig {
+export type MiradorConfig = {
   id: string;
   window: {
+    allowClose: boolean;
+    allowWindowSideBar: boolean;
     allowFullscreen: boolean;
     highlightAllAnnotations: boolean;
     forceDrawAnnotations: boolean;
@@ -20,4 +22,4 @@ export interface MiradorConfig {
   workspaceControlPanel: {
     enabled: boolean;
   };
-}
+};
