@@ -278,6 +278,7 @@ export const Detail = (props: DetailProps) => {
           }
           facsimileShowState={showIiifViewer}
           panelShowState={showAnnotationPanel}
+          searchResultsShowState={showSearchResults}
         />
       </div>
     </>

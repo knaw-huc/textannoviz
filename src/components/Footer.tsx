@@ -13,6 +13,7 @@ type FooterProps = {
   showSearchResultsDisabled: boolean;
   facsimileShowState: boolean;
   panelShowState: boolean;
+  searchResultsShowState: boolean;
 };
 
 export const Footer = (props: FooterProps) => {
@@ -30,11 +31,17 @@ export const Footer = (props: FooterProps) => {
             </Link>
           </button>
           <button
-            className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500 disabled:text-neutral-300"
+            className={`${
+              props.searchResultsShowState === true
+                ? "text-brand1-500"
+                : "text-neutral-500"
+            } hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 disabled:text-neutral-300`}
             onClick={props.showSearchResultsHandler}
             disabled={props.showSearchResultsDisabled}
           >
-            Show results
+            {props.searchResultsShowState === true
+              ? "Hide results"
+              : "Show results"}
           </button>
           <button
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
