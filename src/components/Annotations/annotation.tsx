@@ -59,7 +59,7 @@ export function Annotation(props: AnnotationProps) {
   }, [params.tier0, params.tier1]);
 
   return (
-    <div className="border-brand1Grey-100 relative hidden w-1/5 grow self-stretch border-x md:block">
+    <div className="border-brand1Grey-100 relative hidden w-2/12 grow self-stretch border-x md:block">
       {/* <AnnotationLinks /> */}
       {/* <ButtonsStyled>
         <AnnotationButtons

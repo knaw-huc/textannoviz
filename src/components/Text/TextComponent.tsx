@@ -58,7 +58,7 @@ export const TextComponent = (props: TextComponentProps) => {
   }
 
   return (
-    <div className="relative w-2/5 grow self-stretch">
+    <div className="relative w-6/12 grow self-stretch">
       {/* <div className=" bg-brand1-50 grid h-full grid-cols-[720px] grid-rows-[100%] gap-x-2 overflow-x-auto"> */}
       {/* <TextTopBar /> */}
       <ToggleTextPanels
