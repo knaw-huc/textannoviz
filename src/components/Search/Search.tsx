@@ -574,10 +574,10 @@ export const Search = (props: SearchProps) => {
           <div className=" mb-8 flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
               {searchResults &&
-                `Showing ${elasticFrom + 1}-${Math.min(
+                `${elasticFrom + 1}-${Math.min(
                   elasticFrom + elasticSize,
                   searchResults.total.value,
-                )} of ${searchResults.total.value} results`}
+                )} van ${searchResults.total.value} resultaten`}
             </span>
             <div className="flex items-center justify-between gap-10">
               <SearchSortBy
@@ -626,7 +626,7 @@ export const Search = (props: SearchProps) => {
             <SearchItem key={index} result={result} />
           ))
         ) : (
-          <div className="italic">No results</div>
+          <div className="italic">Geen resultaten</div>
         )}
         {searchResults && (
           <nav aria-label="Pagination" className="my-6">
@@ -640,12 +640,12 @@ export const Search = (props: SearchProps) => {
                   }
                   onPress={prevPageClickHandler}
                 >
-                  Prev
+                  Vorige
                 </Button>
               </li>
               <li>
                 <div className="text-brand1Grey-800 relative block bg-transparent px-3 py-1.5">
-                  {`Page: ${pageNumber} of ${Math.ceil(
+                  {`${pageNumber} van ${Math.ceil(
                     searchResults.total.value / elasticSize,
                   )}`}
                 </div>
@@ -659,7 +659,7 @@ export const Search = (props: SearchProps) => {
                   }
                   onPress={nextPageClickHandler}
                 >
-                  Next
+                  Volgende
                 </Button>
               </li>
             </ul>

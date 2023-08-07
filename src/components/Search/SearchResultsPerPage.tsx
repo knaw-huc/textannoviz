@@ -6,7 +6,7 @@ interface SearchResultsPerPageProps {
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   return (
     <div className="flex items-center">
-      <div className="mr-1 text-sm">Results per page</div>
+      <div className="mr-1 text-sm">Resultaten per pagina</div>
       <select
         value={props.value}
         onChange={props.onChange}

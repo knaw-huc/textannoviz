@@ -6,15 +6,15 @@ interface SearchSortByProps {
 export const SearchSortBy = (props: SearchSortByProps) => {
   return (
     <div className="flex items-center">
-      <div className="mr-1 text-sm">Sort by</div>
+      <div className="mr-1 text-sm">Sorteren op</div>
       <select
         className="border-brand1Grey-700 rounded border bg-white px-2 py-1 text-sm"
         value={props.value}
         onChange={props.onChange}
       >
-        <option value="_score">Relevance</option>
-        <option value="dateAsc">Date (asc)</option>
-        <option value="dateDesc">Date (desc)</option>
+        <option value="_score">Relevantie</option>
+        <option value="dateAsc">Datum (oplopend)</option>
+        <option value="dateDesc">Datum (aflopend)</option>
       </select>
     </div>
   );
