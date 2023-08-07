@@ -102,18 +102,22 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
     if (broccoliAttendanceList.length > 0) {
       return (
-        <div className={gridOneColumn}>
+        <div className={gridOneColumn + "divide divide-y"}>
           {(
             broccoliAttendanceList[0].body as AttendanceListBody
           ).attendanceSpans.map((attendant, index) =>
             attendant.delegateName !== "" ? (
-              <li key={index} className="">
+              <li
+                key={index}
+                className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
+              >
                 {<UserIcon className="inline h-3 w-3" />}
                 <a
                   title="Link"
                   rel="noreferrer"
                   target="_blank"
                   href={`${HOSTS.RAA}/${attendant.delegateId}`}
+                  className="hover:text-brand1-900 text-inherit no-underline hover:underline"
                 >
                   {attendant.delegateName}
                 </a>
