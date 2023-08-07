@@ -11,6 +11,7 @@ import { Detail } from "./Detail";
 import { ErrorPage } from "./error-page";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
+import { useProjectStore } from "./stores/project";
 import { getElasticIndices, sendSearchQuery } from "./utils/broccoli";
 
 const project: string = import.meta.env.VITE_PROJECT;
@@ -51,8 +52,10 @@ export default function App() {
   const setAnnotationTypesToInclude = useAnnotationStore(
     (state) => state.setAnnotationTypesToInclude,
   );
+  const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
 
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
+  setProjectConfig(config);
   return (
     <>
       <Header project={project} />

@@ -40,7 +40,7 @@ export const Detail = (props: DetailProps) => {
   const [showAnnotationPanel, setShowAnnotationPanel] = React.useState(true);
   const [count, setCount] = React.useState(0);
   const setProjectName = useProjectStore((state) => state.setProjectName);
-  const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
+
   const setStore = useMiradorStore((state) => state.setStore);
   const setCurrentContext = useMiradorStore((state) => state.setCurrentContext);
   const setCanvas = useMiradorStore((state) => state.setCanvas);
@@ -68,7 +68,6 @@ export const Detail = (props: DetailProps) => {
       setStore(viewer.store);
 
       setProjectName(props.project);
-      setProjectConfig(props.config);
 
       const newCanvas = {
         canvasIds: broccoli.iiif.canvasIds,
@@ -129,12 +128,10 @@ export const Detail = (props: DetailProps) => {
       params.tier0,
       params.tier1,
       params.tier2,
-      props.config,
       props.project,
       setAnnotations,
       setCanvas,
       setCurrentContext,
-      setProjectConfig,
       setProjectName,
       setStore,
       setViews,
