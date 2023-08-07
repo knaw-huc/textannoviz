@@ -428,7 +428,16 @@ export const Search = (props: SearchProps) => {
                       }
                       checked={checkboxStates.get(key) ?? false}
                     />
-                    <label htmlFor={key}>{facetValueName}</label>
+                    <label htmlFor={key}>
+                      {/^[a-z]/.test(facetValueName)
+                        ? facetValueName.charAt(0).toUpperCase() +
+                          facetValueName.slice(1)
+                        : facetValueName &&
+                          (props.projectConfig.facetsTranslation![
+                            facetValueName
+                          ] ??
+                            facetValueName)}
+                    </label>
                   </div>
                   <div className="text-sm text-neutral-500">
                     {facetValueAmount}
@@ -449,9 +458,9 @@ export const Search = (props: SearchProps) => {
           key={index}
           className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row"
         >
-          <div>
+          <div className="flex w-full flex-col">
             <label htmlFor="start" className="font-semibold">
-              From date
+              Van
             </label>
             <input
               className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
@@ -463,9 +472,9 @@ export const Search = (props: SearchProps) => {
               onChange={(event) => setDateFrom(event.target.value)}
             />
           </div>
-          <div>
+          <div className="flex w-full flex-col">
             <label htmlFor="end" className="font-semibold">
-              Till date
+              Tot en met
             </label>
             <input
               className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
@@ -515,7 +524,7 @@ export const Search = (props: SearchProps) => {
       <div className="hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10">
         <div className="w-full max-w-[450px]">
           <label htmlFor="fullText" className="font-semibold">
-            Search for text
+            Vrij zoeken
           </label>
           <div className="flex w-full flex-row">
             <FullTextFacet

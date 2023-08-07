@@ -52,15 +52,25 @@ export const republicConfig: ProjectConfig = {
   initialDateTo: "1728-12-31",
   searchFacetTitles: {
     sessionDate: "Date",
-    sessionWeekday: "Weekday",
-    bodyType: "Body type",
-    propositionType: "Proposition type",
+    sessionWeekday: "Weekdag",
+    bodyType: "Type",
+    propositionType: "Propositie type",
   },
   textPanelTitles: {
     self: "Full text",
   },
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
+  facetsTranslation: {
+    Lunae: "Maandag",
+    Martis: "Dinsdag",
+    Mercurii: "Woensdag",
+    Jovis: "Donderdag",
+    Veneris: "Vrijdag",
+    Sabbathi: "Zaterdag",
+    Resolution: "Resolutie",
+    AttendanceList: "Presentielijst",
+  },
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
