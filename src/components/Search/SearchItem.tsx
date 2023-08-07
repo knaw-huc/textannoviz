@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
 import { SearchResultBody } from "../../model/Search";
+import { useProjectStore } from "../../stores/project";
 
 interface SearchItemProps {
   result: SearchResultBody;
 }
 
 export const SearchItem = (props: SearchItemProps) => {
+  const projectConfig = useProjectStore((state) => state.projectConfig);
+  console.log(projectConfig);
+
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
-        {props.result.sessionWeekday}{" "}
+        {(projectConfig &&
+          projectConfig.facetsTranslation![props.result.sessionWeekday]) ??
+          props.result.sessionWeekday}{" "}
         <strong className="font-semibold">
           {props.result.sessionDay}
           {"-"}
