@@ -607,7 +607,15 @@ export const Search = (props: SearchProps) => {
                       {(props.projectConfig.searchFacetTitles &&
                         props.projectConfig.searchFacetTitles[facetName]) ??
                         facetName}
-                      : {facetValueName}{" "}
+                      :{" "}
+                      {/^[a-z]/.test(facetValueName)
+                        ? facetValueName.charAt(0).toUpperCase() +
+                          facetValueName.slice(1)
+                        : (facetValueName &&
+                            props.projectConfig.facetsTranslation![
+                              facetValueName
+                            ]) ??
+                          facetValueName}{" "}
                       {
                         <XMarkIcon
                           className="h-5 w-5"
