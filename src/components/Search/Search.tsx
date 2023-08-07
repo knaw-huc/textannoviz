@@ -532,6 +532,7 @@ export const Search = (props: SearchProps) => {
               enterPressedHandler={fullTextEnterPressedHandler}
               value={fullText}
               className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
+              placeholder="Druk op ENTER om te zoeken"
             />
             <Button
               className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
