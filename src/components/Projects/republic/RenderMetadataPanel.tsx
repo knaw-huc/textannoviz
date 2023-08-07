@@ -74,12 +74,15 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
     if (attendanceList) {
       return (
-        <div className={gridOneColumn}>
+        <div className={gridOneColumn + "divide divide-y"}>
           {(
             attendanceList.anno[0].body as AttendanceListBody
           ).attendanceSpans.map((attendant, index) =>
             attendant.delegateName !== "" ? (
-              <li key={index}>
+              <li
+                key={index}
+                className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
+              >
                 {<UserIcon className="inline h-3 w-3" />}
                 <a
                   title="Link"
@@ -90,6 +93,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                       ? `${HOSTS.RAA}/${attendant.delegateId}`
                       : undefined
                   }
+                  className="hover:text-brand1-900 text-inherit no-underline hover:underline"
                 >
                   {attendant.delegateName}
                 </a>
@@ -116,7 +120,11 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                   title="Link"
                   rel="noreferrer"
                   target="_blank"
-                  href={`${HOSTS.RAA}/${attendant.delegateId}`}
+                  href={
+                    attendant.delegateId > 0
+                      ? `${HOSTS.RAA}/${attendant.delegateId}`
+                      : undefined
+                  }
                   className="hover:text-brand1-900 text-inherit no-underline hover:underline"
                 >
                   {attendant.delegateName}
@@ -135,10 +143,12 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
         <ul className="m-0 list-none p-0">
           <li className="mb-8">
             <div className={gridOneColumn}>
-              <strong>Date: </strong>
-              {
-                (resolution[0].body as ResolutionBody).metadata.sessionWeekday
-              }{" "}
+              <strong>Datum: </strong>
+              {(projectConfig &&
+                projectConfig.facetsTranslation![
+                  (session[0].body as SessionBody).metadata.sessionWeekday
+                ]) ??
+                (session[0].body as SessionBody).metadata.sessionWeekday}{" "}
               {(resolution[0].body as ResolutionBody).metadata.sessionDay}
               {"-"}
               {(resolution[0].body as ResolutionBody).metadata.sessionMonth}
@@ -148,7 +158,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
           </li>
           <li className="mb-8">
             <div className={gridOneColumn}>
-              <strong>Proposition type: </strong>
+              <strong>Propositie type: </strong>
               {(resolution[0].body as ResolutionBody).metadata.propositionType
                 .charAt(0)
                 .toUpperCase() +
@@ -159,7 +169,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
           </li>
           <li className="mb-8">
             <div className={gridOneColumn}>
-              <strong>Resolution type: </strong>
+              <strong>Resolutie type: </strong>
               {(resolution[0].body as ResolutionBody).metadata.resolutionType
                 .charAt(0)
                 .toUpperCase() +
@@ -168,7 +178,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                 ).metadata.resolutionType.slice(1)}
             </div>
           </li>
-          <strong>Attendants: </strong>
+          <strong>Aanwezigen: </strong>
           {renderAttendants()}
         </ul>
       </>
@@ -185,7 +195,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
         <ul className="m-0 list-none p-0">
           <li className="mb-8">
             <div className={gridOneColumn}>
-              <strong>Date: </strong>
+              <strong>Datum: </strong>
               {
                 (broccoliAttendanceList[0].body as AttendanceListBody).metadata
                   .sessionWeekday
@@ -218,8 +228,12 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
       <ul className="m-0 list-none p-0">
         <li className="mb-8">
           <div className={gridOneColumn}>
-            <strong>Date: </strong>
-            {(session[0].body as SessionBody).metadata.sessionWeekday}{" "}
+            <strong>Datum: </strong>
+            {(projectConfig &&
+              projectConfig.facetsTranslation![
+                (session[0].body as SessionBody).metadata.sessionWeekday
+              ]) ??
+              (session[0].body as SessionBody).metadata.sessionWeekday}{" "}
             {(session[0].body as SessionBody).metadata.sessionDay}
             {"-"}
             {(session[0].body as SessionBody).metadata.sessionMonth}
@@ -239,7 +253,7 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
             {(scan[0].body as ScanBody).metadata.opening}
           </div>
         </li>
-        <strong>Attendants: </strong>
+        <strong>Aanwezigen: </strong>
         {renderAttendants()}
       </ul>
     );

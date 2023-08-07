@@ -27,7 +27,7 @@ export const Footer = (props: FooterProps) => {
               className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
             >
               <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
-              Back to search
+              Terug naar zoekscherm
             </Link>
           </button>
           <button
@@ -40,16 +40,16 @@ export const Footer = (props: FooterProps) => {
             disabled={props.showSearchResultsDisabled}
           >
             {props.searchResultsShowState === true
-              ? "Hide results"
-              : "Show results"}
+              ? "Verberg zoekresultaten"
+              : "Toon zoekresultaten"}
           </button>
           <button
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
             onClick={props.showIiifViewerHandler}
           >
             {props.facsimileShowState === true
-              ? "Hide facsimile"
-              : "Show facsimile"}
+              ? "Verberg facsimile"
+              : "Toon facsimile"}
           </button>
         </div>
         <div className="flex w-full flex-row justify-between lg:w-2/5">
@@ -62,7 +62,7 @@ export const Footer = (props: FooterProps) => {
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
             onClick={props.showAnnotationPanelHandler}
           >
-            {props.panelShowState === true ? "Hide info" : "Show info"}{" "}
+            {props.panelShowState === true ? "Verberg info" : "Toon info"}{" "}
             <InformationCircleIcon className="inline h-5 w-5 fill-neutral-500" />
           </button>
         </div>
