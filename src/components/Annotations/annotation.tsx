@@ -32,7 +32,7 @@ export function Annotation(props: AnnotationProps) {
 
   React.useEffect(() => {
     if (
-      canvas &&
+      canvas.canvasIds.length > 0 &&
       annotations &&
       miradorStore &&
       projectConfig &&
