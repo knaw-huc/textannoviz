@@ -54,6 +54,13 @@ export const Detail = (props: DetailProps) => {
   );
   const params = useParams();
 
+  React.useEffect(() => {
+    if (showIiifViewer) {
+      const viewer = mirador.viewer(miradorConfig);
+      setStore(viewer.store);
+    }
+  }, [setStore, showIiifViewer]);
+
   const setState = React.useCallback(
     (broccoli: Broccoli, currentBodyId: string) => {
       setMiradorConfig(broccoli, props.project);
