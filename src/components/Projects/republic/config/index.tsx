@@ -57,7 +57,7 @@ export const republicConfig: ProjectConfig = {
     propositionType: "Propositie type",
   },
   textPanelTitles: {
-    self: "Full text",
+    self: "Tekst",
   },
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
