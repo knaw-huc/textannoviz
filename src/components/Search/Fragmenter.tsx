@@ -12,8 +12,8 @@ export const Fragmenter = (props: FragmenterProps) => {
         onChange={props.onChange}
         className="border-brand1Grey-700 rounded border bg-white px-2 py-1 text-sm"
       >
-        <option>Scan</option>
-        <option>Sentence</option>
+        <option value="Scan">Snippet</option>
+        {/* <option>Sentence</option> */}
         <option>None</option>
       </select>
     </div>
