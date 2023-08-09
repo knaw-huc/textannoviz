@@ -21,7 +21,7 @@ export const Header = (props: HeaderProps) => {
               </a>
             </span>
             <div className="bg-brand2-300 flex h-12 w-12 items-center justify-center">
-              <a title="Homepage" rel="noreferrer" target="_blank" href="/">
+              <a title="Homepage" rel="noreferrer" href="/">
                 <img src={logoUrl} className="h-7 w-7" />
               </a>
             </div>
