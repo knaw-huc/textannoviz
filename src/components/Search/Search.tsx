@@ -57,6 +57,9 @@ export const Search = (props: SearchProps) => {
   const setGlobalSearchResults = useSearchStore(
     (state) => state.setGlobalSearchResults,
   );
+  const setGlobalSearchQuery = useSearchStore(
+    (state) => state.setGlobalSearchQuery,
+  );
 
   React.useEffect(() => {
     const queryEncoded = searchParams.get("query");
@@ -121,6 +124,7 @@ export const Search = (props: SearchProps) => {
       setSortOrder(sortOrder);
       setFacets(data.aggs);
       setQuery(query);
+      setGlobalSearchQuery(query);
       setFragmenter(frag);
       if (query.date) {
         setDateFrom(query.date?.from);
@@ -199,6 +203,7 @@ export const Search = (props: SearchProps) => {
     setQuery(searchQuery);
     console.log(searchQuery);
     setQueryHistory([searchQuery, ...queryHistory]);
+    setGlobalSearchQuery(searchQuery);
 
     const data = await sendSearchQuery(
       searchQuery,

@@ -1,20 +1,15 @@
+import React from "react";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
-import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
+import { useSearchStore } from "../../stores/search";
 
-interface TextHighlightingProps {
+type TextHighlightingProps = {
   text: BroccoliTextGeneric;
-  highlightedLines: number[];
-}
+};
 
-export function TextHighlighting(props: TextHighlightingProps) {
+export const TextHighlighting = (props: TextHighlightingProps) => {
+  const globalSearchQuery = useSearchStore((state) => state.globalSearchQuery);
   const projectName = useProjectStore((state) => state.projectName);
-  const currentSelectedAnn = useAnnotationStore(
-    (state) => state.currentSelectedAnn,
-  );
-  const openAnnos = useAnnotationStore((state) => state.openAnn);
-
-  const classes = new Map<number, string[]>();
 
   const textLinesToDisplay: string[][] = [[]];
 
@@ -25,79 +20,46 @@ export function TextHighlighting(props: TextHighlightingProps) {
     textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
   });
 
-  if (props.text.locations) {
-    props.text.locations.annotations.forEach((it) => {
-      for (let i = it.start.line; i <= it.end.line; i++) {
-        if (classes.has(i)) {
-          classes.get(i)?.push(it.bodyId);
-        } else {
-          classes.set(i, [it.bodyId]);
-        }
+  function highlightMatches(text: string) {
+    if (globalSearchQuery) {
+      const regex = new RegExp(globalSearchQuery.text!, "gi");
+      const parts = text.split(regex);
+      const matches = text.match(regex);
+
+      if (!matches) {
+        return <p className="m-0 p-0">{text}</p>;
       }
-    });
-  }
 
-  if (currentSelectedAnn) {
-    const parentDOM = document.getElementById("textcontainer");
-    if (parentDOM) {
-      const target = parentDOM.getElementsByClassName(
-        `${currentSelectedAnn}`,
-      )[0];
-
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    }
-  }
-
-  let offset = 0;
-
-  function doOffset(length: number) {
-    offset = offset + length;
-  }
-
-  function collectClasses(index: number) {
-    const collectedClasses = new Set<string>();
-    if (props.highlightedLines.includes(index)) {
-      openAnnos.map((openAnn) => {
-        const indexClasses = classes.get(index);
-        if (indexClasses?.includes(openAnn.bodyId)) {
-          indexClasses.forEach((indexClass) =>
-            collectedClasses.add(indexClass),
-          );
-          collectedClasses.add("highlighted");
-        }
-      });
+      return (
+        <>
+          {parts.map((part, index) => (
+            <React.Fragment key={index}>
+              <>{part}</>
+              {index < matches.length && (
+                <span className="rounded bg-yellow-200 p-1">
+                  {matches[index]}
+                </span>
+              )}
+            </React.Fragment>
+          ))}
+        </>
+      );
     } else {
-      const indexClass = classes.get(index);
-      if (typeof indexClass === "object") {
-        collectedClasses.add(indexClass.join(" "));
+      if (projectName === "republic") {
+        return <p className="m-0 p-0">{text}</p>;
+      } else {
+        return <span>{text}</span>;
       }
     }
-
-    let classesAsStr = "";
-
-    collectedClasses.forEach(
-      (it: string) => (classesAsStr = classesAsStr.concat(it) + " "),
-    );
-
-    return classesAsStr;
   }
 
   return (
-    <div id="textcontainer">
-      {textLinesToDisplay.map((line, key) => (
-        <div key={key} className={`textLines-${projectName}`}>
-          {classes.size >= 1
-            ? line.map((token, index) => (
-                <span key={index} className={collectClasses(index + offset)}>
-                  {token}
-                </span>
-              ))
-            : line.map((token, index) => <span key={index}>{token}</span>)}
-          {doOffset(line.length)}
+    <>
+      {textLinesToDisplay.map((lines, index) => (
+        <div key={index} className="leading-loose">
+          {lines.map((line) => highlightMatches(line))}
         </div>
       ))}
-    </div>
+    </>
   );
-}
+};
