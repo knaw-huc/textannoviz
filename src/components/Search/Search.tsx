@@ -438,9 +438,10 @@ export const Search = (props: SearchProps) => {
                         ? facetValueName.charAt(0).toUpperCase() +
                           facetValueName.slice(1)
                         : facetValueName &&
-                          (props.projectConfig.facetsTranslation![
-                            facetValueName
-                          ] ??
+                          ((props.projectConfig.facetsTranslation &&
+                            props.projectConfig.facetsTranslation[
+                              facetValueName
+                            ]) ??
                             facetValueName)}
                     </label>
                   </div>
@@ -618,7 +619,8 @@ export const Search = (props: SearchProps) => {
                         ? facetValueName.charAt(0).toUpperCase() +
                           facetValueName.slice(1)
                         : (facetValueName &&
-                            props.projectConfig.facetsTranslation![
+                            props.projectConfig.facetsTranslation &&
+                            props.projectConfig.facetsTranslation[
                               facetValueName
                             ]) ??
                           facetValueName}{" "}

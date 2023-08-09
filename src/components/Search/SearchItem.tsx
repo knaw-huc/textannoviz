@@ -13,7 +13,8 @@ export const SearchItem = (props: SearchItemProps) => {
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
         {(projectConfig &&
-          projectConfig.facetsTranslation![props.result.sessionWeekday]) ??
+          projectConfig.facetsTranslation &&
+          projectConfig.facetsTranslation[props.result.sessionWeekday]) ??
           props.result.sessionWeekday}{" "}
         <strong className="font-semibold">
           {props.result.sessionDay}
@@ -30,7 +31,8 @@ export const SearchItem = (props: SearchItemProps) => {
         <li className="divide-rpBrand1grey-100 border-rpBrand1grey-50 hover:divide-rpBrand1grey-200 hover:border-rpBrand1grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
           <div className="p-4 font-semibold">
             {(projectConfig &&
-              projectConfig.facetsTranslation![props.result.bodyType]) ??
+              projectConfig.facetsTranslation &&
+              projectConfig.facetsTranslation[props.result.bodyType]) ??
               props.result.bodyType}
           </div>
           {props.result._hits &&
