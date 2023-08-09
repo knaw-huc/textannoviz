@@ -36,6 +36,21 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const gridOneColumn = "grid grid-cols-1";
 
+  const monthNumberToString: Record<number, string> = {
+    1: "januari",
+    2: "februari",
+    3: "maart",
+    4: "april",
+    5: "mei",
+    6: "juni",
+    7: "juli",
+    8: "augustus",
+    9: "september",
+    10: "oktober",
+    11: "november",
+    12: "december",
+  };
+
   React.useEffect(() => {
     const bodyTypes = props.annotations.map((anno) => anno.body.type);
     const session = props.annotations.filter(
@@ -149,10 +164,12 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                   (session[0].body as SessionBody).metadata.sessionWeekday
                 ]) ??
                 (session[0].body as SessionBody).metadata.sessionWeekday}{" "}
-              {(resolution[0].body as ResolutionBody).metadata.sessionDay}
-              {"-"}
-              {(resolution[0].body as ResolutionBody).metadata.sessionMonth}
-              {"-"}
+              {(resolution[0].body as ResolutionBody).metadata.sessionDay}{" "}
+              {
+                monthNumberToString[
+                  (resolution[0].body as ResolutionBody).metadata.sessionMonth
+                ]
+              }{" "}
               {(resolution[0].body as ResolutionBody).metadata.sessionYear}
             </div>
           </li>
@@ -203,13 +220,13 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
               {
                 (broccoliAttendanceList[0].body as AttendanceListBody).metadata
                   .sessionDay
-              }
-              {"-"}
+              }{" "}
               {
-                (broccoliAttendanceList[0].body as AttendanceListBody).metadata
-                  .sessionMonth
-              }
-              {"-"}
+                monthNumberToString[
+                  (broccoliAttendanceList[0].body as AttendanceListBody)
+                    .metadata.sessionMonth
+                ]
+              }{" "}
               {
                 (broccoliAttendanceList[0].body as AttendanceListBody).metadata
                   .sessionYear
@@ -234,10 +251,12 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
                 (session[0].body as SessionBody).metadata.sessionWeekday
               ]) ??
               (session[0].body as SessionBody).metadata.sessionWeekday}{" "}
-            {(session[0].body as SessionBody).metadata.sessionDay}
-            {"-"}
-            {(session[0].body as SessionBody).metadata.sessionMonth}
-            {"-"}
+            {(session[0].body as SessionBody).metadata.sessionDay}{" "}
+            {
+              monthNumberToString[
+                (session[0].body as SessionBody).metadata.sessionMonth
+              ]
+            }{" "}
             {(session[0].body as SessionBody).metadata.sessionYear}
           </div>
         </li>

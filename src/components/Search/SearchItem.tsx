@@ -9,6 +9,21 @@ interface SearchItemProps {
 export const SearchItem = (props: SearchItemProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
 
+  const monthNumberToString: Record<number, string> = {
+    1: "januari",
+    2: "februari",
+    3: "maart",
+    4: "april",
+    5: "mei",
+    6: "juni",
+    7: "juli",
+    8: "augustus",
+    9: "september",
+    10: "oktober",
+    11: "november",
+    12: "december",
+  };
+
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
@@ -17,10 +32,8 @@ export const SearchItem = (props: SearchItemProps) => {
           projectConfig.facetsTranslation[props.result.sessionWeekday]) ??
           props.result.sessionWeekday}{" "}
         <strong className="font-semibold">
-          {props.result.sessionDay}
-          {"-"}
-          {props.result.sessionMonth}
-          {"-"}
+          {props.result.sessionDay}{" "}
+          {monthNumberToString[props.result.sessionMonth]}{" "}
           {props.result.sessionYear}
         </strong>
       </li>
