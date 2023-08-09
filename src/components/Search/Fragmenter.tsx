@@ -6,15 +6,15 @@ interface FragmenterProps {
 export const Fragmenter = (props: FragmenterProps) => {
   return (
     <div className="flex items-center justify-between">
-      <label className="mr-1 font-semibold">Fragmenter </label>
+      <label className="mr-1 font-semibold">Highlighter context </label>
       <select
         value={props.value}
         onChange={props.onChange}
         className="border-brand1Grey-700 rounded border bg-white px-2 py-1 text-sm"
       >
-        <option value="Scan">Snippet</option>
+        <option value="scan">Snippet</option>
         {/* <option>Sentence</option> */}
-        <option>None</option>
+        <option value="none">Volledige tekst</option>
       </select>
     </div>
   );
