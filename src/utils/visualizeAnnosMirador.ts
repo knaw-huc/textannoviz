@@ -78,7 +78,7 @@ export const visualizeAnnosMirador = (
 
     const iiifAnnResources: iiifAnnResources[] = [
       {
-        "@id": `${annotations[i].id}`,
+        "@id": `${annotations[i].body.id}`,
         on: [
           {
             full: `${
@@ -115,6 +115,8 @@ export const visualizeAnnosMirador = (
       iiifAnn,
     ),
   );
+
+  console.log(iiifAnn);
 
   return iiifAnn;
 };
