@@ -1,7 +1,6 @@
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
-import { useSearchStore } from "../../stores/search";
 
 interface TextHighlightingProps {
   text: BroccoliTextGeneric;
@@ -14,30 +13,10 @@ export function TextHighlighting(props: TextHighlightingProps) {
     (state) => state.currentSelectedAnn,
   );
   const openAnnos = useAnnotationStore((state) => state.openAnn);
-  const globalSearchQuery = useSearchStore((state) => state.globalSearchQuery);
 
   const classes = new Map<number, string[]>();
 
   const textLinesToDisplay: string[][] = [[]];
-
-  // if (globalSearchQuery) {
-  //   // console.log(props.text.lines);
-
-  //   // for (const line of props.text.lines) {
-  //   //   const matches = line.matchAll(new RegExp(globalSearchQuery.text!, "gi"));
-
-  //   //   console.log(matches);
-  //   //   for (const match of matches) {
-  //   //     console.log(match);
-  //   //   }
-  //   // }
-
-  //   const regex = new RegExp(globalSearchQuery.text!, "gi");
-  //   const matches = props.text.lines.map((line) => {
-  //     return line.split(regex);
-  //   });
-  //   console.log(matches);
-  // }
 
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {
@@ -108,7 +87,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
   return (
     <div id="textcontainer">
       {textLinesToDisplay.map((line, key) => (
-        <div key={key} className={`textLines-${projectName}`}>
+        <div key={key} className={`textLines-${projectName} leading-loose`}>
           {classes.size >= 1
             ? line.map((token, index) => (
                 <span key={index} className={collectClasses(index + offset)}>

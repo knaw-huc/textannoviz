@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
-import { TextHighlighting } from "./TextHighlighting";
+import { TextHighlighting } from "./TextHighlighting2";
 
 type TextPanelProps = {
   panel: string;
