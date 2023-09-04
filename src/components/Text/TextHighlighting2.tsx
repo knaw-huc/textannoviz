@@ -1,5 +1,8 @@
+import mirador from "mirador";
+import React from "react";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
+import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
 
 interface TextHighlightingProps {
@@ -8,6 +11,7 @@ interface TextHighlightingProps {
 }
 
 export function TextHighlighting(props: TextHighlightingProps) {
+  const miradorStore = useMiradorStore((state) => state.miradorStore);
   const projectName = useProjectStore((state) => state.projectName);
   const currentSelectedAnn = useAnnotationStore(
     (state) => state.currentSelectedAnn,
@@ -84,13 +88,46 @@ export function TextHighlighting(props: TextHighlightingProps) {
     return classesAsStr;
   }
 
+  function selectAnn(event: React.MouseEvent<HTMLSpanElement>) {
+    const className = event.currentTarget.className;
+    const regex = /[^ ]*textline[^ ]*/;
+    const matches = className.match(regex);
+
+    if (matches) {
+      matches.forEach((match) => {
+        miradorStore.dispatch(
+          mirador.actions.selectAnnotation(projectName, match),
+        );
+      });
+    }
+  }
+
+  function deselectAnn(event: React.MouseEvent<HTMLSpanElement>) {
+    const className = event.currentTarget.className;
+    const regex = /[^ ]*textline[^ ]*/;
+    const matches = className.match(regex);
+
+    if (matches) {
+      matches.forEach((match) => {
+        miradorStore.dispatch(
+          mirador.actions.deselectAnnotation(projectName, match),
+        );
+      });
+    }
+  }
+
   return (
     <div id="textcontainer">
       {textLinesToDisplay.map((line, key) => (
         <div key={key} className={`textLines-${projectName} leading-loose`}>
           {classes.size >= 1
             ? line.map((token, index) => (
-                <span key={index} className={collectClasses(index + offset)}>
+                <span
+                  key={index}
+                  className={collectClasses(index + offset)}
+                  onMouseEnter={(event) => selectAnn(event)}
+                  onMouseLeave={(event) => deselectAnn(event)}
+                >
                   {token}
                 </span>
               ))

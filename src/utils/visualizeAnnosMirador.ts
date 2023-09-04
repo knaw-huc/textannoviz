@@ -116,7 +116,5 @@ export const visualizeAnnosMirador = (
     ),
   );
 
-  console.log(iiifAnn);
-
   return iiifAnn;
 };
