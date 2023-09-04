@@ -33,19 +33,15 @@ export interface SearchResultBody {
   }[];
 }
 
-export interface Indices {
+export type Indices = {
   [key: string]: {
     [key: string]: string;
   };
-}
+};
 
-export interface FacetValue {
-  [key: string]: number;
-}
+export type FacetValue = Record<string, number>;
 
-export interface Facets {
-  [key: string]: FacetValue;
-}
+export type Facets = Record<string, FacetValue>;
 
 export type SearchQuery =
   | {
