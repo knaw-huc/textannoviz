@@ -1,7 +1,6 @@
 import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
-import { selectDistinctBodyTypes } from "../../../../utils/broccoli";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetHome } from "../GetHome";
@@ -13,7 +12,6 @@ export const mondriaanConfig: ProjectConfig = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
   relativeTo: "tf:Letter",
-  annotationTypes: await selectDistinctBodyTypes("mondriaan"),
   annotationTypesToInclude: [
     // "nlp:Sentence",
     // "nlp:Token",

@@ -1,7 +1,6 @@
 import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
-import { selectDistinctBodyTypes } from "../../../../utils/broccoli";
 import { createIndices } from "../../../../utils/createIndices";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
@@ -20,7 +19,6 @@ export const globaliseConfig: ProjectConfig = {
   },
 
   relativeTo: "px:Page",
-  annotationTypes: await selectDistinctBodyTypes("globalise"),
   annotationTypesToInclude: [
     "px:Page",
     "px:TextLine",

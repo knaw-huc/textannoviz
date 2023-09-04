@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
+import { selectDistinctBodyTypes } from "../../utils/broccoli";
 
 export const AnnotationFilter = () => {
   const [isOpen, setOpen] = React.useState(false);
@@ -13,12 +14,21 @@ export const AnnotationFilter = () => {
     (state) => state.annotationTypesToInclude,
   );
   const ref = React.useRef<HTMLSelectElement>(null);
+  const [annotationTypes, setAnnotationTypes] = React.useState<string[]>([]);
 
   React.useEffect(() => {
+    async function fetchAnnotationTypes() {
+      const annotationTypes = await selectDistinctBodyTypes(projectConfig!.id);
+      setAnnotationTypes(annotationTypes);
+    }
+
     if (isOpen) {
+      if (annotationTypes.length === 0) {
+        fetchAnnotationTypes();
+      }
       ref.current?.focus();
     }
-  }, [isOpen]);
+  }, [annotationTypes.length, isOpen, projectConfig]);
 
   const buttonClickHandler = () => {
     if (!isOpen) {
@@ -57,7 +67,7 @@ export const AnnotationFilter = () => {
                 onChange={changeHandler}
                 style={{ height: "200px", width: "150px" }}
               >
-                {projectConfig.annotationTypes.map((annType, index) => {
+                {annotationTypes.map((annType, index) => {
                   return (
                     <option
                       key={index}
