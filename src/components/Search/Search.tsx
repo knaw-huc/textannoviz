@@ -8,7 +8,6 @@ import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   FacetValue,
   Facets,
-  Indices,
   SearchQuery,
   SearchResult,
 } from "../../model/Search";
@@ -23,8 +22,8 @@ import { SearchSortBy } from "./SearchSortBy";
 type SearchProps = {
   project: string;
   projectConfig: ProjectConfig;
-  indices: Indices;
-  facets: Facets;
+  // indices: Indices;
+  // facets: Facets;
   indexName: string;
   searchFacetTitles: Record<string, string>;
 };

@@ -12,7 +12,6 @@ import { ErrorPage } from "./error-page";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
 import { useProjectStore } from "./stores/project";
-import { getElasticIndices, sendSearchQuery } from "./utils/broccoli";
 
 const project: string = import.meta.env.VITE_PROJECT;
 let config!: ProjectConfig;
@@ -29,8 +28,8 @@ switch (project) {
     break;
 }
 
-const indices = await getElasticIndices(config);
-const { aggs } = await sendSearchQuery({}, "Scan", 0, 0, config);
+// const indices = await getElasticIndices(config);
+// const { aggs } = await sendSearchQuery({}, "Scan", 0, 0, config);
 
 const router = createBrowserRouter(
   config.createRouter(
@@ -39,8 +38,8 @@ const router = createBrowserRouter(
     <Search
       project={project}
       projectConfig={config}
-      indices={indices}
-      facets={aggs}
+      // indices={indices}
+      // facets={aggs}
       indexName={config.elasticIndexName ?? ""}
       searchFacetTitles={config.searchFacetTitles ?? {}}
     />,
