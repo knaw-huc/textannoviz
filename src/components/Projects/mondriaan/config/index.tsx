@@ -10,6 +10,7 @@ import { getAnnotationItem } from "../getAnnotationItem";
 
 export const mondriaanConfig: ProjectConfig = {
   id: "mondriaan",
+  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
   relativeTo: "tf:Letter",
   annotationTypes: await selectDistinctBodyTypes("mondriaan"),

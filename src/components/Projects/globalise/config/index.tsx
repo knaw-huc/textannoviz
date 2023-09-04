@@ -11,6 +11,7 @@ import { getAnnotationItem } from "../getAnnotationItem";
 
 export const globaliseConfig: ProjectConfig = {
   id: "globalise",
+  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
 
   colours: {
     textregion: "white",

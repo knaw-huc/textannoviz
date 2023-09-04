@@ -7,38 +7,6 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export const fetchBroccoliBodyId = async (
-  bodyId: string,
-  config: ProjectConfig,
-) => {
-  const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}`,
-  );
-  if (!response.ok) {
-    const error = await response.json();
-    toast(`${error.message}`, { type: "error" });
-    return null;
-  }
-  return response.json();
-};
-
-export const fetchBroccoliBodyIdRelativeTo = async (
-  bodyId: string,
-  relativeTo: string,
-  includeResults: string[],
-  config: ProjectConfig,
-) => {
-  const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?includeResults=${includeResults}&relativeTo=${relativeTo}`,
-  );
-  if (!response.ok) {
-    const error = await response.json();
-    toast(`${error.message}`, { type: "error" });
-    return null;
-  }
-  return response.json();
-};
-
 export const fetchBroccoliBodyIdOfScan = async (
   tier0: string,
   tier1: string,
@@ -50,7 +18,7 @@ export const fetchBroccoliBodyIdOfScan = async (
   }
 
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${config.scanAnnotation}/${tier0}/${tier1}?includeResults=bodyId`,
+    `${config.broccoliUrl}/projects/${config.id}/${config.scanAnnotation}/${tier0}/${tier1}?includeResults=bodyId`,
   );
   if (!response.ok) {
     const error = await response.json();
@@ -69,7 +37,7 @@ export const fetchBroccoliScanWithOverlap = async (
   config: ProjectConfig,
 ) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`,
+    `${config.broccoliUrl}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`,
   );
   if (!response.ok) {
     const error = await response.json();
@@ -109,7 +77,7 @@ export const sendSearchQuery = async (
   });
 
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/projects/${projectConfig.id}/search?${params}`,
+    `${projectConfig.broccoliUrl}/projects/${projectConfig.id}/search?${params}`,
     {
       method: "POST",
       headers: headers,
@@ -132,21 +100,9 @@ export const sendSearchQuery = async (
   return data;
 };
 
-export const getFacets = async (projectConfig: ProjectConfig) => {
-  const response = await fetch(
-    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/facets`,
-  );
-  if (!response.ok) {
-    const error = await response.json();
-    toast(`${error.message}`, { type: "error" });
-    return null;
-  }
-  return response.json();
-};
-
 export const getElasticIndices = async (projectConfig: ProjectConfig) => {
   const response = await fetch(
-    `${HOSTS.BROCCOLI}/brinta/${projectConfig.id}/indices`,
+    `${projectConfig.broccoliUrl}/brinta/${projectConfig.id}/indices`,
   );
   if (!response.ok) {
     const error = await response.json();

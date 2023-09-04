@@ -2,6 +2,7 @@ import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
 export type ProjectConfig = {
   id: string;
+  broccoliUrl: string;
   colours: {
     [key: string]: string;
   };

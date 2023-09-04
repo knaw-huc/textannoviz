@@ -11,6 +11,7 @@ import { getAnnotationItem } from "../getAnnotationItem";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
+  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
 
   colours: {
     resolution: "green",
