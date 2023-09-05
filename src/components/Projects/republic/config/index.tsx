@@ -61,7 +61,7 @@ export const republicConfig: ProjectConfig = {
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
   facetsTranslation: {
-    Lunae: "Maandag",
+    Lunæ: "Maandag",
     Martis: "Dinsdag",
     Mercurii: "Woensdag",
     Jovis: "Donderdag",
