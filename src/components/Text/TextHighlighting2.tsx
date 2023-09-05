@@ -4,6 +4,7 @@ import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
+import { matchString } from "../../utils/matchString";
 
 interface TextHighlightingProps {
   text: BroccoliTextGeneric;
@@ -90,8 +91,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
 
   function selectAnn(event: React.MouseEvent<HTMLSpanElement>) {
     const className = event.currentTarget.className;
-    const regex = /[^ ]*textline[^ ]*/;
-    const matches = className.match(regex);
+    const matches = matchString(className, /[^ ]*textline[^ ]*/);
 
     if (matches) {
       matches.forEach((match) => {
@@ -104,8 +104,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
 
   function deselectAnn(event: React.MouseEvent<HTMLSpanElement>) {
     const className = event.currentTarget.className;
-    const regex = /[^ ]*textline[^ ]*/;
-    const matches = className.match(regex);
+    const matches = matchString(className, /[^ ]*textline[^ ]*/);
 
     if (matches) {
       matches.forEach((match) => {
