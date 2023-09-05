@@ -3,9 +3,7 @@ import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 export type ProjectConfig = {
   id: string;
   broccoliUrl: string;
-  colours: {
-    [key: string]: string;
-  };
+  colours: Record<string, string>;
   relativeTo: string;
   annotationTypesToInclude: string[];
   annotationTypesTitles?: Record<string, string>;

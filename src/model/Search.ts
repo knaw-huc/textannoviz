@@ -46,9 +46,7 @@ export type Facets = Record<string, FacetValue>;
 export type SearchQuery =
   | {
       text?: string;
-      terms: {
-        [key: string]: string[];
-      };
+      terms: Record<string, string[]>;
       aggs?: string[];
       date?: {
         from: string;
