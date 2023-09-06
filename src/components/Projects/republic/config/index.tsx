@@ -47,8 +47,8 @@ export const republicConfig: ProjectConfig = {
   bodyType: ["Session", "Resolution", "Attendant"],
   scanAnnotation: "Scan",
   elasticIndexName: "resolutions",
-  initialDateFrom: "1728-01-01",
-  initialDateTo: "1728-12-31",
+  initialDateFrom: "1705-01-01",
+  initialDateTo: "1799-12-31",
   searchFacetTitles: {
     sessionDate: "Date",
     sessionWeekday: "Weekdag",

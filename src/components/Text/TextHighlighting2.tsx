@@ -118,7 +118,7 @@ export function TextHighlighting(props: TextHighlightingProps) {
   return (
     <div id="textcontainer">
       {textLinesToDisplay.map((line, key) => (
-        <div key={key} className={`textLines-${projectName} leading-loose`}>
+        <div key={key} className={`grid leading-loose`}>
           {classes.size >= 1
             ? line.map((token, index) => (
                 <span

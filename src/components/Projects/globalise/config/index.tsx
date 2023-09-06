@@ -18,18 +18,16 @@ export const globaliseConfig: ProjectConfig = {
     entity: "green",
   },
 
-  relativeTo: "px:Page",
+  relativeTo: "na:File",
   annotationTypesToInclude: [
+    "na:File",
     "px:Page",
     "px:TextLine",
     "px:TextRegion",
-    "tt:Entity",
-    "tt:Paragraph",
-    "Document",
   ],
-  tier: ["documents", "openings"],
-  bodyType: ["px:TextLine", "px:TextRegion", "tt:Paragraph", "tt:Entity"],
-  scanAnnotation: "px:Page",
+  tier: [],
+  bodyType: [],
+  scanAnnotation: "na:File",
   documents: [
     {
       docNr: "43",
