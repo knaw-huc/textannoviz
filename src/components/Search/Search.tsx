@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import React from "react";
-import { Button } from "react-aria-components";
+import { Button, Switch } from "react-aria-components";
 import { Link, useSearchParams } from "react-router-dom";
 import { FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
@@ -53,6 +53,7 @@ export const Search = (props: SearchProps) => {
   );
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
   const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
+  const [includeDate, setIncludeDate] = React.useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const setGlobalSearchResults = useSearchStore(
     (state) => state.setGlobalSearchResults,
@@ -192,13 +193,15 @@ export const Search = (props: SearchProps) => {
       });
     });
 
-    getDateFacets().map(([facetName]) => {
-      searchQuery["date"] = {
-        name: facetName,
-        from: dateFrom,
-        to: dateTo,
-      };
-    });
+    if (includeDate) {
+      getDateFacets().map(([facetName]) => {
+        searchQuery["date"] = {
+          name: facetName,
+          from: dateFrom,
+          to: dateTo,
+        };
+      });
+    }
 
     setQuery(searchQuery);
     console.log(searchQuery);
@@ -465,6 +468,7 @@ export const Search = (props: SearchProps) => {
           className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row"
         >
           <div className="flex w-full flex-col">
+            <div className="flex items-center"></div>
             <label htmlFor="start" className="font-semibold">
               Van
             </label>
@@ -571,6 +575,15 @@ export const Search = (props: SearchProps) => {
         </div>
         <div className="w-full max-w-[450px]">
           <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
+        </div>
+        <div className="w-full max-w-[450px]">
+          <Switch
+            onChange={() => setIncludeDate(!includeDate)}
+            isSelected={includeDate}
+          >
+            <div className="indicator" />
+            <p>{includeDate ? "Exclude" : "Include"} date facet in query</p>
+          </Switch>
         </div>
         {renderDateFacets()}
         {checkboxStates.size > 0 && renderKeywordFacets()}
