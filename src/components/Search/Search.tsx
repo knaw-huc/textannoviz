@@ -585,7 +585,7 @@ export const Search = (props: SearchProps) => {
             <p>{includeDate ? "Exclude" : "Include"} date facet in query</p>
           </Switch>
         </div>
-        {renderDateFacets()}
+        {includeDate ? renderDateFacets() : null}
         {checkboxStates.size > 0 && renderKeywordFacets()}
       </div>
 
