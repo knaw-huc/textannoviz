@@ -73,6 +73,8 @@ export const globaliseConfig: ProjectConfig = {
   },
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
+  initialDateFrom: "1500-01-01",
+  initialDateTo: "1800-01-01",
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
