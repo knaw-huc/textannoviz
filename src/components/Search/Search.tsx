@@ -582,7 +582,7 @@ export const Search = (props: SearchProps) => {
             isSelected={includeDate}
           >
             <div className="indicator" />
-            <p>{includeDate ? "Exclude" : "Include"} date facet in query</p>
+            <p>Date facet in query</p>
           </Switch>
         </div>
         {includeDate ? renderDateFacets() : null}
