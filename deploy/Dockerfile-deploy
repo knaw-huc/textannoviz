@@ -1,4 +1,4 @@
-FROM node:19-alpine as build
+FROM node:20.5.1-alpine as build
 
 WORKDIR /textannoviz
 COPY ./package.json /textannoviz/package.json
