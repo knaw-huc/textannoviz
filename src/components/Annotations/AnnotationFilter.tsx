@@ -18,7 +18,10 @@ export const AnnotationFilter = () => {
 
   React.useEffect(() => {
     async function fetchAnnotationTypes() {
-      const annotationTypes = await selectDistinctBodyTypes(projectConfig!.id);
+      const annotationTypes = await selectDistinctBodyTypes(
+        projectConfig!.id,
+        projectConfig!.broccoliUrl,
+      );
       setAnnotationTypes(annotationTypes);
     }
 
