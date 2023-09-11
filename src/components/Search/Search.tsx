@@ -547,6 +547,7 @@ export const Search = (props: SearchProps) => {
             <Button
               className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
               aria-label="Click to search"
+              onPress={() => refresh()}
             >
               <MagnifyingGlassIcon className="h-4 w-4 fill-white" />
             </Button>
