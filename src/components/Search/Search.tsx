@@ -379,7 +379,7 @@ export const Search = (props: SearchProps) => {
       }
     } else {
       toast(
-        "Sorting on date is not possible with the current annotation set.",
+        "Sorting on date is not possible with the current search results.",
         { type: "info" },
       );
     }
