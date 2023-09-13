@@ -3,6 +3,7 @@ import { Base64 } from "js-base64";
 import React from "react";
 import { Button, Switch } from "react-aria-components";
 import { Link, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -364,41 +365,84 @@ export const Search = (props: SearchProps) => {
   }
 
   function sortByChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
-    const facetName = getDateFacets()[0][0];
+    const selectedValue = event.currentTarget.value;
 
-    if (event.currentTarget.value === "_score") {
-      setSortBy("_score");
-      setSortOrder("desc");
-      setInternalSortValue("_score");
-      setSearchParams((searchParams) => {
-        searchParams.set("sortBy", "_score");
-        searchParams.set("sortOrder", "desc");
-        return searchParams;
-      });
+    let sortByValue = "_score";
+    let sortOrderValue = "desc";
+
+    if (getDateFacets() && getDateFacets()[0]) {
+      const facetName = getDateFacets()[0][0];
+
+      if (selectedValue === "dateAsc" || selectedValue === "dateDesc") {
+        sortByValue = facetName;
+        sortOrderValue = selectedValue === "dateAsc" ? "asc" : "desc";
+      }
+    } else {
+      toast(
+        "Sorting on date is not possible with the current annotation set.",
+        { type: "info" },
+      );
     }
 
-    if (event.currentTarget.value === "dateAsc") {
-      setSortBy(facetName);
-      setSortOrder("asc");
-      setInternalSortValue("dateAsc");
-      setSearchParams((searchParams) => {
-        searchParams.set("sortBy", facetName);
-        searchParams.set("sortOrder", "asc");
-        return searchParams;
-      });
-    }
+    setSortBy(sortByValue);
+    setSortOrder(sortOrderValue);
+    setInternalSortValue(selectedValue);
 
-    if (event.currentTarget.value === "dateDesc") {
-      setSortBy(facetName);
-      setSortOrder("desc");
-      setInternalSortValue("dateDesc");
-      setSearchParams((searchParams) => {
-        searchParams.set("sortBy", facetName);
-        searchParams.set("sortOrder", "desc");
-        return searchParams;
-      });
-    }
+    setSearchParams((searchParams) => {
+      searchParams.set("sortBy", sortByValue);
+      searchParams.set("sortOrder", sortOrderValue);
+      return searchParams;
+    });
   }
+
+  // function sortByChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+  //   let facetname: string;
+
+  //   if (getDateFacets()) {
+  //     if (getDateFacets()[0]) {
+  //       facetName = getDateFacets()[0][0];
+  //     }
+  //   }
+
+  //   console.log(facetName);
+
+  //   if (event.currentTarget.value === "_score") {
+  //     setSortBy("_score");
+  //     setSortOrder("desc");
+  //     setInternalSortValue("_score");
+  //     setSearchParams((searchParams) => {
+  //       searchParams.set("sortBy", "_score");
+  //       searchParams.set("sortOrder", "desc");
+  //       return searchParams;
+  //     });
+  //   }
+
+  //   if (facetname) {
+  //     if (event.currentTarget.value === "dateAsc") {
+  //       setSortBy(facetName);
+  //       setSortOrder("asc");
+  //       setInternalSortValue("dateAsc");
+  //       setSearchParams((searchParams) => {
+  //         searchParams.set("sortBy", facetName);
+  //         searchParams.set("sortOrder", "asc");
+  //         return searchParams;
+  //       });
+  //     }
+  //   }
+
+  //   if (facetname) {
+  //     if (event.currentTarget.value === "dateDesc") {
+  //       setSortBy(facetName);
+  //       setSortOrder("desc");
+  //       setInternalSortValue("dateDesc");
+  //       setSearchParams((searchParams) => {
+  //         searchParams.set("sortBy", facetName);
+  //         searchParams.set("sortOrder", "desc");
+  //         return searchParams;
+  //       });
+  //     }
+  //   }
+  // }
 
   function renderKeywordFacets() {
     return (
