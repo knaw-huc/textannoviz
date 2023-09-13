@@ -20,10 +20,11 @@ export const globaliseConfig: ProjectConfig = {
 
   relativeTo: "na:File",
   annotationTypesToInclude: [
+    "GeneralMissive",
+    // "na:File",
     "px:Page",
     "px:TextLine",
     "px:TextRegion",
-    "GeneralMissive",
   ],
   tier: [],
   bodyType: [],
