@@ -186,6 +186,10 @@ export type DocumentBody = AnnoRepoBody & {
   };
 };
 
+export type GeneralMissiveMetadata = AnnoRepoBody & {
+  metadata: Record<string, string>;
+};
+
 export type AnnoRepoBody = {
   id: string;
   type: string;
@@ -204,7 +208,8 @@ export type AnnoRepoBody = {
     | TeiNoteBody
     | TeiRefBody
     | TeiRegBody
-    | TfLetterBody;
+    | TfLetterBody
+    | GeneralMissiveMetadata;
 };
 
 export type Body =
