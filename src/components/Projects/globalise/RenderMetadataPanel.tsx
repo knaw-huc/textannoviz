@@ -33,6 +33,23 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
   function renderGeneralMissiveMetadata() {
     return (
       <ul className="m-0 list-none p-0">
+        <li className="mb-8">
+          <strong>Annotation type: </strong>
+          <div className={gridOneColumn}>
+            {generalMissiveAnnotation[0].body.type}
+          </div>
+        </li>
+        <li className="mb-8">
+          <strong>Link to AnnoRepo: </strong>
+          <a
+            href={generalMissiveAnnotation[0].id}
+            title="AnnoRepo link"
+            rel="noreferrer"
+            target="_blank"
+          >
+            {generalMissiveAnnotation[0].id}
+          </a>
+        </li>
         {Object.entries(generalMissiveAnnotation[0].body.metadata).map(
           ([key, value], i) => {
             return (
@@ -105,14 +122,14 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
 
   function renderMetadataPanelAnnotationView() {
     if (
-      params.tier2?.includes("missive") &&
+      currentAnnotation[0].body.type === "GeneralMissive" &&
       generalMissiveAnnotation.length > 0
     ) {
       return renderGeneralMissiveMetadata();
     }
 
     if (
-      params.tier2?.includes("textregion") &&
+      currentAnnotation[0].body.type === "px:TextRegion" &&
       textRegionAnnotation.length > 0
     ) {
       return renderTextRegionMetadata();
