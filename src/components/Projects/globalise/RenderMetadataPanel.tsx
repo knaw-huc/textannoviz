@@ -128,11 +128,5 @@ export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
     return <div>No panel defined for this annotation type.</div>;
   }
 
-  return (
-    <>
-      {params.tier2 ? renderMetadataPanelAnnotationView() : null}
-      {/* <strong>Document: </strong>
-          {(documentAnno[0].body as DocumentBody).metadata.document} */}
-    </>
-  );
+  return <>{params.tier2 ? renderMetadataPanelAnnotationView() : null}</>;
 };
