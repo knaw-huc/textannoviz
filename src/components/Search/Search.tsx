@@ -205,6 +205,13 @@ export const Search = (props: SearchProps) => {
       });
     }
 
+    if (Object.keys(searchQuery.terms).length === 0) {
+      toast("Please select a facet or use the full text search.", {
+        type: "info",
+      });
+      return;
+    }
+
     setQuery(searchQuery);
     console.log(searchQuery);
     setQueryHistory([searchQuery, ...queryHistory]);
