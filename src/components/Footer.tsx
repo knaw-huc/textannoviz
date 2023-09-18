@@ -37,7 +37,7 @@ export const Footer = (props: FooterProps) => {
                 : "text-neutral-500"
             } hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 disabled:text-neutral-300`}
             onClick={props.showSearchResultsHandler}
-            disabled={props.showSearchResultsDisabled}
+            disabled
           >
             {props.searchResultsShowState === true
               ? "Verberg zoekresultaten"
