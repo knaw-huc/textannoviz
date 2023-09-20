@@ -579,7 +579,7 @@ export const Search = (props: SearchProps) => {
 
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
         {searchResults ? (
-          <div className=" mb-8 flex flex-col items-center justify-between gap-2 md:flex-row">
+          <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
               {searchResults &&
                 `${elasticFrom + 1}-${Math.min(
@@ -603,7 +603,7 @@ export const Search = (props: SearchProps) => {
           </div>
         ) : null}
         {searchResults ? (
-          <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
+          <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
             {/* <span className="text-brand1Grey-600 text-sm">Filters: </span>
             {getKeywordFacets().map(([facetName, facetValues]) => {
               return Object.keys(facetValues).map((facetValueName, index) => {
