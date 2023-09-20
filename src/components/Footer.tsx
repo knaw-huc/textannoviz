@@ -27,7 +27,7 @@ export const Footer = (props: FooterProps) => {
               className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
             >
               <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
-              Terug naar zoekscherm
+              New search
             </Link>
           </button>
           <button
@@ -62,7 +62,9 @@ export const Footer = (props: FooterProps) => {
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
             onClick={props.showAnnotationPanelHandler}
           >
-            {props.panelShowState === true ? "Verberg info" : "Toon info"}{" "}
+            {props.panelShowState === true
+              ? "Hide developer info"
+              : "Show developer info"}{" "}
             <InformationCircleIcon className="inline h-5 w-5 fill-neutral-500" />
           </button>
         </div>
