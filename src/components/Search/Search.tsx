@@ -18,6 +18,7 @@ import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
 import { KeywordFacet } from "./KeywordFacet";
 import { SearchItem } from "./SearchItem";
+import { SearchPagination } from "./SearchPagination";
 import { SearchQueryHistory } from "./SearchQueryHistory";
 import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
@@ -602,7 +603,7 @@ export const Search = (props: SearchProps) => {
           </div>
         ) : null}
         {searchResults ? (
-          <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-start gap-2 border-b px-10 pb-8">
+          <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-between  gap-2 border-b px-10 pb-8">
             <span className="text-brand1Grey-600 text-sm">Filters: </span>
             {getKeywordFacets().map(([facetName, facetValues]) => {
               return Object.keys(facetValues).map((facetValueName, index) => {
@@ -647,56 +648,15 @@ export const Search = (props: SearchProps) => {
         ) : (
           <div className="italic">No results</div>
         )}
-        {searchResults && (
-          <nav aria-label="Pagination" className="my-6">
-            <ul className="list-style-none flex justify-center gap-1">
-              <li>
-                <Button
-                  className={({ isPressed }) =>
-                    isPressed
-                      ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
-                      : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
-                  }
-                  onPress={prevPageClickHandler}
-                >
-                  Prev
-                </Button>
-              </li>
-              <li>
-                <div className="text-brand1Grey-800 relative block bg-transparent px-3 py-1.5">
-                  {`${pageNumber} of ${Math.ceil(
-                    searchResults.total.value / elasticSize,
-                  )}`}
-                </div>
-              </li>
-              <li>
-                <Button
-                  className={({ isPressed }) =>
-                    isPressed
-                      ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
-                      : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
-                  }
-                  onPress={nextPageClickHandler}
-                >
-                  Next
-                </Button>
-              </li>
-            </ul>
-
-            {/* <select onChange={jumpToPageHandler} value={pageNumber}>
-              {Array.from(
-                {
-                  length: Math.ceil(searchResults.total.value / elasticSize),
-                },
-                (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ),
-              )}
-            </select> */}
-          </nav>
-        )}
+        {searchResults ? (
+          <SearchPagination
+            prevPageClickHandler={prevPageClickHandler}
+            nextPageClickHandler={nextPageClickHandler}
+            pageNumber={pageNumber}
+            searchResults={searchResults}
+            elasticSize={elasticSize}
+          />
+        ) : null}
       </div>
     </div>
   );
