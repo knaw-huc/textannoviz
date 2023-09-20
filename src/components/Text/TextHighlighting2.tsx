@@ -4,7 +4,6 @@ import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { useProjectStore } from "../../stores/project";
-import { useSearchStore } from "../../stores/search";
 import { matchString } from "../../utils/matchString";
 
 interface TextHighlightingProps {
@@ -23,9 +22,6 @@ export function TextHighlighting(props: TextHighlightingProps) {
   const classes = new Map<number, string[]>();
 
   const textLinesToDisplay: string[][] = [[]];
-  const textToHighlight = useSearchStore((state) => state.textToHighlight);
-
-  console.log(textToHighlight);
 
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {
