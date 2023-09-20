@@ -1,4 +1,4 @@
-import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import React from "react";
 import { Button } from "react-aria-components";
@@ -603,8 +603,8 @@ export const Search = (props: SearchProps) => {
           </div>
         ) : null}
         {searchResults ? (
-          <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-between  gap-2 border-b px-10 pb-8">
-            <span className="text-brand1Grey-600 text-sm">Filters: </span>
+          <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
+            {/* <span className="text-brand1Grey-600 text-sm">Filters: </span>
             {getKeywordFacets().map(([facetName, facetValues]) => {
               return Object.keys(facetValues).map((facetValueName, index) => {
                 const key = `${facetName}-${facetValueName}`;
@@ -638,7 +638,7 @@ export const Search = (props: SearchProps) => {
                   );
                 }
               });
-            })}
+            })} */}
             <SearchPagination
               prevPageClickHandler={prevPageClickHandler}
               nextPageClickHandler={nextPageClickHandler}
