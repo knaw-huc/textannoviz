@@ -79,6 +79,7 @@ export const globaliseConfig: ProjectConfig = {
   showSearchSortBy: false,
   showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,
+  defaultShowMetadataPanel: false,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

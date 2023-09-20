@@ -27,6 +27,7 @@ export type ProjectConfig = {
   showSearchSortBy: boolean;
   showSearchResultsButtonFooter: boolean;
   showFacsimileButtonFooter: boolean;
+  defaultShowMetadataPanel: boolean;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;

@@ -73,6 +73,7 @@ export const republicConfig: ProjectConfig = {
   showSearchSortBy: true,
   showFacsimileButtonFooter: true,
   showSearchResultsButtonFooter: true,
+  defaultShowMetadataPanel: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

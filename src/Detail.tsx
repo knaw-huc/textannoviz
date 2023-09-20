@@ -35,7 +35,9 @@ export const Detail = (props: DetailProps) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [showSearchResults, setShowSearchResults] = React.useState(false);
   const [showIiifViewer, setShowIiifViewer] = React.useState(true);
-  const [showAnnotationPanel, setShowAnnotationPanel] = React.useState(true);
+  const [showAnnotationPanel, setShowAnnotationPanel] = React.useState(
+    props.config.defaultShowMetadataPanel,
+  );
   const [count, setCount] = React.useState(0);
   const setProjectName = useProjectStore((state) => state.setProjectName);
 
