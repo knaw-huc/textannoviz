@@ -1,6 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import styled from "styled-components";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
@@ -11,18 +10,6 @@ type TextPanelProps = {
   text: BroccoliTextGeneric;
   closePanelHandler: (panelToClose: string) => void;
 };
-
-const TextStyled = styled.div`
-  width: 100%;
-  height: 850px;
-  padding: 0.7em;
-  overflow: auto;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-top: 1px solid black;
-  font-size: 1rem;
-  line-height: 1.8rem;
-`;
 
 export const TextPanel = (props: TextPanelProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
