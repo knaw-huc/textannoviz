@@ -639,6 +639,13 @@ export const Search = (props: SearchProps) => {
                 }
               });
             })}
+            <SearchPagination
+              prevPageClickHandler={prevPageClickHandler}
+              nextPageClickHandler={nextPageClickHandler}
+              pageNumber={pageNumber}
+              searchResults={searchResults}
+              elasticSize={elasticSize}
+            />
           </div>
         ) : null}
         {searchResults && searchResults.results.length >= 1 ? (
