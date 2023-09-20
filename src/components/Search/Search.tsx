@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import React from "react";
-import { Button, Switch } from "react-aria-components";
+import { Button } from "react-aria-components";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FullTextFacet } from "reactions-knaw-huc";
@@ -563,7 +563,7 @@ export const Search = (props: SearchProps) => {
         <div className="w-full max-w-[450px]">
           <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
         </div>
-        <div className="w-full max-w-[450px]">
+        {/* <div className="w-full max-w-[450px]">
           <Switch
             onChange={() => setIncludeDate(!includeDate)}
             isSelected={includeDate}
@@ -571,7 +571,7 @@ export const Search = (props: SearchProps) => {
             <div className="indicator" />
             <p>Date facet in query</p>
           </Switch>
-        </div>
+        </div> */}
         {includeDate ? renderDateFacets() : null}
         {checkboxStates.size > 0 && renderKeywordFacets()}
       </div>
