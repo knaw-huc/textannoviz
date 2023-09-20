@@ -10,6 +10,7 @@ export const miradorConfig: MiradorConfig = {
     forceDrawAnnotations: true, //this should be 'true' for 'selectAnnotation' to render the selected annotation. Without this, the selected annotation will not be rendered with the API call
     allowMaximize: false,
     hideWindowTitle: true,
+    allowTopMenuButton: false,
   },
   windows: [
     {
