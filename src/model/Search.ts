@@ -13,6 +13,7 @@ export interface SearchResultBody {
   _id: string;
   bodyType: string;
   sessionDate: string;
+  document: string;
   sessionDay: number;
   sessionMonth: number;
   sessionYear: number;

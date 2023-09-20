@@ -46,7 +46,7 @@ export const SearchItem = (props: SearchItemProps) => {
             {(projectConfig &&
               projectConfig.facetsTranslation &&
               projectConfig.facetsTranslation[props.result.bodyType]) ??
-              props.result.bodyType}
+              props.result.document}
           </div>
           {props.result._hits &&
             props.result._hits.map((hit, key) => (
