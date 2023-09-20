@@ -77,6 +77,8 @@ export const globaliseConfig: ProjectConfig = {
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
   showSearchSortBy: false,
+  showFacsimileButtonFooter: false,
+  showSearchResultsButtonFooter: false,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

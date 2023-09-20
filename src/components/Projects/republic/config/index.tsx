@@ -71,6 +71,8 @@ export const republicConfig: ProjectConfig = {
     AttendanceList: "Presentielijst",
   },
   showSearchSortBy: true,
+  showFacsimileButtonFooter: true,
+  showSearchResultsButtonFooter: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

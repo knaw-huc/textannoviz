@@ -25,6 +25,8 @@ export type ProjectConfig = {
   metadataPanelTitles?: Record<string, string>;
   facetsTranslation?: Record<string, string>;
   showSearchSortBy: boolean;
+  showSearchResultsButtonFooter: boolean;
+  showFacsimileButtonFooter: boolean;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;

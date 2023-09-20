@@ -3,6 +3,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
+import { useProjectStore } from "../stores/project";
 import { AnnotationButtons } from "./Annotations/AnnotationButtons";
 
 type FooterProps = {
@@ -17,6 +18,8 @@ type FooterProps = {
 };
 
 export const Footer = (props: FooterProps) => {
+  const projectConfig = useProjectStore((state) => state.projectConfig);
+
   return (
     <div className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
       <div className="mx-auto flex w-full flex-col justify-between lg:flex-row">
@@ -30,27 +33,32 @@ export const Footer = (props: FooterProps) => {
               New search
             </Link>
           </button>
-          <button
-            className={`${
-              props.searchResultsShowState === true
-                ? "text-brand1-500"
-                : "text-neutral-500"
-            } hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 disabled:text-neutral-300`}
-            onClick={props.showSearchResultsHandler}
-            disabled
-          >
-            {props.searchResultsShowState === true
-              ? "Verberg zoekresultaten"
-              : "Toon zoekresultaten"}
-          </button>
-          <button
-            className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
-            onClick={props.showIiifViewerHandler}
-          >
-            {props.facsimileShowState === true
-              ? "Verberg facsimile"
-              : "Toon facsimile"}
-          </button>
+          {projectConfig?.showSearchResultsButtonFooter ? (
+            <button
+              className={`${
+                props.searchResultsShowState === true
+                  ? "text-brand1-500"
+                  : "text-neutral-500"
+              } hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 disabled:text-neutral-300`}
+              onClick={props.showSearchResultsHandler}
+              disabled={props.searchResultsShowState}
+            >
+              {props.searchResultsShowState === true
+                ? "Verberg zoekresultaten"
+                : "Toon zoekresultaten"}
+            </button>
+          ) : null}
+
+          {projectConfig?.showFacsimileButtonFooter ? (
+            <button
+              className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
+              onClick={props.showIiifViewerHandler}
+            >
+              {props.facsimileShowState === true
+                ? "Verberg facsimile"
+                : "Toon facsimile"}
+            </button>
+          ) : null}
         </div>
         <div className="flex w-full flex-row justify-between lg:w-2/5">
           <AnnotationButtons
