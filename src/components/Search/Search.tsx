@@ -63,6 +63,9 @@ export const Search = (props: SearchProps) => {
   const setGlobalSearchQuery = useSearchStore(
     (state) => state.setGlobalSearchQuery,
   );
+  const setTextToHighlight = useSearchStore(
+    (state) => state.setTextToHighlight,
+  );
 
   React.useEffect(() => {
     const queryEncoded = searchParams.get("query");
@@ -231,6 +234,16 @@ export const Search = (props: SearchProps) => {
 
     setSearchResults(data);
     setGlobalSearchResults(data);
+    setTextToHighlight([
+      ...new Set(
+        data?.results[0]._hits.map(
+          (hits) =>
+            hits.preview
+              .match(/<em>(.*?)<\/em>/g)
+              ?.map((str) => str.substring(4, str.length - 5)),
+        ),
+      ),
+    ]);
     setElasticFrom(0);
     setPageNumber(page);
     setFacets(data.aggs);
@@ -283,8 +296,10 @@ export const Search = (props: SearchProps) => {
       sortOrder,
     );
 
-    // const target = document.getElementsByClassName("searchContainer")[0];
-    // target.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById("searchContainer");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
 
     setSearchResults(data);
     setGlobalSearchResults(data);
@@ -311,8 +326,10 @@ export const Search = (props: SearchProps) => {
       sortOrder,
     );
 
-    // const target = document.getElementsByClassName("searchContainer")[0];
-    // target.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById("searchContainer");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
 
     setSearchResults(data);
     setGlobalSearchResults(data);
@@ -484,7 +501,10 @@ export const Search = (props: SearchProps) => {
   }
 
   return (
-    <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
+    <div
+      id="searchContainer"
+      className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
+    >
       <div className="hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10">
         <div className="w-full max-w-[450px]">
           <label htmlFor="fullText" className="font-semibold">
