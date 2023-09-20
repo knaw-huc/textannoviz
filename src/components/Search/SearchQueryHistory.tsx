@@ -18,7 +18,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm"
         disabled={props.disabled}
       >
-        Zoekgeschiedenis
+        Search history
       </button>
       {props.historyIsOpen ? (
         <ol className="ml-6 mt-4 list-decimal">
@@ -31,7 +31,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
               >
                 {query.text ? (
                   <div>
-                    <strong>Tekst: </strong> {query.text}
+                    <strong>Text: </strong> {query.text}
                   </div>
                 ) : null}
                 {query.date ? (

@@ -520,7 +520,7 @@ export const Search = (props: SearchProps) => {
       <div className="hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10">
         <div className="w-full max-w-[450px]">
           <label htmlFor="fullText" className="font-semibold">
-            Vrij zoeken
+            Full text search
           </label>
           <div className="flex w-full flex-row">
             <FullTextFacet
@@ -528,7 +528,7 @@ export const Search = (props: SearchProps) => {
               enterPressedHandler={fullTextEnterPressedHandler}
               value={fullText}
               className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
-              placeholder="Druk op ENTER om te zoeken"
+              placeholder="Press ENTER to search"
             />
             <Button
               className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
@@ -546,7 +546,7 @@ export const Search = (props: SearchProps) => {
               reloadDocument
               className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm no-underline"
             >
-              Nieuwe zoekopdracht
+              New search query
             </Link>
           </div>
         ) : null}
@@ -584,7 +584,7 @@ export const Search = (props: SearchProps) => {
                 `${elasticFrom + 1}-${Math.min(
                   elasticFrom + elasticSize,
                   searchResults.total.value,
-                )} van ${searchResults.total.value} resultaten`}
+                )} of ${searchResults.total.value} results`}
             </span>
             <div className="flex items-center justify-between gap-10">
               {props.projectConfig.showSearchSortBy ? (
@@ -645,7 +645,7 @@ export const Search = (props: SearchProps) => {
             <SearchItem key={index} result={result} />
           ))
         ) : (
-          <div className="italic">Geen resultaten</div>
+          <div className="italic">No results</div>
         )}
         {searchResults && (
           <nav aria-label="Pagination" className="my-6">
@@ -659,12 +659,12 @@ export const Search = (props: SearchProps) => {
                   }
                   onPress={prevPageClickHandler}
                 >
-                  Vorige
+                  Prev
                 </Button>
               </li>
               <li>
                 <div className="text-brand1Grey-800 relative block bg-transparent px-3 py-1.5">
-                  {`${pageNumber} van ${Math.ceil(
+                  {`${pageNumber} of ${Math.ceil(
                     searchResults.total.value / elasticSize,
                   )}`}
                 </div>
@@ -678,7 +678,7 @@ export const Search = (props: SearchProps) => {
                   }
                   onPress={nextPageClickHandler}
                 >
-                  Volgende
+                  Next
                 </Button>
               </li>
             </ul>
