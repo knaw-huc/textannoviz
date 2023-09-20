@@ -99,7 +99,7 @@ export const Search = (props: SearchProps) => {
       });
     });
     setCheckBoxStates(newMap);
-  }, [props.facets, props.indexName, props.indices, searchParams]);
+  }, [props.facets, props.indices, searchParams]);
 
   React.useEffect(() => {
     async function search(
@@ -234,6 +234,18 @@ export const Search = (props: SearchProps) => {
 
     setSearchResults(data);
     setGlobalSearchResults(data);
+    console.log([
+      ...new Set(
+        data?.results.map((result) =>
+          result._hits.map(
+            (hits) =>
+              hits.preview
+                .match(/<em>(.*?)<\/em>/g)
+                ?.map((str) => str.substring(4, str.length - 5)),
+          ),
+        ),
+      ),
+    ]);
     setTextToHighlight([
       ...new Set(
         data?.results[0]._hits.map(
