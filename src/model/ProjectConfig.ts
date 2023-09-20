@@ -28,6 +28,7 @@ export type ProjectConfig = {
   showSearchResultsButtonFooter: boolean;
   showFacsimileButtonFooter: boolean;
   defaultShowMetadataPanel: boolean;
+  showToggleTextPanels: boolean;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;

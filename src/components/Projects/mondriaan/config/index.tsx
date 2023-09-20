@@ -139,6 +139,7 @@ export const mondriaanConfig: ProjectConfig = {
   showFacsimileButtonFooter: true,
   showSearchResultsButtonFooter: true,
   defaultShowMetadataPanel: true,
+  showToggleTextPanels: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
