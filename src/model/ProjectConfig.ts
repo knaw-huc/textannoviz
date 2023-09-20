@@ -24,6 +24,7 @@ export type ProjectConfig = {
   defaultTextPanels?: string[];
   metadataPanelTitles?: Record<string, string>;
   facetsTranslation?: Record<string, string>;
+  showSearchSortBy: boolean;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;

@@ -587,10 +587,13 @@ export const Search = (props: SearchProps) => {
                 )} van ${searchResults.total.value} resultaten`}
             </span>
             <div className="flex items-center justify-between gap-10">
-              <SearchSortBy
-                onChange={sortByChangeHandler}
-                value={internalSortValue}
-              />
+              {props.projectConfig.showSearchSortBy ? (
+                <SearchSortBy
+                  onChange={sortByChangeHandler}
+                  value={internalSortValue}
+                />
+              ) : null}
+
               <SearchResultsPerPage
                 onChange={resultsPerPageSelectHandler}
                 value={elasticSize}

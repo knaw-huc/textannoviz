@@ -135,6 +135,7 @@ export const mondriaanConfig: ProjectConfig = {
     type: "Type",
     folder: "Folder",
   },
+  showSearchSortBy: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

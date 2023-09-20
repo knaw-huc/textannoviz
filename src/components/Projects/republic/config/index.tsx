@@ -70,6 +70,7 @@ export const republicConfig: ProjectConfig = {
     Resolution: "Resolutie",
     AttendanceList: "Presentielijst",
   },
+  showSearchSortBy: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
