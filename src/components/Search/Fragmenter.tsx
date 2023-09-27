@@ -14,7 +14,7 @@ export const Fragmenter = (props: FragmenterProps) => {
       >
         <option value="scan">Snippet</option>
         {/* <option>Sentence</option> */}
-        <option value="none">Full text</option>
+        <option value="none">Entire page</option>
       </select>
     </div>
   );
