@@ -67,7 +67,7 @@ export const TextComponent = (props: TextComponentProps) => {
           panels={panelsToRender}
         />
       ) : null}
-      <div className="flex h-full flex-row">
+      <div className="flex h-[calc(100vh-79px)] flex-row overflow-auto">
         {textPanels && !props.isLoading ? (
           <TextPanels
             panels={panelsToRender}
