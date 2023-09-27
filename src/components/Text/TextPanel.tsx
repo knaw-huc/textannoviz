@@ -3,7 +3,7 @@ import React from "react";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
-import { TextHighlighting } from "./TextHighlighting2";
+import { TextHighlighting } from "./TextHighlighting";
 
 type TextPanelProps = {
   panel: string;
@@ -49,7 +49,7 @@ export const TextPanel = (props: TextPanelProps) => {
         </strong>
         <TextHighlighting
           text={props.text}
-          highlightedLines={highlightedLines}
+          // highlightedLines={highlightedLines}
         />
       </div>
     );

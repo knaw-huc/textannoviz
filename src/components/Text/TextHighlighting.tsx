@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useProjectStore } from "../../stores/project";
@@ -27,34 +26,24 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   function highlightMatches(text: string) {
     let result = <p className="m-0 p-0">{text}</p>;
 
-    if (textToHighlight) {
-      // console.log(textToHighlight.get(params.tier2));
+    if (textToHighlight && params.tier2) {
       if (textToHighlight.get(params.tier2)) {
-        for (const subString of textToHighlight.get(params.tier2)) {
-          // console.log(subString);
-          const regex = new RegExp(`\\b(${subString}\\W?)\\b`, "g");
-          const matches = text.match(regex);
-          // console.log(matches);
+        const toHighlightStrings = textToHighlight.get(params.tier2);
+        const regexString = toHighlightStrings?.join("|");
+        const regex = new RegExp(`${regexString}`, "g");
 
-          if (matches) {
-            const parts = text.split(regex);
+        console.log(text.match(regex));
 
-            result = (
-              <>
-                {parts.map((part, index) => (
-                  <React.Fragment key={index}>
-                    <>{part}</>
-                    {index < matches.length && (
-                      <span className="rounded bg-yellow-200 p-1">
-                        {matches[index]}
-                      </span>
-                    )}
-                  </React.Fragment>
-                ))}
-              </>
-            );
-          }
-        }
+        result = (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: text.replace(
+                regex,
+                '<span class="rounded bg-yellow-200 p-1">$&</span>',
+              ),
+            }}
+          />
+        );
       }
       return result;
     } else {
