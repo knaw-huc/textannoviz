@@ -124,6 +124,8 @@ export const Search = (props: SearchProps) => {
 
       setSearchResults(data);
       setGlobalSearchResults(data);
+      const toHighlight = getTextToHighlight(data);
+      setTextToHighlight(toHighlight);
       setElasticFrom(from);
       setPageNumber(parseInt(page));
       setElasticSize(parseInt(size));
@@ -172,6 +174,27 @@ export const Search = (props: SearchProps) => {
       );
     }
   }, [props.projectConfig, searchParams]);
+
+  function getTextToHighlight(data: SearchResult) {
+    const regex = new RegExp(/<em>(.*?)<\/em>/g);
+
+    const newMap = new Map<string, string[]>();
+
+    data?.results.forEach((result) => {
+      const previews: string[] = [];
+      result._hits.forEach((hit) => {
+        const regexedString = hit.preview
+          .match(regex)
+          ?.map((str) => str.substring(4, str.length - 5));
+        if (regexedString) {
+          previews.push(...new Set(regexedString));
+        }
+      });
+      newMap.set(result._id, [...new Set(previews)]);
+    });
+
+    return newMap;
+  }
 
   function refresh() {
     setDirty((prev) => prev + 1);
@@ -242,34 +265,8 @@ export const Search = (props: SearchProps) => {
     setSearchResults(data);
     setGlobalSearchResults(data);
 
-    const regex = new RegExp(/<em>(.*?)<\/em>/g);
-
-    console.time("newMap");
-    const newMap = new Map<string, string[]>();
-
-    data?.results.forEach((result) => {
-      const previews: string[] = [];
-      result._hits.forEach((hit) => {
-        const regexedString = hit.preview
-          .match(regex)
-          ?.map((str) => str.substring(4, str.length - 5));
-        if (regexedString) {
-          previews.push(...new Set(regexedString));
-        }
-      });
-      newMap.set(result._id, [...new Set(previews)]);
-    });
-    console.timeEnd("newMap");
-
-    //Log the length of newMap
-    console.log(newMap.size);
-
-    //Loop over the newMap and log key and value
-    newMap.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-
-    setTextToHighlight(newMap);
+    const toHighlight = getTextToHighlight(data);
+    setTextToHighlight(toHighlight);
 
     setElasticFrom(0);
     setPageNumber(page);
@@ -332,6 +329,8 @@ export const Search = (props: SearchProps) => {
 
     setSearchResults(data);
     setGlobalSearchResults(data);
+    const toHighlight = getTextToHighlight(data);
+    setTextToHighlight(toHighlight);
     setSearchParams((searchParams) => {
       searchParams.set("page", prevPage.toString());
       searchParams.set("from", newFrom.toString());
@@ -362,6 +361,8 @@ export const Search = (props: SearchProps) => {
 
     setSearchResults(data);
     setGlobalSearchResults(data);
+    const toHighlight = getTextToHighlight(data);
+    setTextToHighlight(toHighlight);
     setSearchParams((searchParams) => {
       searchParams.set("page", nextPage.toString());
       searchParams.set("from", newFrom.toString());
