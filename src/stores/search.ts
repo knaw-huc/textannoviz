@@ -16,7 +16,7 @@ export type SearchQuerySlice = {
 };
 
 export type TextToHighlightSlice = {
-  textToHighlight: (string[] | undefined)[];
+  textToHighlight: Map<string, string[]>;
   setTextToHighlight: (
     newTextToHighlight: TextToHighlightSlice["textToHighlight"],
   ) => void;
@@ -50,7 +50,7 @@ const createTextToHighlightSlice: StateCreator<
   [],
   TextToHighlightSlice
 > = (set) => ({
-  textToHighlight: [],
+  textToHighlight: new Map(),
   setTextToHighlight: (newTextToHighlight) =>
     set(() => ({ textToHighlight: newTextToHighlight })),
 });

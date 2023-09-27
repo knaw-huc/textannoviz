@@ -235,28 +235,36 @@ export const Search = (props: SearchProps) => {
 
     setSearchResults(data);
     setGlobalSearchResults(data);
-    console.log([
-      ...new Set(
-        data?.results.map((result) =>
-          result._hits.map(
-            (hits) =>
-              hits.preview
-                .match(/<em>(.*?)<\/em>/g)
-                ?.map((str) => str.substring(4, str.length - 5)),
-          ),
-        ),
-      ),
-    ]);
-    setTextToHighlight([
-      ...new Set(
-        data?.results[0]._hits.map(
-          (hits) =>
-            hits.preview
-              .match(/<em>(.*?)<\/em>/g)
-              ?.map((str) => str.substring(4, str.length - 5)),
-        ),
-      ),
-    ]);
+
+    const regex = new RegExp(/<em>(.*?)<\/em>/g);
+
+    console.time("newMap");
+    const newMap = new Map<string, string[]>();
+
+    data?.results.forEach((result) => {
+      const previews: string[] = [];
+      result._hits.forEach((hit) => {
+        const regexedString = hit.preview
+          .match(regex)
+          ?.map((str) => str.substring(4, str.length - 5));
+        if (regexedString) {
+          previews.push(...new Set(regexedString));
+        }
+      });
+      newMap.set(result._id, [...new Set(previews)]);
+    });
+    console.timeEnd("newMap");
+
+    //Log the length of newMap
+    console.log(newMap.size);
+
+    //Loop over the newMap and log key and value
+    newMap.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+    setTextToHighlight(newMap);
+
     setElasticFrom(0);
     setPageNumber(page);
     setFacets(data.aggs);

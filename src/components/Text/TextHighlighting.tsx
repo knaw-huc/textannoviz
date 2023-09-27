@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useProjectStore } from "../../stores/project";
 import { useSearchStore } from "../../stores/search";
@@ -8,12 +9,13 @@ type TextHighlightingProps = {
 };
 
 export const TextHighlighting = (props: TextHighlightingProps) => {
-  const globalSearchQuery = useSearchStore((state) => state.globalSearchQuery);
   const textToHighlight = useSearchStore((state) => state.textToHighlight);
 
   const projectName = useProjectStore((state) => state.projectName);
 
   const textLinesToDisplay: string[][] = [[]];
+
+  const params = useParams();
 
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {
@@ -23,24 +25,21 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   });
 
   function highlightMatches(text: string) {
+    let result = <p className="m-0 p-0">{text}</p>;
+
     if (textToHighlight) {
-      console.log(textToHighlight);
-      for (const subStrings of textToHighlight) {
-        console.log(subStrings);
-        if (subStrings) {
-          for (const subString of subStrings) {
-            console.log(subString);
-            const regex = new RegExp(subString, "g");
+      // console.log(textToHighlight.get(params.tier2));
+      if (textToHighlight.get(params.tier2)) {
+        for (const subString of textToHighlight.get(params.tier2)) {
+          // console.log(subString);
+          const regex = new RegExp(`\\b(${subString}\\W?)\\b`, "g");
+          const matches = text.match(regex);
+          // console.log(matches);
+
+          if (matches) {
             const parts = text.split(regex);
-            const matches = text.match(regex);
 
-            // console.log(matches);
-
-            if (!matches) {
-              return <p className="m-0 p-0">{text}</p>;
-            }
-
-            return (
+            result = (
               <>
                 {parts.map((part, index) => (
                   <React.Fragment key={index}>
@@ -57,29 +56,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
           }
         }
       }
-
-      // const regex = new RegExp(globalSearchQuery.text!, "gi");
-      // const parts = text.split(regex);
-      // const matches = text.match(regex);
-
-      // if (!matches) {
-      //   return <p className="m-0 p-0">{text}</p>;
-      // }
-
-      // return (
-      //   <>
-      //     {parts.map((part, index) => (
-      //       <React.Fragment key={index}>
-      //         <>{part}</>
-      //         {index < matches.length && (
-      //           <span className="rounded bg-yellow-200 p-1">
-      //             {matches[index]}
-      //           </span>
-      //         )}
-      //       </React.Fragment>
-      //     ))}
-      //   </>
-      // );
+      return result;
     } else {
       if (projectName === "republic") {
         return <p className="m-0 p-0">{text}</p>;
