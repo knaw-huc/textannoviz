@@ -34,9 +34,6 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
           .join("|");
         const regex = new RegExp(`${regexString}`, "g");
 
-        console.log(regex.toString());
-        console.log(regexString);
-
         result = (
           <div
             dangerouslySetInnerHTML={{
