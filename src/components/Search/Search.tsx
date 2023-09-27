@@ -583,8 +583,8 @@ export const Search = (props: SearchProps) => {
             <p>Date facet in query</p>
           </Switch>
         </div> */}
-        {includeDate ? renderDateFacets() : null}
-        {checkboxStates.size > 0 && renderKeywordFacets()}
+        {/* {includeDate ? renderDateFacets() : null}
+        {checkboxStates.size > 0 && renderKeywordFacets()} */}
       </div>
 
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
