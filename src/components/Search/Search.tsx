@@ -183,6 +183,12 @@ export const Search = (props: SearchProps) => {
     };
 
     if (fullText) {
+      if (fullText.charAt(fullText.length - 1).includes("\\")) {
+        toast("Please remove the trailing backslash from your search query.", {
+          type: "error",
+        });
+        return;
+      }
       searchQuery["text"] = fullText;
     }
 
