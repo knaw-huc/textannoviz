@@ -1,4 +1,4 @@
-import logoUrl from "../assets/logo-republic-temp.png";
+import logoUrl from "../assets/G-1.png";
 
 type HeaderProps = {
   project: string;
@@ -20,8 +20,8 @@ export const Header = (props: HeaderProps) => {
                 {props.project}
               </a>
             </span>
-            <div className="bg-brand2-300 flex h-12 w-12 items-center justify-center">
-              <a title="Homepage" rel="noreferrer" href="/">
+            <div className="bg-brand2-200 flex h-12 w-12 items-center justify-center">
+              <a title="Homepage" rel="noreferrer" href="/search">
                 <img src={logoUrl} className="h-7 w-7" />
               </a>
             </div>
