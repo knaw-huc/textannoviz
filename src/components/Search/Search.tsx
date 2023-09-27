@@ -294,10 +294,12 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
 
-    setSearchParams((searchParams) => {
-      searchParams.set("frag", event.currentTarget.value);
-      return searchParams;
-    });
+    if (searchResults) {
+      setSearchParams((searchParams) => {
+        searchParams.set("frag", event.currentTarget.value);
+        return searchParams;
+      });
+    }
   };
 
   async function prevPageClickHandler() {
