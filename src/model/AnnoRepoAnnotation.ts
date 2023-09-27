@@ -186,8 +186,12 @@ export type DocumentBody = AnnoRepoBody & {
   };
 };
 
-export type GeneralMissiveMetadata = AnnoRepoBody & {
-  metadata: Record<string, string>;
+export type PxPageBody = AnnoRepoBody & {
+  metadata: {
+    document: string;
+    prevPageId: string;
+    nextPageId: string;
+  };
 };
 
 export type AnnoRepoBody = {
@@ -208,8 +212,7 @@ export type AnnoRepoBody = {
     | TeiNoteBody
     | TeiRefBody
     | TeiRegBody
-    | TfLetterBody
-    | GeneralMissiveMetadata;
+    | TfLetterBody;
 };
 
 export type Body =
