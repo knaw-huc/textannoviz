@@ -20,14 +20,14 @@ export const Header = (props: HeaderProps) => {
                 <img src={logoUrl} className="h-7 w-7" />
               </a>
             </div>
-            <span className="uppercase">
+            <span className="">
               <a
                 title="Homepage"
                 rel="noreferrer"
                 href="/search"
                 className="hover:text-brand1-900 text-inherit no-underline hover:underline"
               >
-                {props.project}
+                GLOBALISE Transcriptions Viewer
               </a>
             </span>
           </div>
