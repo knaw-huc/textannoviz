@@ -10,19 +10,24 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   let tailwindConfig: string;
+  let title: string;
 
   switch (env.VITE_PROJECT) {
     case "republic":
       tailwindConfig = "tailwind.config.republic.js";
+      title = "Textannoviz - Republic";
       break;
     case "mondriaan":
       tailwindConfig = "tailwind.config.mondriaan.js";
+      title = "Textannoviz - Mondriaan";
       break;
     case "globalise":
       tailwindConfig = "tailwind.config.globalise.js";
+      title = "Globalise Transcriptions Viewer";
       break;
     default:
       tailwindConfig = "tailwind.config.js";
+      title = "Textannoviz";
   }
 
   return {
@@ -30,7 +35,7 @@ export default defineConfig(({ mode }) => {
       createHtmlPlugin({
         inject: {
           data: {
-            title: "Textannoviz",
+            title: title,
           },
         },
       }),
