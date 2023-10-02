@@ -6,7 +6,7 @@ interface FragmenterProps {
 export const Fragmenter = (props: FragmenterProps) => {
   return (
     <div className="flex items-center justify-between">
-      <label className="mr-1 font-semibold">Highlighter context </label>
+      <label className="mr-1 font-semibold">Display Context </label>
       <select
         value={props.value}
         onChange={props.onChange}
@@ -14,7 +14,7 @@ export const Fragmenter = (props: FragmenterProps) => {
       >
         <option value="scan">Snippet</option>
         {/* <option>Sentence</option> */}
-        <option value="none">Entire page</option>
+        <option value="none">Page View</option>
       </select>
     </div>
   );
