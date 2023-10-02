@@ -26,7 +26,7 @@ export const Footer = (props: FooterProps) => {
         <div className="flex w-full flex-row justify-start gap-8 lg:w-2/5">
           <button className="flex flex-row items-center gap-1 py-1 pl-10 text-neutral-500">
             <Link
-              to="/search"
+              to="/"
               className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
             >
               <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
