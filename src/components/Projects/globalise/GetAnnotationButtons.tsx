@@ -23,8 +23,6 @@ export const GetAnnotationButtons = () => {
       return toast("You have reached the last page.", { type: "info" });
     navigate(`/detail/${nextPage}`);
     miradorStore.dispatch(mirador.actions.setNextCanvas("globalise"));
-
-    console.log(miradorStore.getState());
   };
 
   const previousCanvasClickHandler = () => {
