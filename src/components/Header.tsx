@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import logoUrl from "../assets/G-1.png";
 
 type HeaderProps = {
@@ -6,10 +5,6 @@ type HeaderProps = {
 };
 
 export const Header = (props: HeaderProps) => {
-  const params = useParams();
-
-  console.log(window.location.pathname);
-
   return (
     <header className="border-brand1-200 text-brand1-700 border-b">
       <div className="mx-auto w-full px-6">
