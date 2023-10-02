@@ -24,7 +24,7 @@ export const Header = (props: HeaderProps) => {
               <a
                 title="Homepage"
                 rel="noreferrer"
-                href="/search"
+                href="/"
                 className="hover:text-brand1-900 text-inherit no-underline hover:underline"
               >
                 GLOBALISE Transcriptions Viewer
