@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import logoUrl from "../assets/G-1.png";
 
 type HeaderProps = {
@@ -5,6 +6,10 @@ type HeaderProps = {
 };
 
 export const Header = (props: HeaderProps) => {
+  const params = useParams();
+
+  console.log(window.location.pathname);
+
   return (
     <header className="border-brand1-200 text-brand1-700 border-b">
       <div className="mx-auto w-full px-6">
@@ -28,6 +33,15 @@ export const Header = (props: HeaderProps) => {
                 className="hover:text-brand1-900 text-inherit no-underline hover:underline"
               >
                 GLOBALISE Transcriptions Viewer
+              </a>
+              {" | "}
+              <a
+                title="About"
+                rel="noreferrer"
+                href={window.location.pathname === "/about" ? "/" : "/about"}
+                className="hover:text-brand1-900 text-inherit no-underline hover:underline"
+              >
+                {window.location.pathname === "/about" ? "Search" : "About"}
               </a>
             </span>
           </div>
