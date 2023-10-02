@@ -112,10 +112,12 @@ export const Search = (props: SearchProps) => {
       sortOrder: string,
       page: string,
     ) {
+      const maxSize = 100;
+      const limitedSize = Math.min(parseInt(size), maxSize);
       const data = await sendSearchQuery(
         query,
         frag,
-        parseInt(size),
+        limitedSize,
         from,
         props.projectConfig,
         sortBy,
@@ -128,7 +130,7 @@ export const Search = (props: SearchProps) => {
       setTextToHighlight(toHighlight);
       setElasticFrom(from);
       setPageNumber(parseInt(page));
-      setElasticSize(parseInt(size));
+      setElasticSize(limitedSize);
       setSortBy(sortBy);
       setSortOrder(sortOrder);
       setFacets(data.aggs);
@@ -151,6 +153,14 @@ export const Search = (props: SearchProps) => {
           setInternalSortValue("dateAsc");
         }
       }
+      if (parseInt(size) > maxSize)
+        toast("Please don't :). Max results per page is limited to 100.", {
+          type: "warning",
+        });
+      setSearchParams((searchParams) => {
+        searchParams.set("size", limitedSize.toString());
+        return searchParams;
+      });
     }
     if ([...searchParams.keys()].length > 0) {
       const page = searchParams.get("page");
