@@ -52,7 +52,7 @@ export const SearchItem = (props: SearchItemProps) => {
             props.result._hits.map((hit, key) => (
               <div key={key} className="hover:bg-rpBrand1grey-50 w-full p-4">
                 <div
-                  className="mb-1 text-base"
+                  className="mb-1 font-serif text-base"
                   dangerouslySetInnerHTML={{ __html: hit.preview }}
                 ></div>
               </div>
