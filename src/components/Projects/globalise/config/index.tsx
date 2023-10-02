@@ -106,7 +106,7 @@ export const globaliseConfig: ProjectConfig = {
     return [
       {
         path: "/",
-        element: comp1,
+        element: comp3,
         errorElement: errorComp,
       },
       {
@@ -120,8 +120,8 @@ export const globaliseConfig: ProjectConfig = {
         errorElement: errorComp,
       },
       {
-        path: "search",
-        element: comp3,
+        path: "about",
+        element: comp1,
         errorElement: errorComp,
       },
     ];
