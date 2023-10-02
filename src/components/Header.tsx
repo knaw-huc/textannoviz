@@ -11,7 +11,12 @@ export const Header = (props: HeaderProps) => {
         <div className="flex flex-row items-center justify-start">
           <div className="bg-brand1-100 text-brand1-800 -mx-6 -my-3 flex flex-row items-center justify-start gap-3 py-3 pr-3">
             <div className="bg-brand2-200 flex h-12 w-12 items-center justify-center">
-              <a title="Homepage" rel="noreferrer" href="/search">
+              <a
+                title="Homepage"
+                rel="noreferrer"
+                target="_blank"
+                href="https://globalise.huygens.knaw.nl"
+              >
                 <img src={logoUrl} className="h-7 w-7" />
               </a>
             </div>
