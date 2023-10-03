@@ -2,9 +2,9 @@ import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { createIndices } from "../../../../utils/createIndices";
+import { GetAbout } from "../GetAbout";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
-import { GetHome } from "../GetHome";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
 
@@ -127,7 +127,7 @@ export const globaliseConfig: ProjectConfig = {
     ];
   },
 
-  renderHome: () => {
-    return <GetHome />;
+  renderAbout: () => {
+    return <GetAbout />;
   },
 };

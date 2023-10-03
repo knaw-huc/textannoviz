@@ -1,8 +1,8 @@
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import About from "./components/About";
 import { Header } from "./components/Header";
-import Home from "./components/Home";
 import { globaliseConfig } from "./components/Projects/globalise/config/";
 import { mondriaanConfig } from "./components/Projects/mondriaan/config";
 import { republicConfig } from "./components/Projects/republic/config";
@@ -34,7 +34,7 @@ const { aggs } = await sendSearchQuery({}, "Scan", 0, 0, config);
 
 const router = createBrowserRouter(
   config.createRouter(
-    <Home project={project} config={config} />,
+    <About project={project} config={config} />,
     <Detail project={project} config={config} />,
     <Search
       project={project}

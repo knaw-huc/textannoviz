@@ -46,5 +46,5 @@ export type ProjectConfig = {
     element: React.ReactNode;
     errorElement: React.ReactNode;
   }[];
-  renderHome: () => JSX.Element;
+  renderAbout: () => JSX.Element;
 };
