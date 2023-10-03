@@ -192,7 +192,7 @@ export const Search = (props: SearchProps) => {
 
     data?.results.forEach((result) => {
       const previews: string[] = [];
-      result._hits.forEach((hit) => {
+      result._hits?.forEach((hit) => {
         const regexedString = hit.preview
           .match(regex)
           ?.map((str) => str.substring(4, str.length - 5));

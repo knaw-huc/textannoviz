@@ -48,15 +48,14 @@ export const SearchItem = (props: SearchItemProps) => {
               projectConfig.facetsTranslation[props.result.bodyType]) ??
               props.result.document}
           </div>
-          {props.result._hits &&
-            props.result._hits.map((hit, key) => (
-              <div key={key} className="hover:bg-rpBrand1grey-50 w-full p-4">
-                <div
-                  className="mb-1 font-serif text-base"
-                  dangerouslySetInnerHTML={{ __html: hit.preview }}
-                ></div>
-              </div>
-            ))}
+          {props.result._hits?.map((hit, key) => (
+            <div key={key} className="hover:bg-rpBrand1grey-50 w-full p-4">
+              <div
+                className="mb-1 font-serif text-base"
+                dangerouslySetInnerHTML={{ __html: hit.preview }}
+              ></div>
+            </div>
+          ))}
         </li>
       </Link>
     </ul>
