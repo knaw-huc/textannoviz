@@ -1,10 +1,6 @@
 import logoUrl from "../assets/G-1.png";
 
-type HeaderProps = {
-  project: string;
-};
-
-export const Header = (props: HeaderProps) => {
+export const Header = () => {
   return (
     <header className="border-brand1-200 text-brand1-700 border-b">
       <div className="mx-auto w-full px-6">
