@@ -1,10 +1,10 @@
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
-import React from "react";
+import React, {useEffect} from "react";
 import { Button } from "react-aria-components";
 import { Link, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { FullTextFacet } from "reactions-knaw-huc";
+import { toast } from "react-toastify";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   FacetValue,
@@ -104,16 +104,11 @@ export const Search = (props: SearchProps) => {
     setDirty((prev) => prev + 1);
   }
 
-  React.useEffect(() => {
-    if (dirty > 0) {
-      const page = 1;
-      // setPageNumber(page);
-      console.log(query);
-
-      // if (!searchParams) {
-      //   return;
-      // }
-
+  useEffect(() => {
+    function updateSearchParamsWhenDirty() {
+      if (!dirty) {
+        return;
+      }
       const searchQuery: SearchQuery = {
         terms: {},
       };
@@ -154,7 +149,7 @@ export const Search = (props: SearchProps) => {
       setGlobalSearchQuery(searchQuery);
 
       setSearchParams({
-        page: page.toString(),
+        page: pageNumber.toString(),
         size: elasticSize.toString(),
         frag: fragmenter,
         sortBy: sortBy,
@@ -162,6 +157,8 @@ export const Search = (props: SearchProps) => {
         query: Base64.toBase64(JSON.stringify(query)),
       });
     }
+
+    updateSearchParamsWhenDirty();
   }, [dirty]);
 
   function getUrlParams(urlParams: URLSearchParams): SearchQuery {
@@ -169,64 +166,68 @@ export const Search = (props: SearchProps) => {
     return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
   }
 
-  // Initialize searchParams once:
-  React.useEffect(() => {
-    const queryDecoded = getUrlParams(urlParams);
+  useEffect(() => {
+    function initSearchFromUrlParams() {
+      const queryDecoded = getUrlParams(urlParams);
 
-    if (queryDecoded) {
-      if (queryDecoded.text) {
-        setFullText(queryDecoded.text);
+      if (queryDecoded) {
+        if (queryDecoded.text) {
+          setFullText(queryDecoded.text);
+        }
       }
-    }
-    const newMap = new Map<string, boolean>();
-    const selectedFacets: string[] = [];
+      const newMap = new Map<string, boolean>();
+      const selectedFacets: string[] = [];
 
-    if (queryDecoded && queryDecoded.terms) {
-      Object.entries(queryDecoded.terms).forEach(([facetName, facetValues]) => {
-        facetValues.forEach((facetValue) => {
-          const key = `${facetName}-${facetValue}`;
-          selectedFacets.push(key);
+      if (queryDecoded && queryDecoded.terms) {
+        Object.entries(queryDecoded.terms).forEach(([facetName, facetValues]) => {
+          facetValues.forEach((facetValue) => {
+            const key = `${facetName}-${facetValue}`;
+            selectedFacets.push(key);
+          });
+        });
+      }
+
+      getKeywordFacets().map(([facetName, facetValues]) => {
+        Object.keys(facetValues).forEach((facetValueName) => {
+          const key = `${facetName}-${facetValueName}`;
+          newMap.set(key, false);
+          if (selectedFacets.includes(key)) {
+            newMap.set(key, true);
+          }
         });
       });
+      setCheckBoxStates(newMap);
+
+      if (!searchParams && queryDecoded?.text) {
+        const fromUrl = {
+          page: urlParams.get("page") ?? "1",
+          size: urlParams.get("size") ?? "10",
+          frag: urlParams.get("frag") ?? "Scan",
+          sortBy: urlParams.get("sortBy") ?? "_score",
+          sortOrder: urlParams.get("sortOrder") ?? "desc",
+          query: queryDecoded,
+        };
+        setSearchParams(fromUrl);
+        setQuery(queryDecoded);
+      }
     }
 
-    getKeywordFacets().map(([facetName, facetValues]) => {
-      Object.keys(facetValues).forEach((facetValueName) => {
-        const key = `${facetName}-${facetValueName}`;
-        newMap.set(key, false);
-        if (selectedFacets.includes(key)) {
-          newMap.set(key, true);
-        }
-      });
-    });
-    setCheckBoxStates(newMap);
-
-    console.log("useeffect", queryDecoded);
-    if (!searchParams && queryDecoded?.text) {
-      const fromUrl = {
-        page: urlParams.get("page") ?? "1",
-        size: urlParams.get("size") ?? "10",
-        frag: urlParams.get("frag") ?? "Scan",
-        sortBy: urlParams.get("sortBy") ?? "_score",
-        sortOrder: urlParams.get("sortOrder") ?? "desc",
-        query: queryDecoded,
-      };
-      setSearchParams(fromUrl);
-      setQuery(queryDecoded);
-    }
+    initSearchFromUrlParams();
   }, []);
 
-  // Keep url in sync with searchParams:
-  React.useEffect(() => {
-    console.log("update url", query);
-    setUrlParams({
-      page: pageNumber.toString(),
-      size: elasticSize.toString(),
-      frag: fragmenter,
-      sortBy: sortBy,
-      sortOrder: sortOrder,
-      query: Base64.toBase64(JSON.stringify(query)),
-    });
+  useEffect(() => {
+    function syncUrlWithSearchParams() {
+      setUrlParams({
+        page: pageNumber.toString(),
+        size: elasticSize.toString(),
+        frag: fragmenter,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        query: Base64.toBase64(JSON.stringify(query)),
+      });
+    }
+
+    syncUrlWithSearchParams();
   }, [
     elasticSize,
     fragmenter,
@@ -237,17 +238,20 @@ export const Search = (props: SearchProps) => {
     sortOrder,
   ]);
 
-  // Run search query when search params change:
-  React.useEffect(() => {
-    const doSearch = async () => {
+  useEffect(() => {
+    async function searchWhenParamsChange() {
+      if (!query.text) {
+        return;
+      }
+
       const data = await sendSearchQuery(
-        query,
-        fragmenter,
-        elasticSize,
-        0,
-        props.projectConfig,
-        sortBy,
-        sortOrder,
+          query,
+          fragmenter,
+          elasticSize,
+          0,
+          props.projectConfig,
+          sortBy,
+          sortOrder,
       );
       if (!data) {
         return;
@@ -255,12 +259,10 @@ export const Search = (props: SearchProps) => {
       setSearchResults(data);
       setGlobalSearchResults(data);
       setElasticFrom(0);
-      setFacets(data.aggs);
-    };
-
-    if (query.text) {
-      doSearch();
+      setFacets(data!.aggs);
     }
+
+    searchWhenParamsChange();
   }, [query, searchParams]);
 
   const handleFullTextFacet = (value: string) => {
@@ -320,7 +322,9 @@ export const Search = (props: SearchProps) => {
 
   async function nextPageClickHandler() {
     const newFrom = elasticFrom + elasticSize;
-    if (searchResults && searchResults.total.value <= newFrom) return;
+    if (searchResults && searchResults.total.value <= newFrom) {
+      return;
+    }
     const nextPage = pageNumber + 1;
     setElasticFrom(newFrom);
     setPageNumber(nextPage);
@@ -570,7 +574,7 @@ export const Search = (props: SearchProps) => {
               queryHistory={queryHistory}
               goToQuery={goToQuery}
               projectConfig={props.projectConfig}
-              disabled={queryHistory.length === 0 ? true : false}
+              disabled={queryHistory.length === 0}
             />
           </div>
         ) : null}
