@@ -33,6 +33,8 @@ type SearchProps = {
 
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
+type SearchParams = any;
+
 export const Search = (props: SearchProps) => {
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
@@ -46,6 +48,7 @@ export const Search = (props: SearchProps) => {
     props.projectConfig.initialDateTo ?? "",
   );
   const [facets, setFacets] = React.useState<Facets>(props.facets);
+  const [dirty, setDirty] = React.useState(0);
   const [query, setQuery] = React.useState<SearchQuery>({});
   const [pageNumber, setPageNumber] = React.useState(1);
   const [elasticSize, setElasticSize] = React.useState(10);
@@ -54,13 +57,13 @@ export const Search = (props: SearchProps) => {
   const [sortOrder, setSortOrder] = React.useState("desc");
   const [internalSortValue, setInternalSortValue] = React.useState("_score");
   const [fullText, setFullText] = React.useState("");
-  const [dirty, setDirty] = React.useState(0);
   const [checkboxStates, setCheckBoxStates] = React.useState(
     new Map<string, boolean>(),
   );
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
   const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [urlParams, setUrlParams] = useSearchParams();
+  const [searchParams, setSearchParams] = React.useState<SearchParams>();
   const setGlobalSearchResults = useSearchStore(
     (state) => state.setGlobalSearchResults,
   );
@@ -71,10 +74,104 @@ export const Search = (props: SearchProps) => {
     (state) => state.setTextToHighlight,
   );
 
+  function getTextToHighlight(data: SearchResult) {
+    const toHighlight = new Map<string, string[]>();
+    if (!data) {
+      return toHighlight;
+    }
+
+    data.results.forEach((result) => {
+      const previews: string[] = [];
+      const searchHits = result._hits;
+      if (!searchHits) {
+        return;
+      }
+      searchHits.forEach((hit) => {
+        const matches = hit.preview
+            .match(HIT_PREVIEW_REGEX)
+            ?.map((str) => str.substring(4, str.length - 5));
+        if (matches) {
+          previews.push(...new Set(matches));
+        }
+      });
+      toHighlight.set(result._id, [...new Set(previews)]);
+    });
+
+    return toHighlight;
+  }
+
+  function refresh() {
+    setDirty((prev) => prev + 1);
+  }
+
   React.useEffect(() => {
-    const queryEncoded = searchParams.get("query");
-    const queryDecoded: SearchQuery =
-      queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
+    if (dirty > 0) {
+      const page = 1;
+      // setPageNumber(page);
+      console.log(query);
+
+      // if (!searchParams) {
+      //   return;
+      // }
+
+      const searchQuery: SearchQuery = {
+        terms: {},
+      };
+
+      if (fullText) {
+        if (fullText.charAt(fullText.length - 1).includes("\\")) {
+          toast("Please remove the trailing backslash from your search query.", {
+            type: "error",
+          });
+          return;
+        }
+        searchQuery["text"] = fullText;
+      }
+
+      getKeywordFacets().map(([facetName, facetValues]) => {
+        Object.keys(facetValues as FacetValue).map((facetValueName) => {
+          const key = `${facetName}-${facetValueName}`;
+          if (checkboxStates.get(key)) {
+            if (searchQuery["terms"][facetName]) {
+              searchQuery["terms"][facetName].push(facetValueName);
+            } else {
+              searchQuery["terms"][facetName] = [facetValueName];
+            }
+          }
+        });
+      });
+
+      getDateFacets().map(([facetName]) => {
+        searchQuery["date"] = {
+          name: facetName,
+          from: dateFrom,
+          to: dateTo,
+        };
+      });
+
+      setQuery(searchQuery);
+      setQueryHistory([searchQuery, ...queryHistory]);
+      setGlobalSearchQuery(searchQuery);
+
+      setSearchParams({
+        page: page.toString(),
+        size: elasticSize.toString(),
+        frag: fragmenter,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+        query: Base64.toBase64(JSON.stringify(query)),
+      });
+    }
+  }, [dirty]);
+
+  function getUrlParams(urlParams: URLSearchParams): SearchQuery {
+    const queryEncoded = urlParams.get("query");
+    return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
+  }
+
+  // Initialize searchParams once:
+  React.useEffect(() => {
+    const queryDecoded = getUrlParams(urlParams);
 
     if (queryDecoded) {
       if (queryDecoded.text) {
@@ -84,7 +181,7 @@ export const Search = (props: SearchProps) => {
     const newMap = new Map<string, boolean>();
     const selectedFacets: string[] = [];
 
-    if (queryDecoded) {
+    if (queryDecoded && queryDecoded.terms) {
       Object.entries(queryDecoded.terms).forEach(([facetName, facetValues]) => {
         facetValues.forEach((facetValue) => {
           const key = `${facetName}-${facetValue}`;
@@ -103,25 +200,51 @@ export const Search = (props: SearchProps) => {
       });
     });
     setCheckBoxStates(newMap);
-  }, [props.facets, props.indices, searchParams]);
 
+    console.log("useeffect", queryDecoded);
+    if (!searchParams && queryDecoded?.text) {
+      const fromUrl = {
+        page: urlParams.get("page") ?? "1",
+        size: urlParams.get("size") ?? "10",
+        frag: urlParams.get("frag") ?? "Scan",
+        sortBy: urlParams.get("sortBy") ?? "_score",
+        sortOrder: urlParams.get("sortOrder") ?? "desc",
+        query: queryDecoded,
+      };
+      setSearchParams(fromUrl);
+      setQuery(queryDecoded);
+    }
+  }, []);
+
+  // Keep url in sync with searchParams:
   React.useEffect(() => {
-    async function search(
-      query: SearchQuery,
-      frag: string,
-      size: string,
-      from: number,
-      sortBy: string,
-      sortOrder: string,
-      page: string,
-    ) {
-      const maxSize = 100;
-      const limitedSize = Math.min(parseInt(size), maxSize);
+    console.log("update url", query);
+    setUrlParams({
+      page: pageNumber.toString(),
+      size: elasticSize.toString(),
+      frag: fragmenter,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+      query: Base64.toBase64(JSON.stringify(query)),
+    });
+  }, [
+    elasticSize,
+    fragmenter,
+    pageNumber,
+    searchParams,
+    setUrlParams,
+    sortBy,
+    sortOrder,
+  ]);
+
+  // Run search query when search params change:
+  React.useEffect(() => {
+    const doSearch = async () => {
       const data = await sendSearchQuery(
         query,
-        frag,
-        limitedSize,
-        from,
+        fragmenter,
+        elasticSize,
+        0,
         props.projectConfig,
         sortBy,
         sortOrder,
@@ -129,167 +252,16 @@ export const Search = (props: SearchProps) => {
       if (!data) {
         return;
       }
-
       setSearchResults(data);
       setGlobalSearchResults(data);
-      const toHighlight = getTextToHighlight(data);
-      setTextToHighlight(toHighlight);
-      setElasticFrom(from);
-      setPageNumber(parseInt(page));
-      setElasticSize(limitedSize);
-      setSortBy(sortBy);
-      setSortOrder(sortOrder);
+      setElasticFrom(0);
       setFacets(data.aggs);
-      setQuery(query);
-      setGlobalSearchQuery(query);
-      setFragmenter(frag);
-
-      if (sortBy === "_score") {
-        setInternalSortValue("_score");
-      }
-      if (sortBy === "sessionDate") {
-        if (sortOrder === "desc") {
-          setInternalSortValue("dateDesc");
-        }
-        if (sortOrder === "asc") {
-          setInternalSortValue("dateAsc");
-        }
-      }
-      if (parseInt(size) > maxSize)
-        toast("Please don't :). Max results per page is limited to 100.", {
-          type: "warning",
-        });
-      setSearchParams((searchParams) => {
-        searchParams.set("size", limitedSize.toString());
-        return searchParams;
-      });
-    }
-
-    if ([...searchParams.keys()].length > 0) {
-      const page = searchParams.get("page");
-      const size = searchParams.get("size");
-      const from =
-        parseInt(page ?? "1") * parseInt(size ?? "10") - parseInt(size ?? "10");
-      const frag = searchParams.get("frag");
-      const sortBy = searchParams.get("sortBy");
-      const sortOrder = searchParams.get("sortOrder");
-      const queryEncoded = searchParams.get("query");
-      const queryDecoded: SearchQuery =
-        queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
-      search(
-        queryDecoded,
-        frag ?? "",
-        size ?? "",
-        from,
-        sortBy ?? "",
-        sortOrder ?? "",
-        page ?? "",
-      );
-    }
-  }, [props.projectConfig, searchParams]);
-
-  function getTextToHighlight(data: SearchResult) {
-    const toHighlight = new Map<string, string[]>();
-    if (!data) {
-      return toHighlight;
-    }
-
-    data.results.forEach((result) => {
-      const previews: string[] = [];
-      const searchHits = result._hits;
-      if (!searchHits) {
-        return;
-      }
-      searchHits.forEach((hit) => {
-        const matches = hit.preview
-          .match(HIT_PREVIEW_REGEX)
-          ?.map((str) => str.substring(4, str.length - 5));
-        if (matches) {
-          previews.push(...new Set(matches));
-        }
-      });
-      toHighlight.set(result._id, [...new Set(previews)]);
-    });
-
-    return toHighlight;
-  }
-
-  function refresh() {
-    setDirty((prev) => prev + 1);
-  }
-
-  const doSearch = async () => {
-    const searchQuery: SearchQuery = {
-      terms: {},
     };
 
-    if (fullText) {
-      if (fullText.charAt(fullText.length - 1).includes("\\")) {
-        toast("Please remove the trailing backslash from your search query.", {
-          type: "error",
-        });
-        return;
-      }
-      searchQuery["text"] = fullText;
+    if (query.text) {
+      doSearch();
     }
-
-    getKeywordFacets().map(([facetName, facetValues]) => {
-      Object.keys(facetValues as FacetValue).map((facetValueName) => {
-        const key = `${facetName}-${facetValueName}`;
-        if (checkboxStates.get(key)) {
-          if (searchQuery["terms"][facetName]) {
-            searchQuery["terms"][facetName].push(facetValueName);
-          } else {
-            searchQuery["terms"][facetName] = [facetValueName];
-          }
-        }
-      });
-    });
-
-    if (!fullText && Object.keys(searchQuery.terms).length === 0) {
-      toast("Please select a facet or use the full text search.", {
-        type: "info",
-      });
-      return;
-    }
-
-    setQuery(searchQuery);
-    setQueryHistory([searchQuery, ...queryHistory]);
-    setGlobalSearchQuery(searchQuery);
-
-    const data = await sendSearchQuery(
-      searchQuery,
-      fragmenter,
-      elasticSize,
-      0,
-      props.projectConfig,
-      sortBy,
-      sortOrder,
-    );
-    if (!data) {
-      return;
-    }
-
-    const page = 1;
-
-    setSearchResults(data);
-    setGlobalSearchResults(data);
-
-    const toHighlight = getTextToHighlight(data);
-    setTextToHighlight(toHighlight);
-
-    setElasticFrom(0);
-    setPageNumber(page);
-    setFacets(data.aggs);
-    setSearchParams({
-      page: page.toString(),
-      size: elasticSize.toString(),
-      frag: fragmenter,
-      sortBy: sortBy,
-      sortOrder: sortOrder,
-      query: Base64.toBase64(JSON.stringify(searchQuery)),
-    });
-  };
+  }, [query, searchParams]);
 
   const handleFullTextFacet = (value: string) => {
     setFullText(value);
@@ -307,12 +279,10 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
 
-    if (searchResults) {
-      setSearchParams((searchParams) => {
-        searchParams.set("frag", event.currentTarget.value);
-        return searchParams;
-      });
-    }
+    setUrlParams((searchParams) => {
+      searchParams.set("frag", event.currentTarget.value);
+      return searchParams;
+    });
   };
 
   async function prevPageClickHandler() {
@@ -341,7 +311,7 @@ export const Search = (props: SearchProps) => {
     setGlobalSearchResults(data);
     const toHighlight = getTextToHighlight(data);
     setTextToHighlight(toHighlight);
-    setSearchParams((searchParams) => {
+    setUrlParams((searchParams) => {
       searchParams.set("page", prevPage.toString());
       searchParams.set("from", newFrom.toString());
       return searchParams;
@@ -373,7 +343,7 @@ export const Search = (props: SearchProps) => {
     setGlobalSearchResults(data);
     const toHighlight = getTextToHighlight(data);
     setTextToHighlight(toHighlight);
-    setSearchParams((searchParams) => {
+    setUrlParams((searchParams) => {
       searchParams.set("page", nextPage.toString());
       searchParams.set("from", newFrom.toString());
       return searchParams;
@@ -386,17 +356,11 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "") return;
     setElasticSize(parseInt(event.currentTarget.value));
 
-    setSearchParams((searchParams) => {
+    setUrlParams((searchParams) => {
       searchParams.set("size", event.currentTarget.value);
       return searchParams;
     });
   };
-
-  React.useEffect(() => {
-    if (dirty > 0) {
-      doSearch();
-    }
-  }, [dirty]);
 
   function getFacets(type: string) {
     return Object.entries(facets).filter(([key]) => {
@@ -436,7 +400,7 @@ export const Search = (props: SearchProps) => {
     setSortOrder(sortOrderValue);
     setInternalSortValue(selectedValue);
 
-    setSearchParams((searchParams) => {
+    setUrlParams((searchParams) => {
       searchParams.set("sortBy", sortByValue);
       searchParams.set("sortOrder", sortOrderValue);
       return searchParams;
@@ -553,7 +517,7 @@ export const Search = (props: SearchProps) => {
   }
 
   function goToQuery(query: SearchQuery) {
-    setSearchParams((searchParams) => {
+    setUrlParams((searchParams) => {
       searchParams.set("query", Base64.toBase64(JSON.stringify(query)));
       return searchParams;
     });
