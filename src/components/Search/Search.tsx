@@ -161,6 +161,8 @@ export const Search = (props: SearchProps) => {
         return searchParams;
       });
     }
+    if (!searchResults) return;
+
     if ([...searchParams.keys()].length > 0) {
       const page = searchParams.get("page");
       const size = searchParams.get("size");
@@ -172,6 +174,7 @@ export const Search = (props: SearchProps) => {
       const queryEncoded = searchParams.get("query");
       const queryDecoded: SearchQuery =
         queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
+      console.log("SEARCH IN IF-STATEMENT");
       search(
         queryDecoded,
         frag ?? "",
