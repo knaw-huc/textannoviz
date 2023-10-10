@@ -161,7 +161,6 @@ export const Search = (props: SearchProps) => {
         return searchParams;
       });
     }
-    if (!searchResults) return;
 
     if ([...searchParams.keys()].length > 0) {
       const page = searchParams.get("page");
@@ -174,7 +173,6 @@ export const Search = (props: SearchProps) => {
       const queryEncoded = searchParams.get("query");
       const queryDecoded: SearchQuery =
         queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
-      console.log("SEARCH IN IF-STATEMENT");
       search(
         queryDecoded,
         frag ?? "",
@@ -689,13 +687,16 @@ export const Search = (props: SearchProps) => {
 
             <p className="mb-4 mt-4 block">
               The search engine searches for the exact term you entered anywhere
-              in the text corpus. For example: {'"schijp"'} -{">"} will show you
+              in the text corpus. For example:{" "}
+              <code className=" bg-gray-300">schijp</code> -{">"} will show you
               all pages which include this exact search term.
             </p>
 
             <p className="mb-4 mt-4 block">
               Note that keyword searches are not case sensitive. For example,{" "}
-              {'"admiraal"'} and {'"Admiraal"'} will produce the same results.
+              <code className=" bg-gray-300">admiraal</code> and{" "}
+              <code className=" bg-gray-300">Admiraal</code> will produce the
+              same results.
             </p>
 
             <h4>Multiple Keywords</h4>
