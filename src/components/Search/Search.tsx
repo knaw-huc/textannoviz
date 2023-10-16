@@ -681,191 +681,24 @@ export const Search = (props: SearchProps) => {
           ))
         ) : (
           <>
-            <h3 className="">Search Tips:</h3>
-
-            <h4>Keywords</h4>
-
             <p className="mb-4 mt-4 block">
-              The search engine searches for the exact term you entered anywhere
-              in the text corpus. For example:{" "}
-              <code className=" bg-gray-300">schijp</code> -{">"} will show you
-              all pages which include this exact search term.
+              Welcome to the beta <i>GLOBALISE Transcriptions Viewer</i>. This
+              tool allows you to easily search and view the machine-generated
+              transcriptions and page images of the{" "}
+              <a href="https://globalise.huygens.knaw.nl">GLOBALISE project</a>{" "}
+              source corpus in a web browser.
             </p>
 
             <p className="mb-4 mt-4 block">
-              Note that keyword searches are not case sensitive. For example,{" "}
-              <code className=" bg-gray-300">admiraal</code> and{" "}
-              <code className=" bg-gray-300">Admiraal</code> will produce the
-              same results.
-            </p>
-
-            <h4>Multiple Keywords</h4>
-
-            <p className="mb-4 mt-4 block">
-              If you enter two or more search terms next to each other, the
-              search engine finds the occurrence of either one or both terms in
-              the text corpus. For example: {'"swarte peper"'} -{">"} This will
-              show you all pages with {'"swarte"'} and/or {'"peper"'}.
-            </p>
-
-            <h4>Combining and Excluding Keywords</h4>
-
-            <p className="mb-4 mt-4 block">
-              If you add (in uppercase letters) the operators AND or OR between
-              your keywords, the search engine will find all occurrences in the
-              text corpus that contain all the keywords or else, any one of the
-              keywords.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              For example: {'"swarte AND peper"'} -{">"} will only show pages
-              that include both {'"swarte"'} and {'"peper"'}. Similarly,{" "}
-              {'"swarte OR peper"'} -{">"} will show all pages that include one
-              or the other. Note that this is different from just entering{" "}
-              {'"swarte peper"'} -{">"} as we saw above, this will also list
-              pages that included both search terms.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              If you wish to search for a keyword but exclude another one, you
-              can do this using NOT. For example, {'"engelse NOT oorlog"'} -
-              {">"} will find all pages that include {'"engelse"'} but only if
-              these do not also include {'"oorlog"'}.
-            </p>
-
-            <h4>Expanding your Keywords</h4>
-
-            <p className="mb-4 mt-4 block">
-              With the use of special wildcard characters (* and ?) you can
-              expand your keyword search to include variants of your search
-              term. This can be applied to single words or phrases.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              For example, {'"schijp*"'} -{">"} will not just find pages with
-              the word {'"schijp"'} but also pages with the words {'"schijpe"'},{" "}
-              {'"schijpen"'} and {'"schijpende"'}. More precisely, it will find
-              any word that begins with the letters {'"schijp"'}.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              You can also use this wildcard to search for a specific word
-              preceded or followed by any other word. For example,{" "}
-              {'"* schijpen"'} -{">"} would find pages with the words{" "}
-              {'"voorbijlaten schijpen"'}, {'"geen schijpen"'} and{" "}
-              {'"oorlog schijpen"'}.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              If you wish to expand your keyword by just a single character, you
-              can use the ? wildcard. For example: {'"cop?e"'} -{">"} will show
-              pages with {'"copie"'}, but also with {'"copye"'}. It will not,
-              however, show results with {'"coppere"'} since this requires more
-              than one character to substitute for the ? wildcard.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              You can also combine several query words, for example{" "}
-              {'"noodsa??kel??ckheyt"'} to find {'"noodsaackelyckheyt"'} and{" "}
-              {'"noodsaackelijckheyt"'} and {'"noodsaackelijckheyt"'}. These
-              three words can also be found more simply with {'"noodsa*"'} or,
-              if the number of search results is too large, with{" "}
-              {'"noodsa*kel*"'}.
-            </p>
-
-            <h4>Exact Phrases</h4>
-
-            <p className="mb-4 mt-4 block">
-              Placing several search terms, such as a phrase, in double quotes{" "}
-              will find the places in the text corpus where that exact phrase
-              occurs. For example: {'"copije met de bijlage geteekend"'} -{">"}{" "}
-              will find the phrase {'"copije met de bijlage geteekend"'} in the
-              text corpus, but not pages with {'"copije geteekend"'}.
-            </p>
-
-            <h4>Keyword variants</h4>
-
-            <p className="mb-4 mt-4 block">
-              If you want to look for multiple variants of a keyword (for
-              example, different spellings) but {"don't"} know or {"don't"} wish
-              to specify where the changes in the keyword occur, you can use a
-              wildcard (~) that determines how many changes (additions,
-              deletions, or substitutions) can occur in the keyword. This
-              wildcard, followed by a number, allows you to search for keywords
-              that contain a certain number of character changes (‘edit
-              distance’).
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              For example: {'"voorschreven~1"'} -{">"} will find{" "}
-              {'"voorschreven"'}, {'"voorschreve"'}, {'"voorschteven"'},{" "}
-              {'"veorschreven"'} but not {'"veorschreve"'} because this differs
-              from {'"voorschreven"'} by two characters (the {'"e"'} and the
-              missing ending {'"-n"'}).
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              Note that the changed characters can occur anywhere in the
-              keyword. For example, {'"suiker~1"'} -{">"} will find {'"sucker"'}
-              , {'"suider"'} and {'"zuiker"'}.
-            </p>
-
-            <h4>Combining multiple search terms</h4>
-
-            <p className="mb-4 mt-4 block">
-              It is possible to combine several search queries with any
-              combination of AND, OR and NOT operators. When doing so, you can
-              use round brackets to separate search queries.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              For example: {'"trader OR merchant OR koopluyden OR schipper"'} -
-              {">"} You get results in which any one of these words occur at
-              least once.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              For example:{" "}
-              {'"(gecommitteerd OR gecommitteerdens) NOT gecommitteer"'} -{">"}{" "}
-              your search results will include the word {'"gecommitteerd"'} or
-              the word {'"gecommitteerdens"'} at least once, but not{" "}
-              {'"gecommitteer"'}.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              For example: {'"commissie NOT "seeckere commissie"'} -{">"} will
-              show results in which the word {'"commissie"'} appears, but not if
-              it is part of the phrase {'"seeckere commissie"'}.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              For example: {'"(commis* OR gecommit*) NOT committeeren"'} -{">"}{" "}
-              You will get results containing words starting with {'"commis"'}{" "}
-              or {'"gecommit"'}, but not containing the word {'"committeeren"'}.
-              Note: this search can also be simplified to{" "}
-              {'"*commi* NOT gecommitteerden"'}).
-            </p>
-
-            <h4>Punctuation</h4>
-
-            <p className="mb-4 mt-4 block">
-              Note that when you expand a keyword search with a wildcard the
-              search engine will treat all matching characters the same,
-              including punctuation. For example, {'"slaafbaarheijd?"'} -{">"}{" "}
-              will include pages with {'"slaafbaarheijd,"'} since the comma at
-              the end is being treated as part of the word. Without adding the ?
-              or * wildcard at the end of the keyword, {'"slaafbaarheijd"'} -
-              {">"} will not find instances of {'"slaafbaarheijd,"'} with a
-              comma at the end.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              Since * and ? are normally used as wildcards, you need to take
-              special measures to include these in your search term as regular
-              characters. This is done by placing the character after a
-              backslash (\). For example, to find all words ending in question
-              marks, use {'"??\\?"'} -{">"} this will find all two letter words
-              ending in a question mark, such as {'"is?"'}.
+              Please note: the Transcriptions Viewer is <u>not</u> an early
+              version of the{" "}
+              <a href="https://globalise.huygens.knaw.nl">
+                GLOBALISE research portal
+              </a>
+              . It was designed instead as an interim solution for searching and
+              exploring the GLOBALISE corpus until all of the project&apos;s
+              data and research infrastructure is ready to be released to the
+              public in 2026.
             </p>
           </>
         )}
