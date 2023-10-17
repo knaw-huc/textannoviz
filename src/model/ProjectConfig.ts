@@ -47,4 +47,5 @@ export type ProjectConfig = {
     errorElement: React.ReactNode;
   }[];
   renderAbout: () => JSX.Element;
+  labels: Record<string, string>
 };

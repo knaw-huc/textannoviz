@@ -14,12 +14,6 @@ type KeywordFacetProps = {
 };
 
 export const KeywordFacet = (props: KeywordFacetProps) => {
-  const [visibleItems, setVisibleItems] = React.useState(10);
-
-  const handleShowMore = () => {
-    setVisibleItems(visibleItems + 10);
-  };
-
   return props.getKeywordFacets().map(([facetName, facetValues], index) => {
     return (
       <div key={index} className="w-full max-w-[450px]">
@@ -27,20 +21,9 @@ export const KeywordFacet = (props: KeywordFacetProps) => {
           {props.searchFacetTitles[facetName] ?? facetName}
         </div>
         {Object.entries(facetValues)
-          //   .slice(0, visibleItems)
           .map(([facetValueName, facetValueAmount]) => {
             const key = `${facetName}-${facetValueName}`;
             return (
-              // <CheckboxFacet
-              //   key={key}
-              //   id={key}
-              //   name={facetValueName}
-              //   value={facetValueName}
-              //   labelName={facetValueName}
-              //   amount={facetValueAmount}
-              //   onChange={(event) => keywordFacetChangeHandler(key, event)}
-              //   checked={checkboxStates.get(key) ?? false}
-              // />
               <div
                 key={key}
                 className="mb-2 flex w-full flex-row items-center justify-between gap-2"
@@ -75,9 +58,6 @@ export const KeywordFacet = (props: KeywordFacetProps) => {
               </div>
             );
           })}
-        {/* {props.getKeywordFacets().length > visibleItems && (
-          <div onClick={handleShowMore}>More...</div>
-        )} */}
       </div>
     );
   });

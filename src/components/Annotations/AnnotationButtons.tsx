@@ -1,5 +1,5 @@
-import { ProjectConfig } from "../../model/ProjectConfig";
-import { useProjectStore } from "../../stores/project";
+import {ProjectConfig} from "../../model/ProjectConfig";
+import {useProjectStore} from "../../stores/project";
 
 interface AnnotationButtonsProps {
   nextOrPrevButtonClicked: (clicked: boolean) => boolean;

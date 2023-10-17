@@ -16,11 +16,11 @@ import {
 import { useSearchStore } from "../../stores/search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
-import { KeywordFacet } from "./KeywordFacet";
 import { SearchItem } from "./SearchItem";
 import { SearchPagination } from "./SearchPagination";
 import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
+import {translationSelector, useProjectStore} from "../../stores/project.ts";
 
 type SearchProps = {
   project: string;
@@ -31,7 +31,11 @@ type SearchProps = {
   searchFacetTitles: Record<string, string>;
 };
 
+const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
+
 export const Search = (props: SearchProps) => {
+  const translate = useProjectStore(translationSelector);
+
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState(
@@ -186,24 +190,29 @@ export const Search = (props: SearchProps) => {
   }, [props.projectConfig, searchParams]);
 
   function getTextToHighlight(data: SearchResult) {
-    const regex = new RegExp(/<em>(.*?)<\/em>/g);
+    const toHighlight = new Map<string, string[]>();
+    if (!data) {
+      return toHighlight;
+    }
 
-    const newMap = new Map<string, string[]>();
-
-    data?.results.forEach((result) => {
+    data.results.forEach((result) => {
       const previews: string[] = [];
-      result._hits?.forEach((hit) => {
-        const regexedString = hit.preview
-          .match(regex)
-          ?.map((str) => str.substring(4, str.length - 5));
-        if (regexedString) {
-          previews.push(...new Set(regexedString));
+      const searchHits = result._hits;
+      if(!searchHits) {
+        return;
+      }
+      searchHits.forEach((hit) => {
+        const matches = hit.preview
+          .match(HIT_PREVIEW_REGEX)
+          ?.map(str => str.substring(4, str.length - 5));
+        if (matches) {
+          previews.push(...new Set(matches));
         }
       });
-      newMap.set(result._id, [...new Set(previews)]);
+      toHighlight.set(result._id, [...new Set(previews)]);
     });
 
-    return newMap;
+    return toHighlight;
   }
 
   function refresh() {
@@ -256,7 +265,6 @@ export const Search = (props: SearchProps) => {
     }
 
     setQuery(searchQuery);
-    console.log(searchQuery);
     setQueryHistory([searchQuery, ...queryHistory]);
     setGlobalSearchQuery(searchQuery);
 
@@ -392,22 +400,6 @@ export const Search = (props: SearchProps) => {
     });
   };
 
-  async function jumpToPageHandler(
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) {
-    const newFrom = (parseInt(event.currentTarget.value) - 1) * elasticSize;
-    setElasticFrom(newFrom);
-    setPageNumber(parseInt(event.currentTarget.value));
-    setSearchParams((searchParams) => {
-      searchParams.set("page", event.currentTarget.value);
-      searchParams.set("from", newFrom.toString());
-      return searchParams;
-    });
-
-    // const target = document.getElementsByClassName("searchContainer")[0];
-    // target.scrollIntoView({ behavior: "smooth" });
-  }
-
   React.useEffect(() => {
     if (dirty > 0) {
       doSearch();
@@ -459,87 +451,6 @@ export const Search = (props: SearchProps) => {
     });
   }
 
-  function renderKeywordFacets() {
-    return (
-      <KeywordFacet
-        getKeywordFacets={getKeywordFacets}
-        keywordFacetChangeHandler={keywordFacetChangeHandler}
-        searchFacetTitles={props.searchFacetTitles}
-        projectConfig={props.projectConfig}
-        checkboxStates={checkboxStates}
-      />
-    );
-  }
-
-  function renderDateFacets() {
-    return getDateFacets().map(([facetName], index) => {
-      return (
-        <div
-          key={index}
-          className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row"
-        >
-          <div className="flex w-full flex-col">
-            <div className="flex items-center"></div>
-            <label htmlFor="start" className="font-semibold">
-              Van
-            </label>
-            <input
-              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
-              type="date"
-              id="start"
-              value={dateFrom}
-              min={props.projectConfig.initialDateFrom}
-              max={props.projectConfig.initialDateTo}
-              onChange={(event) => setDateFrom(event.target.value)}
-            />
-          </div>
-          <div className="flex w-full flex-col">
-            <label htmlFor="end" className="font-semibold">
-              Tot en met
-            </label>
-            <input
-              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
-              type="date"
-              id="end"
-              value={dateTo}
-              min={props.projectConfig.initialDateFrom}
-              max={props.projectConfig.initialDateTo}
-              onChange={(event) => setDateTo(event.target.value)}
-            />
-          </div>
-        </div>
-      );
-    });
-  }
-
-  function removeFacet(key: string) {
-    setCheckBoxStates(new Map(checkboxStates.set(key, false)));
-    if (searchResults) {
-      refresh();
-    }
-  }
-
-  function keywordFacetChangeHandler(
-    key: string,
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) {
-    setCheckBoxStates(new Map(checkboxStates.set(key, event.target.checked)));
-    if (searchResults) {
-      refresh();
-    }
-  }
-
-  function historyClickHandler() {
-    setHistoryIsOpen(!historyIsOpen);
-  }
-
-  function goToQuery(query: SearchQuery) {
-    setSearchParams((searchParams) => {
-      searchParams.set("query", Base64.toBase64(JSON.stringify(query)));
-      return searchParams;
-    });
-  }
-
   return (
     <div
       id="searchContainer"
@@ -574,34 +485,14 @@ export const Search = (props: SearchProps) => {
               reloadDocument
               className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm no-underline"
             >
-              New search query
+              {translate('NEW_SEARCH_QUERY')}
             </Link>
           </div>
         ) : null}
-        {/* <div className="w-full max-w-[450px]">
-          <SearchQueryHistory
-            historyClickHandler={historyClickHandler}
-            historyIsOpen={historyIsOpen}
-            queryHistory={queryHistory}
-            goToQuery={goToQuery}
-            projectConfig={props.projectConfig}
-            disabled={queryHistory.length === 0 ? true : false}
-          />
-        </div> */}
+
         <div className="w-full max-w-[450px]">
           <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
         </div>
-        {/* <div className="w-full max-w-[450px]">
-          <Switch
-            onChange={() => setIncludeDate(!includeDate)}
-            isSelected={includeDate}
-          >
-            <div className="indicator" />
-            <p>Date facet in query</p>
-          </Switch>
-        </div> */}
-        {/* {includeDate ? renderDateFacets() : null}
-        {checkboxStates.size > 0 && renderKeywordFacets()} */}
       </div>
 
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
@@ -631,41 +522,6 @@ export const Search = (props: SearchProps) => {
         ) : null}
         {searchResults ? (
           <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
-            {/* <span className="text-brand1Grey-600 text-sm">Filters: </span>
-            {getKeywordFacets().map(([facetName, facetValues]) => {
-              return Object.keys(facetValues).map((facetValueName, index) => {
-                const key = `${facetName}-${facetValueName}`;
-
-                if (checkboxStates.get(key)) {
-                  return (
-                    <div
-                      className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
-                      key={index}
-                    >
-                      {(props.projectConfig.searchFacetTitles &&
-                        props.projectConfig.searchFacetTitles[facetName]) ??
-                        facetName}
-                      :{" "}
-                      {/^[a-z]/.test(facetValueName)
-                        ? facetValueName.charAt(0).toUpperCase() +
-                          facetValueName.slice(1)
-                        : (facetValueName &&
-                            props.projectConfig.facetsTranslation &&
-                            props.projectConfig.facetsTranslation[
-                              facetValueName
-                            ]) ??
-                          facetValueName}{" "}
-                      {
-                        <XMarkIcon
-                          className="h-5 w-5"
-                          onClick={() => removeFacet(key)}
-                        />
-                      }
-                    </div>
-                  );
-                }
-              });
-            })} */}
             <SearchPagination
               prevPageClickHandler={prevPageClickHandler}
               nextPageClickHandler={nextPageClickHandler}
