@@ -7,6 +7,7 @@ import { GetAnnotationLinks } from "../GetAnnotationLinks";
 import { GetHome } from "../GetHome";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
+import {dutchLabels} from "../../default/config/dutchLabels.tsx";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
@@ -128,4 +129,5 @@ export const republicConfig: ProjectConfig = {
   renderAbout: () => {
     return <GetHome />;
   },
+  labels: dutchLabels
 };

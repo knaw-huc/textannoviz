@@ -16,11 +16,11 @@ import {
 import { useSearchStore } from "../../stores/search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
-import { KeywordFacet } from "./KeywordFacet";
 import { SearchItem } from "./SearchItem";
 import { SearchPagination } from "./SearchPagination";
 import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
+import {translationSelector, useProjectStore} from "../../stores/project.ts";
 
 type SearchProps = {
   project: string;
@@ -34,6 +34,8 @@ type SearchProps = {
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
 export const Search = (props: SearchProps) => {
+  const translate = useProjectStore(translationSelector);
+
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState(
@@ -483,7 +485,7 @@ export const Search = (props: SearchProps) => {
               reloadDocument
               className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm no-underline"
             >
-              New search query
+              {translate('NEW_SEARCH_QUERY')}
             </Link>
           </div>
         ) : null}

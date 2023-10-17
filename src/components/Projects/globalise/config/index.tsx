@@ -1,12 +1,13 @@
 import React from "react";
-import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
-import { ProjectConfig } from "../../../../model/ProjectConfig";
-import { createIndices } from "../../../../utils/createIndices";
-import { GetAbout } from "../GetAbout";
-import { GetAnnotationButtons } from "../GetAnnotationButtons";
-import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
-import { RenderMetadataPanel } from "../RenderMetadataPanel";
-import { getAnnotationItem } from "../getAnnotationItem";
+import {AnnoRepoAnnotation} from "../../../../model/AnnoRepoAnnotation";
+import {ProjectConfig} from "../../../../model/ProjectConfig";
+import {createIndices} from "../../../../utils/createIndices";
+import {GetAbout} from "../GetAbout";
+import {GetAnnotationButtons} from "../GetAnnotationButtons";
+import {GetAnnotationItemContent} from "../GetAnnotationItemContent";
+import {RenderMetadataPanel} from "../RenderMetadataPanel";
+import {getAnnotationItem} from "../getAnnotationItem";
+import {englishLabels} from "../../default/config/englishLabels.tsx";
 
 export const globaliseConfig: ProjectConfig = {
   id: "globalise",
@@ -130,4 +131,5 @@ export const globaliseConfig: ProjectConfig = {
   renderAbout: () => {
     return <GetAbout />;
   },
+  labels: englishLabels
 };
