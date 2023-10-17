@@ -3,9 +3,7 @@ import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 export type ProjectConfig = {
   id: string;
   broccoliUrl: string;
-  colours: {
-    [key: string]: string;
-  };
+  colours: Record<string, string>;
   relativeTo: string;
   annotationTypesToInclude: string[];
   annotationTypesTitles?: Record<string, string>;
@@ -26,6 +24,11 @@ export type ProjectConfig = {
   defaultTextPanels?: string[];
   metadataPanelTitles?: Record<string, string>;
   facetsTranslation?: Record<string, string>;
+  showSearchSortBy: boolean;
+  showSearchResultsButtonFooter: boolean;
+  showFacsimileButtonFooter: boolean;
+  defaultShowMetadataPanel: boolean;
+  showToggleTextPanels: boolean;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
@@ -43,5 +46,5 @@ export type ProjectConfig = {
     element: React.ReactNode;
     errorElement: React.ReactNode;
   }[];
-  renderHome: () => JSX.Element;
+  renderAbout: () => JSX.Element;
 };

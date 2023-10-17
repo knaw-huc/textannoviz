@@ -15,6 +15,13 @@ export type SearchQuerySlice = {
   ) => void;
 };
 
+export type TextToHighlightSlice = {
+  textToHighlight: Map<string, string[]>;
+  setTextToHighlight: (
+    newTextToHighlight: TextToHighlightSlice["textToHighlight"],
+  ) => void;
+};
+
 const createSearchResultsSlice: StateCreator<
   SearchResultsSlice,
   [],
@@ -37,9 +44,21 @@ const createSearchQuerySlice: StateCreator<
     set(() => ({ globalSearchQuery: newSearchQuery })),
 });
 
-export const useSearchStore = create<SearchResultsSlice & SearchQuerySlice>()(
-  (...a) => ({
-    ...createSearchResultsSlice(...a),
-    ...createSearchQuerySlice(...a),
-  }),
-);
+const createTextToHighlightSlice: StateCreator<
+  TextToHighlightSlice,
+  [],
+  [],
+  TextToHighlightSlice
+> = (set) => ({
+  textToHighlight: new Map(),
+  setTextToHighlight: (newTextToHighlight) =>
+    set(() => ({ textToHighlight: newTextToHighlight })),
+});
+
+export const useSearchStore = create<
+  SearchResultsSlice & SearchQuerySlice & TextToHighlightSlice
+>()((...a) => ({
+  ...createSearchResultsSlice(...a),
+  ...createSearchQuerySlice(...a),
+  ...createTextToHighlightSlice(...a),
+}));

@@ -1,4 +1,4 @@
-import React from "react";
+import { useParams } from "react-router-dom";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useProjectStore } from "../../stores/project";
 import { useSearchStore } from "../../stores/search";
@@ -8,10 +8,13 @@ type TextHighlightingProps = {
 };
 
 export const TextHighlighting = (props: TextHighlightingProps) => {
-  const globalSearchQuery = useSearchStore((state) => state.globalSearchQuery);
+  const textToHighlight = useSearchStore((state) => state.textToHighlight);
+
   const projectName = useProjectStore((state) => state.projectName);
 
   const textLinesToDisplay: string[][] = [[]];
+
+  const params = useParams();
 
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {
@@ -21,29 +24,28 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   });
 
   function highlightMatches(text: string) {
-    if (globalSearchQuery) {
-      const regex = new RegExp(globalSearchQuery.text!, "gi");
-      const parts = text.split(regex);
-      const matches = text.match(regex);
+    let result = <p className="m-0 p-0">{text}</p>;
 
-      if (!matches) {
-        return <p className="m-0 p-0">{text}</p>;
+    if (textToHighlight && params.tier2) {
+      if (textToHighlight.get(params.tier2)) {
+        const toHighlightStrings = textToHighlight.get(params.tier2);
+        const regexString = toHighlightStrings
+          ?.map((string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+          .join("|");
+        const regex = new RegExp(`${regexString}`, "g");
+
+        result = (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: text.replace(
+                regex,
+                '<span class="rounded bg-yellow-200 p-1">$&</span>',
+              ),
+            }}
+          />
+        );
       }
-
-      return (
-        <>
-          {parts.map((part, index) => (
-            <React.Fragment key={index}>
-              <>{part}</>
-              {index < matches.length && (
-                <span className="rounded bg-yellow-200 p-1">
-                  {matches[index]}
-                </span>
-              )}
-            </React.Fragment>
-          ))}
-        </>
-      );
+      return result;
     } else {
       if (projectName === "republic") {
         return <p className="m-0 p-0">{text}</p>;

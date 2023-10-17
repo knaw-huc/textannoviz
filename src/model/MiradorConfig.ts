@@ -8,6 +8,7 @@ export type MiradorConfig = {
     forceDrawAnnotations: boolean;
     allowMaximize: boolean;
     hideWindowTitle: boolean;
+    allowTopMenuButton: boolean;
   };
   windows: [
     {

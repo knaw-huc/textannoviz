@@ -67,7 +67,7 @@ export function Annotation(props: AnnotationProps) {
         />{" "}
         <AnnotationFilter />
       </ButtonsStyled> */}
-      <Tabs className="flex h-full flex-col">
+      <Tabs className="flex h-[calc(100vh-79px)] flex-col overflow-hidden">
         <TabList
           aria-label="annotation-panel"
           className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"

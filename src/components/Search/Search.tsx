@@ -1,8 +1,9 @@
-import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import React from "react";
 import { Button } from "react-aria-components";
 import { Link, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -15,8 +16,9 @@ import {
 import { useSearchStore } from "../../stores/search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
+import { KeywordFacet } from "./KeywordFacet";
 import { SearchItem } from "./SearchItem";
-import { SearchQueryHistory } from "./SearchQueryHistory";
+import { SearchPagination } from "./SearchPagination";
 import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
 
@@ -53,12 +55,16 @@ export const Search = (props: SearchProps) => {
   );
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
   const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
+  const [includeDate, setIncludeDate] = React.useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const setGlobalSearchResults = useSearchStore(
     (state) => state.setGlobalSearchResults,
   );
   const setGlobalSearchQuery = useSearchStore(
     (state) => state.setGlobalSearchQuery,
+  );
+  const setTextToHighlight = useSearchStore(
+    (state) => state.setTextToHighlight,
   );
 
   React.useEffect(() => {
@@ -93,7 +99,7 @@ export const Search = (props: SearchProps) => {
       });
     });
     setCheckBoxStates(newMap);
-  }, [props.facets, props.indexName, props.indices, searchParams]);
+  }, [props.facets, props.indices, searchParams]);
 
   React.useEffect(() => {
     async function search(
@@ -105,10 +111,12 @@ export const Search = (props: SearchProps) => {
       sortOrder: string,
       page: string,
     ) {
+      const maxSize = 100;
+      const limitedSize = Math.min(parseInt(size), maxSize);
       const data = await sendSearchQuery(
         query,
         frag,
-        parseInt(size),
+        limitedSize,
         from,
         props.projectConfig,
         sortBy,
@@ -117,9 +125,11 @@ export const Search = (props: SearchProps) => {
 
       setSearchResults(data);
       setGlobalSearchResults(data);
+      const toHighlight = getTextToHighlight(data);
+      setTextToHighlight(toHighlight);
       setElasticFrom(from);
       setPageNumber(parseInt(page));
-      setElasticSize(parseInt(size));
+      setElasticSize(limitedSize);
       setSortBy(sortBy);
       setSortOrder(sortOrder);
       setFacets(data.aggs);
@@ -142,7 +152,16 @@ export const Search = (props: SearchProps) => {
           setInternalSortValue("dateAsc");
         }
       }
+      if (parseInt(size) > maxSize)
+        toast("Please don't :). Max results per page is limited to 100.", {
+          type: "warning",
+        });
+      setSearchParams((searchParams) => {
+        searchParams.set("size", limitedSize.toString());
+        return searchParams;
+      });
     }
+
     if ([...searchParams.keys()].length > 0) {
       const page = searchParams.get("page");
       const size = searchParams.get("size");
@@ -166,6 +185,27 @@ export const Search = (props: SearchProps) => {
     }
   }, [props.projectConfig, searchParams]);
 
+  function getTextToHighlight(data: SearchResult) {
+    const regex = new RegExp(/<em>(.*?)<\/em>/g);
+
+    const newMap = new Map<string, string[]>();
+
+    data?.results.forEach((result) => {
+      const previews: string[] = [];
+      result._hits?.forEach((hit) => {
+        const regexedString = hit.preview
+          .match(regex)
+          ?.map((str) => str.substring(4, str.length - 5));
+        if (regexedString) {
+          previews.push(...new Set(regexedString));
+        }
+      });
+      newMap.set(result._id, [...new Set(previews)]);
+    });
+
+    return newMap;
+  }
+
   function refresh() {
     setDirty((prev) => prev + 1);
   }
@@ -176,6 +216,12 @@ export const Search = (props: SearchProps) => {
     };
 
     if (fullText) {
+      if (fullText.charAt(fullText.length - 1).includes("\\")) {
+        toast("Please remove the trailing backslash from your search query.", {
+          type: "error",
+        });
+        return;
+      }
       searchQuery["text"] = fullText;
     }
 
@@ -192,13 +238,22 @@ export const Search = (props: SearchProps) => {
       });
     });
 
-    getDateFacets().map(([facetName]) => {
-      searchQuery["date"] = {
-        name: facetName,
-        from: dateFrom,
-        to: dateTo,
-      };
-    });
+    if (includeDate) {
+      getDateFacets().map(([facetName]) => {
+        searchQuery["date"] = {
+          name: facetName,
+          from: dateFrom,
+          to: dateTo,
+        };
+      });
+    }
+
+    if (!fullText && Object.keys(searchQuery.terms).length === 0) {
+      toast("Please select a facet or use the full text search.", {
+        type: "info",
+      });
+      return;
+    }
 
     setQuery(searchQuery);
     console.log(searchQuery);
@@ -219,6 +274,10 @@ export const Search = (props: SearchProps) => {
 
     setSearchResults(data);
     setGlobalSearchResults(data);
+
+    const toHighlight = getTextToHighlight(data);
+    setTextToHighlight(toHighlight);
+
     setElasticFrom(0);
     setPageNumber(page);
     setFacets(data.aggs);
@@ -248,10 +307,12 @@ export const Search = (props: SearchProps) => {
     if (event.currentTarget.value === "") return;
     setFragmenter(event.currentTarget.value);
 
-    setSearchParams((searchParams) => {
-      searchParams.set("frag", event.currentTarget.value);
-      return searchParams;
-    });
+    if (searchResults) {
+      setSearchParams((searchParams) => {
+        searchParams.set("frag", event.currentTarget.value);
+        return searchParams;
+      });
+    }
   };
 
   async function prevPageClickHandler() {
@@ -271,11 +332,15 @@ export const Search = (props: SearchProps) => {
       sortOrder,
     );
 
-    // const target = document.getElementsByClassName("searchContainer")[0];
-    // target.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById("searchContainer");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
 
     setSearchResults(data);
     setGlobalSearchResults(data);
+    const toHighlight = getTextToHighlight(data);
+    setTextToHighlight(toHighlight);
     setSearchParams((searchParams) => {
       searchParams.set("page", prevPage.toString());
       searchParams.set("from", newFrom.toString());
@@ -299,11 +364,15 @@ export const Search = (props: SearchProps) => {
       sortOrder,
     );
 
-    // const target = document.getElementsByClassName("searchContainer")[0];
-    // target.scrollIntoView({ behavior: "smooth" });
+    const target = document.getElementById("searchContainer");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
 
     setSearchResults(data);
     setGlobalSearchResults(data);
+    const toHighlight = getTextToHighlight(data);
+    setTextToHighlight(toHighlight);
     setSearchParams((searchParams) => {
       searchParams.set("page", nextPage.toString());
       searchParams.set("from", newFrom.toString());
@@ -360,101 +429,46 @@ export const Search = (props: SearchProps) => {
   }
 
   function sortByChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
-    const facetName = getDateFacets()[0][0];
+    const selectedValue = event.currentTarget.value;
 
-    if (event.currentTarget.value === "_score") {
-      setSortBy("_score");
-      setSortOrder("desc");
-      setInternalSortValue("_score");
-      setSearchParams((searchParams) => {
-        searchParams.set("sortBy", "_score");
-        searchParams.set("sortOrder", "desc");
-        return searchParams;
-      });
+    let sortByValue = "_score";
+    let sortOrderValue = "desc";
+
+    if (getDateFacets() && getDateFacets()[0]) {
+      const facetName = getDateFacets()[0][0];
+
+      if (selectedValue === "dateAsc" || selectedValue === "dateDesc") {
+        sortByValue = facetName;
+        sortOrderValue = selectedValue === "dateAsc" ? "asc" : "desc";
+      }
+    } else {
+      toast(
+        "Sorting on date is not possible with the current search results.",
+        { type: "info" },
+      );
     }
 
-    if (event.currentTarget.value === "dateAsc") {
-      setSortBy(facetName);
-      setSortOrder("asc");
-      setInternalSortValue("dateAsc");
-      setSearchParams((searchParams) => {
-        searchParams.set("sortBy", facetName);
-        searchParams.set("sortOrder", "asc");
-        return searchParams;
-      });
-    }
+    setSortBy(sortByValue);
+    setSortOrder(sortOrderValue);
+    setInternalSortValue(selectedValue);
 
-    if (event.currentTarget.value === "dateDesc") {
-      setSortBy(facetName);
-      setSortOrder("desc");
-      setInternalSortValue("dateDesc");
-      setSearchParams((searchParams) => {
-        searchParams.set("sortBy", facetName);
-        searchParams.set("sortOrder", "desc");
-        return searchParams;
-      });
-    }
+    setSearchParams((searchParams) => {
+      searchParams.set("sortBy", sortByValue);
+      searchParams.set("sortOrder", sortOrderValue);
+      return searchParams;
+    });
   }
 
   function renderKeywordFacets() {
-    return getKeywordFacets().map(([facetName, facetValues], index) => {
-      return (
-        <div key={index} className="w-full max-w-[450px]">
-          <div className="font-semibold">
-            {props.searchFacetTitles[facetName] ?? facetName}
-          </div>
-          {Object.entries(facetValues).map(
-            ([facetValueName, facetValueAmount]) => {
-              const key = `${facetName}-${facetValueName}`;
-              return (
-                // <CheckboxFacet
-                //   key={key}
-                //   id={key}
-                //   name={facetValueName}
-                //   value={facetValueName}
-                //   labelName={facetValueName}
-                //   amount={facetValueAmount}
-                //   onChange={(event) => keywordFacetChangeHandler(key, event)}
-                //   checked={checkboxStates.get(key) ?? false}
-                // />
-                <div
-                  key={key}
-                  className="mb-2 flex w-full flex-row items-center justify-between gap-2"
-                >
-                  <div className="flex flex-row items-center">
-                    <input
-                      className="text-brand1-700 focus:ring-brand1-700 mr-2 h-5 w-5 rounded border-gray-300"
-                      type="checkbox"
-                      id={key}
-                      name={facetValueName}
-                      value={facetValueName}
-                      onChange={(event) =>
-                        keywordFacetChangeHandler(key, event)
-                      }
-                      checked={checkboxStates.get(key) ?? false}
-                    />
-                    <label htmlFor={key}>
-                      {/^[a-z]/.test(facetValueName)
-                        ? facetValueName.charAt(0).toUpperCase() +
-                          facetValueName.slice(1)
-                        : facetValueName &&
-                          ((props.projectConfig.facetsTranslation &&
-                            props.projectConfig.facetsTranslation[
-                              facetValueName
-                            ]) ??
-                            facetValueName)}
-                    </label>
-                  </div>
-                  <div className="text-sm text-neutral-500">
-                    {facetValueAmount}
-                  </div>
-                </div>
-              );
-            },
-          )}
-        </div>
-      );
-    });
+    return (
+      <KeywordFacet
+        getKeywordFacets={getKeywordFacets}
+        keywordFacetChangeHandler={keywordFacetChangeHandler}
+        searchFacetTitles={props.searchFacetTitles}
+        projectConfig={props.projectConfig}
+        checkboxStates={checkboxStates}
+      />
+    );
   }
 
   function renderDateFacets() {
@@ -465,6 +479,7 @@ export const Search = (props: SearchProps) => {
           className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row"
         >
           <div className="flex w-full flex-col">
+            <div className="flex items-center"></div>
             <label htmlFor="start" className="font-semibold">
               Van
             </label>
@@ -526,11 +541,14 @@ export const Search = (props: SearchProps) => {
   }
 
   return (
-    <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
+    <div
+      id="searchContainer"
+      className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
+    >
       <div className="hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10">
         <div className="w-full max-w-[450px]">
           <label htmlFor="fullText" className="font-semibold">
-            Vrij zoeken
+            Full text search
           </label>
           <div className="flex w-full flex-row">
             <FullTextFacet
@@ -538,11 +556,12 @@ export const Search = (props: SearchProps) => {
               enterPressedHandler={fullTextEnterPressedHandler}
               value={fullText}
               className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
-              placeholder="Druk op ENTER om te zoeken"
+              placeholder="Press ENTER to search"
             />
             <Button
               className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
               aria-label="Click to search"
+              onPress={() => refresh()}
             >
               <MagnifyingGlassIcon className="h-4 w-4 fill-white" />
             </Button>
@@ -551,15 +570,15 @@ export const Search = (props: SearchProps) => {
         {searchResults ? (
           <div className="w-full max-w-[450px]">
             <Link
-              to="/search"
+              to="/"
               reloadDocument
               className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm no-underline"
             >
-              Nieuwe zoekopdracht
+              New search query
             </Link>
           </div>
         ) : null}
-        <div className="w-full max-w-[450px]">
+        {/* <div className="w-full max-w-[450px]">
           <SearchQueryHistory
             historyClickHandler={historyClickHandler}
             historyIsOpen={historyIsOpen}
@@ -568,29 +587,41 @@ export const Search = (props: SearchProps) => {
             projectConfig={props.projectConfig}
             disabled={queryHistory.length === 0 ? true : false}
           />
-        </div>
+        </div> */}
         <div className="w-full max-w-[450px]">
           <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
         </div>
-        {renderDateFacets()}
-        {checkboxStates.size > 0 && renderKeywordFacets()}
+        {/* <div className="w-full max-w-[450px]">
+          <Switch
+            onChange={() => setIncludeDate(!includeDate)}
+            isSelected={includeDate}
+          >
+            <div className="indicator" />
+            <p>Date facet in query</p>
+          </Switch>
+        </div> */}
+        {/* {includeDate ? renderDateFacets() : null}
+        {checkboxStates.size > 0 && renderKeywordFacets()} */}
       </div>
 
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
         {searchResults ? (
-          <div className=" mb-8 flex flex-col items-center justify-between gap-2 md:flex-row">
+          <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
               {searchResults &&
                 `${elasticFrom + 1}-${Math.min(
                   elasticFrom + elasticSize,
                   searchResults.total.value,
-                )} van ${searchResults.total.value} resultaten`}
+                )} of ${searchResults.total.value} results`}
             </span>
             <div className="flex items-center justify-between gap-10">
-              <SearchSortBy
-                onChange={sortByChangeHandler}
-                value={internalSortValue}
-              />
+              {props.projectConfig.showSearchSortBy ? (
+                <SearchSortBy
+                  onChange={sortByChangeHandler}
+                  value={internalSortValue}
+                />
+              ) : null}
+
               <SearchResultsPerPage
                 onChange={resultsPerPageSelectHandler}
                 value={elasticSize}
@@ -599,8 +630,8 @@ export const Search = (props: SearchProps) => {
           </div>
         ) : null}
         {searchResults ? (
-          <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-start gap-2 border-b px-10 pb-8">
-            <span className="text-brand1Grey-600 text-sm">Filters: </span>
+          <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
+            {/* <span className="text-brand1Grey-600 text-sm">Filters: </span>
             {getKeywordFacets().map(([facetName, facetValues]) => {
               return Object.keys(facetValues).map((facetValueName, index) => {
                 const key = `${facetName}-${facetValueName}`;
@@ -634,7 +665,14 @@ export const Search = (props: SearchProps) => {
                   );
                 }
               });
-            })}
+            })} */}
+            <SearchPagination
+              prevPageClickHandler={prevPageClickHandler}
+              nextPageClickHandler={nextPageClickHandler}
+              pageNumber={pageNumber}
+              searchResults={searchResults}
+              elasticSize={elasticSize}
+            />
           </div>
         ) : null}
         {searchResults && searchResults.results.length >= 1 ? (
@@ -642,58 +680,37 @@ export const Search = (props: SearchProps) => {
             <SearchItem key={index} result={result} />
           ))
         ) : (
-          <div className="italic">Geen resultaten</div>
-        )}
-        {searchResults && (
-          <nav aria-label="Pagination" className="my-6">
-            <ul className="list-style-none flex justify-center gap-1">
-              <li>
-                <Button
-                  className={({ isPressed }) =>
-                    isPressed
-                      ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
-                      : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
-                  }
-                  onPress={prevPageClickHandler}
-                >
-                  Vorige
-                </Button>
-              </li>
-              <li>
-                <div className="text-brand1Grey-800 relative block bg-transparent px-3 py-1.5">
-                  {`${pageNumber} van ${Math.ceil(
-                    searchResults.total.value / elasticSize,
-                  )}`}
-                </div>
-              </li>
-              <li>
-                <Button
-                  className={({ isPressed }) =>
-                    isPressed
-                      ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
-                      : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
-                  }
-                  onPress={nextPageClickHandler}
-                >
-                  Volgende
-                </Button>
-              </li>
-            </ul>
+          <>
+            <p className="mb-4 mt-4 block">
+              Welcome to the beta <i>GLOBALISE Transcriptions Viewer</i>. This
+              tool allows you to easily search and view the machine-generated
+              transcriptions and page images of the{" "}
+              <a href="https://globalise.huygens.knaw.nl">GLOBALISE project</a>{" "}
+              source corpus in a web browser.
+            </p>
 
-            {/* <select onChange={jumpToPageHandler} value={pageNumber}>
-              {Array.from(
-                {
-                  length: Math.ceil(searchResults.total.value / elasticSize),
-                },
-                (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ),
-              )}
-            </select> */}
-          </nav>
+            <p className="mb-4 mt-4 block">
+              Please note: the Transcriptions Viewer is <u>not</u> an early
+              version of the{" "}
+              <a href="https://globalise.huygens.knaw.nl">
+                GLOBALISE research portal
+              </a>
+              . It was designed instead as an interim solution for searching and
+              exploring the GLOBALISE corpus until all of the project&apos;s
+              data and research infrastructure is ready to be released to the
+              public in 2026.
+            </p>
+          </>
         )}
+        {searchResults ? (
+          <SearchPagination
+            prevPageClickHandler={prevPageClickHandler}
+            nextPageClickHandler={nextPageClickHandler}
+            pageNumber={pageNumber}
+            searchResults={searchResults}
+            elasticSize={elasticSize}
+          />
+        ) : null}
       </div>
     </div>
   );

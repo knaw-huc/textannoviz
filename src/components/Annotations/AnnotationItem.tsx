@@ -120,13 +120,19 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
   const selectAnn = () => {
     miradorStore.dispatch(
-      mirador.actions.selectAnnotation("republic", props.annotation.id),
+      mirador.actions.selectAnnotation(
+        projectConfig!.id,
+        props.annotation.body.id,
+      ),
     );
   };
 
   const deselectAnn = () => {
     miradorStore.dispatch(
-      mirador.actions.deselectAnnotation("republic", props.annotation.id),
+      mirador.actions.deselectAnnotation(
+        projectConfig!.id,
+        props.annotation.body.id,
+      ),
     );
   };
 

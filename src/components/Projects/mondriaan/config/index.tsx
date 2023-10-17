@@ -135,6 +135,11 @@ export const mondriaanConfig: ProjectConfig = {
     type: "Type",
     folder: "Folder",
   },
+  showSearchSortBy: true,
+  showFacsimileButtonFooter: true,
+  showSearchResultsButtonFooter: true,
+  defaultShowMetadataPanel: true,
+  showToggleTextPanels: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -185,7 +190,7 @@ export const mondriaanConfig: ProjectConfig = {
     ];
   },
 
-  renderHome: () => {
+  renderAbout: () => {
     return <GetHome />;
   },
 };

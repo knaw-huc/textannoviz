@@ -61,11 +61,13 @@ export const TextComponent = (props: TextComponentProps) => {
     <div className="relative w-6/12 grow self-stretch">
       {/* <div className=" bg-brand1-50 grid h-full grid-cols-[720px] grid-rows-[100%] gap-x-2 overflow-x-auto"> */}
       {/* <TextTopBar /> */}
-      <ToggleTextPanels
-        textPanelsCheckboxHandler={textPanelsCheckboxHandler}
-        panels={panelsToRender}
-      />
-      <div className="flex h-full flex-row">
+      {projectConfig?.showToggleTextPanels ? (
+        <ToggleTextPanels
+          textPanelsCheckboxHandler={textPanelsCheckboxHandler}
+          panels={panelsToRender}
+        />
+      ) : null}
+      <div className="flex h-[calc(100vh-79px)] flex-row overflow-auto">
         {textPanels && !props.isLoading ? (
           <TextPanels
             panels={panelsToRender}

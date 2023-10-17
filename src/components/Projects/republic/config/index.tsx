@@ -48,7 +48,7 @@ export const republicConfig: ProjectConfig = {
   scanAnnotation: "Scan",
   elasticIndexName: "resolutions",
   initialDateFrom: "1705-01-01",
-  initialDateTo: "1795-12-31",
+  initialDateTo: "1799-12-31",
   searchFacetTitles: {
     sessionDate: "Date",
     sessionWeekday: "Weekdag",
@@ -70,6 +70,11 @@ export const republicConfig: ProjectConfig = {
     Resolution: "Resolutie",
     AttendanceList: "Presentielijst",
   },
+  showSearchSortBy: true,
+  showFacsimileButtonFooter: true,
+  showSearchResultsButtonFooter: true,
+  defaultShowMetadataPanel: true,
+  showToggleTextPanels: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -120,7 +125,7 @@ export const republicConfig: ProjectConfig = {
     ];
   },
 
-  renderHome: () => {
+  renderAbout: () => {
     return <GetHome />;
   },
 };

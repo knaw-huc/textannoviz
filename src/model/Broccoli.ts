@@ -14,9 +14,7 @@ export interface Broccoli {
   };
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
-  views: {
-    [key: string]: BroccoliTextGeneric;
-  };
+  views: Record<string, BroccoliTextGeneric>;
 }
 
 export interface BroccoliTextGeneric {

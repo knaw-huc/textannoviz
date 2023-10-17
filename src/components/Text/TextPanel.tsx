@@ -1,28 +1,15 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import styled from "styled-components";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
-import { TextHighlighting } from "./TextHighlighting2";
+import { TextHighlighting } from "./TextHighlighting";
 
 type TextPanelProps = {
   panel: string;
   text: BroccoliTextGeneric;
   closePanelHandler: (panelToClose: string) => void;
 };
-
-const TextStyled = styled.div`
-  width: 100%;
-  height: 850px;
-  padding: 0.7em;
-  overflow: auto;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-top: 1px solid black;
-  font-size: 1rem;
-  line-height: 1.8rem;
-`;
 
 export const TextPanel = (props: TextPanelProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
@@ -43,7 +30,7 @@ export const TextPanel = (props: TextPanelProps) => {
     return (
       <div
         id={props.panel}
-        className="prose border-brand1Grey-100 mx-auto w-full max-w-full border-x border-y p-3 font-serif text-lg"
+        className="prose border-brand1Grey-100 mx-auto w-full max-w-full overflow-auto border-x border-y p-3 font-serif text-lg"
       >
         <XMarkIcon
           style={{
@@ -62,7 +49,7 @@ export const TextPanel = (props: TextPanelProps) => {
         </strong>
         <TextHighlighting
           text={props.text}
-          highlightedLines={highlightedLines}
+          // highlightedLines={highlightedLines}
         />
       </div>
     );

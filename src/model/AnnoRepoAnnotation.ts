@@ -186,6 +186,14 @@ export type DocumentBody = AnnoRepoBody & {
   };
 };
 
+export type PxPageBody = AnnoRepoBody & {
+  metadata: {
+    document: string;
+    prevPageId: string;
+    nextPageId: string;
+  };
+};
+
 export type AnnoRepoBody = {
   id: string;
   type: string;

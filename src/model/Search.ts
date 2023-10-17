@@ -13,6 +13,7 @@ export interface SearchResultBody {
   _id: string;
   bodyType: string;
   sessionDate: string;
+  document: string;
   sessionDay: number;
   sessionMonth: number;
   sessionYear: number;
@@ -46,9 +47,7 @@ export type Facets = Record<string, FacetValue>;
 export type SearchQuery =
   | {
       text?: string;
-      terms: {
-        [key: string]: string[];
-      };
+      terms: Record<string, string[]>;
       aggs?: string[];
       date?: {
         from: string;

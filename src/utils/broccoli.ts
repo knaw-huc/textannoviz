@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import { HOSTS } from "../Config";
 import { ProjectConfig } from "../model/ProjectConfig";
 import { SearchQuery, SearchResult } from "../model/Search";
 
@@ -49,8 +48,9 @@ export const fetchBroccoliScanWithOverlap = async (
 
 export const selectDistinctBodyTypes = async (
   projectId: string,
+  broccoliUrl: string,
 ): Promise<string[]> => {
-  const response = await fetch(`${HOSTS.BROCCOLI}/projects/${projectId}`);
+  const response = await fetch(`${broccoliUrl}/projects/${projectId}`);
   if (!response.ok) {
     const error = await response.json();
     toast(`${error.message}`, { type: "error" });

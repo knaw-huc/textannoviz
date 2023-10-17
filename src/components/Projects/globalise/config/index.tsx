@@ -2,15 +2,15 @@ import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { createIndices } from "../../../../utils/createIndices";
+import { GetAbout } from "../GetAbout";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
-import { GetHome } from "../GetHome";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
 
 export const globaliseConfig: ProjectConfig = {
   id: "globalise",
-  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
+  broccoliUrl: "https://gloccoli.tt.di.huc.knaw.nl",
 
   colours: {
     textregion: "white",
@@ -18,18 +18,17 @@ export const globaliseConfig: ProjectConfig = {
     entity: "green",
   },
 
-  relativeTo: "px:Page",
+  relativeTo: "na:File",
   annotationTypesToInclude: [
+    // "GeneralMissive",
+    // "na:File",
     "px:Page",
-    "px:TextLine",
-    "px:TextRegion",
-    "tt:Entity",
-    "tt:Paragraph",
-    "Document",
+    // "px:TextLine",
+    // "px:TextRegion",
   ],
-  tier: ["documents", "openings"],
-  bodyType: ["px:TextLine", "px:TextRegion", "tt:Paragraph", "tt:Entity"],
-  scanAnnotation: "px:Page",
+  tier: [],
+  bodyType: [],
+  scanAnnotation: "na:File",
   documents: [
     {
       docNr: "43",
@@ -75,6 +74,13 @@ export const globaliseConfig: ProjectConfig = {
   },
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
+  initialDateFrom: "1500-01-01",
+  initialDateTo: "1800-01-01",
+  showSearchSortBy: false,
+  showFacsimileButtonFooter: false,
+  showSearchResultsButtonFooter: false,
+  defaultShowMetadataPanel: false,
+  showToggleTextPanels: false,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -100,7 +106,7 @@ export const globaliseConfig: ProjectConfig = {
     return [
       {
         path: "/",
-        element: comp1,
+        element: comp3,
         errorElement: errorComp,
       },
       {
@@ -114,14 +120,14 @@ export const globaliseConfig: ProjectConfig = {
         errorElement: errorComp,
       },
       {
-        path: "search",
-        element: comp3,
+        path: "about",
+        element: comp1,
         errorElement: errorComp,
       },
     ];
   },
 
-  renderHome: () => {
-    return <GetHome />;
+  renderAbout: () => {
+    return <GetAbout />;
   },
 };
