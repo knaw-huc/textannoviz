@@ -3,10 +3,10 @@ import logoUrl from "../assets/G-1.png";
 export const Header = () => {
   return (
     <header className="border-brand1-200 text-brand1-700 border-b">
-      <div className="mx-auto flex w-full flex-row px-6">
+      <div className="mx-auto flex w-full flex-row">
         <div className="flex flex-row items-center justify-start">
-          <div className="bg-brand1-100 text-brand1-800 -mx-6 -my-3 flex flex-row items-center justify-start gap-3 py-3 pr-3">
-            <div className="bg-brand2-200 flex h-12 w-12 items-center justify-center">
+          <div className="bg-brand1-100 text-brand1-800 flex flex-row items-center justify-start gap-3 px-6 py-3">
+            <div className="flex h-8 w-8 items-center justify-center">
               <a
                 title="Homepage"
                 rel="noreferrer"
@@ -16,7 +16,7 @@ export const Header = () => {
                 <img src={logoUrl} className="h-7 w-7" />
               </a>
             </div>
-            <span className="">
+            <span>
               <a
                 title="Homepage"
                 rel="noreferrer"
@@ -28,7 +28,7 @@ export const Header = () => {
             </span>
           </div>
         </div>
-        <div className="ml-9 flex flex-row items-center justify-start">
+        <div className="ml-4 flex flex-row items-center justify-start gap-2">
           <a
             title="About"
             rel="noreferrer"
