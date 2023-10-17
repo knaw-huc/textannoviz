@@ -1,5 +1,6 @@
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { SearchQuery } from "../../model/Search";
+import {translateSelector, useProjectStore} from "../../stores/project.ts";
 
 type SearchQueryHistoryProps = {
   historyClickHandler: () => void;
@@ -11,6 +12,8 @@ type SearchQueryHistoryProps = {
 };
 
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
+  const translate = useProjectStore(translateSelector);
+
   return (
     <>
       <button
@@ -18,7 +21,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm"
         disabled={props.disabled}
       >
-        Search history
+        {translate('SEARCH_HISTORY')}
       </button>
       {props.historyIsOpen ? (
         <ol className="ml-6 mt-4 list-decimal">
@@ -31,23 +34,23 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
               >
                 {query.text ? (
                   <div>
-                    <strong>Text: </strong> {query.text}
+                    <strong>{translate('TEXT')}: </strong> {query.text}
                   </div>
                 ) : null}
                 {query.date ? (
                   <>
                     <div>
-                      <strong>Van: </strong> {query.date.from}
+                      <strong>{translate('FROM')}: </strong> {query.date.from}
                     </div>{" "}
                     <div>
-                      <strong>Tot en met: </strong> {query.date.to}
+                      <strong>{translate('UP_TO_AND_INCLUDING')}: </strong> {query.date.to}
                     </div>
                   </>
                 ) : null}
                 {query.terms ? (
                   <div>
                     {Object.keys(query.terms).length > 0 ? (
-                      <strong>Selected facets:</strong>
+                      <strong>{translate('SELECTED_FACETS')}:</strong>
                     ) : null}
                     {Object.entries(query.terms).map(([key, value], index) => (
                       <div key={index}>{`${
@@ -67,7 +70,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
               </li>
             ))
           ) : (
-            <div>No search history.</div>
+            <div>{translate('NO_SEARCH_HISTORY')}.</div>
           )}
         </ol>
       ) : null}

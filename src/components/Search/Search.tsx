@@ -20,7 +20,7 @@ import { SearchItem } from "./SearchItem";
 import { SearchPagination } from "./SearchPagination";
 import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
-import {translationSelector, useProjectStore} from "../../stores/project.ts";
+import {translateSelector, useProjectStore} from "../../stores/project.ts";
 
 type SearchProps = {
   project: string;
@@ -34,7 +34,7 @@ type SearchProps = {
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
 export const Search = (props: SearchProps) => {
-  const translate = useProjectStore(translationSelector);
+  const translate = useProjectStore(translateSelector);
 
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");

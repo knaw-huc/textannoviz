@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { SearchResultBody } from "../../model/Search";
-import { useProjectStore } from "../../stores/project";
+import {useProjectStore} from "../../stores/project";
 
 interface SearchItemProps {
   result: SearchResultBody;

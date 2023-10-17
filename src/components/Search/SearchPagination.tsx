@@ -1,5 +1,6 @@
 import { Button } from "react-aria-components";
 import { SearchResult } from "../../model/Search";
+import {translateSelector, useProjectStore} from "../../stores/project.ts";
 
 type SearchPaginationProps = {
   prevPageClickHandler: () => void;
@@ -10,6 +11,8 @@ type SearchPaginationProps = {
 };
 
 export const SearchPagination = (props: SearchPaginationProps) => {
+  const translate = useProjectStore(translateSelector);
+
   return (
     <nav aria-label="Pagination" className="my-6">
       <ul className="list-style-none flex justify-center gap-1">
@@ -22,7 +25,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
             }
             onPress={props.prevPageClickHandler}
           >
-            Prev
+            {translate('PREV')}
           </Button>
         </li>
         <li>
@@ -41,7 +44,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
             }
             onPress={props.nextPageClickHandler}
           >
-            Next
+            {translate('NEXT')}
           </Button>
         </li>
       </ul>

@@ -1,12 +1,16 @@
+import {translateSelector, useProjectStore} from "../../stores/project.ts";
+
 interface SearchResultsPerPageProps {
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   value: number;
 }
 
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
+  const translate = useProjectStore(translateSelector);
+
   return (
     <div className="flex items-center">
-      <div className="mr-1 text-sm">Results per page</div>
+      <div className="mr-1 text-sm">{translate('RESULTS_PER_PAGE')}</div>
       <select
         value={props.value}
         onChange={props.onChange}
