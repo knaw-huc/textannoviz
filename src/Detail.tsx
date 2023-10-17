@@ -19,6 +19,7 @@ import {
   fetchBroccoliBodyIdOfScan,
   fetchBroccoliScanWithOverlap,
 } from "./utils/broccoli";
+import { zoomAnnMirador } from "./utils/zoomAnnMirador";
 
 interface DetailProps {
   project: string;
@@ -89,46 +90,40 @@ export const Detail = (props: DetailProps) => {
       setAnnotations(broccoli.anno);
       setViews(broccoli.views);
 
-      // if (params.tier2) {
-      //   let annoToZoom: AnnoRepoAnnotation[];
-      //   if (params.tier2.includes("resolution")) {
-      //     annoToZoom = broccoli.anno.filter(
-      //       (annotation) => annotation.body.type === "Resolution",
-      //     );
-      //   }
+      if (props.config.zoomAnnoMirador) {
+        if (params.tier2) {
+          const annoToZoom = broccoli.anno.find(
+            (annotation) => annotation.body.id === params.tier2,
+          );
 
-      //   if (params.tier2.includes("attendance_list")) {
-      //     annoToZoom = broccoli.anno.filter(
-      //       (annotation) => annotation.body.type === "AttendanceList",
-      //     );
-      //   }
-
-      //   setTimeout(() => {
-      //     const zoom = zoomAnnMirador(
-      //       annoToZoom ? annoToZoom[0] : broccoli.anno[0],
-      //       broccoli.iiif.canvasIds[0],
-      //     );
-      //     viewer.store.dispatch(
-      //       mirador.actions.selectAnnotation(
-      //         `${props.project}`,
-      //         annoToZoom ? annoToZoom[0].id : broccoli.anno[0].id,
-      //       ),
-      //     );
-      //     if (typeof zoom === "object") {
-      //       viewer.store.dispatch(
-      //         mirador.actions.updateViewport(`${props.project}`, {
-      //           x: zoom?.zoomCenter.x,
-      //           y: zoom?.zoomCenter.y,
-      //           zoom: 1 / zoom!.miradorZoom,
-      //         }),
-      //       );
-      //     }
-      //   }, 200);
-      // }
+          setTimeout(() => {
+            const zoom = zoomAnnMirador(
+              annoToZoom ? annoToZoom : broccoli.anno[0],
+              broccoli.iiif.canvasIds[0],
+            );
+            viewer.store.dispatch(
+              mirador.actions.selectAnnotation(
+                `${props.project}`,
+                annoToZoom ? annoToZoom.body.id : broccoli.anno[0].body.id,
+              ),
+            );
+            if (typeof zoom === "object") {
+              viewer.store.dispatch(
+                mirador.actions.updateViewport(`${props.project}`, {
+                  x: zoom?.zoomCenter.x,
+                  y: zoom?.zoomCenter.y,
+                  zoom: 1 / zoom!.miradorZoom,
+                }),
+              );
+            }
+          }, 200);
+        }
+      }
     },
     [
       params.tier0,
       params.tier1,
+      params.tier2,
       props.project,
       setAnnotations,
       setCanvas,

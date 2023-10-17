@@ -29,6 +29,8 @@ export type ProjectConfig = {
   showFacsimileButtonFooter: boolean;
   defaultShowMetadataPanel: boolean;
   showToggleTextPanels: boolean;
+  zoomAnnoMirador: boolean;
+  annotationTypesToZoom?: string[];
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;

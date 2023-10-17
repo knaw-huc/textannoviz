@@ -76,6 +76,8 @@ export const republicConfig: ProjectConfig = {
   showSearchResultsButtonFooter: true,
   defaultShowMetadataPanel: true,
   showToggleTextPanels: true,
+  zoomAnnoMirador: true,
+  annotationTypesToZoom: ["resolution", "attendance_list"],
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
