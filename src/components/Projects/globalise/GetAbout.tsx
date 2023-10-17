@@ -1,6 +1,6 @@
 export const GetAbout = () => {
   return (
-    <div className="m-4">
+    <div className="prose m-4 mx-auto max-w-2xl px-16">
       <h4>Introduction</h4>
 
       <p className="mb-4 mt-4 block">
