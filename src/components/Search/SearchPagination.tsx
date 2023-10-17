@@ -45,19 +45,6 @@ export const SearchPagination = (props: SearchPaginationProps) => {
           </Button>
         </li>
       </ul>
-
-      {/* <select onChange={jumpToPageHandler} value={pageNumber}>
-              {Array.from(
-                {
-                  length: Math.ceil(searchResults.total.value / elasticSize),
-                },
-                (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ),
-              )}
-            </select> */}
     </nav>
   );
 };
