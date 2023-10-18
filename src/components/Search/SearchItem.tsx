@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { LabelKey } from "../../model/Labels";
 import { SearchResultBody } from "../../model/Search";
-import {useProjectStore} from "../../stores/project";
+import { translateSelector, useProjectStore } from "../../stores/project";
 
 interface SearchItemProps {
   result: SearchResultBody;
@@ -8,8 +9,9 @@ interface SearchItemProps {
 
 export const SearchItem = (props: SearchItemProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
+  const translate = useProjectStore(translateSelector);
 
-  const monthNumberToString: Record<number, string> = {
+  const monthNumberToString: Record<number, LabelKey> = {
     1: "JANUARY",
     2: "FEBRUARY",
     3: "MARCH",
@@ -33,7 +35,7 @@ export const SearchItem = (props: SearchItemProps) => {
           props.result.sessionWeekday}{" "}
         <strong className="font-semibold">
           {props.result.sessionDay}{" "}
-          {monthNumberToString[props.result.sessionMonth]}{" "}
+          {translate(monthNumberToString[props.result.sessionMonth])}{" "}
           {props.result.sessionYear}
         </strong>
       </li>
