@@ -18,4 +18,4 @@
 ```
 npm start
 ```
-- Textannoviz runs on http://localhost:5173/
+- Open http://localhost:5173/ in browser

@@ -33,5 +33,3 @@ export type Labels = {
   METADATA: string,
   WEB_ANNOTATIONS: string
 }
-
-export type LabelKey = keyof Labels;

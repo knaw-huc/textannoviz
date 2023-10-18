@@ -1,6 +1,6 @@
 import { create, StateCreator } from "zustand";
 import { ProjectConfig } from "../model/ProjectConfig";
-import {LabelKey} from "../model/Labels.tsx";
+import {Labels} from "../model/Labels.ts";
 
 export interface ProjectSlice {
   projectName: string;
@@ -45,5 +45,5 @@ export const useProjectStore = create<ProjectSlice & ProjectConfigSlice>()(
 
 export function translateSelector(state: ProjectConfigSlice) {
   const translations = state.projectConfig?.labels;
-  return (key: LabelKey) => translations?.[key] ?? key;
+  return (key: keyof Labels) => translations?.[key] ?? key;
 }
