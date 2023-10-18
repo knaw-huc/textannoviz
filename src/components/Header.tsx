@@ -13,7 +13,7 @@ export const Header = () => {
                 target="_blank"
                 href="https://globalise.huygens.knaw.nl"
               >
-                <img src={logoUrl} className="h-7 w-7" />
+                <img src={logoUrl} className="h-7 w-7" alt="logo"/>
               </a>
             </div>
             <span>

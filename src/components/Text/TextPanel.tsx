@@ -1,7 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import React from "react";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
-import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
 
@@ -13,18 +11,6 @@ type TextPanelProps = {
 
 export const TextPanel = (props: TextPanelProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
-  const openAnn = useAnnotationStore((state) => state.openAnn);
-  const [highlightedLines, setHighlightedLines] = React.useState<number[]>([]);
-
-  React.useEffect(() => {
-    if (openAnn) {
-      const indices = openAnn.flatMap((ann) => {
-        return ann.indicesToHighlight;
-      });
-
-      setHighlightedLines(indices);
-    }
-  }, [openAnn]);
 
   function renderPanel() {
     return (
@@ -49,7 +35,6 @@ export const TextPanel = (props: TextPanelProps) => {
         </strong>
         <TextHighlighting
           text={props.text}
-          // highlightedLines={highlightedLines}
         />
       </div>
     );

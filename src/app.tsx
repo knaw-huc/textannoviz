@@ -30,7 +30,8 @@ switch (project) {
 }
 
 const indices = await getElasticIndices(config);
-const { aggs } = await sendSearchQuery({}, "Scan", 0, 0, config);
+const searchResult = await sendSearchQuery({}, "Scan", 0, 0, config);
+const aggs = searchResult!.aggs;
 
 const router = createBrowserRouter(
   config.createRouter(
@@ -58,7 +59,7 @@ export default function App() {
   setProjectConfig(config);
   return (
     <>
-      <Header project={project} />
+      <Header />
       <RouterProvider router={router} />
     </>
   );

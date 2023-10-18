@@ -36,14 +36,14 @@ export const Footer = (props: FooterProps) => {
           {projectConfig?.showSearchResultsButtonFooter ? (
             <button
               className={`${
-                props.searchResultsShowState === true
+                props.searchResultsShowState
                   ? "text-brand1-500"
                   : "text-neutral-500"
               } hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 disabled:text-neutral-300`}
               onClick={props.showSearchResultsHandler}
               disabled={props.searchResultsShowState}
             >
-              {props.searchResultsShowState === true
+              {props.searchResultsShowState
                 ? "Verberg zoekresultaten"
                 : "Toon zoekresultaten"}
             </button>
@@ -54,7 +54,7 @@ export const Footer = (props: FooterProps) => {
               className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
               onClick={props.showIiifViewerHandler}
             >
-              {props.facsimileShowState === true
+              {props.facsimileShowState
                 ? "Verberg facsimile"
                 : "Toon facsimile"}
             </button>
@@ -70,7 +70,7 @@ export const Footer = (props: FooterProps) => {
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
             onClick={props.showAnnotationPanelHandler}
           >
-            {props.panelShowState === true ? "Hide info" : "Show info"}{" "}
+            {props.panelShowState ? "Hide info" : "Show info"}{" "}
             <InformationCircleIcon className="inline h-5 w-5 fill-neutral-500" />
           </button>
         </div>

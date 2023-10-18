@@ -39,7 +39,6 @@ export const Detail = (props: DetailProps) => {
   const [showAnnotationPanel, setShowAnnotationPanel] = React.useState(
     props.config.defaultShowMetadataPanel,
   );
-  const [count, setCount] = React.useState(0);
   const setProjectName = useProjectStore((state) => state.setProjectName);
 
   const setStore = useMiradorStore((state) => state.setStore);
@@ -137,7 +136,6 @@ export const Detail = (props: DetailProps) => {
   React.useEffect(() => {
     let ignore = false;
     setIsLoading(true);
-    setCount((prevState) => prevState + 1);
     if (params.tier0 && params.tier1) {
       fetchBroccoliBodyIdOfScan(params.tier0, params.tier1, props.config).then(
         (result: BroccoliBodyIdResult) => {
@@ -182,7 +180,6 @@ export const Detail = (props: DetailProps) => {
 
   React.useEffect(() => {
     setIsLoading(true);
-    setCount((prevState) => prevState + 1);
     if (params.tier2) {
       const bodyId = params.tier2;
       const includeResults = ["anno", "iiif", "text"];
@@ -232,14 +229,6 @@ export const Detail = (props: DetailProps) => {
   return (
     <>
       <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
-        {/* <div className="lastUpdated">
-        Last updated: 17 July 2023{" "}
-        {globalSearchResults && globalSearchResults.results.length >= 1 ? (
-          <button onClick={() => setShowSearchResults(!showSearchResults)}>
-            Show search results in side panel
-          </button>
-        ) : null}
-      </div> */}
         <div className="h-full overflow-auto">
           {showSearchResults
             ? globalSearchResults && globalSearchResults.results.length >= 1
@@ -267,7 +256,7 @@ export const Detail = (props: DetailProps) => {
           showAnnotationPanelHandler={showAnnotationPanelHandler}
           showSearchResultsHandler={showSearchResultsHandler}
           showSearchResultsDisabled={
-            globalSearchResults === undefined ? true : false
+            globalSearchResults === undefined
           }
           facsimileShowState={showIiifViewer}
           panelShowState={showAnnotationPanel}

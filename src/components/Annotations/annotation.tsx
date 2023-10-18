@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
-import { useProjectStore } from "../../stores/project";
+import {translateSelector, useProjectStore} from "../../stores/project";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
@@ -29,6 +29,7 @@ export function Annotation(props: AnnotationProps) {
   const canvas = useMiradorStore((state) => state.canvas);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const params = useParams();
+  const translate = useProjectStore(translateSelector);
 
   React.useEffect(() => {
     if (
@@ -60,13 +61,6 @@ export function Annotation(props: AnnotationProps) {
 
   return (
     <div className="border-brand1Grey-100 relative hidden w-2/12 grow self-stretch border-x md:block">
-      {/* <AnnotationLinks /> */}
-      {/* <ButtonsStyled>
-        <AnnotationButtons
-          nextOrPrevButtonClicked={nextOrPrevButtonClickedHandler}
-        />{" "}
-        <AnnotationFilter />
-      </ButtonsStyled> */}
       <Tabs className="flex h-[calc(100vh-79px)] flex-col overflow-hidden">
         <TabList
           aria-label="annotation-panel"
@@ -76,13 +70,13 @@ export function Annotation(props: AnnotationProps) {
             id="metadata"
             className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
           >
-            Metadata
+            {translate('METADATA')}
           </Tab>
           <Tab
             id="webannos"
             className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
           >
-            Web annotations
+            {translate('WEB_ANNOTATIONS')}
           </Tab>
         </TabList>
         <TabPanel id="metadata" className="text-brand1-800 h-full p-5">

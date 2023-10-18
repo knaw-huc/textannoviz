@@ -29,6 +29,9 @@ export type Labels = {
   OCTOBER: string,
   NOVEMBER: string,
   DECEMBER: string,
+
+  METADATA: string,
+  WEB_ANNOTATIONS: string
 }
 
 export type LabelKey = keyof Labels;
