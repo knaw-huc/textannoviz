@@ -30,12 +30,12 @@ export const Header = () => {
         </div>
         <div className="ml-4 flex flex-row items-center justify-start gap-2">
           <a
-            title="About"
+            title="Help"
             rel="noreferrer"
-            href={window.location.pathname === "/about" ? "/" : "/about"}
+            href={window.location.pathname === "/help" ? "/" : "/help"}
             className="hover:text-brand1-900 text-inherit no-underline hover:underline"
           >
-            {window.location.pathname === "/about" ? "Search" : "About"}
+            {window.location.pathname === "/help" ? "Search" : "Help"}
           </a>
         </div>
       </div>

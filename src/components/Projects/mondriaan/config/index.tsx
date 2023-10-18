@@ -2,11 +2,11 @@ import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { englishLabels } from "../../default/config/englishLabels.tsx";
-import { GetAbout } from "../GetAbout.tsx";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
+import {GetHelp} from "../../globalise/GetHelp.tsx";
 
 export const mondriaanConfig: ProjectConfig = {
   id: "mondriaan",
@@ -192,8 +192,8 @@ export const mondriaanConfig: ProjectConfig = {
     ];
   },
 
-  renderAbout: () => {
-    return <GetAbout />;
+  renderHome: () => {
+    return <GetHelp />;
   },
   labels: englishLabels,
 };

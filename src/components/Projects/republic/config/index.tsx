@@ -128,7 +128,7 @@ export const republicConfig: ProjectConfig = {
     ];
   },
 
-  renderAbout: () => {
+  renderHome: () => {
     return <GetAbout />;
   },
   labels: dutchLabels,
