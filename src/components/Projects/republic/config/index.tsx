@@ -125,7 +125,7 @@ export const republicConfig: ProjectConfig = {
     ];
   },
 
-  renderHome: () => {
+  renderHelp: () => {
     return <GetHome />;
   },
 };

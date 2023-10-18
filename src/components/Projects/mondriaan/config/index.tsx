@@ -190,7 +190,7 @@ export const mondriaanConfig: ProjectConfig = {
     ];
   },
 
-  renderHome: () => {
+  renderHelp: () => {
     return <GetHome />;
   },
 };

@@ -127,7 +127,7 @@ export const globaliseConfig: ProjectConfig = {
     ];
   },
 
-  renderHome: () => {
+  renderHelp: () => {
     return <GetHelp />;
   },
 };
