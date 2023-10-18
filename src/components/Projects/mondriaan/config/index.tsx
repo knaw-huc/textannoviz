@@ -6,7 +6,7 @@ import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
-import {GetHelp} from "../../globalise/GetHelp.tsx";
+import {GetAbout} from "../GetAbout.tsx";
 
 export const mondriaanConfig: ProjectConfig = {
   id: "mondriaan",
@@ -192,8 +192,8 @@ export const mondriaanConfig: ProjectConfig = {
     ];
   },
 
-  renderHome: () => {
-    return <GetHelp />;
+  renderHelp: () => {
+    return <GetAbout />;
   },
   labels: englishLabels,
 };

@@ -48,6 +48,6 @@ export type ProjectConfig = {
     element: React.ReactNode;
     errorElement: React.ReactNode;
   }[];
-  renderHome: () => JSX.Element;
+  renderHelp: () => JSX.Element;
   labels: Record<string, string>
 };

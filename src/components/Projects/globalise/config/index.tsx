@@ -21,11 +21,7 @@ export const globaliseConfig: ProjectConfig = {
 
   relativeTo: "na:File",
   annotationTypesToInclude: [
-    // "GeneralMissive",
-    // "na:File",
     "px:Page",
-    // "px:TextLine",
-    // "px:TextRegion",
   ],
   tier: [],
   bodyType: [],
@@ -128,7 +124,8 @@ export const globaliseConfig: ProjectConfig = {
       },
     ];
   },
-  renderHome: () => {
+
+  renderHelp: () => {
     return <GetHelp />;
   },
   labels: englishLabels
