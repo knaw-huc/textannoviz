@@ -1,12 +1,12 @@
 import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { englishLabels } from "../../default/config/englishLabels.tsx";
+import { GetAbout } from "../GetAbout.tsx";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
-import { GetHome } from "../GetHome";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
-import {englishLabels} from "../../default/config/englishLabels.tsx";
 
 export const mondriaanConfig: ProjectConfig = {
   id: "mondriaan",
@@ -171,7 +171,7 @@ export const mondriaanConfig: ProjectConfig = {
     return [
       {
         path: "/",
-        element: comp1,
+        element: comp3,
         errorElement: errorComp,
       },
       {
@@ -180,8 +180,8 @@ export const mondriaanConfig: ProjectConfig = {
         errorElement: errorComp,
       },
       {
-        path: "search",
-        element: comp3,
+        path: "about",
+        element: comp1,
         errorElement: errorComp,
       },
       {
@@ -193,7 +193,7 @@ export const mondriaanConfig: ProjectConfig = {
   },
 
   renderAbout: () => {
-    return <GetHome />;
+    return <GetAbout />;
   },
-  labels: englishLabels
+  labels: englishLabels,
 };

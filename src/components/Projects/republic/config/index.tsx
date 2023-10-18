@@ -1,13 +1,13 @@
 import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { dutchLabels } from "../../default/config/dutchLabels.tsx";
+import { GetAbout } from "../GetAbout.tsx";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";
-import { GetHome } from "../GetHome";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
-import {dutchLabels} from "../../default/config/dutchLabels.tsx";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
@@ -107,7 +107,7 @@ export const republicConfig: ProjectConfig = {
     return [
       {
         path: "/",
-        element: comp1,
+        element: comp3,
         errorElement: errorComp,
       },
       {
@@ -116,8 +116,8 @@ export const republicConfig: ProjectConfig = {
         errorElement: errorComp,
       },
       {
-        path: "search",
-        element: comp3,
+        path: "about",
+        element: comp1,
         errorElement: errorComp,
       },
       {
@@ -129,7 +129,7 @@ export const republicConfig: ProjectConfig = {
   },
 
   renderAbout: () => {
-    return <GetHome />;
+    return <GetAbout />;
   },
-  labels: dutchLabels
+  labels: dutchLabels,
 };
