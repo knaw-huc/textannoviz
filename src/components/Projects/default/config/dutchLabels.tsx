@@ -31,4 +31,7 @@ export const dutchLabels: Labels = {
   OCTOBER: "oktober",
   NOVEMBER: "november",
   DECEMBER: "december",
+
+  METADATA: 'Metadata',
+  WEB_ANNOTATIONS: 'Web annotations'
 }
