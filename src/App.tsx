@@ -8,7 +8,7 @@ import { mondriaanConfig } from "./components/Projects/mondriaan/config";
 import { republicConfig } from "./components/Projects/republic/config";
 import { Search } from "./components/Search/Search";
 import { Detail } from "./Detail";
-import { ErrorPage } from "./error-page";
+import { ErrorPage } from "./ErrorPage";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
 import { useProjectStore } from "./stores/project";

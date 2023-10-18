@@ -38,12 +38,6 @@ export const Search = (props: SearchProps) => {
 
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
-  const [dateFrom, setDateFrom] = React.useState(
-    props.projectConfig.initialDateFrom ?? "",
-  );
-  const [dateTo, setDateTo] = React.useState(
-    props.projectConfig.initialDateTo ?? "",
-  );
   const [facets, setFacets] = React.useState<Facets>(props.facets);
   const [query, setQuery] = React.useState<SearchQuery>({});
   const [pageNumber, setPageNumber] = React.useState(1);
@@ -58,8 +52,6 @@ export const Search = (props: SearchProps) => {
     new Map<string, boolean>(),
   );
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
-  const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
-  const [includeDate, setIncludeDate] = React.useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const setGlobalSearchResults = useSearchStore(
     (state) => state.setGlobalSearchResults,
@@ -126,6 +118,9 @@ export const Search = (props: SearchProps) => {
         sortBy,
         sortOrder,
       );
+      if(!data) {
+        return;
+      }
 
       setSearchResults(data);
       setGlobalSearchResults(data);
@@ -140,10 +135,6 @@ export const Search = (props: SearchProps) => {
       setQuery(query);
       setGlobalSearchQuery(query);
       setFragmenter(frag);
-      if (query.date) {
-        setDateFrom(query.date?.from);
-        setDateTo(query.date?.to);
-      }
 
       if (sortBy === "_score") {
         setInternalSortValue("_score");
@@ -247,16 +238,6 @@ export const Search = (props: SearchProps) => {
       });
     });
 
-    if (includeDate) {
-      getDateFacets().map(([facetName]) => {
-        searchQuery["date"] = {
-          name: facetName,
-          from: dateFrom,
-          to: dateTo,
-        };
-      });
-    }
-
     if (!fullText && Object.keys(searchQuery.terms).length === 0) {
       toast("Please select a facet or use the full text search.", {
         type: "info",
@@ -277,6 +258,9 @@ export const Search = (props: SearchProps) => {
       sortBy,
       sortOrder,
     );
+    if(!data) {
+      return;
+    }
 
     const page = 1;
 

@@ -48,11 +48,6 @@ export function Annotation(props: AnnotationProps) {
     }
   }, [annotations, canvas, miradorStore, projectConfig, projectName]);
 
-  const nextOrPrevButtonClickedHandler = (clicked: boolean) => {
-    setNextOrPrevButtonClicked(clicked);
-    return clicked;
-  };
-
   React.useEffect(() => {
     if (params.tier0 && params.tier1) {
       setNextOrPrevButtonClicked(false);
