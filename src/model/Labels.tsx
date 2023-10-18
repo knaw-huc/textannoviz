@@ -16,6 +16,19 @@ export type Labels = {
   SORT_BY: string,
   TEXT: string,
   UP_TO_AND_INCLUDING: string,
+
+  JANUARY: string,
+  FEBRUARY: string,
+  MARCH: string,
+  APRIL: string,
+  MAY: string,
+  JUNE: string,
+  JULY: string,
+  AUGUST: string,
+  SEPTEMBER: string,
+  OCTOBER: string,
+  NOVEMBER: string,
+  DECEMBER: string,
 }
 
 export type LabelKey = keyof Labels;

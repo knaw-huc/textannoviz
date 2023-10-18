@@ -10,18 +10,18 @@ export const SearchItem = (props: SearchItemProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
 
   const monthNumberToString: Record<number, string> = {
-    1: "januari",
-    2: "februari",
-    3: "maart",
-    4: "april",
-    5: "mei",
-    6: "juni",
-    7: "juli",
-    8: "augustus",
-    9: "september",
-    10: "oktober",
-    11: "november",
-    12: "december",
+    1: "JANUARY",
+    2: "FEBRUARY",
+    3: "MARCH",
+    4: "APRIL",
+    5: "MAY",
+    6: "JUNE",
+    7: "JULY",
+    8: "AUGUST",
+    9: "SEPTEMBER",
+    10: "OCTOBER",
+    11: "NOVEMBER",
+    12: "DECEMBER",
   };
 
   return (

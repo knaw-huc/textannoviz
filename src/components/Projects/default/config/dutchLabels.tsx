@@ -17,5 +17,18 @@ export const dutchLabels: Labels = {
   SNIPPET: "Snippet",
   SORT_BY: "Sorteer op",
   TEXT: "Tekst",
-  UP_TO_AND_INCLUDING: "Tot en met"
+  UP_TO_AND_INCLUDING: "Tot en met",
+
+  JANUARY: "januari",
+  FEBRUARY: "februari",
+  MARCH: "maart",
+  APRIL: "april",
+  MAY: "mei",
+  JUNE: "juni",
+  JULY: "juli",
+  AUGUST: "augustus",
+  SEPTEMBER: "september",
+  OCTOBER: "oktober",
+  NOVEMBER: "november",
+  DECEMBER: "december",
 }

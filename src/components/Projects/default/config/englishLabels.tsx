@@ -18,4 +18,17 @@ export const englishLabels: Labels = {
   SORT_BY: "Sort by",
   TEXT: "Text",
   UP_TO_AND_INCLUDING: "Up to and including",
+
+  JANUARY: "January",
+  FEBRUARY: "February",
+  MARCH: "March",
+  APRIL: "April",
+  MAY: "May",
+  JUNE: "June",
+  JULY: "July",
+  AUGUST: "August",
+  SEPTEMBER: "September",
+  OCTOBER: "October",
+  NOVEMBER: "November",
+  DECEMBER: "December",
 }
