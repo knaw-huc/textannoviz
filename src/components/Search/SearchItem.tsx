@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { LabelKey } from "../../model/Labels";
 import { SearchResultBody } from "../../model/Search";
 import { translateSelector, useProjectStore } from "../../stores/project";
+import {Labels} from "../../model/Labels.ts";
 
 interface SearchItemProps {
   result: SearchResultBody;
@@ -11,7 +11,7 @@ export const SearchItem = (props: SearchItemProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const translate = useProjectStore(translateSelector);
 
-  const monthNumberToString: Record<number, LabelKey> = {
+  const monthNumberToString: Record<number, keyof Labels> = {
     1: "JANUARY",
     2: "FEBRUARY",
     3: "MARCH",
