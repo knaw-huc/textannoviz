@@ -2,7 +2,7 @@ import React from "react";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { dutchLabels } from "../../default/config/dutchLabels.tsx";
-import { GetAbout } from "../GetAbout.tsx";
+import { GetHelp } from "../GetHelp.tsx";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";
@@ -116,20 +116,20 @@ export const republicConfig: ProjectConfig = {
         errorElement: errorComp,
       },
       {
-        path: "about",
-        element: comp1,
+        path: "detail/:tier2",
+        element: comp2,
         errorElement: errorComp,
       },
       {
-        path: "detail/:tier2",
-        element: comp2,
+        path: "help",
+        element: comp1,
         errorElement: errorComp,
       },
     ];
   },
 
   renderHelp: () => {
-    return <GetAbout />;
+    return <GetHelp />;
   },
   labels: dutchLabels,
 };

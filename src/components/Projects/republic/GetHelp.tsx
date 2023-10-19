@@ -1,3 +1,3 @@
-export const GetAbout = () => {
+export const GetHelp = () => {
   return <div>Placeholder</div>;
 };
