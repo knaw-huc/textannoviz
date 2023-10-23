@@ -5,12 +5,14 @@ import { toast } from "react-toastify";
 import { PxPageBody } from "../../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../../stores/annotation";
 import { useMiradorStore } from "../../../stores/mirador";
+import {translateSelector, useProjectStore} from "../../../stores/project.ts";
 
 export const GetAnnotationButtons = () => {
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const annotations = useAnnotationStore((state) => state.annotations);
   const params = useParams();
   const navigate = useNavigate();
+  const translate = useProjectStore(translateSelector);
 
   const pageAnnotation = annotations.find(
     (annotation) => annotation.body.type === "px:Page",
@@ -20,7 +22,7 @@ export const GetAnnotationButtons = () => {
     const nextPage = (pageAnnotation?.body as PxPageBody).metadata.nextPageId;
 
     if (nextPage === undefined)
-      return toast("You have reached the last page.", { type: "info" });
+      return toast(translate('INFO_LAST_PAGE'), { type: "info" });
     navigate(`/detail/${nextPage}`);
     miradorStore.dispatch(mirador.actions.setNextCanvas("globalise"));
   };
@@ -29,7 +31,7 @@ export const GetAnnotationButtons = () => {
     const prevPage = (pageAnnotation?.body as PxPageBody).metadata.prevPageId;
 
     if (prevPage === undefined)
-      return toast("You have reached the first page.", { type: "info" });
+      return toast(translate('INFO_FIRST_PAGE'), { type: "info" });
 
     navigate(`/detail/${prevPage}`);
     miradorStore.dispatch(mirador.actions.setPreviousCanvas("globalise"));
@@ -43,14 +45,17 @@ export const GetAnnotationButtons = () => {
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pl-16"
             onClick={previousCanvasClickHandler}
           >
-            <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" /> Previous
-            page
+            <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" />
+            {' '}
+            {translate('PREV_PAGE')}
           </button>
           <button
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-10"
             onClick={nextCanvasClickHandler}
           >
-            Next page <ChevronRightIcon className="h-4 w-4 fill-neutral-500" />
+            {translate('NEXT_PAGE')}
+            {' '}
+            <ChevronRightIcon className="h-4 w-4 fill-neutral-500" />
           </button>
         </>
       ) : null}
