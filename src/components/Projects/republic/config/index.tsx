@@ -76,7 +76,7 @@ export const republicConfig: ProjectConfig = {
   showFacsimileButtonFooter: true,
   showSearchResultsButtonFooter: true,
   defaultShowMetadataPanel: true,
-  showToggleTextPanels: true,
+  showToggleTextPanels: false,
   zoomAnnoMirador: true,
   annotationTypesToZoom: ["resolution", "attendance_list"],
   logoImageUrl: logo,
