@@ -131,4 +131,8 @@ export const globaliseConfig: ProjectConfig = {
     return <GetHelp />;
   },
   labels: englishLabels,
+  mirador: {
+    showWindowSideBar: true,
+    showTopMenuButton: false
+  },
 };

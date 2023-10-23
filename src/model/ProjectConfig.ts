@@ -53,4 +53,8 @@ export type ProjectConfig = {
   }[];
   renderHelp: () => JSX.Element;
   labels: Record<string, string>;
+  mirador: {
+    showWindowSideBar: boolean,
+    showTopMenuButton: boolean
+  }
 };

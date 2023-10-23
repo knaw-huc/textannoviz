@@ -136,4 +136,8 @@ export const republicConfig: ProjectConfig = {
     return <GetHelp />;
   },
   labels: dutchLabels,
+  mirador: {
+    showWindowSideBar: false,
+    showTopMenuButton: true
+  },
 };

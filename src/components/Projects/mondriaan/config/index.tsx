@@ -201,4 +201,8 @@ export const mondriaanConfig: ProjectConfig = {
     return <GetHelp />;
   },
   labels: englishLabels,
+  mirador: {
+    showWindowSideBar: false,
+    showTopMenuButton: true
+  },
 };
