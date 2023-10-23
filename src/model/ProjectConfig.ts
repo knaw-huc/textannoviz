@@ -58,4 +58,8 @@ export type ProjectConfig = {
   renderHelp: () => JSX.Element;
   renderSearchInfoPage: () => JSX.Element;
   labels: Record<string, string>;
+  mirador: {
+    showWindowSideBar: boolean,
+    showTopMenuButton: boolean
+  }
 };

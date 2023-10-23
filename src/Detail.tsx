@@ -36,7 +36,8 @@ const createMiradorConfig = (
   newConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
   newConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
   newConfig.windows[0].id = project.id;
-  // en de rest...
+  newConfig.window.allowWindowSideBar = project.mirador.showWindowSideBar;
+  newConfig.window.allowTopMenuButton = project.mirador.showTopMenuButton;
   return newConfig;
 };
 

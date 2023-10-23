@@ -144,4 +144,8 @@ export const republicConfig: ProjectConfig = {
     return <RenderSearchInfoPage />;
   },
   labels: dutchLabels,
+  mirador: {
+    showWindowSideBar: false,
+    showTopMenuButton: true
+  },
 };

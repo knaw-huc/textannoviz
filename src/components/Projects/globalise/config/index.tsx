@@ -139,4 +139,8 @@ export const globaliseConfig: ProjectConfig = {
     return <RenderSearchInfoPage />;
   },
   labels: englishLabels,
+  mirador: {
+    showWindowSideBar: true,
+    showTopMenuButton: false
+  },
 };
