@@ -31,6 +31,9 @@ export type ProjectConfig = {
   showToggleTextPanels: boolean;
   zoomAnnoMirador: boolean;
   annotationTypesToZoom?: string[];
+  logoImageUrl: string;
+  headerTitle: string;
+  logoHref: string;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
@@ -49,5 +52,5 @@ export type ProjectConfig = {
     errorElement: React.ReactNode;
   }[];
   renderHelp: () => JSX.Element;
-  labels: Record<string, string>
+  labels: Record<string, string>;
 };

@@ -1,6 +1,10 @@
-import logoUrl from "../assets/G-1.png";
+import { ProjectConfig } from "../model/ProjectConfig";
 
-export const Header = () => {
+type HeaderProps = {
+  projectConfig: ProjectConfig;
+};
+
+export const Header = (props: HeaderProps) => {
   return (
     <header className="border-brand1-200 text-brand1-700 border-b">
       <div className="mx-auto flex w-full flex-row">
@@ -11,9 +15,13 @@ export const Header = () => {
                 title="Homepage"
                 rel="noreferrer"
                 target="_blank"
-                href="https://globalise.huygens.knaw.nl"
+                href={props.projectConfig.logoHref}
               >
-                <img src={logoUrl} className="h-7 w-7" alt="logo"/>
+                <img
+                  src={props.projectConfig.logoImageUrl}
+                  className="h-7 w-7"
+                  alt="logo"
+                />
               </a>
             </div>
             <span>
@@ -23,7 +31,7 @@ export const Header = () => {
                 href="/"
                 className="hover:text-brand1-900 text-inherit no-underline hover:underline"
               >
-                GLOBALISE Transcriptions Viewer
+                {props.projectConfig.headerTitle}
               </a>
             </span>
           </div>

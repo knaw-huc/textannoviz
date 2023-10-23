@@ -12,12 +12,12 @@ export const GetAnnotationButtons = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const pageAnnotation = annotations.filter(
+  const pageAnnotation = annotations.find(
     (annotation) => annotation.body.type === "px:Page",
-  )[0];
+  );
 
   const nextCanvasClickHandler = () => {
-    const nextPage = (pageAnnotation.body as PxPageBody).metadata.nextPageId;
+    const nextPage = (pageAnnotation?.body as PxPageBody).metadata.nextPageId;
 
     if (nextPage === undefined)
       return toast("You have reached the last page.", { type: "info" });
@@ -26,7 +26,7 @@ export const GetAnnotationButtons = () => {
   };
 
   const previousCanvasClickHandler = () => {
-    const prevPage = (pageAnnotation.body as PxPageBody).metadata.prevPageId;
+    const prevPage = (pageAnnotation?.body as PxPageBody).metadata.prevPageId;
 
     if (prevPage === undefined)
       return toast("You have reached the first page.", { type: "info" });

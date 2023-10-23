@@ -1,12 +1,13 @@
 import React from "react";
+import logo from "../../../../assets/logo-republic-temp.png";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { englishLabels } from "../../default/config/englishLabels.tsx";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
+import { GetHelp } from "../GetHelp.tsx";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
-import {GetHelp} from "../GetHelp.tsx";
 
 export const mondriaanConfig: ProjectConfig = {
   id: "mondriaan",
@@ -142,6 +143,10 @@ export const mondriaanConfig: ProjectConfig = {
   defaultShowMetadataPanel: true,
   showToggleTextPanels: true,
   zoomAnnoMirador: true,
+  logoImageUrl: logo,
+  headerTitle: "MONDRIAAN",
+  logoHref:
+    "https://rkd.nl/nl/projecten-en-publicaties/projecten/130-mondriaan-editieproject",
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
