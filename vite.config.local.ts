@@ -5,6 +5,7 @@ import react from "@vitejs/plugin-react";
 import tailwindCss from "tailwindcss";
 import { defineConfig, loadEnv } from "vite";
 import checker from "vite-plugin-checker";
+import { createHtmlPlugin } from "vite-plugin-html";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -27,6 +28,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
+      createHtmlPlugin(),
       react(),
       checker({
         typescript: true,

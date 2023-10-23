@@ -29,6 +29,7 @@
     "reactions-knaw-huc": "^0.1.6",
     "styled-components": "^5.3.6",
     "tailwindcss-react-aria-components": "^1.0.0-beta.0",
+    "vite-plugin-html": "^3.2.0",
     "zustand": "^4.3.6"
   },
   "devDependencies": {
