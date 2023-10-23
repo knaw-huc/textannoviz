@@ -51,7 +51,7 @@ export const republicConfig: ProjectConfig = {
   scanAnnotation: "Scan",
   elasticIndexName: "resolutions",
   initialDateFrom: "1705-01-01",
-  initialDateTo: "1799-12-31",
+  initialDateTo: "1795-12-31",
   searchFacetTitles: {
     sessionDate: "Date",
     sessionWeekday: "Weekdag",
@@ -146,6 +146,6 @@ export const republicConfig: ProjectConfig = {
   labels: dutchLabels,
   mirador: {
     showWindowSideBar: false,
-    showTopMenuButton: true
+    showTopMenuButton: true,
   },
 };
