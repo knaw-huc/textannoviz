@@ -3,7 +3,7 @@ import logo from "../../../../assets/G-1.png";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { createIndices } from "../../../../utils/createIndices";
-import { englishLabels } from "../../default/config/englishLabels.tsx";
+import { englishLabels } from "../../default/config/englishLabels.ts";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetHelp } from "../GetHelp";
