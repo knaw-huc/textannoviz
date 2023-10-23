@@ -70,6 +70,7 @@ export const republicConfig: ProjectConfig = {
     Jovis: "Donderdag",
     Veneris: "Vrijdag",
     Sabbathi: "Zaterdag",
+    Dominica: "Zondag",
     Resolution: "Resolutie",
     AttendanceList: "Presentielijst",
   },
