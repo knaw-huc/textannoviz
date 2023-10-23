@@ -31,5 +31,13 @@ export type Labels = {
   DECEMBER: string,
 
   METADATA: string,
-  WEB_ANNOTATIONS: string
+  WEB_ANNOTATIONS: string,
+
+  SHOW_INFO: string,
+  HIDE_INFO: string,
+  SHOW_FACSIMILE: string,
+  HIDE_FACSIMILE: string,
+  SHOW_SEARCH_RESULTS: string,
+  HIDE_SEARCH_RESULTS: string,
+  NEW_SEARCH: string,
 }

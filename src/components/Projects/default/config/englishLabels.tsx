@@ -33,5 +33,13 @@ export const englishLabels: Labels = {
   DECEMBER: "December",
 
   METADATA: 'Metadata',
-  WEB_ANNOTATIONS: 'Web annotations'
+  WEB_ANNOTATIONS: 'Web annotations',
+
+  SHOW_INFO: "Show info",
+  HIDE_INFO: "Hide info",
+  SHOW_FACSIMILE: "Show facsimile",
+  HIDE_FACSIMILE: "Hide Facsimile",
+  SHOW_SEARCH_RESULTS: "Show search results",
+  HIDE_SEARCH_RESULTS: "Hide search results",
+  NEW_SEARCH: "New search",
 }

@@ -33,5 +33,14 @@ export const dutchLabels: Labels = {
   DECEMBER: "december",
 
   METADATA: 'Metadata',
-  WEB_ANNOTATIONS: 'Web annotations'
+  WEB_ANNOTATIONS: 'Web annotations',
+
+  SHOW_INFO: "Toon info",
+  HIDE_INFO: "Verberg info",
+  SHOW_FACSIMILE: "Toon facsimile",
+  HIDE_FACSIMILE: "Verberg facsimile",
+  SHOW_SEARCH_RESULTS: "Toon zoekresultaten",
+  HIDE_SEARCH_RESULTS: "Verberg zoekresultaten",
+  NEW_SEARCH: "Nieuwe zoekopdracht",
+
 }

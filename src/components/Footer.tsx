@@ -3,7 +3,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
-import { useProjectStore } from "../stores/project";
+import {translateSelector, useProjectStore} from "../stores/project";
 import { AnnotationButtons } from "./Annotations/AnnotationButtons";
 
 type FooterProps = {
@@ -19,6 +19,7 @@ type FooterProps = {
 
 export const Footer = (props: FooterProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
+  const translate = useProjectStore(translateSelector);
 
   return (
     <div className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
@@ -30,7 +31,7 @@ export const Footer = (props: FooterProps) => {
               className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
             >
               <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
-              New search
+              {translate('NEW_SEARCH')}
             </Link>
           </button>
           {projectConfig?.showSearchResultsButtonFooter ? (
@@ -44,8 +45,8 @@ export const Footer = (props: FooterProps) => {
               disabled={props.searchResultsShowState}
             >
               {props.searchResultsShowState
-                ? "Verberg zoekresultaten"
-                : "Toon zoekresultaten"}
+                ? translate('HIDE_SEARCH_RESULTS')
+                : translate('SHOW_SEARCH_RESULTS')}
             </button>
           ) : null}
 
@@ -55,8 +56,8 @@ export const Footer = (props: FooterProps) => {
               onClick={props.showIiifViewerHandler}
             >
               {props.facsimileShowState
-                ? "Verberg facsimile"
-                : "Toon facsimile"}
+                ? translate('HIDE_FACSIMILE')
+                : translate('SHOW_FACSIMILE')}
             </button>
           ) : null}
         </div>
@@ -70,7 +71,10 @@ export const Footer = (props: FooterProps) => {
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
             onClick={props.showAnnotationPanelHandler}
           >
-            {props.panelShowState ? "Hide info" : "Show info"}{" "}
+            {props.panelShowState
+                ? translate('HIDE_INFO')
+                : translate('SHOW_INFO')}
+            {" "}
             <InformationCircleIcon className="inline h-5 w-5 fill-neutral-500" />
           </button>
         </div>
