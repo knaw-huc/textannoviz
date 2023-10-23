@@ -1,13 +1,14 @@
 import React from "react";
-import {AnnoRepoAnnotation} from "../../../../model/AnnoRepoAnnotation";
-import {ProjectConfig} from "../../../../model/ProjectConfig";
-import {createIndices} from "../../../../utils/createIndices";
-import {GetAnnotationButtons} from "../GetAnnotationButtons";
-import {GetAnnotationItemContent} from "../GetAnnotationItemContent";
-import {RenderMetadataPanel} from "../RenderMetadataPanel";
-import {getAnnotationItem} from "../getAnnotationItem";
-import {englishLabels} from "../../default/config/englishLabels.tsx";
+import logo from "../../../../assets/G-1.png";
+import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
+import { ProjectConfig } from "../../../../model/ProjectConfig";
+import { createIndices } from "../../../../utils/createIndices";
+import { englishLabels } from "../../default/config/englishLabels.tsx";
+import { GetAnnotationButtons } from "../GetAnnotationButtons";
+import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetHelp } from "../GetHelp";
+import { RenderMetadataPanel } from "../RenderMetadataPanel";
+import { getAnnotationItem } from "../getAnnotationItem";
 
 export const globaliseConfig: ProjectConfig = {
   id: "globalise",
@@ -20,9 +21,7 @@ export const globaliseConfig: ProjectConfig = {
   },
 
   relativeTo: "na:File",
-  annotationTypesToInclude: [
-    "px:Page",
-  ],
+  annotationTypesToInclude: ["px:Page"],
   tier: [],
   bodyType: [],
   scanAnnotation: "na:File",
@@ -79,6 +78,9 @@ export const globaliseConfig: ProjectConfig = {
   defaultShowMetadataPanel: false,
   showToggleTextPanels: false,
   zoomAnnoMirador: false,
+  logoImageUrl: logo,
+  headerTitle: "GLOBALISE Transcriptions Viewer",
+  logoHref: "https://globalise.huygens.knaw.nl",
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -128,5 +130,5 @@ export const globaliseConfig: ProjectConfig = {
   renderHelp: () => {
     return <GetHelp />;
   },
-  labels: englishLabels
+  labels: englishLabels,
 };

@@ -1,11 +1,12 @@
 import React from "react";
+import logo from "../../../../assets/logo-republic-temp.png";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { dutchLabels } from "../../default/config/dutchLabels.tsx";
-import { GetHelp } from "../GetHelp.tsx";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";
+import { GetHelp } from "../GetHelp.tsx";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { getAnnotationItem } from "../getAnnotationItem";
 
@@ -78,6 +79,9 @@ export const republicConfig: ProjectConfig = {
   showToggleTextPanels: true,
   zoomAnnoMirador: true,
   annotationTypesToZoom: ["resolution", "attendance_list"],
+  logoImageUrl: logo,
+  headerTitle: "REPUBLIC",
+  logoHref: "https://republic.huygens.knaw.nl/",
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),

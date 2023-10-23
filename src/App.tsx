@@ -59,7 +59,7 @@ export default function App() {
   setProjectConfig(config);
   return (
     <>
-      <Header />
+      <Header projectConfig={config} />
       <RouterProvider router={router} />
     </>
   );
