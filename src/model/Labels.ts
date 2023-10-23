@@ -40,4 +40,9 @@ export type Labels = {
   SHOW_SEARCH_RESULTS: string,
   HIDE_SEARCH_RESULTS: string,
   NEW_SEARCH: string,
+
+  NEXT_PAGE: string,
+  PREV_PAGE: string,
+  INFO_FIRST_PAGE: string,
+  INFO_LAST_PAGE: string,
 }
