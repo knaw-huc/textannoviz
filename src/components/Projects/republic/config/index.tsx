@@ -8,6 +8,7 @@ import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";
 import { GetHelp } from "../GetHelp.tsx";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
+import { RenderSearchInfoPage } from "../RenderSearchInfoPage.tsx";
 import { getAnnotationItem } from "../getAnnotationItem";
 
 export const republicConfig: ProjectConfig = {
@@ -82,6 +83,10 @@ export const republicConfig: ProjectConfig = {
   logoImageUrl: logo,
   headerTitle: "REPUBLIC",
   logoHref: "https://republic.huygens.knaw.nl/",
+  showSearchQueryHistory: true,
+  showDateFacets: true,
+  showKeywordFacets: true,
+  showSelectedFilters: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -134,6 +139,9 @@ export const republicConfig: ProjectConfig = {
 
   renderHelp: () => {
     return <GetHelp />;
+  },
+  renderSearchInfoPage: () => {
+    return <RenderSearchInfoPage />;
   },
   labels: dutchLabels,
 };

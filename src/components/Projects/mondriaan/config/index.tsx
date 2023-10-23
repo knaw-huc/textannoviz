@@ -7,6 +7,7 @@ import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetHelp } from "../GetHelp.tsx";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
+import { RenderSearchInfoPage } from "../RenderSearchInfoPage.tsx";
 import { getAnnotationItem } from "../getAnnotationItem";
 
 export const mondriaanConfig: ProjectConfig = {
@@ -147,6 +148,10 @@ export const mondriaanConfig: ProjectConfig = {
   headerTitle: "MONDRIAAN",
   logoHref:
     "https://rkd.nl/nl/projecten-en-publicaties/projecten/130-mondriaan-editieproject",
+  showSearchQueryHistory: true,
+  showDateFacets: true,
+  showKeywordFacets: true,
+  showSelectedFilters: true,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -199,6 +204,9 @@ export const mondriaanConfig: ProjectConfig = {
 
   renderHelp: () => {
     return <GetHelp />;
+  },
+  renderSearchInfoPage: () => {
+    return <RenderSearchInfoPage />;
   },
   labels: englishLabels,
 };

@@ -8,6 +8,7 @@ import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetHelp } from "../GetHelp";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
+import { RenderSearchInfoPage } from "../RenderSearchInfoPage.tsx";
 import { getAnnotationItem } from "../getAnnotationItem";
 
 export const globaliseConfig: ProjectConfig = {
@@ -81,6 +82,10 @@ export const globaliseConfig: ProjectConfig = {
   logoImageUrl: logo,
   headerTitle: "GLOBALISE Transcriptions Viewer",
   logoHref: "https://globalise.huygens.knaw.nl",
+  showSearchQueryHistory: false,
+  showDateFacets: false,
+  showKeywordFacets: false,
+  showSelectedFilters: false,
 
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
     getAnnotationItem(annotation),
@@ -129,6 +134,9 @@ export const globaliseConfig: ProjectConfig = {
 
   renderHelp: () => {
     return <GetHelp />;
+  },
+  renderSearchInfoPage: () => {
+    return <RenderSearchInfoPage />;
   },
   labels: englishLabels,
 };

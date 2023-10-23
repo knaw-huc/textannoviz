@@ -1,4 +1,4 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import React from "react";
 import { Button } from "react-aria-components";
@@ -13,14 +13,15 @@ import {
   SearchQuery,
   SearchResult,
 } from "../../model/Search";
+import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
 import { SearchItem } from "./SearchItem";
 import { SearchPagination } from "./SearchPagination";
+import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
 import { SearchResultsPerPage } from "./SearchResultsPerPage";
 import { SearchSortBy } from "./SearchSortBy";
-import {translateSelector, useProjectStore} from "../../stores/project.ts";
 
 type SearchProps = {
   project: string;
@@ -38,6 +39,12 @@ export const Search = (props: SearchProps) => {
 
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
+  const [dateFrom, setDateFrom] = React.useState(
+    props.projectConfig.initialDateFrom ?? "",
+  );
+  const [dateTo, setDateTo] = React.useState(
+    props.projectConfig.initialDateTo ?? "",
+  );
   const [facets, setFacets] = React.useState<Facets>(props.facets);
   const [query, setQuery] = React.useState<SearchQuery>({});
   const [pageNumber, setPageNumber] = React.useState(1);
@@ -52,6 +59,7 @@ export const Search = (props: SearchProps) => {
     new Map<string, boolean>(),
   );
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
+  const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const setGlobalSearchResults = useSearchStore(
     (state) => state.setGlobalSearchResults,
@@ -118,7 +126,7 @@ export const Search = (props: SearchProps) => {
         sortBy,
         sortOrder,
       );
-      if(!data) {
+      if (!data) {
         return;
       }
 
@@ -189,13 +197,13 @@ export const Search = (props: SearchProps) => {
     data.results.forEach((result) => {
       const previews: string[] = [];
       const searchHits = result._hits;
-      if(!searchHits) {
+      if (!searchHits) {
         return;
       }
       searchHits.forEach((hit) => {
         const matches = hit.preview
           .match(HIT_PREVIEW_REGEX)
-          ?.map(str => str.substring(4, str.length - 5));
+          ?.map((str) => str.substring(4, str.length - 5));
         if (matches) {
           previews.push(...new Set(matches));
         }
@@ -258,7 +266,7 @@ export const Search = (props: SearchProps) => {
       sortBy,
       sortOrder,
     );
-    if(!data) {
+    if (!data) {
       return;
     }
 
@@ -435,6 +443,125 @@ export const Search = (props: SearchProps) => {
     });
   }
 
+  function renderKeywordFacets() {
+    return getKeywordFacets().map(([facetName, facetValues], index) => {
+      return (
+        <div key={index} className="w-full max-w-[450px]">
+          <div className="font-semibold">
+            {props.searchFacetTitles[facetName] ?? facetName}
+          </div>
+          {Object.entries(facetValues).map(
+            ([facetValueName, facetValueAmount]) => {
+              const key = `${facetName}-${facetValueName}`;
+              return (
+                <div
+                  key={key}
+                  className="mb-2 flex w-full flex-row items-center justify-between gap-2"
+                >
+                  <div className="flex flex-row items-center">
+                    <input
+                      className="text-brand1-700 focus:ring-brand1-700 mr-2 h-5 w-5 rounded border-gray-300"
+                      type="checkbox"
+                      id={key}
+                      name={facetValueName}
+                      value={facetValueName}
+                      onChange={(event) =>
+                        keywordFacetChangeHandler(key, event)
+                      }
+                      checked={checkboxStates.get(key) ?? false}
+                    />
+                    <label htmlFor={key}>
+                      {/^[a-z]/.test(facetValueName)
+                        ? facetValueName.charAt(0).toUpperCase() +
+                          facetValueName.slice(1)
+                        : facetValueName &&
+                          ((props.projectConfig.facetsTranslation &&
+                            props.projectConfig.facetsTranslation[
+                              facetValueName
+                            ]) ??
+                            facetValueName)}
+                    </label>
+                  </div>
+                  <div className="text-sm text-neutral-500">
+                    {facetValueAmount}
+                  </div>
+                </div>
+              );
+            },
+          )}
+        </div>
+      );
+    });
+  }
+
+  function keywordFacetChangeHandler(
+    key: string,
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    setCheckBoxStates(new Map(checkboxStates.set(key, event.target.checked)));
+    if (searchResults) {
+      refresh();
+    }
+  }
+
+  function renderDateFacets() {
+    return getDateFacets().map((_, index) => {
+      return (
+        <div
+          key={index}
+          className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row"
+        >
+          <div className="flex w-full flex-col">
+            <label htmlFor="start" className="font-semibold">
+              {translate("FROM")}
+            </label>
+            <input
+              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
+              type="date"
+              id="start"
+              value={dateFrom}
+              min={props.projectConfig.initialDateFrom}
+              max={props.projectConfig.initialDateTo}
+              onChange={(event) => setDateFrom(event.target.value)}
+            />
+          </div>
+          <div className="flex w-full flex-col">
+            <label htmlFor="end" className="font-semibold">
+              {translate("UP_TO_AND_INCLUDING")}
+            </label>
+            <input
+              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
+              type="date"
+              id="end"
+              value={dateTo}
+              min={props.projectConfig.initialDateFrom}
+              max={props.projectConfig.initialDateTo}
+              onChange={(event) => setDateTo(event.target.value)}
+            />
+          </div>
+        </div>
+      );
+    });
+  }
+
+  function removeFacet(key: string) {
+    setCheckBoxStates(new Map(checkboxStates.set(key, false)));
+    if (searchResults) {
+      refresh();
+    }
+  }
+
+  function historyClickHandler() {
+    setHistoryIsOpen(!historyIsOpen);
+  }
+
+  function goToQuery(query: SearchQuery) {
+    setSearchParams((searchParams) => {
+      searchParams.set("query", Base64.toBase64(JSON.stringify(query)));
+      return searchParams;
+    });
+  }
+
   return (
     <div
       id="searchContainer"
@@ -469,14 +596,31 @@ export const Search = (props: SearchProps) => {
               reloadDocument
               className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm no-underline"
             >
-              {translate('NEW_SEARCH_QUERY')}
+              {translate("NEW_SEARCH_QUERY")}
             </Link>
+          </div>
+        ) : null}
+
+        {props.projectConfig.showSearchQueryHistory ? (
+          <div className="w-full max-w-[450px]">
+            <SearchQueryHistory
+              historyClickHandler={historyClickHandler}
+              historyIsOpen={historyIsOpen}
+              queryHistory={queryHistory}
+              goToQuery={goToQuery}
+              projectConfig={props.projectConfig}
+              disabled={queryHistory.length === 0 ? true : false}
+            />
           </div>
         ) : null}
 
         <div className="w-full max-w-[450px]">
           <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter} />
         </div>
+        {props.projectConfig.showDateFacets ? renderDateFacets() : null}
+        {props.projectConfig.showKeywordFacets
+          ? checkboxStates.size > 0 && renderKeywordFacets()
+          : null}
       </div>
 
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
@@ -506,6 +650,50 @@ export const Search = (props: SearchProps) => {
         ) : null}
         {searchResults ? (
           <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
+            {props.projectConfig.showSelectedFilters ? (
+              <>
+                <span className="text-brand1Grey-600 text-sm">Filters: </span>
+                {getKeywordFacets().map(([facetName, facetValues]) => {
+                  return Object.keys(facetValues).map(
+                    (facetValueName, index) => {
+                      const key = `${facetName}-${facetValueName}`;
+
+                      if (checkboxStates.get(key)) {
+                        return (
+                          <div
+                            className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
+                            key={index}
+                          >
+                            {(props.projectConfig.searchFacetTitles &&
+                              props.projectConfig.searchFacetTitles[
+                                facetName
+                              ]) ??
+                              facetName}
+                            :{" "}
+                            {/^[a-z]/.test(facetValueName)
+                              ? facetValueName.charAt(0).toUpperCase() +
+                                facetValueName.slice(1)
+                              : (facetValueName &&
+                                  props.projectConfig.facetsTranslation &&
+                                  props.projectConfig.facetsTranslation[
+                                    facetValueName
+                                  ]) ??
+                                facetValueName}{" "}
+                            {
+                              <XMarkIcon
+                                className="h-5 w-5"
+                                onClick={() => removeFacet(key)}
+                              />
+                            }
+                          </div>
+                        );
+                      }
+                    },
+                  );
+                })}
+              </>
+            ) : null}
+
             <SearchPagination
               prevPageClickHandler={prevPageClickHandler}
               nextPageClickHandler={nextPageClickHandler}
@@ -515,196 +703,11 @@ export const Search = (props: SearchProps) => {
             />
           </div>
         ) : null}
-        {searchResults && searchResults.results.length >= 1 ? (
-          searchResults.results.map((result, index) => (
-            <SearchItem key={index} result={result} />
-          ))
-        ) : (
-          <>
-            <h4>Introduction</h4>
-
-            <p className="mb-4 mt-4 block">
-              Welcome to the beta <i>GLOBALISE Transcriptions Viewer</i>. This
-              tool allows you to easily search and view the machine-generated
-              transcriptions and page images of the{" "}
-              <a href="https://globalise.huygens.knaw.nl">GLOBALISE project</a>{" "}
-              source corpus side-by-side in a web browser. A detailed
-              explanation of how to use this viewer, with search tips, is
-              available via the{" "}
-              <a href="https://transcriptions.globalise.huygens.knaw.nl/help">
-                Help
-              </a>{" "}
-              link at the top of the screen.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              Please note: the Transcriptions Viewer is <u>not</u> an early
-              version of the GLOBALISE research portal. It was designed as an
-              interim solution for searching and exploring the GLOBALISE corpus
-              until the research infrastructure is released to the public in
-              2026.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              We will continue to make small improvements to the Transcriptions
-              Viewer on an ongoing basis but we currently have no plans to
-              substantially expand its functionality in the future. In the
-              period leading up to the release of the research infrastructure we
-              will, continue to publish data on the{" "}
-              <a href="https://datasets.iisg.amsterdam/dataverse/globalise">
-                GLOBALISE Dataverse
-              </a>{" "}
-              repository and experiment with ways to make our data and
-              transcriptions more accessible. These experiments are shared on
-              the{" "}
-              <a href="http://lab.globalise.huygens.knaw.nl/">GLOBALISE Lab</a>{" "}
-              page.
-            </p>
-
-            <h4>Data and License</h4>
-
-            <p className="mb-4 mt-4 block">
-              The c. 4.8M transcriptions accessible from the GLOBALISE
-              Transcriptions Viewer are drawn from the{" "}
-              <i>
-                <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02/">
-                  Overgekomen brieven en papieren
-                </a>
-              </i>{" "}
-              (1610-1796) collection of the Dutch East India Company (VOC)
-              preserved at the Netherlands National Archives, The Hague, under
-              VOC inventory numbers 1053-4454 and 7527-11024. These
-              transcriptions represent the first (v1.0) version of the
-              machine-generated HTR created in May, 2023.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              The transcriptions are made available under a{" "}
-              <a href="http://creativecommons.org/publicdomain/zero/1.0">
-                Creative Commons CC0 v1
-              </a>{" "}
-              license. You are free to build upon, enhance, and reuse the
-              transcriptions for any purposes without restriction. A full copy
-              of the GLOBALISE transcriptions is{" "}
-              <a href="https://hdl.handle.net/10622/JCTCJ2">
-                freely available for download
-              </a>
-              . The scans of the original documents are available on the{" "}
-              <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02/">
-                {" "}
-                website of the National Archives
-              </a>
-              , also under a CC0 v1 license. Please reference the GLOBALISE
-              project and the National Archives when using these transcriptions
-              using this format:{" "}
-              <code className="bg-gray-300">
-                NL-HaNA, VOC, [inv.nr.], [scan nr.], transcription GLOBALISE
-                project (https://globalise.huygens.knaw.nl/), May 2023.
-              </code>
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              Please note that these machine-generated transcriptions will
-              contain errors. They have not been manually checked for accuracy
-              or completeness. Some labels, characterisations and information
-              about persons, actions and events may be offensive and troubling
-              to individuals and communities. Be careful when relying on the
-              transcriptions and be aware of their limitations.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              In order to diagnose errors, and to improve the quality and
-              stability of the Transcriptions Viewer, we temporarily log all
-              search queries.
-            </p>
-
-            <h4>Feedback</h4>
-
-            <p className="mb-4 mt-4 block">
-              We greatly value your feedback. Please share your comments and
-              questions about the Transcription Viewer via our{" "}
-              <a href="https://globalise.huygens.knaw.nl/contact-us/">
-                contact page
-              </a>
-              .
-            </p>
-
-            <h4>Credits</h4>
-
-            <p className="mb-4 mt-4 block">
-              <a href="https://globalise.huygens.knaw.nl">GLOBALISE</a> is a
-              project based at the{" "}
-              <a href="https://huygens.knaw.nl">Huygens Institute</a> (KNAW
-              Humanities Cluster) in the Netherlands funded by the Dutch
-              Research Council (NWO) under grant no. 175.2019.003.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              Page Layout and Handwritten Text Recognition:{" "}
-              <a href="https://di.huc.knaw.nl/computer-vision-en.html">
-                Computer Vision
-              </a>{" "}
-              group (Rutger van Koert, Stefan Klut, Martijn Maas), Digital
-              Infrastructure Department, KNAW Humanities Cluster using the{" "}
-              <a href="https://github.com/knaw-huc/loghi">
-                Loghi open-source HTR platform
-              </a>
-              .
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              Transcriptions Viewer:{" "}
-              <a href="https://di.huc.knaw.nl/text-analysis-en.html">
-                Text Analysis
-              </a>{" "}
-              group (Hennie Brugman, Sebastiaan van Daalen, Hayco de Jong, Bram
-              Buitendijk), Digital Infrastructure Department, KNAW Humanities
-              Cluster using the open-source{" "}
-              <a href="https://github.com/knaw-huc/textannoviz">TextAnnoViz</a>,{" "}
-              <a href="https://github.com/knaw-huc/textrepo">TextRepo</a>,{" "}
-              <a href="https://github.com/knaw-huc/annorepo">AnnoRepo</a>, and{" "}
-              <a href="https://github.com/knaw-huc/broccoli">Broccoli</a>{" "}
-              infrastructure.
-            </p>
-
-            <p className="mb-4 mt-4 block">
-              Ground truth: The page layout and handwritten text recognition
-              models used to generate the transcriptions build on a large
-              collection of ground truth. We especially wish to thank the
-              Netherlands National Archives, the Amsterdam City Archives, and
-              the Huygens Institute for their prior work in this area. Reference
-              transcriptions and region layout data to finetune the HTR models
-              for the GLOBALISE corpus were created by GLOBALISE team members
-              Kay Pepping, Maartje Hids, Merve Tosun, and Femke Brink.
-            </p>
-
-            <h4>Release Notes</h4>
-
-            <p className="mb-4 mt-4 block">v0.2 (3 Oct 2023)</p>
-
-            <ul className="mb-4 mt-4 block list-disc pl-10">
-              <li className="list-item">
-                The zoom and navigation icons for the image viewer sometimes
-                appear in the wrong place. You can fix this by reloading the
-                page in your browser.
-              </li>
-              <li className="list-item">
-                The navigation icons in the image viewer are not linked to the
-                transcripts (i.e. they can only be used to browse the page
-                images). To browse the transcripts and page images, please use
-                the &apos;Previous&apos; and &apos;Next&apos; page controls
-                beneath the transcription.
-              </li>
-              <li className="list-item">
-                You may not be able to see the image viewer on a mobile device.
-              </li>
-              <li className="list-item">
-                The accessibility of the Viewer is currently insufficient for
-                people with, for example, sight impairment.
-              </li>
-            </ul>
-          </>
-        )}
+        {searchResults && searchResults.results.length >= 1
+          ? searchResults.results.map((result, index) => (
+              <SearchItem key={index} result={result} />
+            ))
+          : props.projectConfig.renderSearchInfoPage()}
         {searchResults ? (
           <SearchPagination
             prevPageClickHandler={prevPageClickHandler}

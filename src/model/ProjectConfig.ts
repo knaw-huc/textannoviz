@@ -34,6 +34,10 @@ export type ProjectConfig = {
   logoImageUrl: string;
   headerTitle: string;
   logoHref: string;
+  showSearchQueryHistory: boolean;
+  showDateFacets: boolean;
+  showKeywordFacets: boolean;
+  showSelectedFilters: boolean;
   renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
@@ -52,5 +56,6 @@ export type ProjectConfig = {
     errorElement: React.ReactNode;
   }[];
   renderHelp: () => JSX.Element;
+  renderSearchInfoPage: () => JSX.Element;
   labels: Record<string, string>;
 };
