@@ -1,6 +1,9 @@
 import { MiradorConfig } from "../../model/MiradorConfig";
 
-export const miradorConfig: MiradorConfig = {
+/**
+ * Configuration as required by the mirador viewer
+ */
+export const defaultMiradorConfig: MiradorConfig = {
   id: "mirador",
   window: {
     allowClose: false,
@@ -24,5 +27,5 @@ export const miradorConfig: MiradorConfig = {
   },
   workspaceControlPanel: {
     enabled: false,
-  },
+  }
 };

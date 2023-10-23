@@ -8,7 +8,6 @@ import { useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { createIndices } from "../../utils/createIndices";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
-import { miradorConfig } from "../Mirador/MiradorConfig";
 import { AnnotationItemContent } from "./AnnotationItemContent";
 
 type AnnotationSnippetProps = {
@@ -61,12 +60,12 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       if (zoom !== null) {
         miradorStore.dispatch(
           mirador.actions.selectAnnotation(
-            miradorConfig.windows[0].id,
+            miradorStore.windows[0].id,
             props.annotation.id,
           ),
         );
         miradorStore.dispatch(
-          mirador.actions.updateViewport(miradorConfig.windows[0].id, {
+          mirador.actions.updateViewport(miradorStore.windows[0].id, {
             x: zoom.zoomCenter.x,
             y: zoom.zoomCenter.y,
             zoom: 1 / zoom.miradorZoom,
@@ -105,7 +104,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
     } else {
       miradorStore.dispatch(
         mirador.actions.deselectAnnotation(
-          miradorConfig.windows[0].id,
+          miradorStore.windows[0].id,
           props.annotation.id,
         ),
       );

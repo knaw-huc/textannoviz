@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
 import { Footer } from "./components/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
-import { miradorConfig } from "./components/Mirador/MiradorConfig";
 import { SearchItem } from "./components/Search/SearchItem";
 import { TextComponent } from "./components/Text/TextComponent";
 import { Broccoli, BroccoliBodyIdResult } from "./model/Broccoli";
@@ -20,16 +19,25 @@ import {
   fetchBroccoliScanWithOverlap,
 } from "./utils/broccoli";
 import { zoomAnnMirador } from "./utils/zoomAnnMirador";
+import {MiradorConfig} from "./model/MiradorConfig.ts";
+import {defaultMiradorConfig} from "./components/Mirador/defaultMiradorConfig.ts";
 
 interface DetailProps {
   project: string;
   config: ProjectConfig;
 }
 
-const setMiradorConfig = (broccoli: Broccoli, project: string) => {
-  miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
-  miradorConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
-  miradorConfig.windows[0].id = project;
+const createMiradorConfig = (
+    broccoli: Broccoli,
+    project: ProjectConfig,
+    config: MiradorConfig = defaultMiradorConfig
+) => {
+  const newConfig = structuredClone(config);
+  newConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
+  newConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
+  newConfig.windows[0].id = project.id;
+  // en de rest...
+  return newConfig;
 };
 
 export const Detail = (props: DetailProps) => {
@@ -41,7 +49,8 @@ export const Detail = (props: DetailProps) => {
   );
   const setProjectName = useProjectStore((state) => state.setProjectName);
 
-  const setStore = useMiradorStore((state) => state.setStore);
+  const setMiradorStore = useMiradorStore((state) => state.setStore);
+  const miradorStore = useMiradorStore((state) => state.miradorStore);
   const setCurrentContext = useMiradorStore((state) => state.setCurrentContext);
   const setCanvas = useMiradorStore((state) => state.setCanvas);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
@@ -55,20 +64,16 @@ export const Detail = (props: DetailProps) => {
   const params = useParams();
 
   React.useEffect(() => {
-    if (showIiifViewer) {
-      const viewer = mirador.viewer(miradorConfig);
-      setStore(viewer.store);
+    if (showIiifViewer && miradorStore) {
+      mirador.viewer(miradorStore);
     }
-  }, [setStore, showIiifViewer]);
+  }, [setMiradorStore, showIiifViewer, miradorStore]);
 
-  const setState = React.useCallback(
+  const createDetailState = React.useCallback(
     (broccoli: Broccoli, currentBodyId: string) => {
-      setMiradorConfig(broccoli, props.project);
-      console.log(broccoli);
-
+      const miradorConfig = createMiradorConfig(broccoli, props.config);
       const viewer = mirador.viewer(miradorConfig);
-      setStore(viewer.store);
-
+      setMiradorStore(viewer.store);
       setProjectName(props.project);
 
       const newCanvas = {
@@ -128,7 +133,7 @@ export const Detail = (props: DetailProps) => {
       setCanvas,
       setCurrentContext,
       setProjectName,
-      setStore,
+      setMiradorStore,
       setViews,
     ],
   );
@@ -159,7 +164,7 @@ export const Detail = (props: DetailProps) => {
               relativeTo,
               props.config,
             ).then((broccoli: Broccoli) => {
-              setState(broccoli, bodyId);
+              createDetailState(broccoli, bodyId);
               setIsLoading(false);
             });
           }
@@ -175,7 +180,7 @@ export const Detail = (props: DetailProps) => {
     params.tier0,
     params.tier1,
     props.config,
-    setState,
+    createDetailState,
   ]);
 
   React.useEffect(() => {
@@ -202,12 +207,12 @@ export const Detail = (props: DetailProps) => {
       )
         .then((broccoli: Broccoli) => {
           const bodyId = broccoli.request.bodyId;
-          setState(broccoli, bodyId);
+          createDetailState(broccoli, bodyId);
           setIsLoading(false);
         })
         .catch(console.error);
     }
-  }, [annotationTypesToInclude, params.tier2, props.config, setState]);
+  }, [annotationTypesToInclude, params.tier2, props.config, createDetailState]);
 
   function nextOrPrevButtonClicked(clicked: boolean) {
     console.log(clicked);

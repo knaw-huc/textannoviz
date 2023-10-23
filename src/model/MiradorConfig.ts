@@ -1,3 +1,6 @@
+/**
+ * Config as required by the mirador viewer
+ */
 export type MiradorConfig = {
   id: string;
   window: {

@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../../../../assets/logo-republic-temp.png";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
-import { dutchLabels } from "../../default/config/dutchLabels.tsx";
+import { dutchLabels } from "../../default/config/dutchLabels.ts";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
 import { GetAnnotationLinks } from "../GetAnnotationLinks";

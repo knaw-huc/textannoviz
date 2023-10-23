@@ -14,25 +14,12 @@ import { useAnnotationStore } from "./stores/annotation";
 import { useProjectStore } from "./stores/project";
 import { getElasticIndices, sendSearchQuery } from "./utils/broccoli";
 
-const project: string = import.meta.env.VITE_PROJECT;
-let config!: ProjectConfig;
-
-switch (project) {
-  case "republic":
-    config = republicConfig;
-    break;
-  case "globalise":
-    config = globaliseConfig;
-    break;
-  case "mondriaan":
-    config = mondriaanConfig;
-    break;
-}
-
+const {project, config} = getProjectConfig();
 const indices = await getElasticIndices(config);
-const searchResult = await sendSearchQuery({}, "Scan", 0, 0, config);
-const aggs = searchResult!.aggs;
 
+const searchResult = await sendSearchQuery({}, "Scan", 0, 0, config);
+
+const aggs = searchResult!.aggs;
 const router = createBrowserRouter(
   config.createRouter(
     <Help project={project} config={config} />,
@@ -63,4 +50,25 @@ export default function App() {
       <RouterProvider router={router} />
     </>
   );
+}
+
+function getProjectConfig() {
+  const projectEnvVar = 'VITE_PROJECT';
+  const project: string = import.meta.env[projectEnvVar];
+  let config: ProjectConfig;
+
+  switch (project) {
+    case "republic":
+      config = republicConfig;
+      break;
+    case "globalise":
+      config = globaliseConfig;
+      break;
+    case "mondriaan":
+      config = mondriaanConfig;
+      break;
+    default:
+      throw new Error(`No project config defined for ${projectEnvVar}=${project}`)
+  }
+  return {project, config};
 }
