@@ -4,24 +4,27 @@ export type ProjectConfig = {
   id: string;
   broccoliUrl: string;
   colours: Record<string, string>;
+
+  /**
+   * Offsets relative to the closest annotation of type {relativeTo}
+   * - AnnoRepo finds closest annotation
+   * - Broccoli calculates offsets
+   */
   relativeTo: string;
+
   annotationTypesToInclude: string[];
   annotationTypesTitles?: Record<string, string>;
   tier: string[];
   bodyType: string[];
-  scanAnnotation?: string;
-  documents?: {
-    docNr: string;
-    index: number[];
-  }[];
-  letters?: string[];
-  elasticIndexName?: string;
-  initialDateFrom?: string;
-  initialDateTo?: string;
+  scanAnnotation: string;
+  elasticIndexName: string;
+  initialDateFrom: string;
+  initialDateTo: string;
   searchFacetTitles?: Record<string, string>;
-  textPanelTitles?: Record<string, string>;
-  allPossibleTextPanels?: string[];
-  defaultTextPanels?: string[];
+  textPanelTitles: Record<string, string>;
+  allPossibleTextPanels: string[];
+  defaultTextPanels: string[];
+  // TODO translate:
   metadataPanelTitles?: Record<string, string>;
   facetsTranslation?: Record<string, string>;
   showSearchSortBy: boolean;
@@ -30,7 +33,7 @@ export type ProjectConfig = {
   defaultShowMetadataPanel: boolean;
   showToggleTextPanels: boolean;
   zoomAnnoMirador: boolean;
-  annotationTypesToZoom?: string[];
+  annotationTypesToZoom: string[];
   logoImageUrl: string;
   headerTitle: string;
   logoHref: string;

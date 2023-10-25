@@ -4,11 +4,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAnnotationStore } from "../../../stores/annotation";
 import { useMiradorStore } from "../../../stores/mirador";
-import { mondriaanConfig } from "./config";
 
 interface GetAnnotationButtonsProps {
   nextOrPrevButtonClicked: (clicked: boolean) => boolean;
 }
+
+const PROEFTUIN_LETTERS = [
+  "19090216y_IONG_1303",
+  "19090407y_IONG_1739",
+  "19090421y_IONG_1304",
+  "19090426y_IONG_1738",
+  "19090513y_IONG_1293",
+  "19090624_IONG_1294",
+  "19090807y_IONG_1296",
+  "19090824y_KNAP_1747",
+  "19090905y_IONG_1295",
+  "190909XX_QUER_1654",
+  "19091024_SPOO_0016",
+  "19091024y_IONG_1297",
+  "19091025y_IONG_1298",
+  "19100131_SAAL_ARNO_0018",
+];
 
 export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
   const miradorStore = useMiradorStore((state) => state.miradorStore);
@@ -20,7 +36,7 @@ export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const letters = mondriaanConfig.letters;
+  const letters = PROEFTUIN_LETTERS;
 
   const nextCanvasClickHandler = () => {
     props.nextOrPrevButtonClicked(true);
