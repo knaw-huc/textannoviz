@@ -41,12 +41,6 @@ export type ProjectConfig = {
   showDateFacets: boolean;
   showKeywordFacets: boolean;
   showSelectedFilters: boolean;
-  renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
-  renderAnnotationLinks?: () => JSX.Element;
-  renderAnnotationButtons: (
-      nextOrPrevButtonClicked: (clicked: boolean) => boolean,
-  ) => JSX.Element;
-  renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => JSX.Element;
   createRouter: (
       comp1: React.ReactNode,
       comp2: React.ReactNode,
@@ -57,14 +51,22 @@ export type ProjectConfig = {
     element: React.ReactNode;
     errorElement: React.ReactNode;
   }[];
-  renderHelp: () => JSX.Element;
-  renderSearchInfoPage: () => JSX.Element;
   labels: Record<string, string>;
   mirador: {
     showWindowSideBar: boolean,
     showTopMenuButton: boolean
   },
   components: {
-    AnnotationItem: (props: { annotation: AnnoRepoAnnotation }) => JSX.Element
+    AnnotationButtons: (props: {
+      nextOrPrevButtonClicked: (clicked: boolean) => boolean,
+    }) => JSX.Element;
+    AnnotationItem: (props: AnnotationItemProps) => JSX.Element,
+    AnnotationItemContent: (props: {annotation: AnnoRepoAnnotation}) => JSX.Element;
+    AnnotationLinks: () => JSX.Element | null;
+    Help: () => JSX.Element;
+    MetadataPanel: (props: {annotations: AnnoRepoAnnotation[]}) => JSX.Element;
+    SearchInfoPage: () => JSX.Element;
   }
 };
+
+export type AnnotationItemProps = { annotation: AnnoRepoAnnotation };

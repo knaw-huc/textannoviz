@@ -1,14 +1,13 @@
 import React from "react";
 import logo from "../../../assets/logo-republic-temp.png";
-import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { englishLabels } from "../../default/config/englishLabels.ts";
-import { GetAnnotationButtons } from "../GetAnnotationButtons";
-import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
-import { GetHelp } from "../GetHelp.tsx";
-import { RenderMetadataPanel } from "../RenderMetadataPanel";
-import { RenderSearchInfoPage } from "../RenderSearchInfoPage.tsx";
-import { getAnnotationItem } from "../getAnnotationItem";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
+import { Help } from "../Help.tsx";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import AnnotationItem from "../AnnotationItem.tsx";
 
 export const mondriaanConfig: ProjectConfig = {
   id: "mondriaan",
@@ -138,25 +137,13 @@ export const mondriaanConfig: ProjectConfig = {
   showKeywordFacets: true,
   showSelectedFilters: true,
   components: {
-    AnnotationItem: (props) => <>{
-      getAnnotationItem(props.annotation)
-    }</>,
-  },
-
-  renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => {
-    return <GetAnnotationItemContent annotation={annotation} />;
-  },
-
-  renderAnnotationButtons: (
-    nextOrPrevButtonClicked: (clicked: boolean) => boolean,
-  ) => {
-    return (
-      <GetAnnotationButtons nextOrPrevButtonClicked={nextOrPrevButtonClicked} />
-    );
-  },
-
-  renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => {
-    return <RenderMetadataPanel annotations={annotations} />;
+    AnnotationItem,
+    AnnotationItemContent,
+    AnnotationButtons,
+    MetadataPanel,
+    Help,
+    SearchInfoPage,
+    AnnotationLinks: () => null
   },
 
   createRouter: (
@@ -189,12 +176,6 @@ export const mondriaanConfig: ProjectConfig = {
     ];
   },
 
-  renderHelp: () => {
-    return <GetHelp />;
-  },
-  renderSearchInfoPage: () => {
-    return <RenderSearchInfoPage />;
-  },
   labels: englishLabels,
   mirador: {
     showWindowSideBar: false,

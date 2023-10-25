@@ -1,5 +1,6 @@
 import { republicConfig } from "./config";
 import {AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody} from "../../model/AnnoRepoAnnotation.ts";
+import {AnnotationItemProps} from "../../model/ProjectConfig.ts";
 
 export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
   switch (annotation.body.type) {
@@ -27,3 +28,9 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
       return annotation.body.type;
   }
 };
+
+export default function AnnotationItem(props: AnnotationItemProps){
+  return <>{
+    getAnnotationItem(props.annotation)
+  }</>
+}

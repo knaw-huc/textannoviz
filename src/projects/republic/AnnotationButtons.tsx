@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 
-export const GetAnnotationButtons = () => {
+export const AnnotationButtons = () => {
   const currentContext = useMiradorStore((state) => state.currentContext);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const resetOpenAnn = useAnnotationStore((state) => state.resetOpenAnn);

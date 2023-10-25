@@ -1,13 +1,12 @@
 import React from "react";
 import logo from "../../../assets/G-1.png";
-import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation";
 import { englishLabels } from "../../default/config/englishLabels.ts";
-import { GetAnnotationButtons } from "../GetAnnotationButtons";
-import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
-import { GetHelp } from "../GetHelp";
-import { RenderMetadataPanel } from "../RenderMetadataPanel";
-import { RenderSearchInfoPage } from "../RenderSearchInfoPage.tsx";
-import { getAnnotationItem } from "../getAnnotationItem";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
+import { Help } from "../Help.tsx";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import AnnotationItem from "../AnnotationItem.tsx";
 import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 
 export const globaliseConfig: ProjectConfig = {
@@ -53,19 +52,13 @@ export const globaliseConfig: ProjectConfig = {
   showKeywordFacets: false,
   showSelectedFilters: false,
   components: {
-    AnnotationItem: (props) => <>{getAnnotationItem(props.annotation)}</>,
-  },
-
-  renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => {
-    return <GetAnnotationItemContent annotation={annotation} />;
-  },
-
-  renderAnnotationButtons: () => {
-    return <GetAnnotationButtons />;
-  },
-
-  renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => {
-    return <RenderMetadataPanel annotations={annotations} />;
+    AnnotationButtons,
+    AnnotationItem,
+    AnnotationItemContent,
+    Help,
+    MetadataPanel,
+    SearchInfoPage,
+    AnnotationLinks: () => null
   },
 
   createRouter: (
@@ -96,13 +89,6 @@ export const globaliseConfig: ProjectConfig = {
         errorElement: errorComp,
       },
     ];
-  },
-
-  renderHelp: () => {
-    return <GetHelp />;
-  },
-  renderSearchInfoPage: () => {
-    return <RenderSearchInfoPage />;
   },
   labels: englishLabels,
   mirador: {

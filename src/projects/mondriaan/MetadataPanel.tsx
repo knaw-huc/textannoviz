@@ -8,7 +8,7 @@ type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
-export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
+export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const projectConfig = useProjectStore((state) => state.projectConfig);
   const letterAnno = props.annotations.filter(
     (anno) => anno.body.type === "tf:Letter",

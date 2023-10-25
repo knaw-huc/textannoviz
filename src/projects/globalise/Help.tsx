@@ -1,4 +1,4 @@
-export const GetHelp = () => {
+export const Help = () => {
   return (
     <div className="m-4">
       <h3 className="">Help: Searching and Browsing</h3>

@@ -707,7 +707,7 @@ export const Search = (props: SearchProps) => {
           ? searchResults.results.map((result, index) => (
               <SearchItem key={index} result={result} />
             ))
-          : props.projectConfig.renderSearchInfoPage()}
+          : <props.projectConfig.components.SearchInfoPage/>}
         {searchResults ? (
           <SearchPagination
             prevPageClickHandler={prevPageClickHandler}

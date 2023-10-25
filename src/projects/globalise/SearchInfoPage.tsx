@@ -1,4 +1,4 @@
-export const RenderSearchInfoPage = () => {
+export const SearchInfoPage = () => {
   return (
     <>
       <h4>Introduction</h4>

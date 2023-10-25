@@ -7,7 +7,7 @@ import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import {translateSelector, useProjectStore} from "../../stores/project.ts";
 
-export const GetAnnotationButtons = () => {
+export const AnnotationButtons = () => {
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const annotations = useAnnotationStore((state) => state.annotations);
   const params = useParams();

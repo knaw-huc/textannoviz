@@ -26,7 +26,7 @@ const PROEFTUIN_LETTERS = [
   "19100131_SAAL_ARNO_0018",
 ];
 
-export const GetAnnotationButtons = (props: GetAnnotationButtonsProps) => {
+export const AnnotationButtons = (props: GetAnnotationButtonsProps) => {
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const currentContext = useMiradorStore((state) => state.currentContext);
   const resetOpenAnn = useAnnotationStore((state) => state.resetOpenAnn);

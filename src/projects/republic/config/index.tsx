@@ -1,15 +1,14 @@
 import React from "react";
 import logo from "../../../assets/logo-republic-temp.png";
-import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { dutchLabels } from "../../default/config/dutchLabels.ts";
-import { GetAnnotationButtons } from "../GetAnnotationButtons";
-import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
-import { GetAnnotationLinks } from "../GetAnnotationLinks";
-import { GetHelp } from "../GetHelp.tsx";
-import { RenderMetadataPanel } from "../RenderMetadataPanel";
-import { RenderSearchInfoPage } from "../RenderSearchInfoPage.tsx";
-import { getAnnotationItem } from "../getAnnotationItem";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
+import { AnnotationLinks } from "../AnnotationLinks.tsx";
+import { Help } from "../Help.tsx";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import AnnotationItem from "../AnnotationItem.tsx";
 
 export const republicConfig: ProjectConfig = {
   id: "republic",
@@ -90,24 +89,15 @@ export const republicConfig: ProjectConfig = {
   showSelectedFilters: true,
 
   components: {
-    AnnotationItem: (props) => <>{getAnnotationItem(props.annotation)}</>,
+    AnnotationItem,
+    AnnotationItemContent,
+    AnnotationLinks,
+    AnnotationButtons,
+    Help,
+    MetadataPanel,
+    SearchInfoPage
   },
 
-  renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => {
-    return <GetAnnotationItemContent annotation={annotation} />;
-  },
-
-  renderAnnotationLinks: () => {
-    return <GetAnnotationLinks />;
-  },
-
-  renderAnnotationButtons: () => {
-    return <GetAnnotationButtons />;
-  },
-
-  renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => {
-    return <RenderMetadataPanel annotations={annotations} />;
-  },
 
   createRouter: (
     comp1: React.ReactNode,
@@ -137,13 +127,6 @@ export const republicConfig: ProjectConfig = {
         errorElement: errorComp,
       },
     ];
-  },
-
-  renderHelp: () => {
-    return <GetHelp />;
-  },
-  renderSearchInfoPage: () => {
-    return <RenderSearchInfoPage />;
   },
   labels: dutchLabels,
   mirador: {

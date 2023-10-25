@@ -17,7 +17,7 @@ type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
-export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
+export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
   const [attendanceList, setAttendanceList] = React.useState<Broccoli>();
   const projectConfig = useProjectStore((state) => state.projectConfig);

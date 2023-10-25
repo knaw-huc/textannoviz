@@ -5,7 +5,7 @@ type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
-export const RenderMetadataPanel = (props: RenderMetadataPanelProps) => {
+export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
   const pageAnnotation = props.annotations.filter(
     (annotation) => annotation.body.type === "px:Page",

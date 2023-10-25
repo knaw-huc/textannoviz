@@ -18,7 +18,7 @@ export type EntityBody = AnnoRepoBody &
     class_description: string;
   };
 
-export const GetAnnotationItemContent = (props: GetAnnotationItemProps) => {
+export const AnnotationItemContent = (props: GetAnnotationItemProps) => {
   const textBody = props.annotation.body as TextBody;
   const entityBody = props.annotation.body as EntityBody;
 
