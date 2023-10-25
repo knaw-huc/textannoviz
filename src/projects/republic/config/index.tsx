@@ -89,8 +89,9 @@ export const republicConfig: ProjectConfig = {
   showKeywordFacets: true,
   showSelectedFilters: true,
 
-  renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
-    getAnnotationItem(annotation),
+  components: {
+    AnnotationItem: (props) => <>{getAnnotationItem(props.annotation)}</>,
+  },
 
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => {
     return <GetAnnotationItemContent annotation={annotation} />;

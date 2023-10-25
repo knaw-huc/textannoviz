@@ -1,4 +1,4 @@
-import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
+import {AnnoRepoAnnotation} from "./AnnoRepoAnnotation.ts";
 
 export type ProjectConfig = {
   id: string;
@@ -41,18 +41,17 @@ export type ProjectConfig = {
   showDateFacets: boolean;
   showKeywordFacets: boolean;
   showSelectedFilters: boolean;
-  renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string | undefined;
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
   renderAnnotationLinks?: () => JSX.Element;
   renderAnnotationButtons: (
-    nextOrPrevButtonClicked: (clicked: boolean) => boolean,
+      nextOrPrevButtonClicked: (clicked: boolean) => boolean,
   ) => JSX.Element;
   renderMetadataPanel: (annotations: AnnoRepoAnnotation[]) => JSX.Element;
   createRouter: (
-    comp1: React.ReactNode,
-    comp2: React.ReactNode,
-    comp3: React.ReactNode,
-    errorComp: React.ReactNode,
+      comp1: React.ReactNode,
+      comp2: React.ReactNode,
+      comp3: React.ReactNode,
+      errorComp: React.ReactNode,
   ) => {
     path: string;
     element: React.ReactNode;
@@ -64,5 +63,8 @@ export type ProjectConfig = {
   mirador: {
     showWindowSideBar: boolean,
     showTopMenuButton: boolean
+  },
+  components: {
+    AnnotationItem: (props: { annotation: AnnoRepoAnnotation }) => JSX.Element
   }
 };

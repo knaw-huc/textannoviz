@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
-import { useProjectStore } from "../../stores/project";
+import {projectConfigSelector, useProjectStore} from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { createIndices } from "../../utils/createIndices";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
@@ -35,7 +35,7 @@ const Clickable = styled.div`
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
   const views = useTextStore((state) => state.views);
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const canvas = useMiradorStore((state) => state.canvas);
   const updateOpenAnn = useAnnotationStore((state) => state.updateOpenAnn);
@@ -120,7 +120,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   const selectAnn = () => {
     miradorStore.dispatch(
       mirador.actions.selectAnnotation(
-        projectConfig!.id,
+        projectConfig.id,
         props.annotation.body.id,
       ),
     );
@@ -129,7 +129,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   const deselectAnn = () => {
     miradorStore.dispatch(
       mirador.actions.deselectAnnotation(
-        projectConfig!.id,
+        projectConfig.id,
         props.annotation.body.id,
       ),
     );
@@ -143,7 +143,9 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         onMouseLeave={deselectAnn}
         id="clickable"
       >
-        {projectConfig?.renderAnnotationItem(props.annotation)}
+        <projectConfig.components.AnnotationItem
+            annotation={props.annotation}
+        />
       </Clickable>
       {isOpen && <AnnotationItemContent annotation={props.annotation} />}
     </AnnSnippet>

@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "../../../assets/G-1.png";
 import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation";
-import { ProjectConfig } from "../../../model/ProjectConfig";
 import { englishLabels } from "../../default/config/englishLabels.ts";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";
@@ -9,6 +8,7 @@ import { GetHelp } from "../GetHelp";
 import { RenderMetadataPanel } from "../RenderMetadataPanel";
 import { RenderSearchInfoPage } from "../RenderSearchInfoPage.tsx";
 import { getAnnotationItem } from "../getAnnotationItem";
+import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 
 export const globaliseConfig: ProjectConfig = {
   id: "globalise",
@@ -52,9 +52,9 @@ export const globaliseConfig: ProjectConfig = {
   showDateFacets: false,
   showKeywordFacets: false,
   showSelectedFilters: false,
-
-  renderAnnotationItem: (annotation: AnnoRepoAnnotation) =>
-    getAnnotationItem(annotation),
+  components: {
+    AnnotationItem: (props) => <>{getAnnotationItem(props.annotation)}</>,
+  },
 
   renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => {
     return <GetAnnotationItemContent annotation={annotation} />;

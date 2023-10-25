@@ -47,3 +47,10 @@ export function translateSelector(state: ProjectConfigSlice) {
   const translations = state.projectConfig?.labels;
   return (key: keyof Labels) => translations?.[key] ?? key;
 }
+
+export function projectConfigSelector(state: ProjectConfigSlice): ProjectConfig {
+  if(!state.projectConfig) {
+    throw new Error('No project config');
+  }
+  return state.projectConfig;
+}
