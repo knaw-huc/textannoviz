@@ -2,8 +2,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import mirador from "mirador";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAnnotationStore } from "../../../stores/annotation";
-import { useMiradorStore } from "../../../stores/mirador";
+import { useAnnotationStore } from "../../stores/annotation";
+import { useMiradorStore } from "../../stores/mirador";
 
 interface GetAnnotationButtonsProps {
   nextOrPrevButtonClicked: (clicked: boolean) => boolean;

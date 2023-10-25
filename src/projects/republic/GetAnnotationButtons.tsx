@@ -1,8 +1,8 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import mirador from "mirador";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAnnotationStore } from "../../../stores/annotation";
-import { useMiradorStore } from "../../../stores/mirador";
+import { useAnnotationStore } from "../../stores/annotation";
+import { useMiradorStore } from "../../stores/mirador";
 
 export const GetAnnotationButtons = () => {
   const currentContext = useMiradorStore((state) => state.currentContext);

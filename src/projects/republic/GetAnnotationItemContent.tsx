@@ -1,4 +1,4 @@
-import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 
 interface GetAnnotationItemContentProps {
   annotation: AnnoRepoAnnotation;

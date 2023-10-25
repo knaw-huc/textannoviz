@@ -1,4 +1,4 @@
-import {Labels} from '../../../../model/Labels.tsx';
+import {Labels} from '../../../model/Labels.tsx';
 
 export const dutchLabels: Labels = {
   DATE_ASC: 'Datum (oplopend)',

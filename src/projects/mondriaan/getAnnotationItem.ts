@@ -9,7 +9,7 @@ import {
   TeiRefBody,
   TeiRegBody,
   TeiRsBody,
-} from "../../../model/AnnoRepoAnnotation";
+} from "../../model/AnnoRepoAnnotation";
 
 export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
   switch (annotation.body.type) {

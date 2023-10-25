@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { ScanBody } from "../../../model/AnnoRepoAnnotation";
-import { useAnnotationStore } from "../../../stores/annotation";
+import { ScanBody } from "../../model/AnnoRepoAnnotation";
+import { useAnnotationStore } from "../../stores/annotation";
 
 export const GetAnnotationLinks = () => {
   const params = useParams();

@@ -1,17 +1,17 @@
 import { UserIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { HOSTS } from "../../../Config";
+import { HOSTS } from "../../Config";
 import {
   AnnoRepoAnnotation,
   AttendanceListBody,
   ResolutionBody,
   ScanBody,
   SessionBody,
-} from "../../../model/AnnoRepoAnnotation";
-import { Broccoli } from "../../../model/Broccoli";
-import { useProjectStore } from "../../../stores/project";
-import { fetchBroccoliScanWithOverlap } from "../../../utils/broccoli";
+} from "../../model/AnnoRepoAnnotation";
+import { Broccoli } from "../../model/Broccoli";
+import { useProjectStore } from "../../stores/project";
+import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];

@@ -1,7 +1,7 @@
 import React from "react";
-import logo from "../../../../assets/G-1.png";
-import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
-import { ProjectConfig } from "../../../../model/ProjectConfig";
+import logo from "../../../assets/G-1.png";
+import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation";
+import { ProjectConfig } from "../../../model/ProjectConfig";
 import { englishLabels } from "../../default/config/englishLabels.ts";
 import { GetAnnotationButtons } from "../GetAnnotationButtons";
 import { GetAnnotationItemContent } from "../GetAnnotationItemContent";

@@ -1,10 +1,5 @@
-import {
-  AnnoRepoAnnotation,
-  AttendantBody,
-  ResolutionBody,
-  SessionBody,
-} from "../../../model/AnnoRepoAnnotation";
-import { republicConfig } from "./config/index";
+import { republicConfig } from "./config";
+import {AnnoRepoAnnotation, AttendantBody, ResolutionBody, SessionBody} from "../../model/AnnoRepoAnnotation.ts";
 
 export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
   switch (annotation.body.type) {

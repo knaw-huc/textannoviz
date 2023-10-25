@@ -1,8 +1,8 @@
 import {
   AnnoRepoAnnotation,
   TfLetterBody,
-} from "../../../model/AnnoRepoAnnotation";
-import { useProjectStore } from "../../../stores/project";
+} from "../../model/AnnoRepoAnnotation";
+import { useProjectStore } from "../../stores/project";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];

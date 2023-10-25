@@ -1,7 +1,7 @@
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,
-} from "../../../model/AnnoRepoAnnotation";
+} from "../../model/AnnoRepoAnnotation";
 
 interface GetAnnotationItemProps {
   annotation: AnnoRepoAnnotation;
