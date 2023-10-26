@@ -10,7 +10,7 @@ import {
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
 import { Broccoli } from "../../model/Broccoli";
-import { useProjectStore } from "../../stores/project";
+import {projectConfigSelector, useProjectStore} from "../../stores/project";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
 
 type RenderMetadataPanelProps = {
@@ -20,7 +20,7 @@ type RenderMetadataPanelProps = {
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
   const [attendanceList, setAttendanceList] = React.useState<Broccoli>();
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
 
   const resolution = props.annotations.filter(
     (annotation) => annotation.body.type === "Resolution",
@@ -64,7 +64,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
         ["anno"],
         "self",
         "Scan",
-        projectConfig!,
+        projectConfig,
       );
       if (!ignore) {
         setAttendanceList(result);

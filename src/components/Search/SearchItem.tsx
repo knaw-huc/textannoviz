@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { SearchResultBody } from "../../model/Search";
-import { translateSelector, useProjectStore } from "../../stores/project";
+import {projectConfigSelector, translateSelector, useProjectStore} from "../../stores/project";
 import {Labels} from "../../model/Labels.ts";
 
 interface SearchItemProps {
@@ -8,7 +8,7 @@ interface SearchItemProps {
 }
 
 export const SearchItem = (props: SearchItemProps) => {
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 
   const monthNumberToString: Record<number, keyof Labels> = {

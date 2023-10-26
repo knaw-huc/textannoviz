@@ -3,7 +3,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
-import {translateSelector, useProjectStore} from "../stores/project";
+import {projectConfigSelector, translateSelector, useProjectStore} from "../stores/project";
 import { AnnotationButtons } from "./Annotations/AnnotationButtons";
 
 type FooterProps = {
@@ -18,7 +18,7 @@ type FooterProps = {
 };
 
 export const Footer = (props: FooterProps) => {
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 
   return (
@@ -34,7 +34,7 @@ export const Footer = (props: FooterProps) => {
               {translate('NEW_SEARCH')}
             </Link>
           </button>
-          {projectConfig?.showSearchResultsButtonFooter ? (
+          {projectConfig.showSearchResultsButtonFooter ? (
             <button
               className={`${
                 props.searchResultsShowState
@@ -50,7 +50,7 @@ export const Footer = (props: FooterProps) => {
             </button>
           ) : null}
 
-          {projectConfig?.showFacsimileButtonFooter ? (
+          {projectConfig.showFacsimileButtonFooter ? (
             <button
               className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
               onClick={props.showIiifViewerHandler}

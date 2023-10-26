@@ -1,6 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
-import { useProjectStore } from "../../stores/project";
+import {projectConfigSelector, useProjectStore} from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
 
 type TextPanelProps = {
@@ -10,7 +10,7 @@ type TextPanelProps = {
 };
 
 export const TextPanel = (props: TextPanelProps) => {
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
 
   function renderPanel() {
     return (

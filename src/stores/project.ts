@@ -44,8 +44,8 @@ export const useProjectStore = create<ProjectSlice & ProjectConfigSlice>()(
 );
 
 export function translateSelector(state: ProjectConfigSlice) {
-  const translations = state.projectConfig?.labels;
-  return (key: keyof Labels) => translations?.[key] ?? key;
+  const labels = projectConfigSelector(state).labels;
+  return (key: keyof Labels) => labels?.[key] ?? key;
 }
 
 export function projectConfigSelector(state: ProjectConfigSlice): ProjectConfig {

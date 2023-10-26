@@ -3,7 +3,7 @@ import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useProjectStore } from "../../stores/project";
+import {projectConfigSelector, useProjectStore} from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { TextPanels } from "./TextPanels";
 import { ToggleTextPanels } from "./ToggleTextPanels";
@@ -23,7 +23,7 @@ export const TextComponent = (props: TextComponentProps) => {
     props.panelsToRender,
   );
   const textPanels = useTextStore((state) => state.views);
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
   const params = useParams();
 
   function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
@@ -59,7 +59,7 @@ export const TextComponent = (props: TextComponentProps) => {
 
   return (
     <div className="relative w-6/12 grow self-stretch">
-      {projectConfig?.showToggleTextPanels ? (
+      {projectConfig.showToggleTextPanels ? (
         <ToggleTextPanels
           textPanelsCheckboxHandler={textPanelsCheckboxHandler}
           panels={panelsToRender}
