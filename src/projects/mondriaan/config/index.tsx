@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { englishLabels } from "../../default/config/englishLabels.ts";
@@ -145,37 +144,6 @@ export const mondriaanConfig: ProjectConfig = {
     SearchInfoPage,
     AnnotationLinks: () => null
   },
-
-  createRouter: (
-    comp1: React.ReactNode,
-    comp2: React.ReactNode,
-    comp3: React.ReactNode,
-    errorComp: React.ReactNode,
-  ) => {
-    return [
-      {
-        path: "/",
-        element: comp3,
-        errorElement: errorComp,
-      },
-      {
-        path: "detail/:tier0/:tier1",
-        element: comp2,
-        errorElement: errorComp,
-      },
-      {
-        path: "detail/:tier2",
-        element: comp2,
-        errorElement: errorComp,
-      },
-      {
-        path: "help",
-        element: comp1,
-        errorElement: errorComp,
-      },
-    ];
-  },
-
   labels: englishLabels,
   mirador: {
     showWindowSideBar: false,

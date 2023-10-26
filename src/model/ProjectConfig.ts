@@ -41,16 +41,6 @@ export type ProjectConfig = {
   showDateFacets: boolean;
   showKeywordFacets: boolean;
   showSelectedFilters: boolean;
-  createRouter: (
-      comp1: React.ReactNode,
-      comp2: React.ReactNode,
-      comp3: React.ReactNode,
-      errorComp: React.ReactNode,
-  ) => {
-    path: string;
-    element: React.ReactNode;
-    errorElement: React.ReactNode;
-  }[];
   labels: Record<string, string>;
   mirador: {
     showWindowSideBar: boolean,

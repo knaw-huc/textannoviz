@@ -1,3 +1,1 @@
-export const SearchInfoPage = () => {
-  return <div>PLACEHOLDER</div>;
-};
+export const SearchInfoPage = () => <>Placeholder</>;

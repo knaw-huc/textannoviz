@@ -1,3 +1,1 @@
-export const Help = () => {
-  return <div>Placeholder</div>;
-};
+export const Help = () => <>Placeholder</>;
