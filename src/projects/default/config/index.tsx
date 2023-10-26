@@ -44,7 +44,10 @@ export const defaultConfig: Omit<ProjectConfig,
     MetadataPanel: Empty,
     SearchInfoPage: Empty
   },
-  labels: englishLabels,
+  selectedLanguage: 'en',
+  languages: [{
+    code: 'en', labels: englishLabels
+  }],
   mirador: {
     showWindowSideBar: false,
     showTopMenuButton: false,
