@@ -1,5 +1,6 @@
 import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 import {englishLabels} from "./englishLabels.ts";
+import {Empty} from "../../../components/Empty.tsx";
 
 /**
  * Default configuration file with some sensible defaults
@@ -39,13 +40,13 @@ export const defaultConfig: Omit<ProjectConfig,
   showKeywordFacets: true,
   showSelectedFilters: true,
   components: {
-    AnnotationItem: () => <></>,
-    AnnotationItemContent: () => <></>,
-    AnnotationLinks: () => <></>,
-    AnnotationButtons: () => <></>,
-    Help: () => <></>,
-    MetadataPanel: () => <></>,
-    SearchInfoPage: () => <></>
+    AnnotationItem: Empty,
+    AnnotationItemContent: Empty,
+    AnnotationLinks: Empty,
+    AnnotationButtons: Empty,
+    Help: Empty,
+    MetadataPanel: Empty,
+    SearchInfoPage: Empty
   },
   labels: englishLabels,
   mirador: {

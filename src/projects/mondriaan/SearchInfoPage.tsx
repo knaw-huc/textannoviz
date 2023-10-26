@@ -1,1 +1,3 @@
-export const SearchInfoPage = () => <>Placeholder</>;
+import {Placeholder} from "../../components/Placeholder.tsx";
+
+export const SearchInfoPage = Placeholder;

@@ -19,7 +19,6 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
     attendancelist: "yellow",
     textregion: "blue",
   },
-
   relativeTo: "Scan",
   annotationTypesToInclude: [
     "AttendanceList",
