@@ -288,3 +288,13 @@ input[type="search"] {
   padding-top: 1rem;
   padding-left: 0.5rem;
 }
+
+.languages {
+  margin-left: auto;
+  margin-right: 1em;
+}
+
+.languages span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
