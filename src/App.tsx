@@ -46,7 +46,6 @@ async function createRouter() {
               indices={indices}
               facets={aggs}
               indexName={config.elasticIndexName ?? ""}
-              searchFacetTitles={config.searchFacetTitles ?? {}}
           />,
           errorElement: <ErrorPage/>,
         },

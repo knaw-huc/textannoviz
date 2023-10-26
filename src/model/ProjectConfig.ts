@@ -13,20 +13,14 @@ export type ProjectConfig = {
   relativeTo: string;
 
   annotationTypesToInclude: string[];
-  annotationTypesTitles?: Record<string, string>;
   tier: string[];
   bodyType: string[];
   scanAnnotation: string;
   elasticIndexName: string;
   initialDateFrom: string;
   initialDateTo: string;
-  searchFacetTitles?: Record<string, string>;
-  textPanelTitles: Record<string, string>;
   allPossibleTextPanels: string[];
   defaultTextPanels: string[];
-  // TODO translate:
-  metadataPanelTitles?: Record<string, string>;
-  facetsTranslation?: Record<string, string>;
   showSearchSortBy: boolean;
   showSearchResultsButtonFooter: boolean;
   showFacsimileButtonFooter: boolean;

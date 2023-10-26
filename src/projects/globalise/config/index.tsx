@@ -7,6 +7,7 @@ import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
 import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 import {defaultConfig} from "../../default/config";
+import {englishGlobaliseLabels} from "./englishGlobaliseLabels.ts";
 
 export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  {
   id: "globalise",
@@ -19,14 +20,6 @@ export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  
   annotationTypesToInclude: ["px:Page"],
   scanAnnotation: "na:File",
   elasticIndexName: "docs",
-  searchFacetTitles: {
-    bodyType: "Body type",
-    className: "Class name",
-    classDescription: "Class description",
-  },
-  textPanelTitles: {
-    self: "Full text",
-  },
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
   showSearchSortBy: false,
@@ -49,6 +42,7 @@ export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  
     MetadataPanel,
     SearchInfoPage,
   },
+  labels: englishGlobaliseLabels,
   mirador: {
     showWindowSideBar: true,
   },

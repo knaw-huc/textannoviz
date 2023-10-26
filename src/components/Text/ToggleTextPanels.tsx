@@ -1,7 +1,7 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import React from "react";
-import {projectConfigSelector, useProjectStore} from "../../stores/project";
+import {projectConfigSelector, translateProjectSelector, useProjectStore} from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 
 type ToggleTextPanelsProps = {
@@ -13,7 +13,7 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
   const [show, setShow] = React.useState(false);
   const views = useTextStore((state) => state.views);
   const projectConfig = useProjectStore(projectConfigSelector);
-
+  const translateProject = useProjectStore(translateProjectSelector);
   function renderCheckboxes() {
     if (views) {
       return projectConfig.allPossibleTextPanels?.map((panel, index) => {
@@ -30,9 +30,7 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
               className="toggleTextPanelCheckboxLabel"
               htmlFor={`panel-${index}`}
             >
-              {projectConfig &&
-                projectConfig.textPanelTitles &&
-                projectConfig.textPanelTitles[panel]}
+              {translateProject(panel)}
             </label>
           </div>
         ) : null;
@@ -52,9 +50,7 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
               className="toggleTextPanelCheckboxLabel"
               htmlFor={`panel-${index}`}
             >
-              {projectConfig &&
-                projectConfig.textPanelTitles &&
-                projectConfig.textPanelTitles[panel]}
+              {translateProject(panel)}
             </label>
           </div>
         );

@@ -10,7 +10,11 @@ import {
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
 import { Broccoli } from "../../model/Broccoli";
-import {projectConfigSelector, useProjectStore} from "../../stores/project";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore
+} from "../../stores/project";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
 
 type RenderMetadataPanelProps = {
@@ -21,6 +25,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
   const [attendanceList, setAttendanceList] = React.useState<Broccoli>();
   const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const resolution = props.annotations.filter(
     (annotation) => annotation.body.type === "Resolution",
@@ -36,6 +41,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const gridOneColumn = "grid grid-cols-1";
 
+  // TODO: use label keys:
   const monthNumberToString: Record<number, string> = {
     1: "januari",
     2: "februari",
@@ -159,11 +165,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
           <li className="mb-8">
             <div className={gridOneColumn}>
               <strong>Datum: </strong>
-              {(projectConfig &&
-                projectConfig.facetsTranslation![
-                  (session[0].body as SessionBody).metadata.sessionWeekday
-                ]) ??
-                (session[0].body as SessionBody).metadata.sessionWeekday}{" "}
+              {translateProject((session[0].body as SessionBody).metadata.sessionWeekday)}{" "}
               {(resolution[0].body as ResolutionBody).metadata.sessionDay}{" "}
               {
                 monthNumberToString[
@@ -246,11 +248,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
         <li className="mb-8">
           <div className={gridOneColumn}>
             <strong>Datum: </strong>
-            {(projectConfig &&
-              projectConfig.facetsTranslation![
-                (session[0].body as SessionBody).metadata.sessionWeekday
-              ]) ??
-              (session[0].body as SessionBody).metadata.sessionWeekday}{" "}
+            {translateProject((session[0].body as SessionBody).metadata.sessionWeekday)}{" "}
             {(session[0].body as SessionBody).metadata.sessionDay}{" "}
             {
               monthNumberToString[

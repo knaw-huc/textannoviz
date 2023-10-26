@@ -13,7 +13,7 @@ import {
   SearchQuery,
   SearchResult,
 } from "../../model/Search";
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import {translateProjectSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
@@ -29,13 +29,13 @@ type SearchProps = {
   indices: Indices;
   facets: Facets;
   indexName: string;
-  searchFacetTitles: Record<string, string>;
 };
 
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
 export const Search = (props: SearchProps) => {
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
@@ -448,7 +448,7 @@ export const Search = (props: SearchProps) => {
       return (
         <div key={index} className="w-full max-w-[450px]">
           <div className="font-semibold">
-            {props.searchFacetTitles[facetName] ?? facetName}
+            {translateProject(facetName)}
           </div>
           {Object.entries(facetValues).map(
             ([facetValueName, facetValueAmount]) => {
@@ -475,11 +475,8 @@ export const Search = (props: SearchProps) => {
                         ? facetValueName.charAt(0).toUpperCase() +
                           facetValueName.slice(1)
                         : facetValueName &&
-                          ((props.projectConfig.facetsTranslation &&
-                            props.projectConfig.facetsTranslation[
-                              facetValueName
-                            ]) ??
-                            facetValueName)}
+                          translateProject(facetValueName)
+                      }
                     </label>
                   </div>
                   <div className="text-sm text-neutral-500">
@@ -664,21 +661,12 @@ export const Search = (props: SearchProps) => {
                             className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
                             key={index}
                           >
-                            {(props.projectConfig.searchFacetTitles &&
-                              props.projectConfig.searchFacetTitles[
-                                facetName
-                              ]) ??
-                              facetName}
+                            {translateProject(facetName)}
                             :{" "}
                             {/^[a-z]/.test(facetValueName)
                               ? facetValueName.charAt(0).toUpperCase() +
                                 facetValueName.slice(1)
-                              : (facetValueName &&
-                                  props.projectConfig.facetsTranslation &&
-                                  props.projectConfig.facetsTranslation[
-                                    facetValueName
-                                  ]) ??
-                                facetValueName}{" "}
+                              : translateProject(facetValueName)}{" "}
                             {
                               <XMarkIcon
                                 className="h-5 w-5"

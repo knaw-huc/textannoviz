@@ -3,7 +3,7 @@ import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import {projectConfigSelector, useProjectStore} from "../../stores/project";
+import {projectConfigSelector, translateProjectSelector, useProjectStore} from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { TextPanels } from "./TextPanels";
 import { ToggleTextPanels } from "./ToggleTextPanels";
@@ -25,6 +25,7 @@ export const TextComponent = (props: TextComponentProps) => {
   const textPanels = useTextStore((state) => state.views);
   const projectConfig = useProjectStore(projectConfigSelector);
   const params = useParams();
+  const translateProject = useProjectStore(translateProjectSelector);
 
   function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
     const checkedTextPanels = [...panelsToRender];
@@ -32,10 +33,7 @@ export const TextComponent = (props: TextComponentProps) => {
     if (event.checked) {
       if (textPanels && !(event.value in textPanels)) {
         toast(
-          `Text panel "${
-            projectConfig &&
-            typeof projectConfig.textPanelTitles === "object" &&
-            projectConfig.textPanelTitles[`${event.value}`].toLowerCase()
+          `Text panel "${translateProject(`${event.value}`).toLowerCase()
           }" is not available for letter "${params.tier1}".`,
           {
             type: "error",

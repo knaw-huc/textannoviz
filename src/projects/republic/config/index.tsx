@@ -1,14 +1,14 @@
 import logo from "../../../assets/logo-republic-temp.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
-import { dutchLabels } from "../../default/config/dutchLabels.ts";
-import { AnnotationButtons } from "../AnnotationButtons.tsx";
-import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
-import { AnnotationLinks } from "../AnnotationLinks.tsx";
-import { Help } from "../Help.tsx";
-import { MetadataPanel } from "../MetadataPanel.tsx";
-import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import {ProjectConfig} from "../../../model/ProjectConfig";
+import {AnnotationButtons} from "../AnnotationButtons.tsx";
+import {AnnotationItemContent} from "../AnnotationItemContent.tsx";
+import {AnnotationLinks} from "../AnnotationLinks.tsx";
+import {Help} from "../Help.tsx";
+import {MetadataPanel} from "../MetadataPanel.tsx";
+import {SearchInfoPage} from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
 import {defaultConfig} from "../../default/config";
+import {dutchRepublicLabels} from "./dutchRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
   id: "republic",
@@ -29,45 +29,12 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
     // "TextRegion",
     "Scan",
   ],
-  annotationTypesTitles: {
-    AttendanceList: "Attendance list",
-    Attendant: "Attendant",
-    Line: "Line",
-    Page: "Page",
-    RepublicParagraph: "Paragraph",
-    Resolution: "Resolution",
-    Reviewed: "Reviewed",
-    Scan: "Scan",
-    Session: "Session",
-    TextRegion: "Text region",
-    Volume: "Volume",
-  },
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
   scanAnnotation: "Scan",
   elasticIndexName: "resolutions",
   initialDateFrom: "1705-01-01",
   initialDateTo: "1795-12-31",
-  searchFacetTitles: {
-    sessionDate: "Date",
-    sessionWeekday: "Weekdag",
-    bodyType: "Type",
-    propositionType: "Propositie type",
-  },
-  textPanelTitles: {
-    self: "Tekst",
-  },
-  facetsTranslation: {
-    Lunæ: "Maandag",
-    Martis: "Dinsdag",
-    Mercurii: "Woensdag",
-    Jovis: "Donderdag",
-    Veneris: "Vrijdag",
-    Sabbathi: "Zaterdag",
-    Dominica: "Zondag",
-    Resolution: "Resolutie",
-    AttendanceList: "Presentielijst",
-  },
   annotationTypesToZoom: ["resolution", "attendance_list"],
   logoImageUrl: logo,
   headerTitle: "REPUBLIC",
@@ -81,7 +48,7 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
     MetadataPanel,
     SearchInfoPage
   },
-  labels: dutchLabels,
+  labels: dutchRepublicLabels,
   mirador: {
     showTopMenuButton: true,
   },

@@ -1,6 +1,7 @@
 import React from "react";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { FacetValue } from "../../model/Search";
+import {translateProjectSelector, useProjectStore} from "../../stores/project.ts";
 
 type KeywordFacetProps = {
   getKeywordFacets: () => [string, FacetValue][];
@@ -14,6 +15,7 @@ type KeywordFacetProps = {
 };
 
 export const KeywordFacet = (props: KeywordFacetProps) => {
+  const translateProject = useProjectStore(translateProjectSelector);
   return props.getKeywordFacets().map(([facetName, facetValues], index) => {
     return (
       <div key={index} className="w-full max-w-[450px]">
@@ -45,11 +47,7 @@ export const KeywordFacet = (props: KeywordFacetProps) => {
                       ? facetValueName.charAt(0).toUpperCase() +
                         facetValueName.slice(1)
                       : facetValueName &&
-                        ((props.projectConfig.facetsTranslation &&
-                          props.projectConfig.facetsTranslation[
-                            facetValueName
-                          ]) ??
-                          facetValueName)}
+                        translateProject(facetValueName)}
                   </label>
                 </div>
                 <div className="text-sm text-neutral-500">

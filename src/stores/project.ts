@@ -48,6 +48,16 @@ export function translateSelector(state: ProjectConfigSlice) {
   return (key: keyof Labels) => labels?.[key] ?? key;
 }
 
+/**
+ * {@link translateSelector} without type safety
+ * allowing a project to provide translations
+ * for custom elements like facets and custom components
+ */
+export function translateProjectSelector(state: ProjectConfigSlice) {
+  const labels = projectConfigSelector(state).labels;
+  return (key: string) => labels?.[key] ?? key;
+}
+
 export function projectConfigSelector(state: ProjectConfigSlice): ProjectConfig {
   if(!state.projectConfig) {
     throw new Error('No project config');

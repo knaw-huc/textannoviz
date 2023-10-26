@@ -7,6 +7,7 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
 import {defaultConfig} from "../../default/config";
+import {englishMondriaanLabels} from "./englishMondriaanLabels.ts";
 
 export const mondriaanConfig: ProjectConfig = Object.assign({}, defaultConfig,  {
   id: "mondriaan",
@@ -86,15 +87,6 @@ export const mondriaanConfig: ProjectConfig = Object.assign({}, defaultConfig,  
   elasticIndexName: "divs",
   initialDateFrom: "1909-01-01",
   initialDateTo: "1910-12-31",
-  textPanelTitles: {
-    textOrig: "Originele tekst",
-    textTrans: "Vertaling",
-    notesEN: "Notities",
-    title: "Titel",
-    textFull: "Volledige tekst",
-    postalData: "Adresgegevens",
-    self: "Volledige tekst",
-  },
   allPossibleTextPanels: [
     "textOrig",
     "textTrans",
@@ -103,20 +95,6 @@ export const mondriaanConfig: ProjectConfig = Object.assign({}, defaultConfig,  
     "postalData",
   ],
   defaultTextPanels: ["textOrig", "textTrans"],
-  metadataPanelTitles: {
-    correspondent: "Correspondent",
-    country: "Country",
-    file: "File",
-    institution: "Institution",
-    letterid: "Letter ID",
-    location: "Location",
-    msid: "Shelfmark",
-    period: "Period",
-    periodlong: "Period (long)",
-    sender: "Sender",
-    type: "Type",
-    folder: "Folder",
-  },
   showToggleTextPanels: true,
   logoImageUrl: logo,
   headerTitle: "MONDRIAAN",
@@ -130,6 +108,7 @@ export const mondriaanConfig: ProjectConfig = Object.assign({}, defaultConfig,  
     Help,
     SearchInfoPage,
   },
+  labels: englishMondriaanLabels,
   mirador: {
     showTopMenuButton: true
   },
