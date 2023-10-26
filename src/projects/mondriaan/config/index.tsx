@@ -1,19 +1,16 @@
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
-import { englishLabels } from "../../default/config/englishLabels.ts";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { Help } from "../Help.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
+import {defaultConfig} from "../../default/config";
 
-export const mondriaanConfig: ProjectConfig = {
+export const mondriaanConfig: ProjectConfig = Object.assign({}, defaultConfig,  {
   id: "mondriaan",
-  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
-  colours: {},
   relativeTo: "tf:Letter",
-  annotationTypesToZoom: [],
   annotationTypesToInclude: [
     // "nlp:Sentence",
     // "nlp:Token",
@@ -85,7 +82,6 @@ export const mondriaanConfig: ProjectConfig = {
     "tf:Page",
   ],
   tier: ["folders", "letters"],
-  bodyType: [],
   scanAnnotation: "tf:Letter",
   elasticIndexName: "divs",
   initialDateFrom: "1909-01-01",
@@ -121,20 +117,11 @@ export const mondriaanConfig: ProjectConfig = {
     type: "Type",
     folder: "Folder",
   },
-  showSearchSortBy: true,
-  showFacsimileButtonFooter: true,
-  showSearchResultsButtonFooter: true,
-  defaultShowMetadataPanel: true,
   showToggleTextPanels: true,
-  zoomAnnoMirador: true,
   logoImageUrl: logo,
   headerTitle: "MONDRIAAN",
   logoHref:
     "https://rkd.nl/nl/projecten-en-publicaties/projecten/130-mondriaan-editieproject",
-  showSearchQueryHistory: true,
-  showDateFacets: true,
-  showKeywordFacets: true,
-  showSelectedFilters: true,
   components: {
     AnnotationItem,
     AnnotationItemContent,
@@ -142,11 +129,8 @@ export const mondriaanConfig: ProjectConfig = {
     MetadataPanel,
     Help,
     SearchInfoPage,
-    AnnotationLinks: () => null
   },
-  labels: englishLabels,
   mirador: {
-    showWindowSideBar: false,
     showTopMenuButton: true
   },
-};
+});

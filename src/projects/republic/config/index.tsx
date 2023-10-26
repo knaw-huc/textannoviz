@@ -8,11 +8,10 @@ import { Help } from "../Help.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
+import {defaultConfig} from "../../default/config";
 
-export const republicConfig: ProjectConfig = {
+export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
   id: "republic",
-  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
-
   colours: {
     resolution: "green",
     attendant: "#DB4437",
@@ -59,8 +58,6 @@ export const republicConfig: ProjectConfig = {
   textPanelTitles: {
     self: "Tekst",
   },
-  allPossibleTextPanels: ["self"],
-  defaultTextPanels: ["self"],
   facetsTranslation: {
     Lunæ: "Maandag",
     Martis: "Dinsdag",
@@ -72,20 +69,10 @@ export const republicConfig: ProjectConfig = {
     Resolution: "Resolutie",
     AttendanceList: "Presentielijst",
   },
-  showSearchSortBy: true,
-  showFacsimileButtonFooter: true,
-  showSearchResultsButtonFooter: true,
-  defaultShowMetadataPanel: true,
-  showToggleTextPanels: false,
-  zoomAnnoMirador: true,
   annotationTypesToZoom: ["resolution", "attendance_list"],
   logoImageUrl: logo,
   headerTitle: "REPUBLIC",
   logoHref: "https://republic.huygens.knaw.nl/",
-  showSearchQueryHistory: true,
-  showDateFacets: true,
-  showKeywordFacets: true,
-  showSelectedFilters: true,
   components: {
     AnnotationItem,
     AnnotationItemContent,
@@ -97,7 +84,6 @@ export const republicConfig: ProjectConfig = {
   },
   labels: dutchLabels,
   mirador: {
-    showWindowSideBar: false,
     showTopMenuButton: true,
   },
-};
+});
