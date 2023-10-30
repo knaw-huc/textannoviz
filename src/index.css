@@ -298,3 +298,7 @@ input[type="search"] {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.languages .selected {
+  text-decoration: underline;
+}

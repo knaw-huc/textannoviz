@@ -14,8 +14,9 @@ export interface ProjectConfigSlice {
   ) => void;
 }
 
+export type ProjectStore = ProjectSlice & ProjectConfigSlice;
 const createProjectSlice: StateCreator<
-  ProjectSlice & ProjectConfigSlice,
+  ProjectStore,
   [],
   [],
   ProjectSlice
@@ -26,7 +27,7 @@ const createProjectSlice: StateCreator<
 });
 
 const createProjectConfigSlice: StateCreator<
-  ProjectSlice & ProjectConfigSlice,
+  ProjectStore,
   [],
   [],
   ProjectConfigSlice
@@ -36,7 +37,7 @@ const createProjectConfigSlice: StateCreator<
     set(() => ({ projectConfig: newProjectConfig })),
 });
 
-export const useProjectStore = create<ProjectSlice & ProjectConfigSlice>()(
+export const useProjectStore = create<ProjectStore>()(
   (...a) => ({
     ...createProjectSlice(...a),
     ...createProjectConfigSlice(...a),
@@ -73,4 +74,8 @@ export function projectConfigSelector(state: ProjectConfigSlice): ProjectConfig 
     throw new Error('No project config');
   }
   return state.projectConfig;
+}
+
+export function setProjectConfigSelector(state: ProjectStore) {
+  return state.setProjectConfig;
 }
