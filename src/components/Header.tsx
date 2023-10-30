@@ -1,4 +1,5 @@
-import { ProjectConfig } from "../model/ProjectConfig";
+import {ProjectConfig} from "../model/ProjectConfig";
+import {LanguageMenu} from "./LanguageMenu.tsx";
 
 type HeaderProps = {
   projectConfig: ProjectConfig;
@@ -46,6 +47,7 @@ export const Header = (props: HeaderProps) => {
             {window.location.pathname === "/help" ? "Search" : "Help"}
           </a>
         </div>
+        <LanguageMenu />
       </div>
     </header>
   );

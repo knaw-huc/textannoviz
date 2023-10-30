@@ -1,5 +1,5 @@
-import { create, StateCreator } from "zustand";
-import { ProjectConfig } from "../model/ProjectConfig";
+import {create, StateCreator} from "zustand";
+import {ProjectConfig} from "../model/ProjectConfig";
 import {Labels} from "../model/Labels.ts";
 
 export interface ProjectSlice {
@@ -14,8 +14,9 @@ export interface ProjectConfigSlice {
   ) => void;
 }
 
+export type ProjectStore = ProjectSlice & ProjectConfigSlice;
 const createProjectSlice: StateCreator<
-  ProjectSlice & ProjectConfigSlice,
+  ProjectStore,
   [],
   [],
   ProjectSlice
@@ -26,7 +27,7 @@ const createProjectSlice: StateCreator<
 });
 
 const createProjectConfigSlice: StateCreator<
-  ProjectSlice & ProjectConfigSlice,
+  ProjectStore,
   [],
   [],
   ProjectConfigSlice
@@ -36,7 +37,7 @@ const createProjectConfigSlice: StateCreator<
     set(() => ({ projectConfig: newProjectConfig })),
 });
 
-export const useProjectStore = create<ProjectSlice & ProjectConfigSlice>()(
+export const useProjectStore = create<ProjectStore>()(
   (...a) => ({
     ...createProjectSlice(...a),
     ...createProjectConfigSlice(...a),
@@ -44,7 +45,7 @@ export const useProjectStore = create<ProjectSlice & ProjectConfigSlice>()(
 );
 
 export function translateSelector(state: ProjectConfigSlice) {
-  const labels = projectConfigSelector(state).labels;
+  const labels = labelsSelector(state);
   return (key: keyof Labels) => labels?.[key] ?? key;
 }
 
@@ -54,8 +55,18 @@ export function translateSelector(state: ProjectConfigSlice) {
  * for custom elements like facets and custom components
  */
 export function translateProjectSelector(state: ProjectConfigSlice) {
-  const labels = projectConfigSelector(state).labels;
+  const labels = labelsSelector(state);
   return (key: string) => labels?.[key] ?? key;
+}
+
+function labelsSelector(state: ProjectConfigSlice): Record<string, string> {
+  const config = projectConfigSelector(state);
+  let selectedLanguage = config.selectedLanguage;
+  const translation = config.languages.find(l => l.code === selectedLanguage);
+  if(!translation) {
+    throw new Error(`No translation found for selected language ${selectedLanguage}`);
+  }
+  return translation.labels;
 }
 
 export function projectConfigSelector(state: ProjectConfigSlice): ProjectConfig {
@@ -63,4 +74,8 @@ export function projectConfigSelector(state: ProjectConfigSlice): ProjectConfig 
     throw new Error('No project config');
   }
   return state.projectConfig;
+}
+
+export function setProjectConfigSelector(state: ProjectStore) {
+  return state.setProjectConfig;
 }

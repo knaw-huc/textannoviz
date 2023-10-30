@@ -1,10 +1,10 @@
 import logo from "../../../assets/logo-republic-temp.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
-import { AnnotationButtons } from "../AnnotationButtons.tsx";
-import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
-import { Help } from "../Help.tsx";
-import { MetadataPanel } from "../MetadataPanel.tsx";
-import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import {ProjectConfig} from "../../../model/ProjectConfig";
+import {AnnotationButtons} from "../AnnotationButtons.tsx";
+import {AnnotationItemContent} from "../AnnotationItemContent.tsx";
+import {Help} from "../Help.tsx";
+import {MetadataPanel} from "../MetadataPanel.tsx";
+import {SearchInfoPage} from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
 import {defaultConfig} from "../../default/config";
 import {englishMondriaanLabels} from "./englishMondriaanLabels.ts";
@@ -108,7 +108,10 @@ export const mondriaanConfig: ProjectConfig = Object.assign({}, defaultConfig,  
     Help,
     SearchInfoPage,
   },
-  labels: englishMondriaanLabels,
+  selectedLanguage: 'en',
+  languages: [{
+    code: 'en', labels: englishMondriaanLabels
+  }],
   mirador: {
     showTopMenuButton: true
   },

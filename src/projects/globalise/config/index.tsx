@@ -1,9 +1,9 @@
 import logo from "../../../assets/G-1.png";
-import { AnnotationButtons } from "../AnnotationButtons.tsx";
-import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
-import { Help } from "../Help.tsx";
-import { MetadataPanel } from "../MetadataPanel.tsx";
-import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import {AnnotationButtons} from "../AnnotationButtons.tsx";
+import {AnnotationItemContent} from "../AnnotationItemContent.tsx";
+import {Help} from "../Help.tsx";
+import {MetadataPanel} from "../MetadataPanel.tsx";
+import {SearchInfoPage} from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
 import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 import {defaultConfig} from "../../default/config";
@@ -43,7 +43,10 @@ export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  
     MetadataPanel,
     SearchInfoPage,
   },
-  labels: englishGlobaliseLabels,
+  selectedLanguage: 'en',
+  languages: [{
+    code: 'en', labels: englishGlobaliseLabels
+  }],
   mirador: {
     showWindowSideBar: true,
   },

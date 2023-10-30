@@ -8,6 +8,7 @@ import {MetadataPanel} from "../MetadataPanel.tsx";
 import {SearchInfoPage} from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
 import {defaultConfig} from "../../default/config";
+import {englishRepublicLabels} from "./englishRepublicLabels.ts";
 import {dutchRepublicLabels} from "./dutchRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
@@ -48,7 +49,11 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
     MetadataPanel,
     SearchInfoPage
   },
-  labels: dutchRepublicLabels,
+  selectedLanguage: 'nl',
+  languages: [
+    {code: 'nl', labels: dutchRepublicLabels},
+    {code: 'en', labels: englishRepublicLabels}
+  ],
   mirador: {
     showTopMenuButton: true,
   },
