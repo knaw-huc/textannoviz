@@ -1,6 +1,6 @@
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { SearchQuery } from "../../model/Search";
-import {translateSelector, useProjectStore} from "../../stores/project.ts";
+import {translateProjectSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
 
 type SearchQueryHistoryProps = {
   historyClickHandler: () => void;
@@ -13,6 +13,7 @@ type SearchQueryHistoryProps = {
 
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   return (
     <>
@@ -53,17 +54,9 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                       <strong>{translate('SELECTED_FACETS')}:</strong>
                     ) : null}
                     {Object.entries(query.terms).map(([key, value], index) => (
-                      <div key={index}>{`${
-                        (props.projectConfig.searchFacetTitles &&
-                          props.projectConfig.searchFacetTitles[key]) ??
-                        key
-                      }: ${
-                        (props.projectConfig.annotationTypesTitles &&
-                          props.projectConfig.annotationTypesTitles[
-                            value[0]
-                          ]) ??
-                        value
-                      }`}</div>
+                      <div key={index}>
+                        {`${translateProject(key)}: ${translateProject(value[0])}`}
+                      </div>
                     ))}
                   </div>
                 ) : null}

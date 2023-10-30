@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
-import {translateSelector, useProjectStore} from "../../stores/project";
+import {projectConfigSelector, translateSelector, useProjectStore} from "../../stores/project";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
@@ -24,7 +24,7 @@ export function Annotation(props: AnnotationProps) {
   const [nextOrPrevButtonClicked, setNextOrPrevButtonClicked] =
     React.useState(false);
   const annotations = useAnnotationStore((state) => state.annotations);
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
   const projectName = useProjectStore((state) => state.projectName);
   const canvas = useMiradorStore((state) => state.canvas);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
@@ -76,7 +76,9 @@ export function Annotation(props: AnnotationProps) {
         </TabList>
         <TabPanel id="metadata" className="text-brand1-800 h-full p-5">
           {annotations.length > 0 && !props.isLoading ? (
-            projectConfig?.renderMetadataPanel(annotations)
+            <projectConfig.components.MetadataPanel
+                annotations={annotations}
+            />
           ) : (
             <div>
               <Skeleton width="25rem" className="skeleton"></Skeleton>

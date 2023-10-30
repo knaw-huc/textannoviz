@@ -1,6 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
-import { useProjectStore } from "../../stores/project";
+import {translateProjectSelector, useProjectStore} from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
 
 type TextPanelProps = {
@@ -10,8 +10,7 @@ type TextPanelProps = {
 };
 
 export const TextPanel = (props: TextPanelProps) => {
-  const projectConfig = useProjectStore((state) => state.projectConfig);
-
+  const translateProject = useProjectStore(translateProjectSelector);
   function renderPanel() {
     return (
       <div
@@ -28,10 +27,7 @@ export const TextPanel = (props: TextPanelProps) => {
           onClick={() => props.closePanelHandler(props.panel)}
         />
         <strong className="text-brand1Grey-800 mb-4 block border-b-2">
-          {(projectConfig &&
-            projectConfig.textPanelTitles &&
-            projectConfig.textPanelTitles[`${props.panel}`]) ??
-            props.panel}
+          {translateProject(`${props.panel}`)}
         </strong>
         <TextHighlighting
           text={props.text}

@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { SearchResultBody } from "../../model/Search";
-import { translateSelector, useProjectStore } from "../../stores/project";
+import {
+  translateProjectSelector,
+  translateSelector,
+  useProjectStore
+} from "../../stores/project";
 import {Labels} from "../../model/Labels.ts";
 
 interface SearchItemProps {
@@ -8,8 +12,8 @@ interface SearchItemProps {
 }
 
 export const SearchItem = (props: SearchItemProps) => {
-  const projectConfig = useProjectStore((state) => state.projectConfig);
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const monthNumberToString: Record<number, keyof Labels> = {
     1: "JANUARY",
@@ -29,10 +33,8 @@ export const SearchItem = (props: SearchItemProps) => {
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
-        {(projectConfig &&
-          projectConfig.facetsTranslation &&
-          projectConfig.facetsTranslation[props.result.sessionWeekday]) ??
-          props.result.sessionWeekday}{" "}
+        {translateProject(props.result.sessionWeekday)}
+        {" "}
         <strong className="font-semibold">
           {props.result.sessionDay}{" "}
           {translate(monthNumberToString[props.result.sessionMonth])}{" "}
@@ -45,10 +47,7 @@ export const SearchItem = (props: SearchItemProps) => {
       >
         <li className="divide-rpBrand1grey-100 border-rpBrand1grey-50 hover:divide-rpBrand1grey-200 hover:border-rpBrand1grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
           <div className="p-4 font-semibold">
-            {(projectConfig &&
-              projectConfig.facetsTranslation &&
-              projectConfig.facetsTranslation[props.result.bodyType]) ??
-              props.result.document}
+            {translateProject(props.result.bodyType) ?? props.result.document}
           </div>
           {props.result._hits?.map((hit, key) => (
             <div key={key} className="hover:bg-rpBrand1grey-50 w-full p-4">

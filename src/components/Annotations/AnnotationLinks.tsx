@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useProjectStore } from "../../stores/project";
+import {projectConfigSelector, useProjectStore} from "../../stores/project";
 
 export const AnnotationLinks = () => {
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
   const resetOpenAnn = useAnnotationStore((state) => state.resetOpenAnn);
   const setCurrentSelectedAnn = useAnnotationStore(
     (state) => state.setCurrentSelectedAnn,
@@ -23,9 +23,7 @@ export const AnnotationLinks = () => {
       <Link to="/search" onClick={linkClickHandler}>
         Search
       </Link>
-      {projectConfig &&
-        projectConfig.renderAnnotationLinks &&
-        projectConfig.renderAnnotationLinks()}
+      <projectConfig.components.AnnotationLinks/>
     </div>
   );
 };
