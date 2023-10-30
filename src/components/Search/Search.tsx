@@ -217,25 +217,27 @@ export const Search = (props: SearchProps) => {
 
   useEffect(() => {
     function syncUrlWithSearchParams() {
-      setUrlParams({
-        page: pageNumber.toString(),
-        size: elasticSize.toString(),
-        frag: fragmenter,
-        sortBy: sortBy,
-        sortOrder: sortOrder,
-        query: Base64.toBase64(JSON.stringify(query)),
+      setUrlParams(prev => {
+        return {
+          ...Object.fromEntries(prev.entries()),
+          page: pageNumber.toString(),
+          size: elasticSize.toString(),
+          frag: fragmenter,
+          sortBy: sortBy,
+          sortOrder: sortOrder,
+          query: Base64.toBase64(JSON.stringify(query))
+        };
       });
     }
 
     syncUrlWithSearchParams();
   }, [
+    pageNumber,
     elasticSize,
     fragmenter,
-    pageNumber,
-    searchParams,
-    setUrlParams,
     sortBy,
     sortOrder,
+    query,
   ]);
 
   useEffect(() => {
