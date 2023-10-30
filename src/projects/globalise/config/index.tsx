@@ -11,6 +11,7 @@ import {englishGlobaliseLabels} from "./englishGlobaliseLabels.ts";
 
 export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  {
   id: "globalise",
+  broccoliUrl: "https://gloccoli.tt.di.huc.knaw.nl",
   colours: {
     textregion: "white",
     textline: "#DB4437",
