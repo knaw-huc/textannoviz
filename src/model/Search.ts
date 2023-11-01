@@ -7,7 +7,7 @@ export type SearchResult = {
     relation: string;
   };
   results: SearchResultBody[];
-} | null;
+};
 
 export interface SearchResultBody {
   _id: string;

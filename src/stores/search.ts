@@ -55,8 +55,9 @@ const createTextToHighlightSlice: StateCreator<
     set(() => ({ textToHighlight: newTextToHighlight })),
 });
 
+type SearchStore = SearchResultsSlice & SearchQuerySlice & TextToHighlightSlice;
 export const useSearchStore = create<
-  SearchResultsSlice & SearchQuerySlice & TextToHighlightSlice
+  SearchStore
 >()((...a) => ({
   ...createSearchResultsSlice(...a),
   ...createSearchQuerySlice(...a),

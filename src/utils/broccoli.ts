@@ -67,7 +67,7 @@ export const sendSearchQuery = async (
   projectConfig: ProjectConfig,
   sortBy = "_score",
   sortOrder = "desc",
-): Promise<SearchResult> => {
+): Promise<SearchResult | null> => {
   const params = new URLSearchParams({
     frag: fragParam,
     size: sizeParam.toString(),
