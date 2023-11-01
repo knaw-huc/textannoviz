@@ -1,10 +1,10 @@
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-aria-components";
 import { Link, useSearchParams } from "react-router-dom";
-import { FullTextFacet } from "reactions-knaw-huc";
 import { toast } from "react-toastify";
+import { FullTextFacet } from "reactions-knaw-huc";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   FacetValue,
@@ -13,7 +13,11 @@ import {
   SearchQuery,
   SearchResult,
 } from "../../model/Search";
-import {translateProjectSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
+import {
+  translateProjectSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search";
 import { sendSearchQuery } from "../../utils/broccoli";
 import { Fragmenter } from "./Fragmenter";
@@ -88,8 +92,8 @@ export const Search = (props: SearchProps) => {
       }
       searchHits.forEach((hit) => {
         const matches = hit.preview
-            .match(HIT_PREVIEW_REGEX)
-            ?.map((str) => str.substring(4, str.length - 5));
+          .match(HIT_PREVIEW_REGEX)
+          ?.map((str) => str.substring(4, str.length - 5));
         if (matches) {
           previews.push(...new Set(matches));
         }
@@ -115,9 +119,12 @@ export const Search = (props: SearchProps) => {
 
       if (fullText) {
         if (fullText.charAt(fullText.length - 1).includes("\\")) {
-          toast("Please remove the trailing backslash from your search query.", {
-            type: "error",
-          });
+          toast(
+            "Please remove the trailing backslash from your search query.",
+            {
+              type: "error",
+            },
+          );
           return;
         }
         searchQuery["text"] = fullText;
@@ -179,12 +186,14 @@ export const Search = (props: SearchProps) => {
       const selectedFacets: string[] = [];
 
       if (queryDecoded && queryDecoded.terms) {
-        Object.entries(queryDecoded.terms).forEach(([facetName, facetValues]) => {
-          facetValues.forEach((facetValue) => {
-            const key = `${facetName}-${facetValue}`;
-            selectedFacets.push(key);
-          });
-        });
+        Object.entries(queryDecoded.terms).forEach(
+          ([facetName, facetValues]) => {
+            facetValues.forEach((facetValue) => {
+              const key = `${facetName}-${facetValue}`;
+              selectedFacets.push(key);
+            });
+          },
+        );
       }
 
       getKeywordFacets().map(([facetName, facetValues]) => {
@@ -217,7 +226,7 @@ export const Search = (props: SearchProps) => {
 
   useEffect(() => {
     function syncUrlWithSearchParams() {
-      setUrlParams(prev => {
+      setUrlParams((prev) => {
         return {
           ...Object.fromEntries(prev.entries()),
           page: pageNumber.toString(),
@@ -225,35 +234,28 @@ export const Search = (props: SearchProps) => {
           frag: fragmenter,
           sortBy: sortBy,
           sortOrder: sortOrder,
-          query: Base64.toBase64(JSON.stringify(query))
+          query: Base64.toBase64(JSON.stringify(query)),
         };
       });
     }
 
     syncUrlWithSearchParams();
-  }, [
-    pageNumber,
-    elasticSize,
-    fragmenter,
-    sortBy,
-    sortOrder,
-    query,
-  ]);
+  }, [pageNumber, elasticSize, fragmenter, sortBy, sortOrder, query]);
 
   useEffect(() => {
     async function searchWhenParamsChange() {
-      if (!query.text) {
+      if (!query.terms) {
         return;
       }
 
       const data = await sendSearchQuery(
-          query,
-          fragmenter,
-          elasticSize,
-          0,
-          props.projectConfig,
-          sortBy,
-          sortOrder,
+        query,
+        fragmenter,
+        elasticSize,
+        0,
+        props.projectConfig,
+        sortBy,
+        sortOrder,
       );
       if (!data) {
         return;
@@ -417,9 +419,7 @@ export const Search = (props: SearchProps) => {
     return getKeywordFacets().map(([facetName, facetValues], index) => {
       return (
         <div key={index} className="w-full max-w-[450px]">
-          <div className="font-semibold">
-            {translateProject(facetName)}
-          </div>
+          <div className="font-semibold">{translateProject(facetName)}</div>
           {Object.entries(facetValues).map(
             ([facetValueName, facetValueAmount]) => {
               const key = `${facetName}-${facetValueName}`;
@@ -444,9 +444,7 @@ export const Search = (props: SearchProps) => {
                       {/^[a-z]/.test(facetValueName)
                         ? facetValueName.charAt(0).toUpperCase() +
                           facetValueName.slice(1)
-                        : facetValueName &&
-                          translateProject(facetValueName)
-                      }
+                        : facetValueName && translateProject(facetValueName)}
                     </label>
                   </div>
                   <div className="text-sm text-neutral-500">
@@ -631,8 +629,7 @@ export const Search = (props: SearchProps) => {
                             className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
                             key={index}
                           >
-                            {translateProject(facetName)}
-                            :{" "}
+                            {translateProject(facetName)}:{" "}
                             {/^[a-z]/.test(facetValueName)
                               ? facetValueName.charAt(0).toUpperCase() +
                                 facetValueName.slice(1)
@@ -661,11 +658,13 @@ export const Search = (props: SearchProps) => {
             />
           </div>
         ) : null}
-        {searchResults && searchResults.results.length >= 1
-          ? searchResults.results.map((result, index) => (
-              <SearchItem key={index} result={result} />
-            ))
-          : <props.projectConfig.components.SearchInfoPage/>}
+        {searchResults && searchResults.results.length >= 1 ? (
+          searchResults.results.map((result, index) => (
+            <SearchItem key={index} result={result} />
+          ))
+        ) : (
+          <props.projectConfig.components.SearchInfoPage />
+        )}
         {searchResults ? (
           <SearchPagination
             prevPageClickHandler={prevPageClickHandler}
