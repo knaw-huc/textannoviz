@@ -535,7 +535,7 @@ export const Search = (props: SearchProps) => {
       <div className="hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10">
         <div className="w-full max-w-[450px]">
           <label htmlFor="fullText" className="font-semibold">
-            Full text search
+            {translate("FULL_TEXT_SEARCH")}
           </label>
           <div className="flex w-full flex-row">
             <FullTextFacet
@@ -543,7 +543,7 @@ export const Search = (props: SearchProps) => {
               enterPressedHandler={fullTextEnterPressedHandler}
               value={fullText}
               className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
-              placeholder="Press ENTER to search"
+              placeholder={translate("PRESS_ENTER_TO_SEARCH")}
             />
             <Button
               className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
@@ -596,7 +596,9 @@ export const Search = (props: SearchProps) => {
                 `${elasticFrom + 1}-${Math.min(
                   elasticFrom + elasticSize,
                   searchResults.total.value,
-                )} of ${searchResults.total.value} results`}
+                )} ${translate("FROM").toLowerCase()} ${
+                  searchResults.total.value
+                } ${translate("RESULTS").toLowerCase()}`}
             </span>
             <div className="flex items-center justify-between gap-10">
               {props.projectConfig.showSearchSortBy ? (
@@ -617,7 +619,9 @@ export const Search = (props: SearchProps) => {
           <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
             {props.projectConfig.showSelectedFilters ? (
               <>
-                <span className="text-brand1Grey-600 text-sm">Filters: </span>
+                <span className="text-brand1Grey-600 text-sm">
+                  {translate("FILTERS")}:{" "}
+                </span>
                 {getKeywordFacets().map(([facetName, facetValues]) => {
                   return Object.keys(facetValues).map(
                     (facetValueName, index) => {
