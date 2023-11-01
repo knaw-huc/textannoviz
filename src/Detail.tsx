@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
 import { Footer } from "./components/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
+import { defaultMiradorConfig } from "./components/Mirador/defaultMiradorConfig.ts";
 import { SearchItem } from "./components/Search/SearchItem";
 import { TextComponent } from "./components/Text/TextComponent";
 import { Broccoli, BroccoliBodyIdResult } from "./model/Broccoli";
+import { MiradorConfig } from "./model/MiradorConfig.ts";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { SearchResultBody } from "./model/Search";
 import { useAnnotationStore } from "./stores/annotation";
@@ -19,8 +21,6 @@ import {
   fetchBroccoliScanWithOverlap,
 } from "./utils/broccoli";
 import { zoomAnnMirador } from "./utils/zoomAnnMirador";
-import {MiradorConfig} from "./model/MiradorConfig.ts";
-import {defaultMiradorConfig} from "./components/Mirador/defaultMiradorConfig.ts";
 
 interface DetailProps {
   project: string;
@@ -28,12 +28,12 @@ interface DetailProps {
 }
 
 const createMiradorConfig = (
-    broccoli: Broccoli,
-    project: ProjectConfig,
-    config: MiradorConfig = defaultMiradorConfig
+  broccoli: Broccoli,
+  project: ProjectConfig,
+  config: MiradorConfig = defaultMiradorConfig,
 ) => {
   const newConfig = structuredClone(config);
-  newConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
+  newConfig.windows[0].manifestId = broccoli.iiif.manifest;
   newConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
   newConfig.windows[0].id = project.id;
   newConfig.window.allowWindowSideBar = project.mirador.showWindowSideBar;
@@ -51,7 +51,6 @@ export const Detail = (props: DetailProps) => {
   const setProjectName = useProjectStore((state) => state.setProjectName);
 
   const setMiradorStore = useMiradorStore((state) => state.setStore);
-  const miradorStore = useMiradorStore((state) => state.miradorStore);
   const setCurrentContext = useMiradorStore((state) => state.setCurrentContext);
   const setCanvas = useMiradorStore((state) => state.setCanvas);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
@@ -63,12 +62,6 @@ export const Detail = (props: DetailProps) => {
     (state) => state.globalSearchResults,
   );
   const params = useParams();
-
-  React.useEffect(() => {
-    if (showIiifViewer && miradorStore) {
-      mirador.viewer(miradorStore);
-    }
-  }, [setMiradorStore, showIiifViewer, miradorStore]);
 
   const createDetailState = React.useCallback(
     (broccoli: Broccoli, currentBodyId: string) => {
@@ -261,9 +254,7 @@ export const Detail = (props: DetailProps) => {
           showIiifViewerHandler={showIiifViewerHandler}
           showAnnotationPanelHandler={showAnnotationPanelHandler}
           showSearchResultsHandler={showSearchResultsHandler}
-          showSearchResultsDisabled={
-            globalSearchResults === undefined
-          }
+          showSearchResultsDisabled={globalSearchResults === undefined}
           facsimileShowState={showIiifViewer}
           panelShowState={showAnnotationPanel}
           searchResultsShowState={showSearchResults}

@@ -17,7 +17,7 @@ export const defaultMiradorConfig: MiradorConfig = {
   },
   windows: [
     {
-      loadedManifest: "",
+      manifestId: "",
       canvasId: "",
       id: "",
     },
@@ -27,5 +27,5 @@ export const defaultMiradorConfig: MiradorConfig = {
   },
   workspaceControlPanel: {
     enabled: false,
-  }
+  },
 };

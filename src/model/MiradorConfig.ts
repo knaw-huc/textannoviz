@@ -15,7 +15,7 @@ export type MiradorConfig = {
   };
   windows: [
     {
-      loadedManifest: string;
+      manifestId: string;
       canvasId: string;
       id: string;
     },
