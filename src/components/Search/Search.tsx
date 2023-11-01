@@ -1,26 +1,20 @@
-import {MagnifyingGlassIcon, XMarkIcon} from "@heroicons/react/24/solid";
+import {MagnifyingGlassIcon} from "@heroicons/react/24/solid";
 import {Base64} from "js-base64";
-import React, {ChangeEvent, useEffect} from "react";
+import React, {useEffect} from "react";
 import {Button} from "react-aria-components";
 import {Link, useSearchParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {FullTextFacet} from "reactions-knaw-huc";
 import {ProjectConfig} from "../../model/ProjectConfig";
 import {Facets, FacetValue, Indices, SearchQuery, SearchResult,} from "../../model/Search";
-import {
-  projectConfigSelector,
-  translateProjectSelector,
-  translateSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
+import {translateSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search";
 import {sendSearchQuery} from "../../utils/broccoli";
 import {Fragmenter} from "./Fragmenter";
-import {SearchItem} from "./SearchItem";
-import {SearchPagination} from "./SearchPagination";
 import {SearchQueryHistory} from "./SearchQueryHistory.tsx";
-import {SearchResultsPerPage} from "./SearchResultsPerPage";
-import {SearchSortBy} from "./SearchSortBy";
+import {KeywordFacet} from "./KeywordFacet.tsx";
+import {DateFacet} from "./DateFacet.tsx";
+import {SearchResults} from "./SearchResults.tsx";
 
 type SearchProps = {
   project: string;
@@ -436,7 +430,7 @@ export const Search = (props: SearchProps) => {
               </div>
           ) : null}
 
-          {props.projectConfig.showSearchQueryHistory ? (
+          {props.projectConfig.showSearchQueryHistory && (
               <div className="w-full max-w-[450px]">
                 <SearchQueryHistory
                     historyClickHandler={historyClickHandler}
@@ -447,7 +441,7 @@ export const Search = (props: SearchProps) => {
                     disabled={queryHistory.length === 0}
                 />
               </div>
-          ) : null}
+          )}
 
           <div className="w-full max-w-[450px]">
             <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter}/>
@@ -491,194 +485,3 @@ export const Search = (props: SearchProps) => {
   );
 };
 
-function SearchResults(props: {
-  sortByChangeHandler: any;
-  keywordFacets: [string, FacetValue][];
-  searchResults: SearchResult;
-  checkboxes: Map<string, boolean>;
-  resultStart: number
-  pageSize: number
-  pageNumber: number
-  clickPrevPage: () => Promise<void>;
-  clickNextPage: () => Promise<void>;
-  changePageSize: (event: ChangeEvent<HTMLSelectElement>) => void;
-  removeFacet: (key: string) => void;
-}) {
-  const searchResults = props.searchResults;
-  const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
-
-  return (
-      <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
-        <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
-            <span className="font-semibold">
-              {searchResults &&
-                  `${props.resultStart}-${Math.min(
-                      props.resultStart + props.pageSize,
-                      searchResults.total.value,
-                  )} of ${searchResults.total.value} results`}
-            </span>
-          <div className="flex items-center justify-between gap-10">
-            {projectConfig.showSearchSortBy ? (
-                <SearchSortBy
-                    onChange={props.sortByChangeHandler}
-                    value="_score"
-                />
-            ) : null}
-
-            <SearchResultsPerPage
-                onChange={props.changePageSize}
-                value={props.pageSize}
-            />
-          </div>
-        </div>
-        <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
-          {projectConfig.showSelectedFilters ? (
-              <>
-                <span className="text-brand1Grey-600 text-sm">Filters: </span>
-                {props.keywordFacets.map(([facetName, facetValues]) => {
-                  return Object.keys(facetValues).map(
-                      (facetValueName, index) => {
-                        const key = `${facetName}-${facetValueName}`;
-
-                        if (props.checkboxes.get(key)) {
-                          return (
-                              <div
-                                  className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
-                                  key={index}
-                              >
-                                {translateProject(facetName)}:{" "}
-                                {/^[a-z]/.test(facetValueName)
-                                    ? facetValueName.charAt(0).toUpperCase() +
-                                    facetValueName.slice(1)
-                                    : translateProject(facetValueName)}{" "}
-                                {
-                                  <XMarkIcon
-                                      className="h-5 w-5"
-                                      onClick={() => props.removeFacet(key)}
-                                  />
-                                }
-                              </div>
-                          );
-                        }
-                      },
-                  );
-                })}
-              </>
-          ) : null}
-
-          <SearchPagination
-              prevPageClickHandler={props.clickPrevPage}
-              nextPageClickHandler={props.clickNextPage}
-              pageNumber={props.pageNumber}
-              searchResults={searchResults}
-              elasticSize={props.pageSize}
-          />
-        </div>
-        {searchResults.results.length >= 1 ? (
-            searchResults.results.map((result, index) => (
-                <SearchItem key={index} result={result}/>
-            ))
-        ) : (
-            <projectConfig.components.SearchInfoPage/>
-        )}
-        <SearchPagination
-            prevPageClickHandler={props.clickPrevPage}
-            nextPageClickHandler={props.clickNextPage}
-            pageNumber={props.pageNumber}
-            searchResults={searchResults}
-            elasticSize={props.pageSize}
-        />
-      </div>
-  );
-}
-
-function DateFacet(props: {
-  dateTo: string;
-  dateFrom: string;
-  changeDateFrom: (value: string) => void;
-  changeDateTo: (value: string) => void;
-}) {
-  const translate = useProjectStore(translateSelector);
-  const projectConfig = useProjectStore(projectConfigSelector);
-
-  return <div
-      className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row"
-  >
-    <div className="flex w-full flex-col">
-      <label htmlFor="start" className="font-semibold">
-        {translate("FROM")}
-      </label>
-      <input
-          className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
-          type="date"
-          id="start"
-          value={props.dateFrom}
-          min={projectConfig.initialDateFrom}
-          max={projectConfig.initialDateTo}
-          onChange={(event) => props.changeDateFrom(event.target.value)}
-      />
-    </div>
-    <div className="flex w-full flex-col">
-      <label htmlFor="end" className="font-semibold">
-        {translate("UP_TO_AND_INCLUDING")}
-      </label>
-      <input
-          className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
-          type="date"
-          id="end"
-          value={props.dateTo}
-          min={projectConfig.initialDateFrom}
-          max={projectConfig.initialDateTo}
-          onChange={(event) => props.changeDateTo(event.target.value)}
-      />
-    </div>
-  </div>
-}
-
-function KeywordFacet(props: {
-  facetName: string;
-  facet: FacetValue;
-  onChangeKeywordFacet: (key: string, event: ChangeEvent<HTMLInputElement>) => void;
-  checkboxes: Map<string, boolean>;
-}) {
-  const translateProject = useProjectStore(translateProjectSelector);
-
-  return <div className="w-full max-w-[450px]">
-    <div className="font-semibold">{translateProject(props.facetName)}</div>
-    {Object.entries(props.facet).map(
-        ([facetKey, facetValue]) => {
-          const key = `${props.facetName}-${facetKey}`;
-          return (
-              <div
-                  key={key}
-                  className="mb-2 flex w-full flex-row items-center justify-between gap-2"
-              >
-                <div className="flex flex-row items-center">
-                  <input
-                      className="text-brand1-700 focus:ring-brand1-700 mr-2 h-5 w-5 rounded border-gray-300"
-                      type="checkbox"
-                      id={key}
-                      name={facetKey}
-                      value={facetKey}
-                      onChange={(event) =>
-                          props.onChangeKeywordFacet(key, event)
-                      }
-                      checked={props.checkboxes.get(key) ?? false}
-                  />
-                  <label htmlFor={key}>
-                    {/^[a-z]/.test(facetKey)
-                        ? facetKey.charAt(0).toUpperCase() +
-                        facetKey.slice(1)
-                        : facetKey && translateProject(facetKey)}
-                  </label>
-                </div>
-                <div className="text-sm text-neutral-500">
-                  {facetValue}
-                </div>
-              </div>
-          );
-        },
-    )}
-  </div>
-}
