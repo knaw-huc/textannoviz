@@ -32,11 +32,8 @@ type SearchProps = {
 
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
-type SearchParams = any;
-
 export const Search = (props: SearchProps) => {
   const translate = useProjectStore(translateSelector);
-  const [searchResults, setSearchResults] = React.useState<SearchResult>();
   const [fragmenter, setFragmenter] = React.useState("Scan");
   const [dateFrom, setDateFrom] = React.useState(
       props.projectConfig.initialDateFrom ?? "",
@@ -59,13 +56,10 @@ export const Search = (props: SearchProps) => {
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
   const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
   const [urlParams, setUrlParams] = useSearchParams();
-  const [searchParams, setSearchParams] = React.useState<SearchParams>();
-  const setGlobalSearchResults = useSearchStore(
-      (state) => state.setGlobalSearchResults,
-  );
-  const setGlobalSearchQuery = useSearchStore(
-      (state) => state.setGlobalSearchQuery,
-  );
+  const {
+    searchResults,
+    setSearchResults
+  } = useSearchStore(state => state);
   const setTextToHighlight = useSearchStore(
       (state) => state.setTextToHighlight,
   );
@@ -145,16 +139,6 @@ export const Search = (props: SearchProps) => {
 
       setQuery(searchQuery);
       setQueryHistory([searchQuery, ...queryHistory]);
-      setGlobalSearchQuery(searchQuery);
-
-      setSearchParams({
-        page: pageNumber.toString(),
-        size: elasticSize.toString(),
-        frag: fragmenter,
-        sortBy: sortBy,
-        sortOrder: sortOrder,
-        query: Base64.toBase64(JSON.stringify(query)),
-      });
     }
 
     updateSearchParamsWhenDirty();
@@ -199,16 +183,7 @@ export const Search = (props: SearchProps) => {
       });
       setCheckBoxStates(newMap);
 
-      if (!searchParams && queryDecoded?.text) {
-        const fromUrl = {
-          page: urlParams.get("page") ?? "1",
-          size: urlParams.get("size") ?? "10",
-          frag: urlParams.get("frag") ?? "Scan",
-          sortBy: urlParams.get("sortBy") ?? "_score",
-          sortOrder: urlParams.get("sortOrder") ?? "desc",
-          query: queryDecoded,
-        };
-        setSearchParams(fromUrl);
+      if (queryDecoded?.text) {
         setQuery(queryDecoded);
       }
     }
@@ -253,13 +228,13 @@ export const Search = (props: SearchProps) => {
         return;
       }
       setSearchResults(data);
-      setGlobalSearchResults(data);
+      setSearchResults(data);
       setElasticFrom(0);
       setFacets(data!.aggs);
     }
 
     searchWhenParamsChange();
-  }, [query, searchParams]);
+  }, [query]);
 
   const handleFullTextFacet = (value: string) => {
     setFullText(value);
@@ -303,7 +278,7 @@ export const Search = (props: SearchProps) => {
     }
 
     setSearchResults(data);
-    setGlobalSearchResults(data);
+    setSearchResults(data);
     const toHighlight = getTextToHighlight(data);
     setTextToHighlight(toHighlight);
   }

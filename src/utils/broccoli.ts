@@ -1,6 +1,6 @@
-import { toast } from "react-toastify";
-import { ProjectConfig } from "../model/ProjectConfig";
-import { SearchQuery, SearchResult } from "../model/Search";
+import {toast} from "react-toastify";
+import {ProjectConfig} from "../model/ProjectConfig";
+import {SearchQuery, SearchResult} from "../model/Search";
 
 const headers = {
   "Content-Type": "application/json",
@@ -93,11 +93,7 @@ export const sendSearchQuery = async (
     return null;
   }
 
-  const data = await response.json();
-
-  console.log(data);
-
-  return data;
+  return await response.json();
 };
 
 export const getElasticIndices = async (projectConfig: ProjectConfig) => {
