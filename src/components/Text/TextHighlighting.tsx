@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useProjectStore } from "../../stores/project";
-import { useSearchStore } from "../../stores/search";
+import { useSearchStore } from "../../stores/search/search-store";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -30,7 +30,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       if (textToHighlight.get(params.tier2)) {
         const toHighlightStrings = textToHighlight.get(params.tier2);
         const regexString = toHighlightStrings
-          ?.map((string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+          ?.map(str => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
           .join("|");
         const regex = new RegExp(`${regexString}`, "g");
 

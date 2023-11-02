@@ -8,50 +8,60 @@ import {FullTextFacet} from "reactions-knaw-huc";
 import {ProjectConfig} from "../../model/ProjectConfig";
 import {Facets, FacetValue, Indices, SearchQuery, SearchResult,} from "../../model/Search";
 import {translateSelector, useProjectStore,} from "../../stores/project.ts";
-import {useSearchStore} from "../../stores/search";
+import {useSearchStore} from "../../stores/search/search-store.ts";
 import {sendSearchQuery} from "../../utils/broccoli";
 import {Fragmenter} from "./Fragmenter";
 import {SearchQueryHistory} from "./SearchQueryHistory.tsx";
 import {KeywordFacet} from "./KeywordFacet.tsx";
 import {DateFacet} from "./DateFacet.tsx";
 import {SearchResults} from "./SearchResults.tsx";
+import {SearchParams, SortOrder} from "../../stores/search/search-params-slice.ts";
+import * as _ from "lodash";
 
 type SearchProps = {
   project: string;
   projectConfig: ProjectConfig;
   indices: Indices;
-  facets: Facets;
   indexName: string;
 };
 
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
+/**
+ * TODO:
+ *  - add SearchParams to store
+ *  - move query to store, remove from Search
+ *  - create SearchForm
+ *    - Search: contains complex query and url state management
+ *    - SearchForm contains simple "before submit"-state and handler props
+ */
+
 export const Search = (props: SearchProps) => {
   const translate = useProjectStore(translateSelector);
-  const [fragmenter, setFragmenter] = React.useState("Scan");
+
+  const [dirty, setDirty] = React.useState(0);
   const [dateFrom, setDateFrom] = React.useState(
       props.projectConfig.initialDateFrom ?? "",
   );
   const [dateTo, setDateTo] = React.useState(
       props.projectConfig.initialDateTo ?? "",
   );
-  const [facets, setFacets] = React.useState<Facets>(props.facets);
-  const [dirty, setDirty] = React.useState(0);
-  const [query, setQuery] = React.useState<SearchQuery>({});
-  const [pageNumber, setPageNumber] = React.useState(1);
-  const [elasticSize, setElasticSize] = React.useState(10);
-  const [elasticFrom, setElasticFrom] = React.useState(0);
-  const [sortBy, setSortBy] = React.useState("_score");
-  const [sortOrder, setSortOrder] = React.useState("desc");
-  const [fullText, setFullText] = React.useState("");
-  const [checkboxStates, setCheckBoxStates] = React.useState(
+  const [facets, setFacets] = React.useState<Facets>();
+  const [facetCheckboxes, setFacetCheckboxes] = React.useState(
       new Map<string, boolean>(),
   );
+  const [query, setQuery] = React.useState<SearchQuery>({});
+  // TODO: use page number or elasticFrom, delete the other:
+  const [pageNumber, setPageNumber] = React.useState(1);
+  const [fullText, setFullText] = React.useState("");
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
   const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
   const [urlParams, setUrlParams] = useSearchParams();
+  const params: SearchParams = useSearchStore(store => store.params);
+  const setParams = useSearchStore(store => store.setParams);
+
   const {
-    searchResults,
+    searchResult,
     setSearchResults
   } = useSearchStore(state => state);
   const setTextToHighlight = useSearchStore(
@@ -89,6 +99,8 @@ export const Search = (props: SearchProps) => {
   }
 
   useEffect(() => {
+    updateSearchParamsWhenDirty();
+
     function updateSearchParamsWhenDirty() {
       if (!dirty) {
         return;
@@ -111,9 +123,9 @@ export const Search = (props: SearchProps) => {
       }
 
       getKeywordFacets().map(([facetName, facetValues]) => {
-        Object.keys(facetValues as FacetValue).map((facetValueName) => {
+        Object.keys(facetValues).map(facetValueName => {
           const key = `${facetName}-${facetValueName}`;
-          if (checkboxStates.get(key)) {
+          if (facetCheckboxes.get(key)) {
             if (searchQuery["terms"][facetName]) {
               searchQuery["terms"][facetName].push(facetValueName);
             } else {
@@ -134,8 +146,6 @@ export const Search = (props: SearchProps) => {
       setQuery(searchQuery);
       setQueryHistory([searchQuery, ...queryHistory]);
     }
-
-    updateSearchParamsWhenDirty();
   }, [dirty]);
 
   function getUrlParams(urlParams: URLSearchParams): SearchQuery {
@@ -144,7 +154,9 @@ export const Search = (props: SearchProps) => {
   }
 
   useEffect(() => {
-    function initSearchFromUrlParams() {
+    initQueryFromUrlParams();
+
+    function initQueryFromUrlParams() {
       const queryDecoded = getUrlParams(urlParams);
 
       if (queryDecoded) {
@@ -152,82 +164,72 @@ export const Search = (props: SearchProps) => {
           setFullText(queryDecoded.text);
         }
       }
-      const newMap = new Map<string, boolean>();
-      const selectedFacets: string[] = [];
-
-      if (queryDecoded && queryDecoded.terms) {
-        Object.entries(queryDecoded.terms).forEach(
-            ([facetName, facetValues]) => {
-              facetValues.forEach((facetValue) => {
-                const key = `${facetName}-${facetValue}`;
-                selectedFacets.push(key);
-              });
-            },
-        );
-      }
-
-      getKeywordFacets().map(([facetName, facetValues]) => {
-        Object.keys(facetValues).forEach((facetValueName) => {
-          const key = `${facetName}-${facetValueName}`;
-          newMap.set(key, false);
-          if (selectedFacets.includes(key)) {
-            newMap.set(key, true);
-          }
-        });
-      });
-      setCheckBoxStates(newMap);
-
       if (queryDecoded?.text) {
         setQuery(queryDecoded);
       }
     }
-
-    initSearchFromUrlParams();
   }, []);
 
   useEffect(() => {
-    function syncUrlWithSearchParams() {
-      setUrlParams((prev) => {
-        return {
-          ...Object.fromEntries(prev.entries()),
-          page: pageNumber.toString(),
-          size: elasticSize.toString(),
-          frag: fragmenter,
-          sortBy: sortBy,
-          sortOrder: sortOrder,
-          query: Base64.toBase64(JSON.stringify(query)),
-        };
-      });
-    }
+    initFacetCheckboxesFromQueryTerms();
 
-    syncUrlWithSearchParams();
-  }, [pageNumber, elasticSize, fragmenter, sortBy, sortOrder, query]);
+    function initFacetCheckboxesFromQueryTerms() {
+
+      const newCheckboxes = new Map<string, boolean>();
+      const selectedFacets: string[] = [];
+
+      const terms = query?.terms;
+      if (!terms || !facets) {
+        return;
+      }
+      Object.entries(terms).forEach(
+          ([facetName, facetValues]) => {
+            facetValues.forEach((facetValue) => {
+              const key = `${facetName}-${facetValue}`;
+              selectedFacets.push(key);
+            });
+          },
+      );
+      getKeywordFacets().map(([facetName, facetValues]) => {
+        Object.keys(facetValues).forEach((facetValueName) => {
+          const key = `${facetName}-${facetValueName}`;
+          newCheckboxes.set(key, false);
+          if (selectedFacets.includes(key)) {
+            newCheckboxes.set(key, true);
+          }
+        });
+      });
+      setFacetCheckboxes(newCheckboxes);
+    }
+  }, [query?.terms, facets]);
 
   useEffect(() => {
+    syncUrlWithSearchParams();
+    function syncUrlWithSearchParams() {
+      setUrlParams((prev) => ({
+        ...Object.fromEntries(prev.entries()),
+        ..._.mapValues(params, v => `${v}`),
+        query: Base64.toBase64(JSON.stringify(query)),
+      }));
+    }
+  }, [pageNumber, params, query]);
+
+  useEffect(() => {
+    searchWhenParamsChange();
+
     async function searchWhenParamsChange() {
       if (!query.terms) {
         return;
       }
 
-      const data = await sendSearchQuery(
-          query,
-          fragmenter,
-          elasticSize,
-          0,
-          props.projectConfig,
-          sortBy,
-          sortOrder,
-      );
+      const data = await sendSearchQuery(props.projectConfig, params, query);
       if (!data) {
         return;
       }
       setSearchResults(data);
-      setSearchResults(data);
-      setElasticFrom(0);
-      setFacets(data!.aggs);
+      setParams({...params, from: 0});
+      setFacets(data.aggs);
     }
-
-    searchWhenParamsChange();
   }, [query]);
 
   const handleFullTextFacet = (value: string) => {
@@ -244,7 +246,7 @@ export const Search = (props: SearchProps) => {
       event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     if (event.currentTarget.value === "") return;
-    setFragmenter(event.currentTarget.value);
+    setParams({...params, fragmenter: event.currentTarget.value});
 
     setUrlParams((searchParams) => {
       searchParams.set("frag", event.currentTarget.value);
@@ -252,16 +254,8 @@ export const Search = (props: SearchProps) => {
     });
   };
 
-  async function getNewSearchResults(newFrom: number) {
-    const data = await sendSearchQuery(
-        query,
-        fragmenter,
-        elasticSize,
-        newFrom,
-        props.projectConfig,
-        sortBy,
-        sortOrder,
-    );
+  async function getNewSearchResults() {
+    const data = await sendSearchQuery(props.projectConfig, params, query);
     if(!data) {
       return;
     }
@@ -278,12 +272,16 @@ export const Search = (props: SearchProps) => {
   }
 
   async function prevPageClickHandler() {
-    if (pageNumber <= 1) return;
+    if (pageNumber <= 1) {
+      return;
+    }
+    const newFrom = params.from - params.size;
     const prevPage = pageNumber - 1;
-    const newFrom = elasticFrom - elasticSize;
-    setElasticFrom((prevFrom) => prevFrom - elasticSize);
-    setPageNumber(prevPage);
-    await getNewSearchResults(newFrom);
+    setParams({
+      ...params,
+      from: newFrom
+    });
+    await getNewSearchResults();
     setUrlParams((searchParams) => {
       searchParams.set("page", prevPage.toString());
       searchParams.set("from", newFrom.toString());
@@ -292,14 +290,17 @@ export const Search = (props: SearchProps) => {
   }
 
   async function nextPageClickHandler() {
-    const newFrom = elasticFrom + elasticSize;
-    if (searchResults && searchResults.total.value <= newFrom) {
+    const newFrom = params.from + params.size;
+    if (searchResult && searchResult.total.value <= newFrom) {
       return;
     }
     const nextPage = pageNumber + 1;
-    setElasticFrom(newFrom);
+    setParams({
+      ...params,
+      from: newFrom
+    });
     setPageNumber(nextPage);
-    await getNewSearchResults(newFrom);
+    await getNewSearchResults();
     setUrlParams((searchParams) => {
       searchParams.set("page", nextPage.toString());
       searchParams.set("from", newFrom.toString());
@@ -311,15 +312,23 @@ export const Search = (props: SearchProps) => {
       event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     if (event.currentTarget.value === "") return;
-    setElasticSize(parseInt(event.currentTarget.value));
-
-    setUrlParams((searchParams) => {
-      searchParams.set("size", event.currentTarget.value);
-      return searchParams;
+    const newSize = event.currentTarget.value;
+    setParams({
+      ...params,
+      size: parseInt(newSize)
     });
+    setUrlParams(searchParams => ({
+      ...searchParams,
+      size: newSize,
+    }));
   };
 
-  function getFacets(type: string): [string, FacetValue][] {
+  function getFacets(
+      type: "keyword" | "date"
+  ): [string, FacetValue][] {
+    if(!facets) {
+      return [];
+    }
     return Object.entries(facets).filter(([key]) => {
       return props.indices[props.indexName][key] === type;
     });
@@ -336,15 +345,15 @@ export const Search = (props: SearchProps) => {
   function sortByChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     const selectedValue = event.currentTarget.value;
 
-    let sortByValue = "_score";
-    let sortOrderValue = "desc";
+    let sortBy = "_score";
+    let sortOrder: SortOrder = "desc";
 
     if (getDateFacets() && getDateFacets()[0]) {
       const facetName = getDateFacets()[0][0];
 
       if (selectedValue === "dateAsc" || selectedValue === "dateDesc") {
-        sortByValue = facetName;
-        sortOrderValue = selectedValue === "dateAsc" ? "asc" : "desc";
+        sortBy = facetName;
+        sortOrder = selectedValue === "dateAsc" ? "asc" : "desc";
       }
     } else {
       toast(
@@ -352,30 +361,32 @@ export const Search = (props: SearchProps) => {
           {type: "info"},
       );
     }
+    setParams({
+      ...params,
+      sortBy,
+      sortOrder
+    })
 
-    setSortBy(sortByValue);
-    setSortOrder(sortOrderValue);
-
-    setUrlParams((searchParams) => {
-      searchParams.set("sortBy", sortByValue);
-      searchParams.set("sortOrder", sortOrderValue);
-      return searchParams;
-    });
+    setUrlParams(searchParams => ({
+      ...searchParams,
+      sortBy,
+      sortOrder
+    }));
   }
 
   function handleKeywordFacetChange(
       key: string,
       event: React.ChangeEvent<HTMLInputElement>,
   ) {
-    setCheckBoxStates(new Map(checkboxStates.set(key, event.target.checked)));
-    if (searchResults) {
+    setFacetCheckboxes(new Map(facetCheckboxes.set(key, event.target.checked)));
+    if (searchResult) {
       refresh();
     }
   }
 
   function removeFacet(key: string) {
-    setCheckBoxStates(new Map(checkboxStates.set(key, false)));
-    if (searchResults) {
+    setFacetCheckboxes(new Map(facetCheckboxes.set(key, false)));
+    if (searchResult) {
       refresh();
     }
   }
@@ -418,7 +429,7 @@ export const Search = (props: SearchProps) => {
               </Button>
             </div>
           </div>
-          {searchResults ? (
+          {searchResult ? (
               <div className="w-full max-w-[450px]">
                 <Link
                     to="/"
@@ -444,7 +455,10 @@ export const Search = (props: SearchProps) => {
           )}
 
           <div className="w-full max-w-[450px]">
-            <Fragmenter onChange={fragmenterSelectHandler} value={fragmenter}/>
+            <Fragmenter
+                onChange={fragmenterSelectHandler}
+                value={params.fragmenter}
+            />
           </div>
           {props.projectConfig.showDateFacets && (
               getDateFacets().map((_, index) => <DateFacet
@@ -455,28 +469,28 @@ export const Search = (props: SearchProps) => {
                   changeDateFrom={setDateFrom}
               />)
           )}
-          {props.projectConfig.showKeywordFacets && checkboxStates.size > 0 && (
+          {props.projectConfig.showKeywordFacets && facetCheckboxes.size > 0 && (
               getKeywordFacets().map(([facetName, facetValue], index) => (
                   <KeywordFacet
                       key={index}
                       facetName={facetName}
                       facet={facetValue}
                       onChangeKeywordFacet={handleKeywordFacetChange}
-                      checkboxes={checkboxStates}
+                      checkboxes={facetCheckboxes}
                   />
               ))
           )}
         </div>
 
-        {searchResults && <SearchResults
-            searchResults={searchResults}
-            resultStart={elasticFrom + 1}
-            pageSize={elasticFrom + elasticSize}
+        {searchResult && <SearchResults
+            searchResults={searchResult}
+            resultStart={params.from + 1}
+            pageSize={params.from + params.size}
             pageNumber={pageNumber}
             clickPrevPage={prevPageClickHandler}
             clickNextPage={nextPageClickHandler}
             changePageSize={resultsPerPageSelectHandler}
-            checkboxes={checkboxStates}
+            checkboxes={facetCheckboxes}
             keywordFacets={getKeywordFacets()}
             removeFacet={removeFacet}
             sortByChangeHandler={sortByChangeHandler}

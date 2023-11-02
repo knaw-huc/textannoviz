@@ -12,7 +12,7 @@ import {ErrorPage} from "./ErrorPage";
 import {ProjectConfig} from "./model/ProjectConfig";
 import {useAnnotationStore} from "./stores/annotation";
 import {setProjectConfigSelector, useProjectStore} from "./stores/project";
-import {getElasticIndices, sendSearchQuery} from "./utils/broccoli";
+import {getElasticIndices} from "./utils/broccoli";
 
 const {project, config} = createProjectConfig();
 const router = await createRouter();
@@ -37,8 +37,7 @@ function Layout() {
 
 async function createRouter() {
   const indices = await getElasticIndices(config);
-  const searchResult = await sendSearchQuery({}, "Scan", 0, 0, config);
-  const aggs = searchResult!.aggs;
+
   return createBrowserRouter([{
     element: <Layout/>,
     errorElement: <ErrorPage/>,
@@ -49,7 +48,6 @@ async function createRouter() {
             project={project}
             projectConfig={config}
             indices={indices}
-            facets={aggs}
             indexName={config.elasticIndexName ?? ""}
         />,
       },

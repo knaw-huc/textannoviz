@@ -14,7 +14,7 @@ import { SearchResultBody } from "./model/Search";
 import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
 import { useProjectStore } from "./stores/project";
-import { useSearchStore } from "./stores/search";
+import { useSearchStore } from "./stores/search/search-store";
 import { useTextStore } from "./stores/text";
 import {
   fetchBroccoliBodyIdOfScan,
@@ -59,7 +59,7 @@ export const Detail = (props: DetailProps) => {
     (state) => state.annotationTypesToInclude,
   );
   const globalSearchResults = useSearchStore(
-    (state) => state.searchResults,
+    (state) => state.searchResult,
   );
   const params = useParams();
 
