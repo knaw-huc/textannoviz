@@ -46,9 +46,7 @@ async function createRouter() {
         path: "/",
         element: <Search
             project={project}
-            projectConfig={config}
             indices={indices}
-            indexName={config.elasticIndexName ?? ""}
         />,
       },
       {

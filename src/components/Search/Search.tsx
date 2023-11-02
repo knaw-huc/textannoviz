@@ -5,9 +5,8 @@ import {Button} from "react-aria-components";
 import {Link, useSearchParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {FullTextFacet} from "reactions-knaw-huc";
-import {ProjectConfig} from "../../model/ProjectConfig";
-import {Facets, FacetValue, Indices, SearchQuery, SearchResult,} from "../../model/Search";
-import {translateSelector, useProjectStore,} from "../../stores/project.ts";
+import {Facets, Indices, SearchQuery, SearchResult,} from "../../model/Search";
+import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {sendSearchQuery} from "../../utils/broccoli";
 import {Fragmenter} from "./Fragmenter";
@@ -17,12 +16,11 @@ import {DateFacet} from "./DateFacet.tsx";
 import {SearchResults} from "./SearchResults.tsx";
 import {SearchParams, SortOrder} from "../../stores/search/search-params-slice.ts";
 import * as _ from "lodash";
+import {buildFacetFilter} from "./util/filterFacets.ts";
 
 type SearchProps = {
   project: string;
-  projectConfig: ProjectConfig;
   indices: Indices;
-  indexName: string;
 };
 
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
@@ -38,15 +36,17 @@ const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
 export const Search = (props: SearchProps) => {
   const translate = useProjectStore(translateSelector);
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const filterFacets = buildFacetFilter(props.indices, projectConfig.elasticIndexName);
 
   const [dirty, setDirty] = React.useState(0);
   const [dateFrom, setDateFrom] = React.useState(
-      props.projectConfig.initialDateFrom ?? "",
+      projectConfig.initialDateFrom ?? "",
   );
   const [dateTo, setDateTo] = React.useState(
-      props.projectConfig.initialDateTo ?? "",
+      projectConfig.initialDateTo ?? "",
   );
-  const [facets, setFacets] = React.useState<Facets>();
+  const [facets, setFacets] = React.useState<Facets>({});
   const [facetCheckboxes, setFacetCheckboxes] = React.useState(
       new Map<string, boolean>(),
   );
@@ -54,6 +54,7 @@ export const Search = (props: SearchProps) => {
   // TODO: use page number or elasticFrom, delete the other:
   const [pageNumber, setPageNumber] = React.useState(1);
   const [fullText, setFullText] = React.useState("");
+
   const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
   const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
   const [urlParams, setUrlParams] = useSearchParams();
@@ -99,9 +100,9 @@ export const Search = (props: SearchProps) => {
   }
 
   useEffect(() => {
-    updateSearchParamsWhenDirty();
+    updateSearchQueryWhenDirty();
 
-    function updateSearchParamsWhenDirty() {
+    function updateSearchQueryWhenDirty() {
       if (!dirty) {
         return;
       }
@@ -122,20 +123,20 @@ export const Search = (props: SearchProps) => {
         searchQuery["text"] = fullText;
       }
 
-      getKeywordFacets().map(([facetName, facetValues]) => {
-        Object.keys(facetValues).map(facetValueName => {
-          const key = `${facetName}-${facetValueName}`;
+      filterFacets(facets, "keyword").map(([name, values]) => {
+        Object.keys(values).map(facetValueName => {
+          const key = `${name}-${facetValueName}`;
           if (facetCheckboxes.get(key)) {
-            if (searchQuery["terms"][facetName]) {
-              searchQuery["terms"][facetName].push(facetValueName);
+            if (searchQuery["terms"][name]) {
+              searchQuery["terms"][name].push(facetValueName);
             } else {
-              searchQuery["terms"][facetName] = [facetValueName];
+              searchQuery["terms"][name] = [facetValueName];
             }
           }
         });
       });
 
-      getDateFacets().map(([facetName]) => {
+      filterFacets(facets, "date").map(([facetName]) => {
         searchQuery["date"] = {
           name: facetName,
           from: dateFrom,
@@ -190,7 +191,7 @@ export const Search = (props: SearchProps) => {
             });
           },
       );
-      getKeywordFacets().map(([facetName, facetValues]) => {
+      filterFacets(facets, "keyword").map(([facetName, facetValues]) => {
         Object.keys(facetValues).forEach((facetValueName) => {
           const key = `${facetName}-${facetValueName}`;
           newCheckboxes.set(key, false);
@@ -222,7 +223,7 @@ export const Search = (props: SearchProps) => {
         return;
       }
 
-      const data = await sendSearchQuery(props.projectConfig, params, query);
+      const data = await sendSearchQuery(projectConfig, params, query);
       if (!data) {
         return;
       }
@@ -255,7 +256,7 @@ export const Search = (props: SearchProps) => {
   };
 
   async function getNewSearchResults() {
-    const data = await sendSearchQuery(props.projectConfig, params, query);
+    const data = await sendSearchQuery(projectConfig, params, query);
     if(!data) {
       return;
     }
@@ -323,33 +324,14 @@ export const Search = (props: SearchProps) => {
     }));
   };
 
-  function getFacets(
-      type: "keyword" | "date"
-  ): [string, FacetValue][] {
-    if(!facets) {
-      return [];
-    }
-    return Object.entries(facets).filter(([key]) => {
-      return props.indices[props.indexName][key] === type;
-    });
-  }
-
-  function getKeywordFacets() {
-    return getFacets("keyword");
-  }
-
-  function getDateFacets() {
-    return getFacets("date");
-  }
-
   function sortByChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
     const selectedValue = event.currentTarget.value;
 
     let sortBy = "_score";
     let sortOrder: SortOrder = "desc";
 
-    if (getDateFacets() && getDateFacets()[0]) {
-      const facetName = getDateFacets()[0][0];
+    if (filterFacets(facets, "date") && (filterFacets(facets, "date"))[0]) {
+      const facetName = (filterFacets(facets, "date"))[0][0];
 
       if (selectedValue === "dateAsc" || selectedValue === "dateDesc") {
         sortBy = facetName;
@@ -441,14 +423,14 @@ export const Search = (props: SearchProps) => {
               </div>
           ) : null}
 
-          {props.projectConfig.showSearchQueryHistory && (
+          {projectConfig.showSearchQueryHistory && (
               <div className="w-full max-w-[450px]">
                 <SearchQueryHistory
                     historyClickHandler={historyClickHandler}
                     historyIsOpen={historyIsOpen}
                     queryHistory={queryHistory}
                     goToQuery={goToQuery}
-                    projectConfig={props.projectConfig}
+                    projectConfig={projectConfig}
                     disabled={queryHistory.length === 0}
                 />
               </div>
@@ -460,8 +442,8 @@ export const Search = (props: SearchProps) => {
                 value={params.fragmenter}
             />
           </div>
-          {props.projectConfig.showDateFacets && (
-              getDateFacets().map((_, index) => <DateFacet
+          {projectConfig.showDateFacets && (
+              filterFacets(facets, "date").map((_, index) => <DateFacet
                   key={index}
                   dateFrom={dateFrom}
                   dateTo={dateTo}
@@ -469,8 +451,8 @@ export const Search = (props: SearchProps) => {
                   changeDateFrom={setDateFrom}
               />)
           )}
-          {props.projectConfig.showKeywordFacets && facetCheckboxes.size > 0 && (
-              getKeywordFacets().map(([facetName, facetValue], index) => (
+          {projectConfig.showKeywordFacets && facetCheckboxes.size > 0 && (
+              filterFacets(facets, "keyword").map(([facetName, facetValue], index) => (
                   <KeywordFacet
                       key={index}
                       facetName={facetName}
@@ -491,7 +473,7 @@ export const Search = (props: SearchProps) => {
             clickNextPage={nextPageClickHandler}
             changePageSize={resultsPerPageSelectHandler}
             checkboxes={facetCheckboxes}
-            keywordFacets={getKeywordFacets()}
+            keywordFacets={filterFacets(facets, "keyword")}
             removeFacet={removeFacet}
             sortByChangeHandler={sortByChangeHandler}
         />}
