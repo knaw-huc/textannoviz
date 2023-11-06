@@ -1,4 +1,4 @@
-import {englishLabels} from "../../default/config/englishLabels.ts";
+import { englishLabels } from "../../default/config/englishLabels.ts";
 
 export const englishRepublicLabels = Object.assign({}, englishLabels, {
   // facet translations:
@@ -10,7 +10,7 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   Sabbathi: "Saturday",
   Dominica: "Sunday",
   Resolution: "Resolution",
-  AttendanceList: "Attendance sheet",
+  AttendanceList: "Attendance list",
 
   // annotation type titles:
   Attendant: "Attendant",
