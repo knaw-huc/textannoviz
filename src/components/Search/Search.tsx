@@ -1,6 +1,6 @@
 import {MagnifyingGlassIcon} from "@heroicons/react/24/solid";
 import {Base64} from "js-base64";
-import React, {useEffect} from "react";
+import React, {ChangeEvent, useEffect} from "react";
 import {Button} from "react-aria-components";
 import {Link, useSearchParams} from "react-router-dom";
 import {toast} from "react-toastify";
@@ -131,7 +131,7 @@ export const Search = () => {
     }
   }, [isDirty]);
 
-  const handleFullTextFacet = (value: string) => {
+  const updateFullTextSearch = (value: string) => {
     if (value.charAt(value.length - 1).includes("\\")) {
       toast("Please remove trailing backslash from query", {type: "error"});
       return;
@@ -139,11 +139,11 @@ export const Search = () => {
     setQuery({...query, fullText: value});
   };
 
-  const fullTextEnterPressedHandler = () => {
+  const searchFullText = () => {
     setDirty(true);
   };
 
-  const fragmenterSelectHandler = (
+  const updateFragmenter = (
       event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     if (event.currentTarget.value === "") return;
@@ -171,7 +171,7 @@ export const Search = () => {
     setTextToHighlight(toHighlight);
   }
 
-  async function prevPageClickHandler() {
+  async function selectPrevPage() {
     if (pageNumber <= 1) {
       return;
     }
@@ -189,7 +189,7 @@ export const Search = () => {
     });
   }
 
-  async function nextPageClickHandler() {
+  async function selectNextPage() {
     const newFrom = params.from + params.size;
     if (searchResult && searchResult.total.value <= newFrom) {
       return;
@@ -208,8 +208,8 @@ export const Search = () => {
     });
   }
 
-  const resultsPerPageSelectHandler = (
-      event: React.ChangeEvent<HTMLSelectElement>,
+  const updateResultsPerPage = (
+      event: ChangeEvent<HTMLSelectElement>,
   ) => {
     if (event.currentTarget.value === "") return;
     const newSize = event.currentTarget.value;
@@ -223,7 +223,7 @@ export const Search = () => {
     }));
   };
 
-  function sortByChangeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+  function updateSorting(event: ChangeEvent<HTMLSelectElement>) {
     const selectedValue = event.currentTarget.value;
 
     let sortBy = "_score";
@@ -255,7 +255,7 @@ export const Search = () => {
     }));
   }
 
-  function changeSelectedKeywordFacet(
+  function updateSelectedKeywordFacet(
       facetName: string,
       facetOptionName: string,
       selected: boolean,
@@ -306,8 +306,8 @@ export const Search = () => {
             </label>
             <div className="flex w-full flex-row">
               <FullTextFacet
-                  valueHandler={handleFullTextFacet}
-                  enterPressedHandler={fullTextEnterPressedHandler}
+                  valueHandler={updateFullTextSearch}
+                  enterPressedHandler={searchFullText}
                   value={query.fullText}
                   className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
                   placeholder="Press ENTER to search"
@@ -346,7 +346,7 @@ export const Search = () => {
 
           <div className="w-full max-w-[450px]">
             <Fragmenter
-                onChange={fragmenterSelectHandler}
+                onChange={updateFragmenter}
                 value={params.fragmenter}
             />
           </div>
@@ -366,7 +366,7 @@ export const Search = () => {
                       facetName={facetName}
                       facet={facetValue}
                       selectedFacets={query.terms}
-                      onChangeKeywordFacet={changeSelectedKeywordFacet}
+                      onChangeKeywordFacet={updateSelectedKeywordFacet}
                   />
               ))
           )}
@@ -377,13 +377,13 @@ export const Search = () => {
             resultStart={params.from + 1}
             pageSize={params.from + params.size}
             pageNumber={pageNumber}
-            clickPrevPage={prevPageClickHandler}
-            clickNextPage={nextPageClickHandler}
-            changePageSize={resultsPerPageSelectHandler}
+            clickPrevPage={selectPrevPage}
+            clickNextPage={selectNextPage}
+            changePageSize={updateResultsPerPage}
             keywordFacets={filterFacetsByType(facets, "keyword")}
             selectedFacets={query.terms}
             removeFacet={removeFacet}
-            sortByChangeHandler={sortByChangeHandler}
+            sortByChangeHandler={updateSorting}
         />}
       </div>
   );
