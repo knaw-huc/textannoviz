@@ -34,20 +34,36 @@ export interface SearchResultBody {
   }[];
 }
 
-export type Indices = {
-  [key: string]: {
-    [key: string]: string;
-  };
+export type EsIndex = {
+  [key: string]: string;
 };
 
-export type FacetValue = Record<string, number>;
+export type Indices = {
+  [key: string]: EsIndex;
+};
 
-export type Facets = Record<string, FacetValue>;
+export type FacetName = string;
+export type FacetOptionName = string;
 
-export type SearchQuery =
+/**
+ * Facets and all facet options
+ */
+export type Facets = Record<FacetName, Facet>;
+
+/**
+ * Document count per facet option
+ */
+export type Facet = Record<FacetOptionName, number>;
+
+/**
+ * Selected facet options per facet
+ */
+export type Terms = Record<FacetName, FacetOptionName[]>;
+
+export type SearchQueryBody =
   | {
       text?: string;
-      terms: Record<string, string[]>;
+      terms: Terms;
       aggs?: string[];
       date?: {
         from: string;

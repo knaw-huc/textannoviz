@@ -1,12 +1,11 @@
 import { ProjectConfig } from "../../model/ProjectConfig";
-import { SearchQuery } from "../../model/Search";
+import { SearchQueryBody } from "../../model/Search";
 import {translateProjectSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
+import {useState} from "react";
 
 type SearchQueryHistoryProps = {
-  historyClickHandler: () => void;
-  historyIsOpen: boolean;
-  queryHistory: SearchQuery[];
-  goToQuery: (query: SearchQuery) => void;
+  queryHistory: SearchQueryBody[];
+  goToQuery: (query: SearchQueryBody) => void;
   projectConfig: ProjectConfig;
   disabled: boolean;
 };
@@ -14,17 +13,18 @@ type SearchQueryHistoryProps = {
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
+  const [isOpen, setOpen] = useState(false);
 
   return (
     <>
       <button
-        onClick={props.historyClickHandler}
+        onClick={() => setOpen(!isOpen)}
         className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm"
         disabled={props.disabled}
       >
         {translate('SEARCH_HISTORY')}
       </button>
-      {props.historyIsOpen ? (
+      {isOpen ? (
         <ol className="ml-6 mt-4 list-decimal">
           {props.queryHistory.length > 0 ? (
             props.queryHistory.slice(0, 10).map((query, index) => (

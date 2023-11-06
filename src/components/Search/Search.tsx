@@ -5,69 +5,50 @@ import {Button} from "react-aria-components";
 import {Link, useSearchParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {FullTextFacet} from "reactions-knaw-huc";
-import {Facets, Indices, SearchQuery, SearchResult,} from "../../model/Search";
+import {FacetName, FacetOptionName, Facets, SearchQueryBody, SearchResult, Terms} from "../../model/Search";
 import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
-import {sendSearchQuery} from "../../utils/broccoli";
+import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
 import {Fragmenter} from "./Fragmenter";
 import {SearchQueryHistory} from "./SearchQueryHistory.tsx";
 import {KeywordFacet} from "./KeywordFacet.tsx";
 import {DateFacet} from "./DateFacet.tsx";
 import {SearchResults} from "./SearchResults.tsx";
-import {SearchParams, SortOrder} from "../../stores/search/search-params-slice.ts";
+import {SortOrder} from "../../stores/search/search-params-slice.ts";
 import * as _ from "lodash";
-import {buildFacetFilter} from "./util/filterFacets.ts";
-
-type SearchProps = {
-  project: string;
-  indices: Indices;
-};
+import {
+  filterFacetByTypeSelector,
+  queryBodySelector,
+  searchHistorySelector,
+  SearchQueryParams
+} from "../../stores/search/search-query-slice.ts";
 
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
 /**
  * TODO:
- *  - add SearchParams to store
- *  - move query to store, remove from Search
  *  - create SearchForm
  *    - Search: contains complex query and url state management
  *    - SearchForm contains simple "before submit"-state and handler props
+ *  - use page number or elasticFrom, delete the other
  */
-
-export const Search = (props: SearchProps) => {
+export const Search = () => {
   const translate = useProjectStore(translateSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const filterFacets = buildFacetFilter(props.indices, projectConfig.elasticIndexName);
-
-  const [dirty, setDirty] = React.useState(0);
-  const [dateFrom, setDateFrom] = React.useState(
-      projectConfig.initialDateFrom ?? "",
-  );
-  const [dateTo, setDateTo] = React.useState(
-      projectConfig.initialDateTo ?? "",
-  );
+  const [isInit, setInit] = React.useState(false);
+  const [isDirty, setDirty] = React.useState(false);
   const [facets, setFacets] = React.useState<Facets>({});
-  const [facetCheckboxes, setFacetCheckboxes] = React.useState(
-      new Map<string, boolean>(),
-  );
-  const [query, setQuery] = React.useState<SearchQuery>({});
-  // TODO: use page number or elasticFrom, delete the other:
   const [pageNumber, setPageNumber] = React.useState(1);
-  const [fullText, setFullText] = React.useState("");
-
-  const [queryHistory, setQueryHistory] = React.useState<SearchQuery[]>([]);
-  const [historyIsOpen, setHistoryIsOpen] = React.useState(false);
   const [urlParams, setUrlParams] = useSearchParams();
-  const params: SearchParams = useSearchStore(store => store.params);
-  const setParams = useSearchStore(store => store.setParams);
-
   const {
-    searchResult,
-    setSearchResults
-  } = useSearchStore(state => state);
-  const setTextToHighlight = useSearchStore(
-      (state) => state.setTextToHighlight,
-  );
+    params, setParams,
+    query, setQuery,
+    searchResult, setSearchResults
+  } = useSearchStore();
+  const queryBody = useSearchStore(queryBodySelector);
+  const queryHistory = useSearchStore(searchHistorySelector);
+  const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
+  const setTextToHighlight = useSearchStore(state => state.setTextToHighlight);
 
   function getTextToHighlight(data: SearchResult) {
     const toHighlight = new Map<string, string[]>();
@@ -95,151 +76,93 @@ export const Search = (props: SearchProps) => {
     return toHighlight;
   }
 
-  function refresh() {
-    setDirty((prev) => prev + 1);
-  }
-
-  useEffect(() => {
-    updateSearchQueryWhenDirty();
-
-    function updateSearchQueryWhenDirty() {
-      if (!dirty) {
-        return;
-      }
-      const searchQuery: SearchQuery = {
-        terms: {},
-      };
-
-      if (fullText) {
-        if (fullText.charAt(fullText.length - 1).includes("\\")) {
-          toast(
-              "Please remove the trailing backslash from your search query.",
-              {
-                type: "error",
-              },
-          );
-          return;
-        }
-        searchQuery["text"] = fullText;
-      }
-
-      filterFacets(facets, "keyword").map(([name, values]) => {
-        Object.keys(values).map(facetValueName => {
-          const key = `${name}-${facetValueName}`;
-          if (facetCheckboxes.get(key)) {
-            if (searchQuery["terms"][name]) {
-              searchQuery["terms"][name].push(facetValueName);
-            } else {
-              searchQuery["terms"][name] = [facetValueName];
-            }
-          }
-        });
-      });
-
-      filterFacets(facets, "date").map(([facetName]) => {
-        searchQuery["date"] = {
-          name: facetName,
-          from: dateFrom,
-          to: dateTo,
-        };
-      });
-
-      setQuery(searchQuery);
-      setQueryHistory([searchQuery, ...queryHistory]);
-    }
-  }, [dirty]);
-
-  function getUrlParams(urlParams: URLSearchParams): SearchQuery {
+  function getUrlQuery(urlParams: URLSearchParams): SearchQueryParams {
     const queryEncoded = urlParams.get("query");
     return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
   }
 
   useEffect(() => {
-    initQueryFromUrlParams();
+    initSearchQuery();
 
-    function initQueryFromUrlParams() {
-      const queryDecoded = getUrlParams(urlParams);
-
-      if (queryDecoded) {
-        if (queryDecoded.text) {
-          setFullText(queryDecoded.text);
-        }
-      }
-      if (queryDecoded?.text) {
-        setQuery(queryDecoded);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    initFacetCheckboxesFromQueryTerms();
-
-    function initFacetCheckboxesFromQueryTerms() {
-
-      const newCheckboxes = new Map<string, boolean>();
-      const selectedFacets: string[] = [];
-
-      const terms = query?.terms;
-      if (!terms || !facets) {
+    async function initSearchQuery() {
+      if(isInit) {
         return;
       }
-      Object.entries(terms).forEach(
-          ([facetName, facetValues]) => {
-            facetValues.forEach((facetValue) => {
-              const key = `${facetName}-${facetValue}`;
-              selectedFacets.push(key);
-            });
-          },
-      );
-      filterFacets(facets, "keyword").map(([facetName, facetValues]) => {
-        Object.keys(facetValues).forEach((facetValueName) => {
-          const key = `${facetName}-${facetValueName}`;
-          newCheckboxes.set(key, false);
-          if (selectedFacets.includes(key)) {
-            newCheckboxes.set(key, true);
-          }
-        });
-      });
-      setFacetCheckboxes(newCheckboxes);
+      const update = {...query};
+
+      update.dateFrom = projectConfig.initialDateFrom;
+      update.dateTo = projectConfig.initialDateTo;
+
+      const queryDecoded = getUrlQuery(urlParams);
+      _.assign(update, queryDecoded);
+      setQuery(update);
+
+      const newIndices = await getElasticIndices(projectConfig);
+      if(newIndices) {
+        update.index = newIndices[projectConfig.elasticIndexName];
+      }
+
+      setInit(true);
+      setDirty(true);
     }
-  }, [query?.terms, facets]);
+
+  }, []);
 
   useEffect(() => {
     syncUrlWithSearchParams();
     function syncUrlWithSearchParams() {
-      setUrlParams((prev) => ({
-        ...Object.fromEntries(prev.entries()),
-        ..._.mapValues(params, v => `${v}`),
-        query: Base64.toBase64(JSON.stringify(query)),
-      }));
+      setUrlParams(prev => {
+        const cleanQuery = JSON.stringify(query, skipEmptyValues);
+
+        return {
+          ...Object.fromEntries(prev.entries()),
+          ..._.mapValues(params, v => `${v}`),
+          query: Base64.toBase64(cleanQuery),
+        };
+
+        function skipEmptyValues(_: string, v: any) {
+          return [null, ""].includes(v) ? undefined : v;
+        }
+      });
+
     }
-  }, [pageNumber, params, query]);
+  }, [params, query]);
 
   useEffect(() => {
-    searchWhenParamsChange();
+    searchWhenDirty();
 
-    async function searchWhenParamsChange() {
-      if (!query.terms) {
+    async function searchWhenDirty() {
+      if(!isDirty) {
         return;
       }
-
-      const data = await sendSearchQuery(projectConfig, params, query);
+      if (!queryBody.terms) {
+        return;
+      }
+      const data = await sendSearchQuery(projectConfig, params, queryBody);
       if (!data) {
         return;
       }
       setSearchResults(data);
+      const newFacets = data?.aggs;
+      if(newFacets) {
+        setFacets(newFacets);
+      }
       setParams({...params, from: 0});
-      setFacets(data.aggs);
+      setDirty(false);
     }
-  }, [query]);
+  }, [isDirty]);
 
   const handleFullTextFacet = (value: string) => {
-    setFullText(value);
+    if (value.charAt(value.length - 1).includes("\\")) {
+      toast("Please remove trailing backslash from query", {type: "error"});
+      return;
+    }
+    setQuery({...query, fullText: value});
   };
 
   const fullTextEnterPressedHandler = (pressed: boolean) => {
     if (pressed) {
-      refresh();
+      setDirty(true);
     }
   };
 
@@ -256,7 +179,7 @@ export const Search = (props: SearchProps) => {
   };
 
   async function getNewSearchResults() {
-    const data = await sendSearchQuery(projectConfig, params, query);
+    const data = await sendSearchQuery(projectConfig, params, queryBody);
     if(!data) {
       return;
     }
@@ -266,7 +189,6 @@ export const Search = (props: SearchProps) => {
       target.scrollIntoView({behavior: "smooth"});
     }
 
-    setSearchResults(data);
     setSearchResults(data);
     const toHighlight = getTextToHighlight(data);
     setTextToHighlight(toHighlight);
@@ -330,8 +252,8 @@ export const Search = (props: SearchProps) => {
     let sortBy = "_score";
     let sortOrder: SortOrder = "desc";
 
-    if (filterFacets(facets, "date") && (filterFacets(facets, "date"))[0]) {
-      const facetName = (filterFacets(facets, "date"))[0][0];
+    if (filterFacetsByType(facets, "date") && (filterFacetsByType(facets, "date"))[0]) {
+      const facetName = (filterFacetsByType(facets, "date"))[0][0];
 
       if (selectedValue === "dateAsc" || selectedValue === "dateDesc") {
         sortBy = facetName;
@@ -356,34 +278,45 @@ export const Search = (props: SearchProps) => {
     }));
   }
 
-  function handleKeywordFacetChange(
-      key: string,
-      event: React.ChangeEvent<HTMLInputElement>,
+  function changeSelectedKeywordFacet(
+      facetName: string,
+      facetOptionName: string,
+      selected: boolean,
   ) {
-    setFacetCheckboxes(new Map(facetCheckboxes.set(key, event.target.checked)));
+    const update = structuredClone(query.selectedFacets);
+    if(!selected) {
+      removeSelectedFacet(update, facetName, facetOptionName);
+    } else {
+      const facet = update[facetName];
+      if (facet) {
+        facet.push(facetOptionName);
+      } else {
+        update[facetName] = [facetOptionName];
+      }
+    }
+    setQuery({...query, selectedFacets: update});
+    setDirty(true);
+  }
+
+  function removeFacet(facet: FacetName, option: FacetOptionName) {
+    const update = structuredClone(query.selectedFacets);
+    removeSelectedFacet(update, facet, option);
+    setQuery({...query, selectedFacets: update});
     if (searchResult) {
-      refresh();
+      setDirty(true);
     }
   }
 
-  function removeFacet(key: string) {
-    setFacetCheckboxes(new Map(facetCheckboxes.set(key, false)));
-    if (searchResult) {
-      refresh();
-    }
-  }
-
-  function historyClickHandler() {
-    setHistoryIsOpen(!historyIsOpen);
-  }
-
-  function goToQuery(query: SearchQuery) {
+  function goToQuery(query: SearchQueryBody) {
     setUrlParams((searchParams) => {
       searchParams.set("query", Base64.toBase64(JSON.stringify(query)));
       return searchParams;
     });
   }
 
+  if(!query?.selectedFacets) {
+    return null;
+  }
   return (
       <div
           id="searchContainer"
@@ -398,14 +331,14 @@ export const Search = (props: SearchProps) => {
               <FullTextFacet
                   valueHandler={handleFullTextFacet}
                   enterPressedHandler={fullTextEnterPressedHandler}
-                  value={fullText}
+                  value={query.fullText}
                   className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
                   placeholder="Press ENTER to search"
               />
               <Button
                   className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
                   aria-label="Click to search"
-                  onPress={() => refresh()}
+                  onPress={() => setDirty(true)}
               >
                 <MagnifyingGlassIcon className="h-4 w-4 fill-white"/>
               </Button>
@@ -426,8 +359,6 @@ export const Search = (props: SearchProps) => {
           {projectConfig.showSearchQueryHistory && (
               <div className="w-full max-w-[450px]">
                 <SearchQueryHistory
-                    historyClickHandler={historyClickHandler}
-                    historyIsOpen={historyIsOpen}
                     queryHistory={queryHistory}
                     goToQuery={goToQuery}
                     projectConfig={projectConfig}
@@ -443,22 +374,22 @@ export const Search = (props: SearchProps) => {
             />
           </div>
           {projectConfig.showDateFacets && (
-              filterFacets(facets, "date").map((_, index) => <DateFacet
+              filterFacetsByType(facets, "date").map((_, index) => <DateFacet
                   key={index}
-                  dateFrom={dateFrom}
-                  dateTo={dateTo}
-                  changeDateTo={setDateTo}
-                  changeDateFrom={setDateFrom}
+                  dateFrom={query.dateFrom}
+                  dateTo={query.dateTo}
+                  changeDateTo={update => setQuery({...query, dateTo: update})}
+                  changeDateFrom={update => setQuery({...query, dateFrom: update})}
               />)
           )}
-          {projectConfig.showKeywordFacets && facetCheckboxes.size > 0 && (
-              filterFacets(facets, "keyword").map(([facetName, facetValue], index) => (
+          {projectConfig.showKeywordFacets && !_.isEmpty(facets) && (
+              filterFacetsByType(facets, "keyword").map(([facetName, facetValue], index) => (
                   <KeywordFacet
                       key={index}
                       facetName={facetName}
                       facet={facetValue}
-                      onChangeKeywordFacet={handleKeywordFacetChange}
-                      checkboxes={facetCheckboxes}
+                      selectedFacets={query.selectedFacets}
+                      onChangeKeywordFacet={changeSelectedKeywordFacet}
                   />
               ))
           )}
@@ -472,12 +403,21 @@ export const Search = (props: SearchProps) => {
             clickPrevPage={prevPageClickHandler}
             clickNextPage={nextPageClickHandler}
             changePageSize={resultsPerPageSelectHandler}
-            checkboxes={facetCheckboxes}
-            keywordFacets={filterFacets(facets, "keyword")}
+            keywordFacets={filterFacetsByType(facets, "keyword")}
+            selectedFacets={query.selectedFacets}
             removeFacet={removeFacet}
             sortByChangeHandler={sortByChangeHandler}
         />}
       </div>
   );
 };
+
+function removeSelectedFacet(update: Terms, facetName: string, facetOptionName: string) {
+  const facetToUpdate = update[facetName];
+  if (facetToUpdate.length > 1) {
+    _.pull(facetToUpdate, facetOptionName)
+  } else {
+    delete update[facetName];
+  }
+}
 

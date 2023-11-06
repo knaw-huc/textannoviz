@@ -1,4 +1,4 @@
-import {FacetValue, SearchResult} from "../../model/Search.ts";
+import {Facet, FacetOptionName, SearchResult, Terms} from "../../model/Search.ts";
 import {ChangeEvent} from "react";
 import {projectConfigSelector, translateProjectSelector, useProjectStore} from "../../stores/project.ts";
 import {SearchSortBy} from "./SearchSortBy.tsx";
@@ -9,16 +9,16 @@ import {SearchItem} from "./SearchItem.tsx";
 
 export function SearchResults(props: {
   sortByChangeHandler: any;
-  keywordFacets: [string, FacetValue][];
+  keywordFacets: [string, Facet][];
   searchResults: SearchResult;
-  checkboxes: Map<string, boolean>;
+  selectedFacets: Terms;
   resultStart: number
   pageSize: number
   pageNumber: number
   clickPrevPage: () => Promise<void>;
   clickNextPage: () => Promise<void>;
   changePageSize: (event: ChangeEvent<HTMLSelectElement>) => void;
-  removeFacet: (key: string) => void;
+  removeFacet: (facetName: string, facetOptionName: FacetOptionName) => void;
 }) {
   const searchResults = props.searchResults;
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -52,26 +52,23 @@ export function SearchResults(props: {
           {projectConfig.showSelectedFilters ? (
               <>
                 <span className="text-brand1Grey-600 text-sm">Filters: </span>
-                {props.keywordFacets.map(([facetName, facetValues]) => {
-                  return Object.keys(facetValues).map(
-                      (facetValueName, index) => {
-                        const key = `${facetName}-${facetValueName}`;
-
-                        if (props.checkboxes.get(key)) {
+                {props.keywordFacets.map(([facet, facetOptions]) => {
+                  return Object.keys(facetOptions).map(
+                      (option, index) => {
+                        if (props.selectedFacets[facet]?.includes(option)) {
                           return (
                               <div
                                   className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
                                   key={index}
                               >
-                                {translateProject(facetName)}:{" "}
-                                {/^[a-z]/.test(facetValueName)
-                                    ? facetValueName.charAt(0).toUpperCase() +
-                                    facetValueName.slice(1)
-                                    : translateProject(facetValueName)}{" "}
+                                {translateProject(facet)}:{" "}
+                                {/^[a-z]/.test(option)
+                                    ? option.charAt(0).toUpperCase() + option.slice(1)
+                                    : translateProject(option)}{" "}
                                 {
                                   <XMarkIcon
                                       className="h-5 w-5"
-                                      onClick={() => props.removeFacet(key)}
+                                      onClick={() => props.removeFacet(facet, option)}
                                   />
                                 }
                               </div>

@@ -12,7 +12,6 @@ import {ErrorPage} from "./ErrorPage";
 import {ProjectConfig} from "./model/ProjectConfig";
 import {useAnnotationStore} from "./stores/annotation";
 import {setProjectConfigSelector, useProjectStore} from "./stores/project";
-import {getElasticIndices} from "./utils/broccoli";
 
 const {project, config} = createProjectConfig();
 const router = await createRouter();
@@ -36,18 +35,13 @@ function Layout() {
 }
 
 async function createRouter() {
-  const indices = await getElasticIndices(config);
-
   return createBrowserRouter([{
     element: <Layout/>,
     errorElement: <ErrorPage/>,
     children: [
       {
         path: "/",
-        element: <Search
-            project={project}
-            indices={indices}
-        />,
+        element: <Search />,
       },
       {
         path: "detail/:tier0/:tier1",
