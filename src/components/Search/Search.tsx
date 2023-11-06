@@ -27,15 +27,8 @@ import {toPageNumber} from "./util/toPageNumber.ts";
 import {FRAGMENTER, FROM, PAGE, QUERY} from "./SearchUrlParams.ts";
 import {useDebounce} from "../../utils/useDebounce.tsx";
 
-/**
- * TODO:
- *  - add debounce for search
- */
-
-
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const [isInit, setInit] = React.useState(false);
   const [isDirty, setDirty] = React.useState(false);
   const [facets, setFacets] = React.useState<Facets>({});
   const [urlParams, setUrlParams] = useSearchParams();
@@ -54,9 +47,6 @@ export const Search = () => {
     initSearch();
 
     async function initSearch() {
-      if (isInit) {
-        return;
-      }
       const update = {...query};
 
       update.dateFrom = projectConfig.initialDateFrom;
@@ -71,10 +61,8 @@ export const Search = () => {
         update.index = newIndices[projectConfig.elasticIndexName];
       }
 
-      setInit(true);
       setDirty(true);
     }
-
   }, []);
 
   useEffect(() => {
@@ -94,7 +82,6 @@ export const Search = () => {
           return [null, ""].includes(v) ? undefined : v;
         }
       });
-
     }
   }, [params, query]);
 
