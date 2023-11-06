@@ -1,12 +1,15 @@
 import {StateCreator} from "zustand";
 import {EsIndex, Facets, Facet, SearchQueryBody, Terms} from "../../model/Search.ts";
 
+/**
+ * Parameters used to generate a search request body
+ */
 export type SearchQueryParams = {
   dateFrom: string;
   dateTo: string;
   index: EsIndex
   fullText: string;
-  selectedFacets: Terms
+  terms: Terms
 };
 
 export type SearchQuerySlice = {
@@ -23,7 +26,7 @@ export const createSearchQuerySlice: StateCreator<
     dateTo: "",
     index: {},
     fullText: "",
-    selectedFacets: {}
+    terms: {}
   } as SearchQueryParams,
   queryHistory: [],
   setQuery: update => set((prev) => ({
@@ -65,7 +68,7 @@ export const filterFacetByTypeSelector = (state: SearchQuerySlice) => (
 export function createSearchQueryRquestBody(
     query: SearchQueryParams,
 ): SearchQueryBody {
-  if (!query || !query.index || !query.selectedFacets) {
+  if (!query || !query.index || !query.terms) {
     return {};
   }
   const searchQuery = {} as SearchQueryBody;
@@ -75,7 +78,7 @@ export function createSearchQueryRquestBody(
     searchQuery.text = fullText;
   }
 
-  searchQuery.terms = query.selectedFacets;
+  searchQuery.terms = query.terms;
 
   searchQuery.date = {
     name: "sessionDate",

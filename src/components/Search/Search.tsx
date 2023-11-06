@@ -5,7 +5,7 @@ import {Button} from "react-aria-components";
 import {Link, useSearchParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {FullTextFacet} from "reactions-knaw-huc";
-import {FacetName, FacetOptionName, Facets, SearchQueryBody, SearchResult, Terms} from "../../model/Search";
+import {FacetName, FacetOptionName, Facets, SearchQueryBody} from "../../model/Search";
 import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
@@ -22,8 +22,8 @@ import {
   searchHistorySelector,
   SearchQueryParams
 } from "../../stores/search/search-query-slice.ts";
-
-const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
+import {createHighlights} from "./util/createHighlights.ts";
+import {removeTerm} from "./util/removeTerm.ts";
 
 /**
  * TODO:
@@ -32,6 +32,10 @@ const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
  *    - SearchForm contains simple "before submit"-state and handler props
  *  - use page number or elasticFrom, delete the other
  */
+export const PAGE = "page";
+export const FROM = "from";
+export const FRAGMENTER = "frag";
+
 export const Search = () => {
   const translate = useProjectStore(translateSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -43,38 +47,12 @@ export const Search = () => {
   const {
     params, setParams,
     query, setQuery,
-    searchResult, setSearchResults
+    searchResult, setSearchResults,
+    setTextToHighlight
   } = useSearchStore();
   const queryBody = useSearchStore(queryBodySelector);
   const queryHistory = useSearchStore(searchHistorySelector);
   const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
-  const setTextToHighlight = useSearchStore(state => state.setTextToHighlight);
-
-  function getTextToHighlight(data: SearchResult) {
-    const toHighlight = new Map<string, string[]>();
-    if (!data) {
-      return toHighlight;
-    }
-
-    data.results.forEach((result) => {
-      const previews: string[] = [];
-      const searchHits = result._hits;
-      if (!searchHits) {
-        return;
-      }
-      searchHits.forEach((hit) => {
-        const matches = hit.preview
-            .match(HIT_PREVIEW_REGEX)
-            ?.map((str) => str.substring(4, str.length - 5));
-        if (matches) {
-          previews.push(...new Set(matches));
-        }
-      });
-      toHighlight.set(result._id, [...new Set(previews)]);
-    });
-
-    return toHighlight;
-  }
 
   function getUrlQuery(urlParams: URLSearchParams): SearchQueryParams {
     const queryEncoded = urlParams.get("query");
@@ -82,10 +60,10 @@ export const Search = () => {
   }
 
   useEffect(() => {
-    initSearchQuery();
+    initSearch();
 
-    async function initSearchQuery() {
-      if(isInit) {
+    async function initSearch() {
+      if (isInit) {
         return;
       }
       const update = {...query};
@@ -98,7 +76,7 @@ export const Search = () => {
       setQuery(update);
 
       const newIndices = await getElasticIndices(projectConfig);
-      if(newIndices) {
+      if (newIndices) {
         update.index = newIndices[projectConfig.elasticIndexName];
       }
 
@@ -110,6 +88,7 @@ export const Search = () => {
 
   useEffect(() => {
     syncUrlWithSearchParams();
+
     function syncUrlWithSearchParams() {
       setUrlParams(prev => {
         const cleanQuery = JSON.stringify(query, skipEmptyValues);
@@ -132,7 +111,7 @@ export const Search = () => {
     searchWhenDirty();
 
     async function searchWhenDirty() {
-      if(!isDirty) {
+      if (!isDirty) {
         return;
       }
       if (!queryBody.terms) {
@@ -144,7 +123,7 @@ export const Search = () => {
       }
       setSearchResults(data);
       const newFacets = data?.aggs;
-      if(newFacets) {
+      if (newFacets) {
         setFacets(newFacets);
       }
       setParams({...params, from: 0});
@@ -160,10 +139,8 @@ export const Search = () => {
     setQuery({...query, fullText: value});
   };
 
-  const fullTextEnterPressedHandler = (pressed: boolean) => {
-    if (pressed) {
-      setDirty(true);
-    }
+  const fullTextEnterPressedHandler = () => {
+    setDirty(true);
   };
 
   const fragmenterSelectHandler = (
@@ -173,14 +150,14 @@ export const Search = () => {
     setParams({...params, fragmenter: event.currentTarget.value});
 
     setUrlParams((searchParams) => {
-      searchParams.set("frag", event.currentTarget.value);
+      searchParams.set(FRAGMENTER, event.currentTarget.value);
       return searchParams;
     });
   };
 
   async function getNewSearchResults() {
     const data = await sendSearchQuery(projectConfig, params, queryBody);
-    if(!data) {
+    if (!data) {
       return;
     }
 
@@ -190,7 +167,7 @@ export const Search = () => {
     }
 
     setSearchResults(data);
-    const toHighlight = getTextToHighlight(data);
+    const toHighlight = createHighlights(data);
     setTextToHighlight(toHighlight);
   }
 
@@ -206,8 +183,8 @@ export const Search = () => {
     });
     await getNewSearchResults();
     setUrlParams((searchParams) => {
-      searchParams.set("page", prevPage.toString());
-      searchParams.set("from", newFrom.toString());
+      searchParams.set(PAGE, prevPage.toString());
+      searchParams.set(FROM, newFrom.toString());
       return searchParams;
     });
   }
@@ -225,8 +202,8 @@ export const Search = () => {
     setPageNumber(nextPage);
     await getNewSearchResults();
     setUrlParams((searchParams) => {
-      searchParams.set("page", nextPage.toString());
-      searchParams.set("from", newFrom.toString());
+      searchParams.set(PAGE, nextPage.toString());
+      searchParams.set(FROM, newFrom.toString());
       return searchParams;
     });
   }
@@ -283,9 +260,9 @@ export const Search = () => {
       facetOptionName: string,
       selected: boolean,
   ) {
-    const update = structuredClone(query.selectedFacets);
-    if(!selected) {
-      removeSelectedFacet(update, facetName, facetOptionName);
+    const update = structuredClone(query.terms);
+    if (!selected) {
+      removeTerm(update, facetName, facetOptionName);
     } else {
       const facet = update[facetName];
       if (facet) {
@@ -294,14 +271,14 @@ export const Search = () => {
         update[facetName] = [facetOptionName];
       }
     }
-    setQuery({...query, selectedFacets: update});
+    setQuery({...query, terms: update});
     setDirty(true);
   }
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
-    const update = structuredClone(query.selectedFacets);
-    removeSelectedFacet(update, facet, option);
-    setQuery({...query, selectedFacets: update});
+    const update = structuredClone(query.terms);
+    removeTerm(update, facet, option);
+    setQuery({...query, terms: update});
     if (searchResult) {
       setDirty(true);
     }
@@ -314,7 +291,7 @@ export const Search = () => {
     });
   }
 
-  if(!query?.selectedFacets) {
+  if (!query?.terms) {
     return null;
   }
   return (
@@ -388,7 +365,7 @@ export const Search = () => {
                       key={index}
                       facetName={facetName}
                       facet={facetValue}
-                      selectedFacets={query.selectedFacets}
+                      selectedFacets={query.terms}
                       onChangeKeywordFacet={changeSelectedKeywordFacet}
                   />
               ))
@@ -404,20 +381,11 @@ export const Search = () => {
             clickNextPage={nextPageClickHandler}
             changePageSize={resultsPerPageSelectHandler}
             keywordFacets={filterFacetsByType(facets, "keyword")}
-            selectedFacets={query.selectedFacets}
+            selectedFacets={query.terms}
             removeFacet={removeFacet}
             sortByChangeHandler={sortByChangeHandler}
         />}
       </div>
   );
 };
-
-function removeSelectedFacet(update: Terms, facetName: string, facetOptionName: string) {
-  const facetToUpdate = update[facetName];
-  if (facetToUpdate.length > 1) {
-    _.pull(facetToUpdate, facetOptionName)
-  } else {
-    delete update[facetName];
-  }
-}
 
