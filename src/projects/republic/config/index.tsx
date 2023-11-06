@@ -1,15 +1,14 @@
 import logo from "../../../assets/logo-republic-temp.png";
-import {ProjectConfig} from "../../../model/ProjectConfig";
-import {AnnotationButtons} from "../AnnotationButtons.tsx";
-import {AnnotationItemContent} from "../AnnotationItemContent.tsx";
-import {AnnotationLinks} from "../AnnotationLinks.tsx";
-import {Help} from "../Help.tsx";
-import {MetadataPanel} from "../MetadataPanel.tsx";
-import {SearchInfoPage} from "../SearchInfoPage.tsx";
+import { ProjectConfig } from "../../../model/ProjectConfig";
+import { defaultConfig } from "../../default/config";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
-import {defaultConfig} from "../../default/config";
-import {englishRepublicLabels} from "./englishRepublicLabels.ts";
-import {dutchRepublicLabels} from "./dutchRepublicLabels.ts";
+import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
+import { Help } from "../Help.tsx";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
+import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
   id: "republic",
@@ -43,16 +42,15 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
   components: {
     AnnotationItem,
     AnnotationItemContent,
-    AnnotationLinks,
     AnnotationButtons,
     Help,
     MetadataPanel,
-    SearchInfoPage
+    SearchInfoPage,
   },
-  selectedLanguage: 'nl',
+  selectedLanguage: "nl",
   languages: [
-    {code: 'nl', labels: dutchRepublicLabels},
-    {code: 'en', labels: englishRepublicLabels}
+    { code: "nl", labels: dutchRepublicLabels },
+    { code: "en", labels: englishRepublicLabels },
   ],
   mirador: {
     showTopMenuButton: true,
