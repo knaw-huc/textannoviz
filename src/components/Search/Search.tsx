@@ -23,21 +23,14 @@ import {createHighlights} from "./util/createHighlights.ts";
 import {removeTerm} from "./util/removeTerm.ts";
 import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
 import {NewSearchButton} from "./NewSearchButton.tsx";
+import {toPageNumber} from "./util/toPageNumber.ts";
+import {FRAGMENTER, FROM, PAGE, QUERY} from "./SearchUrlParams.ts";
 
 /**
  * TODO:
- *  - use page number or elasticFrom, delete the other
  *  - add debounce for search
  */
-export const PAGE = "page";
-export const FROM = "from";
-export const FRAGMENTER = "frag";
 
-function toPage(from: number, size: number) {
-  let pageNumber = Math.floor(from / size) + 1;
-  console.log('pageNumber', {from, size, pageNumber});
-  return pageNumber;
-}
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -54,11 +47,6 @@ export const Search = () => {
   const queryBody = useSearchStore(queryBodySelector);
   const queryHistory = useSearchStore(searchHistorySelector);
   const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
-
-  function getUrlQuery(urlParams: URLSearchParams): SearchQueryParams {
-    const queryEncoded = urlParams.get("query");
-    return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
-  }
 
   useEffect(() => {
     initSearch();
@@ -132,6 +120,11 @@ export const Search = () => {
     }
   }, [isDirty]);
 
+  function getUrlQuery(urlParams: URLSearchParams): SearchQueryParams {
+    const queryEncoded = urlParams.get(QUERY);
+    return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
+  }
+
   const updateFragmenter = (
       event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
@@ -164,7 +157,7 @@ export const Search = () => {
     if (params.from <= 0) {
       return;
     }
-    const pageNumber = toPage(params.from, params.size);
+    const pageNumber = toPageNumber(params.from, params.size);
     const newFrom = params.from - params.size;
     const prevPage = pageNumber - 1;
     setParams({
@@ -188,7 +181,7 @@ export const Search = () => {
       ...params,
       from: newFrom
     });
-    const nextPage = toPage(params.from, params.size) + 1;
+    const nextPage = toPageNumber(params.from, params.size) + 1;
     await getNewSearchResults();
     setUrlParams((searchParams) => {
       searchParams.set(PAGE, nextPage.toString());
@@ -275,7 +268,7 @@ export const Search = () => {
 
   function goToQuery(query: SearchQueryBody) {
     setUrlParams((searchParams) => {
-      searchParams.set("query", Base64.toBase64(JSON.stringify(query)));
+      searchParams.set(QUERY, Base64.toBase64(JSON.stringify(query)));
       return searchParams;
     });
   }
@@ -344,7 +337,7 @@ export const Search = () => {
             searchResults={searchResult}
             resultsStart={params.from + 1}
             pageSize={params.size}
-            pageNumber={toPage(params.from, params.size)}
+            pageNumber={toPageNumber(params.from, params.size)}
             clickPrevPage={selectPrevPage}
             clickNextPage={selectNextPage}
             changePageSize={updateResultsPerPage}
