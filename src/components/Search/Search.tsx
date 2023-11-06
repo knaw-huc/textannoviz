@@ -1,12 +1,9 @@
-import {MagnifyingGlassIcon} from "@heroicons/react/24/solid";
 import {Base64} from "js-base64";
 import React, {ChangeEvent, useEffect} from "react";
-import {Button} from "react-aria-components";
-import {Link, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import {toast} from "react-toastify";
-import {FullTextFacet} from "reactions-knaw-huc";
 import {FacetName, FacetOptionName, Facets, SearchQueryBody} from "../../model/Search";
-import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
+import {projectConfigSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
 import {Fragmenter} from "./Fragmenter";
@@ -24,6 +21,8 @@ import {
 } from "../../stores/search/search-query-slice.ts";
 import {createHighlights} from "./util/createHighlights.ts";
 import {removeTerm} from "./util/removeTerm.ts";
+import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
+import {NewSearchButton} from "./NewSearchButton.tsx";
 
 /**
  * TODO:
@@ -37,7 +36,6 @@ export const FROM = "from";
 export const FRAGMENTER = "frag";
 
 export const Search = () => {
-  const translate = useProjectStore(translateSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isInit, setInit] = React.useState(false);
   const [isDirty, setDirty] = React.useState(false);
@@ -130,18 +128,6 @@ export const Search = () => {
       setDirty(false);
     }
   }, [isDirty]);
-
-  const updateFullTextSearch = (value: string) => {
-    if (value.charAt(value.length - 1).includes("\\")) {
-      toast("Please remove trailing backslash from query", {type: "error"});
-      return;
-    }
-    setQuery({...query, fullText: value});
-  };
-
-  const searchFullText = () => {
-    setDirty(true);
-  };
 
   const updateFragmenter = (
       event: React.ChangeEvent<HTMLSelectElement>,
@@ -300,38 +286,15 @@ export const Search = () => {
           className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
       >
         <div className="hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10">
-          <div className="w-full max-w-[450px]">
-            <label htmlFor="fullText" className="font-semibold">
-              Full text search
-            </label>
-            <div className="flex w-full flex-row">
-              <FullTextFacet
-                  valueHandler={updateFullTextSearch}
-                  enterPressedHandler={searchFullText}
-                  value={query.fullText}
-                  className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
-                  placeholder="Press ENTER to search"
-              />
-              <Button
-                  className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"
-                  aria-label="Click to search"
-                  onPress={() => setDirty(true)}
-              >
-                <MagnifyingGlassIcon className="h-4 w-4 fill-white"/>
-              </Button>
-            </div>
-          </div>
-          {searchResult ? (
-              <div className="w-full max-w-[450px]">
-                <Link
-                    to="/"
-                    reloadDocument
-                    className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm no-underline"
-                >
-                  {translate("NEW_SEARCH_QUERY")}
-                </Link>
-              </div>
-          ) : null}
+          <FullTextSearchBar
+              fullText={query.fullText}
+              onSubmit={() => setDirty(true)}
+              updateFullText={(value) => setQuery({...query, fullText: value})}
+          />
+
+          {searchResult && (
+              <NewSearchButton/>
+          )}
 
           {projectConfig.showSearchQueryHistory && (
               <div className="w-full max-w-[450px]">
@@ -350,6 +313,7 @@ export const Search = () => {
                 value={params.fragmenter}
             />
           </div>
+
           {projectConfig.showDateFacets && (
               filterFacetsByType(facets, "date").map((_, index) => <DateFacet
                   key={index}
@@ -359,6 +323,7 @@ export const Search = () => {
                   changeDateFrom={update => setQuery({...query, dateFrom: update})}
               />)
           )}
+
           {projectConfig.showKeywordFacets && !_.isEmpty(facets) && (
               filterFacetsByType(facets, "keyword").map(([facetName, facetValue], index) => (
                   <KeywordFacet
