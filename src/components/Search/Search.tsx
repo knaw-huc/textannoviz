@@ -26,21 +26,24 @@ import {NewSearchButton} from "./NewSearchButton.tsx";
 
 /**
  * TODO:
- *  - create SearchForm
- *    - Search: contains complex query and url state management
- *    - SearchForm contains simple "before submit"-state and handler props
  *  - use page number or elasticFrom, delete the other
+ *  - add debounce for search
  */
 export const PAGE = "page";
 export const FROM = "from";
 export const FRAGMENTER = "frag";
+
+function toPage(from: number, size: number) {
+  let pageNumber = Math.floor(from / size) + 1;
+  console.log('pageNumber', {from, size, pageNumber});
+  return pageNumber;
+}
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isInit, setInit] = React.useState(false);
   const [isDirty, setDirty] = React.useState(false);
   const [facets, setFacets] = React.useState<Facets>({});
-  const [pageNumber, setPageNumber] = React.useState(1);
   const [urlParams, setUrlParams] = useSearchParams();
   const {
     params, setParams,
@@ -158,9 +161,10 @@ export const Search = () => {
   }
 
   async function selectPrevPage() {
-    if (pageNumber <= 1) {
+    if (params.from <= 0) {
       return;
     }
+    const pageNumber = toPage(params.from, params.size);
     const newFrom = params.from - params.size;
     const prevPage = pageNumber - 1;
     setParams({
@@ -180,12 +184,11 @@ export const Search = () => {
     if (searchResult && searchResult.total.value <= newFrom) {
       return;
     }
-    const nextPage = pageNumber + 1;
     setParams({
       ...params,
       from: newFrom
     });
-    setPageNumber(nextPage);
+    const nextPage = toPage(params.from, params.size) + 1;
     await getNewSearchResults();
     setUrlParams((searchParams) => {
       searchParams.set(PAGE, nextPage.toString());
@@ -339,9 +342,9 @@ export const Search = () => {
 
         {searchResult && <SearchResults
             searchResults={searchResult}
-            resultStart={params.from + 1}
-            pageSize={params.from + params.size}
-            pageNumber={pageNumber}
+            resultsStart={params.from + 1}
+            pageSize={params.size}
+            pageNumber={toPage(params.from, params.size)}
             clickPrevPage={selectPrevPage}
             clickNextPage={selectNextPage}
             changePageSize={updateResultsPerPage}

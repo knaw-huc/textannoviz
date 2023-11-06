@@ -6,13 +6,14 @@ import {SearchResultsPerPage} from "./SearchResultsPerPage.tsx";
 import {XMarkIcon} from "@heroicons/react/24/solid";
 import {SearchPagination} from "./SearchPagination.tsx";
 import {SearchItem} from "./SearchItem.tsx";
+import * as _ from "lodash";
 
 export function SearchResults(props: {
   sortByChangeHandler: any;
   keywordFacets: [string, Facet][];
   searchResults: SearchResult;
   selectedFacets: Terms;
-  resultStart: number
+  resultsStart: number
   pageSize: number
   pageNumber: number
   clickPrevPage: () => Promise<void>;
@@ -29,8 +30,8 @@ export function SearchResults(props: {
         <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
               {searchResults &&
-                  `${props.resultStart}-${Math.min(
-                      props.resultStart + props.pageSize,
+                  `${props.resultsStart}-${Math.min(
+                      props.resultsStart + props.pageSize -1,
                       searchResults.total.value,
                   )} of ${searchResults.total.value} results`}
             </span>
@@ -49,7 +50,7 @@ export function SearchResults(props: {
           </div>
         </div>
         <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
-          {projectConfig.showSelectedFilters ? (
+          {projectConfig.showSelectedFilters && !_.isEmpty(props.keywordFacets) && (
               <>
                 <span className="text-brand1Grey-600 text-sm">Filters: </span>
                 {props.keywordFacets.map(([facet, facetOptions]) => {
@@ -78,7 +79,7 @@ export function SearchResults(props: {
                   );
                 })}
               </>
-          ) : null}
+          )}
 
           <SearchPagination
               prevPageClickHandler={props.clickPrevPage}
