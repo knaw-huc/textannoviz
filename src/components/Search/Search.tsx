@@ -25,6 +25,7 @@ import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
 import {NewSearchButton} from "./NewSearchButton.tsx";
 import {toPageNumber} from "./util/toPageNumber.ts";
 import {FRAGMENTER, FROM, PAGE, QUERY} from "./SearchUrlParams.ts";
+import {useDebounce} from "../../utils/useDebounce.tsx";
 
 /**
  * TODO:
@@ -47,6 +48,7 @@ export const Search = () => {
   const queryBody = useSearchStore(queryBodySelector);
   const queryHistory = useSearchStore(searchHistorySelector);
   const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
+  const debouncedFullText = useDebounce<string>(query.fullText);
 
   useEffect(() => {
     initSearch();
@@ -119,6 +121,10 @@ export const Search = () => {
       setDirty(false);
     }
   }, [isDirty]);
+
+  useEffect(() => {
+    setDirty(true);
+  }, [debouncedFullText])
 
   function getUrlQuery(urlParams: URLSearchParams): SearchQueryParams {
     const queryEncoded = urlParams.get(QUERY);
