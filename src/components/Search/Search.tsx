@@ -24,10 +24,11 @@ import {removeTerm} from "./util/removeTerm.ts";
 import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
 import {NewSearchButton} from "./NewSearchButton.tsx";
 import {toPageNumber} from "./util/toPageNumber.ts";
-import {FRAGMENTER, FROM, QUERY} from "./SearchUrlParams.ts";
+import {QUERY} from "./SearchUrlParams.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
+  const [isInit, setInit] = React.useState(false);
   const [isDirty, setDirty] = React.useState(false);
   const [facets, setFacets] = React.useState<Facets>({});
   const [urlParams, setUrlParams] = useSearchParams();
@@ -45,9 +46,12 @@ export const Search = () => {
     initSearch();
 
     async function initSearch() {
+      if(isInit) {
+        return;
+      }
       const queryDecoded = getUrlQuery(urlParams);
 
-      const update = {
+      const queryUpdate: SearchQuery = {
         ...searchQuery,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
@@ -55,10 +59,17 @@ export const Search = () => {
       };
       const newIndices = await getElasticIndices(projectConfig);
       if (newIndices) {
-        update.index = newIndices[projectConfig.elasticIndexName];
+        queryUpdate.index = newIndices[projectConfig.elasticIndexName];
       }
-      setSearchQuery(update);
 
+      // const paramUpdate = Object.fromEntries(
+      //     Object.entries(searchUrlParams).map(
+      //         ([k, v]) => [k, urlParams.get(k) ?? v]
+      //     )
+      // ) as SearchUrlParams;
+      // setSearchUrlParams(paramUpdate);
+      setSearchQuery(queryUpdate);
+      setInit(true);
       setDirty(true);
     }
   }, []);
@@ -67,19 +78,17 @@ export const Search = () => {
     syncUrlWithSearchParams();
 
     function syncUrlWithSearchParams() {
-      setUrlParams(prev => {
-        const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
+      const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
+      const newUrlParams = {
+        ...Object.fromEntries(urlParams),
+        ..._.mapValues(searchUrlParams, v => `${v}`),
+        query: Base64.toBase64(cleanQuery),
+      };
+      setUrlParams(newUrlParams);
 
-        return {
-          ...Object.fromEntries(prev.entries()),
-          ..._.mapValues(searchUrlParams, v => `${v}`),
-          query: Base64.toBase64(cleanQuery),
-        };
-
-        function skipEmptyValues(_: string, v: any) {
-          return [null, ""].includes(v) ? undefined : v;
-        }
-      });
+      function skipEmptyValues(_: string, v: any) {
+        return [null, ""].includes(v) ? undefined : v;
+      }
     }
   }, [searchUrlParams, searchQuery]);
 
@@ -105,13 +114,11 @@ export const Search = () => {
 
       const toHighlight = createHighlights(data);
       const newFacets = data?.aggs;
-      if (newFacets) {
-        setFacets(newFacets);
-      }
 
+      setFacets(newFacets);
       setTextToHighlight(toHighlight);
       setSearchResults(data);
-      setSearchUrlParams({...searchUrlParams, from: 0});
+      setSearchUrlParams({...searchUrlParams});
       setDirty(false);
     }
   }, [isDirty]);
@@ -124,12 +131,12 @@ export const Search = () => {
   const updateFragmenter = (
       event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    if (event.currentTarget.value === "") return;
-    setSearchUrlParams({...searchUrlParams, fragmenter: event.currentTarget.value});
-
-    setUrlParams((searchParams) => {
-      searchParams.set(FRAGMENTER, event.currentTarget.value);
-      return searchParams;
+    if (!event.currentTarget.value) {
+      return;
+    }
+    setSearchUrlParams({
+      ...searchUrlParams,
+      fragmenter: event.currentTarget.value
     });
   };
 
@@ -154,26 +161,19 @@ export const Search = () => {
       ...searchUrlParams,
       from: newFrom
     });
-    setUrlParams((searchParams) => {
-      searchParams.set(FROM, newFrom.toString());
-      return searchParams;
-    });
     setDirty(true);
   }
 
   const updateResultsPerPage = (
       event: ChangeEvent<HTMLSelectElement>,
   ) => {
-    if (event.currentTarget.value === "") return;
-    const newSize = event.currentTarget.value;
+    if (!event.currentTarget.value) {
+      return;
+    }
     setSearchUrlParams({
       ...searchUrlParams,
-      size: parseInt(newSize)
+      size: parseInt(event.currentTarget.value)
     });
-    setUrlParams(searchParams => ({
-      ...searchParams,
-      size: newSize,
-    }));
   };
 
   function updateSorting(event: ChangeEvent<HTMLSelectElement>) {
@@ -200,12 +200,6 @@ export const Search = () => {
       sortBy,
       sortOrder
     })
-
-    setUrlParams(searchParams => ({
-      ...searchParams,
-      sortBy,
-      sortOrder
-    }));
   }
 
   function updateSelectedKeywordFacet(
@@ -225,16 +219,16 @@ export const Search = () => {
       }
     }
     setSearchQuery({...searchQuery, terms: update});
+    setSearchUrlParams({...searchUrlParams, from: 0});
     setDirty(true);
   }
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
-    const update = structuredClone(searchQuery.terms);
-    removeTerm(update, facet, option);
-    setSearchQuery({...searchQuery, terms: update});
-    if (searchResult) {
-      setDirty(true);
-    }
+    const newTerms = structuredClone(searchQuery.terms);
+    removeTerm(newTerms, facet, option);
+    setSearchQuery({...searchQuery, terms: newTerms});
+    setSearchUrlParams({...searchUrlParams, from: 0});
+    setDirty(true);
   }
 
   function goToQuery(query: SearchQueryRequestBody) {
@@ -269,7 +263,7 @@ export const Search = () => {
                     queryHistory={queryHistory}
                     goToQuery={goToQuery}
                     projectConfig={projectConfig}
-                    disabled={queryHistory.length === 0}
+                    disabled={!queryHistory.length}
                 />
               </div>
           )}
