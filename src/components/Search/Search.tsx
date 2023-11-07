@@ -53,12 +53,12 @@ export const Search = () => {
         dateTo: projectConfig.initialDateTo,
         ...queryDecoded
       };
-      setSearchQuery(update);
-
       const newIndices = await getElasticIndices(projectConfig);
       if (newIndices) {
         update.index = newIndices[projectConfig.elasticIndexName];
       }
+      setSearchQuery(update);
+
       setDirty(true);
     }
   }, []);
