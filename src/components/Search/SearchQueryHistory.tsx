@@ -1,11 +1,11 @@
 import { ProjectConfig } from "../../model/ProjectConfig";
-import { SearchQueryBody } from "../../model/Search";
+import { SearchQueryRequestBody } from "../../model/Search";
 import {translateProjectSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
 import {useState} from "react";
 
 type SearchQueryHistoryProps = {
-  queryHistory: SearchQueryBody[];
-  goToQuery: (query: SearchQueryBody) => void;
+  queryHistory: SearchQueryRequestBody[];
+  goToQuery: (query: SearchQueryRequestBody) => void;
   projectConfig: ProjectConfig;
   disabled: boolean;
 };

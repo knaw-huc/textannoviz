@@ -2,7 +2,7 @@ import {Base64} from "js-base64";
 import React, {ChangeEvent, useEffect} from "react";
 import {useSearchParams} from "react-router-dom";
 import {toast} from "react-toastify";
-import {FacetName, FacetOptionName, Facets, SearchQueryBody} from "../../model/Search";
+import {FacetName, FacetOptionName, Facets, SearchQueryRequestBody} from "../../model/Search";
 import {projectConfigSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
@@ -17,7 +17,7 @@ import {
   filterFacetByTypeSelector,
   queryBodySelector,
   searchHistorySelector,
-  SearchQueryParams
+  SearchQuery
 } from "../../stores/search/search-query-slice.ts";
 import {createHighlights} from "./util/createHighlights.ts";
 import {removeTerm} from "./util/removeTerm.ts";
@@ -33,28 +33,29 @@ export const Search = () => {
   const [facets, setFacets] = React.useState<Facets>({});
   const [urlParams, setUrlParams] = useSearchParams();
   const {
-    params, setParams,
-    query, setQuery,
+    searchUrlParams, setSearchUrlParams,
+    searchQuery, setSearchQuery,
     searchResult, setSearchResults,
     setTextToHighlight
   } = useSearchStore();
-  const queryBody = useSearchStore(queryBodySelector);
+  const searchQueryRequestBody = useSearchStore(queryBodySelector);
   const queryHistory = useSearchStore(searchHistorySelector);
   const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
-  const debouncedFullText = useDebounce<string>(query.fullText);
+  const debouncedFullText = useDebounce<string>(searchQuery.fullText);
 
   useEffect(() => {
     initSearch();
 
     async function initSearch() {
-      const update = {...query};
-
-      update.dateFrom = projectConfig.initialDateFrom;
-      update.dateTo = projectConfig.initialDateTo;
-
       const queryDecoded = getUrlQuery(urlParams);
-      _.assign(update, queryDecoded);
-      setQuery(update);
+
+      const update = {
+        ...searchQuery,
+        dateFrom: projectConfig.initialDateFrom,
+        dateTo: projectConfig.initialDateTo,
+        ...queryDecoded
+      };
+      setSearchQuery(update);
 
       const newIndices = await getElasticIndices(projectConfig);
       if (newIndices) {
@@ -70,11 +71,11 @@ export const Search = () => {
 
     function syncUrlWithSearchParams() {
       setUrlParams(prev => {
-        const cleanQuery = JSON.stringify(query, skipEmptyValues);
+        const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
 
         return {
           ...Object.fromEntries(prev.entries()),
-          ..._.mapValues(params, v => `${v}`),
+          ..._.mapValues(searchUrlParams, v => `${v}`),
           query: Base64.toBase64(cleanQuery),
         };
 
@@ -83,7 +84,7 @@ export const Search = () => {
         }
       });
     }
-  }, [params, query]);
+  }, [searchUrlParams, searchQuery]);
 
   useEffect(() => {
     searchWhenDirty();
@@ -92,10 +93,10 @@ export const Search = () => {
       if (!isDirty) {
         return;
       }
-      if (!queryBody.terms) {
+      if (!searchQueryRequestBody.terms) {
         return;
       }
-      const data = await sendSearchQuery(projectConfig, params, queryBody);
+      const data = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
       if (!data) {
         return;
       }
@@ -104,7 +105,7 @@ export const Search = () => {
       if (newFacets) {
         setFacets(newFacets);
       }
-      setParams({...params, from: 0});
+      setSearchUrlParams({...searchUrlParams, from: 0});
       setDirty(false);
     }
   }, [isDirty]);
@@ -113,7 +114,7 @@ export const Search = () => {
     setDirty(true);
   }, [debouncedFullText])
 
-  function getUrlQuery(urlParams: URLSearchParams): SearchQueryParams {
+  function getUrlQuery(urlParams: URLSearchParams): Partial<SearchQuery> {
     const queryEncoded = urlParams.get(QUERY);
     return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
   }
@@ -122,7 +123,7 @@ export const Search = () => {
       event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     if (event.currentTarget.value === "") return;
-    setParams({...params, fragmenter: event.currentTarget.value});
+    setSearchUrlParams({...searchUrlParams, fragmenter: event.currentTarget.value});
 
     setUrlParams((searchParams) => {
       searchParams.set(FRAGMENTER, event.currentTarget.value);
@@ -131,7 +132,7 @@ export const Search = () => {
   };
 
   async function getNewSearchResults() {
-    const data = await sendSearchQuery(projectConfig, params, queryBody);
+    const data = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
     if (!data) {
       return;
     }
@@ -147,14 +148,14 @@ export const Search = () => {
   }
 
   async function selectPrevPage() {
-    if (params.from <= 0) {
+    if (searchUrlParams.from <= 0) {
       return;
     }
-    const pageNumber = toPageNumber(params.from, params.size);
-    const newFrom = params.from - params.size;
+    const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
+    const newFrom = searchUrlParams.from - searchUrlParams.size;
     const prevPage = pageNumber - 1;
-    setParams({
-      ...params,
+    setSearchUrlParams({
+      ...searchUrlParams,
       from: newFrom
     });
     await getNewSearchResults();
@@ -166,15 +167,15 @@ export const Search = () => {
   }
 
   async function selectNextPage() {
-    const newFrom = params.from + params.size;
+    const newFrom = searchUrlParams.from + searchUrlParams.size;
     if (searchResult && searchResult.total.value <= newFrom) {
       return;
     }
-    setParams({
-      ...params,
+    setSearchUrlParams({
+      ...searchUrlParams,
       from: newFrom
     });
-    const nextPage = toPageNumber(params.from, params.size) + 1;
+    const nextPage = toPageNumber(searchUrlParams.from, searchUrlParams.size) + 1;
     await getNewSearchResults();
     setUrlParams((searchParams) => {
       searchParams.set(PAGE, nextPage.toString());
@@ -188,8 +189,8 @@ export const Search = () => {
   ) => {
     if (event.currentTarget.value === "") return;
     const newSize = event.currentTarget.value;
-    setParams({
-      ...params,
+    setSearchUrlParams({
+      ...searchUrlParams,
       size: parseInt(newSize)
     });
     setUrlParams(searchParams => ({
@@ -217,8 +218,8 @@ export const Search = () => {
           {type: "info"},
       );
     }
-    setParams({
-      ...params,
+    setSearchUrlParams({
+      ...searchUrlParams,
       sortBy,
       sortOrder
     })
@@ -235,7 +236,7 @@ export const Search = () => {
       facetOptionName: string,
       selected: boolean,
   ) {
-    const update = structuredClone(query.terms);
+    const update = structuredClone(searchQuery.terms);
     if (!selected) {
       removeTerm(update, facetName, facetOptionName);
     } else {
@@ -246,27 +247,27 @@ export const Search = () => {
         update[facetName] = [facetOptionName];
       }
     }
-    setQuery({...query, terms: update});
+    setSearchQuery({...searchQuery, terms: update});
     setDirty(true);
   }
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
-    const update = structuredClone(query.terms);
+    const update = structuredClone(searchQuery.terms);
     removeTerm(update, facet, option);
-    setQuery({...query, terms: update});
+    setSearchQuery({...searchQuery, terms: update});
     if (searchResult) {
       setDirty(true);
     }
   }
 
-  function goToQuery(query: SearchQueryBody) {
+  function goToQuery(query: SearchQueryRequestBody) {
     setUrlParams((searchParams) => {
       searchParams.set(QUERY, Base64.toBase64(JSON.stringify(query)));
       return searchParams;
     });
   }
 
-  if (!query?.terms) {
+  if (!searchQuery?.terms) {
     return null;
   }
   return (
@@ -276,9 +277,9 @@ export const Search = () => {
       >
         <div className="hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10">
           <FullTextSearchBar
-              fullText={query.fullText}
+              fullText={searchQuery.fullText}
               onSubmit={() => setDirty(true)}
-              updateFullText={(value) => setQuery({...query, fullText: value})}
+              updateFullText={(value) => setSearchQuery({...searchQuery, fullText: value})}
           />
 
           {searchResult && (
@@ -299,17 +300,17 @@ export const Search = () => {
           <div className="w-full max-w-[450px]">
             <Fragmenter
                 onChange={updateFragmenter}
-                value={params.fragmenter}
+                value={searchUrlParams.fragmenter}
             />
           </div>
 
           {projectConfig.showDateFacets && (
               filterFacetsByType(facets, "date").map((_, index) => <DateFacet
                   key={index}
-                  dateFrom={query.dateFrom}
-                  dateTo={query.dateTo}
-                  changeDateTo={update => setQuery({...query, dateTo: update})}
-                  changeDateFrom={update => setQuery({...query, dateFrom: update})}
+                  dateFrom={searchQuery.dateFrom}
+                  dateTo={searchQuery.dateTo}
+                  changeDateTo={update => setSearchQuery({...searchQuery, dateTo: update})}
+                  changeDateFrom={update => setSearchQuery({...searchQuery, dateFrom: update})}
               />)
           )}
 
@@ -319,7 +320,7 @@ export const Search = () => {
                       key={index}
                       facetName={facetName}
                       facet={facetValue}
-                      selectedFacets={query.terms}
+                      selectedFacets={searchQuery.terms}
                       onChangeKeywordFacet={updateSelectedKeywordFacet}
                   />
               ))
@@ -328,14 +329,14 @@ export const Search = () => {
 
         {searchResult && <SearchResults
             searchResults={searchResult}
-            resultsStart={params.from + 1}
-            pageSize={params.size}
-            pageNumber={toPageNumber(params.from, params.size)}
+            resultsStart={searchUrlParams.from + 1}
+            pageSize={searchUrlParams.size}
+            pageNumber={toPageNumber(searchUrlParams.from, searchUrlParams.size)}
             clickPrevPage={selectPrevPage}
             clickNextPage={selectNextPage}
             changePageSize={updateResultsPerPage}
             keywordFacets={filterFacetsByType(facets, "keyword")}
-            selectedFacets={query.terms}
+            selectedFacets={searchQuery.terms}
             removeFacet={removeFacet}
             sortByChangeHandler={updateSorting}
         />}

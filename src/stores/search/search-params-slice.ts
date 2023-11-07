@@ -2,7 +2,7 @@ import {StateCreator} from "zustand";
 
 export type SortOrder = "desc" | "asc";
 
-export type SearchParams = {
+export type SearchUrlParams = {
   fragmenter: string,
   from: number,
   size: number,
@@ -11,19 +11,19 @@ export type SearchParams = {
 };
 
 export type SearchParamsSlice = {
-  params: SearchParams;
-  setParams: (update: SearchParams) => void;
+  searchUrlParams: SearchUrlParams;
+  setSearchUrlParams: (update: SearchUrlParams) => void;
 };
 
 export const createSearchParamsSlice: StateCreator<
     SearchParamsSlice, [], [], SearchParamsSlice
 > = (set) => ({
-  params: {
+  searchUrlParams: {
     fragmenter: "Scan",
     from: 0,
     size: 10,
     sortBy: "_score",
     sortOrder: "desc"
   },
-  setParams: update => set(() => ({ params: update }))
+  setSearchUrlParams: update => set(() => ({ searchUrlParams: update }))
 });

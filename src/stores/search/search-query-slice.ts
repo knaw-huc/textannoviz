@@ -1,10 +1,10 @@
 import {StateCreator} from "zustand";
-import {EsIndex, Facets, Facet, SearchQueryBody, Terms} from "../../model/Search.ts";
+import {EsIndex, Facets, Facet, SearchQueryRequestBody, Terms} from "../../model/Search.ts";
 
 /**
  * Parameters used to generate a search request body
  */
-export type SearchQueryParams = {
+export type SearchQuery = {
   dateFrom: string;
   dateTo: string;
   index: EsIndex
@@ -13,27 +13,27 @@ export type SearchQueryParams = {
 };
 
 export type SearchQuerySlice = {
-  query: SearchQueryParams;
-  queryHistory: SearchQueryParams[];
-  setQuery: (update: SearchQueryParams) => void;
+  searchQuery: SearchQuery;
+  queryHistory: SearchQuery[];
+  setSearchQuery: (update: SearchQuery) => void;
 };
 
 export const createSearchQuerySlice: StateCreator<
     SearchQuerySlice, [], [], SearchQuerySlice
 > = (set) => ({
-  query: {
+  searchQuery: {
     dateFrom: "",
     dateTo: "",
     index: {},
     fullText: "",
     terms: {}
-  } as SearchQueryParams,
+  } as SearchQuery,
   queryHistory: [],
-  setQuery: update => set((prev) => ({
+  setSearchQuery: update => set((prev) => ({
     ...prev,
-    query: update,
-    queryHistory: prev.query
-        ? [...prev.queryHistory, prev.query]
+    searchQuery: update,
+    queryHistory: prev.searchQuery
+        ? [...prev.queryHistory, prev.searchQuery]
         : prev.queryHistory
   }))
 });
@@ -41,15 +41,15 @@ export const createSearchQuerySlice: StateCreator<
 /**
  * Generate search query request body from search query parameters
  */
-export function queryBodySelector(state: SearchQuerySlice): SearchQueryBody {
-  let searchQueryRquestBody = createSearchQueryRquestBody(state.query);
+export function queryBodySelector(state: SearchQuerySlice): SearchQueryRequestBody {
+  let searchQueryRquestBody = createSearchQueryRquestBody(state.searchQuery);
   console.log('searchQueryRquestBody', searchQueryRquestBody);
   return searchQueryRquestBody;
 }
 
 export const searchHistorySelector = (
     state: SearchQuerySlice
-): SearchQueryBody[] => {
+): SearchQueryRequestBody[] => {
   return state.queryHistory.map(params => createSearchQueryRquestBody(params));
 }
 
@@ -61,17 +61,17 @@ export const filterFacetByTypeSelector = (state: SearchQuerySlice) => (
     return [];
   }
   return Object.entries(facets).filter(([key]) => {
-    return state.query?.index[key] === type;
+    return state.searchQuery?.index[key] === type;
   });
 }
 
 export function createSearchQueryRquestBody(
-    query: SearchQueryParams,
-): SearchQueryBody {
+    query: SearchQuery,
+): SearchQueryRequestBody {
   if (!query || !query.index || !query.terms) {
     return {};
   }
-  const searchQuery = {} as SearchQueryBody;
+  const searchQuery = {} as SearchQueryRequestBody;
   const fullText = query.fullText;
 
   if (fullText) {

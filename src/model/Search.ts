@@ -60,7 +60,7 @@ export type Facet = Record<FacetOptionName, number>;
  */
 export type Terms = Record<FacetName, FacetOptionName[]>;
 
-export type SearchQueryBody =
+export type SearchQueryRequestBody =
   | {
       text?: string;
       terms: Terms;
