@@ -24,8 +24,7 @@ import {removeTerm} from "./util/removeTerm.ts";
 import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
 import {NewSearchButton} from "./NewSearchButton.tsx";
 import {toPageNumber} from "./util/toPageNumber.ts";
-import {FRAGMENTER, FROM, PAGE, QUERY} from "./SearchUrlParams.ts";
-import {useDebounce} from "../../utils/useDebounce.tsx";
+import {FRAGMENTER, FROM, QUERY} from "./SearchUrlParams.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -41,7 +40,6 @@ export const Search = () => {
   const searchQueryRequestBody = useSearchStore(queryBodySelector);
   const queryHistory = useSearchStore(searchHistorySelector);
   const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
-  const debouncedFullText = useDebounce<string>(searchQuery.fullText);
 
   useEffect(() => {
     initSearch();
@@ -61,7 +59,6 @@ export const Search = () => {
       if (newIndices) {
         update.index = newIndices[projectConfig.elasticIndexName];
       }
-
       setDirty(true);
     }
   }, []);
@@ -93,26 +90,31 @@ export const Search = () => {
       if (!isDirty) {
         return;
       }
-      if (!searchQueryRequestBody.terms) {
+      if (!searchQueryRequestBody.date?.from) {
         return;
       }
       const data = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
       if (!data) {
         return;
       }
-      setSearchResults(data);
+
+      const target = document.getElementById("searchContainer");
+      if (target) {
+        target.scrollIntoView({behavior: "smooth"});
+      }
+
+      const toHighlight = createHighlights(data);
       const newFacets = data?.aggs;
       if (newFacets) {
         setFacets(newFacets);
       }
+
+      setTextToHighlight(toHighlight);
+      setSearchResults(data);
       setSearchUrlParams({...searchUrlParams, from: 0});
       setDirty(false);
     }
   }, [isDirty]);
-
-  useEffect(() => {
-    setDirty(true);
-  }, [debouncedFullText])
 
   function getUrlQuery(urlParams: URLSearchParams): Partial<SearchQuery> {
     const queryEncoded = urlParams.get(QUERY);
@@ -131,57 +133,32 @@ export const Search = () => {
     });
   };
 
-  async function getNewSearchResults() {
-    const data = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
-    if (!data) {
-      return;
-    }
-
-    const target = document.getElementById("searchContainer");
-    if (target) {
-      target.scrollIntoView({behavior: "smooth"});
-    }
-
-    setSearchResults(data);
-    const toHighlight = createHighlights(data);
-    setTextToHighlight(toHighlight);
-  }
-
   async function selectPrevPage() {
-    if (searchUrlParams.from <= 0) {
+    const newFrom = searchUrlParams.from - searchUrlParams.size;
+    if (!searchResult || newFrom <= 0) {
       return;
     }
-    const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
-    const newFrom = searchUrlParams.from - searchUrlParams.size;
-    const prevPage = pageNumber - 1;
-    setSearchUrlParams({
-      ...searchUrlParams,
-      from: newFrom
-    });
-    await getNewSearchResults();
-    setUrlParams((searchParams) => {
-      searchParams.set(PAGE, prevPage.toString());
-      searchParams.set(FROM, newFrom.toString());
-      return searchParams;
-    });
+    await selectPage(newFrom);
   }
 
   async function selectNextPage() {
     const newFrom = searchUrlParams.from + searchUrlParams.size;
-    if (searchResult && searchResult.total.value <= newFrom) {
+    if (!searchResult || newFrom >= searchResult.total.value) {
       return;
     }
+    selectPage(newFrom)
+  }
+
+  async function selectPage(newFrom: number) {
     setSearchUrlParams({
       ...searchUrlParams,
       from: newFrom
     });
-    const nextPage = toPageNumber(searchUrlParams.from, searchUrlParams.size) + 1;
-    await getNewSearchResults();
     setUrlParams((searchParams) => {
-      searchParams.set(PAGE, nextPage.toString());
       searchParams.set(FROM, newFrom.toString());
       return searchParams;
     });
+    setDirty(true);
   }
 
   const updateResultsPerPage = (
