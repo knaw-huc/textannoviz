@@ -25,6 +25,7 @@ import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
 import {NewSearchButton} from "./NewSearchButton.tsx";
 import {toPageNumber} from "./util/toPageNumber.ts";
 import {QUERY} from "./SearchUrlParams.ts";
+import {addToUrlParams, getFromUrlParams} from "../../utils/UrlParamUtils.tsx";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -46,12 +47,12 @@ export const Search = () => {
     initSearch();
 
     async function initSearch() {
-      if(isInit) {
+      if (isInit) {
         return;
       }
       const queryDecoded = getUrlQuery(urlParams);
 
-      const queryUpdate: SearchQuery = {
+      const newSearchQuery: SearchQuery = {
         ...searchQuery,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
@@ -59,19 +60,16 @@ export const Search = () => {
       };
       const newIndices = await getElasticIndices(projectConfig);
       if (newIndices) {
-        queryUpdate.index = newIndices[projectConfig.elasticIndexName];
+        newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
       }
+      setSearchQuery(newSearchQuery);
+      const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
+      setSearchUrlParams(newSearchParams);
 
-      // const paramUpdate = Object.fromEntries(
-      //     Object.entries(searchUrlParams).map(
-      //         ([k, v]) => [k, urlParams.get(k) ?? v]
-      //     )
-      // ) as SearchUrlParams;
-      // setSearchUrlParams(paramUpdate);
-      setSearchQuery(queryUpdate);
       setInit(true);
       setDirty(true);
     }
+
   }, []);
 
   useEffect(() => {
@@ -79,16 +77,14 @@ export const Search = () => {
 
     function syncUrlWithSearchParams() {
       const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
-      const newUrlParams = {
-        ...Object.fromEntries(urlParams),
-        ..._.mapValues(searchUrlParams, v => `${v}`),
-        query: Base64.toBase64(cleanQuery),
-      };
-      setUrlParams(newUrlParams);
-
       function skipEmptyValues(_: string, v: any) {
         return [null, ""].includes(v) ? undefined : v;
       }
+      const newUrlParams = addToUrlParams(urlParams, {
+        ...searchUrlParams,
+        query: Base64.toBase64(cleanQuery)
+      });
+      setUrlParams(newUrlParams);
     }
   }, [searchUrlParams, searchQuery]);
 
@@ -153,7 +149,7 @@ export const Search = () => {
     if (!searchResult || newFrom >= searchResult.total.value) {
       return;
     }
-    selectPage(newFrom)
+    await selectPage(newFrom)
   }
 
   async function selectPage(newFrom: number) {
@@ -313,5 +309,5 @@ export const Search = () => {
         />}
       </div>
   );
-};
+}
 

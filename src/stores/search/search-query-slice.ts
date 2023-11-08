@@ -1,5 +1,5 @@
 import {StateCreator} from "zustand";
-import {EsIndex, Facets, Facet, SearchQueryRequestBody, Terms} from "../../model/Search.ts";
+import {EsIndex, Facet, Facets, SearchQueryRequestBody, Terms} from "../../model/Search.ts";
 
 /**
  * Parameters used to generate a search request body
@@ -42,9 +42,7 @@ export const createSearchQuerySlice: StateCreator<
  * Generate search query request body from search query parameters
  */
 export function queryBodySelector(state: SearchQuerySlice): SearchQueryRequestBody {
-  let searchQueryRquestBody = createSearchQueryRquestBody(state.searchQuery);
-  console.log('searchQueryRquestBody', searchQueryRquestBody);
-  return searchQueryRquestBody;
+  return createSearchQueryRquestBody(state.searchQuery);
 }
 
 export const searchHistorySelector = (
