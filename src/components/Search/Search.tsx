@@ -25,7 +25,8 @@ export const Search = () => {
     searchQuery, setSearchQuery,
     setSearchResults,
     setTextToHighlight,
-    updateSearchQueryHistory
+    updateSearchQueryHistory,
+    resetPage
   } = useSearchStore();
   const searchQueryRequestBody = useSearchStore(queryBodySelector);
 
@@ -119,9 +120,9 @@ export const Search = () => {
 
   function handleNewSearch(stayOnPage?: boolean ) {
     if(!stayOnPage) {
-      setSearchUrlParams({...searchUrlParams, from: 0});
+      resetPage();
     }
-    setDirty(true)
+    setDirty(true);
   }
   return (
       <div

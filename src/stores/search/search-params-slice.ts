@@ -13,6 +13,7 @@ export type SearchUrlParams = {
 export type SearchParamsSlice = {
   searchUrlParams: SearchUrlParams;
   setSearchUrlParams: (update: SearchUrlParams) => void;
+  resetPage: () => void
 };
 
 export const createSearchParamsSlice: StateCreator<
@@ -25,5 +26,12 @@ export const createSearchParamsSlice: StateCreator<
     sortBy: "_score",
     sortOrder: "desc"
   },
-  setSearchUrlParams: update => set(() => ({ searchUrlParams: update }))
+  setSearchUrlParams: update => set(() => ({ searchUrlParams: update })),
+  resetPage: () => set((prev) => {
+    const update = {
+      ...prev
+    };
+    update.searchUrlParams.from = 0;
+    return update;
+  })
 });
