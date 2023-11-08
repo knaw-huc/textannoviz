@@ -94,8 +94,7 @@ export const Search = () => {
       if (!searchResults) {
         return;
       }
-      const data = await sendSearchQuery(projectConfig, searchUrlParams, {});
-      const newFacets = data?.aggs;
+      const newFacets = searchResults?.aggs;
       if(!newFacets) {
         return toast(translate('NO_FACETS_FOUND'), { type: "error" });
       }
