@@ -62,7 +62,8 @@ export function SearchResults(props: {
     setSearchUrlParams({
       ...searchUrlParams,
       sortBy,
-      sortOrder
+      sortOrder,
+      from: 0
     })
   }
 

@@ -16,6 +16,7 @@ export type SearchQuerySlice = {
   searchQuery: SearchQuery;
   queryHistory: SearchQuery[];
   setSearchQuery: (update: SearchQuery) => void;
+  updateSearchQueryHistory: (update: SearchQuery) => void;
 };
 
 export const createSearchQuerySlice: StateCreator<
@@ -31,10 +32,11 @@ export const createSearchQuerySlice: StateCreator<
   queryHistory: [],
   setSearchQuery: update => set((prev) => ({
     ...prev,
-    searchQuery: update,
-    queryHistory: prev.searchQuery
-        ? [...prev.queryHistory, prev.searchQuery]
-        : prev.queryHistory
+    searchQuery: update
+  })),
+  updateSearchQueryHistory: (update: SearchQuery) =>  set(prev => ({
+    ...prev,
+    queryHistory: [...prev.queryHistory, update]
   }))
 });
 

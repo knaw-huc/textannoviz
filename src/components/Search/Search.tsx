@@ -22,7 +22,8 @@ export const Search = () => {
     searchUrlParams, setSearchUrlParams,
     searchQuery, setSearchQuery,
     setSearchResults,
-    setTextToHighlight
+    setTextToHighlight,
+    updateSearchQueryHistory
   } = useSearchStore();
   const searchQueryRequestBody = useSearchStore(queryBodySelector);
 
@@ -32,7 +33,7 @@ export const Search = () => {
     /**
      * Initialize search page:
      * - Initialize search url params and query from url and default config values
-     * - Fetch indices, facets and search results
+     * - Fetch indices and facets
      */
     async function initSearch() {
       if (isInit) {
@@ -103,6 +104,7 @@ export const Search = () => {
       setTextToHighlight(toHighlight);
       setSearchResults(data);
       setSearchUrlParams({...searchUrlParams});
+      updateSearchQueryHistory(searchQuery);
       setDirty(false);
     }
   }, [isDirty]);
