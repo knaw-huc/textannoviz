@@ -1,5 +1,5 @@
 import {Base64} from "js-base64";
-import React, {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
 import {Facets} from "../../model/Search";
 import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
@@ -15,9 +15,10 @@ import {toast} from "react-toastify";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const [isInit, setInit] = React.useState(false);
-  const [isDirty, setDirty] = React.useState(false);
-  const [facets, setFacets] = React.useState<Facets>({});
+  const [isInit, setInit] = useState(false);
+  const [isDirty, setDirty] = useState(false);
+  const [isShowingResults, setShowingResults] = useState(false);
+  const [facets, setFacets] = useState<Facets>({});
   const [urlParams, setUrlParams] = useSearchParams();
   const translate = useProjectStore(translateSelector);
   const {
@@ -63,6 +64,9 @@ export const Search = () => {
       setSearchQuery(newSearchQuery);
       setInit(true);
       setDirty(true);
+      if(queryDecoded.fullText) {
+        setShowingResults(true);
+      }
     }
 
   }, []);
@@ -125,6 +129,7 @@ export const Search = () => {
       resetPage();
     }
     setDirty(true);
+    setShowingResults(true);
   }
   return (
       <div
@@ -135,10 +140,10 @@ export const Search = () => {
             onSearch={handleNewSearch}
             facets={facets}
         />
-        <SearchResults
+        {isShowingResults && <SearchResults
             onSearch={handleNewSearch}
             facets={facets}
-        />
+        />}
       </div>
   );
 }
