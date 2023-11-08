@@ -71,7 +71,7 @@ export function SearchForm(props: {
     }
     setSearchUrlParams({
       ...searchUrlParams,
-      fragmenter: event.currentTarget.value
+      frag: event.currentTarget.value
     });
     onSearch()
   };
@@ -114,7 +114,7 @@ export function SearchForm(props: {
     <div className="w-full max-w-[450px]">
       <Fragmenter
           onChange={updateFragmenter}
-          value={searchUrlParams.fragmenter}
+          value={searchUrlParams.frag}
       />
     </div>
 

@@ -2,7 +2,7 @@ import {StateCreator} from "zustand";
 import {SortOrder} from "../../model/Search.ts";
 
 export type SearchUrlParams = {
-  fragmenter: string,
+  frag: string,
   from: number,
   size: number,
   sortBy: string,
@@ -19,7 +19,7 @@ export const createSearchParamsSlice: StateCreator<
     SearchParamsSlice, [], [], SearchParamsSlice
 > = (set) => ({
   searchUrlParams: {
-    fragmenter: "Scan",
+    frag: "Scan",
     from: 0,
     size: 10,
     sortBy: "_score",
