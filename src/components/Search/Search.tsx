@@ -35,8 +35,10 @@ export const Search = () => {
 
     /**
      * Initialize search page:
-     * - Initialize search url params and query from url and default config values
-     * - Fetch indices and facets
+     * - default config values
+     * - search index
+     * - search url params
+     * - query from url
      */
     async function initSearch() {
       if (isInit) {
