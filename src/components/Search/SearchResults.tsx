@@ -5,7 +5,7 @@ import {
   translateSelector,
   useProjectStore
 } from "../../stores/project.ts";
-import {SearchSortBy} from "./SearchSortBy.tsx";
+import {SearchSorting, Sorting} from "./SearchSorting.tsx";
 import {SearchResultsPerPage} from "./SearchResultsPerPage.tsx";
 import {XMarkIcon} from "@heroicons/react/24/solid";
 import {SearchPagination} from "./SearchPagination.tsx";
@@ -13,8 +13,6 @@ import {SearchItem} from "./SearchItem.tsx";
 import * as _ from "lodash";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {ChangeEvent} from "react";
-import {SortOrder} from "../../stores/search/search-params-slice.ts";
-import {toast} from "react-toastify";
 import {filterFacetByTypeSelector} from "../../stores/search/search-query-slice.ts";
 import {removeTerm} from "./util/removeTerm.ts";
 import {toPageNumber} from "./util/toPageNumber.ts";
@@ -43,29 +41,11 @@ export function SearchResults(props: {
   const keywordFacets = filterFacetsByType(facets, "keyword");
   const translate = useProjectStore(translateSelector);
 
-  function updateSorting(event: ChangeEvent<HTMLSelectElement>) {
-    const selectedValue = event.currentTarget.value;
-
-    let sortBy = "_score";
-    let sortOrder: SortOrder = "desc";
-
-    if (filterFacetsByType(facets, "date") && (filterFacetsByType(facets, "date"))[0]) {
-      const facetName = (filterFacetsByType(facets, "date"))[0][0];
-
-      if (selectedValue === "dateAsc" || selectedValue === "dateDesc") {
-        sortBy = facetName;
-        sortOrder = selectedValue === "dateAsc" ? "asc" : "desc";
-      }
-    } else {
-      toast(
-          "Sorting on date is not possible with the current search results.",
-          {type: "info"},
-      );
-    }
+  function updateSorting(sorting: Sorting) {
     setSearchUrlParams({
       ...searchUrlParams,
-      sortBy,
-      sortOrder
+      sortBy: sorting.field,
+      sortOrder: sorting.order
     })
     onSearch();
   }
@@ -134,9 +114,13 @@ export function SearchResults(props: {
             </span>
           <div className="flex items-center justify-between gap-10">
             {projectConfig.showSearchSortBy && (
-                <SearchSortBy
-                    onChange={updateSorting}
-                    value={searchUrlParams.sortBy}
+                <SearchSorting
+                    dateFacets={filterFacetsByType(facets, "date")}
+                    onSort={updateSorting}
+                    selected={{
+                      field: searchUrlParams.sortBy,
+                      order: searchUrlParams.sortOrder
+                    }}
                 />
             )}
 

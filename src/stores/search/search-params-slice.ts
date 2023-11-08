@@ -1,6 +1,5 @@
 import {StateCreator} from "zustand";
-
-export type SortOrder = "desc" | "asc";
+import {SortOrder} from "../../model/Search.ts";
 
 export type SearchUrlParams = {
   fragmenter: string,
