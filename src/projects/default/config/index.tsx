@@ -1,6 +1,6 @@
 import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 import {englishLabels} from "./englishLabels.ts";
-import {Empty} from "../../../components/Empty.tsx";
+import {translateSelector, useProjectStore} from "../../../stores/project.ts";
 import {Placeholder} from "../../../components/Placeholder.tsx";
 
 /**
@@ -37,13 +37,16 @@ export const defaultConfig: Omit<ProjectConfig,
   showKeywordFacets: true,
   showSelectedFilters: true,
   components: {
-    AnnotationItem: Empty,
-    AnnotationItemContent: Empty,
-    AnnotationLinks: Empty,
-    AnnotationButtons: Empty,
-    Help: Empty,
-    MetadataPanel: Empty,
-    SearchInfoPage: Placeholder
+    AnnotationItem: Placeholder,
+    AnnotationItemContent: Placeholder,
+    AnnotationLinks: Placeholder,
+    AnnotationButtons: Placeholder,
+    Help: Placeholder,
+    MetadataPanel: Placeholder,
+    SearchInfoPage: () => {
+      const translate = useProjectStore(translateSelector);
+      return <>{translate('NO_SEARCH_RESULTS')}</>
+    }
   },
   selectedLanguage: 'en',
   languages: [{
