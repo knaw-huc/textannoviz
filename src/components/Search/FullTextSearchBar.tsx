@@ -2,12 +2,16 @@ import {toast} from "react-toastify";
 import {FullTextFacet} from "reactions-knaw-huc";
 import {Button} from "react-aria-components";
 import {MagnifyingGlassIcon} from "@heroicons/react/24/solid";
+import {translateSelector, useProjectStore} from "../../stores/project.ts";
 
 export function FullTextSearchBar(props: {
   fullText: string,
   updateFullText: (query: string) => void,
   onSubmit: () => void
 }) {
+
+  const translate = useProjectStore(translateSelector);
+
   const updateFullTextSearch = (value: string) => {
     if (value.charAt(value.length - 1).includes("\\")) {
       toast("Please remove trailing backslash from query", {type: "error"});
@@ -18,7 +22,7 @@ export function FullTextSearchBar(props: {
 
   return <div className="w-full max-w-[450px]">
     <label htmlFor="fullText" className="font-semibold">
-      Full text search
+      {translate("FULL_TEXT_SEARCH")}
     </label>
     <div className="flex w-full flex-row">
       <FullTextFacet
@@ -26,7 +30,7 @@ export function FullTextSearchBar(props: {
           enterPressedHandler={props.onSubmit}
           value={props.fullText}
           className="border-brand2-700 w-full rounded-l border px-3 py-1 outline-none"
-          placeholder="Press ENTER to search"
+          placeholder={translate("PRESS_ENTER_TO_SEARCH")}
       />
       <Button
           className="bg-brand2-700 border-brand2-700 rounded-r border-b border-r border-t px-3 py-1"

@@ -1,6 +1,6 @@
 import { Button } from "react-aria-components";
 import { SearchResult } from "../../model/Search";
-import {translateSelector, useProjectStore} from "../../stores/project.ts";
+import { translateSelector, useProjectStore } from "../../stores/project.ts";
 
 type SearchPaginationProps = {
   prevPageClickHandler: () => void;
@@ -25,12 +25,14 @@ export const SearchPagination = (props: SearchPaginationProps) => {
             }
             onPress={props.prevPageClickHandler}
           >
-            {translate('PREV')}
+            {translate("PREV")}
           </Button>
         </li>
         <li>
           <div className="text-brand1Grey-800 relative block bg-transparent px-3 py-1.5">
-            {`${props.pageNumber} of ${Math.ceil(
+            {`${props.pageNumber} ${translate(
+              "FROM",
+            ).toLowerCase()} ${Math.ceil(
               props.searchResult!.total.value / props.elasticSize,
             )}`}
           </div>
@@ -44,7 +46,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
             }
             onPress={props.nextPageClickHandler}
           >
-            {translate('NEXT')}
+            {translate("NEXT")}
           </Button>
         </li>
       </ul>

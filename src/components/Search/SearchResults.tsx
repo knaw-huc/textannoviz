@@ -1,5 +1,10 @@
 import {FacetName, FacetOptionName, Facets} from "../../model/Search.ts";
-import {projectConfigSelector, translateProjectSelector, useProjectStore} from "../../stores/project.ts";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  translateSelector,
+  useProjectStore
+} from "../../stores/project.ts";
 import {SearchSortBy} from "./SearchSortBy.tsx";
 import {SearchResultsPerPage} from "./SearchResultsPerPage.tsx";
 import {XMarkIcon} from "@heroicons/react/24/solid";
@@ -33,6 +38,7 @@ export function SearchResults(props: {
   const pageSize = searchUrlParams.size;
   const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
   const keywordFacets = filterFacetsByType(facets, "keyword");
+  const translate = useProjectStore(translateSelector);
 
   function updateSorting(event: ChangeEvent<HTMLSelectElement>) {
     const selectedValue = event.currentTarget.value;
@@ -62,7 +68,7 @@ export function SearchResults(props: {
 
   async function selectPrevPage() {
     const newFrom = searchUrlParams.from - searchUrlParams.size;
-    if (!searchResult || newFrom <= 0) {
+    if (!searchResult || newFrom < 0) {
       return;
     }
     await selectPage(newFrom);
@@ -134,7 +140,7 @@ export function SearchResults(props: {
         <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
           {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && (
               <>
-                <span className="text-brand1Grey-600 text-sm">Filters: </span>
+                <span className="text-brand1Grey-600 text-sm">{translate("FILTERS")}: </span>
                 {keywordFacets.map(([facet, facetOptions]) => {
                   return Object.keys(facetOptions).map(
                       (option, index) => {
