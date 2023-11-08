@@ -1,13 +1,7 @@
 import {FacetName, FacetOptionName, Facets} from "../../model/Search.ts";
-import {
-  projectConfigSelector,
-  translateProjectSelector,
-  translateSelector,
-  useProjectStore
-} from "../../stores/project.ts";
+import {projectConfigSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
 import {SearchSorting, Sorting} from "./SearchSorting.tsx";
 import {SearchResultsPerPage} from "./SearchResultsPerPage.tsx";
-import {XMarkIcon} from "@heroicons/react/24/solid";
 import {SearchPagination} from "./SearchPagination.tsx";
 import {SearchItem} from "./SearchItem.tsx";
 import * as _ from "lodash";
@@ -16,6 +10,7 @@ import {ChangeEvent} from "react";
 import {filterFacetByTypeSelector} from "../../stores/search/search-query-slice.ts";
 import {removeTerm} from "./util/removeTerm.ts";
 import {toPageNumber} from "./util/toPageNumber.ts";
+import {KeywordFacetLabel} from "./KeywordFacetLabel.tsx";
 
 export function SearchResults(props: {
   facets: Facets;
@@ -27,7 +22,6 @@ export function SearchResults(props: {
     onSearch
   } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
   const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
   const {
     searchUrlParams, setSearchUrlParams,
@@ -131,36 +125,17 @@ export function SearchResults(props: {
           </div>
         </div>
         <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
-          {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && (
-              <>
-                <span className="text-brand1Grey-600 text-sm">{translate("FILTERS")}: </span>
-                {keywordFacets.map(([facet, facetOptions]) => {
-                  return Object.keys(facetOptions).map(
-                      (option, index) => {
-                        if (searchQuery.terms[facet]?.includes(option)) {
-                          return (
-                              <div
-                                  className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
-                                  key={index}
-                              >
-                                {translateProject(facet)}:{" "}
-                                {/^[a-z]/.test(option)
-                                    ? option.charAt(0).toUpperCase() + option.slice(1)
-                                    : translateProject(option)}{" "}
-                                {
-                                  <XMarkIcon
-                                      className="h-5 w-5"
-                                      onClick={() => removeFacet(facet, option)}
-                                  />
-                                }
-                              </div>
-                          );
-                        }
-                      },
-                  );
-                })}
-              </>
-          )}
+          {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && <>
+            <span className="text-brand1Grey-600 text-sm">{translate("FILTERS")}: </span>
+            {keywordFacets.map(([facet, facetOptions]) => _.keys(facetOptions)
+                .filter(option => searchQuery.terms[facet]?.includes(option))
+                .map((option, i) => <KeywordFacetLabel
+                    key={i}
+                    option={option}
+                    facet={facet}
+                    onRemove={removeFacet}
+                />))}
+          </>}
 
           <SearchPagination
               prevPageClickHandler={selectPrevPage}
@@ -187,3 +162,4 @@ export function SearchResults(props: {
       </div>
   );
 }
+
