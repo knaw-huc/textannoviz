@@ -128,7 +128,7 @@ export function SearchResults(props: {
             {projectConfig.showSearchSortBy && (
                 <SearchSortBy
                     onChange={updateSorting}
-                    value="_score"
+                    value={searchUrlParams.sortBy}
                 />
             )}
 
