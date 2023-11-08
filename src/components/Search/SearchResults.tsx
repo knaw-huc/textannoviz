@@ -1,5 +1,4 @@
-import {Facet, FacetOptionName, SearchResult, Terms} from "../../model/Search.ts";
-import {ChangeEvent} from "react";
+import {FacetName, FacetOptionName, Facets} from "../../model/Search.ts";
 import {projectConfigSelector, translateProjectSelector, useProjectStore} from "../../stores/project.ts";
 import {SearchSortBy} from "./SearchSortBy.tsx";
 import {SearchResultsPerPage} from "./SearchResultsPerPage.tsx";
@@ -7,56 +6,139 @@ import {XMarkIcon} from "@heroicons/react/24/solid";
 import {SearchPagination} from "./SearchPagination.tsx";
 import {SearchItem} from "./SearchItem.tsx";
 import * as _ from "lodash";
+import {useSearchStore} from "../../stores/search/search-store.ts";
+import {ChangeEvent} from "react";
+import {SortOrder} from "../../stores/search/search-params-slice.ts";
+import {toast} from "react-toastify";
+import {filterFacetByTypeSelector} from "../../stores/search/search-query-slice.ts";
+import {removeTerm} from "./util/removeTerm.ts";
+import {toPageNumber} from "./util/toPageNumber.ts";
 
 export function SearchResults(props: {
-  sortByChangeHandler: any;
-  keywordFacets: [string, Facet][];
-  searchResults: SearchResult;
-  selectedFacets: Terms;
-  resultsStart: number
-  pageSize: number
-  pageNumber: number
-  clickPrevPage: () => Promise<void>;
-  clickNextPage: () => Promise<void>;
-  changePageSize: (event: ChangeEvent<HTMLSelectElement>) => void;
-  removeFacet: (facetName: string, facetOptionName: FacetOptionName) => void;
+  facets: Facets;
+  setDirty: (dirty: boolean) => void;
 }) {
-  const searchResults = props.searchResults;
+
+  const {facets, setDirty} = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
+  const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
+  const {
+    searchUrlParams, setSearchUrlParams,
+    searchQuery, setSearchQuery,
+    searchResult
+  } = useSearchStore();
 
+  const resultsStart = searchUrlParams.from + 1;
+  const pageSize = searchUrlParams.size;
+  const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
+  const keywordFacets = filterFacetsByType(facets, "keyword");
+
+  function updateSorting(event: ChangeEvent<HTMLSelectElement>) {
+    const selectedValue = event.currentTarget.value;
+
+    let sortBy = "_score";
+    let sortOrder: SortOrder = "desc";
+
+    if (filterFacetsByType(facets, "date") && (filterFacetsByType(facets, "date"))[0]) {
+      const facetName = (filterFacetsByType(facets, "date"))[0][0];
+
+      if (selectedValue === "dateAsc" || selectedValue === "dateDesc") {
+        sortBy = facetName;
+        sortOrder = selectedValue === "dateAsc" ? "asc" : "desc";
+      }
+    } else {
+      toast(
+          "Sorting on date is not possible with the current search results.",
+          {type: "info"},
+      );
+    }
+    setSearchUrlParams({
+      ...searchUrlParams,
+      sortBy,
+      sortOrder
+    })
+  }
+
+  async function selectPrevPage() {
+    const newFrom = searchUrlParams.from - searchUrlParams.size;
+    if (!searchResult || newFrom <= 0) {
+      return;
+    }
+    await selectPage(newFrom);
+  }
+
+  async function selectNextPage() {
+    const newFrom = searchUrlParams.from + searchUrlParams.size;
+    if (!searchResult || newFrom >= searchResult.total.value) {
+      return;
+    }
+    await selectPage(newFrom)
+  }
+
+  async function selectPage(newFrom: number) {
+    setSearchUrlParams({
+      ...searchUrlParams,
+      from: newFrom
+    });
+    setDirty(true);
+  }
+
+  const changePageSize = (
+      event: ChangeEvent<HTMLSelectElement>,
+  ) => {
+    if (!event.currentTarget.value) {
+      return;
+    }
+    setSearchUrlParams({
+      ...searchUrlParams,
+      size: parseInt(event.currentTarget.value)
+    });
+  };
+
+  function removeFacet(facet: FacetName, option: FacetOptionName) {
+    const newTerms = structuredClone(searchQuery.terms);
+    removeTerm(newTerms, facet, option);
+    setSearchQuery({...searchQuery, terms: newTerms});
+    setSearchUrlParams({...searchUrlParams, from: 0});
+    setDirty(true);
+  }
+
+  if (!searchResult) {
+    return null;
+  }
+  const resultsEnd = Math.min(
+      resultsStart + pageSize - 1,
+      searchResult.total.value,
+  );
   return (
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
         <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
-              {searchResults &&
-                  `${props.resultsStart}-${Math.min(
-                      props.resultsStart + props.pageSize -1,
-                      searchResults.total.value,
-                  )} of ${searchResults.total.value} results`}
+              {`${resultsStart}-${resultsEnd} of ${searchResult.total.value} results`}
             </span>
           <div className="flex items-center justify-between gap-10">
-            {projectConfig.showSearchSortBy ? (
+            {projectConfig.showSearchSortBy && (
                 <SearchSortBy
-                    onChange={props.sortByChangeHandler}
+                    onChange={updateSorting}
                     value="_score"
                 />
-            ) : null}
+            )}
 
             <SearchResultsPerPage
-                onChange={props.changePageSize}
-                value={props.pageSize}
+                onChange={changePageSize}
+                value={pageSize}
             />
           </div>
         </div>
         <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
-          {projectConfig.showSelectedFilters && !_.isEmpty(props.keywordFacets) && (
+          {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && (
               <>
                 <span className="text-brand1Grey-600 text-sm">Filters: </span>
-                {props.keywordFacets.map(([facet, facetOptions]) => {
+                {keywordFacets.map(([facet, facetOptions]) => {
                   return Object.keys(facetOptions).map(
                       (option, index) => {
-                        if (props.selectedFacets[facet]?.includes(option)) {
+                        if (searchQuery.terms[facet]?.includes(option)) {
                           return (
                               <div
                                   className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
@@ -69,7 +151,7 @@ export function SearchResults(props: {
                                 {
                                   <XMarkIcon
                                       className="h-5 w-5"
-                                      onClick={() => props.removeFacet(facet, option)}
+                                      onClick={() => removeFacet(facet, option)}
                                   />
                                 }
                               </div>
@@ -82,26 +164,26 @@ export function SearchResults(props: {
           )}
 
           <SearchPagination
-              prevPageClickHandler={props.clickPrevPage}
-              nextPageClickHandler={props.clickNextPage}
-              pageNumber={props.pageNumber}
-              searchResults={searchResults}
-              elasticSize={props.pageSize}
+              prevPageClickHandler={selectPrevPage}
+              nextPageClickHandler={selectNextPage}
+              pageNumber={pageNumber}
+              searchResult={searchResult}
+              elasticSize={pageSize}
           />
         </div>
-        {searchResults.results.length >= 1 ? (
-            searchResults.results.map((result, index) => (
+        {searchResult.results.length >= 1 ? (
+            searchResult.results.map((result, index) => (
                 <SearchItem key={index} result={result}/>
             ))
         ) : (
             <projectConfig.components.SearchInfoPage/>
         )}
         <SearchPagination
-            prevPageClickHandler={props.clickPrevPage}
-            nextPageClickHandler={props.clickNextPage}
-            pageNumber={props.pageNumber}
-            searchResults={searchResults}
-            elasticSize={props.pageSize}
+            prevPageClickHandler={selectPrevPage}
+            nextPageClickHandler={selectNextPage}
+            pageNumber={pageNumber}
+            searchResult={searchResult}
+            elasticSize={pageSize}
         />
       </div>
   );
