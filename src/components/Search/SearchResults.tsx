@@ -130,7 +130,7 @@ export function SearchResults(props: {
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
         <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
-              {`${resultStartEnd}${searchResult.total.value} ${translate("RESULTS").toLowerCase()}`}
+              {`${resultStartEnd} ${searchResult.total.value} ${translate("RESULTS").toLowerCase()}`}
             </span>
           <div className="flex items-center justify-between gap-10">
             {projectConfig.showSearchSortBy && (
