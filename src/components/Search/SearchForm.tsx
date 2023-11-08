@@ -53,7 +53,6 @@ export function SearchForm(props: {
     }
     setSearchQuery({...searchQuery, terms: newTerms});
     setSearchUrlParams({...searchUrlParams, from: 0});
-    setDirty(true);
   }
 
   function goToQuery(query: SearchQueryRequestBody) {

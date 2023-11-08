@@ -2,7 +2,7 @@ import {Base64} from "js-base64";
 import React, {useEffect} from "react";
 import {useSearchParams} from "react-router-dom";
 import {Facets} from "../../model/Search";
-import {projectConfigSelector, useProjectStore,} from "../../stores/project.ts";
+import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
 import {SearchResults} from "./SearchResults.tsx";
@@ -11,6 +11,7 @@ import {createHighlights} from "./util/createHighlights.ts";
 import {QUERY} from "./SearchUrlParams.ts";
 import {addToUrlParams, getFromUrlParams} from "../../utils/UrlParamUtils.tsx";
 import {SearchForm} from "./SearchForm.tsx";
+import {toast} from "react-toastify";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -18,6 +19,7 @@ export const Search = () => {
   const [isDirty, setDirty] = React.useState(false);
   const [facets, setFacets] = React.useState<Facets>({});
   const [urlParams, setUrlParams] = useSearchParams();
+  const translate = useProjectStore(translateSelector);
   const {
     searchUrlParams, setSearchUrlParams,
     searchQuery, setSearchQuery,
@@ -48,13 +50,14 @@ export const Search = () => {
         ...queryDecoded
       };
       const newIndices = await getElasticIndices(projectConfig);
-      if (newIndices) {
-        newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
+      if (!newIndices) {
+        return toast(translate('NO_INDICES_FOUND'), { type: "error" });
       }
-      setSearchQuery(newSearchQuery);
+      newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      setSearchUrlParams(newSearchParams);
 
+      setSearchUrlParams(newSearchParams);
+      setSearchQuery(newSearchQuery);
       setInit(true);
       setDirty(true);
     }
@@ -84,12 +87,17 @@ export const Search = () => {
       if (!isDirty) {
         return;
       }
-      if (!searchQueryRequestBody.date?.from) {
+      if (!searchQuery.terms) {
         return;
       }
-      const data = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
-      if (!data) {
+      const searchResults = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
+      if (!searchResults) {
         return;
+      }
+      const data = await sendSearchQuery(projectConfig, searchUrlParams, {});
+      const newFacets = data?.aggs;
+      if(!newFacets) {
+        return toast(translate('NO_FACETS_FOUND'), { type: "error" });
       }
 
       const target = document.getElementById("searchContainer");
@@ -97,12 +105,9 @@ export const Search = () => {
         target.scrollIntoView({behavior: "smooth"});
       }
 
-      const toHighlight = createHighlights(data);
-      const newFacets = data?.aggs;
-
       setFacets(newFacets);
-      setTextToHighlight(toHighlight);
-      setSearchResults(data);
+      setTextToHighlight(createHighlights(searchResults));
+      setSearchResults(searchResults);
       setSearchUrlParams({...searchUrlParams});
       updateSearchQueryHistory(searchQuery);
       setDirty(false);
