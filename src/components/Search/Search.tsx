@@ -95,8 +95,8 @@ export const Search = () => {
         return;
       }
       const newFacets = searchResults?.aggs;
-      if(!newFacets) {
-        return toast(translate('NO_FACETS_FOUND'), { type: "error" });
+      if(newFacets) {
+        setFacets(newFacets);
       }
 
       const target = document.getElementById("searchContainer");
@@ -104,7 +104,6 @@ export const Search = () => {
         target.scrollIntoView({behavior: "smooth"});
       }
 
-      setFacets(newFacets);
       setTextToHighlight(createHighlights(searchResults));
       setSearchResults(searchResults);
       setSearchUrlParams({...searchUrlParams});
@@ -118,17 +117,23 @@ export const Search = () => {
     return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
   }
 
+  function handleNewSearch(stayOnPage?: boolean ) {
+    if(!stayOnPage) {
+      setSearchUrlParams({...searchUrlParams, from: 0});
+    }
+    setDirty(true)
+  }
   return (
       <div
           id="searchContainer"
           className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
       >
         <SearchForm
-            setDirty={setDirty}
+            onSearch={handleNewSearch}
             facets={facets}
         />
         <SearchResults
-            setDirty={setDirty}
+            onSearch={handleNewSearch}
             facets={facets}
         />
       </div>

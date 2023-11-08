@@ -18,12 +18,12 @@ import {KeywordFacet} from "./KeywordFacet.tsx";
 const searchFormClasses = "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
 
 export function SearchForm(props: {
-  setDirty: (dirty: boolean) => void,
+  onSearch: (stayOnPage?: boolean) => void,
   facets: Facets
 }) {
   const {
     facets,
-    setDirty
+    onSearch
   } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const queryHistory = useSearchStore(searchHistorySelector);
@@ -35,7 +35,7 @@ export function SearchForm(props: {
     searchResult
   } = useSearchStore();
 
-  function updateSelectedKeywordFacet(
+  function updateKeywordFacet(
       facetName: string,
       facetOptionName: string,
       selected: boolean,
@@ -52,7 +52,7 @@ export function SearchForm(props: {
       }
     }
     setSearchQuery({...searchQuery, terms: newTerms});
-    setSearchUrlParams({...searchUrlParams, from: 0});
+    onSearch();
   }
 
   function goToQuery(query: SearchQueryRequestBody) {
@@ -60,6 +60,7 @@ export function SearchForm(props: {
       searchParams.set(QUERY, Base64.toBase64(JSON.stringify(query)));
       return searchParams;
     });
+    onSearch()
   }
 
   const updateFragmenter = (
@@ -72,13 +73,27 @@ export function SearchForm(props: {
       ...searchUrlParams,
       fragmenter: event.currentTarget.value
     });
+    onSearch()
   };
+
+  function updateFullText(value: string) {
+    setSearchQuery({...searchQuery, fullText: value});
+  }
+
+  function updateDateTo(update: string) {
+    setSearchQuery({...searchQuery, dateTo: update});
+    onSearch()
+  }
+  function updateDateFrom(update: string) {
+    setSearchQuery({...searchQuery, dateFrom: update});
+    onSearch()
+  }
 
   return <div className={searchFormClasses}>
     <FullTextSearchBar
         fullText={searchQuery.fullText}
-        onSubmit={() => setDirty(true)}
-        updateFullText={(value) => setSearchQuery({...searchQuery, fullText: value})}
+        onSubmit={() => onSearch()}
+        updateFullText={updateFullText}
     />
 
     {searchResult && (
@@ -108,8 +123,8 @@ export function SearchForm(props: {
             key={index}
             dateFrom={searchQuery.dateFrom}
             dateTo={searchQuery.dateTo}
-            changeDateTo={update => setSearchQuery({...searchQuery, dateTo: update})}
-            changeDateFrom={update => setSearchQuery({...searchQuery, dateFrom: update})}
+            changeDateTo={updateDateTo}
+            changeDateFrom={updateDateFrom}
         />)
     )}
 
@@ -120,7 +135,7 @@ export function SearchForm(props: {
                 facetName={facetName}
                 facet={facetValue}
                 selectedFacets={searchQuery.terms}
-                onChangeKeywordFacet={updateSelectedKeywordFacet}
+                onChangeKeywordFacet={updateKeywordFacet}
             />
         ))
     )}

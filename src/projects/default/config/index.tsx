@@ -1,6 +1,7 @@
 import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 import {englishLabels} from "./englishLabels.ts";
 import {Empty} from "../../../components/Empty.tsx";
+import {Placeholder} from "../../../components/Placeholder.tsx";
 
 /**
  * Default configuration file with some sensible defaults
@@ -42,7 +43,7 @@ export const defaultConfig: Omit<ProjectConfig,
     AnnotationButtons: Empty,
     Help: Empty,
     MetadataPanel: Empty,
-    SearchInfoPage: Empty
+    SearchInfoPage: Placeholder
   },
   selectedLanguage: 'en',
   languages: [{

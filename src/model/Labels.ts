@@ -50,6 +50,8 @@ export type Labels = {
   INFO_FIRST_PAGE: string;
   INFO_LAST_PAGE: string;
 
-  NO_FACETS_FOUND: string
-  NO_INDICES_FOUND: string
+  NO_FACETS_FOUND: string;
+  NO_INDICES_FOUND: string;
+
+  NO_SEARCH_RESULTS: string
 };

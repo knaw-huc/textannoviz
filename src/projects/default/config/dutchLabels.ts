@@ -53,6 +53,7 @@ export const dutchLabels: Labels = {
   INFO_LAST_PAGE: "U heeft de laatste pagina bereikt",
 
   NO_FACETS_FOUND: "Geen search facets gevonden",
-  NO_INDICES_FOUND: "Geen zoek indices gevonden"
+  NO_INDICES_FOUND: "Geen zoek indices gevonden",
+  NO_SEARCH_RESULTS: "Geen zoekresultaten"
 
 };

@@ -21,10 +21,13 @@ import {toPageNumber} from "./util/toPageNumber.ts";
 
 export function SearchResults(props: {
   facets: Facets;
-  setDirty: (dirty: boolean) => void;
+  onSearch: (stayOnPage?: boolean) => void,
 }) {
 
-  const {facets, setDirty} = props;
+  const {
+    facets,
+    onSearch
+  } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
@@ -62,9 +65,9 @@ export function SearchResults(props: {
     setSearchUrlParams({
       ...searchUrlParams,
       sortBy,
-      sortOrder,
-      from: 0
+      sortOrder
     })
+    onSearch();
   }
 
   async function selectPrevPage() {
@@ -88,7 +91,7 @@ export function SearchResults(props: {
       ...searchUrlParams,
       from: newFrom
     });
-    setDirty(true);
+    onSearch(true)
   }
 
   const changePageSize = (
@@ -101,14 +104,15 @@ export function SearchResults(props: {
       ...searchUrlParams,
       size: parseInt(event.currentTarget.value)
     });
+    onSearch()
   };
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
     const newTerms = structuredClone(searchQuery.terms);
     removeTerm(newTerms, facet, option);
     setSearchQuery({...searchQuery, terms: newTerms});
-    setSearchUrlParams({...searchUrlParams, from: 0});
-    setDirty(true);
+    setSearchUrlParams({...searchUrlParams});
+    onSearch()
   }
 
   if (!searchResult) {
@@ -118,11 +122,15 @@ export function SearchResults(props: {
       resultsStart + pageSize - 1,
       searchResult.total.value,
   );
+  const resultStartEnd = searchResult.total.value
+      ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
+      : '';
+
   return (
       <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
         <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
-              {`${resultsStart}-${resultsEnd} of ${searchResult.total.value} results`}
+              {`${resultStartEnd}${searchResult.total.value} ${translate("RESULTS").toLowerCase()}`}
             </span>
           <div className="flex items-center justify-between gap-10">
             {projectConfig.showSearchSortBy && (
