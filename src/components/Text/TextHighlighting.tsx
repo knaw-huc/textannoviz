@@ -1,20 +1,24 @@
-import { useParams } from "react-router-dom";
+import mirador from "mirador";
+import { toast } from "react-toastify";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
-import { useProjectStore } from "../../stores/project";
-import { useSearchStore } from "../../stores/search";
+import { useAnnotationStore } from "../../stores/annotation";
+import { useMiradorStore } from "../../stores/mirador";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
 };
 
 export const TextHighlighting = (props: TextHighlightingProps) => {
-  const textToHighlight = useSearchStore((state) => state.textToHighlight);
-
-  const projectName = useProjectStore((state) => state.projectName);
+  const annotations = useAnnotationStore((state) => state.annotations);
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const miradorStore = useMiradorStore((state) => state.miradorStore);
+  const canvas = useMiradorStore((state) => state.canvas);
+  const classes = new Map<number, string[]>();
 
   const textLinesToDisplay: string[][] = [[]];
-
-  const params = useParams();
 
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {
@@ -23,45 +27,160 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
   });
 
-  function highlightMatches(text: string) {
-    let result = <p className="m-0 p-0">{text}</p>;
-
-    if (textToHighlight && params.tier2) {
-      if (textToHighlight.get(params.tier2)) {
-        const toHighlightStrings = textToHighlight.get(params.tier2);
-        const regexString = toHighlightStrings
-          ?.map((string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-          .join("|");
-        const regex = new RegExp(`${regexString}`, "g");
-
-        result = (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: text.replace(
-                regex,
-                '<span class="rounded bg-yellow-200 p-1">$&</span>',
-              ),
-            }}
-          />
-        );
+  if (props.text.locations) {
+    props.text.locations.annotations.forEach((it) => {
+      for (let i = it.start.line; i <= it.end.line; i++) {
+        if (classes.has(i)) {
+          classes.get(i)?.push(it.bodyId);
+        } else {
+          classes.set(i, [it.bodyId]);
+        }
       }
-      return result;
-    } else {
-      if (projectName === "republic") {
-        return <p className="m-0 p-0">{text}</p>;
+    });
+  }
+
+  //   let offset = 0;
+
+  //   function doOffset(length: number) {
+  //     offset = offset + length;
+  //     console.log(offset);
+  //   }
+
+  function collectClasses(index: number) {
+    const collectedClasses = new Set<string>();
+    annotations.map((anno) => {
+      const indexClasses = classes.get(index);
+      if (indexClasses?.includes(anno.body.id)) {
+        indexClasses.forEach((indexClass) => collectedClasses.add(indexClass));
+        if (anno.body.id.includes("resolution")) {
+          collectedClasses.add("underlined-resolution");
+        } else {
+          collectedClasses.add(anno.body.id);
+        }
+        if (anno.body.id.includes("attendance_list")) {
+          collectedClasses.add("underlined-attendancelist");
+        } else {
+          collectedClasses.add(anno.body.id);
+        }
+        if (anno.body.id.includes("attendant")) {
+          collectedClasses.add("underlined-attendant");
+        } else {
+          collectedClasses.add(anno.body.id);
+        }
+        if (anno.body.id.includes("para")) {
+          collectedClasses.add("underlined-reviewed");
+        } else {
+          collectedClasses.add(anno.body.id);
+        }
       } else {
-        return <span>{text}</span>;
+        const indexClass = classes.get(index);
+        if (typeof indexClass === "object") {
+          collectedClasses.add(indexClass.join(" "));
+        }
       }
+    });
+
+    let classesAsStr = "";
+
+    collectedClasses.forEach(
+      (it: string) => (classesAsStr = classesAsStr.concat(it) + " "),
+    );
+
+    return classesAsStr;
+  }
+
+  function updateMirador(bodyId: string, annotation: AnnoRepoAnnotation) {
+    miradorStore.dispatch(
+      mirador.actions.selectAnnotation(`${projectConfig.id}`, bodyId),
+    );
+
+    const zoom = zoomAnnMirador(annotation, canvas.canvasIds[0]);
+
+    if (zoom) {
+      miradorStore.dispatch(
+        mirador.actions.updateViewport(`${projectConfig.id}`, {
+          x: zoom.zoomCenter.x,
+          y: zoom.zoomCenter.y,
+          zoom: 1 / zoom.miradorZoom,
+        }),
+      );
+    }
+  }
+
+  function findAnnotationIdInClassNames(
+    identifier: string,
+    classListArray: string[],
+  ) {
+    const bodyId = classListArray.find((className) =>
+      className.includes(identifier),
+    );
+
+    const annotation = annotations.find((anno) => anno.body.id === bodyId);
+
+    toast(`You clicked on annotation ${bodyId}`, { type: "info" });
+
+    if (bodyId && annotation) {
+      updateMirador(bodyId, annotation);
+    }
+  }
+
+  function spanClickHandler(
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+  ) {
+    const classListArray = Array.from(
+      (event.currentTarget as HTMLSpanElement).classList,
+    );
+
+    if (
+      (event.currentTarget as HTMLSpanElement).classList.contains(
+        "underlined-resolution",
+      )
+    ) {
+      findAnnotationIdInClassNames("-resolution", classListArray);
+    }
+
+    if (
+      (event.currentTarget as HTMLSpanElement).classList.contains(
+        "underlined-attendancelist",
+      )
+    ) {
+      findAnnotationIdInClassNames("-attendance_list", classListArray);
+    }
+
+    if (
+      (event.currentTarget as HTMLSpanElement).classList.contains(
+        "underlined-attendant",
+      )
+    ) {
+      findAnnotationIdInClassNames("-attendant-", classListArray);
+    }
+
+    if (
+      (event.currentTarget as HTMLSpanElement).classList.contains(
+        "underlined-reviewed",
+      )
+    ) {
+      findAnnotationIdInClassNames("-para-", classListArray);
     }
   }
 
   return (
-    <>
-      {textLinesToDisplay.map((lines, index) => (
-        <div key={index} className="leading-loose">
-          {lines.map((line) => highlightMatches(line))}
+    <div>
+      {textLinesToDisplay.map((line, key) => (
+        <div key={key} className="grid leading-loose">
+          {classes.size >= 1
+            ? line.map((token, index) => (
+                <span
+                  key={index}
+                  className={collectClasses(index) + "w-fit"}
+                  onClick={(event) => spanClickHandler(event)}
+                >
+                  {token}
+                </span>
+              ))
+            : line.map((token, index) => <span key={index}>{token}</span>)}
         </div>
       ))}
-    </>
+    </div>
   );
 };

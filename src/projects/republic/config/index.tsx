@@ -24,7 +24,7 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
     "AttendanceList",
     "Attendant",
     "Resolution",
-    // "Reviewed",
+    "Reviewed",
     "Session",
     // "TextRegion",
     "Scan",
