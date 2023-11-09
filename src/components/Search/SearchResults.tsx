@@ -6,7 +6,7 @@ import {SearchPagination} from "./SearchPagination.tsx";
 import {SearchItem} from "./SearchItem.tsx";
 import * as _ from "lodash";
 import {useSearchStore} from "../../stores/search/search-store.ts";
-import {ChangeEvent} from "react";
+import {ChangeEvent, ReactNode} from "react";
 import {filterFacetByTypeSelector} from "../../stores/search/search-query-slice.ts";
 import {removeTerm} from "./util/removeTerm.ts";
 import {toPageNumber} from "./util/toPageNumber.ts";
@@ -14,7 +14,7 @@ import {KeywordFacetLabel} from "./KeywordFacetLabel.tsx";
 
 export function SearchResults(props: {
   facets: Facets;
-  onSearch: (stayOnPage?: boolean) => void,
+  onSearch: (stayOnPage?: boolean) => void
 }) {
 
   const {
@@ -89,7 +89,7 @@ export function SearchResults(props: {
     onSearch()
   }
 
-  if (!searchResult) {
+  if(!searchResult) {
     return null;
   }
   const resultsEnd = Math.min(
@@ -99,9 +99,8 @@ export function SearchResults(props: {
   const resultStartEnd = searchResult.total.value
       ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
       : '';
-
   return (
-      <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
+      <SearchResultsColumn>
         <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
               {`${resultStartEnd} ${searchResult.total.value} ${translate("RESULTS").toLowerCase()}`}
@@ -145,12 +144,10 @@ export function SearchResults(props: {
               elasticSize={pageSize}
           />
         </div>
-        {searchResult.results.length >= 1 ? (
+        {searchResult.results.length >= 1 && (
             searchResult.results.map((result, index) => (
                 <SearchItem key={index} result={result}/>
             ))
-        ) : (
-            <projectConfig.components.SearchInfoPage/>
         )}
         <SearchPagination
             prevPageClickHandler={selectPrevPage}
@@ -159,7 +156,12 @@ export function SearchResults(props: {
             searchResult={searchResult}
             elasticSize={pageSize}
         />
-      </div>
+      </SearchResultsColumn>
   );
 }
 
+export function SearchResultsColumn(props: {children?: ReactNode}) {
+  return <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
+    {props.children}
+  </div>
+}

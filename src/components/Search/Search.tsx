@@ -5,7 +5,7 @@ import {Facets} from "../../model/Search";
 import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
-import {SearchResults} from "./SearchResults.tsx";
+import {SearchResults, SearchResultsColumn} from "./SearchResults.tsx";
 import {queryBodySelector, SearchQuery} from "../../stores/search/search-query-slice.ts";
 import {createHighlights} from "./util/createHighlights.ts";
 import {QUERY} from "./SearchUrlParams.ts";
@@ -55,7 +55,7 @@ export const Search = () => {
       };
       const newIndices = await getElasticIndices(projectConfig);
       if (!newIndices) {
-        return toast(translate('NO_INDICES_FOUND'), { type: "error" });
+        return toast(translate('NO_INDICES_FOUND'), {type: "error"});
       }
       newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
@@ -64,7 +64,7 @@ export const Search = () => {
       setSearchQuery(newSearchQuery);
       setInit(true);
       setDirty(true);
-      if(queryDecoded.fullText) {
+      if (queryDecoded.fullText) {
         setShowingResults(true);
       }
     }
@@ -76,9 +76,11 @@ export const Search = () => {
 
     function syncUrlWithSearchParams() {
       const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
+
       function skipEmptyValues(_: string, v: any) {
         return [null, ""].includes(v) ? undefined : v;
       }
+
       const newUrlParams = addToUrlParams(urlParams, {
         ...searchUrlParams,
         query: Base64.toBase64(cleanQuery)
@@ -102,10 +104,9 @@ export const Search = () => {
         return;
       }
       const newFacets = searchResults?.aggs;
-      if(newFacets) {
+      if (newFacets) {
         setFacets(newFacets);
       }
-
       const target = document.getElementById("searchContainer");
       if (target) {
         target.scrollIntoView({behavior: "smooth"});
@@ -124,13 +125,14 @@ export const Search = () => {
     return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
   }
 
-  function handleNewSearch(stayOnPage?: boolean ) {
-    if(!stayOnPage) {
+  function handleNewSearch(stayOnPage?: boolean) {
+    if (!stayOnPage) {
       resetPage();
     }
     setDirty(true);
     setShowingResults(true);
   }
+
   return (
       <div
           id="searchContainer"
@@ -140,10 +142,18 @@ export const Search = () => {
             onSearch={handleNewSearch}
             facets={facets}
         />
-        {isShowingResults && <SearchResults
-            onSearch={handleNewSearch}
-            facets={facets}
-        />}
+        <SearchResultsColumn>
+          {/* prevent flickering by adding isInit: */}
+          {!isShowingResults && isInit &&
+              <projectConfig.components.SearchInfoPage/>
+          }
+          {isShowingResults && !isDirty &&
+              <SearchResults
+                  onSearch={handleNewSearch}
+                  facets={facets}
+              />
+          }
+        </SearchResultsColumn>
       </div>
   );
 }

@@ -1,6 +1,5 @@
 import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 import {englishLabels} from "./englishLabels.ts";
-import {translateSelector, useProjectStore} from "../../../stores/project.ts";
 import {Placeholder} from "../../../components/Placeholder.tsx";
 
 /**
@@ -43,10 +42,7 @@ export const defaultConfig: Omit<ProjectConfig,
     AnnotationButtons: Placeholder,
     Help: Placeholder,
     MetadataPanel: Placeholder,
-    SearchInfoPage: () => {
-      const translate = useProjectStore(translateSelector);
-      return <>{translate('NO_SEARCH_RESULTS')}</>
-    }
+    SearchInfoPage: Placeholder
   },
   selectedLanguage: 'en',
   languages: [{
