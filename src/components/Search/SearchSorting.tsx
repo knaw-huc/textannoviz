@@ -39,12 +39,12 @@ export const SearchSorting = (props: SearchSortByProps) => {
 
   function handleDateSorting(selectedOrder: SortOrder) {
     const dateFacets = props.dateFacets;
-    const facetName = dateFacets[0][0];
     if (!dateFacets.length) {
-      toast("Sorting on date is not possible with the current search results");
+      toast("No dace facets available to sort by");
       props.onSort(defaultSorting);
       return;
     }
+    const facetName = dateFacets[0][0];
     props.onSort({
       field: facetName,
       order: selectedOrder
