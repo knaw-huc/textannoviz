@@ -2,7 +2,7 @@ import {SearchResult} from "../../model/Search.ts";
 import {StateCreator} from "zustand";
 
 export type SearchResultsSlice = {
-  searchResult: SearchResult | undefined;
+  searchResults: SearchResult | undefined;
   setSearchResults: (update: SearchResult) => void;
 };
 
@@ -12,6 +12,6 @@ export const createSearchResultsSlice: StateCreator<
     [],
     SearchResultsSlice
 > = (set) => ({
-  searchResult: undefined,
-  setSearchResults: (update) => set(() => ({ searchResult: update }))
+  searchResults: undefined,
+  setSearchResults: (update) => set(() => ({ searchResults: update }))
 });

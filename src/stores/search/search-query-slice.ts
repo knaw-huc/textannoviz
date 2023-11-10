@@ -1,10 +1,11 @@
 import {StateCreator} from "zustand";
-import {EsIndex, Facet, Facets, SearchQueryRequestBody, Terms} from "../../model/Search.ts";
+import {EsIndex, Facet, FacetName, Facets, SearchQueryRequestBody, Terms} from "../../model/Search.ts";
 
 /**
  * Parameters used to generate a search request body
  */
 export type SearchQuery = {
+  dateFacet: FacetName | false;
   dateFrom: string;
   dateTo: string;
   index: EsIndex
@@ -23,12 +24,13 @@ export const createSearchQuerySlice: StateCreator<
     SearchQuerySlice, [], [], SearchQuerySlice
 > = (set) => ({
   searchQuery: {
+    dateFacet: false,
     dateFrom: "",
     dateTo: "",
     index: {},
     fullText: "",
     terms: {}
-  } as SearchQuery,
+  },
   queryHistory: [],
   setSearchQuery: update => set((prev) => ({
     ...prev,
@@ -53,15 +55,24 @@ export const searchHistorySelector = (
   return state.queryHistory.map(params => createSearchQueryRquestBody(params));
 }
 
-export const filterFacetByTypeSelector = (state: SearchQuerySlice) => (
+export const filterFacetByTypeSelector = (
+    state: SearchQuerySlice
+) => (
+    facets: Facets,
+    type: "keyword" | "date"
+) => {
+  return filterFacetsByType(state.searchQuery.index, facets, type);
+}
+export function filterFacetsByType(
+    index: EsIndex,
     facets: Facets,
     type: "keyword" | "date",
-): [string, Facet][] => {
-  if(!facets) {
+): [string, Facet][] {
+  if(!facets || !index) {
     return [];
   }
   return Object.entries(facets).filter(([key]) => {
-    return state.searchQuery?.index[key] === type;
+    return index[key] === type;
   });
 }
 
@@ -80,11 +91,13 @@ export function createSearchQueryRquestBody(
 
   searchQuery.terms = query.terms;
 
-  searchQuery.date = {
-    name: "sessionDate",
-    from: query.dateFrom,
-    to: query.dateTo,
-  };
+  if(query.dateFacet) {
+    searchQuery.date = {
+      name: query.dateFacet,
+      from: query.dateFrom,
+      to: query.dateTo,
+    };
+  }
 
   return searchQuery;
 }

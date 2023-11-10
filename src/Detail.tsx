@@ -59,7 +59,7 @@ export const Detail = (props: DetailProps) => {
     (state) => state.annotationTypesToInclude,
   );
   const globalSearchResults = useSearchStore(
-    (state) => state.searchResult,
+    (state) => state.searchResults,
   );
   const params = useParams();
 

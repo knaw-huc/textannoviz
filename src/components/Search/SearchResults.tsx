@@ -26,7 +26,7 @@ export function SearchResults(props: {
   const {
     searchUrlParams, setSearchUrlParams,
     searchQuery, setSearchQuery,
-    searchResult
+    searchResults
   } = useSearchStore();
 
   const resultsStart = searchUrlParams.from + 1;
@@ -46,7 +46,7 @@ export function SearchResults(props: {
 
   async function selectPrevPage() {
     const newFrom = searchUrlParams.from - searchUrlParams.size;
-    if (!searchResult || newFrom < 0) {
+    if (!searchResults || newFrom < 0) {
       return;
     }
     await selectPage(newFrom);
@@ -54,7 +54,7 @@ export function SearchResults(props: {
 
   async function selectNextPage() {
     const newFrom = searchUrlParams.from + searchUrlParams.size;
-    if (!searchResult || newFrom >= searchResult.total.value) {
+    if (!searchResults || newFrom >= searchResults.total.value) {
       return;
     }
     await selectPage(newFrom)
@@ -89,21 +89,21 @@ export function SearchResults(props: {
     onSearch()
   }
 
-  if(!searchResult) {
+  if(!searchResults) {
     return null;
   }
   const resultsEnd = Math.min(
       resultsStart + pageSize - 1,
-      searchResult.total.value,
+      searchResults.total.value,
   );
-  const resultStartEnd = searchResult.total.value
+  const resultStartEnd = searchResults.total.value
       ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
       : '';
   return (
       <SearchResultsColumn>
         <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
-              {`${resultStartEnd} ${searchResult.total.value} ${translate("RESULTS").toLowerCase()}`}
+              {`${resultStartEnd} ${searchResults.total.value} ${translate("RESULTS").toLowerCase()}`}
             </span>
           <div className="flex items-center justify-between gap-10">
             {projectConfig.showSearchSortBy && (
@@ -140,12 +140,12 @@ export function SearchResults(props: {
               prevPageClickHandler={selectPrevPage}
               nextPageClickHandler={selectNextPage}
               pageNumber={pageNumber}
-              searchResult={searchResult}
+              searchResult={searchResults}
               elasticSize={pageSize}
           />
         </div>
-        {searchResult.results.length >= 1 && (
-            searchResult.results.map((result, index) => (
+        {searchResults.results.length >= 1 && (
+            searchResults.results.map((result, index) => (
                 <SearchItem key={index} result={result}/>
             ))
         )}
@@ -153,7 +153,7 @@ export function SearchResults(props: {
             prevPageClickHandler={selectPrevPage}
             nextPageClickHandler={selectNextPage}
             pageNumber={pageNumber}
-            searchResult={searchResult}
+            searchResult={searchResults}
             elasticSize={pageSize}
         />
       </SearchResultsColumn>

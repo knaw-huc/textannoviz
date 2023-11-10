@@ -32,7 +32,7 @@ export function SearchForm(props: {
   const {
     searchUrlParams, setSearchUrlParams,
     searchQuery, setSearchQuery,
-    searchResult
+    searchResults
   } = useSearchStore();
 
   function updateKeywordFacet(
@@ -96,7 +96,7 @@ export function SearchForm(props: {
         updateFullText={updateFullText}
     />
 
-    {searchResult && (
+    {searchResults && (
         <NewSearchButton/>
     )}
 

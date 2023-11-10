@@ -6,12 +6,14 @@ import {projectConfigSelector, translateSelector, useProjectStore,} from "../../
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
 import {SearchResults, SearchResultsColumn} from "./SearchResults.tsx";
-import {queryBodySelector, SearchQuery} from "../../stores/search/search-query-slice.ts";
+import {filterFacetsByType, queryBodySelector, SearchQuery} from "../../stores/search/search-query-slice.ts";
 import {createHighlights} from "./util/createHighlights.ts";
 import {QUERY} from "./SearchUrlParams.ts";
 import {addToUrlParams, getFromUrlParams} from "../../utils/UrlParamUtils.tsx";
 import {SearchForm} from "./SearchForm.tsx";
 import {toast} from "react-toastify";
+import {SearchUrlParams} from "../../stores/search/search-params-slice.ts";
+import {ProjectConfig} from "../../model/ProjectConfig.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -57,8 +59,11 @@ export const Search = () => {
       if (!newIndices) {
         return toast(translate('NO_INDICES_FOUND'), {type: "error"});
       }
-      newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
+      const newFacets = await getFacets(projectConfig, newSearchParams);
+      setFacets(newFacets);
+      newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
+      newSearchQuery.dateFacet = filterFacetsByType(newSearchQuery.index, newFacets, "date")?.[0]?.[0];
 
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
@@ -103,10 +108,7 @@ export const Search = () => {
       if (!searchResults) {
         return;
       }
-      const newFacets = searchResults?.aggs;
-      if (newFacets) {
-        setFacets(newFacets);
-      }
+      setFacets(searchResults?.aggs);
       const target = document.getElementById("searchContainer");
       if (target) {
         target.scrollIntoView({behavior: "smooth"});
@@ -114,7 +116,6 @@ export const Search = () => {
 
       setTextToHighlight(createHighlights(searchResults));
       setSearchResults(searchResults);
-      setSearchUrlParams({...searchUrlParams});
       updateSearchQueryHistory(searchQuery);
       setDirty(false);
     }
@@ -157,3 +158,15 @@ export const Search = () => {
       </div>
   );
 }
+
+async function getFacets(
+    projectConfig: ProjectConfig,
+    searchUrlParams: SearchUrlParams
+) {
+  const searchResults = await sendSearchQuery(projectConfig, searchUrlParams, {});
+  if (!searchResults) {
+    throw new Error('No facets found');
+  }
+  return searchResults.aggs;
+}
+
