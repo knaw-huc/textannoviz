@@ -42,13 +42,6 @@ export const createSearchQuerySlice: StateCreator<
   }))
 });
 
-/**
- * Generate search query request body from search query parameters
- */
-export function queryBodySelector(state: SearchQuerySlice): SearchQueryRequestBody {
-  return createSearchQueryRquestBody(state.searchQuery);
-}
-
 export const filterFacetByTypeSelector = (
     state: SearchQuerySlice
 ) => (
@@ -70,7 +63,7 @@ export function filterFacetsByType(
   });
 }
 
-export function createSearchQueryRquestBody(
+export function toRequestBody(
     query: SearchQuery,
 ): SearchQueryRequestBody {
   if (!query || !query.index || !query.terms) {

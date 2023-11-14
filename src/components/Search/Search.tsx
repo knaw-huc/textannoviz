@@ -6,7 +6,7 @@ import {projectConfigSelector, translateSelector, useProjectStore,} from "../../
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
 import {SearchResults, SearchResultsColumn} from "./SearchResults.tsx";
-import {filterFacetsByType, queryBodySelector, SearchQuery} from "../../stores/search/search-query-slice.ts";
+import {filterFacetsByType, SearchQuery, toRequestBody} from "../../stores/search/search-query-slice.ts";
 import {createHighlights} from "./util/createHighlights.ts";
 import {QUERY} from "./SearchUrlParams.ts";
 import {addToUrlParams, getFromUrlParams} from "../../utils/UrlParamUtils.tsx";
@@ -32,7 +32,6 @@ export const Search = () => {
     searchQueryHistory, updateSearchQueryHistory,
     resetPage
   } = useSearchStore();
-  const searchQueryRequestBody = useSearchStore(queryBodySelector);
 
   useEffect(() => {
     initSearch();
@@ -69,7 +68,7 @@ export const Search = () => {
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
       if (queryDecoded?.fullText) {
-        await getSearchResults()
+        await getSearchResults(newSearchParams, newSearchQuery)
         setShowingResults(true);
       }
       setInit(true);
@@ -104,7 +103,7 @@ export const Search = () => {
     }
 
     async function searchWhenDirty() {
-      await getSearchResults();
+      await getSearchResults(searchUrlParams, searchQuery);
       if(!_.isEqual(_.last(searchQueryHistory), searchQuery)) {
         updateSearchQueryHistory(searchQuery);
       }
@@ -113,11 +112,15 @@ export const Search = () => {
 
   }, [isDirty]);
 
-  async function getSearchResults() {
+  async function getSearchResults(
+      params: SearchUrlParams,
+      query: SearchQuery
+  ) {
     if (!searchQuery.terms) {
       return;
     }
-    const searchResults = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
+    const searchResults = await sendSearchQuery(projectConfig, params, toRequestBody(query));
+    console.log('result hits?', searchResults?.results[0]._hits, params, query);
     if (!searchResults) {
       return;
     }
