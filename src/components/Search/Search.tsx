@@ -103,10 +103,11 @@ export const Search = () => {
     }
 
     async function searchWhenDirty() {
-      await getSearchResults(searchUrlParams, searchQuery);
-      if(!_.isEqual(_.last(searchQueryHistory), searchQuery)) {
+      const inHistory = searchQueryHistory.some(q => _.isEqual(q, searchQuery));
+      if(!inHistory) {
         updateSearchQueryHistory(searchQuery);
       }
+      await getSearchResults(searchUrlParams, searchQuery);
       setDirty(false);
     }
 
@@ -120,7 +121,6 @@ export const Search = () => {
       return;
     }
     const searchResults = await sendSearchQuery(projectConfig, params, toRequestBody(query));
-    console.log('result hits?', searchResults?.results[0]._hits, params, query);
     if (!searchResults) {
       return;
     }
