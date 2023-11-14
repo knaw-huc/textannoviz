@@ -1,11 +1,11 @@
-import { ProjectConfig } from "../../model/ProjectConfig";
-import { SearchQueryRequestBody } from "../../model/Search";
+import {ProjectConfig} from "../../model/ProjectConfig";
 import {translateProjectSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
 import {useState} from "react";
+import {SearchQuery} from "../../stores/search/search-query-slice.ts";
 
 type SearchQueryHistoryProps = {
-  queryHistory: SearchQueryRequestBody[];
-  goToQuery: (query: SearchQueryRequestBody) => void;
+  queryHistory: SearchQuery[];
+  goToQuery: (query: SearchQuery) => void;
   projectConfig: ProjectConfig;
   disabled: boolean;
 };
@@ -33,18 +33,18 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                 onClick={() => props.goToQuery(query)}
                 className="mb-4 cursor-pointer hover:underline"
               >
-                {query.text ? (
+                {query.fullText ? (
                   <div>
-                    <strong>{translate('TEXT')}: </strong> {query.text}
+                    <strong>{translate('TEXT')}: </strong> {query.fullText}
                   </div>
                 ) : null}
-                {query.date ? (
+                {query.dateFacet ? (
                   <>
                     <div>
-                      <strong>{translate('FROM')}: </strong> {query.date.from}
+                      <strong>{translate('FROM')}: </strong> {query.dateFrom}
                     </div>{" "}
                     <div>
-                      <strong>{translate('UP_TO_AND_INCLUDING')}: </strong> {query.date.to}
+                      <strong>{translate('UP_TO_AND_INCLUDING')}: </strong> {query.dateTo}
                     </div>
                   </>
                 ) : null}

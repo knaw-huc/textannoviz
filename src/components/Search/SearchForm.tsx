@@ -1,11 +1,8 @@
-import {Facets, SearchQueryRequestBody} from "../../model/Search.ts";
+import {Facets} from "../../model/Search.ts";
 import {projectConfigSelector, useProjectStore} from "../../stores/project.ts";
-import {useSearchParams} from "react-router-dom";
 import {useSearchStore} from "../../stores/search/search-store.ts";
-import {filterFacetByTypeSelector, searchHistorySelector} from "../../stores/search/search-query-slice.ts";
+import {filterFacetByTypeSelector, SearchQuery} from "../../stores/search/search-query-slice.ts";
 import {removeTerm} from "./util/removeTerm.ts";
-import {QUERY} from "./SearchUrlParams.ts";
-import {Base64} from "js-base64";
 import {ChangeEvent} from "react";
 import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
 import {NewSearchButton} from "./NewSearchButton.tsx";
@@ -26,9 +23,9 @@ export function SearchForm(props: {
     onSearch
   } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
-  const queryHistory = useSearchStore(searchHistorySelector);
+  const queryHistory = useSearchStore(state => state.searchQueryHistory);
   const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
-  const setUrlParams = useSearchParams()[1];
+
   const {
     searchUrlParams, setSearchUrlParams,
     searchQuery, setSearchQuery,
@@ -55,11 +52,8 @@ export function SearchForm(props: {
     onSearch();
   }
 
-  function goToQuery(query: SearchQueryRequestBody) {
-    setUrlParams(searchParams => {
-      searchParams.set(QUERY, Base64.toBase64(JSON.stringify(query)));
-      return searchParams;
-    });
+  function goToQuery(query: SearchQuery) {
+    setSearchQuery(query);
     onSearch()
   }
 

@@ -14,6 +14,7 @@ import {SearchForm} from "./SearchForm.tsx";
 import {toast} from "react-toastify";
 import {SearchUrlParams} from "../../stores/search/search-params-slice.ts";
 import {ProjectConfig} from "../../model/ProjectConfig.ts";
+import * as _ from "lodash";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -28,7 +29,7 @@ export const Search = () => {
     searchQuery, setSearchQuery,
     setSearchResults,
     setTextToHighlight,
-    updateSearchQueryHistory,
+    searchQueryHistory, updateSearchQueryHistory,
     resetPage
   } = useSearchStore();
   const searchQueryRequestBody = useSearchStore(queryBodySelector);
@@ -104,7 +105,9 @@ export const Search = () => {
 
     async function searchWhenDirty() {
       await getSearchResults();
-      updateSearchQueryHistory(searchQuery);
+      if(!_.isEqual(_.last(searchQueryHistory), searchQuery)) {
+        updateSearchQueryHistory(searchQuery);
+      }
       setDirty(false);
     }
 

@@ -15,7 +15,7 @@ export type SearchQuery = {
 
 export type SearchQuerySlice = {
   searchQuery: SearchQuery;
-  queryHistory: SearchQuery[];
+  searchQueryHistory: SearchQuery[];
   setSearchQuery: (update: SearchQuery) => void;
   updateSearchQueryHistory: (update: SearchQuery) => void;
 };
@@ -31,14 +31,14 @@ export const createSearchQuerySlice: StateCreator<
     fullText: "",
     terms: {}
   },
-  queryHistory: [],
+  searchQueryHistory: [],
   setSearchQuery: update => set((prev) => ({
     ...prev,
     searchQuery: update
   })),
   updateSearchQueryHistory: (update: SearchQuery) =>  set(prev => ({
     ...prev,
-    queryHistory: [...prev.queryHistory, update]
+    searchQueryHistory: [...prev.searchQueryHistory, update]
   }))
 });
 
@@ -47,12 +47,6 @@ export const createSearchQuerySlice: StateCreator<
  */
 export function queryBodySelector(state: SearchQuerySlice): SearchQueryRequestBody {
   return createSearchQueryRquestBody(state.searchQuery);
-}
-
-export const searchHistorySelector = (
-    state: SearchQuerySlice
-): SearchQueryRequestBody[] => {
-  return state.queryHistory.map(params => createSearchQueryRquestBody(params));
 }
 
 export const filterFacetByTypeSelector = (
