@@ -175,7 +175,7 @@ export const Search = () => {
 async function getFacets(
     projectConfig: ProjectConfig,
 ) {
-  const searchResults = await sendSearchQuery(projectConfig, {} as SearchUrlParams, {});
+  const searchResults = await sendSearchQuery(projectConfig, {size: 0}, {});
   if (!searchResults) {
     throw new Error('No facets found');
   }

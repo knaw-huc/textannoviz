@@ -62,7 +62,7 @@ export const selectDistinctBodyTypes = async (
 
 export const sendSearchQuery = async (
     projectConfig: ProjectConfig,
-    params: SearchUrlParams,
+    params: Partial<SearchUrlParams>,
     query: SearchQueryRequestBody
 ): Promise<SearchResult | null> => {
   const urlSearchParams = new URLSearchParams(params as any);
