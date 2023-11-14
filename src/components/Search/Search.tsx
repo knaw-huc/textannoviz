@@ -69,7 +69,7 @@ export const Search = () => {
       setSearchQuery(newSearchQuery);
       setInit(true);
       setDirty(true);
-      if (queryDecoded.fullText) {
+      if (queryDecoded?.fullText) {
         setShowingResults(true);
       }
     }
