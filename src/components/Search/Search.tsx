@@ -96,7 +96,12 @@ export const Search = () => {
 
   useEffect(() => {
     if (isDirty) {
-      getSearchResults();
+      searchWhenDirty();
+    }
+
+    async function searchWhenDirty() {
+      await getSearchResults();
+      updateSearchQueryHistory(searchQuery);
       setDirty(false);
     }
 
@@ -118,7 +123,6 @@ export const Search = () => {
 
     setTextToHighlight(createHighlights(searchResults));
     setSearchResults(searchResults);
-    updateSearchQueryHistory(searchQuery);
   }
 
   function getUrlQuery(urlParams: URLSearchParams): Partial<SearchQuery> {
