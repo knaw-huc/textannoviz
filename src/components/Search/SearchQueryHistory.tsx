@@ -24,7 +24,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
       >
         {translate('SEARCH_HISTORY')}
       </button>
-      {isOpen ? (
+      {isOpen && (
         <ol className="ml-6 mt-4 list-decimal">
           {props.queryHistory.length > 0 ? (
             props.queryHistory.slice(0, 10).map((query, index) => (
@@ -33,12 +33,12 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                 onClick={() => props.goToQuery(query)}
                 className="mb-4 cursor-pointer hover:underline"
               >
-                {query.fullText ? (
+                {query.fullText && (
                   <div>
                     <strong>{translate('TEXT')}: </strong> {query.fullText}
                   </div>
-                ) : null}
-                {query.dateFacet ? (
+                )}
+                {query.dateFacet && (
                   <>
                     <div>
                       <strong>{translate('FROM')}: </strong> {query.dateFrom}
@@ -47,8 +47,8 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                       <strong>{translate('UP_TO_AND_INCLUDING')}: </strong> {query.dateTo}
                     </div>
                   </>
-                ) : null}
-                {query.terms ? (
+                )}
+                {query.terms && (
                   <div>
                     {Object.keys(query.terms).length > 0 ? (
                       <strong>{translate('SELECTED_FACETS')}:</strong>
@@ -59,14 +59,14 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                       </div>
                     ))}
                   </div>
-                ) : null}
+                )}
               </li>
             ))
           ) : (
             <div>{translate('NO_SEARCH_HISTORY')}.</div>
           )}
         </ol>
-      ) : null}
+      )}
     </>
   );
 };
