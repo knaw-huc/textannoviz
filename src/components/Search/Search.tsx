@@ -60,7 +60,7 @@ export const Search = () => {
         return toast(translate('NO_INDICES_FOUND'), {type: "error"});
       }
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      const newFacets = await getFacets(projectConfig, newSearchParams);
+      const newFacets = await getFacets(projectConfig);
       setFacets(newFacets);
       newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
       newSearchQuery.dateFacet = filterFacetsByType(newSearchQuery.index, newFacets, "date")?.[0]?.[0];
@@ -80,6 +80,7 @@ export const Search = () => {
     syncUrlWithSearchParams();
 
     function syncUrlWithSearchParams() {
+      console.log('syncUrlWithSearchParams', performance.now());
       const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
 
       function skipEmptyValues(_: string, v: any) {
@@ -161,9 +162,8 @@ export const Search = () => {
 
 async function getFacets(
     projectConfig: ProjectConfig,
-    searchUrlParams: SearchUrlParams
 ) {
-  const searchResults = await sendSearchQuery(projectConfig, searchUrlParams, {});
+  const searchResults = await sendSearchQuery(projectConfig, {} as SearchUrlParams, {});
   if (!searchResults) {
     throw new Error('No facets found');
   }
