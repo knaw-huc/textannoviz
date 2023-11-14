@@ -80,6 +80,9 @@ export const Search = () => {
     syncUrlWithSearchParams();
 
     function syncUrlWithSearchParams() {
+      if(!isInit) {
+        return;
+      }
       const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
 
       function skipEmptyValues(_: string, v: any) {
@@ -92,7 +95,7 @@ export const Search = () => {
       });
       setUrlParams(newUrlParams);
     }
-  }, [searchUrlParams, searchQuery]);
+  }, [searchUrlParams, searchQuery, isInit]);
 
   useEffect(() => {
     if (isDirty) {
@@ -148,7 +151,7 @@ export const Search = () => {
             facets={facets}
         />
         <SearchResultsColumn>
-          {/* prevent flickering by adding isInit: */}
+          {/* Wait for init, to prevent a flicker of info page before results are shown */}
           {!isShowingResults && isInit &&
               <projectConfig.components.SearchInfoPage/>
           }
