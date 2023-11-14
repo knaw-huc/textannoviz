@@ -152,7 +152,7 @@ export const Search = () => {
           {!isShowingResults && isInit &&
               <projectConfig.components.SearchInfoPage/>
           }
-          {isShowingResults && !isDirty &&
+          {isShowingResults &&
               <SearchResults
                   onSearch={handleNewSearch}
                   facets={facets}
