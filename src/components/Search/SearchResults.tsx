@@ -100,7 +100,7 @@ export function SearchResults(props: {
       ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
       : '';
   return (
-      <SearchResultsColumn>
+      <>
         <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             <span className="font-semibold">
               {`${resultStartEnd} ${searchResults.total.value} ${translate("RESULTS").toLowerCase()}`}
@@ -156,7 +156,7 @@ export function SearchResults(props: {
             searchResult={searchResults}
             elasticSize={pageSize}
         />
-      </SearchResultsColumn>
+      </>
   );
 }
 
