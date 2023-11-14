@@ -67,11 +67,11 @@ export const Search = () => {
 
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
-      setInit(true);
       if (queryDecoded?.fullText) {
-        setDirty(true);
+        await getSearchResults()
         setShowingResults(true);
       }
+      setInit(true);
     }
 
   }, []);
@@ -80,7 +80,6 @@ export const Search = () => {
     syncUrlWithSearchParams();
 
     function syncUrlWithSearchParams() {
-      console.log('syncUrlWithSearchParams', performance.now());
       const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
 
       function skipEmptyValues(_: string, v: any) {
@@ -96,31 +95,31 @@ export const Search = () => {
   }, [searchUrlParams, searchQuery]);
 
   useEffect(() => {
-    searchWhenDirty();
-
-    async function searchWhenDirty() {
-      if (!isDirty) {
-        return;
-      }
-      if (!searchQuery.terms) {
-        return;
-      }
-      const searchResults = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
-      if (!searchResults) {
-        return;
-      }
-      setFacets(searchResults?.aggs);
-      const target = document.getElementById("searchContainer");
-      if (target) {
-        target.scrollIntoView({behavior: "smooth"});
-      }
-
-      setTextToHighlight(createHighlights(searchResults));
-      setSearchResults(searchResults);
-      updateSearchQueryHistory(searchQuery);
+    if (isDirty) {
+      getSearchResults();
       setDirty(false);
     }
+
   }, [isDirty]);
+
+  async function getSearchResults() {
+    if (!searchQuery.terms) {
+      return;
+    }
+    const searchResults = await sendSearchQuery(projectConfig, searchUrlParams, searchQueryRequestBody);
+    if (!searchResults) {
+      return;
+    }
+    setFacets(searchResults?.aggs);
+    const target = document.getElementById("searchContainer");
+    if (target) {
+      target.scrollIntoView({behavior: "smooth"});
+    }
+
+    setTextToHighlight(createHighlights(searchResults));
+    setSearchResults(searchResults);
+    updateSearchQueryHistory(searchQuery);
+  }
 
   function getUrlQuery(urlParams: URLSearchParams): Partial<SearchQuery> {
     const queryEncoded = urlParams.get(QUERY);
