@@ -68,8 +68,8 @@ export const Search = () => {
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
       setInit(true);
-      setDirty(true);
       if (queryDecoded?.fullText) {
+        setDirty(true);
         setShowingResults(true);
       }
     }
