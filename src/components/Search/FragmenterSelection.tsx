@@ -5,7 +5,7 @@ interface FragmenterProps {
   value: string;
 }
 
-export const Fragmenter = (props: FragmenterProps) => {
+export const FragmenterSelection = (props: FragmenterProps) => {
   const translate = useProjectStore(translateSelector);
 
   return (

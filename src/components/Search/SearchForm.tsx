@@ -10,7 +10,7 @@ import {ChangeEvent} from "react";
 import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
 import {NewSearchButton} from "./NewSearchButton.tsx";
 import {SearchQueryHistory} from "./SearchQueryHistory.tsx";
-import {Fragmenter} from "./Fragmenter.tsx";
+import {FragmenterSelection} from "./FragmenterSelection.tsx";
 import {DateFacet} from "./DateFacet.tsx";
 import * as _ from "lodash";
 import {KeywordFacet} from "./KeywordFacet.tsx";
@@ -112,7 +112,7 @@ export function SearchForm(props: {
     )}
 
     <div className="w-full max-w-[450px]">
-      <Fragmenter
+      <FragmenterSelection
           onChange={updateFragmenter}
           value={searchUrlParams.frag}
       />
