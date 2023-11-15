@@ -20,18 +20,8 @@ export interface SearchResultBody {
   sessionWeekday: string;
   propositionType: string;
   _hits: {
-    preview: string;
-    locations: {
-      start: {
-        line: number;
-        offset: number;
-      };
-      end: {
-        line: number;
-        offset: number;
-      };
-    }[];
-  }[];
+    text: string[];
+  };
 }
 
 export type Indices = {

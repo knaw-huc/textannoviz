@@ -90,8 +90,8 @@ export const Search = (props: SearchProps) => {
       if (!searchHits) {
         return;
       }
-      searchHits.forEach((hit) => {
-        const matches = hit.preview
+      searchHits.text.forEach((hit) => {
+        const matches = hit
           .match(HIT_PREVIEW_REGEX)
           ?.map((str) => str.substring(4, str.length - 5));
         if (matches) {
@@ -260,6 +260,8 @@ export const Search = (props: SearchProps) => {
       if (!data) {
         return;
       }
+      const toHighlight = getTextToHighlight(data);
+      setTextToHighlight(toHighlight);
       setSearchResults(data);
       setGlobalSearchResults(data);
       setElasticFrom(0);

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
+import { Labels } from "../../model/Labels.ts";
 import { SearchResultBody } from "../../model/Search";
 import {
   translateProjectSelector,
   translateSelector,
-  useProjectStore
+  useProjectStore,
 } from "../../stores/project";
-import {Labels} from "../../model/Labels.ts";
 
 interface SearchItemProps {
   result: SearchResultBody;
@@ -33,8 +33,7 @@ export const SearchItem = (props: SearchItemProps) => {
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
-        {translateProject(props.result.sessionWeekday)}
-        {" "}
+        {translateProject(props.result.sessionWeekday)}{" "}
         <strong className="font-semibold">
           {props.result.sessionDay}{" "}
           {translate(monthNumberToString[props.result.sessionMonth])}{" "}
@@ -49,11 +48,11 @@ export const SearchItem = (props: SearchItemProps) => {
           <div className="p-4 font-semibold">
             {translateProject(props.result.bodyType) ?? props.result.document}
           </div>
-          {props.result._hits?.map((hit, key) => (
+          {props.result._hits?.text.map((hit, key) => (
             <div key={key} className="hover:bg-rpBrand1grey-50 w-full p-4">
               <div
                 className="mb-1 font-serif text-base"
-                dangerouslySetInnerHTML={{ __html: hit.preview }}
+                dangerouslySetInnerHTML={{ __html: hit }}
               ></div>
             </div>
           ))}
