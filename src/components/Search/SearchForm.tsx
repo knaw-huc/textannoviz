@@ -83,9 +83,12 @@ export function SearchForm(props: {
 
   return <div className={searchFormClasses}>
     <FullTextSearchBar
+        key={searchQuery.fullText}
         fullText={searchQuery.fullText}
-        onSubmit={() => onSearch()}
-        updateFullText={updateFullText}
+        onSubmit={(newFullText) => {
+          updateFullText(newFullText);
+          onSearch()
+        }}
     />
 
     {searchResults && (
