@@ -34,12 +34,10 @@ export interface SearchResultBody {
   }[];
 }
 
-export type EsIndex = {
-  [key: string]: string;
-};
+export type FacetType = "date" | "keyword";
 
-export type Indices = {
-  [key: string]: EsIndex;
+export type FacetNamesByType = {
+  [key: FacetName]: FacetType;
 };
 
 export type FacetName = string;

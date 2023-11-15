@@ -113,19 +113,18 @@ export function SearchForm(props: {
     </div>
 
     {projectConfig.showDateFacets && (
-        filterFacetsByType(facets, "date").map((_, index) => <DateFacet
-            key={index}
+        <DateFacet
             dateFrom={searchQuery.dateFrom}
             dateTo={searchQuery.dateTo}
             changeDateTo={updateDateTo}
             changeDateFrom={updateDateFrom}
-        />)
+        />
     )}
 
     {projectConfig.showKeywordFacets && !_.isEmpty(facets) && (
-        filterFacetsByType(facets, "keyword").map(([facetName, facetValue], index) => (
+        filterFacetsByType(facets, "keyword").map(([facetName, facetValue], i) => (
             <KeywordFacet
-                key={index}
+                key={i}
                 facetName={facetName}
                 facet={facetValue}
                 selectedFacets={searchQuery.terms}

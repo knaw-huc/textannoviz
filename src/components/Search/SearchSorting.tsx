@@ -1,5 +1,5 @@
 import {translateSelector, useProjectStore} from "../../stores/project.ts";
-import {ASC, DESC, Facet, SortOrder} from "../../model/Search.ts";
+import {ASC, DESC, FacetName, SortOrder} from "../../model/Search.ts";
 import {ChangeEvent} from "react";
 import {toast} from "react-toastify";
 
@@ -11,7 +11,7 @@ export type Sorting = {
 interface SearchSortByProps {
   onSort: (sortBy: Sorting) => void;
   selected: Sorting;
-  dateFacets: [string, Facet][]
+  dateFacet: FacetName | false
 }
 
 const SEPARATOR = '-';
@@ -38,22 +38,21 @@ export const SearchSorting = (props: SearchSortByProps) => {
   }
 
   function handleDateSorting(selectedOrder: SortOrder) {
-    const dateFacets = props.dateFacets;
-    if (!dateFacets.length) {
-      toast("No dace facets available to sort by");
+    const dateFacet = props.dateFacet;
+    if (!dateFacet) {
+      toast("No dace facets to sort by");
       props.onSort(defaultSorting);
       return;
     }
-    const facetName = dateFacets[0][0];
     props.onSort({
-      field: facetName,
+      field: dateFacet,
       order: selectedOrder
     });
 
   }
 
   function toSelectedValue(selected: Sorting): string {
-    const isDateFacet = props.dateFacets.find(df => df[0] === selected.field);
+    const isDateFacet = props.dateFacet;
     if(isDateFacet) {
       return `${BY_DATE}${SEPARATOR}${selected.order}`;
     }

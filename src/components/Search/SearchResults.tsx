@@ -108,7 +108,7 @@ export function SearchResults(props: {
           <div className="flex items-center justify-between gap-10">
             {projectConfig.showSearchSortBy && (
                 <SearchSorting
-                    dateFacets={filterFacetsByType(facets, "date")}
+                    dateFacet={searchQuery.dateFacet}
                     onSort={updateSorting}
                     selected={{
                       field: searchUrlParams.sortBy,

@@ -63,7 +63,9 @@ export const Search = () => {
       const newFacets = await getFacets(projectConfig);
       setFacets(newFacets);
       newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
-      newSearchQuery.dateFacet = filterFacetsByType(newSearchQuery.index, newFacets, "date")?.[0]?.[0];
+      newSearchQuery.dateFacet = filterFacetsByType(newSearchQuery.index, newFacets, "date")
+          ?.[0]?.[0]
+          || false;
 
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);

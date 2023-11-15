@@ -1,5 +1,13 @@
 import {StateCreator} from "zustand";
-import {EsIndex, Facet, FacetName, Facets, SearchQueryRequestBody, Terms} from "../../model/Search.ts";
+import {
+  FacetNamesByType,
+  Facet,
+  FacetName,
+  Facets,
+  SearchQueryRequestBody,
+  Terms,
+  FacetType
+} from "../../model/Search.ts";
 
 /**
  * Parameters used to generate a search request body
@@ -8,7 +16,7 @@ export type SearchQuery = {
   dateFacet: FacetName | false;
   dateFrom: string;
   dateTo: string;
-  index: EsIndex
+  index: FacetNamesByType
   fullText: string;
   terms: Terms
 };
@@ -46,20 +54,20 @@ export const filterFacetByTypeSelector = (
     state: SearchQuerySlice
 ) => (
     facets: Facets,
-    type: "keyword" | "date"
+    type: FacetType
 ) => {
   return filterFacetsByType(state.searchQuery.index, facets, type);
 }
 export function filterFacetsByType(
-    index: EsIndex,
+    facetNamesByType: FacetNamesByType,
     facets: Facets,
-    type: "keyword" | "date",
+    type: FacetType,
 ): [string, Facet][] {
-  if(!facets || !index) {
+  if(!facets || !facetNamesByType) {
     return [];
   }
-  return Object.entries(facets).filter(([key]) => {
-    return index[key] === type;
+  return Object.entries(facets).filter(([name]) => {
+    return facetNamesByType[name] === type;
   });
 }
 
