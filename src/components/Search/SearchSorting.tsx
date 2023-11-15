@@ -21,7 +21,7 @@ const BY_SCORE = '_score'
 /**
  * Sort by _score or by date
  * TODO:
- *  - add other facet types
+ *  - add keyword facet types
  *  - handle multiple date facets
  */
 export const SearchSorting = (props: SearchSortByProps) => {
@@ -52,7 +52,7 @@ export const SearchSorting = (props: SearchSortByProps) => {
   }
 
   function toSelectedValue(selected: Sorting): string {
-    const isDateFacet = props.dateFacet;
+    const isDateFacet = props.dateFacet === selected.field;
     if(isDateFacet) {
       return `${BY_DATE}${SEPARATOR}${selected.order}`;
     }
