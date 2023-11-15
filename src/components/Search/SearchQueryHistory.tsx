@@ -10,10 +10,17 @@ type SearchQueryHistoryProps = {
   disabled: boolean;
 };
 
+const MAX_DISPLAY = 10;
+
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const [isOpen, setOpen] = useState(false);
+
+  const moreThanDisplayable = props.queryHistory.length >= MAX_DISPLAY;
+  const lastQueries = props.queryHistory
+      .slice(moreThanDisplayable ? -MAX_DISPLAY : 0)
+      .reverse();
 
   return (
     <>
@@ -26,8 +33,8 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
       </button>
       {isOpen && (
         <ol className="ml-6 mt-4 list-decimal">
-          {props.queryHistory.length > 0 ? (
-            props.queryHistory.slice(0, 10).map((query, index) => (
+          {lastQueries.length ? (
+            lastQueries.map((query, index) => (
               <li
                 key={index}
                 onClick={() => props.goToQuery(query)}
