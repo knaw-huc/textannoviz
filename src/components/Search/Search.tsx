@@ -1,12 +1,12 @@
 import {Base64} from "js-base64";
 import {useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
-import {Facets} from "../../model/Search";
+import {FacetNamesByType} from "../../model/Search";
 import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
 import {SearchResults, SearchResultsColumn} from "./SearchResults.tsx";
-import {filterFacetsByType, SearchQuery, toRequestBody} from "../../stores/search/search-query-slice.ts";
+import {FacetEntry, filterFacetsByType, SearchQuery, toRequestBody} from "../../stores/search/search-query-slice.ts";
 import {createHighlights} from "./util/createHighlights.ts";
 import {QUERY} from "./SearchUrlParams.ts";
 import {addToUrlParams, getFromUrlParams} from "../../utils/UrlParamUtils.tsx";
@@ -21,7 +21,8 @@ export const Search = () => {
   const [isInit, setInit] = useState(false);
   const [isDirty, setDirty] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
-  const [facets, setFacets] = useState<Facets>({});
+  const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
+  const [index, setIndex] = useState<FacetNamesByType>({});
   const [urlParams, setUrlParams] = useSearchParams();
   const translate = useProjectStore(translateSelector);
   const {
@@ -38,10 +39,12 @@ export const Search = () => {
 
     /**
      * Initialize search page:
-     * - default config values
-     * - search index
-     * - search url params
-     * - query from url
+     * - set default config values
+     * - fetch keyword and date facets
+     * - set search params from url
+     * - set search query from url
+     * - when url contains full text query:
+     *   - fetch search results
      */
     async function initSearch() {
       if (isInit) {
@@ -61,18 +64,21 @@ export const Search = () => {
       }
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
       const newFacets = await getFacets(projectConfig);
-      setFacets(newFacets);
-      newSearchQuery.index = newIndices[projectConfig.elasticIndexName];
-      newSearchQuery.dateFacet = filterFacetsByType(newSearchQuery.index, newFacets, "date")
-          ?.[0]?.[0]
-          || false;
+      const newIndex = newIndices[projectConfig.elasticIndexName];
+      const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
+      newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
+      const newKeywordFacets = filterFacetsByType(newIndex, newFacets, "keyword");
 
+      setKeywordFacets(newKeywordFacets);
+      setIndex(newIndex);
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
+
       if (queryDecoded?.fullText) {
-        await getSearchResults(newSearchParams, newSearchQuery)
+        await getSearchResults(newIndex, newSearchParams, newSearchQuery)
         setShowingResults(true);
       }
+
       setInit(true);
     }
 
@@ -109,13 +115,14 @@ export const Search = () => {
       if(!inHistory) {
         updateSearchQueryHistory(searchQuery);
       }
-      await getSearchResults(searchUrlParams, searchQuery);
+      await getSearchResults(index, searchUrlParams, searchQuery);
       setDirty(false);
     }
 
   }, [isDirty]);
 
   async function getSearchResults(
+      facetsByType: FacetNamesByType,
       params: SearchUrlParams,
       query: SearchQuery
   ) {
@@ -126,14 +133,13 @@ export const Search = () => {
     if (!searchResults) {
       return;
     }
-    setFacets(searchResults?.aggs);
+    setSearchResults(searchResults);
+    setKeywordFacets(filterFacetsByType(facetsByType, searchResults.aggs, "keyword"));
+    setTextToHighlight(createHighlights(searchResults));
     const target = document.getElementById("searchContainer");
     if (target) {
       target.scrollIntoView({behavior: "smooth"});
     }
-
-    setTextToHighlight(createHighlights(searchResults));
-    setSearchResults(searchResults);
   }
 
   function getUrlQuery(urlParams: URLSearchParams): Partial<SearchQuery> {
@@ -149,6 +155,16 @@ export const Search = () => {
     setShowingResults(true);
   }
 
+  async function getFacets(
+      projectConfig: ProjectConfig,
+  ) {
+    const searchResults = await sendSearchQuery(projectConfig, {size: 0}, {});
+    if (!searchResults?.aggs) {
+      throw new Error('No facet request result');
+    }
+    return searchResults.aggs;
+  }
+
   return (
       <div
           id="searchContainer"
@@ -156,17 +172,17 @@ export const Search = () => {
       >
         <SearchForm
             onSearch={handleNewSearch}
-            facets={facets}
+            keywordFacets={keywordFacets}
         />
         <SearchResultsColumn>
-          {/* Wait for init, to prevent a flicker of info page before results are shown */}
+          {/* Wait for init, to prevent a flicker of info page before results are shown: */}
           {!isShowingResults && isInit &&
               <projectConfig.components.SearchInfoPage/>
           }
           {isShowingResults &&
               <SearchResults
                   onSearch={handleNewSearch}
-                  facets={facets}
+                  keywordFacets={keywordFacets}
               />
           }
         </SearchResultsColumn>
@@ -174,13 +190,4 @@ export const Search = () => {
   );
 }
 
-async function getFacets(
-    projectConfig: ProjectConfig,
-) {
-  const searchResults = await sendSearchQuery(projectConfig, {size: 0}, {});
-  if (!searchResults) {
-    throw new Error('No facets found');
-  }
-  return searchResults.aggs;
-}
 

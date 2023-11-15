@@ -11,7 +11,7 @@ export type Sorting = {
 interface SearchSortByProps {
   onSort: (sortBy: Sorting) => void;
   selected: Sorting;
-  dateFacet: FacetName | false
+  dateFacet?: FacetName
 }
 
 const SEPARATOR = '-';

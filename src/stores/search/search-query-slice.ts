@@ -13,10 +13,9 @@ import {
  * Parameters used to generate a search request body
  */
 export type SearchQuery = {
-  dateFacet: FacetName | false;
+  dateFacet?: FacetName;
   dateFrom: string;
   dateTo: string;
-  index: FacetNamesByType
   fullText: string;
   terms: Terms
 };
@@ -32,10 +31,9 @@ export const createSearchQuerySlice: StateCreator<
     SearchQuerySlice, [], [], SearchQuerySlice
 > = (set) => ({
   searchQuery: {
-    dateFacet: false,
+    dateFacet: undefined,
     dateFrom: "",
     dateTo: "",
-    index: {},
     fullText: "",
     terms: {}
   },
@@ -50,31 +48,25 @@ export const createSearchQuerySlice: StateCreator<
   }))
 });
 
-export const filterFacetByTypeSelector = (
-    state: SearchQuerySlice
-) => (
-    facets: Facets,
-    type: FacetType
-) => {
-  return filterFacetsByType(state.searchQuery.index, facets, type);
-}
+export type FacetEntry = [FacetName, Facet];
+
 export function filterFacetsByType(
-    facetNamesByType: FacetNamesByType,
+    facetByType: FacetNamesByType,
     facets: Facets,
     type: FacetType,
-): [string, Facet][] {
-  if(!facets || !facetNamesByType) {
+): FacetEntry[] {
+  if(!facets || !facetByType) {
     return [];
   }
   return Object.entries(facets).filter(([name]) => {
-    return facetNamesByType[name] === type;
+    return facetByType[name] === type;
   });
 }
 
 export function toRequestBody(
     query: SearchQuery,
 ): SearchQueryRequestBody {
-  if (!query || !query.index || !query.terms) {
+  if (!query?.terms) {
     return {};
   }
   const searchQuery = {} as SearchQueryRequestBody;

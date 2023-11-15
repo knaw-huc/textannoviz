@@ -1,7 +1,6 @@
-import {Facets} from "../../model/Search.ts";
 import {projectConfigSelector, useProjectStore} from "../../stores/project.ts";
 import {useSearchStore} from "../../stores/search/search-store.ts";
-import {filterFacetByTypeSelector, SearchQuery} from "../../stores/search/search-query-slice.ts";
+import {FacetEntry, SearchQuery} from "../../stores/search/search-query-slice.ts";
 import {removeTerm} from "./util/removeTerm.ts";
 import {ChangeEvent} from "react";
 import {FullTextSearchBar} from "./FullTextSearchBar.tsx";
@@ -16,15 +15,14 @@ const searchFormClasses = "hidden w-full grow flex-col gap-6 self-stretch bg-whi
 
 export function SearchForm(props: {
   onSearch: (stayOnPage?: boolean) => void,
-  facets: Facets
+  keywordFacets: FacetEntry[]
 }) {
   const {
-    facets,
+    keywordFacets,
     onSearch
   } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const queryHistory = useSearchStore(state => state.searchQueryHistory);
-  const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
 
   const {
     searchUrlParams, setSearchUrlParams,
@@ -121,8 +119,8 @@ export function SearchForm(props: {
         />
     )}
 
-    {projectConfig.showKeywordFacets && !_.isEmpty(facets) && (
-        filterFacetsByType(facets, "keyword").map(([facetName, facetValue], i) => (
+    {projectConfig.showKeywordFacets && !_.isEmpty(keywordFacets) && (
+        props.keywordFacets.map(([facetName, facetValue], i) => (
             <KeywordFacet
                 key={i}
                 facetName={facetName}

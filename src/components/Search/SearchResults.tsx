@@ -1,4 +1,4 @@
-import {FacetName, FacetOptionName, Facets} from "../../model/Search.ts";
+import {FacetName, FacetOptionName} from "../../model/Search.ts";
 import {projectConfigSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
 import {SearchSorting, Sorting} from "./SearchSorting.tsx";
 import {SearchResultsPerPage} from "./SearchResultsPerPage.tsx";
@@ -7,22 +7,21 @@ import {SearchItem} from "./SearchItem.tsx";
 import * as _ from "lodash";
 import {useSearchStore} from "../../stores/search/search-store.ts";
 import {ChangeEvent, ReactNode} from "react";
-import {filterFacetByTypeSelector} from "../../stores/search/search-query-slice.ts";
 import {removeTerm} from "./util/removeTerm.ts";
 import {toPageNumber} from "./util/toPageNumber.ts";
 import {KeywordFacetLabel} from "./KeywordFacetLabel.tsx";
+import {FacetEntry} from "../../stores/search/search-query-slice.ts";
 
 export function SearchResults(props: {
-  facets: Facets;
+  keywordFacets: FacetEntry[];
   onSearch: (stayOnPage?: boolean) => void
 }) {
 
   const {
-    facets,
+    keywordFacets,
     onSearch
   } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
-  const filterFacetsByType = useSearchStore(filterFacetByTypeSelector);
   const {
     searchUrlParams, setSearchUrlParams,
     searchQuery, setSearchQuery,
@@ -32,7 +31,6 @@ export function SearchResults(props: {
   const resultsStart = searchUrlParams.from + 1;
   const pageSize = searchUrlParams.size;
   const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
-  const keywordFacets = filterFacetsByType(facets, "keyword");
   const translate = useProjectStore(translateSelector);
 
   function updateSorting(sorting: Sorting) {
