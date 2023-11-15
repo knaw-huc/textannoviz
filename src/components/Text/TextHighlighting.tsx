@@ -29,7 +29,11 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
   if (props.text.locations) {
     props.text.locations.annotations.forEach((it) => {
-      for (let i = it.start.line; i <= it.end.line; i++) {
+      for (
+        let i = Math.max(it.start.line, 0);
+        i <= Math.min(it.end.line, props.text.lines.length - 1);
+        i++
+      ) {
         if (classes.has(i)) {
           classes.get(i)?.push(it.bodyId);
         } else {
