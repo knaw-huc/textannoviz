@@ -1,10 +1,12 @@
 import mirador from "mirador";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import { useSearchStore } from "../../stores/search";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
 
 type TextHighlightingProps = {
@@ -17,6 +19,10 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const canvas = useMiradorStore((state) => state.canvas);
   const classes = new Map<number, string[]>();
+  const textToHighlight = useSearchStore((state) => state.textToHighlight);
+  const params = useParams();
+
+  console.log(params, textToHighlight);
 
   const textLinesToDisplay: string[][] = [[]];
 
@@ -43,13 +49,6 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     });
   }
 
-  //   let offset = 0;
-
-  //   function doOffset(length: number) {
-  //     offset = offset + length;
-  //     console.log(offset);
-  //   }
-
   function collectClasses(index: number) {
     const collectedClasses = new Set<string>();
     annotations.map((anno) => {
@@ -75,11 +74,6 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
           collectedClasses.add("underlined-reviewed");
         } else {
           collectedClasses.add(anno.body.id);
-        }
-      } else {
-        const indexClass = classes.get(index);
-        if (typeof indexClass === "object") {
-          collectedClasses.add(indexClass.join(" "));
         }
       }
     });
