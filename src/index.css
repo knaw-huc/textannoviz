@@ -305,28 +305,20 @@ input[type="search"] {
 
 .underlined-resolution {
   border-bottom: 3px solid green;
-  color: inherit;
   cursor: pointer;
-  padding: 0px 2px;
 }
 
 .underlined-attendancelist {
   border-bottom: 3px solid #b84040;
-  color: inherit;
   cursor: pointer;
-  padding: 0px 2px;
 }
 
 .underlined-attendant {
   border-bottom: 3px solid #d3d14a;
-  color: inherit;
   cursor: pointer;
-  padding: 0px 2px;
 }
 
 .underlined-reviewed {
   border-bottom: 3px solid cyan;
-  color: inherit;
   cursor: pointer;
-  padding: 0px 2px;
 }
