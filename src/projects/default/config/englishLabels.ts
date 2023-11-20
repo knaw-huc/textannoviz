@@ -51,4 +51,8 @@ export const englishLabels: Labels = {
   PREV_PAGE: "Previous page",
   INFO_FIRST_PAGE: "You have reached the first page",
   INFO_LAST_PAGE: "You have reached the last page",
+
+  NO_FACETS_FOUND: "No search facets found",
+  NO_INDICES_FOUND: "No search indices found",
+  NO_SEARCH_RESULTS: "No search results",
 };

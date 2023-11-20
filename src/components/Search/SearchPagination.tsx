@@ -6,7 +6,7 @@ type SearchPaginationProps = {
   prevPageClickHandler: () => void;
   nextPageClickHandler: () => void;
   pageNumber: number;
-  searchResults: SearchResult;
+  searchResult: SearchResult;
   elasticSize: number;
 };
 
@@ -33,7 +33,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
             {`${props.pageNumber} ${translate(
               "FROM",
             ).toLowerCase()} ${Math.ceil(
-              props.searchResults!.total.value / props.elasticSize,
+              props.searchResult!.total.value / props.elasticSize,
             )}`}
           </div>
         </li>

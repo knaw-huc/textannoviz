@@ -2,14 +2,14 @@ import logo from "../../../assets/logo-republic-temp.png";
 import {ProjectConfig} from "../../../model/ProjectConfig";
 import {AnnotationButtons} from "../AnnotationButtons.tsx";
 import {AnnotationItemContent} from "../AnnotationItemContent.tsx";
-import {Help} from "../Help.tsx";
 import {MetadataPanel} from "../MetadataPanel.tsx";
 import {SearchInfoPage} from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
 import {defaultConfig} from "../../default/config";
 import {englishMondriaanLabels} from "./englishMondriaanLabels.ts";
+import * as _ from "lodash";
 
-export const mondriaanConfig: ProjectConfig = Object.assign({}, defaultConfig,  {
+export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig,  {
   id: "mondriaan",
   relativeTo: "tf:Letter",
   annotationTypesToInclude: [
@@ -105,7 +105,6 @@ export const mondriaanConfig: ProjectConfig = Object.assign({}, defaultConfig,  
     AnnotationItemContent,
     AnnotationButtons,
     MetadataPanel,
-    Help,
     SearchInfoPage,
   },
   selectedLanguage: 'en',

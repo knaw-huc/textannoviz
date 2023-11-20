@@ -8,8 +8,9 @@ import AnnotationItem from "../AnnotationItem.tsx";
 import {ProjectConfig} from "../../../model/ProjectConfig.ts";
 import {defaultConfig} from "../../default/config";
 import {englishGlobaliseLabels} from "./englishGlobaliseLabels.ts";
+import * as _ from "lodash";
 
-export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  {
+export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig,  {
   id: "globalise",
   broccoliUrl: "https://gloccoli.tt.di.huc.knaw.nl",
   colours: {

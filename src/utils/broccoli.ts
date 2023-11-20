@@ -1,6 +1,7 @@
-import { toast } from "react-toastify";
-import { ProjectConfig } from "../model/ProjectConfig";
-import { SearchQuery, SearchResult } from "../model/Search";
+import {toast} from "react-toastify";
+import {ProjectConfig} from "../model/ProjectConfig";
+import {SearchQueryRequestBody, SearchResult} from "../model/Search";
+import {SearchUrlParams} from "../stores/search/search-params-slice.ts";
 
 const headers = {
   "Content-Type": "application/json",
@@ -60,32 +61,19 @@ export const selectDistinctBodyTypes = async (
 };
 
 export const sendSearchQuery = async (
-  searchQuery: SearchQuery,
-  fragParam: string,
-  sizeParam: number,
-  fromParam = 0,
-  projectConfig: ProjectConfig,
-  sortBy = "_score",
-  sortOrder = "desc",
-): Promise<SearchResult> => {
-  const params = new URLSearchParams({
-    frag: fragParam,
-    size: sizeParam.toString(),
-    from: fromParam.toString(),
-    sortBy: sortBy,
-    sortOrder: sortOrder,
-  });
-
+    projectConfig: ProjectConfig,
+    params: Partial<SearchUrlParams>,
+    query: SearchQueryRequestBody
+): Promise<SearchResult | null> => {
+  const urlSearchParams = new URLSearchParams(params as any);
   const response = await fetch(
-    `${projectConfig.broccoliUrl}/projects/${projectConfig.id}/search?${params}`,
+    `${projectConfig.broccoliUrl}/projects/${projectConfig.id}/search?${urlSearchParams}`,
     {
       method: "POST",
       headers: headers,
-      body: JSON.stringify(searchQuery),
+      body: JSON.stringify(query),
     },
   );
-
-  console.log(response);
 
   if (!response.ok) {
     const error = await response.json();
@@ -93,11 +81,7 @@ export const sendSearchQuery = async (
     return null;
   }
 
-  const data = await response.json();
-
-  console.log(data);
-
-  return data;
+  return response.json();
 };
 
 export const getElasticIndices = async (projectConfig: ProjectConfig) => {

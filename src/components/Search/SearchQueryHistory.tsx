@@ -1,54 +1,61 @@
-import { ProjectConfig } from "../../model/ProjectConfig";
-import { SearchQuery } from "../../model/Search";
+import {ProjectConfig} from "../../model/ProjectConfig";
 import {translateProjectSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
+import {useState} from "react";
+import {SearchQuery} from "../../stores/search/search-query-slice.ts";
 
 type SearchQueryHistoryProps = {
-  historyClickHandler: () => void;
-  historyIsOpen: boolean;
   queryHistory: SearchQuery[];
   goToQuery: (query: SearchQuery) => void;
   projectConfig: ProjectConfig;
   disabled: boolean;
 };
 
+const MAX_DISPLAY = 10;
+
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
+  const [isOpen, setOpen] = useState(false);
+
+  const moreThanDisplayable = props.queryHistory.length >= MAX_DISPLAY;
+  const lastQueries = props.queryHistory
+      .slice(moreThanDisplayable ? -MAX_DISPLAY : 0)
+      .reverse();
 
   return (
     <>
       <button
-        onClick={props.historyClickHandler}
+        onClick={() => setOpen(!isOpen)}
         className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm"
         disabled={props.disabled}
       >
         {translate('SEARCH_HISTORY')}
       </button>
-      {props.historyIsOpen ? (
+      {isOpen && (
         <ol className="ml-6 mt-4 list-decimal">
-          {props.queryHistory.length > 0 ? (
-            props.queryHistory.slice(0, 10).map((query, index) => (
+          {lastQueries.length ? (
+            lastQueries.map((query, index) => (
               <li
                 key={index}
                 onClick={() => props.goToQuery(query)}
                 className="mb-4 cursor-pointer hover:underline"
               >
-                {query.text ? (
+                {query.fullText && (
                   <div>
-                    <strong>{translate('TEXT')}: </strong> {query.text}
+                    <strong>{translate('TEXT')}: </strong> {query.fullText}
                   </div>
-                ) : null}
-                {query.date ? (
+                )}
+                {query.dateFacet && (
                   <>
                     <div>
-                      <strong>{translate('FROM')}: </strong> {query.date.from}
+                      <strong>{translate('FROM')}: </strong> {query.dateFrom}
                     </div>{" "}
                     <div>
-                      <strong>{translate('UP_TO_AND_INCLUDING')}: </strong> {query.date.to}
+                      <strong>{translate('UP_TO_AND_INCLUDING')}: </strong> {query.dateTo}
                     </div>
                   </>
-                ) : null}
-                {query.terms ? (
+                )}
+                {query.terms && (
                   <div>
                     {Object.keys(query.terms).length > 0 ? (
                       <strong>{translate('SELECTED_FACETS')}:</strong>
@@ -59,14 +66,14 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                       </div>
                     ))}
                   </div>
-                ) : null}
+                )}
               </li>
             ))
           ) : (
             <div>{translate('NO_SEARCH_HISTORY')}.</div>
           )}
         </ol>
-      ) : null}
+      )}
     </>
   );
 };

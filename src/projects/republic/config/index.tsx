@@ -1,16 +1,16 @@
 import logo from "../../../assets/logo-republic-temp.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
-import { defaultConfig } from "../../default/config";
-import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import {ProjectConfig} from "../../../model/ProjectConfig";
+import {defaultConfig} from "../../default/config";
+import {AnnotationButtons} from "../AnnotationButtons.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
-import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
-import { Help } from "../Help.tsx";
-import { MetadataPanel } from "../MetadataPanel.tsx";
-import { SearchInfoPage } from "../SearchInfoPage.tsx";
-import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
-import { englishRepublicLabels } from "./englishRepublicLabels.ts";
+import {AnnotationItemContent} from "../AnnotationItemContent.tsx";
+import {Help} from "../Help.tsx";
+import {MetadataPanel} from "../MetadataPanel.tsx";
+import {dutchRepublicLabels} from "./dutchRepublicLabels.ts";
+import {englishRepublicLabels} from "./englishRepublicLabels.ts";
+import * as _ from "lodash";
 
-export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
+export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   id: "republic",
   colours: {
     resolution: "green",
@@ -45,7 +45,6 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
     AnnotationButtons,
     Help,
     MetadataPanel,
-    SearchInfoPage,
   },
   selectedLanguage: "nl",
   languages: [

@@ -7,7 +7,7 @@ export type SearchResult = {
     relation: string;
   };
   results: SearchResultBody[];
-} | null;
+};
 
 export interface SearchResultBody {
   _id: string;
@@ -34,20 +34,34 @@ export interface SearchResultBody {
   }[];
 }
 
-export type Indices = {
-  [key: string]: {
-    [key: string]: string;
-  };
+export type FacetType = "date" | "keyword";
+
+export type FacetNamesByType = {
+  [key: FacetName]: FacetType;
 };
 
-export type FacetValue = Record<string, number>;
+export type FacetName = string;
+export type FacetOptionName = string;
 
-export type Facets = Record<string, FacetValue>;
+/**
+ * Facets and all facet options
+ */
+export type Facets = Record<FacetName, Facet>;
 
-export type SearchQuery =
+/**
+ * Document count per facet option
+ */
+export type Facet = Record<FacetOptionName, number>;
+
+/**
+ * Selected facet options per facet
+ */
+export type Terms = Record<FacetName, FacetOptionName[]>;
+
+export type SearchQueryRequestBody =
   | {
       text?: string;
-      terms: Record<string, string[]>;
+      terms: Terms;
       aggs?: string[];
       date?: {
         from: string;
@@ -56,3 +70,6 @@ export type SearchQuery =
       };
     }
   | Record<string, never>;
+export const ASC = 'asc'
+export const DESC = 'desc'
+export type SortOrder = "desc" | "asc";
