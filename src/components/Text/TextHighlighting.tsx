@@ -22,8 +22,6 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const textToHighlight = useSearchStore((state) => state.textToHighlight);
   const params = useParams();
 
-  console.log(params, textToHighlight);
-
   const textLinesToDisplay: string[][] = [[]];
 
   props.text.lines.map((token) => {
@@ -57,23 +55,15 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
         indexClasses.forEach((indexClass) => collectedClasses.add(indexClass));
         if (anno.body.id.includes("resolution")) {
           collectedClasses.add("underlined-resolution");
-        } else {
-          collectedClasses.add(anno.body.id);
         }
         if (anno.body.id.includes("attendance_list")) {
           collectedClasses.add("underlined-attendancelist");
-        } else {
-          collectedClasses.add(anno.body.id);
         }
         if (anno.body.id.includes("attendant")) {
           collectedClasses.add("underlined-attendant");
-        } else {
-          collectedClasses.add(anno.body.id);
         }
         if (anno.body.id.includes("para")) {
           collectedClasses.add("underlined-reviewed");
-        } else {
-          collectedClasses.add(anno.body.id);
         }
       }
     });
@@ -162,23 +152,52 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     }
   }
 
+  function renderLines(line: string, index: number) {
+    if (textToHighlight.size === 0) {
+      const result = (
+        <div
+          className={collectClasses(index) + "w-fit"} //collect classes beforehand so that the function is not called for every line?
+          onClick={(event) => spanClickHandler(event)}
+        >
+          {line}
+        </div>
+      );
+
+      return result;
+    }
+
+    if (textToHighlight.size > 0 && params.tier2) {
+      if (textToHighlight.get(params.tier2)) {
+        const toHighlightStrings = textToHighlight.get(params.tier2);
+        const regexString = toHighlightStrings
+          ?.map((string) => string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+          .join("|");
+        const regex = new RegExp(`${regexString}`, "g");
+
+        const result = (
+          <div
+            className={collectClasses(index) + "w-fit"}
+            onClick={(event) => spanClickHandler(event)}
+            dangerouslySetInnerHTML={{
+              __html: line.replace(
+                regex,
+                '<span class="rounded bg-yellow-200 p-1">$&</span>',
+              ),
+            }}
+          />
+        );
+        return result;
+      }
+    }
+  }
+
   return (
-    <div>
-      {textLinesToDisplay.map((line, key) => (
-        <div key={key} className="grid leading-loose">
-          {classes.size >= 1
-            ? line.map((token, index) => (
-                <span
-                  key={index}
-                  className={collectClasses(index) + "w-fit"}
-                  onClick={(event) => spanClickHandler(event)}
-                >
-                  {token}
-                </span>
-              ))
-            : line.map((token, index) => <span key={index}>{token}</span>)}
+    <>
+      {textLinesToDisplay.map((lines, key) => (
+        <div key={key} className="leading-loose">
+          {lines.map((line, index) => renderLines(line, index))}
         </div>
       ))}
-    </div>
+    </>
   );
 };

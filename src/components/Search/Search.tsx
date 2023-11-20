@@ -260,6 +260,8 @@ export const Search = (props: SearchProps) => {
       if (!data) {
         return;
       }
+      const toHighlight = getTextToHighlight(data);
+      setTextToHighlight(toHighlight);
       setSearchResults(data);
       setGlobalSearchResults(data);
       setElasticFrom(0);
