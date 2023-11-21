@@ -70,6 +70,6 @@ export type SearchQueryRequestBody =
       };
     }
   | Record<string, never>;
-export const ASC = 'asc'
-export const DESC = 'desc'
+export const ASC = "asc";
+export const DESC = "desc";
 export type SortOrder = "desc" | "asc";

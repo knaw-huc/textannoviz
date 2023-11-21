@@ -1,6 +1,6 @@
-import {create, StateCreator} from "zustand";
-import {ProjectConfig} from "../model/ProjectConfig";
-import {Labels} from "../model/Labels.ts";
+import { create, StateCreator } from "zustand";
+import { ProjectConfig } from "../model/ProjectConfig";
+import { Labels } from "../model/Labels.ts";
 
 export interface ProjectSlice {
   projectName: string;
@@ -15,12 +15,9 @@ export interface ProjectConfigSlice {
 }
 
 export type ProjectStore = ProjectSlice & ProjectConfigSlice;
-const createProjectSlice: StateCreator<
-  ProjectStore,
-  [],
-  [],
-  ProjectSlice
-> = (set) => ({
+const createProjectSlice: StateCreator<ProjectStore, [], [], ProjectSlice> = (
+  set,
+) => ({
   projectName: "",
   setProjectName: (newProjectName) =>
     set(() => ({ projectName: newProjectName })),
@@ -37,12 +34,10 @@ const createProjectConfigSlice: StateCreator<
     set(() => ({ projectConfig: newProjectConfig })),
 });
 
-export const useProjectStore = create<ProjectStore>()(
-  (...a) => ({
-    ...createProjectSlice(...a),
-    ...createProjectConfigSlice(...a),
-  }),
-);
+export const useProjectStore = create<ProjectStore>()((...a) => ({
+  ...createProjectSlice(...a),
+  ...createProjectConfigSlice(...a),
+}));
 
 export function translateSelector(state: ProjectConfigSlice) {
   const labels = labelsSelector(state);
@@ -61,17 +56,21 @@ export function translateProjectSelector(state: ProjectConfigSlice) {
 
 function labelsSelector(state: ProjectConfigSlice): Record<string, string> {
   const config = projectConfigSelector(state);
-  let selectedLanguage = config.selectedLanguage;
-  const translation = config.languages.find(l => l.code === selectedLanguage);
-  if(!translation) {
-    throw new Error(`No translation found for selected language ${selectedLanguage}`);
+  const selectedLanguage = config.selectedLanguage;
+  const translation = config.languages.find((l) => l.code === selectedLanguage);
+  if (!translation) {
+    throw new Error(
+      `No translation found for selected language ${selectedLanguage}`,
+    );
   }
   return translation.labels;
 }
 
-export function projectConfigSelector(state: ProjectConfigSlice): ProjectConfig {
-  if(!state.projectConfig) {
-    throw new Error('No project config');
+export function projectConfigSelector(
+  state: ProjectConfigSlice,
+): ProjectConfig {
+  if (!state.projectConfig) {
+    throw new Error("No project config");
   }
   return state.projectConfig;
 }

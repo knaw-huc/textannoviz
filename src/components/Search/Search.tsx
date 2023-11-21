@@ -1,19 +1,31 @@
-import {Base64} from "js-base64";
-import {useEffect, useState} from "react";
-import {useSearchParams} from "react-router-dom";
-import {FacetNamesByType} from "../../model/Search";
-import {projectConfigSelector, translateSelector, useProjectStore,} from "../../stores/project.ts";
-import {useSearchStore} from "../../stores/search/search-store.ts";
-import {getElasticIndices, sendSearchQuery} from "../../utils/broccoli";
-import {SearchResults, SearchResultsColumn} from "./SearchResults.tsx";
-import {FacetEntry, filterFacetsByType, SearchQuery, toRequestBody} from "../../stores/search/search-query-slice.ts";
-import {createHighlights} from "./util/createHighlights.ts";
-import {QUERY} from "./SearchUrlParams.ts";
-import {addToUrlParams, getFromUrlParams} from "../../utils/UrlParamUtils.tsx";
-import {SearchForm} from "./SearchForm.tsx";
-import {toast} from "react-toastify";
-import {SearchUrlParams} from "../../stores/search/search-params-slice.ts";
-import {ProjectConfig} from "../../model/ProjectConfig.ts";
+import { Base64 } from "js-base64";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { FacetNamesByType } from "../../model/Search";
+import {
+  projectConfigSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
+import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
+import {
+  FacetEntry,
+  filterFacetsByType,
+  SearchQuery,
+  toRequestBody,
+} from "../../stores/search/search-query-slice.ts";
+import { createHighlights } from "./util/createHighlights.ts";
+import { QUERY } from "./SearchUrlParams.ts";
+import {
+  addToUrlParams,
+  getFromUrlParams,
+} from "../../utils/UrlParamUtils.tsx";
+import { SearchForm } from "./SearchForm.tsx";
+import { toast } from "react-toastify";
+import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
+import { ProjectConfig } from "../../model/ProjectConfig.ts";
 import * as _ from "lodash";
 
 export const Search = () => {
@@ -26,12 +38,15 @@ export const Search = () => {
   const [urlParams, setUrlParams] = useSearchParams();
   const translate = useProjectStore(translateSelector);
   const {
-    searchUrlParams, setSearchUrlParams,
-    searchQuery, setSearchQuery,
+    searchUrlParams,
+    setSearchUrlParams,
+    searchQuery,
+    setSearchQuery,
     setSearchResults,
     setTextToHighlight,
-    searchQueryHistory, updateSearchQueryHistory,
-    resetPage
+    searchQueryHistory,
+    updateSearchQueryHistory,
+    resetPage,
   } = useSearchStore();
 
   useEffect(() => {
@@ -56,18 +71,22 @@ export const Search = () => {
         ...searchQuery,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
-        ...queryDecoded
+        ...queryDecoded,
       };
       const newIndices = await getElasticIndices(projectConfig);
       if (!newIndices) {
-        return toast(translate('NO_INDICES_FOUND'), {type: "error"});
+        return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
       const newFacets = await getFacets(projectConfig);
       const newIndex = newIndices[projectConfig.elasticIndexName];
       const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
       newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
-      const newKeywordFacets = filterFacetsByType(newIndex, newFacets, "keyword");
+      const newKeywordFacets = filterFacetsByType(
+        newIndex,
+        newFacets,
+        "keyword",
+      );
 
       setKeywordFacets(newKeywordFacets);
       setIndex(newIndex);
@@ -75,20 +94,19 @@ export const Search = () => {
       setSearchQuery(newSearchQuery);
 
       if (queryDecoded?.fullText) {
-        await getSearchResults(newIndex, newSearchParams, newSearchQuery)
+        await getSearchResults(newIndex, newSearchParams, newSearchQuery);
         setShowingResults(true);
       }
 
       setInit(true);
     }
-
   }, []);
 
   useEffect(() => {
     syncUrlWithSearchParams();
 
     function syncUrlWithSearchParams() {
-      if(!isInit) {
+      if (!isInit) {
         return;
       }
       const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
@@ -99,7 +117,7 @@ export const Search = () => {
 
       const newUrlParams = addToUrlParams(urlParams, {
         ...searchUrlParams,
-        query: Base64.toBase64(cleanQuery)
+        query: Base64.toBase64(cleanQuery),
       });
       setUrlParams(newUrlParams);
     }
@@ -111,34 +129,41 @@ export const Search = () => {
     }
 
     async function searchWhenDirty() {
-      const inHistory = searchQueryHistory.some(q => _.isEqual(q, searchQuery));
-      if(!inHistory) {
+      const inHistory = searchQueryHistory.some((q) =>
+        _.isEqual(q, searchQuery),
+      );
+      if (!inHistory) {
         updateSearchQueryHistory(searchQuery);
       }
       await getSearchResults(index, searchUrlParams, searchQuery);
       setDirty(false);
     }
-
   }, [isDirty]);
 
   async function getSearchResults(
-      facetsByType: FacetNamesByType,
-      params: SearchUrlParams,
-      query: SearchQuery
+    facetsByType: FacetNamesByType,
+    params: SearchUrlParams,
+    query: SearchQuery,
   ) {
     if (!searchQuery.terms) {
       return;
     }
-    const searchResults = await sendSearchQuery(projectConfig, params, toRequestBody(query));
+    const searchResults = await sendSearchQuery(
+      projectConfig,
+      params,
+      toRequestBody(query),
+    );
     if (!searchResults) {
       return;
     }
     setSearchResults(searchResults);
-    setKeywordFacets(filterFacetsByType(facetsByType, searchResults.aggs, "keyword"));
+    setKeywordFacets(
+      filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
+    );
     setTextToHighlight(createHighlights(searchResults));
     const target = document.getElementById("searchContainer");
     if (target) {
-      target.scrollIntoView({behavior: "smooth"});
+      target.scrollIntoView({ behavior: "smooth" });
     }
   }
 
@@ -155,39 +180,32 @@ export const Search = () => {
     setShowingResults(true);
   }
 
-  async function getFacets(
-      projectConfig: ProjectConfig,
-  ) {
-    const searchResults = await sendSearchQuery(projectConfig, {size: 0}, {});
+  async function getFacets(projectConfig: ProjectConfig) {
+    const searchResults = await sendSearchQuery(projectConfig, { size: 0 }, {});
     if (!searchResults?.aggs) {
-      throw new Error('No facet request result');
+      throw new Error("No facet request result");
     }
     return searchResults.aggs;
   }
 
   return (
-      <div
-          id="searchContainer"
-          className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
-      >
-        <SearchForm
+    <div
+      id="searchContainer"
+      className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
+    >
+      <SearchForm onSearch={handleNewSearch} keywordFacets={keywordFacets} />
+      <SearchResultsColumn>
+        {/* Wait for init, to prevent a flicker of info page before results are shown: */}
+        {!isShowingResults && isInit && (
+          <projectConfig.components.SearchInfoPage />
+        )}
+        {isShowingResults && (
+          <SearchResults
             onSearch={handleNewSearch}
             keywordFacets={keywordFacets}
-        />
-        <SearchResultsColumn>
-          {/* Wait for init, to prevent a flicker of info page before results are shown: */}
-          {!isShowingResults && isInit &&
-              <projectConfig.components.SearchInfoPage/>
-          }
-          {isShowingResults &&
-              <SearchResults
-                  onSearch={handleNewSearch}
-                  keywordFacets={keywordFacets}
-              />
-          }
-        </SearchResultsColumn>
-      </div>
+          />
+        )}
+      </SearchResultsColumn>
+    </div>
   );
-}
-
-
+};

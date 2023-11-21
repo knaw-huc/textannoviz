@@ -1,15 +1,10 @@
-import {
-  AnnoRepoAnnotation,
-  TeiRsBody,
-} from "../../model/AnnoRepoAnnotation";
+import { AnnoRepoAnnotation, TeiRsBody } from "../../model/AnnoRepoAnnotation";
 
 interface GetAnnotationItemContentProps {
   annotation: AnnoRepoAnnotation;
 }
 
-export const AnnotationItemContent = (
-  props: GetAnnotationItemContentProps,
-) => {
+export const AnnotationItemContent = (props: GetAnnotationItemContentProps) => {
   function renderAnnotationItemContent() {
     switch (props.annotation.body.type) {
       case "tei:Rs":

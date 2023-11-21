@@ -1,4 +1,4 @@
-import {SearchResult} from "../../../model/Search.ts";
+import { SearchResult } from "../../../model/Search.ts";
 
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
@@ -16,8 +16,8 @@ export function createHighlights(data: SearchResult): Map<string, string[]> {
     }
     searchHits.forEach((hit) => {
       const matches = hit.preview
-          .match(HIT_PREVIEW_REGEX)
-          ?.map((str) => str.substring(4, str.length - 5));
+        .match(HIT_PREVIEW_REGEX)
+        ?.map((str) => str.substring(4, str.length - 5));
       if (matches) {
         previews.push(...new Set(matches));
       }

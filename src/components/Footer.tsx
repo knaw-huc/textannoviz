@@ -2,7 +2,11 @@ import {
   InformationCircleIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
-import {projectConfigSelector, translateSelector, useProjectStore} from "../stores/project";
+import {
+  projectConfigSelector,
+  translateSelector,
+  useProjectStore,
+} from "../stores/project";
 import { AnnotationButtons } from "./Annotations/AnnotationButtons";
 
 type FooterProps = {
@@ -30,7 +34,7 @@ export const Footer = (props: FooterProps) => {
               className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
             >
               <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
-              {translate('NEW_SEARCH')}
+              {translate("NEW_SEARCH")}
             </a>
           </button>
           {projectConfig.showSearchResultsButtonFooter ? (
@@ -44,8 +48,8 @@ export const Footer = (props: FooterProps) => {
               disabled={props.searchResultsShowState}
             >
               {props.searchResultsShowState
-                ? translate('HIDE_SEARCH_RESULTS')
-                : translate('SHOW_SEARCH_RESULTS')}
+                ? translate("HIDE_SEARCH_RESULTS")
+                : translate("SHOW_SEARCH_RESULTS")}
             </button>
           ) : null}
 
@@ -55,8 +59,8 @@ export const Footer = (props: FooterProps) => {
               onClick={props.showIiifViewerHandler}
             >
               {props.facsimileShowState
-                ? translate('HIDE_FACSIMILE')
-                : translate('SHOW_FACSIMILE')}
+                ? translate("HIDE_FACSIMILE")
+                : translate("SHOW_FACSIMILE")}
             </button>
           ) : null}
         </div>
@@ -71,9 +75,8 @@ export const Footer = (props: FooterProps) => {
             onClick={props.showAnnotationPanelHandler}
           >
             {props.panelShowState
-                ? translate('HIDE_INFO')
-                : translate('SHOW_INFO')}
-            {" "}
+              ? translate("HIDE_INFO")
+              : translate("SHOW_INFO")}{" "}
             <InformationCircleIcon className="inline h-5 w-5 fill-neutral-500" />
           </button>
         </div>

@@ -1,7 +1,11 @@
 import React from "react";
 import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../stores/annotation";
-import {projectConfigSelector, translateProjectSelector, useProjectStore} from "../../stores/project";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 import { selectDistinctBodyTypes } from "../../utils/broccoli";
 
 export const AnnotationFilter = () => {

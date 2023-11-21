@@ -2,7 +2,10 @@ import {
   AnnoRepoAnnotation,
   TfLetterBody,
 } from "../../model/AnnoRepoAnnotation";
-import {translateProjectSelector, useProjectStore} from "../../stores/project";
+import {
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -21,9 +24,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
           ([key, value], index) => (
             <li className="mb-8" key={index}>
               <div className="grid grid-cols-1">
-                <strong>
-                  {translateProject(key)}
-                </strong>
+                <strong>{translateProject(key)}</strong>
                 {value}
               </div>
             </li>

@@ -4,9 +4,7 @@ interface GetAnnotationItemContentProps {
   annotation: AnnoRepoAnnotation;
 }
 
-export const AnnotationItemContent = (
-  props: GetAnnotationItemContentProps,
-) => {
+export const AnnotationItemContent = (props: GetAnnotationItemContentProps) => {
   return (
     <>
       {props.annotation.body.metadata

@@ -6,5 +6,5 @@ interface HelpProps {
 }
 
 export default function Help(props: HelpProps) {
-  return <props.config.components.Help/>;
+  return <props.config.components.Help />;
 }

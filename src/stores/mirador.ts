@@ -4,9 +4,7 @@ import { create, StateCreator } from "zustand";
  * Store created by and internally used by mirador
  * Textannoviz uses this store to catch and handle user events
  */
-type MiradorStore = StoreSlice
-    & CurrentContextSlice
-    & CanvasSlice;
+type MiradorStore = StoreSlice & CurrentContextSlice & CanvasSlice;
 
 export interface StoreSlice {
   miradorStore: any;
@@ -32,12 +30,9 @@ export interface CanvasSlice {
   setCanvas: (newCanvas: CanvasSlice["canvas"]) => void;
 }
 
-const createStoreSlice: StateCreator<
-  MiradorStore,
-  [],
-  [],
-  StoreSlice
-> = (set) => ({
+const createStoreSlice: StateCreator<MiradorStore, [], [], StoreSlice> = (
+  set,
+) => ({
   miradorStore: null,
   setStore: (newStore) => set(() => ({ miradorStore: newStore })),
 });
@@ -57,12 +52,9 @@ const createCurrentContextSlice: StateCreator<
     set(() => ({ currentContext: newCurrentContext })),
 });
 
-const createCanvasSlice: StateCreator<
-  MiradorStore,
-  [],
-  [],
-  CanvasSlice
-> = (set) => ({
+const createCanvasSlice: StateCreator<MiradorStore, [], [], CanvasSlice> = (
+  set,
+) => ({
   canvas: {
     canvasIds: [],
     currentIndex: 0,
@@ -70,9 +62,7 @@ const createCanvasSlice: StateCreator<
   setCanvas: (newCanvas) => set(() => ({ canvas: newCanvas })),
 });
 
-export const useMiradorStore = create<
-  MiradorStore
->()((...a) => ({
+export const useMiradorStore = create<MiradorStore>()((...a) => ({
   ...createStoreSlice(...a),
   ...createCurrentContextSlice(...a),
   ...createCanvasSlice(...a),
