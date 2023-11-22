@@ -1,5 +1,5 @@
-import {SearchResult} from "../../model/Search.ts";
-import {StateCreator} from "zustand";
+import { SearchResult } from "../../model/Search.ts";
+import { StateCreator } from "zustand";
 
 export type SearchResultsSlice = {
   searchResults: SearchResult | undefined;
@@ -7,11 +7,11 @@ export type SearchResultsSlice = {
 };
 
 export const createSearchResultsSlice: StateCreator<
-    SearchResultsSlice,
-    [],
-    [],
-    SearchResultsSlice
+  SearchResultsSlice,
+  [],
+  [],
+  SearchResultsSlice
 > = (set) => ({
   searchResults: undefined,
-  setSearchResults: (update) => set(() => ({ searchResults: update }))
+  setSearchResults: (update) => set(() => ({ searchResults: update })),
 });

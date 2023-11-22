@@ -1,4 +1,4 @@
-import {dutchLabels} from "../../default/config/dutchLabels.ts";
+import { dutchLabels } from "../../default/config/dutchLabels.ts";
 
 export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   // facet translations:

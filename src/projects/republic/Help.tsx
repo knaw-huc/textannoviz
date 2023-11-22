@@ -1,3 +1,3 @@
-import {Placeholder} from "../../components/Placeholder.tsx";
+import { Placeholder } from "../../components/Placeholder.tsx";
 
 export const Help = Placeholder;

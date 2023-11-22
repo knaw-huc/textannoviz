@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
-import {projectConfigSelector, useProjectStore} from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 
 type AnnotationContentProps = {
   annotation: AnnoRepoAnnotation | undefined;
@@ -21,7 +21,7 @@ export function AnnotationItemContent(props: AnnotationContentProps) {
         <div id="annotation-content">
           <ul>
             <projectConfig.components.AnnotationItemContent
-                annotation={props.annotation}
+              annotation={props.annotation}
             />
             <li>
               <button

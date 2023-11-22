@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import {URLSearchParamsInit} from "react-router-dom";
+import { URLSearchParamsInit } from "react-router-dom";
 
 /**
  * Merge the properties in {@link toPopulate} with
@@ -9,23 +9,23 @@ import {URLSearchParamsInit} from "react-router-dom";
  * to match original type in {@link toPopulate}
  */
 export function getFromUrlParams<T extends object>(
-    toPopulate: T,
-    urlParams: URLSearchParams
+  toPopulate: T,
+  urlParams: URLSearchParams,
 ): T {
-  return Object.fromEntries(Object.entries(toPopulate)
-      .map(([k, v]) => {
-        const urlValue = urlParams.get(k);
-        if (!urlValue) {
-          return [k, v];
-        }
-        if (_.isNumber(v)) {
-          return [k, _.toNumber(urlValue)];
-        } else if (_.isBoolean(v)) {
-          return [k, (urlValue === 'true')];
-        } else {
-          return [k, urlValue];
-        }
-      })
+  return Object.fromEntries(
+    Object.entries(toPopulate).map(([k, v]) => {
+      const urlValue = urlParams.get(k);
+      if (!urlValue) {
+        return [k, v];
+      }
+      if (_.isNumber(v)) {
+        return [k, _.toNumber(urlValue)];
+      } else if (_.isBoolean(v)) {
+        return [k, urlValue === "true"];
+      } else {
+        return [k, urlValue];
+      }
+    }),
   ) as T;
 }
 
@@ -34,11 +34,11 @@ export function getFromUrlParams<T extends object>(
  * or overwrite existing values
  */
 export function addToUrlParams<T extends object>(
-    urlParams: URLSearchParams,
-    toAdd: T
+  urlParams: URLSearchParams,
+  toAdd: T,
 ): URLSearchParamsInit {
   return {
-    ... urlParams,
-    ..._.mapValues(toAdd, v => `${v}`)
+    ...urlParams,
+    ..._.mapValues(toAdd, (v) => `${v}`),
   };
 }

@@ -58,9 +58,7 @@ export const Detail = (props: DetailProps) => {
   const annotationTypesToInclude = useAnnotationStore(
     (state) => state.annotationTypesToInclude,
   );
-  const globalSearchResults = useSearchStore(
-    (state) => state.searchResults,
-  );
+  const globalSearchResults = useSearchStore((state) => state.searchResults);
   const params = useParams();
 
   const createDetailState = React.useCallback(

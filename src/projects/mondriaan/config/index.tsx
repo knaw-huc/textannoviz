@@ -1,15 +1,15 @@
 import logo from "../../../assets/logo-republic-temp.png";
-import {ProjectConfig} from "../../../model/ProjectConfig";
-import {AnnotationButtons} from "../AnnotationButtons.tsx";
-import {AnnotationItemContent} from "../AnnotationItemContent.tsx";
-import {MetadataPanel} from "../MetadataPanel.tsx";
-import {SearchInfoPage} from "../SearchInfoPage.tsx";
+import { ProjectConfig } from "../../../model/ProjectConfig";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
-import {defaultConfig} from "../../default/config";
-import {englishMondriaanLabels} from "./englishMondriaanLabels.ts";
+import { defaultConfig } from "../../default/config";
+import { englishMondriaanLabels } from "./englishMondriaanLabels.ts";
 import * as _ from "lodash";
 
-export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig,  {
+export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig, {
   id: "mondriaan",
   relativeTo: "tf:Letter",
   annotationTypesToInclude: [
@@ -107,11 +107,14 @@ export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig,  {
     MetadataPanel,
     SearchInfoPage,
   },
-  selectedLanguage: 'en',
-  languages: [{
-    code: 'en', labels: englishMondriaanLabels
-  }],
+  selectedLanguage: "en",
+  languages: [
+    {
+      code: "en",
+      labels: englishMondriaanLabels,
+    },
+  ],
   mirador: {
-    showTopMenuButton: true
+    showTopMenuButton: true,
   },
 });

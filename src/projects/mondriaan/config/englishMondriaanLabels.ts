@@ -1,4 +1,4 @@
-import {englishLabels} from "../../default/config/englishLabels.ts";
+import { englishLabels } from "../../default/config/englishLabels.ts";
 
 export const englishMondriaanLabels = Object.assign({}, englishLabels, {
   // metadata panel titles:

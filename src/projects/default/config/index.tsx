@@ -1,20 +1,21 @@
-import {ProjectConfig} from "../../../model/ProjectConfig.ts";
-import {englishLabels} from "./englishLabels.ts";
-import {Placeholder} from "../../../components/Placeholder.tsx";
+import { ProjectConfig } from "../../../model/ProjectConfig.ts";
+import { englishLabels } from "./englishLabels.ts";
+import { Placeholder } from "../../../components/Placeholder.tsx";
 
 /**
  * Default configuration file with some sensible defaults
  * which can be extended and overwritten by projects
  */
-export const defaultConfig: Omit<ProjectConfig,
-    "id"
-    | "elasticIndexName"
-    | "headerTitle"
-    | "initialDateFrom"
-    | "initialDateTo"
-    | "logoImageUrl"
-    | "relativeTo"
-    | "scanAnnotation"
+export const defaultConfig: Omit<
+  ProjectConfig,
+  | "id"
+  | "elasticIndexName"
+  | "headerTitle"
+  | "initialDateFrom"
+  | "initialDateTo"
+  | "logoImageUrl"
+  | "relativeTo"
+  | "scanAnnotation"
 > = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
@@ -42,12 +43,15 @@ export const defaultConfig: Omit<ProjectConfig,
     AnnotationButtons: Placeholder,
     Help: Placeholder,
     MetadataPanel: Placeholder,
-    SearchInfoPage: Placeholder
+    SearchInfoPage: Placeholder,
   },
-  selectedLanguage: 'en',
-  languages: [{
-    code: 'en', labels: englishLabels
-  }],
+  selectedLanguage: "en",
+  languages: [
+    {
+      code: "en",
+      labels: englishLabels,
+    },
+  ],
   mirador: {
     showWindowSideBar: false,
     showTopMenuButton: false,

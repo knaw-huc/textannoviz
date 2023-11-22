@@ -1,7 +1,7 @@
-import {toast} from "react-toastify";
-import {ProjectConfig} from "../model/ProjectConfig";
-import {SearchQueryRequestBody, SearchResult} from "../model/Search";
-import {SearchUrlParams} from "../stores/search/search-params-slice.ts";
+import { toast } from "react-toastify";
+import { ProjectConfig } from "../model/ProjectConfig";
+import { SearchQueryRequestBody, SearchResult } from "../model/Search";
+import { SearchUrlParams } from "../stores/search/search-params-slice.ts";
 
 const headers = {
   "Content-Type": "application/json",
@@ -61,9 +61,9 @@ export const selectDistinctBodyTypes = async (
 };
 
 export const sendSearchQuery = async (
-    projectConfig: ProjectConfig,
-    params: Partial<SearchUrlParams>,
-    query: SearchQueryRequestBody
+  projectConfig: ProjectConfig,
+  params: Partial<SearchUrlParams>,
+  query: SearchQueryRequestBody,
 ): Promise<SearchResult | null> => {
   const urlSearchParams = new URLSearchParams(params as any);
   const response = await fetch(

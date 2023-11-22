@@ -3,9 +3,9 @@ import { SearchResultBody } from "../../model/Search";
 import {
   translateProjectSelector,
   translateSelector,
-  useProjectStore
+  useProjectStore,
 } from "../../stores/project";
-import {Labels} from "../../model/Labels.ts";
+import { Labels } from "../../model/Labels.ts";
 
 interface SearchItemProps {
   result: SearchResultBody;
@@ -33,8 +33,7 @@ export const SearchItem = (props: SearchItemProps) => {
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
-        {translateProject(props.result.sessionWeekday)}
-        {" "}
+        {translateProject(props.result.sessionWeekday)}{" "}
         <strong className="font-semibold">
           {props.result.sessionDay}{" "}
           {translate(monthNumberToString[props.result.sessionMonth])}{" "}

@@ -1,4 +1,4 @@
-import {StateCreator} from "zustand";
+import { StateCreator } from "zustand";
 
 type TextToHighlight = Map<string, string[]>;
 export type TextToHighlightSlice = {
@@ -6,10 +6,12 @@ export type TextToHighlightSlice = {
   setTextToHighlight: (update: TextToHighlight) => void;
 };
 
-
 export const createTextToHighlightSlice: StateCreator<
-    TextToHighlightSlice, [], [], TextToHighlightSlice
+  TextToHighlightSlice,
+  [],
+  [],
+  TextToHighlightSlice
 > = (set) => ({
   textToHighlight: new Map(),
-  setTextToHighlight: (update) => set(() => ({ textToHighlight: update }))
+  setTextToHighlight: (update) => set(() => ({ textToHighlight: update })),
 });

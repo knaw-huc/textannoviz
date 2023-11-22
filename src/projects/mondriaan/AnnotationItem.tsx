@@ -10,7 +10,7 @@ import {
   TeiRegBody,
   TeiRsBody,
 } from "../../model/AnnoRepoAnnotation";
-import {AnnotationItemProps} from "../../model/ProjectConfig.ts";
+import { AnnotationItemProps } from "../../model/ProjectConfig.ts";
 
 export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
   switch (annotation.body.type) {
@@ -130,7 +130,5 @@ export const getAnnotationItem = (annotation: AnnoRepoAnnotation) => {
 };
 
 export default function AnnotationItem(props: AnnotationItemProps) {
-  return <>{
-    getAnnotationItem(props.annotation)
-  }</>
+  return <>{getAnnotationItem(props.annotation)}</>;
 }

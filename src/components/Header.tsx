@@ -1,5 +1,5 @@
-import {ProjectConfig} from "../model/ProjectConfig";
-import {LanguageMenu} from "./LanguageMenu.tsx";
+import { ProjectConfig } from "../model/ProjectConfig";
+import { LanguageMenu } from "./LanguageMenu.tsx";
 
 type HeaderProps = {
   projectConfig: ProjectConfig;

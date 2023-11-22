@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
-import {projectConfigSelector, useProjectStore} from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { createIndices } from "../../utils/createIndices";
 import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
@@ -144,7 +144,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
         id="clickable"
       >
         <projectConfig.components.AnnotationItem
-            annotation={props.annotation}
+          annotation={props.annotation}
         />
       </Clickable>
       {isOpen && <AnnotationItemContent annotation={props.annotation} />}

@@ -1,4 +1,4 @@
-import {projectConfigSelector, useProjectStore} from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 
 interface AnnotationButtonsProps {
   nextOrPrevButtonClicked: (clicked: boolean) => boolean;
@@ -6,7 +6,9 @@ interface AnnotationButtonsProps {
 
 export const AnnotationButtons = (props: AnnotationButtonsProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  return <projectConfig.components.AnnotationButtons
+  return (
+    <projectConfig.components.AnnotationButtons
       nextOrPrevButtonClicked={props.nextOrPrevButtonClicked}
-  />
+    />
+  );
 };

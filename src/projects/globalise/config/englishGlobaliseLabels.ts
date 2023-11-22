@@ -1,4 +1,4 @@
-import {englishLabels} from "../../default/config/englishLabels.ts";
+import { englishLabels } from "../../default/config/englishLabels.ts";
 
 export const englishGlobaliseLabels = Object.assign({}, englishLabels, {
   // search facet titles:

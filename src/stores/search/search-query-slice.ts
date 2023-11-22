@@ -1,4 +1,4 @@
-import {StateCreator} from "zustand";
+import { StateCreator } from "zustand";
 import {
   FacetNamesByType,
   Facet,
@@ -6,7 +6,7 @@ import {
   Facets,
   SearchQueryRequestBody,
   Terms,
-  FacetType
+  FacetType,
 } from "../../model/Search.ts";
 
 /**
@@ -17,7 +17,7 @@ export type SearchQuery = {
   dateFrom: string;
   dateTo: string;
   fullText: string;
-  terms: Terms
+  terms: Terms;
 };
 
 export type SearchQuerySlice = {
@@ -28,34 +28,39 @@ export type SearchQuerySlice = {
 };
 
 export const createSearchQuerySlice: StateCreator<
-    SearchQuerySlice, [], [], SearchQuerySlice
+  SearchQuerySlice,
+  [],
+  [],
+  SearchQuerySlice
 > = (set) => ({
   searchQuery: {
     dateFacet: undefined,
     dateFrom: "",
     dateTo: "",
     fullText: "",
-    terms: {}
+    terms: {},
   },
   searchQueryHistory: [],
-  setSearchQuery: update => set((prev) => ({
-    ...prev,
-    searchQuery: update
-  })),
-  updateSearchQueryHistory: (update: SearchQuery) =>  set(prev => ({
-    ...prev,
-    searchQueryHistory: [...prev.searchQueryHistory, update]
-  }))
+  setSearchQuery: (update) =>
+    set((prev) => ({
+      ...prev,
+      searchQuery: update,
+    })),
+  updateSearchQueryHistory: (update: SearchQuery) =>
+    set((prev) => ({
+      ...prev,
+      searchQueryHistory: [...prev.searchQueryHistory, update],
+    })),
 });
 
 export type FacetEntry = [FacetName, Facet];
 
 export function filterFacetsByType(
-    facetByType: FacetNamesByType,
-    facets: Facets,
-    type: FacetType,
+  facetByType: FacetNamesByType,
+  facets: Facets,
+  type: FacetType,
 ): FacetEntry[] {
-  if(!facets || !facetByType) {
+  if (!facets || !facetByType) {
     return [];
   }
   return Object.entries(facets).filter(([name]) => {
@@ -63,9 +68,7 @@ export function filterFacetsByType(
   });
 }
 
-export function toRequestBody(
-    query: SearchQuery,
-): SearchQueryRequestBody {
+export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
   if (!query?.terms) {
     return {};
   }
@@ -78,7 +81,7 @@ export function toRequestBody(
 
   searchQuery.terms = query.terms;
 
-  if(query.dateFacet) {
+  if (query.dateFacet) {
     searchQuery.date = {
       name: query.dateFacet,
       from: query.dateFrom,

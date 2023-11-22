@@ -1,31 +1,33 @@
-import {FacetName, FacetOptionName} from "../../model/Search.ts";
-import {projectConfigSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
-import {SearchSorting, Sorting} from "./SearchSorting.tsx";
-import {SearchResultsPerPage} from "./SearchResultsPerPage.tsx";
-import {SearchPagination} from "./SearchPagination.tsx";
-import {SearchItem} from "./SearchItem.tsx";
+import { FacetName, FacetOptionName } from "../../model/Search.ts";
+import {
+  projectConfigSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
+import { SearchSorting, Sorting } from "./SearchSorting.tsx";
+import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
+import { SearchPagination } from "./SearchPagination.tsx";
+import { SearchItem } from "./SearchItem.tsx";
 import * as _ from "lodash";
-import {useSearchStore} from "../../stores/search/search-store.ts";
-import {ChangeEvent, ReactNode} from "react";
-import {removeTerm} from "./util/removeTerm.ts";
-import {toPageNumber} from "./util/toPageNumber.ts";
-import {KeywordFacetLabel} from "./KeywordFacetLabel.tsx";
-import {FacetEntry} from "../../stores/search/search-query-slice.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { ChangeEvent, ReactNode } from "react";
+import { removeTerm } from "./util/removeTerm.ts";
+import { toPageNumber } from "./util/toPageNumber.ts";
+import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
+import { FacetEntry } from "../../stores/search/search-query-slice.ts";
 
 export function SearchResults(props: {
   keywordFacets: FacetEntry[];
-  onSearch: (stayOnPage?: boolean) => void
+  onSearch: (stayOnPage?: boolean) => void;
 }) {
-
-  const {
-    keywordFacets,
-    onSearch
-  } = props;
+  const { keywordFacets, onSearch } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const {
-    searchUrlParams, setSearchUrlParams,
-    searchQuery, setSearchQuery,
-    searchResults
+    searchUrlParams,
+    setSearchUrlParams,
+    searchQuery,
+    setSearchQuery,
+    searchResults,
   } = useSearchStore();
 
   const resultsStart = searchUrlParams.from + 1;
@@ -37,8 +39,8 @@ export function SearchResults(props: {
     setSearchUrlParams({
       ...searchUrlParams,
       sortBy: sorting.field,
-      sortOrder: sorting.order
-    })
+      sortOrder: sorting.order,
+    });
     onSearch();
   }
 
@@ -55,111 +57,117 @@ export function SearchResults(props: {
     if (!searchResults || newFrom >= searchResults.total.value) {
       return;
     }
-    await selectPage(newFrom)
+    await selectPage(newFrom);
   }
 
   async function selectPage(newFrom: number) {
     setSearchUrlParams({
       ...searchUrlParams,
-      from: newFrom
+      from: newFrom,
     });
-    onSearch(true)
+    onSearch(true);
   }
 
-  const changePageSize = (
-      event: ChangeEvent<HTMLSelectElement>,
-  ) => {
+  const changePageSize = (event: ChangeEvent<HTMLSelectElement>) => {
     if (!event.currentTarget.value) {
       return;
     }
     setSearchUrlParams({
       ...searchUrlParams,
-      size: parseInt(event.currentTarget.value)
+      size: parseInt(event.currentTarget.value),
     });
-    onSearch()
+    onSearch();
   };
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
     const newTerms = structuredClone(searchQuery.terms);
     removeTerm(newTerms, facet, option);
-    setSearchQuery({...searchQuery, terms: newTerms});
-    setSearchUrlParams({...searchUrlParams});
-    onSearch()
+    setSearchQuery({ ...searchQuery, terms: newTerms });
+    setSearchUrlParams({ ...searchUrlParams });
+    onSearch();
   }
 
-  if(!searchResults) {
+  if (!searchResults) {
     return null;
   }
   const resultsEnd = Math.min(
-      resultsStart + pageSize - 1,
-      searchResults.total.value,
+    resultsStart + pageSize - 1,
+    searchResults.total.value,
   );
   const resultStartEnd = searchResults.total.value
-      ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
-      : '';
+    ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
+    : "";
   return (
-      <>
-        <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
-            <span className="font-semibold">
-              {`${resultStartEnd} ${searchResults.total.value} ${translate("RESULTS").toLowerCase()}`}
-            </span>
-          <div className="flex items-center justify-between gap-10">
-            {projectConfig.showSearchSortBy && (
-                <SearchSorting
-                    dateFacet={searchQuery.dateFacet}
-                    onSort={updateSorting}
-                    selected={{
-                      field: searchUrlParams.sortBy,
-                      order: searchUrlParams.sortOrder
-                    }}
-                />
-            )}
-
-            <SearchResultsPerPage
-                onChange={changePageSize}
-                value={pageSize}
+    <>
+      <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
+        <span className="font-semibold">
+          {`${resultStartEnd} ${searchResults.total.value} ${translate(
+            "RESULTS",
+          ).toLowerCase()}`}
+        </span>
+        <div className="flex items-center justify-between gap-10">
+          {projectConfig.showSearchSortBy && (
+            <SearchSorting
+              dateFacet={searchQuery.dateFacet}
+              onSort={updateSorting}
+              selected={{
+                field: searchUrlParams.sortBy,
+                order: searchUrlParams.sortOrder,
+              }}
             />
-          </div>
+          )}
+
+          <SearchResultsPerPage onChange={changePageSize} value={pageSize} />
         </div>
-        <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
-          {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && <>
-            <span className="text-brand1Grey-600 text-sm">{translate("FILTERS")}: </span>
-            {keywordFacets.map(([facet, facetOptions]) => _.keys(facetOptions)
-                .filter(option => searchQuery.terms[facet]?.includes(option))
-                .map((option, i) => <KeywordFacetLabel
+      </div>
+      <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
+        {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && (
+          <>
+            <span className="text-brand1Grey-600 text-sm">
+              {translate("FILTERS")}:{" "}
+            </span>
+            {keywordFacets.map(([facet, facetOptions]) =>
+              _.keys(facetOptions)
+                .filter((option) => searchQuery.terms[facet]?.includes(option))
+                .map((option, i) => (
+                  <KeywordFacetLabel
                     key={i}
                     option={option}
                     facet={facet}
                     onRemove={removeFacet}
-                />))}
-          </>}
-
-          <SearchPagination
-              prevPageClickHandler={selectPrevPage}
-              nextPageClickHandler={selectNextPage}
-              pageNumber={pageNumber}
-              searchResult={searchResults}
-              elasticSize={pageSize}
-          />
-        </div>
-        {searchResults.results.length >= 1 && (
-            searchResults.results.map((result, index) => (
-                <SearchItem key={index} result={result}/>
-            ))
+                  />
+                )),
+            )}
+          </>
         )}
+
         <SearchPagination
-            prevPageClickHandler={selectPrevPage}
-            nextPageClickHandler={selectNextPage}
-            pageNumber={pageNumber}
-            searchResult={searchResults}
-            elasticSize={pageSize}
+          prevPageClickHandler={selectPrevPage}
+          nextPageClickHandler={selectNextPage}
+          pageNumber={pageNumber}
+          searchResult={searchResults}
+          elasticSize={pageSize}
         />
-      </>
+      </div>
+      {searchResults.results.length >= 1 &&
+        searchResults.results.map((result, index) => (
+          <SearchItem key={index} result={result} />
+        ))}
+      <SearchPagination
+        prevPageClickHandler={selectPrevPage}
+        nextPageClickHandler={selectNextPage}
+        pageNumber={pageNumber}
+        searchResult={searchResults}
+        elasticSize={pageSize}
+      />
+    </>
   );
 }
 
-export function SearchResultsColumn(props: {children?: ReactNode}) {
-  return <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
-    {props.children}
-  </div>
+export function SearchResultsColumn(props: { children?: ReactNode }) {
+  return (
+    <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
+      {props.children}
+    </div>
+  );
 }

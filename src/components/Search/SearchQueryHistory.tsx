@@ -1,7 +1,11 @@
-import {ProjectConfig} from "../../model/ProjectConfig";
-import {translateProjectSelector, translateSelector, useProjectStore} from "../../stores/project.ts";
-import {useState} from "react";
-import {SearchQuery} from "../../stores/search/search-query-slice.ts";
+import { ProjectConfig } from "../../model/ProjectConfig";
+import {
+  translateProjectSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
+import { useState } from "react";
+import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 
 type SearchQueryHistoryProps = {
   queryHistory: SearchQuery[];
@@ -19,8 +23,8 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
 
   const moreThanDisplayable = props.queryHistory.length >= MAX_DISPLAY;
   const lastQueries = props.queryHistory
-      .slice(moreThanDisplayable ? -MAX_DISPLAY : 0)
-      .reverse();
+    .slice(moreThanDisplayable ? -MAX_DISPLAY : 0)
+    .reverse();
 
   return (
     <>
@@ -29,7 +33,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm"
         disabled={props.disabled}
       >
-        {translate('SEARCH_HISTORY')}
+        {translate("SEARCH_HISTORY")}
       </button>
       {isOpen && (
         <ol className="ml-6 mt-4 list-decimal">
@@ -42,27 +46,30 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
               >
                 {query.fullText && (
                   <div>
-                    <strong>{translate('TEXT')}: </strong> {query.fullText}
+                    <strong>{translate("TEXT")}: </strong> {query.fullText}
                   </div>
                 )}
                 {query.dateFacet && (
                   <>
                     <div>
-                      <strong>{translate('FROM')}: </strong> {query.dateFrom}
+                      <strong>{translate("FROM")}: </strong> {query.dateFrom}
                     </div>{" "}
                     <div>
-                      <strong>{translate('UP_TO_AND_INCLUDING')}: </strong> {query.dateTo}
+                      <strong>{translate("UP_TO_AND_INCLUDING")}: </strong>{" "}
+                      {query.dateTo}
                     </div>
                   </>
                 )}
                 {query.terms && (
                   <div>
                     {Object.keys(query.terms).length > 0 ? (
-                      <strong>{translate('SELECTED_FACETS')}:</strong>
+                      <strong>{translate("SELECTED_FACETS")}:</strong>
                     ) : null}
                     {Object.entries(query.terms).map(([key, value], index) => (
                       <div key={index}>
-                        {`${translateProject(key)}: ${translateProject(value[0])}`}
+                        {`${translateProject(key)}: ${translateProject(
+                          value[0],
+                        )}`}
                       </div>
                     ))}
                   </div>
@@ -70,7 +77,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
               </li>
             ))
           ) : (
-            <div>{translate('NO_SEARCH_HISTORY')}.</div>
+            <div>{translate("NO_SEARCH_HISTORY")}.</div>
           )}
         </ol>
       )}

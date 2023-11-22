@@ -30,7 +30,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       if (textToHighlight.get(params.tier2)) {
         const toHighlightStrings = textToHighlight.get(params.tier2);
         const regexString = toHighlightStrings
-          ?.map(str => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+          ?.map((str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
           .join("|");
         const regex = new RegExp(`${regexString}`, "g");
 
