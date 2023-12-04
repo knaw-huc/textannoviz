@@ -314,11 +314,27 @@ input[type="search"] {
 }
 
 .underlined-attendant {
+  content: "";
   border-bottom: 3px solid #d3d14a;
   cursor: pointer;
+}
+
+.underlined-attendant::before {
+  content: "👤";
+  margin-right: 0.25rem;
 }
 
 .underlined-reviewed {
   border-bottom: 3px solid cyan;
   cursor: pointer;
+}
+
+.react-aria-Popover {
+  border: 1px solid black;
+  box-shadow: 0 8px 20px rgba(0 0 0 / 0.1);
+  border-radius: 6px;
+  background: white;
+  outline: none;
+  max-width: 250px;
+  box-sizing: border-box;
 }

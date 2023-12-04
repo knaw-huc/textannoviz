@@ -1,4 +1,5 @@
 import mirador from "mirador";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
@@ -21,8 +22,25 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const classes = new Map<number, string[]>();
   const textToHighlight = useSearchStore((state) => state.textToHighlight);
   const params = useParams();
+  const [annotationsToHighlight, setAnnotationsToHighlight] = React.useState<
+    AnnoRepoAnnotation[]
+  >([]);
 
   const textLinesToDisplay: string[][] = [[]];
+
+  React.useEffect(() => {
+    const filteredAnnotations: AnnoRepoAnnotation[] = [];
+    projectConfig.annotationTypesToHighlight.forEach((annotationType) => {
+      const annotationsOfType = annotations.filter(
+        (annotation) => annotation.body.type === annotationType,
+      );
+      filteredAnnotations.push(...annotationsOfType);
+    });
+
+    if (filteredAnnotations.length > 0) {
+      setAnnotationsToHighlight(filteredAnnotations);
+    }
+  }, [annotations, projectConfig.annotationTypesToHighlight]);
 
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {
@@ -49,7 +67,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
   function collectClasses(index: number) {
     const collectedClasses = new Set<string>();
-    annotations.map((anno) => {
+    annotationsToHighlight.map((anno) => {
       const indexClasses = classes.get(index);
       if (indexClasses?.includes(anno.body.id)) {
         indexClasses.forEach((indexClass) => collectedClasses.add(indexClass));
@@ -103,11 +121,15 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       className.includes(identifier),
     );
 
-    const annotation = annotations.find((anno) => anno.body.id === bodyId);
+    if (!bodyId) return;
+
+    const annotation = annotationsToHighlight.find(
+      (anno) => anno.body.id === bodyId,
+    );
 
     toast(`You clicked on annotation ${bodyId}`, { type: "info" });
 
-    if (bodyId && annotation) {
+    if (annotation) {
       updateMirador(bodyId, annotation);
     }
   }

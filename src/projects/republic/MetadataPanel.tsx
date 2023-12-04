@@ -13,7 +13,7 @@ import { Broccoli } from "../../model/Broccoli";
 import {
   projectConfigSelector,
   translateProjectSelector,
-  useProjectStore
+  useProjectStore,
 } from "../../stores/project";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
 
@@ -165,7 +165,9 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
           <li className="mb-8">
             <div className={gridOneColumn}>
               <strong>Datum: </strong>
-              {translateProject((session[0].body as SessionBody).metadata.sessionWeekday)}{" "}
+              {translateProject(
+                (session[0].body as SessionBody).metadata.sessionWeekday,
+              )}{" "}
               {(resolution[0].body as ResolutionBody).metadata.sessionDay}{" "}
               {
                 monthNumberToString[
@@ -243,12 +245,15 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   }
 
   function renderMetadataPanelScanView() {
+    if (scan.length === 0 && session.length === 0) return;
     return (
       <ul className="m-0 list-none p-0">
         <li className="mb-8">
           <div className={gridOneColumn}>
             <strong>Datum: </strong>
-            {translateProject((session[0].body as SessionBody).metadata.sessionWeekday)}{" "}
+            {translateProject(
+              (session[0].body as SessionBody).metadata.sessionWeekday,
+            )}{" "}
             {(session[0].body as SessionBody).metadata.sessionDay}{" "}
             {
               monthNumberToString[

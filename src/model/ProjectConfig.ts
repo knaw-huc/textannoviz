@@ -1,5 +1,5 @@
-import {AnnoRepoAnnotation} from "./AnnoRepoAnnotation.ts";
-import {LanguageCode, Language} from "./Language.ts";
+import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation.ts";
+import { Language, LanguageCode } from "./Language.ts";
 
 export type ProjectConfig = {
   id: string;
@@ -14,6 +14,7 @@ export type ProjectConfig = {
   relativeTo: string;
 
   annotationTypesToInclude: string[];
+  annotationTypesToHighlight: string[];
   tier: string[];
   bodyType: string[];
   scanAnnotation: string;
@@ -39,20 +40,24 @@ export type ProjectConfig = {
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {
-    showWindowSideBar: boolean,
-    showTopMenuButton: boolean
-  },
+    showWindowSideBar: boolean;
+    showTopMenuButton: boolean;
+  };
   components: {
     AnnotationButtons: (props: {
-      nextOrPrevButtonClicked: (clicked: boolean) => boolean,
+      nextOrPrevButtonClicked: (clicked: boolean) => boolean;
     }) => JSX.Element;
-    AnnotationItem: (props: AnnotationItemProps) => JSX.Element,
-    AnnotationItemContent: (props: {annotation: AnnoRepoAnnotation}) => JSX.Element;
+    AnnotationItem: (props: AnnotationItemProps) => JSX.Element;
+    AnnotationItemContent: (props: {
+      annotation: AnnoRepoAnnotation;
+    }) => JSX.Element;
     AnnotationLinks: () => JSX.Element | null;
     Help: () => JSX.Element;
-    MetadataPanel: (props: {annotations: AnnoRepoAnnotation[]}) => JSX.Element;
+    MetadataPanel: (props: {
+      annotations: AnnoRepoAnnotation[];
+    }) => JSX.Element;
     SearchInfoPage: () => JSX.Element;
-  }
+  };
 };
 
 export type AnnotationItemProps = { annotation: AnnoRepoAnnotation };
