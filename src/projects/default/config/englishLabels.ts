@@ -4,7 +4,7 @@ export const englishLabels: Labels = {
   DATE_ASC: "Date (ascending)",
   DATE_DESC: "Date (descending)",
   DISPLAY_CONTEXT: "Display context",
-  FROM: "From",
+  FROM: "Of",
   NEW_SEARCH_QUERY: "New search query",
   NEXT: "Next",
   NO_SEARCH_HISTORY: "No search history",
