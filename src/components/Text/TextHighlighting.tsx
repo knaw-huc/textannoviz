@@ -117,20 +117,22 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     identifier: string,
     classListArray: string[],
   ) {
-    const bodyId = classListArray.find((className) =>
+    const bodyIds = classListArray.filter((className) =>
       className.includes(identifier),
     );
 
-    if (!bodyId) return;
+    if (!bodyIds) return;
 
-    const annotation = annotationsToHighlight.find(
-      (anno) => anno.body.id === bodyId,
+    const annotations = bodyIds.map((bodyId) =>
+      annotationsToHighlight.find((anno) => anno.body.id === bodyId),
     );
 
-    toast(`You clicked on annotation ${bodyId}`, { type: "info" });
+    toast(`You clicked on annotation(s) ${bodyIds.join(", ")}`, {
+      type: "info",
+    });
 
-    if (annotation) {
-      updateMirador(bodyId, annotation);
+    if (annotations) {
+      updateMirador(bodyIds[0], annotations[0]!);
     }
   }
 
@@ -140,6 +142,8 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     const classListArray = Array.from(
       (event.currentTarget as HTMLSpanElement).classList,
     );
+
+    console.log(classListArray);
 
     if (
       (event.currentTarget as HTMLSpanElement).classList.contains(
