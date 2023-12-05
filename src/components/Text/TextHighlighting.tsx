@@ -2,7 +2,10 @@ import mirador from "mirador";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
+import {
+  AnnoRepoAnnotation,
+  AttendantBody,
+} from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
@@ -127,9 +130,30 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       annotationsToHighlight.find((anno) => anno.body.id === bodyId),
     );
 
-    toast(`You clicked on annotation(s) ${bodyIds.join(", ")}`, {
-      type: "info",
+    const attendants: string[] = [];
+
+    annotations.forEach((annotation) => {
+      if (annotation?.body.type === "Attendant") {
+        attendants.push(
+          (annotation.body as AttendantBody).metadata.delegateName,
+        );
+      }
     });
+
+    if (attendants.length > 0) {
+      toast(
+        `You clicked on attendant${
+          attendants.length > 1 ? "s" : ""
+        }: "${attendants.join(", ")}"`,
+        {
+          type: "info",
+        },
+      );
+    } else {
+      toast(`You clicked on annotation ${bodyIds.join(", ")}`, {
+        type: "info",
+      });
+    }
 
     if (annotations) {
       updateMirador(bodyIds[0], annotations[0]!);
