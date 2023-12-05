@@ -1,13 +1,13 @@
+import * as _ from "lodash";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
+import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import AnnotationItem from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
-import AnnotationItem from "../AnnotationItem.tsx";
-import { defaultConfig } from "../../default/config";
 import { englishMondriaanLabels } from "./englishMondriaanLabels.ts";
-import * as _ from "lodash";
 
 export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig, {
   id: "mondriaan",

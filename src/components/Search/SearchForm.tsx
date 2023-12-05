@@ -1,21 +1,21 @@
+import * as _ from "lodash";
+import { ChangeEvent } from "react";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { useSearchStore } from "../../stores/search/search-store.ts";
 import {
   FacetEntry,
   SearchQuery,
 } from "../../stores/search/search-query-slice.ts";
-import { removeTerm } from "./util/removeTerm.ts";
-import { ChangeEvent } from "react";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { DateFacet } from "./DateFacet.tsx";
+import { FragmenterSelection } from "./FragmenterSelection.tsx";
 import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
+import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
-import { FragmenterSelection } from "./FragmenterSelection.tsx";
-import { DateFacet } from "./DateFacet.tsx";
-import * as _ from "lodash";
-import { KeywordFacet } from "./KeywordFacet.tsx";
+import { removeTerm } from "./util/removeTerm.ts";
 
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
@@ -96,7 +96,9 @@ export function SearchForm(props: {
         }}
       />
 
-      {searchResults && <NewSearchButton />}
+      {searchResults && projectConfig.showNewSearchButton && (
+        <NewSearchButton />
+      )}
 
       {projectConfig.showSearchQueryHistory && (
         <div className="w-full max-w-[450px]">

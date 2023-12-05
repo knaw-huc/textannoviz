@@ -1,6 +1,6 @@
+import { Placeholder } from "../../../components/Placeholder.tsx";
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { englishLabels } from "./englishLabels.ts";
-import { Placeholder } from "../../../components/Placeholder.tsx";
 
 /**
  * Default configuration file with some sensible defaults
@@ -36,6 +36,7 @@ export const defaultConfig: Omit<
   showDateFacets: true,
   showKeywordFacets: true,
   showSelectedFilters: true,
+  showNewSearchButton: true,
   components: {
     AnnotationItem: Placeholder,
     AnnotationItemContent: Placeholder,

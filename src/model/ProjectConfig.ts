@@ -1,5 +1,5 @@
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation.ts";
-import { LanguageCode, Language } from "./Language.ts";
+import { Language, LanguageCode } from "./Language.ts";
 
 export type ProjectConfig = {
   id: string;
@@ -36,6 +36,7 @@ export type ProjectConfig = {
   showDateFacets: boolean;
   showKeywordFacets: boolean;
   showSelectedFilters: boolean;
+  showNewSearchButton: boolean;
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {
