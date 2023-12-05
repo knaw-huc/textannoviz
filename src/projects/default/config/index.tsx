@@ -37,6 +37,7 @@ export const defaultConfig: Omit<
   showKeywordFacets: true,
   showSelectedFilters: true,
   showNewSearchButton: true,
+  allowCloseTextPanel: true,
   components: {
     AnnotationItem: Placeholder,
     AnnotationItemContent: Placeholder,

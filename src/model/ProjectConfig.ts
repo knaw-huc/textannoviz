@@ -37,6 +37,7 @@ export type ProjectConfig = {
   showKeywordFacets: boolean;
   showSelectedFilters: boolean;
   showNewSearchButton: boolean;
+  allowCloseTextPanel: boolean;
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {

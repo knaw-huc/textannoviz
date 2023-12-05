@@ -37,6 +37,7 @@ export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
   showKeywordFacets: false,
   showSelectedFilters: false,
   showNewSearchButton: false,
+  allowCloseTextPanel: false,
   components: {
     AnnotationButtons,
     AnnotationItem,
