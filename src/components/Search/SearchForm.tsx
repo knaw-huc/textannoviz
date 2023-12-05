@@ -69,7 +69,9 @@ export function SearchForm(props: {
       ...searchUrlParams,
       frag: event.currentTarget.value,
     });
-    onSearch();
+    if (searchResults) {
+      onSearch();
+    }
   };
 
   function updateFullText(value: string) {
