@@ -155,8 +155,11 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       });
     }
 
-    if (annotations) {
-      updateMirador(bodyIds[0], annotations[0]!);
+    if (
+      Array.isArray(annotations) &&
+      annotations.every((anno): anno is AnnoRepoAnnotation => !!anno)
+    ) {
+      updateMirador(bodyIds[0], annotations[0]);
     }
   }
 
