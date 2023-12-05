@@ -79,15 +79,25 @@ export const SearchInfoPage = () => {
       <p className="mb-4 mt-4 block">
         Please note that these machine-generated transcriptions will contain
         errors. They have not been manually checked for accuracy or
-        completeness. Some labels, characterisations and information about
-        persons, actions and events may be offensive and troubling to
-        individuals and communities. Be careful when relying on the
-        transcriptions and be aware of their limitations.
+        completeness. Be careful when relying on the transcriptions and be aware
+        of their limitations.
       </p>
 
       <p className="mb-4 mt-4 block">
         In order to diagnose errors, and to improve the quality and stability of
-        the Transcriptions Viewer, we temporarily log all search queries.
+        the Transcriptions Viewer, we may temporarily log search queries in
+        compliance with the relevant Dutch privacy regulations.
+      </p>
+
+      <h4>Discriminatory Content Advisory</h4>
+
+      <p className="mb-4 mt-4 block">
+        The records and metadata within this collection contain language or
+        descriptions that are offensive, biased, or distorted. The language of
+        the archive reflects the period in which the records were created and
+        the prevailing societal attitudes of the time. While we are working to
+        address and contextualize these issues, please approach these materials
+        with care and consideration.
       </p>
 
       <h4>Feedback</h4>
