@@ -315,7 +315,7 @@ input[type="search"] {
 
 .underlined-attendant {
   content: "";
-  border-bottom: 3px solid #d3d14a;
+  border-bottom: 1px solid rgb(202 138 4);
   cursor: pointer;
 }
 
