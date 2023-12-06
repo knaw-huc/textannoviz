@@ -29,6 +29,13 @@ export interface AnnotationTypesToIncludeSlice {
   ) => void;
 }
 
+export type AnnotationTypesToHighlightSlice = {
+  annotationTypesToHighlight: string[];
+  setAnnotationTypesToHighlight: (
+    newAnnotationTypesToHighlight: AnnotationTypesToHighlightSlice["annotationTypesToHighlight"],
+  ) => void;
+};
+
 const createOpenAnnSlice: StateCreator<
   OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice,
   [],
@@ -97,14 +104,27 @@ const createAnnotationTypesToIncluceSlice: StateCreator<
     set(() => ({ annotationTypesToInclude: newAnnotationTypesToInclude })),
 });
 
+const createAnnotationTypesToHighlightSlice: StateCreator<
+  AnnotationTypesToHighlightSlice,
+  [],
+  [],
+  AnnotationTypesToHighlightSlice
+> = (set) => ({
+  annotationTypesToHighlight: [],
+  setAnnotationTypesToHighlight: (newAnnotationTypesToHighlight) =>
+    set(() => ({ annotationTypesToHighlight: newAnnotationTypesToHighlight })),
+});
+
 export const useAnnotationStore = create<
   OpenAnnSlice &
     AnnotationsSlice &
     CurrentSelectedAnnSlice &
-    AnnotationTypesToIncludeSlice
+    AnnotationTypesToIncludeSlice &
+    AnnotationTypesToHighlightSlice
 >()((...a) => ({
   ...createOpenAnnSlice(...a),
   ...createAnnotationSlice(...a),
   ...createCurrentSelectedAnnSlice(...a),
   ...createAnnotationTypesToIncluceSlice(...a),
+  ...createAnnotationTypesToHighlightSlice(...a),
 }));

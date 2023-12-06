@@ -28,22 +28,23 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const [annotationsToHighlight, setAnnotationsToHighlight] = React.useState<
     AnnoRepoAnnotation[]
   >([]);
+  const annotationTypesToHighlight = useAnnotationStore(
+    (state) => state.annotationTypesToHighlight,
+  );
 
   const textLinesToDisplay: string[][] = [[]];
 
   React.useEffect(() => {
     const filteredAnnotations: AnnoRepoAnnotation[] = [];
-    projectConfig.annotationTypesToHighlight.forEach((annotationType) => {
+    annotationTypesToHighlight.forEach((annotationType) => {
       const annotationsOfType = annotations.filter(
         (annotation) => annotation.body.type === annotationType,
       );
       filteredAnnotations.push(...annotationsOfType);
     });
 
-    if (filteredAnnotations.length > 0) {
-      setAnnotationsToHighlight(filteredAnnotations);
-    }
-  }, [annotations, projectConfig.annotationTypesToHighlight]);
+    setAnnotationsToHighlight(filteredAnnotations);
+  }, [annotations, annotationTypesToHighlight]);
 
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {

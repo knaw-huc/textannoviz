@@ -1,23 +1,23 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { Broccoli, BroccoliBodyIdResult } from "../../model/Broccoli";
+import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import {
-  fetchBroccoliBodyIdOfScan,
-  fetchBroccoliScanWithOverlap,
-  selectDistinctBodyTypes,
-} from "../../utils/broccoli";
+import { selectDistinctBodyTypes } from "../../utils/broccoli";
 
 export const AnnotationsToHighlightFilter = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const ref = React.useRef<HTMLSelectElement>(null);
   const [annotationTypes, setAnnotationTypes] = React.useState<string[]>([]);
-  const params = useParams();
+  const setAnnotationTypesToHighlight = useAnnotationStore(
+    (state) => state.setAnnotationTypesToHighlight,
+  );
+  const annotationTypesToHighlight = useAnnotationStore(
+    (state) => state.annotationTypesToHighlight,
+  );
 
   React.useEffect(() => {
     async function fetchAnnotationTypes() {
@@ -34,47 +34,13 @@ export const AnnotationsToHighlightFilter = () => {
     ref.current?.focus();
   }, []);
 
-  React.useEffect(() => {
-    async function fetchData() {
-      if (params.tier0 && params.tier1) {
-        fetchBroccoliBodyIdOfScan(
-          params.tier0,
-          params.tier1,
-          projectConfig,
-        ).then((result: BroccoliBodyIdResult) => {
-          const bodyId = result.bodyId;
-          const includeResults = ["anno"];
-
-          const views = projectConfig.allPossibleTextPanels.toString();
-
-          const overlapTypes = projectConfig.annotationTypesToHighlight;
-          const relativeTo = projectConfig.relativeTo;
-
-          if (overlapTypes.length > 0) {
-            fetchBroccoliScanWithOverlap(
-              bodyId,
-              overlapTypes,
-              includeResults,
-              views,
-              relativeTo,
-              projectConfig,
-            ).then((broccoli: Broccoli) => {
-              console.log(broccoli.anno);
-            });
-          }
-        });
-      }
-    }
-
-    fetchData();
-  }, [params.tier0, params.tier1]);
-
   const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOptions = Array.from(
       event.target.selectedOptions,
       (option) => option.value,
     );
     console.log(selectedOptions);
+    setAnnotationTypesToHighlight(selectedOptions);
   };
 
   return (
@@ -91,9 +57,7 @@ export const AnnotationsToHighlightFilter = () => {
             return (
               <option
                 key={index}
-                selected={projectConfig.annotationTypesToInclude.includes(
-                  annType,
-                )}
+                selected={annotationTypesToHighlight.includes(annType)}
                 value={annType}
               >
                 {translateProject(annType)}
