@@ -304,12 +304,12 @@ input[type="search"] {
 }
 
 .underlined-resolution {
-  border-bottom: 3px solid green;
+  border-bottom: 1px solid green;
   cursor: pointer;
 }
 
 .underlined-attendancelist {
-  border-bottom: 3px solid #b84040;
+  border-bottom: 1px solid #b84040;
   cursor: pointer;
 }
 
@@ -325,7 +325,7 @@ input[type="search"] {
 }
 
 .underlined-reviewed {
-  border-bottom: 3px solid cyan;
+  border-bottom: 1px solid cyan;
   cursor: pointer;
 }
 
