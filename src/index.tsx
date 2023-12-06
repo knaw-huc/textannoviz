@@ -1,3 +1,4 @@
+import { NextUIProvider } from "@nextui-org/react";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { ToastContainer } from "react-toastify";
@@ -13,7 +14,9 @@ const root = createRoot(container!);
 
 root.render(
   <React.StrictMode>
-    <ToastContainer />
-    <App />
+    <NextUIProvider>
+      <ToastContainer />
+      <App />
+    </NextUIProvider>
   </React.StrictMode>,
 );

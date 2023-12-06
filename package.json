@@ -16,6 +16,8 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@nextui-org/react": "^2.2.9",
+    "framer-motion": "^10.16.14",
     "immer": "^9.0.19",
     "js-base64": "^3.7.5",
     "mirador": "^3.3.0",

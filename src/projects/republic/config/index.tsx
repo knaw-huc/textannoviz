@@ -29,7 +29,7 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
     // "TextRegion",
     "Scan",
   ],
-  annotationTypesToHighlight: ["Attendant", "Reviewed"],
+  annotationTypesToHighlight: ["Attendant"],
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
   scanAnnotation: "Scan",
