@@ -335,6 +335,11 @@ input[type="search"] {
   border-radius: 6px;
   background: white;
   outline: none;
-  max-width: 250px;
+  /* max-width: 350px; */
   box-sizing: border-box;
+}
+
+.react-aria-Dialog {
+  outline: none;
+  padding: 30px;
 }

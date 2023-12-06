@@ -1,3 +1,4 @@
+import { Select, SelectItem, Selection } from "@nextui-org/react";
 import React from "react";
 import { useAnnotationStore } from "../../stores/annotation";
 import {
@@ -18,6 +19,9 @@ export const AnnotationsToHighlightFilter = () => {
   const annotationTypesToHighlight = useAnnotationStore(
     (state) => state.annotationTypesToHighlight,
   );
+  const [selectedValues, setSelectedValues] = React.useState<Selection>(
+    new Set(annotationTypesToHighlight),
+  );
 
   React.useEffect(() => {
     async function fetchAnnotationTypes() {
@@ -35,36 +39,32 @@ export const AnnotationsToHighlightFilter = () => {
   }, []);
 
   const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value,
+    setSelectedValues(new Set(event.target.value.split(",")));
+
+    const newAnnotationTypesToHighlight = Array.from(
+      event.target.value.split(","),
     );
-    console.log(selectedOptions);
-    setAnnotationTypesToHighlight(selectedOptions);
+    setAnnotationTypesToHighlight(newAnnotationTypesToHighlight);
   };
 
   return (
     <>
-      <div>
-        <p className="font-bold">Annotations to highlight</p>
-        <select
-          ref={ref}
-          multiple
+      <div className="flex w-full flex-row items-center gap-6">
+        <p className="font-bold">Annotation types to highlight in text</p>
+        <Select
+          placeholder="Select annotation types to highlight in text"
+          selectionMode="multiple"
+          isMultiline={true}
           onChange={changeHandler}
-          style={{ height: "250px", width: "150px", border: "1px solid black" }}
+          selectedKeys={selectedValues}
+          className="max-w-[250px]"
         >
-          {annotationTypes.map((annType, index) => {
-            return (
-              <option
-                key={index}
-                selected={annotationTypesToHighlight.includes(annType)}
-                value={annType}
-              >
-                {translateProject(annType)}
-              </option>
-            );
-          })}
-        </select>
+          {annotationTypes.map((annType) => (
+            <SelectItem key={annType} value={annType}>
+              {translateProject(annType)}
+            </SelectItem>
+          ))}
+        </Select>
       </div>
     </>
   );
