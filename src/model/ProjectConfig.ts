@@ -15,6 +15,7 @@ export type ProjectConfig = {
 
   annotationTypesToInclude: string[];
   annotationTypesToHighlight: string[];
+  allowedAnnotationTypesToHighlight: string[];
   tier: string[];
   bodyType: string[];
   scanAnnotation: string;

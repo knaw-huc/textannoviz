@@ -30,6 +30,12 @@ export const republicConfig: ProjectConfig = Object.assign({}, defaultConfig, {
     "Scan",
   ],
   annotationTypesToHighlight: ["Attendant"],
+  allowedAnnotationTypesToHighlight: [
+    "AttendanceList",
+    "Attendant",
+    "Resolution",
+    "Reviewed",
+  ],
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
   scanAnnotation: "Scan",

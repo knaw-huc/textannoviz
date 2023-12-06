@@ -6,13 +6,10 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { selectDistinctBodyTypes } from "../../utils/broccoli";
 
 export const AnnotationsToHighlightFilter = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
-  const ref = React.useRef<HTMLSelectElement>(null);
-  const [annotationTypes, setAnnotationTypes] = React.useState<string[]>([]);
   const setAnnotationTypesToHighlight = useAnnotationStore(
     (state) => state.setAnnotationTypesToHighlight,
   );
@@ -22,21 +19,6 @@ export const AnnotationsToHighlightFilter = () => {
   const [selectedValues, setSelectedValues] = React.useState<Selection>(
     new Set(annotationTypesToHighlight),
   );
-
-  React.useEffect(() => {
-    async function fetchAnnotationTypes() {
-      const annotationTypes = await selectDistinctBodyTypes(
-        projectConfig.id,
-        projectConfig.broccoliUrl,
-      );
-      setAnnotationTypes(annotationTypes);
-    }
-
-    if (annotationTypes.length === 0) {
-      fetchAnnotationTypes();
-    }
-    ref.current?.focus();
-  }, []);
 
   const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValues(new Set(event.target.value.split(",")));
@@ -52,6 +34,7 @@ export const AnnotationsToHighlightFilter = () => {
       <div className="flex w-full flex-row items-center gap-6">
         <p className="font-bold">Annotation types to highlight in text</p>
         <Select
+          aria-label="Annotation types to highlight in text"
           placeholder="Select annotation types to highlight in text"
           selectionMode="multiple"
           isMultiline={true}
@@ -59,7 +42,7 @@ export const AnnotationsToHighlightFilter = () => {
           selectedKeys={selectedValues}
           className="max-w-[250px]"
         >
-          {annotationTypes.map((annType) => (
+          {projectConfig.allowedAnnotationTypesToHighlight.map((annType) => (
             <SelectItem key={annType} value={annType}>
               {translateProject(annType)}
             </SelectItem>

@@ -21,6 +21,7 @@ export const defaultConfig: Omit<
   colours: {},
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
+  allowedAnnotationTypesToHighlight: [],
   tier: [],
   bodyType: [],
   allPossibleTextPanels: ["self"],
