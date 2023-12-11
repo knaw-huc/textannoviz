@@ -16,6 +16,8 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
   const params = useParams();
 
+  console.log(textToHighlight);
+
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {
       textLinesToDisplay.push([]);
@@ -26,7 +28,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   function highlightMatches(text: string) {
     let result = <span className="m-0 p-0">{text}</span>;
 
-    if (textToHighlight && params.tier2) {
+    if (textToHighlight.size > 0 && params.tier2) {
       if (textToHighlight.get(params.tier2)) {
         const toHighlightStrings = textToHighlight.get(params.tier2);
         const regexString = toHighlightStrings
@@ -34,16 +36,27 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
           .join("|");
         const regex = new RegExp(`${regexString}`, "g");
 
-        result = (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: text.replace(
-                regex,
-                '<span class="rounded bg-yellow-200 p-1">$&</span>',
-              ),
-            }}
-          />
-        );
+        projectName === "republic"
+          ? (result = (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: text.replace(
+                    regex,
+                    '<span class="rounded bg-yellow-200 p-1">$&</span>',
+                  ),
+                }}
+              />
+            ))
+          : (result = (
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: text.replace(
+                    regex,
+                    '<span class="rounded bg-yellow-200 p-1">$&</span>',
+                  ),
+                }}
+              />
+            ));
       }
       return result;
     } else {
