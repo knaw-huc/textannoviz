@@ -24,7 +24,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   });
 
   function highlightMatches(text: string) {
-    let result = <p className="m-0 p-0">{text}</p>;
+    let result = <span className="m-0 p-0">{text}</span>;
 
     if (textToHighlight && params.tier2) {
       if (textToHighlight.get(params.tier2)) {

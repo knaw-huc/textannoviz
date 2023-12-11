@@ -3,13 +3,14 @@ import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
-import { globaliseConfig } from "./projects/globalise/config/";
-import { mondriaanConfig } from "./projects/mondriaan/config";
-import { republicConfig } from "./projects/republic/config";
 import { Search } from "./components/Search/Search";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ProjectConfig } from "./model/ProjectConfig";
+import { globaliseConfig } from "./projects/globalise/config/";
+import { mondriaanConfig } from "./projects/mondriaan/config";
+import { republicConfig } from "./projects/republic/config";
+import { translatinConfig } from "./projects/translatin/config";
 import { useAnnotationStore } from "./stores/annotation";
 import { setProjectConfigSelector, useProjectStore } from "./stores/project";
 
@@ -77,6 +78,9 @@ function createProjectConfig() {
       break;
     case "mondriaan":
       config = mondriaanConfig;
+      break;
+    case "translatin":
+      config = translatinConfig;
       break;
     default:
       throw new Error(

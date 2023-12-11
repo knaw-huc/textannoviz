@@ -1,32 +1,32 @@
 import { Base64 } from "js-base64";
+import * as _ from "lodash";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ProjectConfig } from "../../model/ProjectConfig.ts";
 import { FacetNamesByType } from "../../model/Search";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { useSearchStore } from "../../stores/search/search-store.ts";
-import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
-import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
+import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
 import {
   FacetEntry,
-  filterFacetsByType,
   SearchQuery,
+  filterFacetsByType,
   toRequestBody,
 } from "../../stores/search/search-query-slice.ts";
-import { createHighlights } from "./util/createHighlights.ts";
-import { QUERY } from "./SearchUrlParams.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
 import {
   addToUrlParams,
   getFromUrlParams,
 } from "../../utils/UrlParamUtils.tsx";
+import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { SearchForm } from "./SearchForm.tsx";
-import { toast } from "react-toastify";
-import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
-import { ProjectConfig } from "../../model/ProjectConfig.ts";
-import * as _ from "lodash";
+import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
+import { QUERY } from "./SearchUrlParams.ts";
+import { createHighlights } from "./util/createHighlights.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
