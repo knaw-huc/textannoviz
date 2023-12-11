@@ -23,6 +23,7 @@ export const translatinConfig: ProjectConfig = _.merge({}, defaultConfig, {
   initialDateTo: "1800-01-01",
   logoImageUrl: logo,
   headerTitle: "TRANSLATIN",
+  zoomAnnoMirador: false,
 
   components: {
     AnnotationButtons,
