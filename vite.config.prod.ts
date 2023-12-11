@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
       tailwindConfig = "tailwind.config.globalise.js";
       break;
     case "translatin":
-      tailwindConfig = "taildwind.config.translatin.js";
+      tailwindConfig = "tailwind.config.translatin.js";
       break;
     default:
       tailwindConfig = "tailwind.config.js";
