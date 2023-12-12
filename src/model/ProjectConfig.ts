@@ -1,5 +1,11 @@
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
+import {
+  GlobaliseSearchResultsBody,
+  MondriaanSearchResultsBody,
+  RepublicSearchResultBody,
+  TranslatinSearchResultsBody,
+} from "./Search.ts";
 
 export type ProjectConfig = {
   id: string;
@@ -58,6 +64,13 @@ export type ProjectConfig = {
       annotations: AnnoRepoAnnotation[];
     }) => JSX.Element;
     SearchInfoPage: () => JSX.Element;
+    SearchItem: (props: {
+      result:
+        | RepublicSearchResultBody
+        | TranslatinSearchResultsBody
+        | MondriaanSearchResultsBody
+        | GlobaliseSearchResultsBody;
+    }) => JSX.Element;
   };
 };
 

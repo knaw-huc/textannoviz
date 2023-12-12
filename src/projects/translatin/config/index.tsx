@@ -6,15 +6,16 @@ import { AnnotationButtons } from "../AnnotationButtons";
 import { AnnotationItem } from "../AnnotationItem";
 import { AnnotationItemContent } from "../AnnotationItemContent";
 import { MetadataPanel } from "../MetadataPanel";
+import { SearchItem } from "../SearchItem";
 import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
 
 export const translatinConfig: ProjectConfig = _.merge({}, defaultConfig, {
   id: "translatin",
   relativeTo: "tl:Manifestation",
   annotationTypesToInclude: [
-    "pagexml:Line",
-    "pagexml:Page",
-    "pagexml:Region",
+    // "pagexml:Line",
+    // "pagexml:Page",
+    // "pagexml:Region",
     "tl:Manifestation",
   ],
   tier: ["tl:Manifestation"],
@@ -31,6 +32,7 @@ export const translatinConfig: ProjectConfig = _.merge({}, defaultConfig, {
     AnnotationItem,
     AnnotationItemContent,
     MetadataPanel,
+    SearchItem,
   },
 
   selectedLanguage: "nl",

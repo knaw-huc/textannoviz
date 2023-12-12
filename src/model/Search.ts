@@ -6,10 +6,14 @@ export type SearchResult = {
     value: number;
     relation: string;
   };
-  results: SearchResultBody[];
+  results:
+    | RepublicSearchResultBody[]
+    | TranslatinSearchResultsBody[]
+    | MondriaanSearchResultsBody[]
+    | GlobaliseSearchResultsBody[];
 };
 
-export interface SearchResultBody {
+export interface RepublicSearchResultBody {
   _id: string;
   bodyType: string;
   sessionDate: string;
@@ -33,6 +37,71 @@ export interface SearchResultBody {
     }[];
   }[];
 }
+
+export type TranslatinSearchResultsBody = {
+  _id: string;
+  bodyType: string;
+  earliest: string;
+  expression: string;
+  form: string;
+  formType: string;
+  genre: string;
+  latest: string;
+  latinTitle: string;
+  manifestation: string;
+  title: string;
+  work: string;
+  _hits: {
+    preview: string;
+    locations: {
+      start: {
+        line: number;
+        offset: number;
+      };
+      end: {
+        line: number;
+        offset: number;
+      };
+    }[];
+  }[];
+};
+
+export type MondriaanSearchResultsBody = {
+  _id: string;
+  bodyType: string;
+  type: string;
+  _hits: {
+    preview: string;
+    locations: {
+      start: {
+        line: number;
+        offset: number;
+      };
+      end: {
+        line: number;
+        offset: number;
+      };
+    }[];
+  }[];
+};
+
+export type GlobaliseSearchResultsBody = {
+  _id: string;
+  document: string;
+  _hits: {
+    preview: string;
+    locations: {
+      start: {
+        line: number;
+        offset: number;
+      };
+      end: {
+        line: number;
+        offset: number;
+      };
+    }[];
+  }[];
+};
 
 export type FacetType = "date" | "keyword";
 

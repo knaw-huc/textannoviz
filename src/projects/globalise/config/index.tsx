@@ -8,6 +8,7 @@ import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { Help } from "../Help.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { SearchItem } from "../SearchItem.tsx";
 import { englishGlobaliseLabels } from "./englishGlobaliseLabels.ts";
 
 export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
@@ -45,6 +46,7 @@ export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
     Help,
     MetadataPanel,
     SearchInfoPage,
+    SearchItem,
   },
   selectedLanguage: "en",
   languages: [

@@ -1,14 +1,23 @@
 import { Link } from "react-router-dom";
-import { SearchResultBody } from "../../model/Search";
+import { Labels } from "../../model/Labels.ts";
+import {
+  GlobaliseSearchResultsBody,
+  MondriaanSearchResultsBody,
+  RepublicSearchResultBody,
+  TranslatinSearchResultsBody,
+} from "../../model/Search";
 import {
   translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
-import { Labels } from "../../model/Labels.ts";
 
 interface SearchItemProps {
-  result: SearchResultBody;
+  result:
+    | RepublicSearchResultBody
+    | TranslatinSearchResultsBody
+    | MondriaanSearchResultsBody
+    | GlobaliseSearchResultsBody;
 }
 
 export const SearchItem = (props: SearchItemProps) => {
@@ -33,22 +42,30 @@ export const SearchItem = (props: SearchItemProps) => {
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
-        {translateProject(props.result.sessionWeekday)}{" "}
+        {translateProject(
+          (props.result as RepublicSearchResultBody).sessionWeekday,
+        )}{" "}
         <strong className="font-semibold">
-          {props.result.sessionDay}{" "}
-          {translate(monthNumberToString[props.result.sessionMonth])}{" "}
-          {props.result.sessionYear}
+          {(props.result as RepublicSearchResultBody).sessionDay}{" "}
+          {translate(
+            monthNumberToString[
+              (props.result as RepublicSearchResultBody).sessionMonth
+            ],
+          )}{" "}
+          {(props.result as RepublicSearchResultBody).sessionYear}
         </strong>
       </li>
       <Link
-        to={`/detail/${props.result._id}`}
+        to={`/detail/${(props.result as RepublicSearchResultBody)._id}`}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-rpBrand1grey-100 border-rpBrand1grey-50 hover:divide-rpBrand1grey-200 hover:border-rpBrand1grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
           <div className="p-4 font-semibold">
-            {translateProject(props.result.bodyType) ?? props.result.document}
+            {translateProject(
+              (props.result as RepublicSearchResultBody).bodyType,
+            ) ?? (props.result as RepublicSearchResultBody).document}
           </div>
-          {props.result._hits?.map((hit, key) => (
+          {(props.result as RepublicSearchResultBody)._hits?.map((hit, key) => (
             <div key={key} className="hover:bg-rpBrand1grey-50 w-full p-4">
               <div
                 className="mb-1 font-serif text-base"

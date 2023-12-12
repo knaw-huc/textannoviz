@@ -10,7 +10,12 @@ import { TextComponent } from "./components/Text/TextComponent";
 import { Broccoli, BroccoliBodyIdResult } from "./model/Broccoli";
 import { MiradorConfig } from "./model/MiradorConfig.ts";
 import { ProjectConfig } from "./model/ProjectConfig";
-import { SearchResultBody } from "./model/Search";
+import {
+  GlobaliseSearchResultsBody,
+  MondriaanSearchResultsBody,
+  RepublicSearchResultBody,
+  TranslatinSearchResultsBody,
+} from "./model/Search";
 import { useAnnotationStore } from "./stores/annotation";
 import { useMiradorStore } from "./stores/mirador";
 import { useProjectStore } from "./stores/project";
@@ -230,9 +235,14 @@ export const Detail = (props: DetailProps) => {
           {showSearchResults
             ? globalSearchResults && globalSearchResults.results.length >= 1
               ? globalSearchResults.results.map(
-                  (result: SearchResultBody, index: number) => (
-                    <SearchItem key={index} result={result} />
-                  ),
+                  (
+                    result:
+                      | RepublicSearchResultBody
+                      | TranslatinSearchResultsBody
+                      | MondriaanSearchResultsBody
+                      | GlobaliseSearchResultsBody,
+                    index: number,
+                  ) => <SearchItem key={index} result={result} />,
                 )
               : null
             : null}

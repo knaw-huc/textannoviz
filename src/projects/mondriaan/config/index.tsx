@@ -7,6 +7,7 @@ import AnnotationItem from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { SearchItem } from "../SearchItem.tsx";
 import { englishMondriaanLabels } from "./englishMondriaanLabels.ts";
 
 export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig, {
@@ -106,6 +107,7 @@ export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig, {
     AnnotationButtons,
     MetadataPanel,
     SearchInfoPage,
+    SearchItem,
   },
   selectedLanguage: "en",
   languages: [

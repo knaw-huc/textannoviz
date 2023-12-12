@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
@@ -6,9 +7,9 @@ import AnnotationItem from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { Help } from "../Help.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
-import * as _ from "lodash";
 
 export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   id: "republic",
@@ -45,6 +46,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
     AnnotationButtons,
     Help,
     MetadataPanel,
+    SearchItem,
   },
   selectedLanguage: "nl",
   languages: [

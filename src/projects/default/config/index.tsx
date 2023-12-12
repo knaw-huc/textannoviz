@@ -46,6 +46,7 @@ export const defaultConfig: Omit<
     Help: Placeholder,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,
+    SearchItem: Placeholder,
   },
   selectedLanguage: "en",
   languages: [

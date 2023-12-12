@@ -1,20 +1,19 @@
+import * as _ from "lodash";
+import { ChangeEvent, ReactNode } from "react";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchSorting, Sorting } from "./SearchSorting.tsx";
-import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
-import { SearchPagination } from "./SearchPagination.tsx";
-import { SearchItem } from "./SearchItem.tsx";
-import * as _ from "lodash";
+import { FacetEntry } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import { ChangeEvent, ReactNode } from "react";
+import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
+import { SearchPagination } from "./SearchPagination.tsx";
+import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
+import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
-import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
-import { FacetEntry } from "../../stores/search/search-query-slice.ts";
 
 export function SearchResults(props: {
   keywordFacets: FacetEntry[];
@@ -151,7 +150,7 @@ export function SearchResults(props: {
       </div>
       {searchResults.results.length >= 1 &&
         searchResults.results.map((result, index) => (
-          <SearchItem key={index} result={result} />
+          <projectConfig.components.SearchItem key={index} result={result} />
         ))}
       <SearchPagination
         prevPageClickHandler={selectPrevPage}
