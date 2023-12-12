@@ -26,6 +26,7 @@ export const translatinConfig: ProjectConfig = _.merge({}, defaultConfig, {
   logoImageUrl: logo,
   headerTitle: "TRANSLATIN",
   zoomAnnoMirador: false,
+  showSearchResultsButtonFooter: false,
 
   components: {
     AnnotationButtons,
