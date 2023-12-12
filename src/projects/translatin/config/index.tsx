@@ -4,6 +4,7 @@ import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { AnnotationItem } from "../AnnotationItem";
+import { AnnotationItemContent } from "../AnnotationItemContent";
 import { MetadataPanel } from "../MetadataPanel";
 import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
 
@@ -28,6 +29,7 @@ export const translatinConfig: ProjectConfig = _.merge({}, defaultConfig, {
   components: {
     AnnotationButtons,
     AnnotationItem,
+    AnnotationItemContent,
     MetadataPanel,
   },
 
