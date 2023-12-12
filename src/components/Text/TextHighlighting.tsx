@@ -16,8 +16,6 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
   const params = useParams();
 
-  console.log(textToHighlight);
-
   props.text.lines.map((token) => {
     if (token.charAt(0) === "\n") {
       textLinesToDisplay.push([]);
@@ -25,8 +23,14 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
   });
 
+  console.log(Math.random().toString().slice(2));
+
   function highlightMatches(text: string) {
-    let result = <span className="m-0 p-0">{text}</span>;
+    let result = (
+      <span key={Math.random().toString().slice(2)} className="m-0 p-0">
+        {text}
+      </span>
+    );
 
     if (textToHighlight.size > 0 && params.tier2) {
       if (textToHighlight.get(params.tier2)) {
@@ -63,7 +67,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       if (projectName === "republic") {
         return <p className="m-0 p-0">{text}</p>;
       } else {
-        return <span>{text}</span>;
+        return <span key={Math.random().toString().slice(2)}>{text}</span>;
       }
     }
   }
