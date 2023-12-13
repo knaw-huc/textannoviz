@@ -28,7 +28,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       <span key={Math.random().toString().slice(2)} className="m-0 p-0">
         {text}
       </span>
-    );
+    ); //TOOD: make key stable
 
     if (textToHighlight.size > 0 && params.tier2) {
       if (textToHighlight.get(params.tier2)) {
@@ -65,7 +65,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       if (projectName === "republic" || projectName === "globalise") {
         return <p className="m-0 p-0">{text}</p>;
       } else {
-        return <span key={Math.random().toString().slice(2)}>{text}</span>;
+        return <span key={Math.random().toString().slice(2)}>{text}</span>; //TOOD: make key stable
       }
     }
   }
