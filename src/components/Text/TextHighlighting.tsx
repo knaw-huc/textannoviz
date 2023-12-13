@@ -16,14 +16,39 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
   const params = useParams();
 
-  props.text.lines.map((token) => {
-    if (token.charAt(0) === "\n") {
-      textLinesToDisplay.push([]);
-    }
-    textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
-  });
+  const textLines: string[] = [];
 
-  console.log(Math.random().toString().slice(2));
+  if (projectName === "translatin") {
+    props.text.lines.map((token) => {
+      if (token.includes("\n")) {
+        const substrings = token.split("\n");
+        substrings.forEach((substring, index) => {
+          textLines.push(substring);
+          if (index < substrings.length - 1) {
+            textLines.push("\n");
+          }
+        });
+      } else {
+        textLines.push(token);
+      }
+    });
+  }
+
+  if (projectName === "translatin") {
+    textLines.map((token) => {
+      if (token.charAt(0) === "\n") {
+        textLinesToDisplay.push([]);
+      }
+      textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
+    });
+  } else {
+    props.text.lines.map((token) => {
+      if (token.charAt(0) === "\n") {
+        textLinesToDisplay.push([]);
+      }
+      textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
+    });
+  }
 
   function highlightMatches(text: string) {
     let result = (
@@ -40,7 +65,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
           .join("|");
         const regex = new RegExp(`${regexString}`, "g");
 
-        projectName === "republic"
+        projectName === "republic" || projectName === "globalise"
           ? (result = (
               <div
                 dangerouslySetInnerHTML={{
@@ -64,7 +89,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       }
       return result;
     } else {
-      if (projectName === "republic") {
+      if (projectName === "republic" || projectName === "globalise") {
         return <p className="m-0 p-0">{text}</p>;
       } else {
         return <span key={Math.random().toString().slice(2)}>{text}</span>;
