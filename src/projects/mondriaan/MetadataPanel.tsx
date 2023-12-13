@@ -20,16 +20,18 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   return (
     <>
       <ul className="m-0 list-none p-0">
-        {Object.entries((letterAnno[0].body as TfLetterBody).metadata).map(
-          ([key, value], index) => (
-            <li className="mb-8" key={index}>
-              <div className="grid grid-cols-1">
-                <strong>{translateProject(key)}</strong>
-                {value}
-              </div>
-            </li>
-          ),
-        )}
+        {letterAnno.length > 0
+          ? Object.entries((letterAnno[0].body as TfLetterBody).metadata).map(
+              ([key, value], index) => (
+                <li className="mb-8" key={index}>
+                  <div className="grid grid-cols-1">
+                    <strong>{translateProject(key)}</strong>
+                    {value}
+                  </div>
+                </li>
+              ),
+            )
+          : null}
       </ul>
     </>
   );
