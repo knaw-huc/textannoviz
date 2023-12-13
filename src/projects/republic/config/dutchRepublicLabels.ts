@@ -27,7 +27,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   sessionDate: "Date",
   sessionWeekday: "Weekdag",
   bodyType: "Type",
-  propositionType: "Propositie type",
+  propositionType: "Propositietype",
 
   // text panel titles:
   self: "Tekst",
