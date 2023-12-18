@@ -10,9 +10,9 @@ import { ProjectConfig } from "./model/ProjectConfig";
 import { globaliseConfig } from "./projects/globalise/config/";
 import { mondriaanConfig } from "./projects/mondriaan/config";
 import { republicConfig } from "./projects/republic/config";
+import { translatinConfig } from "./projects/translatin/config";
 import { useAnnotationStore } from "./stores/annotation";
 import { setProjectConfigSelector, useProjectStore } from "./stores/project";
-import { getElasticIndices, sendSearchQuery } from "./utils/broccoli";
 
 const { project, config } = createProjectConfig();
 const router = await createRouter();
@@ -42,9 +42,6 @@ function Layout() {
 }
 
 async function createRouter() {
-  const indices = await getElasticIndices(config);
-  const searchResult = await sendSearchQuery({}, "Scan", 0, 0, config);
-  const aggs = searchResult!.aggs;
   return createBrowserRouter([
     {
       element: <Layout />,
@@ -52,15 +49,7 @@ async function createRouter() {
       children: [
         {
           path: "/",
-          element: (
-            <Search
-              project={project}
-              projectConfig={config}
-              indices={indices}
-              facets={aggs}
-              indexName={config.elasticIndexName ?? ""}
-            />
-          ),
+          element: <Search />,
         },
         {
           path: "detail/:tier0/:tier1",
