@@ -1,15 +1,15 @@
 import logo from "../../../assets/G-1.png";
-import {AnnotationButtons} from "../AnnotationButtons.tsx";
-import {AnnotationItemContent} from "../AnnotationItemContent.tsx";
-import {Help} from "../Help.tsx";
-import {MetadataPanel} from "../MetadataPanel.tsx";
-import {SearchInfoPage} from "../SearchInfoPage.tsx";
+import { ProjectConfig } from "../../../model/ProjectConfig.ts";
+import { defaultConfig } from "../../default/config";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
-import {ProjectConfig} from "../../../model/ProjectConfig.ts";
-import {defaultConfig} from "../../default/config";
-import {englishGlobaliseLabels} from "./englishGlobaliseLabels.ts";
+import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
+import { Help } from "../Help.tsx";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { englishGlobaliseLabels } from "./englishGlobaliseLabels.ts";
 
-export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  {
+export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig, {
   id: "globalise",
   broccoliUrl: "https://gloccoli.tt.di.huc.knaw.nl",
   colours: {
@@ -19,6 +19,8 @@ export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  
   },
   relativeTo: "na:File",
   annotationTypesToInclude: ["px:Page"],
+  annotationTypesToHighlight: ["px:Page"],
+  allowedAnnotationTypesToHighlight: ["px:Page"],
   scanAnnotation: "na:File",
   elasticIndexName: "docs",
   initialDateFrom: "1500-01-01",
@@ -43,10 +45,13 @@ export const globaliseConfig: ProjectConfig = Object.assign({}, defaultConfig,  
     MetadataPanel,
     SearchInfoPage,
   },
-  selectedLanguage: 'en',
-  languages: [{
-    code: 'en', labels: englishGlobaliseLabels
-  }],
+  selectedLanguage: "en",
+  languages: [
+    {
+      code: "en",
+      labels: englishGlobaliseLabels,
+    },
+  ],
   mirador: {
     showWindowSideBar: true,
   },

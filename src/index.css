@@ -329,6 +329,16 @@ input[type="search"] {
   cursor: pointer;
 }
 
+.underlined-tei-rs {
+  border-bottom: 1px solid rgb(202 138 4);
+  cursor: pointer;
+}
+
+.underlined-px-page {
+  border-bottom: 1px solid green;
+  cursor: pointer;
+}
+
 .react-aria-Popover {
   border: 1px solid black;
   box-shadow: 0 8px 20px rgba(0 0 0 / 0.1);

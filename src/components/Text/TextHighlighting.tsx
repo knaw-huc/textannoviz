@@ -1,17 +1,10 @@
-import mirador from "mirador";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import {
-  AnnoRepoAnnotation,
-  AttendantBody,
-} from "../../model/AnnoRepoAnnotation";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useMiradorStore } from "../../stores/mirador";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import { useProjectStore } from "../../stores/project";
 import { useSearchStore } from "../../stores/search";
-import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -19,9 +12,7 @@ type TextHighlightingProps = {
 
 export const TextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
-  const projectConfig = useProjectStore(projectConfigSelector);
-  const miradorStore = useMiradorStore((state) => state.miradorStore);
-  const canvas = useMiradorStore((state) => state.canvas);
+  const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();
   const textToHighlight = useSearchStore((state) => state.textToHighlight);
   const params = useParams();
@@ -75,18 +66,15 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       const indexClasses = classes.get(index);
       if (indexClasses?.includes(anno.body.id)) {
         indexClasses.forEach((indexClass) => collectedClasses.add(indexClass));
-        if (anno.body.id.includes("resolution")) {
-          collectedClasses.add("underlined-resolution");
-        }
-        if (anno.body.id.includes("attendance_list")) {
-          collectedClasses.add("underlined-attendancelist");
-        }
-        if (anno.body.id.includes("attendant")) {
-          collectedClasses.add("underlined-attendant");
-        }
-        if (anno.body.id.includes("para")) {
-          collectedClasses.add("underlined-reviewed");
-        }
+        annotationTypesToHighlight.map((annoTypeToHighlight) => {
+          if (anno.body.type.includes(annoTypeToHighlight)) {
+            collectedClasses.add(
+              `underlined-${annoTypeToHighlight
+                .toLowerCase()
+                .replace(":", "-")}`,
+            );
+          }
+        });
       }
     });
 
@@ -99,126 +87,14 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     return classesAsStr;
   }
 
-  function updateMirador(bodyId: string, annotation: AnnoRepoAnnotation) {
-    miradorStore.dispatch(
-      mirador.actions.selectAnnotation(`${projectConfig.id}`, bodyId),
-    );
-
-    const zoom = zoomAnnMirador(annotation, canvas.canvasIds[0]);
-
-    if (zoom) {
-      miradorStore.dispatch(
-        mirador.actions.updateViewport(`${projectConfig.id}`, {
-          x: zoom.zoomCenter.x,
-          y: zoom.zoomCenter.y,
-          zoom: 1 / zoom.miradorZoom,
-        }),
-      );
-    }
-  }
-
-  function findAnnotationIdInClassNames(
-    identifier: string,
-    classListArray: string[],
-  ) {
-    const bodyIds = classListArray.filter((className) =>
-      className.includes(identifier),
-    );
-
-    if (!bodyIds) return;
-
-    const annotations = bodyIds.map((bodyId) =>
-      annotationsToHighlight.find((anno) => anno.body.id === bodyId),
-    );
-
-    const attendants: string[] = [];
-
-    annotations.forEach((annotation) => {
-      if (annotation?.body.type === "Attendant") {
-        attendants.push(
-          (annotation.body as AttendantBody).metadata.delegateName,
-        );
-      }
-    });
-
-    if (attendants.length > 0) {
-      toast(
-        `You clicked on attendant${
-          attendants.length > 1 ? "s" : ""
-        }: "${attendants.join(", ")}"`,
-        {
-          type: "info",
-        },
-      );
-    } else {
-      toast(`You clicked on annotation ${bodyIds.join(", ")}`, {
-        type: "info",
-      });
-    }
-
-    if (
-      Array.isArray(annotations) &&
-      annotations.every((anno): anno is AnnoRepoAnnotation => !!anno)
-    ) {
-      updateMirador(bodyIds[0], annotations[0]);
-    }
-  }
-
-  function spanClickHandler(
-    event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-  ) {
-    const classListArray = Array.from(
-      (event.currentTarget as HTMLSpanElement).classList,
-    );
-
-    console.log(classListArray);
-
-    if (
-      (event.currentTarget as HTMLSpanElement).classList.contains(
-        "underlined-resolution",
-      )
-    ) {
-      findAnnotationIdInClassNames("-resolution", classListArray);
-    }
-
-    if (
-      (event.currentTarget as HTMLSpanElement).classList.contains(
-        "underlined-attendancelist",
-      )
-    ) {
-      findAnnotationIdInClassNames("-attendance_list", classListArray);
-    }
-
-    if (
-      (event.currentTarget as HTMLSpanElement).classList.contains(
-        "underlined-attendant",
-      )
-    ) {
-      findAnnotationIdInClassNames("-attendant-", classListArray);
-    }
-
-    if (
-      (event.currentTarget as HTMLSpanElement).classList.contains(
-        "underlined-reviewed",
-      )
-    ) {
-      findAnnotationIdInClassNames("-para-", classListArray);
-    }
-  }
-
   function renderLines(line: string, index: number) {
-    if (textToHighlight.size === 0) {
-      const result = (
-        <div
-          className={collectClasses(index) + "w-fit"} //collect classes beforehand so that the function is not called for every line?
-          onClick={(event) => spanClickHandler(event)}
-        >
-          {line}
-        </div>
-      );
-
-      return result;
-    }
+    let result = (
+      <span
+        className={collectClasses(index) + "w-fit"} //collect classes beforehand so that the function is not called for every line?
+      >
+        {line}
+      </span>
+    );
 
     if (textToHighlight.size > 0 && params.tier2) {
       if (textToHighlight.get(params.tier2)) {
@@ -228,19 +104,36 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
           .join("|");
         const regex = new RegExp(`${regexString}`, "g");
 
-        const result = (
-          <div
-            className={collectClasses(index) + "w-fit"}
-            onClick={(event) => spanClickHandler(event)}
-            dangerouslySetInnerHTML={{
-              __html: line.replace(
-                regex,
-                '<span class="rounded bg-yellow-200 p-1">$&</span>',
-              ),
-            }}
-          />
-        );
-        return result;
+        projectName === "republic" || projectName === "globalise"
+          ? (result = (
+              <div
+                className={collectClasses(index) + "w-fit"}
+                dangerouslySetInnerHTML={{
+                  __html: line.replace(
+                    regex,
+                    '<span class="rounded bg-yellow-200 p-1">$&</span>',
+                  ),
+                }}
+              />
+            ))
+          : (result = (
+              <span
+                className={collectClasses(index) + "w-fit"}
+                dangerouslySetInnerHTML={{
+                  __html: line.replace(
+                    regex,
+                    '<span class="rounded bg-yellow-200 p-1">$&</span>',
+                  ),
+                }}
+              />
+            ));
+      }
+      return result;
+    } else {
+      if (projectName === "republic" || projectName === "globalise") {
+        return <p className={collectClasses(index) + "m-0 p-0"}>{line}</p>;
+      } else {
+        return <span className={collectClasses(index)}>{line}</span>;
       }
     }
   }
@@ -250,6 +143,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       {textLinesToDisplay.map((lines, key) => (
         <div key={key} className="leading-loose">
           {lines.map((line, index) => renderLines(line, index))}
+          {/* Index is reset after each new line (see LL40-45 above). This results in the index no longer being in sync with the start and end of TextRepo. I.e., a person is mentioned on start 9, end 9, it will highlight index 9, even though the index of that array was reset because of a preceding new line. */}
         </div>
       ))}
     </>
