@@ -89,11 +89,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
   function renderLines(line: string, index: number) {
     let result = (
-      <span
-        className={collectClasses(index) + "w-fit"} //collect classes beforehand so that the function is not called for every line?
-      >
-        {line}
-      </span>
+      <span className={collectClasses(index) + "w-fit"}>{line}</span>
     );
 
     if (textToHighlight.size > 0 && params.tier2) {
