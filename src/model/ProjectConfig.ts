@@ -20,6 +20,8 @@ export type ProjectConfig = {
   relativeTo: string;
 
   annotationTypesToInclude: string[];
+  annotationTypesToHighlight: string[];
+  allowedAnnotationTypesToHighlight: string[];
   tier: string[];
   bodyType: string[];
   scanAnnotation: string;

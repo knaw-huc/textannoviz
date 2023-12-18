@@ -245,6 +245,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   }
 
   function renderMetadataPanelScanView() {
+    if (scan.length === 0 && session.length === 0) return;
     return (
       <ul className="m-0 list-none p-0">
         <li className="mb-8">

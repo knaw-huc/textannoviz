@@ -302,3 +302,54 @@ input[type="search"] {
 .languages .selected {
   text-decoration: underline;
 }
+
+.underlined-resolution {
+  border-bottom: 1px solid green;
+  cursor: pointer;
+}
+
+.underlined-attendancelist {
+  border-bottom: 1px solid #b84040;
+  cursor: pointer;
+}
+
+.underlined-attendant {
+  content: "";
+  border-bottom: 1px solid rgb(202 138 4);
+  cursor: pointer;
+}
+
+.underlined-attendant::before {
+  content: "👤";
+  margin-right: 0.25rem;
+}
+
+.underlined-reviewed {
+  border-bottom: 1px solid cyan;
+  cursor: pointer;
+}
+
+.underlined-tei-rs {
+  border-bottom: 1px solid rgb(202 138 4);
+  cursor: pointer;
+}
+
+.underlined-px-page {
+  border-bottom: 1px solid green;
+  cursor: pointer;
+}
+
+.react-aria-Popover {
+  border: 1px solid black;
+  box-shadow: 0 8px 20px rgba(0 0 0 / 0.1);
+  border-radius: 6px;
+  background: white;
+  outline: none;
+  /* max-width: 350px; */
+  box-sizing: border-box;
+}
+
+.react-aria-Dialog {
+  outline: none;
+  padding: 30px;
+}

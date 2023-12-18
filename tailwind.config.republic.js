@@ -1,9 +1,14 @@
+import { nextui } from "@nextui-org/react";
 import typography from "@tailwindcss/typography";
 import reactAria from "tailwindcss-react-aria-components/src/index";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -57,5 +62,6 @@ export default {
       },
     },
   },
-  plugins: [typography(), reactAria()],
+  darkMode: "class",
+  plugins: [typography(), reactAria(), nextui()],
 };

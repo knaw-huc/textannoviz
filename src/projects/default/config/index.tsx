@@ -20,6 +20,8 @@ export const defaultConfig: Omit<
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
   annotationTypesToInclude: [],
+  annotationTypesToHighlight: [],
+  allowedAnnotationTypesToHighlight: [],
   tier: [],
   bodyType: [],
   allPossibleTextPanels: ["self"],

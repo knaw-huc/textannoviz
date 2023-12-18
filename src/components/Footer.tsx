@@ -2,12 +2,15 @@ import {
   InformationCircleIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
+import React from "react";
+import { Dialog, OverlayArrow, Popover } from "react-aria-components";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../stores/project";
 import { AnnotationButtons } from "./Annotations/AnnotationButtons";
+import { AnnotationsToHighlightFilter } from "./Annotations/AnnotationsToHighlightFilter";
 
 type FooterProps = {
   nextOrPrevButtonClicked: (clicked: boolean) => boolean;
@@ -21,6 +24,8 @@ type FooterProps = {
 };
 
 export const Footer = (props: FooterProps) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const trifferRef = React.useRef(null);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 
@@ -62,6 +67,30 @@ export const Footer = (props: FooterProps) => {
                 ? translate("HIDE_FACSIMILE")
                 : translate("SHOW_FACSIMILE")}
             </button>
+          ) : null}
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            ref={trifferRef}
+            className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
+          >
+            Instellingen
+          </button>
+          {isOpen ? (
+            <Popover
+              triggerRef={trifferRef}
+              isOpen={isOpen}
+              onOpenChange={setIsOpen}
+            >
+              <OverlayArrow>
+                <svg width={12} height={12} viewBox="0 0 12 12">
+                  <path d="M0 0 L6 6 L12 0" />
+                </svg>
+              </OverlayArrow>
+              <Dialog>
+                <AnnotationsToHighlightFilter />
+              </Dialog>
+            </Popover>
           ) : null}
         </div>
         <div className="flex w-full flex-row justify-between lg:w-2/5">
