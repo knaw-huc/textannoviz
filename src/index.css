@@ -353,3 +353,7 @@ input[type="search"] {
   outline: none;
   padding: 30px;
 }
+
+.mirador-osd-navigation {
+  display: none;
+}
