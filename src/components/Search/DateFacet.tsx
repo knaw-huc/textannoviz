@@ -1,3 +1,5 @@
+import { ArrowPathIcon } from "@heroicons/react/24/solid";
+import React from "react";
 import {
   projectConfigSelector,
   translateSelector,
@@ -12,6 +14,31 @@ export function DateFacet(props: {
 }) {
   const translate = useProjectStore(translateSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
+  const [dateFrom, setDateFrom] = React.useState<string>(
+    projectConfig.initialDateFrom,
+  );
+  const [dateTo, setDateTo] = React.useState<string>(
+    projectConfig.initialDateTo,
+  );
+
+  const fromDateChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    props.changeDateFrom(event.target.value);
+    setDateFrom(event.target.value);
+  };
+
+  const toDateChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    props.changeDateTo(event.target.value);
+    setDateTo(event.target.value);
+  };
+
+  const resetClickHandler = () => {
+    setDateFrom(projectConfig.initialDateFrom);
+    setDateTo(projectConfig.initialDateTo);
+    props.changeDateFrom(projectConfig.initialDateFrom);
+    props.changeDateTo(projectConfig.initialDateTo);
+  };
 
   return (
     <div className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row">
@@ -23,10 +50,10 @@ export function DateFacet(props: {
           className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
           type="date"
           id="start"
-          value={props.dateFrom}
+          value={dateFrom}
           min={projectConfig.initialDateFrom}
           max={projectConfig.initialDateTo}
-          onChange={(event) => props.changeDateFrom(event.target.value)}
+          onChange={(event) => fromDateChangeHandler(event)}
         />
       </div>
       <div className="flex w-full flex-col">
@@ -37,10 +64,16 @@ export function DateFacet(props: {
           className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
           type="date"
           id="end"
-          value={props.dateTo}
+          value={dateTo}
           min={projectConfig.initialDateFrom}
           max={projectConfig.initialDateTo}
-          onChange={(event) => props.changeDateTo(event.target.value)}
+          onChange={(event) => toDateChangeHandler(event)}
+        />
+      </div>
+      <div>
+        <ArrowPathIcon
+          className="mt-7 h-5 w-5 cursor-pointer"
+          onClick={resetClickHandler}
         />
       </div>
     </div>
