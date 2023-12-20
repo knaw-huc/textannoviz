@@ -1,6 +1,6 @@
 import { UserIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { HOSTS } from "../../Config";
 import {
   AnnoRepoAnnotation,
@@ -162,6 +162,20 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     return (
       <>
         <ul className="m-0 list-none p-0">
+          <li className="mb-8">
+            <div className={gridOneColumn}>
+              <Link
+                to={`/detail/${
+                  (resolution[0].body as ResolutionBody).metadata.sessionId
+                }`}
+                className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
+              >
+                <button>
+                  <strong>Go up to session</strong>
+                </button>
+              </Link>
+            </div>
+          </li>
           <li className="mb-8">
             <div className={gridOneColumn}>
               <strong>Datum: </strong>
