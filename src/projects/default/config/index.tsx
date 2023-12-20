@@ -40,6 +40,7 @@ export const defaultConfig: Omit<
   showSelectedFilters: true,
   showNewSearchButton: true,
   allowCloseTextPanel: true,
+  showWebAnnoTab: true,
   components: {
     AnnotationItem: Placeholder,
     AnnotationItemContent: Placeholder,

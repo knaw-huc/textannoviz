@@ -46,6 +46,7 @@ export type ProjectConfig = {
   showSelectedFilters: boolean;
   showNewSearchButton: boolean;
   allowCloseTextPanel: boolean;
+  showWebAnnoTab: boolean;
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {

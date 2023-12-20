@@ -72,12 +72,14 @@ export function Annotation(props: AnnotationProps) {
           >
             {translate("METADATA")}
           </Tab>
-          <Tab
-            id="webannos"
-            className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
-          >
-            {translate("WEB_ANNOTATIONS")}
-          </Tab>
+          {projectConfig.showWebAnnoTab && (
+            <Tab
+              id="webannos"
+              className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
+            >
+              {translate("WEB_ANNOTATIONS")}
+            </Tab>
+          )}
         </TabList>
         <TabPanel id="metadata" className="text-brand1-800 h-full p-5">
           {annotations.length > 0 && !props.isLoading ? (
@@ -90,28 +92,30 @@ export function Annotation(props: AnnotationProps) {
             </div>
           )}
         </TabPanel>
-        <TabPanel id="webannos" className="text-brand1-800 p-5">
-          <>
-            <ButtonsStyled>
-              <AnnotationFilter />
-            </ButtonsStyled>
-            {annotations?.length > 0 && !props.isLoading ? (
-              annotations.map((annotation, index) => (
-                <AnnotationItem
-                  key={index}
-                  annotation={annotation}
-                  nextOrPrevButtonClicked={nextOrPrevButtonClicked}
-                />
-              ))
-            ) : (
-              <div>
-                <Skeleton width="25rem" className="skeleton"></Skeleton>
-                <Skeleton width="12.5rem" className="skeleton"></Skeleton>
-                <Skeleton width="6.25rem" className="skeleton"></Skeleton>
-              </div>
-            )}
-          </>
-        </TabPanel>
+        {projectConfig.showWebAnnoTab && (
+          <TabPanel id="webannos" className="text-brand1-800 p-5">
+            <>
+              <ButtonsStyled>
+                <AnnotationFilter />
+              </ButtonsStyled>
+              {annotations?.length > 0 && !props.isLoading ? (
+                annotations.map((annotation, index) => (
+                  <AnnotationItem
+                    key={index}
+                    annotation={annotation}
+                    nextOrPrevButtonClicked={nextOrPrevButtonClicked}
+                  />
+                ))
+              ) : (
+                <div>
+                  <Skeleton width="25rem" className="skeleton"></Skeleton>
+                  <Skeleton width="12.5rem" className="skeleton"></Skeleton>
+                  <Skeleton width="6.25rem" className="skeleton"></Skeleton>
+                </div>
+              )}
+            </>
+          </TabPanel>
+        )}
       </Tabs>
     </div>
   );
