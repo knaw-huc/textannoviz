@@ -57,7 +57,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
       //Zoom in on annotation in Mirador
       const zoom = zoomAnnMirador(props.annotation, canvas.canvasIds[0]);
 
-      if (zoom !== null) {
+      if (zoom) {
         miradorStore.dispatch(
           mirador.actions.selectAnnotation(
             miradorStore.windows[0].id,

@@ -108,12 +108,12 @@ export const Detail = (props: DetailProps) => {
                 annoToZoom ? annoToZoom.body.id : broccoli.anno[0].body.id,
               ),
             );
-            if (typeof zoom === "object") {
+            if (zoom) {
               viewer.store.dispatch(
                 mirador.actions.updateViewport(`${props.project}`, {
-                  x: zoom?.zoomCenter.x,
-                  y: zoom?.zoomCenter.y,
-                  zoom: 1 / zoom!.miradorZoom,
+                  x: zoom.zoomCenter.x,
+                  y: zoom.zoomCenter.y,
+                  zoom: 1 / zoom.miradorZoom,
                 }),
               );
             }
