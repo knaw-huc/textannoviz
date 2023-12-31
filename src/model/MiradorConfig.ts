@@ -26,4 +26,8 @@ export type MiradorConfig = {
   workspaceControlPanel: {
     enabled: boolean;
   };
+
+  requests: {
+    postprocessors: any;
+  };
 };

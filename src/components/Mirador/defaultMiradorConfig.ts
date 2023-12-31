@@ -1,5 +1,12 @@
 import { MiradorConfig } from "../../model/MiradorConfig";
 
+type Action = {
+  annotationId: string;
+  annotationJson: object;
+  targetId: string;
+  type: string;
+};
+
 /**
  * Configuration as required by the mirador viewer
  */
@@ -27,5 +34,15 @@ export const defaultMiradorConfig: MiradorConfig = {
   },
   workspaceControlPanel: {
     enabled: false,
+  },
+
+  requests: {
+    postprocessors: [
+      (_url: string, action: Action) => {
+        if (action.annotationId) {
+          action.annotationJson = {};
+        }
+      },
+    ],
   },
 };

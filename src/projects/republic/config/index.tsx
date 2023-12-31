@@ -62,5 +62,6 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   ],
   mirador: {
     showTopMenuButton: true,
+    showWindowSideBar: true,
   },
 });

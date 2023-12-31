@@ -37,7 +37,7 @@ const createMiradorConfig = (
   project: ProjectConfig,
   config: MiradorConfig = defaultMiradorConfig,
 ) => {
-  const newConfig = structuredClone(config);
+  const newConfig = config;
   newConfig.windows[0].manifestId = broccoli.iiif.manifest;
   newConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
   newConfig.windows[0].id = project.id;
