@@ -14,7 +14,7 @@ const root = createRoot(container!);
 
 root.render(
   <React.StrictMode>
-    <NextUIProvider>
+    <NextUIProvider className="flex h-full min-h-screen w-full flex-col items-stretch justify-stretch">
       <ToastContainer />
       <App />
     </NextUIProvider>
