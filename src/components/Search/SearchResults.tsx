@@ -96,6 +96,7 @@ export function SearchResults(props: {
   const resultStartEnd = searchResults.total.value
     ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
     : "";
+
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
@@ -105,21 +106,24 @@ export function SearchResults(props: {
           ).toLowerCase()}`}
         </span>
         <div className="flex items-center justify-between gap-10">
-          {projectConfig.showSearchSortBy && (
-            <SearchSorting
-              dateFacet={searchQuery.dateFacet}
-              onSort={updateSorting}
-              selected={{
-                field: searchUrlParams.sortBy,
-                order: searchUrlParams.sortOrder,
-              }}
-            />
-          )}
+          {searchResults.results.length >= 1 &&
+            projectConfig.showSearchSortBy && (
+              <SearchSorting
+                dateFacet={searchQuery.dateFacet}
+                onSort={updateSorting}
+                selected={{
+                  field: searchUrlParams.sortBy,
+                  order: searchUrlParams.sortOrder,
+                }}
+              />
+            )}
 
-          <SearchResultsPerPage onChange={changePageSize} value={pageSize} />
+          {searchResults.results.length >= 1 && (
+            <SearchResultsPerPage onChange={changePageSize} value={pageSize} />
+          )}
         </div>
       </div>
-      <div className="border-brand1Grey-100 -mx-10 mb-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10">
+      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10 pb-8">
         {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && (
           <>
             <span className="text-brand1Grey-600 text-sm">
@@ -140,6 +144,21 @@ export function SearchResults(props: {
           </>
         )}
 
+        {searchResults.results.length >= 1 && (
+          <SearchPagination
+            prevPageClickHandler={selectPrevPage}
+            nextPageClickHandler={selectNextPage}
+            pageNumber={pageNumber}
+            searchResult={searchResults}
+            elasticSize={pageSize}
+          />
+        )}
+      </div>
+      {searchResults.results.length >= 1 &&
+        searchResults.results.map((result, index) => (
+          <projectConfig.components.SearchItem key={index} result={result} />
+        ))}
+      {searchResults.results.length >= 1 && (
         <SearchPagination
           prevPageClickHandler={selectPrevPage}
           nextPageClickHandler={selectNextPage}
@@ -147,18 +166,7 @@ export function SearchResults(props: {
           searchResult={searchResults}
           elasticSize={pageSize}
         />
-      </div>
-      {searchResults.results.length >= 1 &&
-        searchResults.results.map((result, index) => (
-          <projectConfig.components.SearchItem key={index} result={result} />
-        ))}
-      <SearchPagination
-        prevPageClickHandler={selectPrevPage}
-        nextPageClickHandler={selectNextPage}
-        pageNumber={pageNumber}
-        searchResult={searchResults}
-        elasticSize={pageSize}
-      />
+      )}
     </>
   );
 }
