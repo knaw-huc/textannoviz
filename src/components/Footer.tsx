@@ -1,4 +1,5 @@
 import {
+  Cog6ToothIcon,
   InformationCircleIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
@@ -74,7 +75,7 @@ export const Footer = (props: FooterProps) => {
             ref={trifferRef}
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
           >
-            Instellingen
+            <Cog6ToothIcon className="inline h-4 w-4" />
           </button>
           {isOpen ? (
             <Popover
