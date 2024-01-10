@@ -14,7 +14,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
   const translate = useProjectStore(translateSelector);
 
   return (
-    <nav aria-label="Pagination" className="my-6">
+    <nav aria-label="Pagination">
       <ul className="list-style-none flex justify-center gap-1">
         <li>
           <Button
