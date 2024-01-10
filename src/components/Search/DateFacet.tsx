@@ -22,23 +22,50 @@ export function DateFacet(props: {
     projectConfig.initialDateTo,
   );
 
+  const toastMessage = () =>
+    toast(`You are setting an incorrect date. Please set a correct date.`, {
+      type: "error",
+    });
+
   const fromDateChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    props.changeDateFrom(event.target.value);
-    setDateFrom(event.target.value);
+    const newDateTo = new Date(event.target.value);
+    const minDateTo = new Date(event.target.min);
+    const maxDateTo = new Date(event.target.max);
+
+    if (
+      newDateTo.getFullYear() < minDateTo.getFullYear() ||
+      newDateTo.getFullYear() > maxDateTo.getFullYear()
+    ) {
+      toastMessage();
+    }
+
+    if (newDateTo.toString() !== "Invalid Date") {
+      props.changeDateFrom(event.target.value);
+      setDateFrom(event.target.value);
+    } else {
+      toastMessage();
+    }
   };
 
   const toDateChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newDateTo = new Date(event.target.value);
+    const minDateTo = new Date(event.target.min);
+    const maxDateTo = new Date(event.target.max);
+
+    if (
+      newDateTo.getFullYear() < minDateTo.getFullYear() ||
+      newDateTo.getFullYear() > maxDateTo.getFullYear()
+    ) {
+      toastMessage();
+    }
 
     if (newDateTo.toString() !== "Invalid Date") {
       props.changeDateTo(event.target.value);
       setDateTo(event.target.value);
     } else {
-      toast(`You are setting an incorrect date. Please set a correct date.`, {
-        type: "error",
-      });
+      toastMessage();
     }
   };
 
