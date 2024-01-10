@@ -101,9 +101,11 @@ export function SearchResults(props: {
     <>
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
         <span className="font-semibold">
-          {`${resultStartEnd} ${searchResults.total.value} ${translate(
-            "RESULTS",
-          ).toLowerCase()}`}
+          {resultStartEnd
+            ? `${resultStartEnd} ${searchResults.total.value} ${translate(
+                "RESULTS",
+              ).toLowerCase()}`
+            : translate("NO_SEARCH_RESULTS")}
         </span>
         <div className="flex items-center justify-between gap-10">
           {searchResults.results.length >= 1 &&

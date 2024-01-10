@@ -54,5 +54,6 @@ export const dutchLabels: Labels = {
 
   NO_FACETS_FOUND: "Geen search facets gevonden",
   NO_INDICES_FOUND: "Geen zoek indices gevonden",
-  NO_SEARCH_RESULTS: "Geen zoekresultaten",
+  NO_SEARCH_RESULTS:
+    "Geen zoekresultaten. Probeer een andere combinatie van facetten.",
 };
