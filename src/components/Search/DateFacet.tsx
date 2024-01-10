@@ -1,5 +1,6 @@
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { toast } from "react-toastify";
 import {
   projectConfigSelector,
   translateSelector,
@@ -29,8 +30,16 @@ export function DateFacet(props: {
   };
 
   const toDateChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.changeDateTo(event.target.value);
-    setDateTo(event.target.value);
+    const newDateTo = new Date(event.target.value);
+
+    if (newDateTo.toString() !== "Invalid Date") {
+      props.changeDateTo(event.target.value);
+      setDateTo(event.target.value);
+    } else {
+      toast(`You are setting an incorrect date. Please set a correct date.`, {
+        type: "error",
+      });
+    }
   };
 
   const resetClickHandler = () => {
