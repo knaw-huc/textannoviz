@@ -36,6 +36,13 @@ export type AnnotationTypesToHighlightSlice = {
   ) => void;
 };
 
+export type ShowSvgsAnnosMiradorSlice = {
+  showSvgsAnnosMirador: boolean;
+  setShowSvgsAnnosMirador: (
+    newShowSvgsAnnosMirador: ShowSvgsAnnosMiradorSlice["showSvgsAnnosMirador"],
+  ) => void;
+};
+
 const createOpenAnnSlice: StateCreator<
   OpenAnnSlice & AnnotationsSlice & CurrentSelectedAnnSlice,
   [],
@@ -115,16 +122,29 @@ const createAnnotationTypesToHighlightSlice: StateCreator<
     set(() => ({ annotationTypesToHighlight: newAnnotationTypesToHighlight })),
 });
 
+const createShowSvgsAnnosMiradorSlice: StateCreator<
+  ShowSvgsAnnosMiradorSlice,
+  [],
+  [],
+  ShowSvgsAnnosMiradorSlice
+> = (set) => ({
+  showSvgsAnnosMirador: true,
+  setShowSvgsAnnosMirador: (newShowSvgsAnnosMirador) =>
+    set(() => ({ showSvgsAnnosMirador: newShowSvgsAnnosMirador })),
+});
+
 export const useAnnotationStore = create<
   OpenAnnSlice &
     AnnotationsSlice &
     CurrentSelectedAnnSlice &
     AnnotationTypesToIncludeSlice &
-    AnnotationTypesToHighlightSlice
+    AnnotationTypesToHighlightSlice &
+    ShowSvgsAnnosMiradorSlice
 >()((...a) => ({
   ...createOpenAnnSlice(...a),
   ...createAnnotationSlice(...a),
   ...createCurrentSelectedAnnSlice(...a),
   ...createAnnotationTypesToIncluceSlice(...a),
   ...createAnnotationTypesToHighlightSlice(...a),
+  ...createShowSvgsAnnosMiradorSlice(...a),
 }));

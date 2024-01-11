@@ -4,7 +4,8 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import React from "react";
-import { Dialog, OverlayArrow, Popover } from "react-aria-components";
+import { Dialog, OverlayArrow, Popover, Switch } from "react-aria-components";
+import { useAnnotationStore } from "../stores/annotation";
 import {
   projectConfigSelector,
   translateSelector,
@@ -29,6 +30,12 @@ export const Footer = (props: FooterProps) => {
   const trifferRef = React.useRef(null);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
+  const showSvgsAnnosMirador = useAnnotationStore(
+    (state) => state.showSvgsAnnosMirador,
+  );
+  const setShowSvgsAnnosMirador = useAnnotationStore(
+    (state) => state.setShowSvgsAnnosMirador,
+  );
 
   return (
     <div className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
@@ -89,7 +96,22 @@ export const Footer = (props: FooterProps) => {
                 </svg>
               </OverlayArrow>
               <Dialog>
-                <AnnotationsToHighlightFilter />
+                <div className="mb-8">
+                  <AnnotationsToHighlightFilter />
+                </div>
+                <div>
+                  <div className="flex w-full flex-row items-center gap-6">
+                    <p className="font-bold">Show annotations in IIIF viewer</p>
+                    <Switch
+                      isSelected={showSvgsAnnosMirador}
+                      onChange={() =>
+                        setShowSvgsAnnosMirador(!showSvgsAnnosMirador)
+                      }
+                    >
+                      <div className="indicator" />
+                    </Switch>
+                  </div>
+                </div>
               </Dialog>
             </Popover>
           ) : null}
