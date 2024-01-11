@@ -79,27 +79,29 @@ export const Detail = (props: DetailProps) => {
               (annotation) => annotation.body.id === params.tier2,
             );
 
-            setTimeout(() => {
-              const zoom = zoomAnnMirador(
-                annoToZoom ? annoToZoom : broccoli.anno[0],
-                broccoli.iiif.canvasIds[0],
-              );
-              viewer.store.dispatch(
-                mirador.actions.selectAnnotation(
-                  `${props.project}`,
-                  annoToZoom ? annoToZoom.body.id : broccoli.anno[0].body.id,
-                ),
-              );
-              if (zoom) {
-                viewer.store.dispatch(
-                  mirador.actions.updateViewport(`${props.project}`, {
-                    x: zoom.zoomCenter.x,
-                    y: zoom.zoomCenter.y,
-                    zoom: 1 / zoom.miradorZoom,
-                  }),
+            if (annoToZoom) {
+              setTimeout(() => {
+                const zoom = zoomAnnMirador(
+                  annoToZoom ? annoToZoom : broccoli.anno[0],
+                  broccoli.iiif.canvasIds[0],
                 );
-              }
-            }, 200);
+                viewer.store.dispatch(
+                  mirador.actions.selectAnnotation(
+                    `${props.project}`,
+                    annoToZoom ? annoToZoom.body.id : broccoli.anno[0].body.id,
+                  ),
+                );
+                if (zoom) {
+                  viewer.store.dispatch(
+                    mirador.actions.updateViewport(`${props.project}`, {
+                      x: zoom.zoomCenter.x,
+                      y: zoom.zoomCenter.y,
+                      zoom: 1 / zoom.miradorZoom,
+                    }),
+                  );
+                }
+              }, 200);
+            }
           }
         }
       }
