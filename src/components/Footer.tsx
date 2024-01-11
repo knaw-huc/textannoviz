@@ -101,7 +101,9 @@ export const Footer = (props: FooterProps) => {
                 </div>
                 <div>
                   <div className="flex w-full flex-row items-center gap-6">
-                    <p className="font-bold">Show annotations in IIIF viewer</p>
+                    <p className="font-bold">
+                      Highlight annotations in IIIF viewer
+                    </p>
                     <Switch
                       isSelected={showSvgsAnnosMirador}
                       onChange={() =>
