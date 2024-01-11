@@ -137,20 +137,24 @@ export function Annotation(props: AnnotationProps) {
               <ButtonsStyled>
                 <AnnotationFilter />
               </ButtonsStyled>
-              {annotations?.length > 0 && !props.isLoading ? (
+              {props.isLoading && (
+                <div>
+                  <Skeleton width="25rem" className="skeleton"></Skeleton>
+                  <Skeleton width="12.5rem" className="skeleton"></Skeleton>
+                  <Skeleton width="6.25rem" className="skeleton"></Skeleton>
+                </div>
+              )}
+              {annotations?.length > 0 &&
+                !props.isLoading &&
                 annotations.map((annotation, index) => (
                   <AnnotationItem
                     key={index}
                     annotation={annotation}
                     nextOrPrevButtonClicked={nextOrPrevButtonClicked}
                   />
-                ))
-              ) : (
-                <div>
-                  <Skeleton width="25rem" className="skeleton"></Skeleton>
-                  <Skeleton width="12.5rem" className="skeleton"></Skeleton>
-                  <Skeleton width="6.25rem" className="skeleton"></Skeleton>
-                </div>
+                ))}
+              {annotations?.length === 0 && !props.isLoading && (
+                <div className="font-bold">No web annotations</div>
               )}
             </>
           </TabPanel>
