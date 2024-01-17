@@ -1,5 +1,15 @@
 import * as _ from "lodash";
 import { ChangeEvent, ReactNode } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   projectConfigSelector,
@@ -8,12 +18,19 @@ import {
 } from "../../stores/project.ts";
 import { FacetEntry } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { createIndices } from "../../utils/createIndices.ts";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
 import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
 import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
+
+type HitsYear = {
+  name: string;
+  count: number;
+  year: number;
+}[];
 
 export function SearchResults(props: {
   keywordFacets: FacetEntry[];
@@ -97,6 +114,42 @@ export function SearchResults(props: {
     ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
     : "";
 
+  const hitsYear: HitsYear = [];
+
+  const years = createIndices(1705, 1795);
+
+  /*
+  TODO:
+  - parameters: oorspronkelijke data, begin, end
+  - in component: switchen staaf/line, inzoomen, uitzoomen
+  - met speciale klik dan waarde omhoog naar TAV voor filter search query
+  - views: alles tussen eerste en laatste jaar in data, volledige breedte project, inzoomen, uitzoomen, per eeuw/decennia/jaar/kwartaal/maand/week/dag
+  */
+
+  const yearsInData = Object.keys(searchResults.aggs.sessionYear).map((year) =>
+    parseInt(year),
+  );
+
+  years.map((year) => {
+    Object.entries(searchResults.aggs.sessionYear).map(([key, value]) => {
+      if (year === parseInt(key)) {
+        hitsYear.push({
+          name: "year",
+          count: value,
+          year: parseInt(key),
+        });
+      }
+    });
+
+    if (!yearsInData.includes(year)) {
+      hitsYear.push({
+        name: "year",
+        count: 0,
+        year: year,
+      });
+    }
+  });
+
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
@@ -156,6 +209,26 @@ export function SearchResults(props: {
           />
         )}
       </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart
+          width={500}
+          height={300}
+          data={hitsYear}
+          margin={{ right: 30, bottom: 10 }}
+        >
+          <CartesianGrid strokeDasharray="1 6" />
+          <XAxis dataKey="year" />
+          <YAxis dataKey="count" allowDecimals={false} />
+          <Tooltip />
+          <Legend />
+          <Bar
+            dataKey="count"
+            name="Occurrences per year"
+            fill="#8884d8"
+            onClick={(event) => console.log(event)}
+          />
+        </BarChart>
+      </ResponsiveContainer>
       {searchResults.results.length >= 1 &&
         searchResults.results.map((result, index) => (
           <projectConfig.components.SearchItem key={index} result={result} />
