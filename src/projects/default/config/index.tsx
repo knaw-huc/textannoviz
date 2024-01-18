@@ -41,7 +41,7 @@ export const defaultConfig: Omit<
   showNewSearchButton: true,
   allowCloseTextPanel: true,
   showWebAnnoTab: true,
-  showHistogram: true,
+  showHistogram: false,
   histogramFacet: "",
   components: {
     AnnotationItem: Placeholder,

@@ -49,6 +49,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   headerTitle: "REPUBLIC",
   logoHref: "https://republic.huygens.knaw.nl/",
   histogramFacet: "sessionYear",
+  showHistogram: true,
   components: {
     AnnotationItem,
     AnnotationItemContent,
