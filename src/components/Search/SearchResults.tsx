@@ -161,6 +161,7 @@ export function SearchResults(props: {
         <Histogram
           searchResults={searchResults}
           dateFacet={projectConfig.histogramFacet}
+          graphType="bar"
         />
       ) : null}
 
