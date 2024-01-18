@@ -39,6 +39,7 @@ export function SearchResults(props: {
   const [graphType, setGraphType] = React.useState("bar");
   const [graphFrom, setGraphFrom] = React.useState("1705");
   const [graphTo, setGraphTo] = React.useState("1795");
+  const [showHistogram, setShowHistogram] = React.useState(true);
 
   function updateSorting(sorting: Sorting) {
     setSearchUrlParams({
@@ -112,6 +113,10 @@ export function SearchResults(props: {
     setGraphTo(newDates.to);
   }
 
+  function showHistogramButtonClickHandler(newValue: boolean) {
+    setShowHistogram(newValue);
+  }
+
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
@@ -176,6 +181,7 @@ export function SearchResults(props: {
           <HistogramControls
             graphTypeButtonClickHandler={graphTypeButtonClickHandler}
             graphDateButtonClickHandler={graphDateButtonClickHandler}
+            showHistogramButtonClickHandler={showHistogramButtonClickHandler}
             graphFrom={graphFrom}
             graphTo={graphTo}
           />
@@ -185,6 +191,7 @@ export function SearchResults(props: {
             graphType={graphType}
             graphFrom={graphFrom}
             graphTo={graphTo}
+            showHistogram={showHistogram}
           />
         </>
       ) : null}

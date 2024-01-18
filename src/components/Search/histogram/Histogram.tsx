@@ -19,6 +19,7 @@ type HistogramProps = {
   graphType: string;
   graphFrom: string;
   graphTo: string;
+  showHistogram: boolean;
 };
 
 type HitsYear = {
@@ -39,6 +40,7 @@ type HitsYear = {
 export const Histogram = (props: HistogramProps) => {
   if (!props.dateFacet.length) return null;
   if (!props.searchResults.aggs[props.dateFacet]) return null;
+  if (!props.showHistogram) return null;
 
   const hitsYear: HitsYear = [];
 

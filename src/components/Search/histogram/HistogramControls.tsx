@@ -4,6 +4,7 @@ import { Button, Input, Label, TextField } from "react-aria-components";
 type HistogramControlsProps = {
   graphTypeButtonClickHandler: (newGraphType: string) => void;
   graphDateButtonClickHandler: (newDates: { from: string; to: string }) => void;
+  showHistogramButtonClickHandler: (newValue: boolean) => void;
   graphFrom: string;
   graphTo: string;
 };
@@ -11,13 +12,19 @@ type HistogramControlsProps = {
 export const HistogramControls = (props: HistogramControlsProps) => {
   const [graphFrom, setGraphFrom] = React.useState(props.graphFrom);
   const [graphTo, setGraphTo] = React.useState(props.graphTo);
+  const [showHistogram, setShowHistogram] = React.useState(true);
 
-  function graphDateButtonHandler() {
+  function graphDateButtonClickHandler() {
     const newDates = {
       from: graphFrom,
       to: graphTo,
     };
     props.graphDateButtonClickHandler(newDates);
+  }
+
+  function showHistogramButtonClickHandler() {
+    setShowHistogram(!showHistogram);
+    props.showHistogramButtonClickHandler(!showHistogram);
   }
 
   return (
@@ -33,7 +40,7 @@ export const HistogramControls = (props: HistogramControlsProps) => {
         </TextField>
         <Button
           className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
-          onPress={graphDateButtonHandler}
+          onPress={graphDateButtonClickHandler}
         >
           Apply
         </Button>
@@ -52,6 +59,12 @@ export const HistogramControls = (props: HistogramControlsProps) => {
             onPress={() => props.graphTypeButtonClickHandler("bar")}
           >
             Bar chart
+          </Button>
+          <Button
+            className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
+            onPress={showHistogramButtonClickHandler}
+          >
+            {showHistogram ? "Hide histogram" : "Show histogram"}
           </Button>
         </div>
       </div>
