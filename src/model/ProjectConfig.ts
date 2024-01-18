@@ -47,6 +47,8 @@ export type ProjectConfig = {
   showNewSearchButton: boolean;
   allowCloseTextPanel: boolean;
   showWebAnnoTab: boolean;
+  histogramFacet: string;
+  showHistogram: boolean;
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {

@@ -13,6 +13,7 @@ import { createIndices } from "../../utils/createIndices";
 
 type HistogramProps = {
   searchResults: SearchResult;
+  dateFacet: string;
 };
 
 type HitsYear = {
@@ -30,24 +31,29 @@ type HitsYear = {
 */
 
 export const Histogram = (props: HistogramProps) => {
+  if (!props.dateFacet.length) return null;
+
   const hitsYear: HitsYear = [];
 
   const years = createIndices(1705, 1795);
 
-  const yearsInData = Object.keys(props.searchResults.aggs.sessionYear).map(
-    (year) => parseInt(year),
-  );
+  const yearsInData = Object.keys(
+    props.searchResults.aggs[props.dateFacet],
+  ).map((year) => parseInt(year));
 
   years.map((year) => {
-    Object.entries(props.searchResults.aggs.sessionYear).map(([key, value]) => {
-      if (year === parseInt(key)) {
-        hitsYear.push({
-          name: "year",
-          count: value,
-          year: parseInt(key),
-        });
-      }
-    });
+    if (!props.dateFacet.length) return;
+    Object.entries(props.searchResults.aggs[props.dateFacet]).map(
+      ([key, value]) => {
+        if (year === parseInt(key)) {
+          hitsYear.push({
+            name: "year",
+            count: value,
+            year: parseInt(key),
+          });
+        }
+      },
+    );
 
     if (!yearsInData.includes(year)) {
       hitsYear.push({

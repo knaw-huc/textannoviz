@@ -157,7 +157,13 @@ export function SearchResults(props: {
           />
         )}
       </div>
-      <Histogram searchResults={searchResults} />
+      {projectConfig.showHistogram ? (
+        <Histogram
+          searchResults={searchResults}
+          dateFacet={projectConfig.histogramFacet}
+        />
+      ) : null}
+
       {searchResults.results.length >= 1 &&
         searchResults.results.map((result, index) => (
           <projectConfig.components.SearchItem key={index} result={result} />
