@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { ChangeEvent, ReactNode } from "react";
+import React, { ChangeEvent, ReactNode } from "react";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   projectConfigSelector,
@@ -8,11 +8,12 @@ import {
 } from "../../stores/project.ts";
 import { FacetEntry } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import { Histogram } from "./Histogram.tsx";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
 import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
 import { SearchSorting, Sorting } from "./SearchSorting.tsx";
+import { Histogram } from "./histogram/Histogram.tsx";
+import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
 
@@ -34,6 +35,10 @@ export function SearchResults(props: {
   const pageSize = searchUrlParams.size;
   const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
   const translate = useProjectStore(translateSelector);
+
+  const [graphType, setGraphType] = React.useState("bar");
+  const [graphFrom, setGraphFrom] = React.useState("1705");
+  const [graphTo, setGraphTo] = React.useState("1795");
 
   function updateSorting(sorting: Sorting) {
     setSearchUrlParams({
@@ -98,6 +103,15 @@ export function SearchResults(props: {
     ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
     : "";
 
+  function graphTypeButtonClickHandler(newGraphType: string) {
+    setGraphType(newGraphType);
+  }
+
+  function graphDateButtonClickHandler(newDates: { from: string; to: string }) {
+    setGraphFrom(newDates.from);
+    setGraphTo(newDates.to);
+  }
+
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
@@ -158,11 +172,21 @@ export function SearchResults(props: {
         )}
       </div>
       {projectConfig.showHistogram ? (
-        <Histogram
-          searchResults={searchResults}
-          dateFacet={projectConfig.histogramFacet}
-          graphType="bar"
-        />
+        <>
+          <HistogramControls
+            graphTypeButtonClickHandler={graphTypeButtonClickHandler}
+            graphDateButtonClickHandler={graphDateButtonClickHandler}
+            graphFrom={graphFrom}
+            graphTo={graphTo}
+          />
+          <Histogram
+            searchResults={searchResults}
+            dateFacet={projectConfig.histogramFacet}
+            graphType={graphType}
+            graphFrom={graphFrom}
+            graphTo={graphTo}
+          />
+        </>
       ) : null}
 
       {searchResults.results.length >= 1 &&

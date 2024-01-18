@@ -10,13 +10,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { SearchResult } from "../../model/Search";
-import { createIndices } from "../../utils/createIndices";
+import { SearchResult } from "../../../model/Search";
+import { createIndices } from "../../../utils/createIndices";
 
 type HistogramProps = {
   searchResults: SearchResult;
   dateFacet: string;
   graphType: string;
+  graphFrom: string;
+  graphTo: string;
 };
 
 type HitsYear = {
@@ -40,7 +42,10 @@ export const Histogram = (props: HistogramProps) => {
 
   const hitsYear: HitsYear = [];
 
-  const years = createIndices(1705, 1795);
+  const years = createIndices(
+    parseInt(props.graphFrom),
+    parseInt(props.graphTo),
+  );
 
   const yearsInData = Object.keys(
     props.searchResults.aggs[props.dateFacet],
