@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Input, Label, TextField } from "react-aria-components";
+import { toast } from "react-toastify";
 
 type HistogramControlsProps = {
   graphTypeButtonClickHandler: (newGraphType: string) => void;
@@ -15,6 +16,15 @@ export const HistogramControls = (props: HistogramControlsProps) => {
   const [showHistogram, setShowHistogram] = React.useState(true);
 
   function graphDateButtonClickHandler() {
+    if (parseInt(graphFrom) > parseInt(graphTo)) {
+      toast("From is highter than to", { type: "error" });
+      return;
+    }
+
+    if (parseInt(graphTo) < parseInt(graphFrom)) {
+      toast("To is lower than from", { type: "error" });
+      return;
+    }
     const newDates = {
       from: graphFrom,
       to: graphTo,
