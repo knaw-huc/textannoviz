@@ -28,7 +28,7 @@ export const defaultConfig: Omit<
   defaultTextPanels: ["self"],
   showSearchSortBy: true,
   showFacsimileButtonFooter: true,
-  showSearchResultsButtonFooter: true,
+  showSearchResultsButtonFooter: false,
   defaultShowMetadataPanel: true,
   showToggleTextPanels: false,
   zoomAnnoMirador: true,
