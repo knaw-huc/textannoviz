@@ -48,11 +48,11 @@ export const SearchItem = (props: SearchItemProps) => {
           <div className="p-4 font-semibold">
             {translateProject(props.result.bodyType)}
           </div>
-          {props.result._hits?.map((hit, key) => (
+          {props.result._hits?.text.map((hit, key) => (
             <div key={key} className="hover:bg-brand1Grey-50 w-full p-4">
               <div
                 className="mb-1 font-serif text-base"
-                dangerouslySetInnerHTML={{ __html: hit.preview }}
+                dangerouslySetInnerHTML={{ __html: hit }}
               ></div>
             </div>
           ))}

@@ -14,8 +14,8 @@ export function createHighlights(data: SearchResult): Map<string, string[]> {
     if (!searchHits) {
       return;
     }
-    searchHits.forEach((hit) => {
-      const matches = hit.preview
+    searchHits.text.forEach((hit) => {
+      const matches = hit
         .match(HIT_PREVIEW_REGEX)
         ?.map((str) => str.substring(4, str.length - 5));
       if (matches) {

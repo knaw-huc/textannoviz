@@ -24,18 +24,8 @@ export interface RepublicSearchResultBody {
   sessionWeekday: string;
   propositionType: string;
   _hits: {
-    preview: string;
-    locations: {
-      start: {
-        line: number;
-        offset: number;
-      };
-      end: {
-        line: number;
-        offset: number;
-      };
-    }[];
-  }[];
+    text: string[];
+  };
 }
 
 export type TranslatinSearchResultsBody = {
@@ -52,18 +42,8 @@ export type TranslatinSearchResultsBody = {
   title: string;
   work: string;
   _hits: {
-    preview: string;
-    locations: {
-      start: {
-        line: number;
-        offset: number;
-      };
-      end: {
-        line: number;
-        offset: number;
-      };
-    }[];
-  }[];
+    text: string[];
+  };
 };
 
 export type MondriaanSearchResultsBody = {
@@ -71,36 +51,16 @@ export type MondriaanSearchResultsBody = {
   bodyType: string;
   type: string;
   _hits: {
-    preview: string;
-    locations: {
-      start: {
-        line: number;
-        offset: number;
-      };
-      end: {
-        line: number;
-        offset: number;
-      };
-    }[];
-  }[];
+    text: string[];
+  };
 };
 
 export type GlobaliseSearchResultsBody = {
   _id: string;
   document: string;
   _hits: {
-    preview: string;
-    locations: {
-      start: {
-        line: number;
-        offset: number;
-      };
-      end: {
-        line: number;
-        offset: number;
-      };
-    }[];
-  }[];
+    text: string[];
+  };
 };
 
 export type FacetType = "date" | "keyword";

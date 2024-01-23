@@ -65,14 +65,16 @@ export const SearchItem = (props: SearchItemProps) => {
               (props.result as RepublicSearchResultBody).bodyType,
             ) ?? (props.result as RepublicSearchResultBody).document}
           </div>
-          {(props.result as RepublicSearchResultBody)._hits?.map((hit, key) => (
-            <div key={key} className="hover:bg-rpBrand1grey-50 w-full p-4">
-              <div
-                className="mb-1 font-serif text-base"
-                dangerouslySetInnerHTML={{ __html: hit.preview }}
-              ></div>
-            </div>
-          ))}
+          {(props.result as RepublicSearchResultBody)._hits.text.map(
+            (hit, key) => (
+              <div key={key} className="hover:bg-rpBrand1grey-50 w-full p-4">
+                <div
+                  className="mb-1 font-serif text-base"
+                  dangerouslySetInnerHTML={{ __html: hit }}
+                ></div>
+              </div>
+            ),
+          )}
         </li>
       </Link>
     </ul>
