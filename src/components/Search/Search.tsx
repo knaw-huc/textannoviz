@@ -118,6 +118,7 @@ export const Search = () => {
       const newUrlParams = addToUrlParams(urlParams, {
         ...searchUrlParams,
         query: Base64.toBase64(cleanQuery),
+        indexName: projectConfig.elasticIndexName,
       });
       setUrlParams(newUrlParams);
     }
