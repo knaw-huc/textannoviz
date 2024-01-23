@@ -148,9 +148,12 @@ export const Search = () => {
     if (!searchQuery.terms) {
       return;
     }
+
+    const newParams = { ...params, indexName: projectConfig.elasticIndexName };
+
     const searchResults = await sendSearchQuery(
       projectConfig,
-      params,
+      newParams,
       toRequestBody(query),
     );
     if (!searchResults) {
