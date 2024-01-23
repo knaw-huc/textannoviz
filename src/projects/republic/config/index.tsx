@@ -23,7 +23,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   relativeTo: "Scan",
   annotationTypesToInclude: [
     "AttendanceList",
-    // "RepublicParagraph",
+    "RepublicParagraph",
     "Attendant",
     "Resolution",
     "Reviewed",
