@@ -184,7 +184,11 @@ export const Search = () => {
   }
 
   async function getFacets(projectConfig: ProjectConfig) {
-    const searchResults = await sendSearchQuery(projectConfig, { size: 0 }, {});
+    const searchResults = await sendSearchQuery(
+      projectConfig,
+      { size: 0, indexName: projectConfig.elasticIndexName },
+      {},
+    );
     if (!searchResults?.aggs) {
       throw new Error("No facet request result");
     }
