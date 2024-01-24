@@ -17,6 +17,23 @@ import { setProjectConfigSelector, useProjectStore } from "./stores/project";
 const { project, config } = createProjectConfig();
 const router = await createRouter();
 
+async function fetchIndexName(): Promise<{ indexName: string } | null> {
+  const response = await fetch(
+    "https://textannoviz.republic-caf.diginfra.org/config",
+  );
+  if (!response.ok) {
+    return null;
+  }
+
+  return response.json();
+}
+
+const indexName = await fetchIndexName();
+
+if (indexName) {
+  config.elasticIndexName = indexName["indexName"];
+}
+
 export default function App() {
   const setAnnotationTypesToInclude = useAnnotationStore(
     (state) => state.setAnnotationTypesToInclude,
