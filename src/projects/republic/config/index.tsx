@@ -41,7 +41,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   tier: ["volumes", "openings"],
   bodyType: ["Session", "Resolution", "Attendant"],
   scanAnnotation: "Scan",
-  elasticIndexName: "paras",
+  elasticIndexName: "resolutions-para",
   initialDateFrom: "1705-01-01",
   initialDateTo: "1796-12-31",
   annotationTypesToZoom: ["resolution", "attendance_list"],
