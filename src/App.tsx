@@ -18,9 +18,7 @@ const { project, config } = createProjectConfig();
 const router = await createRouter();
 
 async function fetchIndexName(): Promise<{ indexName: string } | null> {
-  const response = await fetch(
-    "https://textannoviz.republic-caf.diginfra.org/config",
-  );
+  const response = await fetch("/config");
   if (!response.ok) {
     return null;
   }
@@ -28,10 +26,12 @@ async function fetchIndexName(): Promise<{ indexName: string } | null> {
   return response.json();
 }
 
-const indexName = await fetchIndexName();
+if (import.meta.env.MODE !== "development") {
+  const indexName = await fetchIndexName();
 
-if (indexName) {
-  config.elasticIndexName = indexName["indexName"];
+  if (indexName) {
+    config.elasticIndexName = indexName["indexName"];
+  }
 }
 
 export default function App() {
