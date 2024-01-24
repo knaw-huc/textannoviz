@@ -38,7 +38,7 @@ export function SearchResults(props: {
 
   const [graphType, setGraphType] = React.useState("bar");
   const [graphFrom, setGraphFrom] = React.useState("1705");
-  const [graphTo, setGraphTo] = React.useState("1795");
+  const [graphTo, setGraphTo] = React.useState("1796");
   const [showHistogram, setShowHistogram] = React.useState(true);
 
   function updateSorting(sorting: Sorting) {

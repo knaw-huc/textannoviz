@@ -43,7 +43,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   scanAnnotation: "Scan",
   elasticIndexName: "paras",
   initialDateFrom: "1705-01-01",
-  initialDateTo: "1795-12-31",
+  initialDateTo: "1796-12-31",
   annotationTypesToZoom: ["resolution", "attendance_list"],
   logoImageUrl: logo,
   headerTitle: "REPUBLIC",
