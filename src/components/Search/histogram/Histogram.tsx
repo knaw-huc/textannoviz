@@ -117,7 +117,6 @@ export const Histogram = (props: HistogramProps) => {
               dataKey="count"
               name="Occurrences per year"
               stroke="#8884d8"
-              onClick={(event) => console.log(event)}
             />
           </LineChart>
         </ResponsiveContainer>
