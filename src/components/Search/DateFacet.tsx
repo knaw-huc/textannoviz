@@ -22,6 +22,12 @@ export function DateFacet(props: {
     projectConfig.initialDateTo,
   );
 
+  //to sync date facet with histogram. find better way?
+  React.useEffect(() => {
+    setDateFrom(props.dateFrom);
+    setDateTo(props.dateTo);
+  }, [props.dateFrom, props.dateTo]);
+
   const toastMessage = () =>
     toast(`You are setting an incorrect date. Please set a correct date.`, {
       type: "error",

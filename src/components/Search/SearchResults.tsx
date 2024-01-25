@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import React, { ChangeEvent, ReactNode } from "react";
+import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   projectConfigSelector,
@@ -121,6 +122,17 @@ export function SearchResults(props: {
     setShowHistogram(newValue);
   }
 
+  function filterDateQuery(event: CategoricalChartState) {
+    const newYear = event.activeLabel;
+
+    setSearchQuery({
+      ...searchQuery,
+      dateFrom: `${newYear}-01-01`,
+      dateTo: `${newYear}-12-31`,
+    });
+    onSearch();
+  }
+
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
@@ -196,6 +208,7 @@ export function SearchResults(props: {
             graphFrom={graphFrom}
             graphTo={graphTo}
             showHistogram={showHistogram}
+            filterDateQuery={filterDateQuery}
           />
         </>
       ) : null}

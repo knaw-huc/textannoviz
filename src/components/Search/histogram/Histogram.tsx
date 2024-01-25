@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import { SearchResult } from "../../../model/Search";
 import { createIndices } from "../../../utils/createIndices";
 
@@ -20,6 +21,7 @@ type HistogramProps = {
   graphFrom: string;
   graphTo: string;
   showHistogram: boolean;
+  filterDateQuery: (event: CategoricalChartState) => void;
 };
 
 type HitsYear = {
@@ -86,24 +88,26 @@ export const Histogram = (props: HistogramProps) => {
             data={hitsYear}
             margin={{ right: 30, bottom: 10 }}
             barCategoryGap="1%"
+            onClick={(event) => props.filterDateQuery(event)}
           >
             <CartesianGrid strokeDasharray="1 6" />
             <XAxis dataKey="year" />
             <YAxis dataKey="count" allowDecimals={false} />
             <Tooltip />
             <Legend />
-            <Bar
-              dataKey="count"
-              name="Occurrences per year"
-              fill="#8884d8"
-              onClick={(event) => console.log(event)}
-            />
+            <Bar dataKey="count" name="Occurrences per year" fill="#8884d8" />
           </BarChart>
         </ResponsiveContainer>
       ) : null}
       {props.graphType === "line" ? (
         <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={hitsYear} margin={{ right: 30, bottom: 10 }}>
+          <LineChart
+            width={500}
+            height={300}
+            data={hitsYear}
+            margin={{ right: 30, bottom: 10 }}
+            onClick={(event) => props.filterDateQuery(event)}
+          >
             <CartesianGrid strokeDasharray="1 6" />
             <XAxis dataKey="year" />
             <YAxis dataKey="count" allowDecimals={false} />
@@ -113,6 +117,7 @@ export const Histogram = (props: HistogramProps) => {
               dataKey="count"
               name="Occurrences per year"
               stroke="#8884d8"
+              onClick={(event) => console.log(event)}
             />
           </LineChart>
         </ResponsiveContainer>
