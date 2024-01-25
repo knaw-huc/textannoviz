@@ -37,8 +37,12 @@ export function SearchResults(props: {
   const translate = useProjectStore(translateSelector);
 
   const [graphType, setGraphType] = React.useState("bar");
-  const [graphFrom, setGraphFrom] = React.useState("1705");
-  const [graphTo, setGraphTo] = React.useState("1796");
+  const [graphFrom, setGraphFrom] = React.useState(
+    projectConfig.initialDateFrom.split("-")[0],
+  );
+  const [graphTo, setGraphTo] = React.useState(
+    projectConfig.initialDateTo.split("-")[0],
+  );
   const [showHistogram, setShowHistogram] = React.useState(true);
 
   function updateSorting(sorting: Sorting) {

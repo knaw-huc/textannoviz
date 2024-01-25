@@ -7,6 +7,7 @@ import { Search } from "./components/Search/Search";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ProjectConfig } from "./model/ProjectConfig";
+import { ServerConfig } from "./model/ServerConfig";
 import { globaliseConfig } from "./projects/globalise/config/";
 import { mondriaanConfig } from "./projects/mondriaan/config";
 import { republicConfig } from "./projects/republic/config";
@@ -17,7 +18,7 @@ import { setProjectConfigSelector, useProjectStore } from "./stores/project";
 const { project, config } = createProjectConfig();
 const router = await createRouter();
 
-async function fetchIndexName(): Promise<{ indexName: string } | null> {
+async function fetchConfig(): Promise<ServerConfig | null> {
   const response = await fetch("/config");
   if (!response.ok) {
     return null;
@@ -27,10 +28,12 @@ async function fetchIndexName(): Promise<{ indexName: string } | null> {
 }
 
 if (import.meta.env.MODE !== "development") {
-  const indexName = await fetchIndexName();
+  const serverConfig = await fetchConfig();
 
-  if (indexName) {
-    config.elasticIndexName = indexName["indexName"];
+  if (serverConfig) {
+    config.elasticIndexName = serverConfig.indexName;
+    config.initialDateFrom = serverConfig.initialDateFrom;
+    config.initialDateTo = serverConfig.initialDateTo;
   }
 }
 
