@@ -11,6 +11,7 @@ export const fetchBroccoliBodyIdOfScan = async (
   tier0: string,
   tier1: string,
   config: ProjectConfig,
+  signal: AbortSignal,
 ) => {
   if (parseInt(tier1) < 1) {
     toast("Opening number lower than 1 is not allowed!", { type: "error" });
@@ -19,6 +20,7 @@ export const fetchBroccoliBodyIdOfScan = async (
 
   const response = await fetch(
     `${config.broccoliUrl}/projects/${config.id}/${config.scanAnnotation}/${tier0}/${tier1}?includeResults=bodyId`,
+    { signal },
   );
   if (!response.ok) {
     const error = await response.json();
@@ -35,9 +37,11 @@ export const fetchBroccoliScanWithOverlap = async (
   views: string,
   relativeTo: string,
   config: ProjectConfig,
+  signal: AbortSignal,
 ) => {
   const response = await fetch(
     `${config.broccoliUrl}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`,
+    { signal },
   );
   if (!response.ok) {
     const error = await response.json();
@@ -50,8 +54,11 @@ export const fetchBroccoliScanWithOverlap = async (
 export const selectDistinctBodyTypes = async (
   projectId: string,
   broccoliUrl: string,
+  signal: AbortSignal,
 ): Promise<string[]> => {
-  const response = await fetch(`${broccoliUrl}/projects/${projectId}`);
+  const response = await fetch(`${broccoliUrl}/projects/${projectId}`, {
+    signal,
+  });
   if (!response.ok) {
     const error = await response.json();
     toast(`${error.message}`, { type: "error" });
@@ -64,6 +71,7 @@ export const sendSearchQuery = async (
   projectConfig: ProjectConfig,
   params: Partial<SearchUrlParams>,
   query: SearchQueryRequestBody,
+  signal?: AbortSignal,
 ): Promise<SearchResult | null> => {
   const urlSearchParams = new URLSearchParams(params as any);
   const response = await fetch(
@@ -72,6 +80,7 @@ export const sendSearchQuery = async (
       method: "POST",
       headers: headers,
       body: JSON.stringify(query),
+      signal,
     },
   );
 
@@ -84,9 +93,13 @@ export const sendSearchQuery = async (
   return response.json();
 };
 
-export const getElasticIndices = async (projectConfig: ProjectConfig) => {
+export const getElasticIndices = async (
+  projectConfig: ProjectConfig,
+  signal: AbortSignal,
+) => {
   const response = await fetch(
     `${projectConfig.broccoliUrl}/brinta/${projectConfig.id}/indices`,
+    { signal },
   );
   if (!response.ok) {
     const error = await response.json();

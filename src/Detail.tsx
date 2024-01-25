@@ -141,40 +141,44 @@ export const Detail = (props: DetailProps) => {
   );
 
   React.useEffect(() => {
-    let ignore = false;
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     setIsLoading(true);
     if (params.tier0 && params.tier1) {
-      fetchBroccoliBodyIdOfScan(params.tier0, params.tier1, props.config).then(
-        (result: BroccoliBodyIdResult) => {
-          if (!ignore) {
-            const bodyId = result.bodyId;
-            const includeResults = ["anno", "iiif", "text"];
+      fetchBroccoliBodyIdOfScan(
+        params.tier0,
+        params.tier1,
+        props.config,
+        signal,
+      ).then((result: BroccoliBodyIdResult) => {
+        const bodyId = result.bodyId;
+        const includeResults = ["anno", "iiif", "text"];
 
-            const views =
-              typeof props.config.allPossibleTextPanels === "object"
-                ? props.config.allPossibleTextPanels.toString()
-                : "";
+        const views =
+          typeof props.config.allPossibleTextPanels === "object"
+            ? props.config.allPossibleTextPanels.toString()
+            : "";
 
-            const overlapTypes = annotationTypesToInclude;
-            const relativeTo = props.config.relativeTo;
+        const overlapTypes = annotationTypesToInclude;
+        const relativeTo = props.config.relativeTo;
 
-            fetchBroccoliScanWithOverlap(
-              result.bodyId,
-              overlapTypes,
-              includeResults,
-              views,
-              relativeTo,
-              props.config,
-            ).then((broccoli: Broccoli) => {
-              createDetailState(broccoli, bodyId);
-              setIsLoading(false);
-            });
-          }
-        },
-      );
+        fetchBroccoliScanWithOverlap(
+          result.bodyId,
+          overlapTypes,
+          includeResults,
+          views,
+          relativeTo,
+          props.config,
+          signal,
+        ).then((broccoli: Broccoli) => {
+          createDetailState(broccoli, bodyId);
+          setIsLoading(false);
+        });
+      });
     }
     return () => {
-      ignore = true;
+      controller.abort();
       setIsLoading(false);
     };
   }, [
@@ -186,6 +190,8 @@ export const Detail = (props: DetailProps) => {
   ]);
 
   React.useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     setIsLoading(true);
     if (params.tier2) {
       const bodyId = params.tier2;
@@ -206,6 +212,7 @@ export const Detail = (props: DetailProps) => {
         views,
         relativeTo,
         props.config,
+        signal,
       )
         .then((broccoli: Broccoli) => {
           const bodyId = broccoli.request.bodyId;
@@ -214,6 +221,9 @@ export const Detail = (props: DetailProps) => {
         })
         .catch(console.error);
     }
+    return () => {
+      controller.abort();
+    };
   }, [annotationTypesToInclude, params.tier2, props.config, createDetailState]);
 
   function nextOrPrevButtonClicked(clicked: boolean) {

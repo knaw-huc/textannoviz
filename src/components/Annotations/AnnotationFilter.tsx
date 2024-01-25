@@ -22,10 +22,13 @@ export const AnnotationFilter = () => {
   const [annotationTypes, setAnnotationTypes] = React.useState<string[]>([]);
 
   React.useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     async function fetchAnnotationTypes() {
       const annotationTypes = await selectDistinctBodyTypes(
         projectConfig.id,
         projectConfig.broccoliUrl,
+        signal,
       );
       setAnnotationTypes(annotationTypes);
     }
@@ -36,6 +39,10 @@ export const AnnotationFilter = () => {
       }
       ref.current?.focus();
     }
+
+    return () => {
+      controller.abort();
+    };
   }, [annotationTypes.length, isOpen, projectConfig]);
 
   const buttonClickHandler = () => {

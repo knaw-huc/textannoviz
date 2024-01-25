@@ -50,6 +50,8 @@ export const Search = () => {
   } = useSearchStore();
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     initSearch();
 
     /**
@@ -73,12 +75,12 @@ export const Search = () => {
         dateTo: projectConfig.initialDateTo,
         ...queryDecoded,
       };
-      const newIndices = await getElasticIndices(projectConfig);
+      const newIndices = await getElasticIndices(projectConfig, signal);
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      const newFacets = await getFacets(projectConfig);
+      const newFacets = await getFacets(projectConfig, signal);
       const newIndex = newIndices[projectConfig.elasticIndexName];
       const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
       newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
@@ -94,12 +96,20 @@ export const Search = () => {
       setSearchQuery(newSearchQuery);
 
       if (queryDecoded?.fullText) {
-        await getSearchResults(newIndex, newSearchParams, newSearchQuery);
+        await getSearchResults(
+          newIndex,
+          newSearchParams,
+          newSearchQuery,
+          signal,
+        );
         setShowingResults(true);
       }
 
       setInit(true);
     }
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   useEffect(() => {
@@ -125,6 +135,8 @@ export const Search = () => {
   }, [searchUrlParams, searchQuery, isInit]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     if (isDirty) {
       searchWhenDirty();
     }
@@ -136,15 +148,20 @@ export const Search = () => {
       if (!inHistory) {
         updateSearchQueryHistory(searchQuery);
       }
-      await getSearchResults(index, searchUrlParams, searchQuery);
+      await getSearchResults(index, searchUrlParams, searchQuery, signal);
       setDirty(false);
     }
+
+    return () => {
+      controller.abort();
+    };
   }, [isDirty]);
 
   async function getSearchResults(
     facetsByType: FacetNamesByType,
     params: SearchUrlParams,
     query: SearchQuery,
+    signal: AbortSignal,
   ) {
     if (!searchQuery.terms) {
       return;
@@ -156,6 +173,7 @@ export const Search = () => {
       projectConfig,
       newParams,
       toRequestBody(query),
+      signal,
     );
     if (!searchResults) {
       return;
@@ -184,11 +202,12 @@ export const Search = () => {
     setShowingResults(true);
   }
 
-  async function getFacets(projectConfig: ProjectConfig) {
+  async function getFacets(projectConfig: ProjectConfig, signal: AbortSignal) {
     const searchResults = await sendSearchQuery(
       projectConfig,
       { size: 0, indexName: projectConfig.elasticIndexName },
       {},
+      signal,
     );
     if (!searchResults?.aggs) {
       throw new Error("No facet request result");

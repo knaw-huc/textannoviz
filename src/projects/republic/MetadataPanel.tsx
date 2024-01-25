@@ -58,6 +58,8 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   };
 
   React.useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     const bodyTypes = props.annotations.map((anno) => anno.body.type);
     const session = props.annotations.filter(
       (annotation) => annotation.body.type === "Session",
@@ -71,20 +73,17 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
         "self",
         "Scan",
         projectConfig,
+        signal,
       );
-      if (!ignore) {
-        setAttendanceList(result);
-      }
+      setAttendanceList(result);
     }
-
-    let ignore = false;
 
     if (!bodyTypes.includes("AttendanceList")) {
       fetchData();
     }
 
     return () => {
-      ignore = true;
+      controller.abort();
     };
   }, [projectConfig, props.annotations]);
 
