@@ -18,7 +18,7 @@ import { setProjectConfigSelector, useProjectStore } from "./stores/project";
 const { project, config } = createProjectConfig();
 const router = await createRouter();
 
-async function fetchConfig(): Promise<ServerConfig | null> {
+async function fetchServerConfig(): Promise<ServerConfig | null> {
   const response = await fetch("/config");
   if (!response.ok) {
     return null;
@@ -28,7 +28,7 @@ async function fetchConfig(): Promise<ServerConfig | null> {
 }
 
 if (import.meta.env.MODE !== "development") {
-  const serverConfig = await fetchConfig();
+  const serverConfig = await fetchServerConfig();
 
   if (serverConfig) {
     config.elasticIndexName = serverConfig.indexName;
