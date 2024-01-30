@@ -92,7 +92,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
       (anno) => anno.body.type === "AttendanceList",
     );
 
-    if (attendanceList) {
+    if (attendanceList && attendanceList.anno.length > 0) {
       return (
         <div className={gridOneColumn + "divide divide-y"}>
           {(
