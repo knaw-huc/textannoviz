@@ -2,7 +2,7 @@ import { translateSelector, useProjectStore } from "../../stores/project.ts";
 
 interface FragmenterProps {
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  value: string;
+  value: number;
 }
 
 export const FragmenterSelection = (props: FragmenterProps) => {
@@ -18,8 +18,8 @@ export const FragmenterSelection = (props: FragmenterProps) => {
         onChange={props.onChange}
         className="border-brand1Grey-700 rounded border bg-white px-2 py-1 text-sm"
       >
-        <option value="Scan">{translate("SNIPPET")}</option>
-        <option value="None">{translate("PAGE_VIEW")}</option>
+        <option value={100}>{translate("SNIPPET")}</option>
+        <option value={1000}>{translate("PAGE_VIEW")}</option>
       </select>
     </div>
   );

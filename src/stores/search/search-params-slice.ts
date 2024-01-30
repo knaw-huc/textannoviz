@@ -3,7 +3,7 @@ import { SortOrder } from "../../model/Search.ts";
 
 export type SearchUrlParams = {
   indexName: string;
-  frag: string;
+  fragmentSize: number;
   from: number;
   size: number;
   sortBy: string;
@@ -24,7 +24,7 @@ export const createSearchParamsSlice: StateCreator<
 > = (set) => ({
   searchUrlParams: {
     indexName: "",
-    frag: "Scan",
+    fragmentSize: 100,
     from: 0,
     size: 10,
     sortBy: "_score",
