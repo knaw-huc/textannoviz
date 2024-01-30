@@ -46,7 +46,7 @@ export const Histogram = (props: HistogramProps) => {
 
   const hitsYear: HitsYear = [];
 
-  const years = createIndices(
+  const yearsXAsis = createIndices(
     parseInt(props.graphFrom),
     parseInt(props.graphTo),
   );
@@ -55,7 +55,7 @@ export const Histogram = (props: HistogramProps) => {
     props.searchResults.aggs[props.dateFacet],
   ).map((year) => parseInt(year));
 
-  years.map((year) => {
+  yearsXAsis.map((year) => {
     if (!props.dateFacet.length) return;
     Object.entries(props.searchResults.aggs[props.dateFacet]).map(
       ([key, value]) => {
