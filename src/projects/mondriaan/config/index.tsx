@@ -103,6 +103,8 @@ export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig, {
   headerTitle: "MONDRIAAN",
   logoHref:
     "https://rkd.nl/nl/projecten-en-publicaties/projecten/130-mondriaan-editieproject",
+  histogramFacet: "period",
+  showHistogram: true,
   components: {
     AnnotationItem,
     AnnotationItemContent,
