@@ -5,7 +5,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { TextHighlighting } from "./TextHighlighting";
+import { PhysicalTextHighlighting } from "./TextHighlighting";
 
 type TextPanelProps = {
   panel: string;
@@ -36,7 +36,7 @@ export const TextPanel = (props: TextPanelProps) => {
         <strong className="text-brand1Grey-800 mb-4 block border-b-2">
           {translateProject(`${props.panel}`)}
         </strong>
-        <TextHighlighting text={props.text} />
+        <PhysicalTextHighlighting text={props.text} />
       </div>
     );
   }

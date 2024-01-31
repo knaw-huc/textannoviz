@@ -10,7 +10,7 @@ type TextHighlightingProps = {
   text: BroccoliTextGeneric;
 };
 
-export const TextHighlighting = (props: TextHighlightingProps) => {
+export const PhysicalTextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();
