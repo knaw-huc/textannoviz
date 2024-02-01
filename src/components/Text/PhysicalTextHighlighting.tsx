@@ -6,11 +6,13 @@ import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { useSearchStore } from "../../stores/search/search-store";
 
-type TextHighlightingProps = {
+type PhysicalTextHighlightingProps = {
   text: BroccoliTextGeneric;
 };
 
-export const PhysicalTextHighlighting = (props: TextHighlightingProps) => {
+export const PhysicalTextHighlighting = (
+  props: PhysicalTextHighlightingProps,
+) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();

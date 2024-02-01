@@ -272,6 +272,18 @@ export type TextAnchorTarget = {
     type: "urn:republic:TextAnchorSelector";
     end: number;
     start: number;
+    beginCharOffset?: number;
+    endCharOffset?: number;
+  };
+};
+
+export type LogicalTextAnchorTarget = {
+  source: string;
+  type: "LogicalText";
+  selector: {
+    type: "urn:republic:TextAnchorSelector";
+    start: number;
+    end: number;
     beginCharOffset: number;
     endCharOffset: number;
   };
@@ -282,12 +294,19 @@ export type TextTarget = {
   type: "Text";
 };
 
+export type LogicalTextTarget = {
+  source: string;
+  type: "LogicalText";
+};
+
 export type Target =
   | TextAnchorTarget
   | ImageTarget
   | TextTarget
   | SvgSelectorTarget
-  | CanvasTarget;
+  | CanvasTarget
+  | LogicalTextAnchorTarget
+  | LogicalTextTarget;
 
 export type AnnoRepoAnnotation = {
   id: string;
