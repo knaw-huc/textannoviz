@@ -33,6 +33,7 @@ export type ProjectConfig = {
   showSearchSortBy: boolean;
   showSearchResultsButtonFooter: boolean;
   showFacsimileButtonFooter: boolean;
+  showSettingsMenuFooter: boolean;
   defaultShowMetadataPanel: boolean;
   showToggleTextPanels: boolean;
   zoomAnnoMirador: boolean;

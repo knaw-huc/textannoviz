@@ -77,13 +77,15 @@ export const Footer = (props: FooterProps) => {
             </button>
           ) : null}
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            ref={trifferRef}
-            className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
-          >
-            <Cog6ToothIcon className="inline h-4 w-4" />
-          </button>
+          {projectConfig.showSettingsMenuFooter ? (
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              ref={trifferRef}
+              className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
+            >
+              <Cog6ToothIcon className="inline h-4 w-4" />
+            </button>
+          ) : null}
           {isOpen ? (
             <Popover
               triggerRef={trifferRef}
