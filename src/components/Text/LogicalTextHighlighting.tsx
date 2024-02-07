@@ -101,6 +101,7 @@ export const LogicalTextHighlighting = (
           .selector.endCharOffset;
 
         const indexClasses = classes.get(index);
+        console.log(indexClasses);
         if (indexClasses?.includes(annoToHighlight.body.id)) {
           result.push(
             <span key={`text-${key}`}>
@@ -108,9 +109,9 @@ export const LogicalTextHighlighting = (
             </span>,
           );
           result.push(
-            <u key={`underline-${key}`}>
+            <span key={`underline-${key}`} className="underlined-attendant">
               {line.substring(beginCharOffset, endCharOffset + 1)}
-            </u>,
+            </span>,
           );
           currentIndex = endCharOffset + 1;
         }
