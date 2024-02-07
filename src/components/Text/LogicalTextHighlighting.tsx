@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import {
   AnnoRepoAnnotation,
   LogicalTextAnchorTarget,
@@ -7,8 +6,6 @@ import {
 } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useProjectStore } from "../../stores/project";
-import { useSearchStore } from "../../stores/search/search-store";
 
 type LogicalTextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -18,10 +15,10 @@ export const LogicalTextHighlighting = (
   props: LogicalTextHighlightingProps,
 ) => {
   const annotations = useAnnotationStore((state) => state.annotations);
-  const projectName = useProjectStore((state) => state.projectName);
+  // const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();
-  const textToHighlight = useSearchStore((state) => state.textToHighlight);
-  const params = useParams();
+  // const textToHighlight = useSearchStore((state) => state.textToHighlight);
+  // const params = useParams();
   const [annotationsToHighlight, setAnnotationsToHighlight] = React.useState<
     AnnoRepoAnnotation[]
   >([]);
@@ -38,6 +35,24 @@ export const LogicalTextHighlighting = (
         (annotation) => annotation.body.type === annotationType,
       );
       filteredAnnotations.push(...annotationsOfType);
+    });
+
+    console.log(filteredAnnotations);
+
+    filteredAnnotations.sort((a, b) => {
+      const aLogicalTextTargets = (a.target as Target[]).filter(
+        (target) => target.type === "LogicalText",
+      );
+      const bLogicalTextTargets = (b.target as Target[]).filter(
+        (target) => target.type === "LogicalText",
+      );
+
+      return (
+        (aLogicalTextTargets[0] as LogicalTextAnchorTarget).selector
+          .beginCharOffset -
+        (bLogicalTextTargets[0] as LogicalTextAnchorTarget).selector
+          .endCharOffset
+      );
     });
 
     setAnnotationsToHighlight(filteredAnnotations);
@@ -71,7 +86,6 @@ export const LogicalTextHighlighting = (
   function renderLines(line: string, index: number) {
     const result: React.ReactNode[] = [];
     let currentIndex = 0;
-    const collectedClasses = new Set<string>();
 
     if (annotationsToHighlight.length > 0) {
       annotationsToHighlight.map((annoToHighlight, key) => {
@@ -79,32 +93,26 @@ export const LogicalTextHighlighting = (
           (target) => target.type === "LogicalText",
         );
 
-        const beginOffset = (logicalTextTargets[0] as LogicalTextAnchorTarget)
-          .selector.beginCharOffset;
+        const beginCharOffset = (
+          logicalTextTargets[0] as LogicalTextAnchorTarget
+        ).selector.beginCharOffset;
 
-        const endOffset = (logicalTextTargets[0] as LogicalTextAnchorTarget)
+        const endCharOffset = (logicalTextTargets[0] as LogicalTextAnchorTarget)
           .selector.endCharOffset;
 
         const indexClasses = classes.get(index);
         if (indexClasses?.includes(annoToHighlight.body.id)) {
-          indexClasses.forEach((indexClass) =>
-            collectedClasses.add(indexClass),
+          result.push(
+            <span key={`text-${key}`}>
+              {line.substring(currentIndex, beginCharOffset)}
+            </span>,
           );
-          annotationTypesToHighlight.map((annoTypeToHighlight) => {
-            if (annoToHighlight.body.type.includes(annoTypeToHighlight)) {
-              result.push(
-                <span key={`text-${key}`}>
-                  {line.substring(currentIndex, beginOffset)}
-                </span>,
-              );
-              result.push(
-                <u key={`underline-${key}`}>
-                  {line.substring(beginOffset, endOffset + 1)}
-                </u>,
-              );
-              currentIndex = endOffset + 1;
-            }
-          });
+          result.push(
+            <u key={`underline-${key}`}>
+              {line.substring(beginCharOffset, endCharOffset + 1)}
+            </u>,
+          );
+          currentIndex = endCharOffset + 1;
         }
       });
 
@@ -114,6 +122,9 @@ export const LogicalTextHighlighting = (
 
       console.log(result);
 
+      return result;
+    } else {
+      result.push(line);
       return result;
     }
 
