@@ -63,6 +63,13 @@ export type GlobaliseSearchResultsBody = {
   };
 };
 
+export type DefaultSearchResultsBody = {
+  _id: string;
+  _hits: {
+    text: string[];
+  };
+};
+
 export type FacetType = "date" | "keyword";
 
 export type FacetNamesByType = {

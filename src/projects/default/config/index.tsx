@@ -1,5 +1,9 @@
+import { Empty } from "../../../components/Empty.tsx";
 import { Placeholder } from "../../../components/Placeholder.tsx";
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
+import { AnnotationItem } from "../AnnotationItem.tsx";
+import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
+import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
 
 /**
@@ -45,14 +49,14 @@ export const defaultConfig: Omit<
   showHistogram: false,
   histogramFacet: "",
   components: {
-    AnnotationItem: Placeholder,
-    AnnotationItemContent: Placeholder,
+    AnnotationItem: AnnotationItem,
+    AnnotationItemContent: AnnotationItemContent,
     AnnotationLinks: Placeholder,
-    AnnotationButtons: Placeholder,
+    AnnotationButtons: Empty,
     Help: Placeholder,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,
-    SearchItem: Placeholder,
+    SearchItem: SearchItem,
   },
   selectedLanguage: "en",
   languages: [
