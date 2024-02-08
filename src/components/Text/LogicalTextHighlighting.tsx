@@ -84,14 +84,35 @@ export const LogicalTextHighlighting = (
   }
 
   function renderLines(line: string, index: number) {
+    /**
+     * TODO
+     * Some annotations span multiple indices, e.g. https://annorepo.republic-caf.diginfra.org/w3c/republic-2024.01.19/bbf51ca6-fabc-4962-88dd-d14a12ac98fd
+     * This annotation has:
+     *
+     * "start": 1575,
+     * "end": 1576,
+     * "beginCharOffset": 0,
+     * "endCharOffset": 141
+     *
+     * The "beginCharOffset" and "endCharOffset" only relate to the "end" index.
+     * For "start" and everything in between "start" and "end", the "beginCharOffset" and
+     * "endCharOffset" should be 0 and the length of the index respectively.
+     */
+
     const result: React.ReactNode[] = [];
     let currentIndex = 0;
 
     if (annotationsToHighlight.length > 0) {
-      annotationsToHighlight.map((annoToHighlight, key) => {
+      annotationsToHighlight.map((annoToHighlight, _) => {
         const logicalTextTargets = (annoToHighlight.target as Target[]).filter(
           (target) => target.type === "LogicalText",
         );
+
+        const start = (logicalTextTargets[0] as LogicalTextAnchorTarget)
+          .selector.start;
+
+        const end = (logicalTextTargets[0] as LogicalTextAnchorTarget).selector
+          .end;
 
         const beginCharOffset = (
           logicalTextTargets[0] as LogicalTextAnchorTarget
@@ -101,19 +122,49 @@ export const LogicalTextHighlighting = (
           .selector.endCharOffset;
 
         const indexClasses = classes.get(index);
-        console.log(indexClasses);
         if (indexClasses?.includes(annoToHighlight.body.id)) {
-          result.push(
-            <span key={`text-${key}`}>
-              {line.substring(currentIndex, beginCharOffset)}
-            </span>,
-          );
-          result.push(
-            <span key={`underline-${key}`} className="underlined-attendant">
-              {line.substring(beginCharOffset, endCharOffset + 1)}
-            </span>,
-          );
-          currentIndex = endCharOffset + 1;
+          if (end - start === 0) {
+            result.push(
+              <span key={`text-${index}`}>
+                {line.substring(currentIndex, beginCharOffset)}
+              </span>,
+            );
+            result.push(
+              <span
+                key={`underline-${index}`}
+                className={`underlined-${annoToHighlight.body.type.toLowerCase()}`}
+              >
+                {line.substring(beginCharOffset, endCharOffset + 1)}
+              </span>,
+            );
+            currentIndex = endCharOffset + 1;
+          }
+
+          if (end - start !== 0) {
+            for (let i = index; i < end - start; i++) {
+              result.push(
+                <span
+                  key={`underline-${index}`}
+                  className={`underlined-${annoToHighlight.body.type.toLowerCase()}`}
+                >
+                  {line.substring(currentIndex, line.length)}
+                </span>,
+              );
+              currentIndex = line.length;
+            }
+
+            if (index === end - start) {
+              result.push(
+                <span
+                  key={`underline-${index}`}
+                  className={`underlined-${annoToHighlight.body.type.toLowerCase()}`}
+                >
+                  {line.substring(beginCharOffset, endCharOffset + 1)}
+                </span>,
+              );
+              currentIndex = endCharOffset + 1;
+            }
+          }
         }
       });
 
