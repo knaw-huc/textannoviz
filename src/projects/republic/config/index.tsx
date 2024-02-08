@@ -31,7 +31,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
     // "TextRegion",
     "Scan",
   ],
-  annotationTypesToHighlight: ["Attendant"],
+  annotationTypesToHighlight: ["AttendanceList"],
   allowedAnnotationTypesToHighlight: [
     "AttendanceList",
     "Attendant",
@@ -50,6 +50,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   logoHref: "https://republic.huygens.knaw.nl/",
   histogramFacet: "sessionYear",
   showHistogram: true,
+  allowCloseTextPanel: false,
   components: {
     AnnotationItem,
     AnnotationItemContent,
