@@ -38,12 +38,10 @@ export function SearchResults(props: {
   const translate = useProjectStore(translateSelector);
 
   const [graphType, setGraphType] = React.useState("bar");
-  const [graphFrom, setGraphFrom] = React.useState(
+  const [graphFrom] = React.useState(
     projectConfig.initialDateFrom.split("-")[0],
   );
-  const [graphTo, setGraphTo] = React.useState(
-    projectConfig.initialDateTo.split("-")[0],
-  );
+  const [graphTo] = React.useState(projectConfig.initialDateTo.split("-")[0]);
   const [showHistogram, setShowHistogram] = React.useState(true);
 
   function updateSorting(sorting: Sorting) {
@@ -111,11 +109,6 @@ export function SearchResults(props: {
 
   function graphTypeButtonClickHandler(newGraphType: string) {
     setGraphType(newGraphType);
-  }
-
-  function graphDateButtonClickHandler(newDates: { from: string; to: string }) {
-    setGraphFrom(newDates.from);
-    setGraphTo(newDates.to);
   }
 
   function showHistogramButtonClickHandler(newValue: boolean) {
@@ -196,10 +189,7 @@ export function SearchResults(props: {
         <>
           <HistogramControls
             graphTypeButtonClickHandler={graphTypeButtonClickHandler}
-            graphDateButtonClickHandler={graphDateButtonClickHandler}
             showHistogramButtonClickHandler={showHistogramButtonClickHandler}
-            graphFrom={graphFrom}
-            graphTo={graphTo}
           />
           <Histogram
             searchResults={searchResults}
