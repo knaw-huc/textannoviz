@@ -83,7 +83,7 @@ export const LogicalTextHighlighting = (
     });
   }
 
-  function renderLines(line: string, index: number) {
+  function renderParagraphs(paragraph: string, index: number) {
     /**
      * TODO
      * Some annotations span multiple indices, e.g. https://annorepo.republic-caf.diginfra.org/w3c/republic-2024.01.19/bbf51ca6-fabc-4962-88dd-d14a12ac98fd
@@ -126,7 +126,7 @@ export const LogicalTextHighlighting = (
           if (end - start === 0) {
             result.push(
               <span key={`text-${index}`}>
-                {line.substring(currentIndex, beginCharOffset)}
+                {paragraph.substring(currentIndex, beginCharOffset)}
               </span>,
             );
             result.push(
@@ -134,7 +134,7 @@ export const LogicalTextHighlighting = (
                 key={`underline-${index}`}
                 className={`underlined-${annoToHighlight.body.type.toLowerCase()}`}
               >
-                {line.substring(beginCharOffset, endCharOffset + 1)}
+                {paragraph.substring(beginCharOffset, endCharOffset + 1)}
               </span>,
             );
             currentIndex = endCharOffset + 1;
@@ -147,10 +147,10 @@ export const LogicalTextHighlighting = (
                   key={`underline-${index}`}
                   className={`underlined-${annoToHighlight.body.type.toLowerCase()}`}
                 >
-                  {line.substring(currentIndex, line.length)}
+                  {paragraph.substring(currentIndex, paragraph.length)}
                 </span>,
               );
-              currentIndex = line.length;
+              currentIndex = paragraph.length;
             }
 
             if (index === end - start) {
@@ -159,7 +159,7 @@ export const LogicalTextHighlighting = (
                   key={`underline-${index}`}
                   className={`underlined-${annoToHighlight.body.type.toLowerCase()}`}
                 >
-                  {line.substring(beginCharOffset, endCharOffset + 1)}
+                  {paragraph.substring(beginCharOffset, endCharOffset + 1)}
                 </span>,
               );
               currentIndex = endCharOffset + 1;
@@ -169,14 +169,14 @@ export const LogicalTextHighlighting = (
       });
 
       result.push(
-        <span key={`text-remaining`}>{line.substring(currentIndex)}</span>,
+        <span key={`text-remaining`}>{paragraph.substring(currentIndex)}</span>,
       );
 
       console.log(result);
 
       return result;
     } else {
-      result.push(line);
+      result.push(paragraph);
       return result;
     }
 
@@ -230,9 +230,11 @@ export const LogicalTextHighlighting = (
 
   return (
     <>
-      {textLinesToDisplay.map((lines, key) => (
+      {textLinesToDisplay.map((paragraphs, key) => (
         <div key={key} className="leading-loose">
-          {lines.map((line, index) => renderLines(line, index))}
+          {paragraphs.map((paragraph, index) =>
+            renderParagraphs(paragraph, index),
+          )}
           {/* Index is reset after each new line (see LL40-45 above). This results in the index no longer being in sync with the start and end of TextRepo. I.e., a person is mentioned on start 9, end 9, it will highlight index 9, even though the index of that array was reset because of a preceding new line. */}
         </div>
       ))}
