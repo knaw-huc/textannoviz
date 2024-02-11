@@ -51,7 +51,8 @@ export function Annotation(props: AnnotationProps) {
       miradorStore &&
       projectConfig &&
       projectName !== "mondriaan" &&
-      projectName !== "translatin"
+      projectName !== "translatin" &&
+      projectName !== "suriano"
     ) {
       visualizeAnnosMirador(
         annotations,

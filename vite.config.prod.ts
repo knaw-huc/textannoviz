@@ -24,6 +24,9 @@ export default defineConfig(({ mode }) => {
     case "translatin":
       tailwindConfig = "tailwind.config.translatin.js";
       break;
+    case "suriano":
+      tailwindConfig = "tailwind.config.suriano.js";
+      break;
     default:
       tailwindConfig = "tailwind.config.js";
   }

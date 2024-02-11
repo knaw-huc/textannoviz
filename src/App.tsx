@@ -11,6 +11,7 @@ import { ServerConfig } from "./model/ServerConfig";
 import { globaliseConfig } from "./projects/globalise/config/";
 import { mondriaanConfig } from "./projects/mondriaan/config";
 import { republicConfig } from "./projects/republic/config";
+import { surianoConfig } from "./projects/suriano/config";
 import { translatinConfig } from "./projects/translatin/config";
 import { useAnnotationStore } from "./stores/annotation";
 import { setProjectConfigSelector, useProjectStore } from "./stores/project";
@@ -105,6 +106,9 @@ function createProjectConfig() {
       break;
     case "translatin":
       config = translatinConfig;
+      break;
+    case "suriano":
+      config = surianoConfig;
       break;
     default:
       throw new Error(
