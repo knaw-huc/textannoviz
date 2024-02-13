@@ -96,32 +96,35 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
     if (attendanceList && attendanceList.length > 0) {
       return (
-        <div className={gridOneColumn + "divide divide-y"}>
-          {(attendanceList[0].body as AttendanceListBody).attendanceSpans.map(
-            (attendant, index) =>
-              attendant.delegateName !== "" ? (
-                <li
-                  key={index}
-                  className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
-                >
-                  {<UserIcon className="inline h-3 w-3" />}
-                  <a
-                    title="Link"
-                    rel="noreferrer"
-                    target="_blank"
-                    href={
-                      attendant.delegateId > 0
-                        ? `${HOSTS.RAA}/${attendant.delegateId}`
-                        : undefined
-                    }
-                    className="hover:text-brand1-900 text-inherit no-underline hover:underline"
+        <>
+          <strong>Aanwezigen: </strong>
+          <div className={gridOneColumn + "divide divide-y"}>
+            {(attendanceList[0].body as AttendanceListBody).attendanceSpans.map(
+              (attendant, index) =>
+                attendant.delegateName !== "" ? (
+                  <li
+                    key={index}
+                    className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
                   >
-                    {attendant.delegateName}
-                  </a>
-                </li>
-              ) : null,
-          )}
-        </div>
+                    {<UserIcon className="inline h-3 w-3" />}
+                    <a
+                      title="Link"
+                      rel="noreferrer"
+                      target="_blank"
+                      href={
+                        attendant.delegateId > 0
+                          ? `${HOSTS.RAA}/${attendant.delegateId}`
+                          : undefined
+                      }
+                      className="hover:text-brand1-900 text-inherit no-underline hover:underline"
+                    >
+                      {attendant.delegateName}
+                    </a>
+                  </li>
+                ) : null,
+            )}
+          </div>
+        </>
       );
     }
 
@@ -199,31 +202,37 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
           {resolution ? (
             <>
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <strong>Propositie type: </strong>
-                  {(resolution.body as ResolutionBody).metadata.propositionType
-                    .charAt(0)
-                    .toUpperCase() +
-                    (
+              {(resolution.body as ResolutionBody).metadata.propositionType ? (
+                <li className="mb-8">
+                  <div className={gridOneColumn}>
+                    <strong>Propositie type: </strong>
+                    {(
                       resolution.body as ResolutionBody
-                    ).metadata.propositionType.slice(1)}
-                </div>
-              </li>
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <strong>Resolutie type: </strong>
-                  {(resolution.body as ResolutionBody).metadata.resolutionType
-                    .charAt(0)
-                    .toUpperCase() +
-                    (
-                      resolution.body as ResolutionBody
-                    ).metadata.resolutionType.slice(1)}
-                </div>
-              </li>{" "}
+                    ).metadata.propositionType
+                      .charAt(0)
+                      .toUpperCase() +
+                      (
+                        resolution.body as ResolutionBody
+                      ).metadata.propositionType.slice(1)}
+                  </div>
+                </li>
+              ) : null}
+              {(resolution.body as ResolutionBody).metadata.resolutionType ? (
+                <li className="mb-8">
+                  <div className={gridOneColumn}>
+                    <strong>Resolutie type: </strong>
+                    {(resolution.body as ResolutionBody).metadata.resolutionType
+                      .charAt(0)
+                      .toUpperCase() +
+                      (
+                        resolution.body as ResolutionBody
+                      ).metadata.resolutionType.slice(1)}
+                  </div>
+                </li>
+              ) : null}{" "}
             </>
           ) : null}
-          <strong>Aanwezigen: </strong>
+
           {renderAttendants()}
         </ul>
       </>
