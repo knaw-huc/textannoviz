@@ -28,7 +28,7 @@ async function fetchServerConfig(): Promise<ServerConfig | null> {
   return response.json();
 }
 
-if (import.meta.env.MODE !== "development" && project === "republic") {
+if (import.meta.env.PROD && config.useExternalConfig === true) {
   const serverConfig = await fetchServerConfig();
 
   if (serverConfig) {

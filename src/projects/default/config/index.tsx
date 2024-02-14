@@ -47,6 +47,7 @@ export const defaultConfig: Omit<
   allowCloseTextPanel: true,
   showWebAnnoTab: true,
   showHistogram: false,
+  useExternalConfig: false,
   histogramFacet: "",
   components: {
     AnnotationItem: AnnotationItem,

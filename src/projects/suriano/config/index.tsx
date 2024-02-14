@@ -63,6 +63,7 @@ export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
   headerTitle: "SURIANO",
   zoomAnnoMirador: false,
   showSearchResultsButtonFooter: false,
+  useExternalConfig: true,
 
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchSurianoLabels }],

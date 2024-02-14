@@ -51,6 +51,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   histogramFacet: "sessionYear",
   showHistogram: true,
   showSettingsMenuFooter: true,
+  useExternalConfig: true,
   components: {
     AnnotationItem,
     AnnotationItemContent,

@@ -50,6 +50,7 @@ export type ProjectConfig = {
   showWebAnnoTab: boolean;
   histogramFacet: string;
   showHistogram: boolean;
+  useExternalConfig: boolean;
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {
