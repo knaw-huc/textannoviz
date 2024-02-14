@@ -1,4 +1,4 @@
-FROM node:20.5.1-alpine as build
+FROM node:lts-alpine as build
 
 WORKDIR /textannoviz
 COPY ./package.json /textannoviz/package.json
@@ -8,7 +8,7 @@ RUN npm install --force
 COPY . .
 RUN npm run build
 
-FROM nginx:1.23-alpine
+FROM nginx:stable-alpine
 COPY --from=build /textannoviz/dist /usr/share/nginx/html
 COPY ./deploy/nginx/default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
