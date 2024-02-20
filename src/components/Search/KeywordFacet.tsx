@@ -47,7 +47,8 @@ export function KeywordFacet(props: {
               <label htmlFor={facetOptionKey}>
                 {/^[a-z]/.test(facetOptionName)
                   ? facetOptionName.charAt(0).toUpperCase() +
-                    facetOptionName.slice(1)
+                      facetOptionName.slice(1) &&
+                    translateProject(facetOptionName)
                   : facetOptionName && translateProject(facetOptionName)}
               </label>
             </div>
