@@ -2,6 +2,8 @@ import * as _ from "lodash";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { MetadataPanel } from "../MetadataPanel";
+import { SearchItem } from "../SearchItem";
 import { dutchSurianoLabels } from "./dutchSurianoLabels";
 
 export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
@@ -64,6 +66,10 @@ export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
   zoomAnnoMirador: false,
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
+  components: {
+    SearchItem,
+    MetadataPanel,
+  },
 
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchSurianoLabels }],

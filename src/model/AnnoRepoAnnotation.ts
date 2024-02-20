@@ -179,6 +179,21 @@ export type TfLetterBody = AnnoRepoBody & {
   };
 };
 
+export type SurianoTfFileBody = AnnoRepoBody & {
+  metadata: {
+    date: string;
+    editornotes: string;
+    file: string;
+    recipient: string;
+    recipientloc: string;
+    sender: string;
+    senderloc: string;
+    shelfmark: string;
+    summary: string;
+    type: string;
+  };
+};
+
 export type DocumentBody = AnnoRepoBody & {
   metadata: {
     document: string;
