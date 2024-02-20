@@ -70,6 +70,15 @@ export type DefaultSearchResultsBody = {
   };
 };
 
+export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
+  bodyType: string;
+  date: string;
+  recipient: string;
+  recipientLoc: string;
+  sender: string;
+  senderLoc: string;
+};
+
 export type FacetType = "date" | "keyword";
 
 export type FacetNamesByType = {
