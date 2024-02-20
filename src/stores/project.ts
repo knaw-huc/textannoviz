@@ -1,6 +1,6 @@
 import { create, StateCreator } from "zustand";
-import { ProjectConfig } from "../model/ProjectConfig";
 import { Labels } from "../model/Labels.ts";
+import { ProjectConfig } from "../model/ProjectConfig";
 
 export interface ProjectSlice {
   projectName: string;
