@@ -1,16 +1,11 @@
 import { Link } from "react-router-dom";
 import { SurianoSearchResultsBody } from "../../model/Search";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
 
 type SearchItemProps = {
   result: SurianoSearchResultsBody;
 };
 
 export const SearchItem = (props: SearchItemProps) => {
-  const translateProject = useProjectStore(translateProjectSelector);
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
@@ -19,7 +14,7 @@ export const SearchItem = (props: SearchItemProps) => {
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
           <div className="p-4 font-semibold">
-            {translateProject(props.result.bodyType)}
+            {props.result.shelfmark + " (" + props.result.date + ")"}
           </div>
           {props.result._hits?.text.map((hit, index) => (
             <div key={index} className="hover:bg-brand1Grey-50 w-full p-4">
