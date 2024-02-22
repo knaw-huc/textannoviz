@@ -31,7 +31,7 @@ export const defaultConfig: Omit<
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
   showSearchSortBy: true,
-  showFacsimileButtonFooter: true,
+  showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,
   showSettingsMenuFooter: false,
   defaultShowMetadataPanel: true,
