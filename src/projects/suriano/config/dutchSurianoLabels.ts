@@ -1,7 +1,13 @@
 import { dutchLabels } from "../../default/config/dutchLabels";
 
 export const dutchSurianoLabels = Object.assign({}, dutchLabels, {
+  //Text panel titles
   self: "Tekst",
+  text: "Hoofdtekst",
+  appendix: "Appendix",
+  original: "Hoofdtekst + appendix",
+  secretarial: "Secretarieel",
+  notes: "Notities",
 
   // search facet titles:
   bodyType: "Document type",
