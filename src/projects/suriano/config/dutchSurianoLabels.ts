@@ -16,4 +16,8 @@ export const dutchSurianoLabels = Object.assign({}, dutchLabels, {
   sender: "Zender",
   recipient: "Ontvanger",
   recipientLoc: "Locatie van ontvanger",
+
+  //Metadata panel
+  summary: "Samenvatting",
+  shelfmark: "Archiefreferentie",
 });
