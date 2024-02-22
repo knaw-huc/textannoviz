@@ -2,7 +2,7 @@ import { dutchLabels } from "../../default/config/dutchLabels";
 
 export const dutchSurianoLabels = Object.assign({}, dutchLabels, {
   //Text panel titles
-  self: "Tekst",
+  self: "Debug tekst",
   text: "Hoofdtekst",
   appendix: "Appendix",
   original: "Hoofdtekst + appendix",
