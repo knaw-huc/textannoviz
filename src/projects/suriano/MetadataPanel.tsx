@@ -21,6 +21,11 @@ export const MetadataPanel = (props: MetadataPanelProps) => {
   );
 
   const gridOneColumn = "grid grid-cols-1";
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
 
   return (
     <>
@@ -34,7 +39,9 @@ export const MetadataPanel = (props: MetadataPanelProps) => {
         <li className="mb-8">
           <strong>{translate("DATE")}</strong>
           <div className={gridOneColumn}>
-            {(fileAnno?.body as SurianoTfFileBody).metadata.date}
+            {new Date(
+              (fileAnno?.body as SurianoTfFileBody).metadata.date,
+            ).toLocaleDateString("nl-NL", dateOptions)}
           </div>
         </li>
         <li className="mb-8">
