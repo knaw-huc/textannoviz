@@ -41,7 +41,7 @@ export const MetadataPanel = (props: MetadataPanelProps) => {
           <div className={gridOneColumn}>
             {new Date(
               (fileAnno?.body as SurianoTfFileBody).metadata.date,
-            ).toLocaleDateString("nl-NL", dateOptions)}
+            ).toLocaleDateString("en-GB", dateOptions)}
           </div>
         </li>
         <li className="mb-8">
