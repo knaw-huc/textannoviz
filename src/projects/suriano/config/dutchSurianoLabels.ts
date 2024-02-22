@@ -19,5 +19,5 @@ export const dutchSurianoLabels = Object.assign({}, dutchLabels, {
 
   //Metadata panel
   summary: "Samenvatting",
-  shelfmark: "Archiefreferentie",
+  shelfmark: "Signatuur",
 });

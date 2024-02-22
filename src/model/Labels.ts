@@ -1,6 +1,7 @@
 export type Labels = {
   DATE_ASC: string;
   DATE_DESC: string;
+  DATE_FROM: string;
   DISPLAY_CONTEXT: string;
   FROM: string;
   NEW_SEARCH_QUERY: string;

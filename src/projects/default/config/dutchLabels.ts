@@ -3,6 +3,7 @@ import { Labels } from "../../../model/Labels.tsx";
 export const dutchLabels: Labels = {
   DATE_ASC: "Datum (oplopend)",
   DATE_DESC: "Datum (aflopend)",
+  DATE_FROM: "Van",
   DISPLAY_CONTEXT: "Toon context",
   FROM: "Van",
   NEW_SEARCH_QUERY: "Nieuwe zoekopdracht",
@@ -13,7 +14,7 @@ export const dutchLabels: Labels = {
   RELEVANCE: "Relevantie",
   RESULTS_PER_PAGE: "Resultaten per pagina",
   SEARCH_HISTORY: "Zoekgeschiedenis",
-  SELECTED_FACETS: "Geselecteerde facets",
+  SELECTED_FACETS: "Geselecteerde facetten",
   SNIPPET: "Snippet",
   SORT_BY: "Sorteer op",
   TEXT: "Tekst",

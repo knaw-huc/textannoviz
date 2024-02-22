@@ -1,10 +1,10 @@
+import { useState } from "react";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { useState } from "react";
 import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 
 type SearchQueryHistoryProps = {
@@ -52,7 +52,8 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                 {query.dateFacet && (
                   <>
                     <div>
-                      <strong>{translate("FROM")}: </strong> {query.dateFrom}
+                      <strong>{translate("DATE_FROM")}: </strong>{" "}
+                      {query.dateFrom}
                     </div>{" "}
                     <div>
                       <strong>{translate("UP_TO_AND_INCLUDING")}: </strong>{" "}

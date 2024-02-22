@@ -3,6 +3,7 @@ import { Labels } from "../../../model/Labels.tsx";
 export const englishLabels: Labels = {
   DATE_ASC: "Date (ascending)",
   DATE_DESC: "Date (descending)",
+  DATE_FROM: "From",
   DISPLAY_CONTEXT: "Display context",
   FROM: "Of",
   NEW_SEARCH_QUERY: "New search query",

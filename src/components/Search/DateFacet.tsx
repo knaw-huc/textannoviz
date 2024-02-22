@@ -80,7 +80,7 @@ export function DateFacet(props: {
     <div className="flex w-full max-w-[450px] flex-col gap-4 lg:flex-row">
       <div className="flex w-full flex-col">
         <label htmlFor="start" className="font-semibold">
-          {translate("FROM")}
+          {translate("DATE_FROM")}
         </label>
         <input
           className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
