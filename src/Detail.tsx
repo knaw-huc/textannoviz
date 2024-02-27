@@ -94,8 +94,9 @@ export const Detail = (props: DetailProps) => {
               const id = setInterval(() => {
                 if (zoom) {
                   if (
+                    viewer.store.getState().viewers[props.project]?.x &&
                     typeof viewer.store.getState().viewers[props.project].x ===
-                    "number"
+                      "number"
                   ) {
                     viewer.store.dispatch(
                       mirador.actions.updateViewport(`${props.project}`, {
