@@ -60,8 +60,6 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     });
   }
 
-  console.log(classes);
-
   function collectClasses(index: number) {
     const collectedClasses = new Set<string>();
     annotationsToHighlight.map((anno) => {
