@@ -46,13 +46,11 @@ export function Annotation(props: AnnotationProps) {
   React.useEffect(() => {
     if (
       showSvgsAnnosMirador &&
+      projectConfig.visualizeAnnosMirador &&
       canvas.canvasIds.length > 0 &&
       annotations &&
       miradorStore &&
-      projectConfig &&
-      projectName !== "mondriaan" &&
-      projectName !== "translatin" &&
-      projectName !== "suriano"
+      projectConfig
     ) {
       visualizeAnnosMirador(
         annotations,

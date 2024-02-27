@@ -52,6 +52,8 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   showHistogram: true,
   showSettingsMenuFooter: false,
   useExternalConfig: true,
+  visualizeAnnosMirador: true,
+  zoomAnnoMirador: true,
   components: {
     AnnotationItem,
     AnnotationItemContent,

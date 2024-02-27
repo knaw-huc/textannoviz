@@ -31,7 +31,6 @@ export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
   showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,
   defaultShowMetadataPanel: false,
-  zoomAnnoMirador: false,
   logoImageUrl: logo,
   headerTitle: "GLOBALISE Transcriptions Viewer",
   logoHref: "https://globalise.huygens.knaw.nl",

@@ -25,7 +25,7 @@ import {
   fetchBroccoliBodyIdOfScan,
   fetchBroccoliScanWithOverlap,
 } from "./utils/broccoli";
-import { zoomAnnMirador } from "./utils/zoomAnnMirador";
+import { zoomAnnMirador } from "./utils/zoomAnnMirador.ts";
 
 interface DetailProps {
   project: string;
@@ -80,27 +80,34 @@ export const Detail = (props: DetailProps) => {
             );
 
             if (annoToZoom) {
-              setTimeout(() => {
-                const zoom = zoomAnnMirador(
-                  annoToZoom ? annoToZoom : broccoli.anno[0],
-                  broccoli.iiif.canvasIds[0],
-                );
-                viewer.store.dispatch(
-                  mirador.actions.selectAnnotation(
-                    `${props.project}`,
-                    annoToZoom ? annoToZoom.body.id : broccoli.anno[0].body.id,
-                  ),
-                );
+              viewer.store.dispatch(
+                mirador.actions.selectAnnotation(
+                  `${props.project}`,
+                  annoToZoom.body.id,
+                ),
+              );
+              const zoom = zoomAnnMirador(
+                annoToZoom ? annoToZoom : broccoli.anno[0],
+                broccoli.iiif.canvasIds[0],
+              );
+
+              const id = setInterval(() => {
                 if (zoom) {
-                  viewer.store.dispatch(
-                    mirador.actions.updateViewport(`${props.project}`, {
-                      x: zoom.zoomCenter.x,
-                      y: zoom.zoomCenter.y,
-                      zoom: 1 / zoom.miradorZoom,
-                    }),
-                  );
+                  if (
+                    typeof viewer.store.getState().viewers[props.project].x ===
+                    "number"
+                  ) {
+                    viewer.store.dispatch(
+                      mirador.actions.updateViewport(`${props.project}`, {
+                        x: zoom.zoomCenter.x,
+                        y: zoom.zoomCenter.y,
+                        zoom: 1 / zoom.miradorZoom,
+                      }),
+                    );
+                    clearInterval(id);
+                  }
                 }
-              }, 200);
+              }, 50);
             }
           }
         }

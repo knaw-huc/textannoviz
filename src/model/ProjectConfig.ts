@@ -51,6 +51,7 @@ export type ProjectConfig = {
   histogramFacet: string;
   showHistogram: boolean;
   useExternalConfig: boolean;
+  visualizeAnnosMirador: boolean;
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {

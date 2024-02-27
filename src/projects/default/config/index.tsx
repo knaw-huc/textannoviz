@@ -36,7 +36,7 @@ export const defaultConfig: Omit<
   showSettingsMenuFooter: false,
   defaultShowMetadataPanel: true,
   showToggleTextPanels: false,
-  zoomAnnoMirador: true,
+  zoomAnnoMirador: false,
   annotationTypesToZoom: [],
   logoHref: "/",
   showSearchQueryHistory: true,
@@ -48,6 +48,7 @@ export const defaultConfig: Omit<
   showWebAnnoTab: true,
   showHistogram: false,
   useExternalConfig: false,
+  visualizeAnnosMirador: false,
   histogramFacet: "",
   components: {
     AnnotationItem: AnnotationItem,

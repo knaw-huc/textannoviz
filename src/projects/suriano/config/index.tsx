@@ -75,7 +75,6 @@ export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
   initialDateTo: "1800-01-01",
   logoImageUrl: logo,
   headerTitle: "SURIANO",
-  zoomAnnoMirador: false,
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
