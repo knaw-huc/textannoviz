@@ -91,7 +91,11 @@ export const Detail = (props: DetailProps) => {
                 broccoli.iiif.canvasIds[0],
               );
 
+              let intervalCount = 0;
+
               const id = setInterval(() => {
+                intervalCount = intervalCount + 1;
+                console.log(intervalCount);
                 if (zoom) {
                   if (
                     viewer.store.getState().viewers[props.project]?.x &&
@@ -108,7 +112,11 @@ export const Detail = (props: DetailProps) => {
                     clearInterval(id);
                   }
                 }
-              }, 50);
+
+                if (intervalCount > 80) {
+                  clearInterval(id);
+                }
+              }, 250);
             }
           }
         }
