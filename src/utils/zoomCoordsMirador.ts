@@ -1,7 +1,7 @@
 import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation";
 import { findImageRegions } from "./findImageRegions";
 
-export const zoomAnnMirador = (
+export const zoomCoordsMirador = (
   annotation: AnnoRepoAnnotation,
   canvasId: string,
 ) => {

@@ -1,21 +1,63 @@
+import mirador from "mirador";
+import React from "react";
+import { Broccoli } from "../../model/Broccoli";
+import { MiradorConfig } from "../../model/MiradorConfig";
+import { ProjectConfig } from "../../model/ProjectConfig";
 import { useMiradorStore } from "../../stores/mirador";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import { defaultMiradorConfig } from "./defaultMiradorConfig";
+import { zoomAnnoMirador } from "./zoomAnnoMirador";
 
-export function Mirador() {
-  const miradorStore = useMiradorStore((state) => state.miradorStore);
+type MiradorProps = {
+  broccoliResult: Broccoli;
+};
+
+const createMiradorConfig = (
+  broccoli: Broccoli,
+  project: ProjectConfig,
+  config: MiradorConfig = defaultMiradorConfig,
+) => {
+  const newConfig = config;
+  newConfig.windows[0].manifestId = broccoli.iiif.manifest;
+  newConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
+  newConfig.windows[0].id = project.id;
+  newConfig.window.allowWindowSideBar = project.mirador.showWindowSideBar;
+  newConfig.window.allowTopMenuButton = project.mirador.showTopMenuButton;
+  return newConfig;
+};
+
+export function Mirador(props: MiradorProps) {
+  const [isMiradorInitialised, setIsMiradorInitialised] = React.useState(false);
+  const setMiradorStore = useMiradorStore((state) => state.setStore);
   const projectConfig = useProjectStore(projectConfigSelector);
+  const miradorConfig = createMiradorConfig(
+    props.broccoliResult,
+    projectConfig,
+  );
 
-  const id = setInterval(() => {
-    if (miradorStore) {
+  React.useEffect(() => {
+    const viewer = mirador.viewer(miradorConfig);
+    setMiradorStore(viewer.store);
+
+    //Hack to make sure that Mirador is actually initialised
+    const id = setInterval(() => {
       if (
-        miradorStore.getState().viewers[projectConfig.id]?.x &&
-        typeof miradorStore.getState().viewers[projectConfig.id].x === "number"
+        viewer.store.getState().viewers[projectConfig.id]?.x &&
+        typeof viewer.store.getState().viewers[projectConfig.id].x === "number"
       ) {
-        console.log("JAAAAA");
+        setIsMiradorInitialised(true);
+        if (projectConfig.zoomAnnoMirador) {
+          zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
+        }
+        console.log("mirador is initialised");
         clearInterval(id);
       }
-    }
-  }, 250);
+    }, 250);
+  }, [miradorConfig]);
+
+  console.log("mirador rendered");
+
+  console.log(isMiradorInitialised);
 
   return (
     <div

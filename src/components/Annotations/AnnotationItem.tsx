@@ -7,7 +7,7 @@ import { useMiradorStore } from "../../stores/mirador";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { createIndices } from "../../utils/createIndices";
-import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
+import { zoomCoordsMirador } from "../../utils/zoomCoordsMirador";
 import { AnnotationItemContent } from "./AnnotationItemContent";
 
 type AnnotationSnippetProps = {
@@ -55,7 +55,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
 
     if (!isOpen) {
       //Zoom in on annotation in Mirador
-      const zoom = zoomAnnMirador(props.annotation, canvas.canvasIds[0]);
+      const zoom = zoomCoordsMirador(props.annotation, canvas.canvasIds[0]);
 
       if (zoom) {
         miradorStore.dispatch(
