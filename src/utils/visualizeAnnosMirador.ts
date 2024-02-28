@@ -15,7 +15,6 @@ export const visualizeAnnosMirador = (
   canvasId: string,
   projectConfig: ProjectConfig,
 ): iiifAnn => {
-  const currentState = store.getState && store.getState();
   const iiifAnn: iiifAnn = {
     "@id": projectConfig.id,
     "@context": "http://iiif.io/api/presentation/2/context.json",
@@ -26,12 +25,12 @@ export const visualizeAnnosMirador = (
   const regions = annotations.flatMap((item: AnnoRepoAnnotation) => {
     const region = findImageRegions(item, canvasId);
 
-    if (region !== null) {
-      return region;
-    } else {
+    if (region === null) {
       console.log(item.body.id + " region is undefined");
       return null;
     }
+
+    return region;
   });
 
   const resources = regions.flatMap((region: string | null, i: number) => {
@@ -81,11 +80,7 @@ export const visualizeAnnosMirador = (
         "@id": `${annotations[i].body.id}`,
         on: [
           {
-            full: `${
-              projectConfig.id === "republic"
-                ? currentState.windows.republic.canvasId
-                : currentState.windows.globalise.canvasId
-            }`,
+            full: canvasId,
             selector: {
               item: {
                 "@type": "oa:SvgSelector",
@@ -105,15 +100,7 @@ export const visualizeAnnosMirador = (
   iiifAnn.resources.push(...resources);
 
   store.dispatch(
-    mirador.actions.receiveAnnotation(
-      `${
-        projectConfig.id === "republic"
-          ? currentState.windows.republic.canvasId
-          : currentState.windows.globalise.canvasId
-      }`,
-      "annotation",
-      iiifAnn,
-    ),
+    mirador.actions.receiveAnnotation(canvasId, "annotation", iiifAnn),
   );
 
   return iiifAnn;
