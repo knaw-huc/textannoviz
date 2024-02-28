@@ -46,7 +46,10 @@ export function Mirador(props: MiradorProps) {
 
     let intervalCount = 0;
 
-    //Hack to make sure that Mirador is actually initialised
+    /* 
+    Hack to make sure that Mirador is actually initialised.
+    Only after Mirador is initialised, TAV should interact with it.
+    */
     const id = setInterval(() => {
       intervalCount += 1;
       if (
