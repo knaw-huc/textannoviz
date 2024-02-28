@@ -1,12 +1,9 @@
-import mirador from "mirador";
 import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { iiifAnn } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useMiradorStore } from "../../stores/mirador";
 import {
   projectConfigSelector,
   translateSelector,
@@ -28,32 +25,8 @@ export function Annotation(props: AnnotationProps) {
     React.useState(false);
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const canvas = useMiradorStore((state) => state.canvas);
-  const miradorStore = useMiradorStore((state) => state.miradorStore);
-  const showSvgsAnnosMirador = useAnnotationStore(
-    (state) => state.showSvgsAnnosMirador,
-  );
   const params = useParams();
   const translate = useProjectStore(translateSelector);
-
-  React.useEffect(() => {
-    if (!showSvgsAnnosMirador) {
-      const iiifAnn: iiifAnn = {
-        "@id": projectConfig.id,
-        "@context": "http://iiif.io/api/presentation/2/context.json",
-        "@type": "sc:AnnotationList",
-        resources: [],
-      };
-
-      miradorStore.dispatch(
-        mirador.actions.receiveAnnotation(
-          canvas.canvasIds[0],
-          "annotation",
-          iiifAnn,
-        ),
-      );
-    }
-  }, [showSvgsAnnosMirador]);
 
   React.useEffect(() => {
     if (params.tier0 && params.tier1) {

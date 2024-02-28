@@ -1,5 +1,6 @@
 import mirador from "mirador";
 import React from "react";
+import { iiifAnn } from "../../model/AnnoRepoAnnotation";
 import { Broccoli } from "../../model/Broccoli";
 import { MiradorConfig } from "../../model/MiradorConfig";
 import { ProjectConfig } from "../../model/ProjectConfig";
@@ -66,6 +67,23 @@ export function Mirador(props: MiradorProps) {
             viewer.store,
             props.broccoliResult.iiif.canvasIds[0],
             projectConfig,
+          );
+        }
+
+        if (!showSvgsAnnosMirador) {
+          const iiifAnn: iiifAnn = {
+            "@id": projectConfig.id,
+            "@context": "http://iiif.io/api/presentation/2/context.json",
+            "@type": "sc:AnnotationList",
+            resources: [],
+          };
+
+          viewer.store.dispatch(
+            mirador.actions.receiveAnnotation(
+              props.broccoliResult.iiif.canvasIds[0],
+              "annotation",
+              iiifAnn,
+            ),
           );
         }
 
