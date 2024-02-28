@@ -29,6 +29,7 @@ const createMiradorConfig = (
 };
 
 export function Mirador(props: MiradorProps) {
+  const [intervalId, setIntervalId] = React.useState<NodeJS.Timer | null>(null);
   const setMiradorStore = useMiradorStore((state) => state.setStore);
   const projectConfig = useProjectStore(projectConfigSelector);
   const showSvgsAnnosMirador = useAnnotationStore(
@@ -43,8 +44,11 @@ export function Mirador(props: MiradorProps) {
     const viewer = mirador.viewer(miradorConfig);
     setMiradorStore(viewer.store);
 
+    let intervalCount = 0;
+
     //Hack to make sure that Mirador is actually initialised
     const id = setInterval(() => {
+      intervalCount += 1;
       if (
         viewer.store.getState().viewers[projectConfig.id]?.x &&
         typeof viewer.store.getState().viewers[projectConfig.id].x === "number"
@@ -63,8 +67,26 @@ export function Mirador(props: MiradorProps) {
         }
 
         clearInterval(id);
+        setIntervalId((prevId) => {
+          if (prevId !== null) {
+            clearInterval(prevId);
+          }
+          return null;
+        });
+      }
+
+      if (intervalCount > 80) {
+        clearInterval(id);
       }
     }, 250);
+
+    setIntervalId((prevId) => (prevId !== null ? prevId : id));
+
+    return () => {
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+      }
+    };
   }, [miradorConfig]);
 
   return (
