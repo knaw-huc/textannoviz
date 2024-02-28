@@ -3,8 +3,10 @@ import React from "react";
 import { Broccoli } from "../../model/Broccoli";
 import { MiradorConfig } from "../../model/MiradorConfig";
 import { ProjectConfig } from "../../model/ProjectConfig";
+import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { defaultMiradorConfig } from "./defaultMiradorConfig";
 import { zoomAnnoMirador } from "./zoomAnnoMirador";
 
@@ -29,6 +31,9 @@ const createMiradorConfig = (
 export function Mirador(props: MiradorProps) {
   const setMiradorStore = useMiradorStore((state) => state.setStore);
   const projectConfig = useProjectStore(projectConfigSelector);
+  const showSvgsAnnosMirador = useAnnotationStore(
+    (state) => state.showSvgsAnnosMirador,
+  );
   const miradorConfig = createMiradorConfig(
     props.broccoliResult,
     projectConfig,
@@ -47,6 +52,16 @@ export function Mirador(props: MiradorProps) {
         if (projectConfig.zoomAnnoMirador) {
           zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
         }
+
+        if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
+          visualizeAnnosMirador(
+            props.broccoliResult.anno,
+            viewer.store,
+            props.broccoliResult.iiif.canvasIds[0],
+            projectConfig,
+          );
+        }
+
         clearInterval(id);
       }
     }, 250);
