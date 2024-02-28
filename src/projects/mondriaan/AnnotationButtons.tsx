@@ -5,10 +5,6 @@ import { toast } from "react-toastify";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 
-interface GetAnnotationButtonsProps {
-  nextOrPrevButtonClicked: (clicked: boolean) => boolean;
-}
-
 const PROEFTUIN_LETTERS = [
   "19090216y_IONG_1303",
   "19090407y_IONG_1739",
@@ -26,7 +22,7 @@ const PROEFTUIN_LETTERS = [
   "19100131_SAAL_ARNO_0018",
 ];
 
-export const AnnotationButtons = (props: GetAnnotationButtonsProps) => {
+export const AnnotationButtons = () => {
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const currentContext = useMiradorStore((state) => state.currentContext);
   const resetOpenAnn = useAnnotationStore((state) => state.resetOpenAnn);
@@ -39,7 +35,6 @@ export const AnnotationButtons = (props: GetAnnotationButtonsProps) => {
   const letters = PROEFTUIN_LETTERS;
 
   const nextCanvasClickHandler = () => {
-    props.nextOrPrevButtonClicked(true);
     setCurrentSelectedAnn("");
     resetOpenAnn();
     if (!letters) return;
@@ -59,7 +54,6 @@ export const AnnotationButtons = (props: GetAnnotationButtonsProps) => {
   };
 
   const prevCanvasClickHandler = () => {
-    props.nextOrPrevButtonClicked(true);
     setCurrentSelectedAnn("");
     resetOpenAnn();
     if (!letters) return;

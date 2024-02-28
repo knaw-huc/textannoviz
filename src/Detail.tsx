@@ -90,11 +90,6 @@ export const Detail = (props: DetailProps) => {
     };
   }, [annotationTypesToInclude, params.tier2, props.config]);
 
-  function nextOrPrevButtonClicked(clicked: boolean) {
-    console.log(clicked);
-    return clicked;
-  }
-
   function showIiifViewerHandler() {
     setShowIiifViewer(!showIiifViewer);
   }
@@ -141,7 +136,6 @@ export const Detail = (props: DetailProps) => {
           </div>
           <div>
             <Footer
-              nextOrPrevButtonClicked={nextOrPrevButtonClicked}
               showIiifViewerHandler={showIiifViewerHandler}
               showAnnotationPanelHandler={showAnnotationPanelHandler}
               showSearchResultsHandler={showSearchResultsHandler}

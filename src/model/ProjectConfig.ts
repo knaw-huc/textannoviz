@@ -59,9 +59,7 @@ export type ProjectConfig = {
     showTopMenuButton: boolean;
   };
   components: {
-    AnnotationButtons: (props: {
-      nextOrPrevButtonClicked: (clicked: boolean) => boolean;
-    }) => JSX.Element;
+    AnnotationButtons: () => JSX.Element;
     AnnotationItem: (props: AnnotationItemProps) => JSX.Element;
     AnnotationItemContent: (props: {
       annotation: AnnoRepoAnnotation;
