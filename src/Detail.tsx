@@ -95,7 +95,6 @@ export const Detail = (props: DetailProps) => {
 
               const id = setInterval(() => {
                 intervalCount = intervalCount + 1;
-                console.log(intervalCount);
                 if (zoom) {
                   if (
                     viewer.store.getState().viewers[props.project]?.x &&
