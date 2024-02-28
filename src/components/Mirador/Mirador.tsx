@@ -27,7 +27,6 @@ const createMiradorConfig = (
 };
 
 export function Mirador(props: MiradorProps) {
-  const [isMiradorInitialised, setIsMiradorInitialised] = React.useState(false);
   const setMiradorStore = useMiradorStore((state) => state.setStore);
   const projectConfig = useProjectStore(projectConfigSelector);
   const miradorConfig = createMiradorConfig(
@@ -45,19 +44,13 @@ export function Mirador(props: MiradorProps) {
         viewer.store.getState().viewers[projectConfig.id]?.x &&
         typeof viewer.store.getState().viewers[projectConfig.id].x === "number"
       ) {
-        setIsMiradorInitialised(true);
         if (projectConfig.zoomAnnoMirador) {
           zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
         }
-        console.log("mirador is initialised");
         clearInterval(id);
       }
     }, 250);
   }, [miradorConfig]);
-
-  console.log("mirador rendered");
-
-  console.log(isMiradorInitialised);
 
   return (
     <div
