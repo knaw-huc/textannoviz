@@ -1,4 +1,22 @@
+import { useMiradorStore } from "../../stores/mirador";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
+
 export function Mirador() {
+  const miradorStore = useMiradorStore((state) => state.miradorStore);
+  const projectConfig = useProjectStore(projectConfigSelector);
+
+  const id = setInterval(() => {
+    if (miradorStore) {
+      if (
+        miradorStore.getState().viewers[projectConfig.id]?.x &&
+        typeof miradorStore.getState().viewers[projectConfig.id].x === "number"
+      ) {
+        console.log("JAAAAA");
+        clearInterval(id);
+      }
+    }
+  }, 250);
+
   return (
     <div
       id="mirador"
