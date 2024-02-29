@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import React, { ChangeEvent, ReactNode } from "react";
-import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
+import { CategoricalChartState } from "recharts/types/chart/types";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   projectConfigSelector,

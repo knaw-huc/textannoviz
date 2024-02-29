@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
+import { CategoricalChartState } from "recharts/types/chart/types";
 import { SearchResult } from "../../../model/Search";
 import { createIndices } from "../../../utils/createIndices";
 
