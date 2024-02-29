@@ -8,7 +8,6 @@
     "start": "vite serve --config vite.config.local.ts",
     "build": "vite build --config vite.config.prod.ts",
     "preview": "vite preview",
-    "test": "vitest",
     "docker:republic-all": "./docker-republic-all.sh",
     "docker:globalise-all": "./docker-globalise-all.sh",
     "prepare": "husky install"
@@ -41,9 +40,6 @@
     "@blueprintjs/core": "^3.53.0",
     "@blueprintjs/icons": "^3.32.0",
     "@tailwindcss/typography": "^0.5.9",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
     "@types/lodash": "^4.14.200",
     "@types/node": "^20.11.23",
     "@types/react-dom": "^18.2.7",
@@ -58,16 +54,14 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
-    "jsdom": "^21.1.0",
     "lint-staged": "^15.1.0",
     "postcss": "^8.4.27",
     "prettier": "3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6",
-    "vite": "^4.4.4",
-    "vite-plugin-checker": "^0.6.2",
-    "vitest": "^0.29.2"
+    "vite": "^4.5.2",
+    "vite-plugin-checker": "^0.6.2"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": "eslint --cache --fix",
