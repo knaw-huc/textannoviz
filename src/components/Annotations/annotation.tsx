@@ -1,20 +1,14 @@
-// import { TabPanel, TabView } from "primereact/tabview";
-import mirador from "mirador";
 import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { iiifAnn } from "../../model/AnnoRepoAnnotation";
-import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useMiradorStore } from "../../stores/mirador";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
-import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
 
@@ -31,65 +25,8 @@ export function Annotation(props: AnnotationProps) {
     React.useState(false);
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const projectName = useProjectStore((state) => state.projectName);
-  const canvas = useMiradorStore((state) => state.canvas);
-  const miradorStore = useMiradorStore((state) => state.miradorStore);
-  const showSvgsAnnosMirador = useAnnotationStore(
-    (state) => state.showSvgsAnnosMirador,
-  );
   const params = useParams();
   const translate = useProjectStore(translateSelector);
-
-  const currentState =
-    miradorStore && miradorStore.getState && miradorStore.getState();
-
-  React.useEffect(() => {
-    if (
-      showSvgsAnnosMirador &&
-      projectConfig.visualizeAnnosMirador &&
-      canvas.canvasIds.length > 0 &&
-      annotations &&
-      miradorStore &&
-      projectConfig
-    ) {
-      visualizeAnnosMirador(
-        annotations,
-        miradorStore,
-        canvas.canvasIds[0],
-        projectConfig as ProjectConfig,
-      );
-    }
-  }, [
-    showSvgsAnnosMirador,
-    annotations,
-    canvas,
-    miradorStore,
-    projectConfig,
-    projectName,
-  ]);
-
-  React.useEffect(() => {
-    if (!showSvgsAnnosMirador) {
-      const iiifAnn: iiifAnn = {
-        "@id": projectConfig.id,
-        "@context": "http://iiif.io/api/presentation/2/context.json",
-        "@type": "sc:AnnotationList",
-        resources: [],
-      };
-
-      miradorStore.dispatch(
-        mirador.actions.receiveAnnotation(
-          `${
-            projectConfig.id === "republic"
-              ? currentState.windows.republic.canvasId
-              : currentState.windows.globalise.canvasId
-          }`,
-          "annotation",
-          iiifAnn,
-        ),
-      );
-    }
-  }, [showSvgsAnnosMirador]);
 
   React.useEffect(() => {
     if (params.tier0 && params.tier1) {

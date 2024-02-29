@@ -15,7 +15,6 @@ import { AnnotationButtons } from "./Annotations/AnnotationButtons";
 import { AnnotationsToHighlightFilter } from "./Annotations/AnnotationsToHighlightFilter";
 
 type FooterProps = {
-  nextOrPrevButtonClicked: (clicked: boolean) => boolean;
   showIiifViewerHandler: () => void;
   showAnnotationPanelHandler: () => void;
   showSearchResultsHandler: () => void;
@@ -121,9 +120,7 @@ export const Footer = (props: FooterProps) => {
           ) : null}
         </div>
         <div className="flex w-full flex-row justify-between lg:w-2/5">
-          <AnnotationButtons
-            nextOrPrevButtonClicked={props.nextOrPrevButtonClicked}
-          />
+          <AnnotationButtons />
         </div>
         <div className="flex w-full flex-row justify-end lg:w-1/5">
           <button
