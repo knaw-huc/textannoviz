@@ -8,7 +8,7 @@ import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { ServerConfig } from "./model/ServerConfig";
-import { globaliseConfig } from "./projects/globalise/config/";
+import { globaliseConfig } from "./projects/globalise/config";
 import { mondriaanConfig } from "./projects/mondriaan/config";
 import { republicConfig } from "./projects/republic/config";
 import { surianoConfig } from "./projects/suriano/config";
