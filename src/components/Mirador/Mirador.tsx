@@ -30,7 +30,9 @@ const createMiradorConfig = (
 };
 
 export function Mirador(props: MiradorProps) {
-  const [intervalId, setIntervalId] = React.useState<NodeJS.Timer | null>(null);
+  const [intervalId, setIntervalId] = React.useState<
+    number | NodeJS.Timeout | null
+  >(null);
   const setMiradorStore = useMiradorStore((state) => state.setStore);
   const projectConfig = useProjectStore(projectConfigSelector);
   const showSvgsAnnosMirador = useAnnotationStore(
