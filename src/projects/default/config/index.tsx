@@ -19,14 +19,12 @@ export const defaultConfig: Omit<
   | "initialDateTo"
   | "logoImageUrl"
   | "relativeTo"
-  | "scanAnnotation"
 > = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
   allowedAnnotationTypesToHighlight: [],
-  tier: [],
   bodyType: [],
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
@@ -37,7 +35,6 @@ export const defaultConfig: Omit<
   defaultShowMetadataPanel: true,
   showToggleTextPanels: false,
   zoomAnnoMirador: false,
-  annotationTypesToZoom: [],
   logoHref: "/",
   showSearchQueryHistory: true,
   showDateFacets: true,

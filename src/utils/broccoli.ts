@@ -7,29 +7,6 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export const fetchBroccoliBodyIdOfScan = async (
-  tier0: string,
-  tier1: string,
-  config: ProjectConfig,
-  signal: AbortSignal,
-) => {
-  if (parseInt(tier1) < 1) {
-    toast("Opening number lower than 1 is not allowed!", { type: "error" });
-    return;
-  }
-
-  const response = await fetch(
-    `${config.broccoliUrl}/projects/${config.id}/${config.scanAnnotation}/${tier0}/${tier1}?includeResults=bodyId`,
-    { signal },
-  );
-  if (!response.ok) {
-    const error = await response.json();
-    toast(`${error.message}`, { type: "error" });
-    return null;
-  }
-  return response.json();
-};
-
 export const fetchBroccoliScanWithOverlap = async (
   bodyId: string,
   overlapTypes: string[],

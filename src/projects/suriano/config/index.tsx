@@ -57,7 +57,6 @@ export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
     "tf:File",
     "tf:Folder",
   ],
-  tier: ["folders", "files"],
   allPossibleTextPanels: [
     "original",
     "appendix",
@@ -69,7 +68,6 @@ export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
   defaultTextPanels: ["text"],
   annotationTypesToHighlight: ["tei:Ent"],
   allowedAnnotationTypesToHighlight: ["tei:Ent"],
-  scanAnnotation: "tf:File",
   elasticIndexName: "letters",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",

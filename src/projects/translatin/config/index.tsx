@@ -15,8 +15,6 @@ export const translatinConfig: ProjectConfig = _.merge({}, defaultConfig, {
     // "pagexml:Region",
     "tl:Manifestation",
   ],
-  tier: ["tl:Manifestation"],
-  scanAnnotation: "tl:Manifestation",
   elasticIndexName: "manifestations",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",

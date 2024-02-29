@@ -22,9 +22,7 @@ export type ProjectConfig = {
   annotationTypesToInclude: string[];
   annotationTypesToHighlight: string[];
   allowedAnnotationTypesToHighlight: string[];
-  tier: string[];
   bodyType: string[];
-  scanAnnotation: string;
   elasticIndexName: string;
   initialDateFrom: string;
   initialDateTo: string;
@@ -37,7 +35,6 @@ export type ProjectConfig = {
   defaultShowMetadataPanel: boolean;
   showToggleTextPanels: boolean;
   zoomAnnoMirador: boolean;
-  annotationTypesToZoom: string[];
   logoImageUrl: string;
   headerTitle: string;
   logoHref: string;

@@ -83,8 +83,6 @@ export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig, {
     "tf:Letter",
     "tf:Page",
   ],
-  tier: ["folders", "letters"],
-  scanAnnotation: "tf:Letter",
   elasticIndexName: "divs",
   initialDateFrom: "1909-01-01",
   initialDateTo: "1910-12-31",
