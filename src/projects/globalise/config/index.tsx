@@ -4,7 +4,6 @@ import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import AnnotationItem from "../AnnotationItem.tsx";
-import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { Help } from "../Help.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
@@ -42,7 +41,6 @@ export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
   components: {
     AnnotationButtons,
     AnnotationItem,
-    AnnotationItemContent,
     Help,
     MetadataPanel,
     SearchInfoPage,
