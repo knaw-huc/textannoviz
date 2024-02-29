@@ -2,17 +2,17 @@ import { create, StateCreator } from "zustand";
 import { Labels } from "../model/Labels.ts";
 import { ProjectConfig } from "../model/ProjectConfig";
 
-export interface ProjectSlice {
+export type ProjectSlice = {
   projectName: string;
   setProjectName: (newProjectName: ProjectSlice["projectName"]) => void;
-}
+};
 
-export interface ProjectConfigSlice {
+export type ProjectConfigSlice = {
   projectConfig: ProjectConfig | undefined;
   setProjectConfig: (
     newProjectConfig: ProjectConfigSlice["projectConfig"],
   ) => void;
-}
+};
 
 export type ProjectStore = ProjectSlice & ProjectConfigSlice;
 const createProjectSlice: StateCreator<ProjectStore, [], [], ProjectSlice> = (

@@ -15,7 +15,6 @@ import {
   TranslatinSearchResultsBody,
 } from "./model/Search";
 import { useAnnotationStore } from "./stores/annotation";
-import { useMiradorStore } from "./stores/mirador";
 import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
 import { useTextStore } from "./stores/text";
@@ -35,7 +34,6 @@ export const Detail = (props: DetailProps) => {
   );
   const [broccoliResult, setBroccoliResult] = React.useState<Broccoli>();
   const setProjectName = useProjectStore((state) => state.setProjectName);
-  const setCanvas = useMiradorStore((state) => state.setCanvas);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
   const setViews = useTextStore((state) => state.setViews);
   const annotationTypesToInclude = useAnnotationStore(
@@ -68,13 +66,8 @@ export const Detail = (props: DetailProps) => {
       );
 
       setBroccoliResult(result);
-      const newCanvas = {
-        canvasIds: result.iiif.canvasIds,
-        currentIndex: 0,
-      };
 
       setProjectName(props.project);
-      setCanvas(newCanvas);
       setAnnotations(result.anno);
       setViews(result.views);
 
