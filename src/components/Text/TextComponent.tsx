@@ -1,13 +1,7 @@
+import { Skeleton } from "@nextui-org/react";
 import { CheckboxChangeEvent } from "primereact/checkbox";
-import { Skeleton } from "primereact/skeleton";
 import React from "react";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import {
-  projectConfigSelector,
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { TextPanels } from "./TextPanels";
 import { ToggleTextPanels } from "./ToggleTextPanels";
@@ -18,34 +12,17 @@ type TextComponentProps = {
   isLoading: boolean;
 };
 
-export type Text = {
-  views: Record<string, string[]>;
-};
-
 export const TextComponent = (props: TextComponentProps) => {
   const [panelsToRender, setPanelsToRender] = React.useState(
     props.panelsToRender,
   );
   const textPanels = useTextStore((state) => state.views);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const params = useParams();
-  const translateProject = useProjectStore(translateProjectSelector);
 
   function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
     const checkedTextPanels = [...panelsToRender];
 
     if (event.checked) {
-      if (textPanels && !(event.value in textPanels)) {
-        toast(
-          `Text panel "${translateProject(
-            `${event.value}`,
-          ).toLowerCase()}" is not available for letter "${params.tier1}".`,
-          {
-            type: "error",
-          },
-        );
-        return;
-      }
       checkedTextPanels.push(event.value);
     } else {
       checkedTextPanels.splice(checkedTextPanels.indexOf(event.value), 1);
@@ -76,10 +53,10 @@ export const TextComponent = (props: TextComponentProps) => {
             closePanelHandler={closePanelHandler}
           />
         ) : (
-          <div className="skeletonContainerText">
-            <Skeleton width="30rem" className="skeleton"></Skeleton>
-            <Skeleton width="15rem" className="skeleton"></Skeleton>
-            <Skeleton width="7.5rem" className="skeleton"></Skeleton>
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-4 w-64 rounded-lg" />
+            <Skeleton className="h-4 w-96 rounded-lg" />
+            <Skeleton className="h-4 w-48 rounded-lg" />
           </div>
         )}
       </div>
