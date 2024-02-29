@@ -1,27 +1,49 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { BroccoliV3 } from "../../model/Broccoli";
+import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useProjectStore } from "../../stores/project";
-import { fetchBroccoliScan } from "../../utils/fetchBroccoli";
-import { Button } from "../Button";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
+import { selectDistinctBodyTypes } from "../../utils/broccoli";
 
-interface AnnotationFilterProps {
-  loading: (bool: boolean) => void;
-}
-
-export const AnnotationFilter = (props: AnnotationFilterProps) => {
+export const AnnotationFilter = () => {
   const [isOpen, setOpen] = React.useState(false);
-  const projectConfig = useProjectStore((state) => state.projectConfig);
-  const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
-  const params = useParams();
-  const ref = React.useRef(null);
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
+  const setAnnotationTypesToInclude = useAnnotationStore(
+    (state) => state.setAnnotationTypesToInclude,
+  );
+  const annotationTypesToInclude = useAnnotationStore(
+    (state) => state.annotationTypesToInclude,
+  );
+  const ref = React.useRef<HTMLSelectElement>(null);
+  const [annotationTypes, setAnnotationTypes] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    if (isOpen) {
-      ref.current.focus();
+    const controller = new AbortController();
+    const signal = controller.signal;
+    async function fetchAnnotationTypes() {
+      const annotationTypes = await selectDistinctBodyTypes(
+        projectConfig.id,
+        projectConfig.broccoliUrl,
+        signal,
+      );
+      setAnnotationTypes(annotationTypes);
     }
-  }, [isOpen]);
+
+    if (isOpen) {
+      if (annotationTypes.length === 0) {
+        fetchAnnotationTypes();
+      }
+      ref.current?.focus();
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [annotationTypes.length, isOpen, projectConfig]);
 
   const buttonClickHandler = () => {
     if (!isOpen) {
@@ -32,22 +54,17 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
   };
 
   const changeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    props.loading(true);
     const selectedOptions = Array.from(
       event.target.selectedOptions,
-      (option) => option.value
+      (option) => option.value,
     );
-    console.log(selectedOptions);
+    setAnnotationTypesToInclude(selectedOptions);
+  };
 
-    fetchBroccoliScan(
-      params.tier0,
-      params.tier1,
-      projectConfig,
-      selectedOptions
-    ).then(function (result: BroccoliV3) {
-      props.loading(false);
-      setAnnotations(result.anno);
-    });
+  const resetFilterClickHandler = () => {
+    if (projectConfig) {
+      setAnnotationTypesToInclude(projectConfig.annotationTypesToInclude);
+    }
   };
 
   return (
@@ -65,19 +82,19 @@ export const AnnotationFilter = (props: AnnotationFilterProps) => {
                 onChange={changeHandler}
                 style={{ height: "200px", width: "150px" }}
               >
-                {projectConfig.annotationTypes.map((annType, index) => {
+                {annotationTypes.map((annType, index) => {
                   return (
                     <option
                       key={index}
-                      selected={projectConfig.annotationTypesToInclude.includes(
-                        annType
-                      )}
+                      selected={annotationTypesToInclude.includes(annType)}
+                      value={annType}
                     >
-                      {annType}
+                      {translateProject(annType)}
                     </option>
                   );
                 })}
               </select>
+              <Button onClick={resetFilterClickHandler}>Reset filter</Button>
             </div>
           )}
         </div>

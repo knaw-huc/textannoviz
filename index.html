@@ -1,16 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title><%= title %></title>
-    <link rel="icon" type="image/gif" href="/static/favicon.ico" />
+    <title>%VITE_TITLE%</title>
+    <link rel="icon" type="image/png" href="/src/assets/favicon.png" />
     <style>
       body {
         margin: 0;
       }
     </style>
   </head>
-  <body>
+  <body class="font-public min-h-screen">
     <div id="container"></div>
     <script type="module" src="./src/index.tsx"></script>
   </body>
@@ -28,9 +28,8 @@
         <h1>JavaScript seems to be disabled</h1>
         <h2>Please turn it on to view this website</h2>
         <div>
-          This website does not do any kind of tracking or monitoring<br />
-          Javascript is only used to enable and enhance interaction<br />
-          That's a promise
+          This website may log your search queries in order to diagnose errors,
+          and to improve the quality and stability of the website.
         </div>
       </div>
     </div>

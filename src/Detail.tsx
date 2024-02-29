@@ -1,127 +1,151 @@
-import mirador from "mirador";
+import { Skeleton } from "@nextui-org/react";
 import React from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
 import { Annotation } from "./components/Annotations/annotation";
+import { Footer } from "./components/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
-import { miradorConfig } from "./components/Mirador/MiradorConfig";
-import { Text } from "./components/Text/text";
-import { BroccoliTextV3, BroccoliV3, OpeningRequest } from "./model/Broccoli";
+import { SearchItem } from "./components/Search/SearchItem";
+import { TextComponent } from "./components/Text/TextComponent";
+import { Broccoli } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
+import {
+  GlobaliseSearchResultsBody,
+  MondriaanSearchResultsBody,
+  RepublicSearchResultBody,
+  TranslatinSearchResultsBody,
+} from "./model/Search";
 import { useAnnotationStore } from "./stores/annotation";
-import { useMiradorStore } from "./stores/mirador";
 import { useProjectStore } from "./stores/project";
-import { fetchBroccoliBodyId, fetchBroccoliScan } from "./utils/fetchBroccoli";
+import { useSearchStore } from "./stores/search/search-store";
+import { useTextStore } from "./stores/text";
+import { fetchBroccoliScanWithOverlap } from "./utils/broccoli";
 
 interface DetailProps {
   project: string;
   config: ProjectConfig;
 }
 
-const AppContainer = styled.div`
-  border-style: solid;
-  border-color: black;
-  border-width: 2px;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const LastUpdated = styled.div`
-  border-bottom: 1px solid black;
-`;
-
-const setMiradorConfig = (broccoli: BroccoliV3, project: string) => {
-  miradorConfig.windows[0].loadedManifest = broccoli.iiif.manifest;
-  miradorConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
-  miradorConfig.windows[0].id = project;
-};
-
 export const Detail = (props: DetailProps) => {
-  const [text, setText] = React.useState<BroccoliTextV3>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [showSearchResults, setShowSearchResults] = React.useState(false);
+  const [showIiifViewer, setShowIiifViewer] = React.useState(true);
+  const [showAnnotationPanel, setShowAnnotationPanel] = React.useState(
+    props.config.defaultShowMetadataPanel,
+  );
+  const [broccoliResult, setBroccoliResult] = React.useState<Broccoli>();
   const setProjectName = useProjectStore((state) => state.setProjectName);
-  const setProjectConfig = useProjectStore((state) => state.setProjectConfig);
-  const setStore = useMiradorStore((state) => state.setStore);
-  const setCurrentContext = useMiradorStore((state) => state.setCurrentContext);
-  const setCanvas = useMiradorStore((state) => state.setCanvas);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
+  const setViews = useTextStore((state) => state.setViews);
+  const annotationTypesToInclude = useAnnotationStore(
+    (state) => state.annotationTypesToInclude,
+  );
+  const globalSearchResults = useSearchStore((state) => state.searchResults);
   const params = useParams();
 
-  const setState = React.useCallback(
-    (broccoli: BroccoliV3) => {
-      setMiradorConfig(broccoli, props.project);
-      console.log(broccoli);
-      const viewer = mirador.viewer(miradorConfig);
+  React.useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setIsLoading(true);
 
-      setStore(viewer.store);
+    async function fetchBroccoli(bodyId: string) {
+      const includeResults = ["anno", "iiif", "text"];
+
+      const views = props.config.allPossibleTextPanels.toString();
+
+      const overlapTypes = annotationTypesToInclude;
+      const relativeTo = "Origin";
+
+      const result = await fetchBroccoliScanWithOverlap(
+        bodyId,
+        overlapTypes,
+        includeResults,
+        views,
+        relativeTo,
+        props.config,
+        signal,
+      );
+
+      setBroccoliResult(result);
 
       setProjectName(props.project);
-      setProjectConfig(props.config);
+      setAnnotations(result.anno);
+      setViews(result.views);
 
-      const newCanvas = {
-        canvasIds: broccoli.iiif.canvasIds,
-        currentIndex: 0,
-      };
-
-      setCanvas(newCanvas);
-
-      const newCurrentContext = {
-        tier0: (broccoli.request as OpeningRequest).tier0,
-        tier1: (broccoli.request as OpeningRequest).tier1,
-      };
-
-      setCurrentContext(newCurrentContext);
-
-      setAnnotations(broccoli.anno);
-      setText(broccoli.text as BroccoliTextV3);
-    },
-    [
-      props.config,
-      props.project,
-      setAnnotations,
-      setCanvas,
-      setCurrentContext,
-      setProjectConfig,
-      setProjectName,
-      setStore,
-    ]
-  );
-
-  React.useEffect(() => {
-    if (params.tier0 && params.tier1) {
-      fetchBroccoliScan(
-        params.tier0,
-        params.tier1,
-        props.config,
-        props.config.annotationTypesToInclude
-      )
-        .then((broccoli) => {
-          setState(broccoli);
-        })
-        .catch(console.error);
+      setIsLoading(false);
     }
-  }, [params.tier0, params.tier1, props.config, setState]);
 
-  React.useEffect(() => {
     if (params.tier2) {
-      fetchBroccoliBodyId(params.tier2, props.config)
-        .then((broccoli) => {
-          setState(broccoli);
-        })
-        .catch(console.error);
+      const bodyId = params.tier2;
+      fetchBroccoli(bodyId);
     }
-  }, [params.tier2, props.config, setState]);
+    return () => {
+      controller.abort();
+    };
+  }, [annotationTypesToInclude, params.tier2, props.config]);
+
+  function showIiifViewerHandler() {
+    setShowIiifViewer(!showIiifViewer);
+  }
+
+  function showAnnotationPanelHandler() {
+    setShowAnnotationPanel(!showAnnotationPanel);
+  }
+
+  function showSearchResultsHandler() {
+    setShowSearchResults(!showSearchResults);
+  }
 
   return (
-    <AppContainer id="appcontainer">
-      <LastUpdated>Last updated: 14 February 2023</LastUpdated>
-      <Row id="row">
-        <Mirador />
-        <Text text={text} />
-        <Annotation />
-      </Row>
-    </AppContainer>
+    <>
+      {broccoliResult ? (
+        <>
+          <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
+            <div className="h-full overflow-auto">
+              {showSearchResults
+                ? globalSearchResults && globalSearchResults.results.length >= 1
+                  ? globalSearchResults.results.map(
+                      (
+                        result:
+                          | RepublicSearchResultBody
+                          | TranslatinSearchResultsBody
+                          | MondriaanSearchResultsBody
+                          | GlobaliseSearchResultsBody,
+                        index: number,
+                      ) => <SearchItem key={index} result={result} />,
+                    )
+                  : null
+                : null}
+            </div>
+
+            {showIiifViewer ? (
+              <Mirador broccoliResult={broccoliResult} />
+            ) : null}
+            <TextComponent
+              panelsToRender={props.config.defaultTextPanels}
+              allPossiblePanels={props.config.allPossibleTextPanels}
+              isLoading={isLoading}
+            />
+            {showAnnotationPanel ? <Annotation isLoading={isLoading} /> : null}
+          </div>
+          <div>
+            <Footer
+              showIiifViewerHandler={showIiifViewerHandler}
+              showAnnotationPanelHandler={showAnnotationPanelHandler}
+              showSearchResultsHandler={showSearchResultsHandler}
+              showSearchResultsDisabled={globalSearchResults === undefined}
+              facsimileShowState={showIiifViewer}
+              panelShowState={showAnnotationPanel}
+              searchResultsShowState={showSearchResults}
+            />
+          </div>
+        </>
+      ) : (
+        <div className="flex flex-col gap-2 pl-2 pt-2">
+          <Skeleton className="h-4 w-64 rounded-lg" />
+          <Skeleton className="h-4 w-96 rounded-lg" />
+          <Skeleton className="h-4 w-48 rounded-lg" />
+        </div>
+      )}
+    </>
   );
 };

@@ -1,6 +1,6 @@
-import { useProjectStore } from "../../stores/project";
-export const AnnotationButtons = () => {
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 
-  return projectConfig && projectConfig.renderAnnotationButtons();
+export const AnnotationButtons = () => {
+  const projectConfig = useProjectStore(projectConfigSelector);
+  return <projectConfig.components.AnnotationButtons />;
 };

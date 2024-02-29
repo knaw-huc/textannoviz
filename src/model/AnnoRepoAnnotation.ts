@@ -96,6 +96,119 @@ export type AttendantBody = AnnoRepoBody & {
   };
 };
 
+export type ScanBody = AnnoRepoBody & {
+  metadata: {
+    volume: string;
+    opening: number;
+  };
+};
+
+export type TeiDivBody = AnnoRepoBody & {
+  metadata: {
+    lang: string;
+    type: string;
+  };
+};
+
+export type TeiRsBody = AnnoRepoBody & {
+  metadata: {
+    key: string;
+    type: string;
+    anno: string;
+  };
+};
+
+export type TeiObjectdescBody = AnnoRepoBody & {
+  metadata: {
+    form: string;
+  };
+};
+
+export type TeiCorrespactionBody = AnnoRepoBody & {
+  metadata: {
+    type: string;
+  };
+};
+
+export type TeiDateBody = AnnoRepoBody & {
+  metadata: {
+    when: string;
+  };
+};
+
+export type TeiPtrBody = AnnoRepoBody & {
+  metadata: {
+    target: string;
+    type?: string;
+  };
+};
+
+export type TeiNoteBody = AnnoRepoBody & {
+  metadata: {
+    type?: string;
+    id?: string;
+  };
+};
+
+export type TeiRefBody = AnnoRepoBody & {
+  metadata: {
+    target: string;
+  };
+};
+
+export type TeiRegBody = AnnoRepoBody & {
+  metadata: {
+    type: string;
+  };
+};
+
+export type TfLetterBody = AnnoRepoBody & {
+  metadata: {
+    correspondent: string;
+    country: string;
+    file: string;
+    institution: string;
+    letterid: string;
+    location: string;
+    msid: string;
+    period: string;
+    periodlong: string;
+    sender: string;
+    type: string;
+    folder: string;
+  };
+};
+
+export type SurianoTfFileBody = AnnoRepoBody & {
+  metadata: {
+    date: string;
+    editornotes: string;
+    file: string;
+    recipient: string;
+    recipientloc: string;
+    sender: string;
+    senderloc: string;
+    shelfmark: string;
+    summary: string;
+    type: string;
+  };
+};
+
+export type DocumentBody = AnnoRepoBody & {
+  metadata: {
+    document: string;
+    manifest: string;
+  };
+};
+
+export type PxPageBody = AnnoRepoBody & {
+  metadata: {
+    document: string;
+    prevPageId: string;
+    nextPageId: string;
+  };
+};
+
 export type AnnoRepoBody = {
   id: string;
   type: string;
@@ -104,7 +217,17 @@ export type AnnoRepoBody = {
     | ResolutionBody
     | ReviewedBody
     | AttendanceListBody
-    | AttendantBody;
+    | AttendantBody
+    | TeiDivBody
+    | TeiRsBody
+    | TeiObjectdescBody
+    | TeiCorrespactionBody
+    | TeiDateBody
+    | TeiPtrBody
+    | TeiNoteBody
+    | TeiRefBody
+    | TeiRegBody
+    | TfLetterBody;
 };
 
 export type Body =
@@ -113,7 +236,8 @@ export type Body =
   | ResolutionBody
   | ReviewedBody
   | AttendanceListBody
-  | AttendantBody;
+  | AttendantBody
+  | TeiDivBody;
 
 export type ImageTarget = {
   type: "Image";
@@ -186,12 +310,6 @@ export type AnnoRepoAnnotation = {
   target: Target | Target[];
 };
 
-type iiifAnnResource = {
-  "@type": string;
-  format: string;
-  chars: string;
-};
-
 export type iiifAnn = {
   "@context": string;
   "@id": string;
@@ -202,29 +320,16 @@ export type iiifAnn = {
 export type iiifAnnResources =
   | {
       "@id": string;
-      "@type": string;
-      motivation: string[];
       on: [
         {
-          "@type": string;
           full: string;
           selector: {
-            "@type": string;
-            default: {
-              "@type": string;
-              value: string;
-            };
-            item?: {
+            item: {
               "@type": string;
               value: string;
             };
           };
-          within: {
-            "@id": string;
-            "@type": string;
-          };
-        }
+        },
       ];
-      resource: iiifAnnResource[];
     }
   | undefined;

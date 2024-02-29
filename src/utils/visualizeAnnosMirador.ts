@@ -11,11 +11,11 @@ import { findImageRegions } from "./findImageRegions";
 
 export const visualizeAnnosMirador = (
   annotations: AnnoRepoAnnotation[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   store: any,
   canvasId: string,
-  projectConfig: ProjectConfig
+  projectConfig: ProjectConfig,
 ): iiifAnn => {
-  const currentState = store.getState();
   const iiifAnn: iiifAnn = {
     "@id": projectConfig.id,
     "@context": "http://iiif.io/api/presentation/2/context.json",
@@ -26,19 +26,18 @@ export const visualizeAnnosMirador = (
   const regions = annotations.flatMap((item: AnnoRepoAnnotation) => {
     const region = findImageRegions(item, canvasId);
 
-    if (region !== null) {
-      return region;
-    } else {
+    if (region === null) {
       console.log(item.body.id + " region is undefined");
       return null;
     }
+
+    return region;
   });
 
   const resources = regions.flatMap((region: string | null, i: number) => {
     if (region === null) {
       return;
     }
-    const [x, y, w, h] = (region as string).split(",");
     let colour: string;
 
     if (projectConfig.id === "republic") {
@@ -79,47 +78,19 @@ export const visualizeAnnosMirador = (
 
     const iiifAnnResources: iiifAnnResources[] = [
       {
-        "@id": `${annotations[i].id}`,
-        "@type": "oa:Annotation",
-        motivation: ["oa:commenting", "oa:Tagging"],
+        "@id": `${annotations[i].body.id}`,
         on: [
           {
-            "@type": "oa:SpecificResource",
-            full: `${
-              projectConfig.id === "republic"
-                ? currentState.windows.republic.canvasId
-                : currentState.windows.globalise.canvasId
-            }`,
+            full: canvasId,
             selector: {
-              "@type": "oa:Choice",
-              default: {
-                "@type": "oa:FragmentSelector",
-                value: `xywh=${x},${y},${w},${h}`,
-              },
               item: {
                 "@type": "oa:SvgSelector",
                 value: svgStyler(
                   findSvgSelector(annotations[i], canvasId),
-                  colour
+                  colour,
                 ),
               },
             },
-            within: {
-              "@id": "does not need to be set",
-              "@type": "sc:Manifest",
-            },
-          },
-        ],
-        resource: [
-          {
-            "@type": "dctypes:Text",
-            format: "text/html",
-            chars: `${annotations[i].body.type}`,
-          },
-          {
-            "@type": "oa:Tag",
-            format: "text/html",
-            chars: `${annotations[i].body.type}`,
           },
         ],
       },
@@ -130,15 +101,7 @@ export const visualizeAnnosMirador = (
   iiifAnn.resources.push(...resources);
 
   store.dispatch(
-    mirador.actions.receiveAnnotation(
-      `${
-        projectConfig.id === "republic"
-          ? currentState.windows.republic.canvasId
-          : currentState.windows.globalise.canvasId
-      }`,
-      "annotation",
-      iiifAnn
-    )
+    mirador.actions.receiveAnnotation(canvasId, "annotation", iiifAnn),
   );
 
   return iiifAnn;

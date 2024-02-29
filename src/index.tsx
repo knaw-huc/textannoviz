@@ -1,8 +1,9 @@
+import { NextUIProvider } from "@nextui-org/react";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import App from "./app";
+import App from "./App";
 import "./index.css";
 
 const container = document.getElementById("container");
@@ -13,7 +14,9 @@ const root = createRoot(container!);
 
 root.render(
   <React.StrictMode>
-    <ToastContainer />
-    <App />
-  </React.StrictMode>
+    <NextUIProvider className="flex h-full min-h-screen w-full flex-col items-stretch justify-stretch">
+      <ToastContainer />
+      <App />
+    </NextUIProvider>
+  </React.StrictMode>,
 );

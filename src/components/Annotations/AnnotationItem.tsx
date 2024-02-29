@@ -1,105 +1,55 @@
 import mirador from "mirador";
 import React from "react";
-import styled from "styled-components";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
-import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
-import { useProjectStore } from "../../stores/project";
-import { fetchLinesToHighlight } from "../../utils/fetchLinesToHighlight";
-import { zoomAnnMirador } from "../../utils/zoomAnnMirador";
-import { miradorConfig } from "../Mirador/MiradorConfig";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { AnnotationItemContent } from "./AnnotationItemContent";
 
 type AnnotationSnippetProps = {
-  annot_id: React.Key;
   annotation: AnnoRepoAnnotation;
 };
 
-const AnnSnippet = styled.div`
-  margin: 5px 0;
-  padding: 10px;
-  border-style: solid;
-  border-color: darkgray;
-  border-width: 1px;
-`;
-
-const Clickable = styled.div`
-  cursor: pointer;
-  font-weight: bold;
-  user-select: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
-  const projectConfig = useProjectStore((state) => state.projectConfig);
+  const projectConfig = useProjectStore(projectConfigSelector);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
-  const canvas = useMiradorStore((state) => state.canvas);
-  const updateSelectedAnn = useAnnotationStore(
-    (state) => state.updateSelectedAnn
-  );
-  const removeSelectedAnn = useAnnotationStore(
-    (state) => state.removeSelectedAnn
-  );
-
-  async function toggleOpen() {
-    setOpen(!isOpen);
-
-    if (!isOpen) {
-      //Zoom in on annotation in Mirador
-      const zoom = zoomAnnMirador(props.annotation, canvas.canvasIds[0]);
-
-      miradorStore.dispatch(
-        mirador.actions.selectAnnotation(
-          miradorConfig.windows[0].id,
-          props.annotation.id
-        )
-      );
-      miradorStore.dispatch(
-        mirador.actions.updateViewport(miradorConfig.windows[0].id, {
-          x: zoom.zoomCenter.x,
-          y: zoom.zoomCenter.y,
-          zoom: 1 / zoom.miradorZoom,
-        })
-      );
-      const indices = await fetchLinesToHighlight(
-        props.annotation.body.id,
-        projectConfig.relativeTo,
-        projectConfig
-      );
-      updateSelectedAnn(props.annotation.body.id, indices);
-    } else {
-      miradorStore.dispatch(
-        mirador.actions.deselectAnnotation(
-          miradorConfig.windows[0].id,
-          props.annotation.id
-        )
-      );
-      removeSelectedAnn(props.annotation.body.id);
-    }
-  }
 
   /**
    * The next two functions might be performance intensive, especially for mobile users.
    * TODO: check performance of both functions
    */
 
-  // function selectAnn() {
-  //     state.store.dispatch(mirador.actions.selectAnnotation("republic", props.annotation.id))
-  // }
+  const selectAnn = () => {
+    miradorStore.dispatch(
+      mirador.actions.selectAnnotation(
+        projectConfig.id,
+        props.annotation.body.id,
+      ),
+    );
+  };
 
-  // function deselectAnn() {
-  //     state.store.dispatch(mirador.actions.deselectAnnotation("republic", props.annotation.id))
-  // }
+  const deselectAnn = () => {
+    miradorStore.dispatch(
+      mirador.actions.deselectAnnotation(
+        projectConfig.id,
+        props.annotation.body.id,
+      ),
+    );
+  };
 
   return (
-    <AnnSnippet id="annotation-snippet">
-      <Clickable onClick={toggleOpen} id="clickable">
-        {projectConfig.renderAnnotationItem(props.annotation)}
-      </Clickable>
+    <div className="m-1 border border-solid border-gray-400 p-3">
+      <div
+        onClick={() => setOpen(!isOpen)}
+        onMouseEnter={selectAnn}
+        onMouseLeave={deselectAnn}
+        className="cursor-pointer font-bold hover:underline"
+      >
+        <projectConfig.components.AnnotationItem
+          annotation={props.annotation}
+        />
+      </div>
       {isOpen && <AnnotationItemContent annotation={props.annotation} />}
-    </AnnSnippet>
+    </div>
   );
 }

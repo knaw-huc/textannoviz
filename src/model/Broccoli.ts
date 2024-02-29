@@ -1,47 +1,27 @@
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
-export interface BroccoliV3 {
-  type: string;
-  request: OpeningRequest | ResolutionRequest; //in generic version overlapTypes is optional
+export interface Broccoli {
+  request: {
+    projectId: string;
+    bodyId: string;
+    includeResults: string[];
+    overlapTypes?: string[];
+    relativeTo: string;
+  };
   iiif: {
     manifest: string;
     canvasIds: string[];
   };
   anno: AnnoRepoAnnotation[];
-  text: BroccoliTextV3 | BroccoliTextGeneric;
-}
-
-export interface OpeningRequest {
-  tier0: string;
-  tier1: number;
-}
-
-export interface ResolutionRequest {
-  resolutionId: string;
-}
-
-export interface BroccoliTextV3 {
-  location: {
-    relativeTo: string;
-    start: {
-      line: number;
-      offset: number;
-      len: number;
-    };
-    end: {
-      line: number;
-      offset: number;
-      len: number;
-    };
-  };
-  lines: string[];
+  text: BroccoliTextGeneric;
+  views: Record<string, BroccoliTextGeneric>;
 }
 
 export interface BroccoliTextGeneric {
   lines: string[];
   locations: {
     relativeTo: {
-      type: string;
+      bodyType: string;
       bodyId: string;
     };
     annotations: {
@@ -56,4 +36,14 @@ export interface BroccoliTextGeneric {
       };
     }[];
   };
+}
+
+export interface BroccoliBodyIdResult {
+  request: {
+    projectId: string;
+    bodyType: string;
+    tier: string[];
+    includedResults: string[];
+  };
+  bodyId: string;
 }

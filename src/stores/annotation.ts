@@ -1,60 +1,83 @@
-import produce from "immer";
 import { create, StateCreator } from "zustand";
 import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation";
 
-export interface SelectedAnnSlice {
-  selectedAnn: {
-    bodyId: string;
-    indicesToHighlight: number[];
-  }[];
-  updateSelectedAnn: (bodyId: string, indicesToHighlight: number[]) => void;
-  removeSelectedAnn: (bodyId: string) => void;
-}
-
-export interface AnnotationsSlice {
+export type AnnotationsSlice = {
   annotations: AnnoRepoAnnotation[];
   setAnnotations: (newAnnotations: AnnotationsSlice["annotations"]) => void;
-}
+};
+export type AnnotationTypesToIncludeSlice = {
+  annotationTypesToInclude: string[];
+  setAnnotationTypesToInclude: (
+    newAnnotationTypesToInclude: AnnotationTypesToIncludeSlice["annotationTypesToInclude"],
+  ) => void;
+};
 
-const createSelectedAnnSlice: StateCreator<
-  SelectedAnnSlice & AnnotationsSlice,
-  [],
-  [],
-  SelectedAnnSlice
-> = (set) => ({
-  selectedAnn: [],
-  updateSelectedAnn: (bodyId: string, indicesToHighlight: number[]) =>
-    set(
-      produce((state: SelectedAnnSlice) => {
-        state.selectedAnn.push({
-          bodyId: bodyId,
-          indicesToHighlight: indicesToHighlight,
-        });
-      })
-    ),
-  removeSelectedAnn: (bodyId: string) =>
-    set(
-      produce((state: SelectedAnnSlice) => {
-        const index = state.selectedAnn.findIndex((el) => el.bodyId === bodyId);
-        state.selectedAnn.splice(index, 1);
-      })
-    ),
-});
+export type AnnotationTypesToHighlightSlice = {
+  annotationTypesToHighlight: string[];
+  setAnnotationTypesToHighlight: (
+    newAnnotationTypesToHighlight: AnnotationTypesToHighlightSlice["annotationTypesToHighlight"],
+  ) => void;
+};
+
+export type ShowSvgsAnnosMiradorSlice = {
+  showSvgsAnnosMirador: boolean;
+  setShowSvgsAnnosMirador: (
+    newShowSvgsAnnosMirador: ShowSvgsAnnosMiradorSlice["showSvgsAnnosMirador"],
+  ) => void;
+};
 
 const createAnnotationSlice: StateCreator<
-  SelectedAnnSlice & AnnotationsSlice,
+  AnnotationsSlice,
   [],
   [],
   AnnotationsSlice
 > = (set) => ({
-  annotations: undefined,
+  annotations: [],
   setAnnotations: (newAnnotations) =>
     set(() => ({ annotations: newAnnotations })),
 });
 
-export const useAnnotationStore = create<SelectedAnnSlice & AnnotationsSlice>()(
-  (...a) => ({
-    ...createSelectedAnnSlice(...a),
-    ...createAnnotationSlice(...a),
-  })
-);
+const createAnnotationTypesToIncluceSlice: StateCreator<
+  AnnotationTypesToIncludeSlice,
+  [],
+  [],
+  AnnotationTypesToIncludeSlice
+> = (set) => ({
+  annotationTypesToInclude: [],
+  setAnnotationTypesToInclude: (newAnnotationTypesToInclude) =>
+    set(() => ({ annotationTypesToInclude: newAnnotationTypesToInclude })),
+});
+
+const createAnnotationTypesToHighlightSlice: StateCreator<
+  AnnotationTypesToHighlightSlice,
+  [],
+  [],
+  AnnotationTypesToHighlightSlice
+> = (set) => ({
+  annotationTypesToHighlight: [],
+  setAnnotationTypesToHighlight: (newAnnotationTypesToHighlight) =>
+    set(() => ({ annotationTypesToHighlight: newAnnotationTypesToHighlight })),
+});
+
+const createShowSvgsAnnosMiradorSlice: StateCreator<
+  ShowSvgsAnnosMiradorSlice,
+  [],
+  [],
+  ShowSvgsAnnosMiradorSlice
+> = (set) => ({
+  showSvgsAnnosMirador: true,
+  setShowSvgsAnnosMirador: (newShowSvgsAnnosMirador) =>
+    set(() => ({ showSvgsAnnosMirador: newShowSvgsAnnosMirador })),
+});
+
+export const useAnnotationStore = create<
+  AnnotationsSlice &
+    AnnotationTypesToIncludeSlice &
+    AnnotationTypesToHighlightSlice &
+    ShowSvgsAnnosMiradorSlice
+>()((...a) => ({
+  ...createAnnotationSlice(...a),
+  ...createAnnotationTypesToIncluceSlice(...a),
+  ...createAnnotationTypesToHighlightSlice(...a),
+  ...createShowSvgsAnnosMiradorSlice(...a),
+}));

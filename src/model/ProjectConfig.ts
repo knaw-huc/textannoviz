@@ -1,32 +1,79 @@
-import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
+import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation.ts";
+import { Language, LanguageCode } from "./Language.ts";
+import {
+  GlobaliseSearchResultsBody,
+  MondriaanSearchResultsBody,
+  RepublicSearchResultBody,
+  TranslatinSearchResultsBody,
+} from "./Search.ts";
 
-export interface ProjectConfig {
+export type ProjectConfig = {
   id: string;
-  colours: {
-    [key: string]: string;
-  };
+  broccoliUrl: string;
+  colours: Record<string, string>;
+
+  /**
+   * Offsets relative to the closest annotation of type {relativeTo}
+   * - AnnoRepo finds closest annotation
+   * - Broccoli calculates offsets
+   */
   relativeTo: string;
-  annotationTypes: string[];
+
   annotationTypesToInclude: string[];
-  broccoliVersion: string;
-  tier: string[];
-  bodyType: string[];
-  documents?: {
-    docNr: string;
-    index: number[];
-  }[];
-  renderAnnotationItem: (annotation: AnnoRepoAnnotation) => string;
-  renderAnnotationItemContent: (annotation: AnnoRepoAnnotation) => JSX.Element;
-  renderAnnotationLinks?: () => JSX.Element;
-  renderAnnotationButtons: () => JSX.Element;
-  createRouter: (
-    comp1: React.ReactNode,
-    comp2: React.ReactNode,
-    errorComp: React.ReactNode
-  ) => {
-    path: string;
-    element: React.ReactNode;
-    errorElement: React.ReactNode;
-  }[];
-  renderHome: () => JSX.Element;
-}
+  annotationTypesToHighlight: string[];
+  allowedAnnotationTypesToHighlight: string[];
+  elasticIndexName: string;
+  initialDateFrom: string;
+  initialDateTo: string;
+  allPossibleTextPanels: string[];
+  defaultTextPanels: string[];
+  showSearchSortBy: boolean;
+  showSearchResultsButtonFooter: boolean;
+  showFacsimileButtonFooter: boolean;
+  showSettingsMenuFooter: boolean;
+  defaultShowMetadataPanel: boolean;
+  showToggleTextPanels: boolean;
+  zoomAnnoMirador: boolean;
+  logoImageUrl: string;
+  headerTitle: string;
+  logoHref: string;
+  showSearchQueryHistory: boolean;
+  showDateFacets: boolean;
+  showKeywordFacets: boolean;
+  showSelectedFilters: boolean;
+  showNewSearchButton: boolean;
+  allowCloseTextPanel: boolean;
+  showWebAnnoTab: boolean;
+  histogramFacet: string;
+  showHistogram: boolean;
+  useExternalConfig: boolean;
+  visualizeAnnosMirador: boolean;
+  selectedLanguage: LanguageCode;
+  languages: Language[];
+  mirador: {
+    showWindowSideBar: boolean;
+    showTopMenuButton: boolean;
+  };
+  components: {
+    AnnotationButtons: () => JSX.Element;
+    AnnotationItem: (props: AnnotationItemProps) => JSX.Element;
+    AnnotationItemContent: (props: {
+      annotation: AnnoRepoAnnotation;
+    }) => JSX.Element;
+    AnnotationLinks: () => JSX.Element | null;
+    Help: () => JSX.Element;
+    MetadataPanel: (props: {
+      annotations: AnnoRepoAnnotation[];
+    }) => JSX.Element;
+    SearchInfoPage: () => JSX.Element;
+    SearchItem: (props: {
+      result:
+        | RepublicSearchResultBody
+        | TranslatinSearchResultsBody
+        | MondriaanSearchResultsBody
+        | GlobaliseSearchResultsBody;
+    }) => JSX.Element;
+  };
+};
+
+export type AnnotationItemProps = { annotation: AnnoRepoAnnotation };
