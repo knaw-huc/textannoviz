@@ -2,10 +2,6 @@ import * as _ from "lodash";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { AnnotationButtons } from "../AnnotationButtons.tsx";
-import AnnotationItem from "../AnnotationItem.tsx";
-import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
-import { Help } from "../Help.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
@@ -38,7 +34,6 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
     "Resolution",
     "Reviewed",
   ],
-  bodyType: ["Session", "Resolution", "Attendant"],
   elasticIndexName: "republic-2024.01.19",
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",
@@ -52,10 +47,6 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
   components: {
-    AnnotationItem,
-    AnnotationItemContent,
-    AnnotationButtons,
-    Help,
     MetadataPanel,
     SearchItem,
   },

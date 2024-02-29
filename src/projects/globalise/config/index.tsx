@@ -3,7 +3,6 @@ import logo from "../../../assets/G-1.png";
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
-import AnnotationItem from "../AnnotationItem.tsx";
 import { Help } from "../Help.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
@@ -40,7 +39,6 @@ export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
   allowCloseTextPanel: false,
   components: {
     AnnotationButtons,
-    AnnotationItem,
     Help,
     MetadataPanel,
     SearchInfoPage,

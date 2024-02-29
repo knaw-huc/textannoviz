@@ -22,7 +22,6 @@ export type ProjectConfig = {
   annotationTypesToInclude: string[];
   annotationTypesToHighlight: string[];
   allowedAnnotationTypesToHighlight: string[];
-  bodyType: string[];
   elasticIndexName: string;
   initialDateFrom: string;
   initialDateTo: string;
