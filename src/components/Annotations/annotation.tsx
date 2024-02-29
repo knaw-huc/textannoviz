@@ -1,8 +1,5 @@
-import { Skeleton } from "primereact/skeleton";
-import React from "react";
+import { Skeleton } from "@nextui-org/react";
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
@@ -16,23 +13,10 @@ type AnnotationProps = {
   isLoading: boolean;
 };
 
-const ButtonsStyled = styled.div`
-  display: flex;
-`;
-
 export function Annotation(props: AnnotationProps) {
-  const [nextOrPrevButtonClicked, setNextOrPrevButtonClicked] =
-    React.useState(false);
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const params = useParams();
   const translate = useProjectStore(translateSelector);
-
-  React.useEffect(() => {
-    if (params.tier0 && params.tier1) {
-      setNextOrPrevButtonClicked(false);
-    }
-  }, [params.tier0, params.tier1]);
 
   return (
     <div className="border-brand1Grey-100 relative hidden w-3/12 grow self-stretch border-x md:block">
@@ -60,34 +44,30 @@ export function Annotation(props: AnnotationProps) {
           {annotations.length > 0 && !props.isLoading ? (
             <projectConfig.components.MetadataPanel annotations={annotations} />
           ) : (
-            <div>
-              <Skeleton width="25rem" className="skeleton"></Skeleton>
-              <Skeleton width="12.5rem" className="skeleton"></Skeleton>
-              <Skeleton width="6.25rem" className="skeleton"></Skeleton>
+            <div className="flex flex-col gap-2">
+              <Skeleton className="h-4 w-64 rounded-lg" />
+              <Skeleton className="h-4 w-96 rounded-lg" />
+              <Skeleton className="h-4 w-48 rounded-lg" />
             </div>
           )}
         </TabPanel>
         {projectConfig.showWebAnnoTab && (
           <TabPanel id="webannos" className="text-brand1-800 p-5">
             <>
-              <ButtonsStyled>
+              <div className="flex">
                 <AnnotationFilter />
-              </ButtonsStyled>
+              </div>
               {props.isLoading && (
-                <div>
-                  <Skeleton width="25rem" className="skeleton"></Skeleton>
-                  <Skeleton width="12.5rem" className="skeleton"></Skeleton>
-                  <Skeleton width="6.25rem" className="skeleton"></Skeleton>
+                <div className="flex flex-col gap-2">
+                  <Skeleton className="h-4 w-64 rounded-lg" />
+                  <Skeleton className="h-4 w-96 rounded-lg" />
+                  <Skeleton className="h-4 w-48 rounded-lg" />
                 </div>
               )}
               {annotations?.length > 0 &&
                 !props.isLoading &&
                 annotations.map((annotation, index) => (
-                  <AnnotationItem
-                    key={index}
-                    annotation={annotation}
-                    nextOrPrevButtonClicked={nextOrPrevButtonClicked}
-                  />
+                  <AnnotationItem key={index} annotation={annotation} />
                 ))}
               {annotations?.length === 0 && !props.isLoading && (
                 <div className="font-bold">No web annotations</div>
