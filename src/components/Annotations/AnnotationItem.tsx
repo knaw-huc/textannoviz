@@ -38,7 +38,7 @@ export function AnnotationItem(props: AnnotationSnippetProps) {
   };
 
   return (
-    <div className="border-1 m-1 border-solid border-gray-400 p-3">
+    <div className="m-1 border border-solid border-gray-400 p-3">
       <div
         onClick={() => setOpen(!isOpen)}
         onMouseEnter={selectAnn}
