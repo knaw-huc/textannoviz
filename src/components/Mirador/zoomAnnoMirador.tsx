@@ -25,12 +25,19 @@ export function zoomAnnoMirador(
       broccoli.iiif.canvasIds[0],
     );
 
+    /* 
+    It appears that "flip" and "rotation" are required. See:
+    https://github.com/ProjectMirador/mirador/issues/3781,
+    https://github.com/ProjectMirador/mirador/blob/master/src/components/OpenSeadragonViewer.js#L169-L182
+    */
     if (zoomCoords) {
       miradorStore.dispatch(
         mirador.actions.updateViewport(`${projectConfig.id}`, {
           x: zoomCoords.zoomCenter.x,
           y: zoomCoords.zoomCenter.y,
           zoom: 0.75 / zoomCoords.miradorZoom,
+          flip: false,
+          rotation: 0,
         }),
       );
     }
