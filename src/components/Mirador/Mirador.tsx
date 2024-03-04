@@ -98,6 +98,7 @@ export function Mirador(props: MiradorProps) {
         });
       }
 
+      //Stop interval after 80 * 250ms = 20 seconds
       if (intervalCount > 80) {
         clearInterval(id);
       }
