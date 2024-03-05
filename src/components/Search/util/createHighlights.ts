@@ -10,7 +10,6 @@ export function createHighlights(
     text: new Map<string, string[]>(),
     exact: exactSearch,
   };
-  // const toHighlight = new Map<string, string[]>();
   if (!data) {
     return toHighlight;
   }
