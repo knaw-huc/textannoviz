@@ -170,6 +170,12 @@ export const Search = () => {
 
     const newParams = { ...params, indexName: projectConfig.elasticIndexName };
 
+    let exactSearch = false;
+
+    if (query.fullText.startsWith('"')) {
+      exactSearch = true;
+    }
+
     const searchResults = await sendSearchQuery(
       projectConfig,
       newParams,
@@ -183,7 +189,7 @@ export const Search = () => {
     setKeywordFacets(
       filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
     );
-    setTextToHighlight(createHighlights(searchResults));
+    setTextToHighlight(createHighlights(searchResults, exactSearch));
     const target = document.getElementById("searchContainer");
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });

@@ -2,8 +2,15 @@ import { SearchResult } from "../../../model/Search.ts";
 
 const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
-export function createHighlights(data: SearchResult): Map<string, string[]> {
-  const toHighlight = new Map<string, string[]>();
+export function createHighlights(
+  data: SearchResult,
+  exactSearch: boolean,
+): { text: Map<string, string[]>; exact: boolean } {
+  const toHighlight = {
+    text: new Map<string, string[]>(),
+    exact: exactSearch,
+  };
+  // const toHighlight = new Map<string, string[]>();
   if (!data) {
     return toHighlight;
   }
@@ -22,8 +29,10 @@ export function createHighlights(data: SearchResult): Map<string, string[]> {
         previews.push(...new Set(matches));
       }
     });
-    toHighlight.set(result._id, [...new Set(previews)]);
+    toHighlight.text.set(result._id, [...new Set(previews)]);
   });
+
+  console.log(toHighlight);
 
   return toHighlight;
 }
