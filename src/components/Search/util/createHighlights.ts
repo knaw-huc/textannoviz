@@ -31,7 +31,5 @@ export function createHighlights(
     toHighlight.text.set(result._id, [...new Set(previews)]);
   });
 
-  console.log(toHighlight);
-
   return toHighlight;
 }
