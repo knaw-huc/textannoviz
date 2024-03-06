@@ -4,7 +4,7 @@ const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
 export function createHighlights(data: SearchResult, exactSearch: boolean) {
   const toHighlight = {
-    text: new Map<string, string[]>(),
+    map: new Map<string, string[]>(),
     exact: exactSearch,
   };
   if (!data) {
@@ -25,7 +25,7 @@ export function createHighlights(data: SearchResult, exactSearch: boolean) {
         previews.push(...new Set(matches));
       }
     });
-    toHighlight.text.set(result._id, [...new Set(previews)]);
+    toHighlight.map.set(result._id, [...new Set(previews)]);
   });
 
   return toHighlight;

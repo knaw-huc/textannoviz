@@ -92,9 +92,9 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       <span className={collectClasses(index) + "w-fit"}>{line}</span>
     );
 
-    if (textToHighlight.text.size > 0 && params.tier2) {
-      if (textToHighlight.text.get(params.tier2)) {
-        const toHighlightStrings = textToHighlight.text.get(params.tier2);
+    if (textToHighlight.map.size > 0 && params.tier2) {
+      if (textToHighlight.map.get(params.tier2)) {
+        const toHighlightStrings = textToHighlight.map.get(params.tier2);
         const regexStrings = toHighlightStrings?.map((str) =>
           str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
         );
