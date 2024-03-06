@@ -34,6 +34,7 @@ export function Mirador(props: MiradorProps) {
     number | NodeJS.Timeout | null
   >(null);
   const setMiradorStore = useMiradorStore((state) => state.setStore);
+  const miradorStore = useMiradorStore((state) => state.miradorStore);
   const projectConfig = useProjectStore(projectConfigSelector);
   const showSvgsAnnosMirador = useAnnotationStore(
     (state) => state.showSvgsAnnosMirador,
@@ -42,6 +43,34 @@ export function Mirador(props: MiradorProps) {
     props.broccoliResult,
     projectConfig,
   );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function renderAnnosMirador(mirStore: any) {
+    visualizeAnnosMirador(
+      props.broccoliResult.anno,
+      mirStore,
+      props.broccoliResult.iiif.canvasIds[0],
+      projectConfig,
+    );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function clearAnnosMirador(mirStore: any) {
+    const iiifAnn: iiifAnn = {
+      "@id": projectConfig.id,
+      "@context": "http://iiif.io/api/presentation/2/context.json",
+      "@type": "sc:AnnotationList",
+      resources: [],
+    };
+
+    mirStore.dispatch(
+      mirador.actions.receiveAnnotation(
+        props.broccoliResult.iiif.canvasIds[0],
+        "annotation",
+        iiifAnn,
+      ),
+    );
+  }
 
   React.useEffect(() => {
     const viewer = mirador.viewer(miradorConfig);
@@ -64,29 +93,7 @@ export function Mirador(props: MiradorProps) {
         }
 
         if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
-          visualizeAnnosMirador(
-            props.broccoliResult.anno,
-            viewer.store,
-            props.broccoliResult.iiif.canvasIds[0],
-            projectConfig,
-          );
-        }
-
-        if (!showSvgsAnnosMirador) {
-          const iiifAnn: iiifAnn = {
-            "@id": projectConfig.id,
-            "@context": "http://iiif.io/api/presentation/2/context.json",
-            "@type": "sc:AnnotationList",
-            resources: [],
-          };
-
-          viewer.store.dispatch(
-            mirador.actions.receiveAnnotation(
-              props.broccoliResult.iiif.canvasIds[0],
-              "annotation",
-              iiifAnn,
-            ),
-          );
+          renderAnnosMirador(viewer.store);
         }
 
         clearInterval(id);
@@ -112,6 +119,16 @@ export function Mirador(props: MiradorProps) {
       }
     };
   }, [miradorConfig]);
+
+  React.useEffect(() => {
+    if (!showSvgsAnnosMirador && miradorStore) {
+      clearAnnosMirador(miradorStore);
+    }
+
+    if (showSvgsAnnosMirador && miradorStore) {
+      renderAnnosMirador(miradorStore);
+    }
+  }, [showSvgsAnnosMirador]);
 
   return (
     <div
