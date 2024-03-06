@@ -95,15 +95,15 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     if (textToHighlight.text.size > 0 && params.tier2) {
       if (textToHighlight.text.get(params.tier2)) {
         const toHighlightStrings = textToHighlight.text.get(params.tier2);
-        let regexString: string | undefined = "";
+        const regexStrings = toHighlightStrings?.map((str) =>
+          str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        );
+        let joinedRegexString: string | undefined = "";
+
         textToHighlight.exact
-          ? (regexString = toHighlightStrings
-              ?.map((str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-              .join("\\s"))
-          : (regexString = toHighlightStrings
-              ?.map((str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-              .join("|"));
-        const regex = new RegExp(`${regexString}`, "g");
+          ? (joinedRegexString = regexStrings?.join("\\s"))
+          : (joinedRegexString = regexStrings?.join("|"));
+        const regex = new RegExp(`${joinedRegexString}`, "g");
 
         projectName === "republic" || projectName === "globalise"
           ? (result = (
