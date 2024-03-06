@@ -4,7 +4,13 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import React from "react";
-import { Dialog, OverlayArrow, Popover, Switch } from "react-aria-components";
+import {
+  Dialog,
+  Heading,
+  OverlayArrow,
+  Popover,
+  Switch,
+} from "react-aria-components";
 import { useAnnotationStore } from "../stores/annotation";
 import {
   projectConfigSelector,
@@ -12,7 +18,6 @@ import {
   useProjectStore,
 } from "../stores/project";
 import { AnnotationButtons } from "./Annotations/AnnotationButtons";
-import { AnnotationsToHighlightFilter } from "./Annotations/AnnotationsToHighlightFilter";
 
 type FooterProps = {
   showIiifViewerHandler: () => void;
@@ -97,14 +102,15 @@ export const Footer = (props: FooterProps) => {
                 </svg>
               </OverlayArrow>
               <Dialog>
-                <div className="mb-8">
+                <Heading slot="title" className="mb-4 text-xl font-bold">
+                  Settings menu
+                </Heading>
+                {/* <div className="mb-8">
                   <AnnotationsToHighlightFilter />
-                </div>
+                </div> */}
                 <div>
                   <div className="flex w-full flex-row items-center gap-6">
-                    <p className="font-bold">
-                      Highlight annotations in IIIF viewer
-                    </p>
+                    <p>Highlight annotations in IIIF viewer</p>
                     <Switch
                       isSelected={showSvgsAnnosMirador}
                       onChange={() =>
