@@ -79,7 +79,6 @@ export function SearchForm(props: {
   }
 
   function updateDates(updates: { dateFrom: string; dateTo: string }) {
-    console.log(updates);
     setSearchQuery({
       ...searchQuery,
       dateFrom: updates.dateFrom,
