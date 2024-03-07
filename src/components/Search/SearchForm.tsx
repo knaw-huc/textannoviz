@@ -78,12 +78,13 @@ export function SearchForm(props: {
     setSearchQuery({ ...searchQuery, fullText: value });
   }
 
-  function updateDateTo(update: string) {
-    setSearchQuery({ ...searchQuery, dateTo: update });
-    onSearch();
-  }
-  function updateDateFrom(update: string) {
-    setSearchQuery({ ...searchQuery, dateFrom: update });
+  function updateDates(updates: { dateFrom: string; dateTo: string }) {
+    console.log(updates);
+    setSearchQuery({
+      ...searchQuery,
+      dateFrom: updates.dateFrom,
+      dateTo: updates.dateTo,
+    });
     onSearch();
   }
 
@@ -124,8 +125,7 @@ export function SearchForm(props: {
         <DateFacet
           dateFrom={searchQuery.dateFrom}
           dateTo={searchQuery.dateTo}
-          changeDateTo={updateDateTo}
-          changeDateFrom={updateDateFrom}
+          changeDates={updateDates}
         />
       )}
 
