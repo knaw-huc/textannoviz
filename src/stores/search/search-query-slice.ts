@@ -1,12 +1,12 @@
 import { StateCreator } from "zustand";
 import {
-  FacetNamesByType,
   Facet,
   FacetName,
+  FacetNamesByType,
+  FacetType,
   Facets,
   SearchQueryRequestBody,
   Terms,
-  FacetType,
 } from "../../model/Search.ts";
 
 /**
@@ -34,7 +34,6 @@ export const createSearchQuerySlice: StateCreator<
   SearchQuerySlice
 > = (set) => ({
   searchQuery: {
-    dateFacet: undefined,
     dateFrom: "",
     dateTo: "",
     fullText: "",

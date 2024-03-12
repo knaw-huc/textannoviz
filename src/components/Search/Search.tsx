@@ -83,7 +83,9 @@ export const Search = () => {
       const newFacets = await getFacets(projectConfig, signal);
       const newIndex = newIndices[projectConfig.elasticIndexName];
       const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
-      newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
+      if (!_.isEmpty(newDateFacets)) {
+        newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
+      }
       const newKeywordFacets = filterFacetsByType(
         newIndex,
         newFacets,

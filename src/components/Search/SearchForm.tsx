@@ -120,7 +120,7 @@ export function SearchForm(props: {
         />
       </div>
 
-      {projectConfig.showDateFacets && (
+      {projectConfig.showDateFacets && searchQuery.dateFacet && (
         <DateFacet
           dateFrom={searchQuery.dateFrom}
           dateTo={searchQuery.dateTo}
