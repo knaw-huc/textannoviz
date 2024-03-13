@@ -15,6 +15,7 @@ import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
 import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
+import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
 const searchFormClasses =
@@ -127,6 +128,8 @@ export function SearchForm(props: {
           changeDates={updateDates}
         />
       )}
+
+      <SliderFacet />
 
       {projectConfig.showKeywordFacets &&
         !_.isEmpty(keywordFacets) &&
