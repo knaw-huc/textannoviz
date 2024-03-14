@@ -11,18 +11,24 @@ import {
   useProjectStore,
 } from "../../stores/project";
 
-export const SliderFacet = () => {
+type SliderFacetProps = {
+  defaultValue: number | number[];
+  maxValue: number;
+};
+
+export const SliderFacet = (props: SliderFacetProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
-  const [value, setValue] = React.useState([500, 2000]);
-  const defaultSliderValue = [500, 2000];
+  const [value, setValue] = React.useState<number | number[]>(
+    props.defaultValue,
+  );
 
   return (
     <Slider
-      defaultValue={defaultSliderValue}
+      defaultValue={props.defaultValue}
       value={value}
       onChange={setValue}
       className="w-[450px]"
-      maxValue={3000}
+      maxValue={props.maxValue}
     >
       <div className="flex">
         <Label className="flex-1 font-bold">

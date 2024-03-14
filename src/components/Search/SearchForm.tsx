@@ -129,7 +129,7 @@ export function SearchForm(props: {
         />
       )}
 
-      <SliderFacet />
+      <SliderFacet defaultValue={500} maxValue={3000} />
 
       {projectConfig.showKeywordFacets &&
         !_.isEmpty(keywordFacets) &&
