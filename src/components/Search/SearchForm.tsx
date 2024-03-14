@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -37,6 +37,13 @@ export function SearchForm(props: {
     searchResults,
   } = useSearchStore();
 
+  const debouncedOnSearch = React.useCallback(
+    _.debounce(() => {
+      onSearch();
+    }, 250),
+    [],
+  );
+
   function updateKeywordFacet(
     facetName: string,
     facetOptionName: string,
@@ -61,7 +68,7 @@ export function SearchForm(props: {
     const newTerms = { ...searchQuery.terms };
     newTerms["wordCount"] = [newValue.toString()];
     setSearchQuery({ ...searchQuery, terms: newTerms });
-    onSearch();
+    debouncedOnSearch();
   }
 
   function goToQuery(query: SearchQuery) {
