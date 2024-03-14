@@ -143,11 +143,13 @@ export function SearchForm(props: {
         />
       )}
 
-      <SliderFacet
-        defaultValue={500}
-        maxValue={3000}
-        onChange={updateSliderFacet}
-      />
+      {projectConfig.showSliderFacets && (
+        <SliderFacet
+          defaultValue={500}
+          maxValue={3000}
+          onChange={updateSliderFacet}
+        />
+      )}
 
       {projectConfig.showKeywordFacets &&
         !_.isEmpty(keywordFacets) &&
