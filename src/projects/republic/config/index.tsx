@@ -34,7 +34,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
     "Resolution",
     "Reviewed",
   ],
-  elasticIndexName: "republic-2024.01.19",
+  elasticIndexName: "republic-wordcount",
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",
   logoImageUrl: logo,
