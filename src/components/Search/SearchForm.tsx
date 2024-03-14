@@ -57,6 +57,13 @@ export function SearchForm(props: {
     onSearch();
   }
 
+  function updateSliderFacet(newValue: number | number[]) {
+    const newTerms = { ...searchQuery.terms };
+    newTerms["wordCount"] = [newValue.toString()];
+    setSearchQuery({ ...searchQuery, terms: newTerms });
+    onSearch();
+  }
+
   function goToQuery(query: SearchQuery) {
     setSearchQuery(query);
     onSearch();
@@ -129,7 +136,11 @@ export function SearchForm(props: {
         />
       )}
 
-      <SliderFacet defaultValue={500} maxValue={3000} />
+      <SliderFacet
+        defaultValue={500}
+        maxValue={3000}
+        onChange={updateSliderFacet}
+      />
 
       {projectConfig.showKeywordFacets &&
         !_.isEmpty(keywordFacets) &&

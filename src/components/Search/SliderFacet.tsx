@@ -14,6 +14,7 @@ import {
 type SliderFacetProps = {
   defaultValue: number | number[];
   maxValue: number;
+  onChange: (newValue: number | number[]) => void;
 };
 
 /**
@@ -27,11 +28,16 @@ export const SliderFacet = (props: SliderFacetProps) => {
     props.defaultValue,
   );
 
+  const sliderOnChangeHandler = (newValue: number | number[]) => {
+    setValue(newValue);
+    props.onChange(newValue);
+  };
+
   return (
     <Slider
       defaultValue={props.defaultValue}
       value={value}
-      onChange={setValue}
+      onChange={(newValue) => sliderOnChangeHandler(newValue)}
       className="w-[450px]"
       maxValue={props.maxValue}
     >
