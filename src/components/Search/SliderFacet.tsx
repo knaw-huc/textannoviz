@@ -16,6 +16,11 @@ type SliderFacetProps = {
   maxValue: number;
 };
 
+/**
+ * {@link SliderFacetProps.defaultValue} is used to differentiate
+ * between single and multi thumb sliders.
+ * For single thumb slider, use "number"; for multi thumb sliders, use "number[]".
+ */
 export const SliderFacet = (props: SliderFacetProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
   const [value, setValue] = React.useState<number | number[]>(
