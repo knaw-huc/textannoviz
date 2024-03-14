@@ -6,20 +6,28 @@ import {
   SliderThumb,
   SliderTrack,
 } from "react-aria-components";
+import {
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 
 export const SliderFacet = () => {
+  const translateProject = useProjectStore(translateProjectSelector);
   const [value, setValue] = React.useState([500, 2000]);
+  const defaultSliderValue = [500, 2000];
 
   return (
     <Slider
-      defaultValue={value}
+      defaultValue={defaultSliderValue}
       value={value}
       onChange={setValue}
       className="w-[450px]"
       maxValue={3000}
     >
       <div className="flex">
-        <Label className="flex-1 font-bold">Min/max number of words</Label>
+        <Label className="flex-1 font-bold">
+          {translateProject("sliderFacetLabel")}
+        </Label>
         <SliderOutput>
           {({ state }) =>
             state.values.map((_, i) => state.getThumbValueLabel(i)).join(" – ")
