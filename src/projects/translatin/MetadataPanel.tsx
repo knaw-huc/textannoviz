@@ -15,7 +15,7 @@ export const MetadataPanel = (props: MetadataPanelProps) => {
   return (
     <>
       <ul className="m-0 list-none p-0">
-        {Object.entries(manifestationAnno?.body.metadata as TfLetterBody).map(
+        {Object.entries((manifestationAnno?.body as TfLetterBody).metadata).map(
           ([key, value], index) => (
             <li className="mb-8" key={index}>
               <div className="grid grid-cols-1">
