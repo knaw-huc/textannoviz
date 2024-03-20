@@ -4,7 +4,6 @@ import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
-import { dutchSurianoLabels } from "./dutchSurianoLabels";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
 export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
@@ -83,8 +82,5 @@ export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
   },
 
   selectedLanguage: "en",
-  languages: [
-    { code: "nl", labels: dutchSurianoLabels },
-    { code: "en", labels: englishSurianoLabels },
-  ],
+  languages: [{ code: "en", labels: englishSurianoLabels }],
 });

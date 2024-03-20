@@ -1,11 +1,11 @@
+import { ReactNode, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { LanguageCode, isValidLanguageCode } from "../model/Language.ts";
 import {
   projectConfigSelector,
   setProjectConfigSelector,
   useProjectStore,
 } from "../stores/project.ts";
-import { ReactNode, useEffect } from "react";
-import { isValidLanguageCode, LanguageCode } from "../model/Language.ts";
-import { useSearchParams } from "react-router-dom";
 
 const LANGUAGE_PARAM = "language";
 export function LanguageMenu() {
@@ -32,22 +32,23 @@ export function LanguageMenu() {
 
   return (
     <div className="languages ml-4 flex flex-row items-center gap-2">
-      {languages
-        .map<ReactNode>((l) => (
-          <LanguageIcon
-            key={l.code}
-            code={l.code}
-            selected={projectConfig.selectedLanguage === l.code}
-            onClick={(code) => {
-              searchParams.set(LANGUAGE_PARAM, code);
-              setSearchParams(searchParams);
-              const newConfig = { ...projectConfig };
-              newConfig.selectedLanguage = code;
-              setProjectConfig(projectConfig);
-            }}
-          />
-        ))
-        .reduce((prev, curr) => [prev, " | ", curr])}
+      {languages.length > 1 &&
+        languages
+          .map<ReactNode>((l) => (
+            <LanguageIcon
+              key={l.code}
+              code={l.code}
+              selected={projectConfig.selectedLanguage === l.code}
+              onClick={(code) => {
+                searchParams.set(LANGUAGE_PARAM, code);
+                setSearchParams(searchParams);
+                const newConfig = { ...projectConfig };
+                newConfig.selectedLanguage = code;
+                setProjectConfig(projectConfig);
+              }}
+            />
+          ))
+          .reduce((prev, curr) => [prev, " | ", curr])}
     </div>
   );
 }
