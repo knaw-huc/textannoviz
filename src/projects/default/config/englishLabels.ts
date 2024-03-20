@@ -18,7 +18,7 @@ export const englishLabels: Labels = {
   SNIPPET: "Snippet",
   SORT_BY: "Sort by",
   TEXT: "Text",
-  UP_TO_AND_INCLUDING: "Up to and including",
+  UP_TO_AND_INCLUDING: "To",
   FULL_TEXT_SEARCH: "Full text search",
   PRESS_ENTER_TO_SEARCH: "Press ENTER to search",
   RESULTS: "Results",
