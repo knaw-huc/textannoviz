@@ -76,6 +76,7 @@ export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
+  showKeywordFacets: false,
   components: {
     SearchItem,
     MetadataPanel,
