@@ -1,4 +1,4 @@
-import mirador from "mirador-knaw-huc-mui5";
+import mirador from "mirador";
 import React from "react";
 import { iiifAnn } from "../../model/AnnoRepoAnnotation";
 import { Broccoli } from "../../model/Broccoli";
@@ -30,9 +30,6 @@ const createMiradorConfig = (
 };
 
 export function Mirador(props: MiradorProps) {
-  const [intervalId, setIntervalId] = React.useState<
-    number | NodeJS.Timeout | null
-  >(null);
   const setMiradorStore = useMiradorStore((state) => state.setStore);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -73,51 +70,17 @@ export function Mirador(props: MiradorProps) {
   }
 
   React.useEffect(() => {
+    console.log("MIRADOR EFFECT");
     const viewer = mirador.viewer(miradorConfig);
     setMiradorStore(viewer.store);
 
-    let intervalCount = 0;
+    if (projectConfig.zoomAnnoMirador) {
+      zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
+    }
 
-    /* 
-    Hack to make sure that Mirador is actually initialised.
-    Only after Mirador is initialised, TAV should interact with it.
-    */
-    const id = setInterval(() => {
-      intervalCount += 1;
-      if (
-        viewer.store.getState().viewers[projectConfig.id]?.x &&
-        typeof viewer.store.getState().viewers[projectConfig.id].x === "number"
-      ) {
-        if (projectConfig.zoomAnnoMirador) {
-          zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
-        }
-
-        if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
-          renderAnnosMirador(viewer.store);
-        }
-
-        clearInterval(id);
-        setIntervalId((prevId) => {
-          if (prevId !== null) {
-            clearInterval(prevId);
-          }
-          return null;
-        });
-      }
-
-      //Stop interval after 80 * 250ms = 20 seconds
-      if (intervalCount > 80) {
-        clearInterval(id);
-      }
-    }, 250);
-
-    setIntervalId((prevId) => (prevId !== null ? prevId : id));
-
-    return () => {
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-      }
-    };
+    if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
+      renderAnnosMirador(viewer.store);
+    }
   }, [miradorConfig]);
 
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import mirador from "mirador-knaw-huc-mui5";
+import mirador from "mirador";
 import {
   AnnoRepoAnnotation,
   iiifAnn,

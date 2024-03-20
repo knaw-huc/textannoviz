@@ -1,4 +1,4 @@
-import mirador from "mirador-knaw-huc-mui5";
+import mirador from "mirador";
 import { Broccoli } from "../../model/Broccoli";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { zoomCoordsMirador } from "../../utils/zoomCoordsMirador";

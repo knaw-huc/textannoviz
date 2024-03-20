@@ -19,7 +19,7 @@
     "immer": "^9.0.21",
     "js-base64": "^3.7.7",
     "lodash": "^4.17.21",
-    "mirador-knaw-huc-mui5": "^3.3.1",
+    "mirador": "^4.0.0-alpha.1",
     "primereact": "^10.5.1",
     "react": "^18.2.0",
     "react-aria-components": "^1.1.1",
