@@ -117,7 +117,7 @@ export const Detail = (props: DetailProps) => {
                 : null}
             </div>
 
-            {showIiifViewer ? (
+            {showIiifViewer && props.config.showMirador ? (
               <Mirador broccoliResult={broccoliResult} />
             ) : null}
             <TextComponent
