@@ -6,6 +6,7 @@ import { defaultConfig } from "../../default/config";
 export const hooftConfig: ProjectConfig = _.merge({}, defaultConfig, {
   id: "hooft",
   relativeTo: "File",
+  //Possible: ["Dataset","File","Letter"]
   annotationTypesToInclude: ["Letter", "File"],
   elasticIndexName: "letters-2024-03-20",
   initialDateFrom: "1500-01-01",
