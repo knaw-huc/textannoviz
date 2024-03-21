@@ -27,6 +27,9 @@ export default defineConfig(({ mode }) => {
     case "suriano":
       tailwindConfig = "tailwind.config.suriano.js";
       break;
+    case "hooft":
+      tailwindConfig = "tailwind.config.hooft.js";
+      break;
     default:
       tailwindConfig = "tailwind.config.js";
   }
