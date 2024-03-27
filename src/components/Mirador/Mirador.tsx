@@ -30,9 +30,6 @@ const createMiradorConfig = (
 };
 
 export function Mirador(props: MiradorProps) {
-  const [intervalId, setIntervalId] = React.useState<
-    number | NodeJS.Timeout | null
-  >(null);
   const setMiradorStore = useMiradorStore((state) => state.setStore);
   const miradorStore = useMiradorStore((state) => state.miradorStore);
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -76,47 +73,45 @@ export function Mirador(props: MiradorProps) {
     const viewer = mirador.viewer(miradorConfig);
     setMiradorStore(viewer.store);
 
+    const INIT_CHECK_INTERVAL_MS = 250;
+    const MAX_INIT_ATTEMPTS = 80;
     let intervalCount = 0;
 
     /* 
     Hack to make sure that Mirador is actually initialised.
     Only after Mirador is initialised, TAV should interact with it.
     */
-    const id = setInterval(() => {
+    function checkViewerInitialisation() {
+      const state = viewer.store.getState();
+      const isViewerInitialised: boolean | undefined =
+        state.viewers[projectConfig.id]?.x &&
+        typeof state.viewers[projectConfig.id].x === "number";
+
+      if (isViewerInitialised) {
+        performPostInitialisationActions();
+        clearInterval(initialisationCheckInterval);
+      } else if (intervalCount > MAX_INIT_ATTEMPTS) {
+        clearInterval(initialisationCheckInterval);
+      }
       intervalCount += 1;
-      if (
-        viewer.store.getState().viewers[projectConfig.id]?.x &&
-        typeof viewer.store.getState().viewers[projectConfig.id].x === "number"
-      ) {
-        if (projectConfig.zoomAnnoMirador) {
-          zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
-        }
+    }
 
-        if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
-          renderAnnosMirador(viewer.store);
-        }
-
-        clearInterval(id);
-        setIntervalId((prevId) => {
-          if (prevId !== null) {
-            clearInterval(prevId);
-          }
-          return null;
-        });
+    const performPostInitialisationActions = () => {
+      if (projectConfig.zoomAnnoMirador) {
+        zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
       }
 
-      //Stop interval after 80 * 250ms = 20 seconds
-      if (intervalCount > 80) {
-        clearInterval(id);
+      if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
+        renderAnnosMirador(viewer.store);
       }
-    }, 250);
+    };
 
-    setIntervalId((prevId) => (prevId !== null ? prevId : id));
+    const initialisationCheckInterval = setInterval(() => {
+      checkViewerInitialisation();
+    }, INIT_CHECK_INTERVAL_MS);
 
     return () => {
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-      }
+      clearInterval(initialisationCheckInterval);
     };
   }, [miradorConfig]);
 
