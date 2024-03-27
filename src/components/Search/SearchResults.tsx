@@ -43,6 +43,8 @@ export function SearchResults(props: {
   );
   const [graphTo] = React.useState(projectConfig.initialDateTo.split("-")[0]);
   const [showHistogram, setShowHistogram] = React.useState(true);
+  const queryHistory = useSearchStore((state) => state.searchQueryHistory);
+  const [histogramZoomed, setHistogramZoomed] = React.useState(false);
 
   function updateSorting(sorting: Sorting) {
     setSearchUrlParams({
@@ -116,6 +118,7 @@ export function SearchResults(props: {
   }
 
   function filterDateQuery(event: CategoricalChartState) {
+    setHistogramZoomed(true);
     const newYear = event.activeLabel;
 
     setSearchQuery({
@@ -123,6 +126,21 @@ export function SearchResults(props: {
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
     });
+    onSearch();
+  }
+
+  function returnToPrevDateRange() {
+    if (queryHistory.length < 2) return;
+    const prevQuery = queryHistory[queryHistory.length - 2];
+
+    setHistogramZoomed(false);
+
+    setSearchQuery({
+      ...searchQuery,
+      dateFrom: prevQuery.dateFrom,
+      dateTo: prevQuery.dateTo,
+    });
+
     onSearch();
   }
 
@@ -190,6 +208,8 @@ export function SearchResults(props: {
           <HistogramControls
             graphTypeButtonClickHandler={graphTypeButtonClickHandler}
             showHistogramButtonClickHandler={showHistogramButtonClickHandler}
+            returnToPrevDateRange={returnToPrevDateRange}
+            histogramZoomed={histogramZoomed}
           />
           <Histogram
             searchResults={searchResults}
