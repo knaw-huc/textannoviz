@@ -113,7 +113,7 @@ export function Mirador(props: MiradorProps) {
     return () => {
       clearInterval(initialisationCheckInterval);
     };
-  }, [miradorConfig]);
+  }, [miradorConfig, projectConfig, props.broccoliResult]);
 
   React.useEffect(() => {
     if (!showSvgsAnnosMirador && miradorStore) {
