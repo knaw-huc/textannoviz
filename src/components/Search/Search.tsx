@@ -44,7 +44,6 @@ export const Search = () => {
     setSearchQuery,
     setSearchResults,
     setTextToHighlight,
-    searchQueryHistory,
     updateSearchQueryHistory,
     resetPage,
   } = useSearchStore();
@@ -145,12 +144,8 @@ export const Search = () => {
     }
 
     async function searchWhenDirty() {
-      const inHistory = searchQueryHistory.some((q) =>
-        _.isEqual(q, searchQuery),
-      );
-      if (!inHistory) {
-        updateSearchQueryHistory(searchQuery);
-      }
+      updateSearchQueryHistory(searchQuery);
+
       await getSearchResults(index, searchUrlParams, searchQuery, signal);
       setDirty(false);
     }
