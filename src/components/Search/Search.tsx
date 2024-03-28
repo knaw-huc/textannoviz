@@ -1,9 +1,8 @@
 import { Base64 } from "js-base64";
-import * as _ from "lodash";
+import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ProjectConfig } from "../../model/ProjectConfig.ts";
 import { FacetNamesByType } from "../../model/Search";
 import {
   projectConfigSelector,
@@ -25,8 +24,9 @@ import {
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
-import { QUERY } from "./SearchUrlParams.ts";
 import { createHighlights } from "./util/createHighlights.ts";
+import { getFacets } from "./util/getFacets.ts";
+import { getUrlQuery } from "./util/getUrlQuery.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -82,7 +82,7 @@ export const Search = () => {
       const newFacets = await getFacets(projectConfig, signal);
       const newIndex = newIndices[projectConfig.elasticIndexName];
       const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
-      if (!_.isEmpty(newDateFacets)) {
+      if (!isEmpty(newDateFacets)) {
         newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
       }
       const newKeywordFacets = filterFacetsByType(
@@ -113,6 +113,7 @@ export const Search = () => {
     };
   }, []);
 
+  //THIS ONE IS RUN MULTIPLE TIMES
   useEffect(() => {
     syncUrlWithSearchParams();
 
@@ -193,30 +194,12 @@ export const Search = () => {
     }
   }
 
-  function getUrlQuery(urlParams: URLSearchParams): Partial<SearchQuery> {
-    const queryEncoded = urlParams.get(QUERY);
-    return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
-  }
-
   function handleNewSearch(stayOnPage?: boolean) {
     if (!stayOnPage) {
       resetPage();
     }
     setDirty(true);
     setShowingResults(true);
-  }
-
-  async function getFacets(projectConfig: ProjectConfig, signal: AbortSignal) {
-    const searchResults = await sendSearchQuery(
-      projectConfig,
-      { size: 0, indexName: projectConfig.elasticIndexName },
-      {},
-      signal,
-    );
-    if (!searchResults?.aggs) {
-      throw new Error("No facet request result");
-    }
-    return searchResults.aggs;
   }
 
   return (
