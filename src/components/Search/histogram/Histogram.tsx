@@ -1,18 +1,8 @@
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { SearchResult } from "../../../model/Search";
 import { createIndices } from "../../../utils/createIndices";
+import { BarChartHistogram } from "./BarChartHistogram";
+import { LineChartHistogram } from "./LineChartHistogram";
 
 type HistogramProps = {
   searchResults: SearchResult;
@@ -24,7 +14,7 @@ type HistogramProps = {
   filterDateQuery: (event: CategoricalChartState) => void;
 };
 
-type HitsYear = {
+export type HitsYear = {
   name: string;
   count: number;
   year: number;
@@ -81,45 +71,16 @@ export const Histogram = (props: HistogramProps) => {
   return (
     <>
       {props.graphType === "bar" ? (
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart
-            width={500}
-            height={300}
-            data={hitsYear}
-            margin={{ right: 30, bottom: 10 }}
-            barCategoryGap="1%"
-            onClick={(event) => props.filterDateQuery(event)}
-          >
-            <CartesianGrid strokeDasharray="1 6" />
-            <XAxis dataKey="year" />
-            <YAxis dataKey="count" allowDecimals={false} />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="count" name="Occurrences per year" fill="#8884d8" />
-          </BarChart>
-        </ResponsiveContainer>
+        <BarChartHistogram
+          hitsYear={hitsYear}
+          filterDateQuery={props.filterDateQuery}
+        />
       ) : null}
       {props.graphType === "line" ? (
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart
-            width={500}
-            height={300}
-            data={hitsYear}
-            margin={{ right: 30, bottom: 10 }}
-            onClick={(event) => props.filterDateQuery(event)}
-          >
-            <CartesianGrid strokeDasharray="1 6" />
-            <XAxis dataKey="year" />
-            <YAxis dataKey="count" allowDecimals={false} />
-            <Tooltip />
-            <Legend />
-            <Line
-              dataKey="count"
-              name="Occurrences per year"
-              stroke="#8884d8"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <LineChartHistogram
+          hitsYear={hitsYear}
+          filterDateQuery={props.filterDateQuery}
+        />
       ) : null}
     </>
   );
