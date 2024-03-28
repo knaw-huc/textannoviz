@@ -104,6 +104,14 @@ export function Mirador(props: MiradorProps) {
       if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
         renderAnnosMirador(viewer.store);
       }
+
+      //Remove Mirador navigation buttons based on project config
+      if (!projectConfig.showMiradorNavigationButtons) {
+        const target = document.getElementsByClassName(
+          "mirador-osd-navigation",
+        );
+        target[0].remove();
+      }
     };
 
     const initialisationCheckInterval = setInterval(() => {

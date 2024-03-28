@@ -46,6 +46,7 @@ export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
   useExternalConfig: true,
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
+  showMiradorNavigationButtons: true,
   components: {
     MetadataPanel,
     SearchItem,

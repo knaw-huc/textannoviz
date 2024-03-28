@@ -47,6 +47,7 @@ export const defaultConfig: Omit<
   visualizeAnnosMirador: false,
   allowEmptyStringSearch: true,
   showMirador: true,
+  showMiradorNavigationButtons: false,
   histogramFacet: "",
   components: {
     AnnotationItem: AnnotationItem,

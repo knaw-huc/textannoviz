@@ -364,10 +364,6 @@ input[type="search"] {
   padding: 30px;
 }
 
-.mirador-osd-navigation {
-  display: none;
-}
-
 .react-aria-Switch {
   display: flex;
   align-items: center;

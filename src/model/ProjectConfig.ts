@@ -50,6 +50,7 @@ export type ProjectConfig = {
   visualizeAnnosMirador: boolean;
   allowEmptyStringSearch: boolean;
   showMirador: boolean;
+  showMiradorNavigationButtons: boolean;
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {
