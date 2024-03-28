@@ -8,9 +8,9 @@ export const hooftConfig: ProjectConfig = _.merge({}, defaultConfig, {
   relativeTo: "File",
   //Possible: ["Dataset","File","Letter"]
   annotationTypesToInclude: ["Letter", "File"],
-  annotationTypesToHighlight: ["Dataset"],
-  allowedAnnotationTypesToHighlight: ["Dataset"],
-  elasticIndexName: "letters-2024-03-20",
+  // annotationTypesToHighlight: ["Dataset"],
+  // allowedAnnotationTypesToHighlight: ["Dataset"],
+  elasticIndexName: "letters-2024-03-28",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
   logoImageUrl: logo,

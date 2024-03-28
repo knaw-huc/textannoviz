@@ -38,9 +38,9 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   }, [annotations, annotationTypesToHighlight]);
 
   props.text.lines.map((token) => {
-    // if (token.charAt(0) === "\n") {
-    //   textLinesToDisplay.push([]);
-    // }
+    if (token.charAt(0) === "\n") {
+      textLinesToDisplay.push([]);
+    }
     textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
   });
 
