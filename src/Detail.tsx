@@ -4,16 +4,9 @@ import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
 import { Footer } from "./components/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
-import { SearchItem } from "./components/Search/SearchItem";
 import { TextComponent } from "./components/Text/TextComponent";
 import { Broccoli } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
-import {
-  GlobaliseSearchResultsBody,
-  MondriaanSearchResultsBody,
-  RepublicSearchResultBody,
-  TranslatinSearchResultsBody,
-} from "./model/Search";
 import { useAnnotationStore } from "./stores/annotation";
 import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
@@ -100,23 +93,6 @@ export const Detail = (props: DetailProps) => {
       {broccoliResult ? (
         <>
           <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
-            <div className="h-full overflow-auto">
-              {showSearchResults
-                ? globalSearchResults && globalSearchResults.results.length >= 1
-                  ? globalSearchResults.results.map(
-                      (
-                        result:
-                          | RepublicSearchResultBody
-                          | TranslatinSearchResultsBody
-                          | MondriaanSearchResultsBody
-                          | GlobaliseSearchResultsBody,
-                        index: number,
-                      ) => <SearchItem key={index} result={result} />,
-                    )
-                  : null
-                : null}
-            </div>
-
             {showIiifViewer && props.config.showMirador ? (
               <Mirador broccoliResult={broccoliResult} />
             ) : null}
