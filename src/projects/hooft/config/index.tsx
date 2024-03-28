@@ -17,4 +17,5 @@ export const hooftConfig: ProjectConfig = _.merge({}, defaultConfig, {
   headerTitle: "Brieven van Hooft",
   showSearchResultsButtonFooter: false,
   showMirador: false,
+  useExternalConfig: true,
 });
