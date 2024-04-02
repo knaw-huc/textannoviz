@@ -53,7 +53,7 @@ export const TextComponent = (props: TextComponentProps) => {
             closePanelHandler={closePanelHandler}
           />
         ) : (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 pl-2 pt-2">
             <Skeleton className="h-4 w-64 rounded-lg" />
             <Skeleton className="h-4 w-96 rounded-lg" />
             <Skeleton className="h-4 w-48 rounded-lg" />
