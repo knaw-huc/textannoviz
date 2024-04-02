@@ -96,7 +96,7 @@ export function Mirador(props: MiradorProps) {
       intervalCount += 1;
     }
 
-    const performPostInitialisationActions = () => {
+    function performPostInitialisationActions() {
       if (projectConfig.zoomAnnoMirador) {
         zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
       }
@@ -112,7 +112,7 @@ export function Mirador(props: MiradorProps) {
         );
         target[0].remove();
       }
-    };
+    }
 
     const initialisationCheckInterval = setInterval(() => {
       checkViewerInitialisation();
