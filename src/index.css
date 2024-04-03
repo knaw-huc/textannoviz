@@ -349,6 +349,21 @@ input[type="search"] {
   cursor: pointer;
 }
 
+input:invalid {
+  border: none;
+  outline: 1px solid red;
+}
+
+input:invalid + span::after {
+  content: "✖";
+  color: red;
+}
+
+input:valid + span::after {
+  content: "✓";
+  color: green;
+}
+
 .react-aria-Popover {
   /* border: 1px solid black; */
   box-shadow: 0 8px 20px rgba(0 0 0 / 0.1);

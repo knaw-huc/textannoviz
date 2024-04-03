@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { ChangeEvent } from "react";
+import React from "react";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -27,6 +27,8 @@ export function SearchForm(props: {
   const { keywordFacets, onSearch } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const queryHistory = useSearchStore((state) => state.searchQueryHistory);
+  const [isFromDateValid, setIsFromDateValid] = React.useState(true);
+  const [isToDateValid, setIsToDateValid] = React.useState(true);
 
   const {
     searchUrlParams,
@@ -61,7 +63,7 @@ export function SearchForm(props: {
     onSearch();
   }
 
-  const updateFragmenter = (event: ChangeEvent<HTMLSelectElement>) => {
+  const updateFragmenter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (!event.currentTarget.value) {
       return;
     }
@@ -78,13 +80,37 @@ export function SearchForm(props: {
     setSearchQuery({ ...searchQuery, fullText: value });
   }
 
-  function updateDates(updates: { dateFrom: string; dateTo: string }) {
+  function resetDates(update: { dateFrom: string; dateTo: string }) {
     setSearchQuery({
       ...searchQuery,
-      dateFrom: updates.dateFrom,
-      dateTo: updates.dateTo,
+      dateFrom: update.dateFrom,
+      dateTo: update.dateTo,
     });
     onSearch();
+  }
+
+  function fromDateChangeHandler(newFromDate: string, valid: boolean) {
+    setIsFromDateValid(valid);
+    setSearchQuery({
+      ...searchQuery,
+      dateFrom: newFromDate,
+    });
+
+    if (valid && isToDateValid) {
+      onSearch();
+    }
+  }
+
+  function toDateChangeHandler(newToDate: string, valid: boolean) {
+    setIsToDateValid(valid);
+    setSearchQuery({
+      ...searchQuery,
+      dateTo: newToDate,
+    });
+
+    if (valid && isFromDateValid) {
+      onSearch();
+    }
   }
 
   return (
@@ -124,7 +150,9 @@ export function SearchForm(props: {
         <DateFacet
           dateFrom={searchQuery.dateFrom}
           dateTo={searchQuery.dateTo}
-          changeDates={updateDates}
+          resetDates={resetDates}
+          fromDateChangeHandler={fromDateChangeHandler}
+          toDateChangeHandler={toDateChangeHandler}
         />
       )}
 
