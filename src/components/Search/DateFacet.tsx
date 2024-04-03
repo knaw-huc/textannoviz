@@ -27,14 +27,17 @@ export function DateFacet(props: DateFacetProps) {
   }
 
   function fromDateChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    props.fromDateChangeHandler(
-      event.target.value,
-      event.target.validity.valid,
-    );
+    const newFromDate = event.target.value;
+    const isValid = event.target.validity.valid;
+
+    props.fromDateChangeHandler(newFromDate, isValid);
   }
 
   function toDateChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    props.toDateChangeHandler(event.target.value, event.target.validity.valid);
+    const newToDate = event.target.value;
+    const isValid = event.target.validity.valid;
+
+    props.toDateChangeHandler(newToDate, isValid);
   }
 
   return (

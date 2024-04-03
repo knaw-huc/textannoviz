@@ -91,26 +91,26 @@ export function SearchForm(props: SearchFormProps) {
     onSearch();
   }
 
-  function fromDateChangeHandler(newFromDate: string, valid: boolean) {
-    setIsFromDateValid(valid);
+  function fromDateChangeHandler(newFromDate: string, isValid: boolean) {
+    setIsFromDateValid(isValid);
     setSearchQuery({
       ...searchQuery,
       dateFrom: newFromDate,
     });
 
-    if (valid && isToDateValid) {
+    if (isValid && isToDateValid) {
       onSearch();
     }
   }
 
-  function toDateChangeHandler(newToDate: string, valid: boolean) {
-    setIsToDateValid(valid);
+  function toDateChangeHandler(newToDate: string, isValid: boolean) {
+    setIsToDateValid(isValid);
     setSearchQuery({
       ...searchQuery,
       dateTo: newToDate,
     });
 
-    if (valid && isFromDateValid) {
+    if (isValid && isFromDateValid) {
       onSearch();
     }
   }
