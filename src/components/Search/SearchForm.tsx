@@ -17,13 +17,15 @@ import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
+type SearchFormProps = {
+  onSearch: (stayOnPage?: boolean) => void;
+  keywordFacets: FacetEntry[];
+};
+
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
 
-export function SearchForm(props: {
-  onSearch: (stayOnPage?: boolean) => void;
-  keywordFacets: FacetEntry[];
-}) {
+export function SearchForm(props: SearchFormProps) {
   const { keywordFacets, onSearch } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const queryHistory = useSearchStore((state) => state.searchQueryHistory);
