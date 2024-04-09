@@ -58,6 +58,7 @@ export type MondriaanSearchResultsBody = {
 export type GlobaliseSearchResultsBody = {
   _id: string;
   document: string;
+  invNr: string;
   _hits: {
     text: string[];
   };

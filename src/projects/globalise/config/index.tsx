@@ -21,7 +21,7 @@ export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
   annotationTypesToInclude: ["px:Page"],
   // annotationTypesToHighlight: ["px:Page"],
   // allowedAnnotationTypesToHighlight: ["px:Page"],
-  elasticIndexName: "docs",
+  elasticIndexName: "docs-2024-03-18",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
   showSearchSortBy: false,
