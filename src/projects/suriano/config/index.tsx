@@ -71,7 +71,7 @@ export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   logoImageUrl: logo,
-  headerTitle: "The Correspondence of Christophoro Suriano",
+  headerTitle: "The Correspondence of Christofforo Suriano",
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
