@@ -72,6 +72,12 @@ export function SearchResults(props: {
     await selectPage(newFrom);
   }
 
+  async function jumpToPage(page: number) {
+    const newFrom = (page - 1) * searchUrlParams.size;
+    if (!searchResults || newFrom >= searchResults.total.value) return;
+    await selectPage(newFrom);
+  }
+
   async function selectPage(newFrom: number) {
     setSearchUrlParams({
       ...searchUrlParams,
@@ -201,6 +207,7 @@ export function SearchResults(props: {
             pageNumber={pageNumber}
             searchResult={searchResults}
             elasticSize={pageSize}
+            jumpToPage={jumpToPage}
           />
         )}
       </div>
@@ -235,6 +242,7 @@ export function SearchResults(props: {
           pageNumber={pageNumber}
           searchResult={searchResults}
           elasticSize={pageSize}
+          jumpToPage={jumpToPage}
         />
       )}
     </>
