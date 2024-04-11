@@ -1,7 +1,7 @@
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
-import { ASC, DESC, FacetName, SortOrder } from "../../model/Search.ts";
 import { ChangeEvent } from "react";
 import { toast } from "react-toastify";
+import { ASC, DESC, FacetName, SortOrder } from "../../model/Search.ts";
+import { translateSelector, useProjectStore } from "../../stores/project.ts";
 
 export type Sorting = {
   field: string;
@@ -41,7 +41,7 @@ export const SearchSorting = (props: SearchSortByProps) => {
   function handleDateSorting(selectedOrder: SortOrder) {
     const dateFacet = props.dateFacet;
     if (!dateFacet) {
-      toast("No dace facets to sort by");
+      toast("No date facets to sort by");
       props.onSort(defaultSorting);
       return;
     }
