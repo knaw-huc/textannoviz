@@ -1,4 +1,7 @@
-import * as _ from "lodash";
+import isBoolean from "lodash/isBoolean";
+import isNumber from "lodash/isNumber";
+import mapValues from "lodash/mapValues";
+import toNumber from "lodash/toNumber";
 import { URLSearchParamsInit } from "react-router-dom";
 
 /**
@@ -18,9 +21,9 @@ export function getFromUrlParams<T extends object>(
       if (!urlValue) {
         return [k, v];
       }
-      if (_.isNumber(v)) {
-        return [k, _.toNumber(urlValue)];
-      } else if (_.isBoolean(v)) {
+      if (isNumber(v)) {
+        return [k, toNumber(urlValue)];
+      } else if (isBoolean(v)) {
         return [k, urlValue === "true"];
       } else {
         return [k, urlValue];
@@ -39,6 +42,6 @@ export function addToUrlParams<T extends object>(
 ): URLSearchParamsInit {
   return {
     ...urlParams,
-    ..._.mapValues(toAdd, (v) => `${v}`),
+    ...mapValues(toAdd, (v) => `${v}`),
   };
 }

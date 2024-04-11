@@ -1,4 +1,5 @@
-import * as _ from "lodash";
+import isEmpty from "lodash/isEmpty";
+import keys from "lodash/keys";
 import React, { ChangeEvent, ReactNode } from "react";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
@@ -173,13 +174,13 @@ export function SearchResults(props: {
         </div>
       </div>
       <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10 pb-8">
-        {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && (
+        {projectConfig.showSelectedFilters && !isEmpty(keywordFacets) && (
           <>
             <span className="text-brand1Grey-600 text-sm">
               {translate("FILTERS")}:{" "}
             </span>
             {keywordFacets.map(([facet, facetOptions]) =>
-              _.keys(facetOptions)
+              keys(facetOptions)
                 .filter((option) => searchQuery.terms[facet]?.includes(option))
                 .map((option, i) => (
                   <KeywordFacetLabel

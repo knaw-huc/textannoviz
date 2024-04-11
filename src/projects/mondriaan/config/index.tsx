@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
@@ -8,7 +8,7 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishMondriaanLabels } from "./englishMondriaanLabels.ts";
 
-export const mondriaanConfig: ProjectConfig = _.merge({}, defaultConfig, {
+export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "mondriaan",
   relativeTo: "tf:Letter",
   annotationTypesToInclude: [

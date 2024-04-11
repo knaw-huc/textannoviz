@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
@@ -6,7 +6,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
 
-export const translatinConfig: ProjectConfig = _.merge({}, defaultConfig, {
+export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
   relativeTo: "tl:Manifestation",
   annotationTypesToInclude: [

@@ -1,9 +1,9 @@
-import * as _ from "lodash";
+import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 
-export const hooftConfig: ProjectConfig = _.merge({}, defaultConfig, {
+export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "hooft",
   relativeTo: "File",
   //Possible: ["Dataset","File","Letter"]

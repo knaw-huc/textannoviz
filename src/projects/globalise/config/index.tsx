@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import merge from "lodash/merge";
 import logo from "../../../assets/G-1.png";
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { defaultConfig } from "../../default/config";
@@ -9,7 +9,7 @@ import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishGlobaliseLabels } from "./englishGlobaliseLabels.ts";
 
-export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
+export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "globalise",
   broccoliUrl: "https://gloccoli.tt.di.huc.knaw.nl",
   colours: {

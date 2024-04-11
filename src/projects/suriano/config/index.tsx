@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
@@ -6,7 +6,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
-export const surianoConfig: ProjectConfig = _.merge({}, defaultConfig, {
+export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
   relativeTo: "tf:File",
   annotationTypesToInclude: [

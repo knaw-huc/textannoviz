@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
@@ -7,7 +7,7 @@ import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
-export const republicConfig: ProjectConfig = _.merge({}, defaultConfig, {
+export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
   colours: {
     resolution: "green",

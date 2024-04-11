@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import isEmpty from "lodash/isEmpty";
 import React from "react";
 import {
   projectConfigSelector,
@@ -159,7 +159,7 @@ export function SearchForm(props: SearchFormProps) {
       )}
 
       {projectConfig.showKeywordFacets &&
-        !_.isEmpty(keywordFacets) &&
+        !isEmpty(keywordFacets) &&
         props.keywordFacets.map(([facetName, facetValue], i) => (
           <KeywordFacet
             key={i}
