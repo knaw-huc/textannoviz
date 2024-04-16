@@ -38,7 +38,7 @@ export const SliderFacet = (props: SliderFacetProps) => {
       defaultValue={props.defaultValue}
       value={value}
       onChange={(newValue) => sliderOnChangeHandler(newValue)}
-      className="w-[450px]"
+      className="max-w-[450px]"
       maxValue={props.maxValue}
     >
       <div className="flex">
