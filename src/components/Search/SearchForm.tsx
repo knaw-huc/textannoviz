@@ -1,3 +1,4 @@
+import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import React from "react";
 import {
@@ -42,7 +43,7 @@ export function SearchForm(props: SearchFormProps) {
   } = useSearchStore();
 
   const debouncedOnSearch = React.useCallback(
-    _.debounce(() => {
+    debounce(() => {
       onSearch();
     }, 250),
     [],
