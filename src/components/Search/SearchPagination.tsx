@@ -36,6 +36,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
 
   function renderPageNumberInput() {
     return (
+      //BUG: remove contents input > you get "NaN"
       <input
         className="border-brand1Grey-700 mr-2 w-16 rounded border bg-white px-2 py-1 text-sm"
         value={pageNumber}
