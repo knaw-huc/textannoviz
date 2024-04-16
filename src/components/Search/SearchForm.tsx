@@ -15,6 +15,7 @@ import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
 import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
+import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
 type SearchFormProps = {
@@ -40,6 +41,13 @@ export function SearchForm(props: SearchFormProps) {
     searchResults,
   } = useSearchStore();
 
+  const debouncedOnSearch = React.useCallback(
+    _.debounce(() => {
+      onSearch();
+    }, 250),
+    [],
+  );
+
   function updateKeywordFacet(
     facetName: string,
     facetOptionName: string,
@@ -58,6 +66,13 @@ export function SearchForm(props: SearchFormProps) {
     }
     setSearchQuery({ ...searchQuery, terms: newTerms });
     onSearch();
+  }
+
+  function updateSliderFacet(newValue: number | number[]) {
+    const newTerms = { ...searchQuery.terms };
+    newTerms["wordCount"] = [newValue.toString()];
+    setSearchQuery({ ...searchQuery, terms: newTerms });
+    debouncedOnSearch();
   }
 
   function goToQuery(query: SearchQuery) {
@@ -155,6 +170,14 @@ export function SearchForm(props: SearchFormProps) {
           resetDates={resetDates}
           fromDateChangeHandler={fromDateChangeHandler}
           toDateChangeHandler={toDateChangeHandler}
+        />
+      )}
+
+      {projectConfig.showSliderFacets && (
+        <SliderFacet
+          defaultValue={500}
+          maxValue={3000}
+          onChange={updateSliderFacet}
         />
       )}
 

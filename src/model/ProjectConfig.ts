@@ -40,6 +40,7 @@ export type ProjectConfig = {
   showSearchQueryHistory: boolean;
   showDateFacets: boolean;
   showKeywordFacets: boolean;
+  showSliderFacets: boolean;
   showSelectedFilters: boolean;
   showNewSearchButton: boolean;
   allowCloseTextPanel: boolean;

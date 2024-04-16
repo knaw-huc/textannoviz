@@ -38,6 +38,7 @@ export const defaultConfig: Omit<
   showSearchQueryHistory: true,
   showDateFacets: true,
   showKeywordFacets: true,
+  showSliderFacets: false,
   showSelectedFilters: true,
   showNewSearchButton: true,
   allowCloseTextPanel: true,

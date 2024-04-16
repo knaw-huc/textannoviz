@@ -28,6 +28,7 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   sessionWeekday: "Weekday",
   bodyType: "Type",
   propositionType: "Proposition type",
+  sliderFacetLabel: "Min/max number of words",
 
   // text panel titles:
   self: "Text",
