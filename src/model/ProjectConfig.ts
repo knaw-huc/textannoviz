@@ -25,6 +25,8 @@ export type ProjectConfig = {
   elasticIndexName: string;
   initialDateFrom: string;
   initialDateTo: string;
+  initialRangeFrom: string;
+  initialRangeTo: string;
   allPossibleTextPanels: string[];
   defaultTextPanels: string[];
   showSearchSortBy: boolean;

@@ -72,6 +72,8 @@ export const Search = () => {
         ...searchQuery,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
+        rangeFrom: projectConfig.initialRangeFrom,
+        rangeTo: projectConfig.initialRangeTo,
         ...queryDecoded,
       };
       const newIndices = await getElasticIndices(projectConfig, signal);
@@ -85,6 +87,7 @@ export const Search = () => {
       if (!isEmpty(newDateFacets)) {
         newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
       }
+      newSearchQuery.rangeFacet = "text.tokenCount";
       const newKeywordFacets = filterFacetsByType(
         newIndex,
         newFacets,

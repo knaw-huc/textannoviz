@@ -14,8 +14,11 @@ import {
  */
 export type SearchQuery = {
   dateFacet?: FacetName;
+  rangeFacet?: FacetName;
   dateFrom: string;
   dateTo: string;
+  rangeFrom: string;
+  rangeTo: string;
   fullText: string;
   terms: Terms;
 };
@@ -36,6 +39,8 @@ export const createSearchQuerySlice: StateCreator<
   searchQuery: {
     dateFrom: "",
     dateTo: "",
+    rangeFrom: "",
+    rangeTo: "",
     fullText: "",
     terms: {},
   },
@@ -85,6 +90,14 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
       name: query.dateFacet,
       from: query.dateFrom,
       to: query.dateTo,
+    };
+  }
+
+  if (query.rangeFacet) {
+    searchQuery.range = {
+      name: query.rangeFacet,
+      from: query.rangeFrom,
+      to: query.rangeTo,
     };
   }
 

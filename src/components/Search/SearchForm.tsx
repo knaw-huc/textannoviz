@@ -70,10 +70,14 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function updateSliderFacet(newValue: number | number[]) {
-    const newTerms = { ...searchQuery.terms };
-    newTerms["wordCount"] = [newValue.toString()];
-    setSearchQuery({ ...searchQuery, terms: newTerms });
-    debouncedOnSearch();
+    if (Array.isArray(newValue)) {
+      setSearchQuery({
+        ...searchQuery,
+        rangeFrom: newValue[0].toString(),
+        rangeTo: newValue[1].toString(),
+      });
+      debouncedOnSearch();
+    }
   }
 
   function goToQuery(query: SearchQuery) {
@@ -176,9 +180,13 @@ export function SearchForm(props: SearchFormProps) {
 
       {projectConfig.showSliderFacets && (
         <SliderFacet
-          defaultValue={500}
+          initialValue={[
+            parseInt(projectConfig.initialRangeFrom),
+            parseInt(projectConfig.initialRangeTo),
+          ]}
           maxValue={3000}
           onChange={updateSliderFacet}
+          thumbLabels={["start", "end"]}
         />
       )}
 

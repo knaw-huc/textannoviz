@@ -37,6 +37,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   elasticIndexName: "republic-wordcount",
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",
+  initialRangeFrom: "0",
+  initialRangeTo: "3000",
   logoImageUrl: logo,
   headerTitle: "REPUBLIC",
   logoHref: "https://republic.huygens.knaw.nl/",

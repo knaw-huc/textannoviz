@@ -24,6 +24,8 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   elasticIndexName: "docs-2024-03-18",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
   showSearchSortBy: false,
   showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,

@@ -17,6 +17,8 @@ export const defaultConfig: Omit<
   | "headerTitle"
   | "initialDateFrom"
   | "initialDateTo"
+  | "initialRangeFrom"
+  | "initialRangeTo"
   | "logoImageUrl"
   | "relativeTo"
 > = {

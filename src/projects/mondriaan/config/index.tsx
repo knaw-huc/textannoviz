@@ -84,6 +84,8 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   elasticIndexName: "divs",
   initialDateFrom: "1909-01-01",
   initialDateTo: "1910-12-31",
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
   allPossibleTextPanels: [
     "textOrig",
     "textTrans",

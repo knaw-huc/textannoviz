@@ -115,6 +115,11 @@ export type SearchQueryRequestBody =
         to: string;
         name: string;
       };
+      range?: {
+        from: string;
+        to: string;
+        name: string;
+      };
     }
   | Record<string, never>;
 export const ASC = "asc";

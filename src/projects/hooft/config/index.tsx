@@ -13,6 +13,8 @@ export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
   elasticIndexName: "letters-2024-03-28",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
   logoImageUrl: logo,
   headerTitle: "Brieven van Hooft",
   showSearchResultsButtonFooter: false,

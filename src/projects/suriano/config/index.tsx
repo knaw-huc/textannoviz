@@ -70,6 +70,8 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   elasticIndexName: "letters-0.0.5",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
   logoImageUrl: logo,
   headerTitle: "The Correspondence of Christofforo Suriano",
   showSearchResultsButtonFooter: false,

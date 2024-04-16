@@ -18,6 +18,8 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   elasticIndexName: "manifestations",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
   logoImageUrl: logo,
   headerTitle: "TRANSLATIN",
   showSearchResultsButtonFooter: false,

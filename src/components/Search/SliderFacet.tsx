@@ -12,20 +12,21 @@ import {
 } from "../../stores/project";
 
 type SliderFacetProps = {
-  defaultValue: number | number[];
+  initialValue: number | number[];
   maxValue: number;
   onChange: (newValue: number | number[]) => void;
+  thumbLabels?: string[];
 };
 
 /**
- * {@link SliderFacetProps.defaultValue} is used to differentiate
+ * {@link SliderFacetProps.initialValue} is used to differentiate
  * between single and multi thumb sliders.
  * For single thumb slider, use "number"; for multi thumb sliders, use "number[]".
  */
 export const SliderFacet = (props: SliderFacetProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
   const [value, setValue] = React.useState<number | number[]>(
-    props.defaultValue,
+    props.initialValue,
   );
 
   const sliderOnChangeHandler = (newValue: number | number[]) => {
@@ -35,9 +36,9 @@ export const SliderFacet = (props: SliderFacetProps) => {
 
   return (
     <Slider
-      defaultValue={props.defaultValue}
       value={value}
-      onChange={(newValue) => sliderOnChangeHandler(newValue)}
+      onChange={(newValue) => setValue(newValue)}
+      onChangeEnd={(newValue) => sliderOnChangeHandler(newValue)}
       className="max-w-[450px]"
       maxValue={props.maxValue}
     >
@@ -65,6 +66,7 @@ export const SliderFacet = (props: SliderFacetProps) => {
               <SliderThumb
                 key={i}
                 index={i}
+                aria-label={props.thumbLabels?.[i]}
                 className="dragging:bg-brand2-300 border-brand2-800/75 bg-brand2-700 top-[50%] h-7 w-7 rounded-full border border-solid outline-none ring-black transition focus-visible:ring-2"
               />
             ))}
