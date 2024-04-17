@@ -27,6 +27,7 @@ export type ProjectConfig = {
   initialDateTo: string;
   initialRangeFrom: string;
   initialRangeTo: string;
+  maxRange: number;
   allPossibleTextPanels: string[];
   defaultTextPanels: string[];
   showSearchSortBy: boolean;

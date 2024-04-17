@@ -184,7 +184,7 @@ export function SearchForm(props: SearchFormProps) {
             parseInt(projectConfig.initialRangeFrom),
             parseInt(projectConfig.initialRangeTo),
           ]}
-          maxValue={3000}
+          maxValue={projectConfig.maxRange}
           onChange={updateSliderFacet}
           thumbLabels={["start", "end"]}
         />

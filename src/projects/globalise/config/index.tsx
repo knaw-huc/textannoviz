@@ -26,6 +26,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   initialDateTo: "1800-01-01",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
+  maxRange: 30000,
   showSearchSortBy: false,
   showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,

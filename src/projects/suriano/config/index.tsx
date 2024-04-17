@@ -72,6 +72,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
+  maxRange: 30000,
   logoImageUrl: logo,
   headerTitle: "The Correspondence of Christofforo Suriano",
   showSearchResultsButtonFooter: false,

@@ -39,6 +39,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",
   initialRangeTo: "3000",
+  maxRange: 3000,
   logoImageUrl: logo,
   headerTitle: "REPUBLIC",
   logoHref: "https://republic.huygens.knaw.nl/",

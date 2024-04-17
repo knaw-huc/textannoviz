@@ -86,6 +86,7 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   initialDateTo: "1910-12-31",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
+  maxRange: 30000,
   allPossibleTextPanels: [
     "textOrig",
     "textTrans",

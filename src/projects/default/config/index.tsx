@@ -19,6 +19,7 @@ export const defaultConfig: Omit<
   | "initialDateTo"
   | "initialRangeFrom"
   | "initialRangeTo"
+  | "maxRange"
   | "logoImageUrl"
   | "relativeTo"
 > = {
