@@ -1,4 +1,3 @@
-import { Skeleton } from "@nextui-org/react";
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 import { useAnnotationStore } from "../../stores/annotation";
 import {
@@ -43,13 +42,7 @@ export function Annotation(props: AnnotationProps) {
         <TabPanel id="metadata" className="text-brand1-800 h-full p-5">
           {annotations.length > 0 && !props.isLoading ? (
             <projectConfig.components.MetadataPanel annotations={annotations} />
-          ) : (
-            <div className="flex flex-col gap-2">
-              <Skeleton className="h-4 w-64 rounded-lg" />
-              <Skeleton className="h-4 w-96 rounded-lg" />
-              <Skeleton className="h-4 w-48 rounded-lg" />
-            </div>
-          )}
+          ) : null}
         </TabPanel>
         {projectConfig.showWebAnnoTab && (
           <TabPanel id="webannos" className="text-brand1-800 p-5">
@@ -57,13 +50,6 @@ export function Annotation(props: AnnotationProps) {
               <div className="flex">
                 <AnnotationFilter />
               </div>
-              {props.isLoading && (
-                <div className="flex flex-col gap-2">
-                  <Skeleton className="h-4 w-64 rounded-lg" />
-                  <Skeleton className="h-4 w-96 rounded-lg" />
-                  <Skeleton className="h-4 w-48 rounded-lg" />
-                </div>
-              )}
               {annotations?.length > 0 &&
                 !props.isLoading &&
                 annotations.map((annotation, index) => (
