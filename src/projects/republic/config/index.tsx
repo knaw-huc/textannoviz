@@ -45,7 +45,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   logoHref: "https://republic.huygens.knaw.nl/",
   histogramFacet: "sessionYear",
   showHistogram: true,
-  showSliderFacets: true,
+  showSliderFacets: false,
   showSettingsMenuFooter: true,
   useExternalConfig: true,
   visualizeAnnosMirador: true,
