@@ -87,7 +87,9 @@ export const Search = () => {
       if (!isEmpty(newDateFacets)) {
         newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
       }
-      newSearchQuery.rangeFacet = "text.tokenCount";
+      if (projectConfig.showSliderFacets) {
+        newSearchQuery.rangeFacet = "text.tokenCount";
+      }
       const newKeywordFacets = filterFacetsByType(
         newIndex,
         newFacets,
