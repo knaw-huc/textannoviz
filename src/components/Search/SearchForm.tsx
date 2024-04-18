@@ -1,6 +1,7 @@
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import React from "react";
+import type { Key } from "react-aria-components";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -85,13 +86,13 @@ export function SearchForm(props: SearchFormProps) {
     onSearch();
   }
 
-  const updateFragmenter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (!event.currentTarget.value) {
+  const updateFragmenter = (key: Key) => {
+    if (!key) {
       return;
     }
     setSearchUrlParams({
       ...searchUrlParams,
-      fragmentSize: parseInt(event.currentTarget.value),
+      fragmentSize: key as number,
     });
     if (searchResults) {
       onSearch();
@@ -161,7 +162,7 @@ export function SearchForm(props: SearchFormProps) {
         </div>
       )}
 
-      <div className="w-full max-w-[450px]">
+      <div className="">
         <FragmenterSelection
           onChange={updateFragmenter}
           value={searchUrlParams.fragmentSize}
