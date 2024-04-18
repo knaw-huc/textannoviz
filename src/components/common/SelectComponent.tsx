@@ -36,7 +36,7 @@ export function SelectComponent<T extends object>({
       </Label>
       <Button
         className={`${
-          buttonWidth ? `w-[${buttonWidth}]` : "w-[150px]"
+          buttonWidth ? buttonWidth : "w-[150px]"
         } border-brand1Grey-700 flex cursor-default items-center justify-between rounded border bg-white px-2 py-1 text-sm focus:outline-none`}
       >
         <SelectValue className="truncate" />
