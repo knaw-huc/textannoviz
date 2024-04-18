@@ -162,7 +162,7 @@ export function SearchForm(props: SearchFormProps) {
         </div>
       )}
 
-      <div className="">
+      <div className="w-full max-w-[450px]">
         <FragmenterSelection
           onChange={updateFragmenter}
           value={searchUrlParams.fragmentSize}

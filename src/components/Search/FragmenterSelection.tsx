@@ -13,16 +13,15 @@ interface FragmenterProps {
 
 export const FragmenterSelection = (props: FragmenterProps) => {
   const translate = useProjectStore(translateSelector);
-  const [selectedKey, setSelectedKey] = React.useState<Key>();
+  const [selectedKey, setSelectedKey] = React.useState<Key>(100);
 
   const options = [
     { name: "Small", value: 50 },
     { name: "Medium", value: 100 },
-    { name: "Large", value: 1000 },
+    { name: "Large", value: 500 },
   ];
 
   function selectChangeHandler(key: Key) {
-    console.log(key);
     setSelectedKey(key);
     props.onChange(key);
   }
@@ -35,7 +34,7 @@ export const FragmenterSelection = (props: FragmenterProps) => {
       onSelectionChange={selectChangeHandler}
     >
       {(item) => (
-        <SelectItemComponent id={item.name}>{item.name}</SelectItemComponent>
+        <SelectItemComponent id={item.value}>{item.name}</SelectItemComponent>
       )}
     </SelectComponent>
   );
