@@ -36,7 +36,7 @@ export function SelectComponent<T extends object>({
         <SelectValue className="truncate" />
         <ChevronDownIcon className="h-4 w-4" />
       </Button>
-      <Popover className="max-h-60 w-[--trigger-width] overflow-auto rounded bg-white text-sm shadow-lg ring-1 ring-black/5">
+      <Popover className="max-h-60 w-[--trigger-width] overflow-auto rounded bg-white text-sm shadow-lg ring-1 ring-black/15">
         <ListBox className="p-1 outline-none" items={items}>
           {children}
         </ListBox>
