@@ -15,6 +15,7 @@ interface SelectComponentProps<T extends object>
   label?: string;
   items?: Iterable<T>;
   buttonWidth?: string;
+  labelStyling?: string;
   children: React.ReactNode | ((item: T) => React.ReactNode);
 }
 
@@ -23,11 +24,12 @@ export function SelectComponent<T extends object>({
   children,
   items,
   buttonWidth,
+  labelStyling,
   ...props
 }: SelectComponentProps<T>) {
   return (
     <Select {...props} className="flex flex-row items-center justify-between">
-      <Label className="mr-1 font-semibold">{label}</Label>
+      <Label className={labelStyling}>{label}</Label>
       <Button
         className={`${
           buttonWidth ? `w-[${buttonWidth}]` : "w-[150px]"
