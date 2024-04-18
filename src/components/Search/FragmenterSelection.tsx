@@ -16,9 +16,9 @@ export const FragmenterSelection = (props: FragmenterProps) => {
   const [selectedKey, setSelectedKey] = React.useState<Key>(100);
 
   const options = [
-    { name: "Small", value: 50 },
-    { name: "Medium", value: 100 },
-    { name: "Large", value: 500 },
+    { name: translate("SMALL"), value: 50 },
+    { name: translate("MEDIUM"), value: 100 },
+    { name: translate("LARGE"), value: 500 },
   ];
 
   function selectChangeHandler(key: Key) {
