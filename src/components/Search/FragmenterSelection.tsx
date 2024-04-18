@@ -29,7 +29,6 @@ export const FragmenterSelection = (props: FragmenterProps) => {
   return (
     <SelectComponent
       label={translate("DISPLAY_CONTEXT")}
-      labelStyling="mr-1 font-semibold"
       items={options}
       selectedKey={selectedKey}
       onSelectionChange={selectChangeHandler}
