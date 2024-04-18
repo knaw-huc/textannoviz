@@ -29,7 +29,11 @@ export function SelectComponent<T extends object>({
 }: SelectComponentProps<T>) {
   return (
     <Select {...props} className="flex flex-row items-center justify-between">
-      <Label className={labelStyling}>{label}</Label>
+      <Label
+        className={`${labelStyling ? labelStyling : "mr-1 font-semibold"}`}
+      >
+        {label}
+      </Label>
       <Button
         className={`${
           buttonWidth ? `w-[${buttonWidth}]` : "w-[150px]"
