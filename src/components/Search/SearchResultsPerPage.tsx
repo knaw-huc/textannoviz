@@ -26,7 +26,7 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
     <SelectComponent
       label={translate("RESULTS_PER_PAGE")}
       labelStyling="mr-1 text-sm"
-      buttonWidth="w-[60px]"
+      buttonWidth="w-[100px]"
       items={options}
       selectedKey={selectedKey}
       onSelectionChange={selectChangeHandler}

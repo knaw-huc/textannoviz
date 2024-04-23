@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { CheckIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import type { ListBoxItemProps, SelectProps } from "react-aria-components";
 import {
   Button,
@@ -55,7 +55,18 @@ export function SelectItemComponent(props: ListBoxItemProps) {
   return (
     <ListBoxItem
       {...props}
-      className="focus:bg-brand2-600 group flex cursor-default select-none flex-col gap-2 rounded px-4 py-2 outline-none focus:text-white"
-    />
+      className="focus:bg-brand2-600 group flex cursor-default select-none items-center gap-2 rounded px-4 py-2 outline-none focus:text-white"
+    >
+      {({ isSelected }) => (
+        <>
+          <span className="flex flex-1 items-center gap-2 truncate">
+            {props.children}
+          </span>
+          <span className="flex w-5 items-center group-focus:text-white">
+            {isSelected && <CheckIcon className="h-4 w-4" />}
+          </span>
+        </>
+      )}
+    </ListBoxItem>
   );
 }
