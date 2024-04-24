@@ -30,6 +30,9 @@ export default defineConfig(({ mode }) => {
     case "hooft":
       tailwindConfig = "tailwind.config.hooft.js";
       break;
+    case "vangogh":
+      tailwindConfig = "tailwind.config.vangogh.js";
+      break;
     default:
       tailwindConfig = "tailwind.config.js";
   }

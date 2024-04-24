@@ -17,7 +17,7 @@ export function KeywordFacet(props: {
   const translateProject = useProjectStore(translateProjectSelector);
 
   return (
-    <div className="w-full max-w-[450px]">
+    <div className="max-h-96 w-full max-w-[450px] overflow-auto">
       <div className="font-semibold">{translateProject(props.facetName)}</div>
       {Object.entries(props.facet).map(([facetOptionName, facetOption]) => {
         const isSelected =
