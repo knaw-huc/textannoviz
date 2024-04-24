@@ -60,7 +60,7 @@ export function SelectItemComponent(props: ListBoxItemProps) {
     >
       {({ isSelected }) => (
         <>
-          <span className="flex flex-1 items-center gap-2 truncate">
+          <span className="flex flex-1 items-center gap-2">
             {props.children}
           </span>
           <span className="flex w-5 items-center group-focus:text-white">

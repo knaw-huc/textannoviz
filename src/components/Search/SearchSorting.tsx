@@ -69,7 +69,7 @@ export const SearchSorting = (props: SearchSortByProps) => {
     <SelectComponent
       label={translate("SORT_BY")}
       labelStyling="mr-1 text-sm"
-      buttonWidth="w-[200px]"
+      buttonWidth="w-[150px]"
       items={options}
       selectedKey={selectedKey}
       onSelectionChange={handleSorting}
