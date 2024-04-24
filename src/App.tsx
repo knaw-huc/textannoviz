@@ -14,6 +14,7 @@ import { mondriaanConfig } from "./projects/mondriaan/config";
 import { republicConfig } from "./projects/republic/config";
 import { surianoConfig } from "./projects/suriano/config";
 import { translatinConfig } from "./projects/translatin/config";
+import { vangoghConfig } from "./projects/vangogh/config";
 import { useAnnotationStore } from "./stores/annotation";
 import { setProjectConfigSelector, useProjectStore } from "./stores/project";
 
@@ -113,6 +114,9 @@ function createProjectConfig() {
       break;
     case "hooft":
       config = hooftConfig;
+      break;
+    case "vangogh":
+      config = vangoghConfig;
       break;
     default:
       throw new Error(
