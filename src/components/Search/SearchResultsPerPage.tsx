@@ -32,7 +32,9 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
       onSelectionChange={selectChangeHandler}
     >
       {(item) => (
-        <SelectItemComponent id={item.name}>{item.name}</SelectItemComponent>
+        <SelectItemComponent id={item.name} textValue={item.name.toString()}>
+          {item.name}
+        </SelectItemComponent>
       )}
     </SelectComponent>
   );

@@ -75,7 +75,9 @@ export const SearchSorting = (props: SearchSortByProps) => {
       onSelectionChange={handleSorting}
     >
       {(item) => (
-        <SelectItemComponent id={item.value}>{item.name}</SelectItemComponent>
+        <SelectItemComponent id={item.value} textValue={item.name}>
+          {item.name}
+        </SelectItemComponent>
       )}
     </SelectComponent>
   );
