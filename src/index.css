@@ -231,16 +231,6 @@ em {
   justify-content: space-between;
 }
 
-input[type="search"] {
-  width: 100%;
-  padding: 0.5em;
-  border: 1px solid #e1ebf3;
-  border-radius: 4px;
-  font-weight: 300;
-  color: #3e3e3e;
-  height: 40px;
-}
-
 .highlighted {
   background-color: rgb(254, 240, 138);
   color: black;
