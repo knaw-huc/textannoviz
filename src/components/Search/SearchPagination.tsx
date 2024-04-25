@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-aria-components";
 import { SearchResult } from "../../model/Search";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import { TextFieldComponent } from "../common/TextFieldComponent.tsx";
 
 type SearchPaginationProps = {
   prevPageClickHandler: () => void;
@@ -16,10 +17,8 @@ export const SearchPagination = (props: SearchPaginationProps) => {
   const translate = useProjectStore(translateSelector);
   const [pageNumber, setPageNumber] = React.useState(props.pageNumber);
 
-  function pageNumberInputChangeHandler(
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) {
-    setPageNumber(parseInt(event.target.value));
+  function pageNumberInputChangeHandler(newValue: string) {
+    setPageNumber(parseInt(newValue));
   }
 
   function pageNumberInputKeyUpHandler(
@@ -37,10 +36,9 @@ export const SearchPagination = (props: SearchPaginationProps) => {
   function renderPageNumberInput() {
     return (
       //BUG: remove contents input > you get "NaN"
-      <input
-        className="border-brand1Grey-700 mr-2 w-16 rounded border bg-white px-2 py-1 text-sm"
-        value={pageNumber}
-        onChange={(event) => pageNumberInputChangeHandler(event)}
+      <TextFieldComponent
+        value={pageNumber.toString()}
+        onChange={(newValue) => pageNumberInputChangeHandler(newValue)}
         onKeyUp={(event) => pageNumberInputKeyUpHandler(event)}
       />
     );
