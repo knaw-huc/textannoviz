@@ -194,13 +194,14 @@ export function SearchForm(props: SearchFormProps) {
       {projectConfig.showKeywordFacets &&
         !isEmpty(keywordFacets) &&
         props.keywordFacets.map(([facetName, facetValue], i) => (
-          <KeywordFacet
-            key={i}
-            facetName={facetName}
-            facet={facetValue}
-            selectedFacets={searchQuery.terms}
-            onChangeKeywordFacet={updateKeywordFacet}
-          />
+          <div key={i} className="w-full max-w-[450px]">
+            <KeywordFacet
+              facetName={facetName}
+              facet={facetValue}
+              selectedFacets={searchQuery.terms}
+              onChangeKeywordFacet={updateKeywordFacet}
+            />
+          </div>
         ))}
     </div>
   );
