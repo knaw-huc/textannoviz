@@ -1,4 +1,4 @@
-import { CheckIcon, MinusIcon } from "@heroicons/react/16/solid";
+import { CheckIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import type { CheckboxGroupProps, CheckboxProps } from "react-aria-components";
 import { Checkbox, CheckboxGroup, Label } from "react-aria-components";
@@ -32,18 +32,14 @@ export function CheckboxComponent({
 }: CheckboxComponentProps) {
   return (
     <Checkbox {...props} className="group flex items-center gap-2 transition">
-      {({ isSelected, isIndeterminate }) => (
+      {({ isSelected }) => (
         <>
           <div
             className={`${
               isSelected ? "bg-brand2-600 border-brand2-600" : ""
             } flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition`}
           >
-            {isIndeterminate ? (
-              <MinusIcon aria-hidden className="h-5 w-5" />
-            ) : isSelected ? (
-              <CheckIcon className="h-5 w-5 text-white" />
-            ) : null}
+            {isSelected ? <CheckIcon className="h-5 w-5 text-white" /> : null}
           </div>
           {children}
         </>
