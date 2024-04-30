@@ -37,6 +37,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
     return (
       //BUG: remove contents input > you get "NaN"
       <TextFieldComponent
+        aria-label="pageNumberInput"
         value={pageNumber.toString()}
         onChange={(newValue) => pageNumberInputChangeHandler(newValue)}
         onKeyUp={(event) => pageNumberInputKeyUpHandler(event)}
