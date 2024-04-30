@@ -15,30 +15,32 @@ type SearchPaginationProps = {
 
 export const SearchPagination = (props: SearchPaginationProps) => {
   const translate = useProjectStore(translateSelector);
-  const [pageNumber, setPageNumber] = React.useState(props.pageNumber);
+  const [pageNumber, setPageNumber] = React.useState<string>(
+    props.pageNumber.toString(),
+  );
 
   function pageNumberInputChangeHandler(newValue: string) {
-    setPageNumber(parseInt(newValue));
+    setPageNumber(newValue);
   }
 
   function pageNumberInputKeyUpHandler(
     event: React.KeyboardEvent<HTMLInputElement>,
   ) {
     if (event.key === "Enter") {
-      if (pageNumber === 0) {
-        setPageNumber(1);
+      if (pageNumber === "0") {
+        setPageNumber("1");
+        props.jumpToPage(1);
         return;
       }
-      props.jumpToPage(pageNumber);
+      props.jumpToPage(parseInt(pageNumber));
     }
   }
 
   function renderPageNumberInput() {
     return (
-      //BUG: remove contents input > you get "NaN"
       <TextFieldComponent
         aria-label="pageNumberInput"
-        value={pageNumber.toString()}
+        value={pageNumber}
         onChange={(newValue) => pageNumberInputChangeHandler(newValue)}
         onKeyUp={(event) => pageNumberInputKeyUpHandler(event)}
       />
@@ -47,12 +49,18 @@ export const SearchPagination = (props: SearchPaginationProps) => {
 
   function prevButtonClickedHandler() {
     if (props.pageNumber === 1) return;
-    setPageNumber((prev) => prev - 1);
+    setPageNumber((prev) => {
+      const prevPageNumber = parseInt(prev, 10);
+      return (prevPageNumber - 1).toString();
+    });
     props.prevPageClickHandler();
   }
 
   function nextButtonClickHandler() {
-    setPageNumber((prev) => prev + 1);
+    setPageNumber((prev) => {
+      const prevPageNumber = parseInt(prev, 10);
+      return (prevPageNumber + 1).toString();
+    });
     props.nextPageClickHandler();
   }
 
