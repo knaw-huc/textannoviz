@@ -17,10 +17,7 @@ import {
   toRequestBody,
 } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import {
-  addToUrlParams,
-  getFromUrlParams,
-} from "../../utils/UrlParamUtils.tsx";
+import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
