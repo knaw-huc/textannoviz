@@ -6,8 +6,8 @@ import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
+import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";
-import { ServerConfig } from "./model/ServerConfig";
 import { globaliseConfig } from "./projects/globalise/config";
 import { hooftConfig } from "./projects/hooft/config";
 import { mondriaanConfig } from "./projects/mondriaan/config";
@@ -21,7 +21,7 @@ import { setProjectConfigSelector, useProjectStore } from "./stores/project";
 const { project, config } = createProjectConfig();
 const router = await createRouter();
 
-async function fetchServerConfig(): Promise<ServerConfig | null> {
+async function fetchExternalConfig(): Promise<ExternalConfig | null> {
   const response = await fetch("/config");
   if (!response.ok) {
     return null;
@@ -31,7 +31,7 @@ async function fetchServerConfig(): Promise<ServerConfig | null> {
 }
 
 if (import.meta.env.PROD && config.useExternalConfig === true) {
-  const serverConfig = await fetchServerConfig();
+  const serverConfig = await fetchExternalConfig();
 
   if (serverConfig) {
     config.elasticIndexName = serverConfig.indexName;
