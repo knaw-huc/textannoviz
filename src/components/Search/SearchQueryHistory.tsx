@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "react-aria-components";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   translateProjectSelector,
@@ -28,13 +29,13 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(!isOpen)}
-        className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm"
-        disabled={props.disabled}
+      <Button
+        onPress={() => setOpen(!isOpen)}
+        className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
+        isDisabled={props.disabled}
       >
         {translate("SEARCH_HISTORY")}
-      </button>
+      </Button>
       {isOpen && (
         <ol className="ml-6 mt-4 list-decimal">
           {lastQueries.length ? (
