@@ -1,6 +1,7 @@
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import React from "react";
+import type { Key } from "react-aria-components";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -85,13 +86,13 @@ export function SearchForm(props: SearchFormProps) {
     onSearch();
   }
 
-  const updateFragmenter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (!event.currentTarget.value) {
+  const updateFragmenter = (key: Key) => {
+    if (!key) {
       return;
     }
     setSearchUrlParams({
       ...searchUrlParams,
-      fragmentSize: parseInt(event.currentTarget.value),
+      fragmentSize: key as number,
     });
     if (searchResults) {
       onSearch();
@@ -137,14 +138,16 @@ export function SearchForm(props: SearchFormProps) {
 
   return (
     <div className={searchFormClasses}>
-      <FullTextSearchBar
-        key={searchQuery.fullText}
-        fullText={searchQuery.fullText}
-        onSubmit={(newFullText) => {
-          updateFullText(newFullText);
-          onSearch();
-        }}
-      />
+      <div className="w-full max-w-[450px]">
+        <FullTextSearchBar
+          key={searchQuery.fullText}
+          fullText={searchQuery.fullText}
+          onSubmit={(newFullText) => {
+            updateFullText(newFullText);
+            onSearch();
+          }}
+        />
+      </div>
 
       {searchResults && projectConfig.showNewSearchButton && (
         <NewSearchButton />
@@ -193,13 +196,14 @@ export function SearchForm(props: SearchFormProps) {
       {projectConfig.showKeywordFacets &&
         !isEmpty(keywordFacets) &&
         props.keywordFacets.map(([facetName, facetValue], i) => (
-          <KeywordFacet
-            key={i}
-            facetName={facetName}
-            facet={facetValue}
-            selectedFacets={searchQuery.terms}
-            onChangeKeywordFacet={updateKeywordFacet}
-          />
+          <div key={i} className="w-full max-w-[450px]">
+            <KeywordFacet
+              facetName={facetName}
+              facet={facetValue}
+              selectedFacets={searchQuery.terms}
+              onChangeKeywordFacet={updateKeywordFacet}
+            />
+          </div>
         ))}
     </div>
   );

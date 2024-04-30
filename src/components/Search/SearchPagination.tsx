@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-aria-components";
 import { SearchResult } from "../../model/Search";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import { TextFieldComponent } from "../common/TextFieldComponent.tsx";
 
 type SearchPaginationProps = {
   prevPageClickHandler: () => void;
@@ -14,33 +15,33 @@ type SearchPaginationProps = {
 
 export const SearchPagination = (props: SearchPaginationProps) => {
   const translate = useProjectStore(translateSelector);
-  const [pageNumber, setPageNumber] = React.useState(props.pageNumber);
+  const [pageNumber, setPageNumber] = React.useState<string>(
+    props.pageNumber.toString(),
+  );
 
-  function pageNumberInputChangeHandler(
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) {
-    setPageNumber(parseInt(event.target.value));
+  function pageNumberInputChangeHandler(newValue: string) {
+    setPageNumber(newValue);
   }
 
   function pageNumberInputKeyUpHandler(
     event: React.KeyboardEvent<HTMLInputElement>,
   ) {
     if (event.key === "Enter") {
-      if (pageNumber === 0) {
-        setPageNumber(1);
+      if (pageNumber === "0") {
+        setPageNumber("1");
+        props.jumpToPage(1);
         return;
       }
-      props.jumpToPage(pageNumber);
+      props.jumpToPage(parseInt(pageNumber));
     }
   }
 
   function renderPageNumberInput() {
     return (
-      //BUG: remove contents input > you get "NaN"
-      <input
-        className="border-brand1Grey-700 mr-2 w-16 rounded border bg-white px-2 py-1 text-sm"
+      <TextFieldComponent
+        aria-label="pageNumberInput"
         value={pageNumber}
-        onChange={(event) => pageNumberInputChangeHandler(event)}
+        onChange={(newValue) => pageNumberInputChangeHandler(newValue)}
         onKeyUp={(event) => pageNumberInputKeyUpHandler(event)}
       />
     );
@@ -48,12 +49,18 @@ export const SearchPagination = (props: SearchPaginationProps) => {
 
   function prevButtonClickedHandler() {
     if (props.pageNumber === 1) return;
-    setPageNumber((prev) => prev - 1);
+    setPageNumber((prev) => {
+      const prevPageNumber = parseInt(prev, 10);
+      return (prevPageNumber - 1).toString();
+    });
     props.prevPageClickHandler();
   }
 
   function nextButtonClickHandler() {
-    setPageNumber((prev) => prev + 1);
+    setPageNumber((prev) => {
+      const prevPageNumber = parseInt(prev, 10);
+      return (prevPageNumber + 1).toString();
+    });
     props.nextPageClickHandler();
   }
 
@@ -64,8 +71,8 @@ export const SearchPagination = (props: SearchPaginationProps) => {
           <Button
             className={({ isPressed }) =>
               isPressed
-                ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
-                : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
+                ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 flex items-center rounded px-3 py-1.5 outline-none"
+                : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 flex items-center rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
             }
             onPress={prevButtonClickedHandler}
           >
@@ -73,7 +80,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
           </Button>
         </li>
         <li>
-          <div className="text-brand1Grey-800 relative block bg-transparent px-3 py-1.5">
+          <div className="text-brand1Grey-800 flex items-center bg-transparent px-3 py-1.5">
             {renderPageNumberInput()}
             {`${translate("FROM").toLowerCase()} ${Math.ceil(
               props.searchResult!.total.value / props.elasticSize,

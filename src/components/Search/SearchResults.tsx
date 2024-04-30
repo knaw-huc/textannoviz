@@ -1,6 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 import keys from "lodash/keys";
-import React, { ChangeEvent, ReactNode } from "react";
+import React, { ReactNode } from "react";
+import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
@@ -86,13 +87,13 @@ export function SearchResults(props: {
     onSearch(true);
   }
 
-  const changePageSize = (event: ChangeEvent<HTMLSelectElement>) => {
-    if (!event.currentTarget.value) {
+  const changePageSize = (key: Key) => {
+    if (!key) {
       return;
     }
     setSearchUrlParams({
       ...searchUrlParams,
-      size: parseInt(event.currentTarget.value),
+      size: key as number,
     });
     onSearch();
   };

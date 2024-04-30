@@ -1,26 +1,41 @@
+import React from "react";
+import type { Key } from "react-aria-components";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import {
+  SelectComponent,
+  SelectItemComponent,
+} from "../common/SelectComponent.tsx";
 
 interface SearchResultsPerPageProps {
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (key: Key) => void;
   value: number;
 }
 
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   const translate = useProjectStore(translateSelector);
+  const [selectedKey, setSelectedKey] = React.useState<Key>(10);
+
+  const options = [{ name: 10 }, { name: 20 }, { name: 50 }, { name: 100 }];
+
+  function selectChangeHandler(key: Key) {
+    setSelectedKey(key);
+    props.onChange(key);
+  }
 
   return (
-    <div className="flex items-center">
-      <div className="mr-1 text-sm">{translate("RESULTS_PER_PAGE")}</div>
-      <select
-        value={props.value}
-        onChange={props.onChange}
-        className="border-brand1Grey-700 rounded border bg-white px-2 py-1 text-sm"
-      >
-        <option value={10}>10</option>
-        <option value={20}>20</option>
-        <option value={50}>50</option>
-        <option value={100}>100</option>
-      </select>
-    </div>
+    <SelectComponent
+      label={translate("RESULTS_PER_PAGE")}
+      labelStyling="mr-1 text-sm"
+      buttonWidth="w-[95px]"
+      items={options}
+      selectedKey={selectedKey}
+      onSelectionChange={selectChangeHandler}
+    >
+      {(item) => (
+        <SelectItemComponent id={item.name} textValue={item.name.toString()}>
+          {item.name}
+        </SelectItemComponent>
+      )}
+    </SelectComponent>
   );
 };

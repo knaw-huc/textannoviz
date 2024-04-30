@@ -67,7 +67,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   defaultTextPanels: ["text"],
   annotationTypesToHighlight: ["tei:Ent"],
   allowedAnnotationTypesToHighlight: ["tei:Ent"],
-  elasticIndexName: "letters-0.0.5",
+  elasticIndexName: "letters-0.2.0",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",

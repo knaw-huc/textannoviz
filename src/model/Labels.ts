@@ -7,13 +7,14 @@ export type Labels = {
   NEW_SEARCH_QUERY: string;
   NEXT: string;
   NO_SEARCH_HISTORY: string;
-  PAGE_VIEW: string;
   PREV: string;
   RELEVANCE: string;
   RESULTS_PER_PAGE: string;
   SEARCH_HISTORY: string;
   SELECTED_FACETS: string;
-  SNIPPET: string;
+  SMALL: string;
+  MEDIUM: string;
+  LARGE: string;
   SORT_BY: string;
   TEXT: string;
   UP_TO_AND_INCLUDING: string;
