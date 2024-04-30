@@ -62,8 +62,8 @@ export const SearchPagination = (props: SearchPaginationProps) => {
           <Button
             className={({ isPressed }) =>
               isPressed
-                ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
-                : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
+                ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 flex items-center rounded px-3 py-1.5 outline-none"
+                : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 flex items-center rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
             }
             onPress={prevButtonClickedHandler}
           >
@@ -71,7 +71,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
           </Button>
         </li>
         <li>
-          <div className="text-brand1Grey-800 relative block bg-transparent px-3 py-1.5">
+          <div className="text-brand1Grey-800 flex items-center bg-transparent px-3 py-1.5">
             {renderPageNumberInput()}
             {`${translate("FROM").toLowerCase()} ${Math.ceil(
               props.searchResult!.total.value / props.elasticSize,
