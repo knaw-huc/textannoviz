@@ -91,6 +91,10 @@ export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
   sender: string;
   senderLoc: string;
   shelfmark: string;
+  summary: string;
+  _hits: {
+    summary: string[];
+  };
 };
 
 export type FacetType = "date" | "keyword";

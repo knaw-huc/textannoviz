@@ -1,6 +1,6 @@
 import { SearchResult } from "../../../model/Search.ts";
 
-const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
+export const HIT_PREVIEW_REGEX = new RegExp(/<em>(.*?)<\/em>/g);
 
 export function createHighlights(data: SearchResult, exactSearch: boolean) {
   const toHighlight = {
