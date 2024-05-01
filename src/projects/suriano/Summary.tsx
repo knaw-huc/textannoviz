@@ -11,6 +11,10 @@ function createSummaryHighlights(hits: string[]) {
   };
   const previews: string[] = [];
 
+  if (!hits) {
+    return toHighlight;
+  }
+
   hits.forEach((hit) => {
     const matches = hit
       .match(HIT_PREVIEW_REGEX)
