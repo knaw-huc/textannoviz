@@ -55,6 +55,18 @@ export type MondriaanSearchResultsBody = {
   };
 };
 
+export type VanGoghSearchResultsBody = {
+  _id: string;
+  correspondent: string;
+  institution: string;
+  location: string;
+  msid: string;
+  period: string;
+  _hits: {
+    text: string[];
+  };
+};
+
 export type GlobaliseSearchResultsBody = {
   _id: string;
   document: string;

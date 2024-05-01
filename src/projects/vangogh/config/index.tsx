@@ -2,6 +2,9 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { MetadataPanel } from "../MetadataPanel";
+import { SearchItem } from "../SearchItem";
+import { englishVanGoghLabels } from "./englishVanGoghLabels";
 
 export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "vangogh",
@@ -84,4 +87,10 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
+  components: {
+    SearchItem,
+    MetadataPanel,
+  },
+  selectedLanguage: "en",
+  languages: [{ code: "en", labels: englishVanGoghLabels }],
 });

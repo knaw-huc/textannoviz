@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { SurianoSearchResultsBody } from "../../model/Search";
+import { VanGoghSearchResultsBody } from "../../model/Search";
 
 type SearchItemProps = {
-  result: SurianoSearchResultsBody;
+  result: VanGoghSearchResultsBody;
 };
 
 export const SearchItem = (props: SearchItemProps) => {
@@ -12,12 +12,12 @@ export const SearchItem = (props: SearchItemProps) => {
     year: "numeric",
   };
 
-  const formattedDate = new Date(props.result.date).toLocaleDateString(
+  const formattedDate = new Date(props.result.period).toLocaleDateString(
     "en-GB",
     dateOptions,
   );
 
-  const searchItemTitle = `${props.result.sender} to ${props.result.recipient}, ${formattedDate}`;
+  const searchItemTitle = `Letter to ${props.result.correspondent}, ${formattedDate}`;
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
