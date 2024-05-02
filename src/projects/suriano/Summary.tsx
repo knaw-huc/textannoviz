@@ -1,3 +1,4 @@
+import uniq from "lodash/uniq";
 import { HIT_PREVIEW_REGEX } from "../../components/Search/util/createHighlights";
 
 export type SummaryProps = {
@@ -6,10 +7,7 @@ export type SummaryProps = {
 };
 
 function createSummaryHighlights(hits: string[]) {
-  const toHighlight = {
-    map: new Map<string, string[]>(),
-  };
-  const previews: string[] = [];
+  const toHighlight: string[] = [];
 
   if (!hits) {
     return toHighlight;
@@ -21,14 +19,13 @@ function createSummaryHighlights(hits: string[]) {
       ?.map((str) => str.substring(4, str.length - 5));
 
     if (matches) {
-      previews.push(...new Set(matches));
+      toHighlight.push(...matches);
     }
   });
-  toHighlight.map.set("id", [...new Set(previews)]);
 
-  console.log(toHighlight);
+  const uniqueToHighlight = uniq(toHighlight);
 
-  return toHighlight;
+  return uniqueToHighlight;
 }
 
 export function Summary(props: SummaryProps) {
@@ -36,9 +33,8 @@ export function Summary(props: SummaryProps) {
 
   const textToHighlight = createSummaryHighlights(props.summaryHits);
 
-  if (textToHighlight.map.size > 0) {
-    const toHighlightStrings = textToHighlight.map.get("id");
-    const regexStrings = toHighlightStrings?.map((str) =>
+  if (textToHighlight.length > 0) {
+    const regexStrings = textToHighlight?.map((str) =>
       str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
     );
 
