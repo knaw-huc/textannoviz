@@ -26,6 +26,8 @@ function createSummaryHighlights(hits: string[]) {
   });
   toHighlight.map.set("id", [...new Set(previews)]);
 
+  console.log(toHighlight);
+
   return toHighlight;
 }
 
@@ -36,11 +38,13 @@ export function Summary(props: SummaryProps) {
 
   if (textToHighlight.map.size > 0) {
     const toHighlightStrings = textToHighlight.map.get("id");
-    const regexString = toHighlightStrings?.map((str) =>
+    const regexStrings = toHighlightStrings?.map((str) =>
       str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
     );
 
-    const regex = new RegExp(`${regexString}`, "g");
+    const joinedRegexString = regexStrings?.join("|");
+
+    const regex = new RegExp(`${joinedRegexString}`, "g");
 
     summary = (
       <span
