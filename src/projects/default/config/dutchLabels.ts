@@ -48,6 +48,7 @@ export const dutchLabels: Labels = {
   SHOW_SEARCH_RESULTS: "Toon zoekresultaten",
   HIDE_SEARCH_RESULTS: "Verberg zoekresultaten",
   NEW_SEARCH: "Nieuwe zoekopdracht",
+  BACK_TO_SEARCH: "Terug naar zoekresultaten",
 
   NEXT_PAGE: "Volgende pagina",
   PREV_PAGE: "Vorige pagina",

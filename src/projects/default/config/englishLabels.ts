@@ -48,6 +48,7 @@ export const englishLabels: Labels = {
   SHOW_SEARCH_RESULTS: "Show search results",
   HIDE_SEARCH_RESULTS: "Hide search results",
   NEW_SEARCH: "New search",
+  BACK_TO_SEARCH: "Back to search results",
 
   NEXT_PAGE: "Next page",
   PREV_PAGE: "Previous page",
