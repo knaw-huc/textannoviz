@@ -28,7 +28,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   sessionWeekday: "Weekdag",
   bodyType: "Type",
   propositionType: "Propositietype",
-  sliderFacetLabel: "Min/max aantal woorden",
+  sliderFacetLabel: "Min-max aantal woorden",
 
   // text panel titles:
   self: "Tekst",
