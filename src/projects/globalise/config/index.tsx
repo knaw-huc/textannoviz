@@ -42,6 +42,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   allowCloseTextPanel: false,
   allowEmptyStringSearch: false,
   showMiradorNavigationButtons: true,
+  showInputFacet: true,
   components: {
     AnnotationButtons,
     Help,
