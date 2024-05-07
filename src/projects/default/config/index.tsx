@@ -52,6 +52,7 @@ export const defaultConfig: Omit<
   allowEmptyStringSearch: true,
   showMirador: true,
   showMiradorNavigationButtons: false,
+  showInputFacet: false,
   histogramFacet: "",
   components: {
     AnnotationItem: AnnotationItem,

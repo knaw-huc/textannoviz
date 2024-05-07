@@ -7,7 +7,7 @@ import {
   TranslatinSearchResultsBody,
 } from "./Search.ts";
 
-export type ProjectConfig = {
+export interface ProjectConfig {
   id: string;
   broccoliUrl: string;
   colours: Record<string, string>;
@@ -55,6 +55,7 @@ export type ProjectConfig = {
   allowEmptyStringSearch: boolean;
   showMirador: boolean;
   showMiradorNavigationButtons: boolean;
+  showInputFacet: boolean;
   selectedLanguage: LanguageCode;
   languages: Language[];
   mirador: {
@@ -81,6 +82,6 @@ export type ProjectConfig = {
         | GlobaliseSearchResultsBody;
     }) => JSX.Element;
   };
-};
+}
 
-export type AnnotationItemProps = { annotation: AnnoRepoAnnotation };
+export interface AnnotationItemProps { annotation: AnnoRepoAnnotation }

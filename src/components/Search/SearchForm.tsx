@@ -14,16 +14,17 @@ import { useSearchStore } from "../../stores/search/search-store.ts";
 import { DateFacet } from "./DateFacet.tsx";
 import { FragmenterSelection } from "./FragmenterSelection.tsx";
 import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
+import { InputFacet } from "./InputFacet.tsx";
 import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
-type SearchFormProps = {
+interface SearchFormProps {
   onSearch: (stayOnPage?: boolean) => void;
   keywordFacets: FacetEntry[];
-};
+}
 
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
@@ -148,6 +149,12 @@ export function SearchForm(props: SearchFormProps) {
           }}
         />
       </div>
+
+      {projectConfig.showInputFacet && (
+        <div className="w-full max-w-[450px]">
+          <InputFacet />
+        </div>
+      )}
 
       {searchResults && projectConfig.showNewSearchButton && (
         <NewSearchButton />
