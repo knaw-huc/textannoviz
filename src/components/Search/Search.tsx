@@ -48,7 +48,9 @@ export const Search = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    initSearch();
+    initSearch().catch((error) => {
+      console.error(error);
+    });
 
     /**
      * Initialize search page:
