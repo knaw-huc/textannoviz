@@ -57,29 +57,29 @@ export function SearchResults(props: {
     onSearch();
   }
 
-  async function selectPrevPage() {
+  function selectPrevPage() {
     const newFrom = searchUrlParams.from - searchUrlParams.size;
     if (!searchResults || newFrom < 0) {
       return;
     }
-    await selectPage(newFrom);
+    selectPage(newFrom);
   }
 
-  async function selectNextPage() {
+  function selectNextPage() {
     const newFrom = searchUrlParams.from + searchUrlParams.size;
     if (!searchResults || newFrom >= searchResults.total.value) {
       return;
     }
-    await selectPage(newFrom);
+    selectPage(newFrom);
   }
 
-  async function jumpToPage(page: number) {
+  function jumpToPage(page: number) {
     const newFrom = (page - 1) * searchUrlParams.size;
     if (!searchResults || newFrom >= searchResults.total.value) return;
-    await selectPage(newFrom);
+    selectPage(newFrom);
   }
 
-  async function selectPage(newFrom: number) {
+  function selectPage(newFrom: number) {
     setSearchUrlParams({
       ...searchUrlParams,
       from: newFrom,
