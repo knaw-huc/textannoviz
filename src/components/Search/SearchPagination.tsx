@@ -4,14 +4,14 @@ import { SearchResult } from "../../model/Search";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { TextFieldComponent } from "../common/TextFieldComponent.tsx";
 
-type SearchPaginationProps = {
+interface SearchPaginationProps {
   prevPageClickHandler: () => void;
   nextPageClickHandler: () => void;
   jumpToPage: (page: number) => void;
   pageNumber: number;
   searchResult: SearchResult;
   elasticSize: number;
-};
+}
 
 export const SearchPagination = (props: SearchPaginationProps) => {
   const translate = useProjectStore(translateSelector);
@@ -83,7 +83,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
           <div className="text-brand1Grey-800 flex items-center bg-transparent px-3 py-1.5">
             {renderPageNumberInput()}
             {`${translate("FROM").toLowerCase()} ${Math.ceil(
-              props.searchResult!.total.value / props.elasticSize,
+              props.searchResult.total.value / props.elasticSize,
             )}`}
           </div>
         </li>
