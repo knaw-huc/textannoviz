@@ -157,9 +157,15 @@ export function SearchForm(props: SearchFormProps) {
       setInputFacetDisabled(true);
     }
 
-    setTimeout(() => {
-      ref.current?.focus();
-    }, 10);
+    if (!searchResults) {
+      setTimeout(() => {
+        ref.current?.focus();
+      }, 10);
+    }
+
+    if (searchResults) {
+      onSearch();
+    }
   }
 
   return (
