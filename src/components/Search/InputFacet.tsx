@@ -1,8 +1,16 @@
 import React from "react";
 import { SearchFieldComponent } from "../common/SearchFieldComponent";
 
-export function InputFacet() {
+type InputFacetProps = {
+  onSubmit: (value: string) => void;
+};
+
+export function InputFacet(props: InputFacetProps) {
   const [inputValue, setInputValue] = React.useState("");
+
+  function onSubmitHandler() {
+    props.onSubmit(inputValue);
+  }
 
   return (
     <SearchFieldComponent
@@ -10,6 +18,7 @@ export function InputFacet() {
       value={inputValue}
       onChange={(newInputValue) => setInputValue(newInputValue)}
       onClear={() => setInputValue("")}
+      onSubmit={onSubmitHandler}
     />
   );
 }

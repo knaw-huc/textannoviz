@@ -137,6 +137,10 @@ export function SearchForm(props: SearchFormProps) {
     }
   }
 
+  function inputFacetOnSubmitHandler(value: string) {
+    console.log(value);
+  }
+
   return (
     <div className={searchFormClasses}>
       <div className="w-full max-w-[450px]">
@@ -152,7 +156,7 @@ export function SearchForm(props: SearchFormProps) {
 
       {projectConfig.showInputFacet && (
         <div className="w-full max-w-[450px]">
-          <InputFacet />
+          <InputFacet onSubmit={inputFacetOnSubmitHandler} />
         </div>
       )}
 
