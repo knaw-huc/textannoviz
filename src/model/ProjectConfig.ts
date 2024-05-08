@@ -57,6 +57,7 @@ export interface ProjectConfig {
   showMiradorNavigationButtons: boolean;
   showInputFacet: boolean;
   selectedLanguage: LanguageCode;
+  inputFacetPrefix: string;
   languages: Language[];
   mirador: {
     showWindowSideBar: boolean;
@@ -84,4 +85,6 @@ export interface ProjectConfig {
   };
 }
 
-export interface AnnotationItemProps { annotation: AnnoRepoAnnotation }
+export interface AnnotationItemProps {
+  annotation: AnnoRepoAnnotation;
+}

@@ -35,6 +35,8 @@ export function SearchForm(props: SearchFormProps) {
   const queryHistory = useSearchStore((state) => state.searchQueryHistory);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
+  const [inputFacetDisabled, setInputFacetDisabled] = React.useState(false);
+  const ref = React.useRef<HTMLInputElement>(null);
 
   const {
     searchUrlParams,
@@ -102,6 +104,10 @@ export function SearchForm(props: SearchFormProps) {
 
   function updateFullText(value: string) {
     setSearchQuery({ ...searchQuery, fullText: value });
+
+    if (value.includes(projectConfig.inputFacetPrefix)) {
+      setInputFacetDisabled(true);
+    }
   }
 
   function resetDates(update: { dateFrom: string; dateTo: string }) {
@@ -138,13 +144,29 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function inputFacetOnSubmitHandler(value: string) {
-    console.log(value);
+    const fullText = searchQuery.fullText;
+    const newFullText =
+      `${projectConfig.inputFacetPrefix}` + value + " AND " + fullText;
+
+    setSearchQuery({
+      ...searchQuery,
+      fullText: newFullText,
+    });
+
+    if (newFullText.includes(projectConfig.inputFacetPrefix)) {
+      setInputFacetDisabled(true);
+    }
+
+    setTimeout(() => {
+      ref.current?.focus();
+    }, 10);
   }
 
   return (
     <div className={searchFormClasses}>
       <div className="w-full max-w-[450px]">
         <FullTextSearchBar
+          reactRef={ref}
           key={searchQuery.fullText}
           fullText={searchQuery.fullText}
           onSubmit={(newFullText) => {
@@ -156,7 +178,10 @@ export function SearchForm(props: SearchFormProps) {
 
       {projectConfig.showInputFacet && (
         <div className="w-full max-w-[450px]">
-          <InputFacet onSubmit={inputFacetOnSubmitHandler} />
+          <InputFacet
+            onSubmit={inputFacetOnSubmitHandler}
+            disabled={inputFacetDisabled}
+          />
         </div>
       )}
 

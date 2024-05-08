@@ -3,6 +3,7 @@ import { SearchFieldComponent } from "../common/SearchFieldComponent";
 
 type InputFacetProps = {
   onSubmit: (value: string) => void;
+  disabled: boolean;
 };
 
 export function InputFacet(props: InputFacetProps) {
@@ -12,13 +13,25 @@ export function InputFacet(props: InputFacetProps) {
     props.onSubmit(inputValue);
   }
 
+  React.useEffect(() => {
+    if (props.disabled) {
+      setInputValue("");
+    }
+  }, [props.disabled]);
+
   return (
     <SearchFieldComponent
       label="Filter by inv. nr."
+      placeholder={`${
+        props.disabled
+          ? "Inv. nr. already in full text query"
+          : "Press ENTER to add inv. nr. to query"
+      }`}
       value={inputValue}
       onChange={(newInputValue) => setInputValue(newInputValue)}
       onClear={() => setInputValue("")}
       onSubmit={onSubmitHandler}
+      isDisabled={props.disabled}
     />
   );
 }
