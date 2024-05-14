@@ -11,13 +11,11 @@ import {
 interface SearchFieldComponentProps extends SearchFieldProps {
   label?: string;
   placeholder?: string;
-  reactRef?: React.RefObject<HTMLInputElement>;
 }
 
 export function SearchFieldComponent({
   label,
   placeholder,
-  reactRef,
   ...props
 }: SearchFieldComponentProps) {
   return (
@@ -29,7 +27,6 @@ export function SearchFieldComponent({
           className="ml-2 h-4 w-4 text-gray-500"
         />
         <Input
-          ref={reactRef}
           placeholder={placeholder}
           className="min-w-0 flex-1 bg-white px-2 py-1.5 text-gray-800 outline outline-0 [&::-webkit-search-cancel-button]:hidden"
         />

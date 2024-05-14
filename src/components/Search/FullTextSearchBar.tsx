@@ -8,7 +8,6 @@ import {
 import { SearchFieldComponent } from "../common/SearchFieldComponent.tsx";
 
 export function FullTextSearchBar(props: {
-  reactRef: React.RefObject<HTMLInputElement>;
   fullText: string;
   onSubmit: (searchResult: string) => void;
 }) {
@@ -34,7 +33,6 @@ export function FullTextSearchBar(props: {
 
   return (
     <SearchFieldComponent
-      reactRef={props.reactRef}
       label={translate("FULL_TEXT_SEARCH")}
       value={fullText}
       onChange={(newValue) => setFullText(newValue)}

@@ -35,8 +35,6 @@ export function SearchForm(props: SearchFormProps) {
   const queryHistory = useSearchStore((state) => state.searchQueryHistory);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
-  const [inputFacetDisabled, setInputFacetDisabled] = React.useState(false);
-  const ref = React.useRef<HTMLInputElement>(null);
 
   const {
     searchUrlParams,
@@ -104,10 +102,6 @@ export function SearchForm(props: SearchFormProps) {
 
   function updateFullText(value: string) {
     setSearchQuery({ ...searchQuery, fullText: value });
-
-    if (value.includes(projectConfig.inputFacetPrefix)) {
-      setInputFacetDisabled(true);
-    }
   }
 
   function resetDates(update: { dateFrom: string; dateTo: string }) {
@@ -148,52 +142,18 @@ export function SearchForm(props: SearchFormProps) {
       [projectConfig.inputFacetPrefix]: [value],
     };
 
-    console.log(newTerms);
-
-    console.log(keywordFacets);
-
     setSearchQuery({
       ...searchQuery,
       terms: newTerms,
     });
 
     onSearch();
-
-    // const ES_OPERATOR = "AND";
-
-    // //Geen FTS query van maken, maar via terms?
-    // const fullText = searchQuery.fullText;
-    // const newFullText =
-    //   `${projectConfig.inputFacetPrefix}` +
-    //   value +
-    //   ` ${ES_OPERATOR} ` +
-    //   fullText;
-
-    // setSearchQuery({
-    //   ...searchQuery,
-    //   fullText: newFullText,
-    // });
-
-    // if (newFullText.includes(projectConfig.inputFacetPrefix)) {
-    //   setInputFacetDisabled(true);
-    // }
-
-    // if (!searchResults) {
-    //   setTimeout(() => {
-    //     ref.current?.focus();
-    //   }, 10);
-    // }
-
-    // if (searchResults) {
-    //   onSearch();
-    // }
   }
 
   return (
     <div className={searchFormClasses}>
       <div className="w-full max-w-[450px]">
         <FullTextSearchBar
-          reactRef={ref}
           key={searchQuery.fullText}
           fullText={searchQuery.fullText}
           onSubmit={(newFullText) => {
@@ -207,10 +167,11 @@ export function SearchForm(props: SearchFormProps) {
         <div className="w-full max-w-[450px]">
           <InputFacet
             onSubmit={inputFacetOnSubmitHandler}
-            disabled={inputFacetDisabled}
-            inputValue={searchQuery.terms[
-              projectConfig.inputFacetPrefix
-            ]?.toString()}
+            key={searchQuery.terms[projectConfig.inputFacetPrefix]?.toString()}
+            inputValue={
+              searchQuery.terms[projectConfig.inputFacetPrefix]?.toString() ??
+              ""
+            }
           />
         </div>
       )}
