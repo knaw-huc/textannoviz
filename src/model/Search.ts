@@ -49,6 +49,9 @@ export type TranslatinSearchResultsBody = {
 export type MondriaanSearchResultsBody = {
   _id: string;
   bodyType: string;
+  correspondent: string;
+  sender: string;
+  period: string;
   type: string;
   _hits: {
     text: string[];
@@ -58,6 +61,7 @@ export type MondriaanSearchResultsBody = {
 export type VanGoghSearchResultsBody = {
   _id: string;
   correspondent: string;
+  sender: string;
   institution: string;
   location: string;
   msid: string;
