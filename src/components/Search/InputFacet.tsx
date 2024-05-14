@@ -1,4 +1,8 @@
 import React from "react";
+import {
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 import { SearchFieldComponent } from "../common/SearchFieldComponent";
 
 type InputFacetProps = {
@@ -9,14 +13,16 @@ type InputFacetProps = {
 export function InputFacet(props: InputFacetProps) {
   const [inputValue, setInputValue] = React.useState(props.inputValue);
 
+  const translateProject = useProjectStore(translateProjectSelector);
+
   function onSubmitHandler() {
     props.onSubmit(inputValue);
   }
 
   return (
     <SearchFieldComponent
-      label="Filter by inv. nr."
-      placeholder="Press ENTER to add inv. nr. to query"
+      label={translateProject("INPUT_FACET_LABEL")}
+      placeholder={translateProject("INPUT_FACET_PLACEHOLDER")}
       value={inputValue}
       onChange={(newInputValue) => setInputValue(newInputValue)}
       onClear={() => setInputValue("")}
