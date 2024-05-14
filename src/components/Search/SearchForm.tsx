@@ -144,28 +144,49 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function inputFacetOnSubmitHandler(value: string) {
-    const fullText = searchQuery.fullText;
-    const newFullText =
-      `${projectConfig.inputFacetPrefix}` + value + " AND " + fullText;
+    const newTerms = {
+      [projectConfig.inputFacetPrefix]: [value],
+    };
+
+    console.log(newTerms);
+
+    console.log(keywordFacets);
 
     setSearchQuery({
       ...searchQuery,
-      fullText: newFullText,
+      terms: newTerms,
     });
 
-    if (newFullText.includes(projectConfig.inputFacetPrefix)) {
-      setInputFacetDisabled(true);
-    }
+    onSearch();
 
-    if (!searchResults) {
-      setTimeout(() => {
-        ref.current?.focus();
-      }, 10);
-    }
+    // const ES_OPERATOR = "AND";
 
-    if (searchResults) {
-      onSearch();
-    }
+    // //Geen FTS query van maken, maar via terms?
+    // const fullText = searchQuery.fullText;
+    // const newFullText =
+    //   `${projectConfig.inputFacetPrefix}` +
+    //   value +
+    //   ` ${ES_OPERATOR} ` +
+    //   fullText;
+
+    // setSearchQuery({
+    //   ...searchQuery,
+    //   fullText: newFullText,
+    // });
+
+    // if (newFullText.includes(projectConfig.inputFacetPrefix)) {
+    //   setInputFacetDisabled(true);
+    // }
+
+    // if (!searchResults) {
+    //   setTimeout(() => {
+    //     ref.current?.focus();
+    //   }, 10);
+    // }
+
+    // if (searchResults) {
+    //   onSearch();
+    // }
   }
 
   return (
@@ -187,6 +208,9 @@ export function SearchForm(props: SearchFormProps) {
           <InputFacet
             onSubmit={inputFacetOnSubmitHandler}
             disabled={inputFacetDisabled}
+            inputValue={searchQuery.terms[
+              projectConfig.inputFacetPrefix
+            ]?.toString()}
           />
         </div>
       )}

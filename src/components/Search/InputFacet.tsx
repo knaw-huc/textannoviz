@@ -4,10 +4,13 @@ import { SearchFieldComponent } from "../common/SearchFieldComponent";
 type InputFacetProps = {
   onSubmit: (value: string) => void;
   disabled: boolean;
+  inputValue: string;
 };
 
 export function InputFacet(props: InputFacetProps) {
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState(props.inputValue);
+
+  console.log(inputValue);
 
   function onSubmitHandler() {
     props.onSubmit(inputValue);
