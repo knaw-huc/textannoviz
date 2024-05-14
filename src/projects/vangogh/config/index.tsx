@@ -76,7 +76,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   allPossibleTextPanels: ["textOrig", "textTrans", "self"],
   defaultTextPanels: ["textOrig"],
-  elasticIndexName: "letters-vangogh-0.2.0",
+  elasticIndexName: "letters-vangogh-0.2.1",
   initialDateFrom: "1600-01-01",
   initialDateTo: "2000-01-01",
   initialRangeFrom: "0",
