@@ -57,7 +57,7 @@ export interface ProjectConfig {
   showMiradorNavigationButtons: boolean;
   showInputFacet: boolean;
   selectedLanguage: LanguageCode;
-  inputFacetPrefix: string;
+  inputFacetOptions: string;
   languages: Language[];
   mirador: {
     showWindowSideBar: boolean;

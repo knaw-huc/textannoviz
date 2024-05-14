@@ -139,7 +139,7 @@ export function SearchForm(props: SearchFormProps) {
 
   function inputFacetOnSubmitHandler(value: string) {
     const newTerms = {
-      [projectConfig.inputFacetPrefix]: [value],
+      [projectConfig.inputFacetOptions]: [value],
     };
 
     setSearchQuery({
@@ -167,9 +167,9 @@ export function SearchForm(props: SearchFormProps) {
         <div className="w-full max-w-[450px]">
           <InputFacet
             onSubmit={inputFacetOnSubmitHandler}
-            key={searchQuery.terms[projectConfig.inputFacetPrefix]?.toString()}
+            key={searchQuery.terms[projectConfig.inputFacetOptions]?.toString()}
             inputValue={
-              searchQuery.terms[projectConfig.inputFacetPrefix]?.toString() ??
+              searchQuery.terms[projectConfig.inputFacetOptions]?.toString() ??
               ""
             }
           />

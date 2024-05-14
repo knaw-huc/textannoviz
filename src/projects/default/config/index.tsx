@@ -54,7 +54,7 @@ export const defaultConfig: Omit<
   showMiradorNavigationButtons: false,
   showInputFacet: false,
   histogramFacet: "",
-  inputFacetPrefix: "",
+  inputFacetOptions: "",
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,

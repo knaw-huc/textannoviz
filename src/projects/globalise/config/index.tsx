@@ -43,7 +43,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   allowEmptyStringSearch: false,
   showMiradorNavigationButtons: true,
   showInputFacet: true,
-  inputFacetPrefix: "invNr",
+  inputFacetOptions: "invNr",
   components: {
     AnnotationButtons,
     Help,
