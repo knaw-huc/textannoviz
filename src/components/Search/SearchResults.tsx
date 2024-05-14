@@ -1,5 +1,4 @@
 import isEmpty from "lodash/isEmpty";
-import keys from "lodash/keys";
 import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
@@ -9,7 +8,6 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { FacetEntry } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
@@ -21,10 +19,9 @@ import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
 
 export function SearchResults(props: {
-  keywordFacets: FacetEntry[];
   onSearch: (stayOnPage?: boolean) => void;
 }) {
-  const { keywordFacets, onSearch } = props;
+  const { onSearch } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const {
     searchUrlParams,
@@ -181,22 +178,23 @@ export function SearchResults(props: {
         </div>
       </div>
       <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10 pb-8">
-        {projectConfig.showSelectedFilters && !isEmpty(keywordFacets) && (
+        {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
           <>
             <span className="text-brand1Grey-600 text-sm">
               {translate("FILTERS")}:{" "}
             </span>
-            {keywordFacets.map(([facet, facetOptions]) =>
-              keys(facetOptions)
-                .filter((option) => searchQuery.terms[facet]?.includes(option))
-                .map((option, i) => (
-                  <KeywordFacetLabel
-                    key={i}
-                    option={option}
-                    facet={facet}
-                    onRemove={removeFacet}
-                  />
-                )),
+            {Object.entries(searchQuery.terms).map(
+              ([facetOptionName, facetOptions]) =>
+                facetOptions.map((facetOption, index) => {
+                  return (
+                    <KeywordFacetLabel
+                      key={index}
+                      option={facetOption}
+                      facet={facetOptionName}
+                      onRemove={removeFacet}
+                    />
+                  );
+                }),
             )}
           </>
         )}

@@ -217,12 +217,7 @@ export const Search = () => {
         {!isShowingResults && isInit && (
           <projectConfig.components.SearchInfoPage />
         )}
-        {isShowingResults && (
-          <SearchResults
-            onSearch={handleNewSearch}
-            keywordFacets={keywordFacets}
-          />
-        )}
+        {isShowingResults && <SearchResults onSearch={handleNewSearch} />}
       </SearchResultsColumn>
     </div>
   );
