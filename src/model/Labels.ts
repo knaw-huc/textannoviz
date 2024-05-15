@@ -55,8 +55,8 @@ export type Labels = {
 
   NO_FACETS_FOUND: string;
   NO_INDICES_FOUND: string;
-
   NO_SEARCH_RESULTS: string;
+  NO_SEARCH_STRING: string;
 
   DATE: string;
 };

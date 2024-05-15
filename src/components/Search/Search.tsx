@@ -153,7 +153,7 @@ export const Search = () => {
         searchQuery.fullText.length === 0 &&
         !projectConfig.allowEmptyStringSearch
       ) {
-        toast("No search term was specified. Please specify a search term.", {
+        toast(translate("NO_SEARCH_STRING"), {
           type: "warning",
         });
         setDirty(false);
