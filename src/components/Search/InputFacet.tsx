@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import {
   translateProjectSelector,
   useProjectStore,
@@ -16,6 +17,10 @@ export function InputFacet(props: InputFacetProps) {
   const translateProject = useProjectStore(translateProjectSelector);
 
   function onSubmitHandler() {
+    if (inputValue.length === 0) {
+      toast(translateProject("INPUT_FACET_EMPTY_WARNING"), { type: "warning" });
+      return;
+    }
     props.onSubmit(inputValue);
   }
 
