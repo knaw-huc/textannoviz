@@ -149,6 +149,19 @@ export const Search = () => {
     }
 
     async function searchWhenDirty() {
+      if (
+        searchQuery.fullText.length === 0 &&
+        !projectConfig.allowEmptyStringSearch
+      ) {
+        toast("No search term was specified. Please specify a search term.", {
+          type: "warning",
+        });
+        setDirty(false);
+        return;
+      }
+
+      setShowingResults(true);
+
       updateSearchQueryHistory(searchQuery);
 
       await getSearchResults(index, searchUrlParams, searchQuery, signal);
@@ -202,8 +215,8 @@ export const Search = () => {
     if (!stayOnPage) {
       resetPage();
     }
+
     setDirty(true);
-    setShowingResults(true);
   }
 
   return (
