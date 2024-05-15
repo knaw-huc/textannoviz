@@ -177,9 +177,9 @@ export function SearchResults(props: {
           )}
         </div>
       </div>
-      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10 pb-8">
+      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-8">
         {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
-          <>
+          <div className="flex w-full flex-row items-center justify-start gap-2">
             <span className="text-brand1Grey-600 text-sm">
               {translate("FILTERS")}:{" "}
             </span>
@@ -196,18 +196,20 @@ export function SearchResults(props: {
                   );
                 }),
             )}
-          </>
+          </div>
         )}
 
         {searchResults.results.length >= 1 && (
-          <SearchPagination
-            prevPageClickHandler={selectPrevPage}
-            nextPageClickHandler={selectNextPage}
-            pageNumber={pageNumber}
-            searchResult={searchResults}
-            elasticSize={pageSize}
-            jumpToPage={jumpToPage}
-          />
+          <div className="flex w-full flex-row justify-end">
+            <SearchPagination
+              prevPageClickHandler={selectPrevPage}
+              nextPageClickHandler={selectNextPage}
+              pageNumber={pageNumber}
+              searchResult={searchResults}
+              elasticSize={pageSize}
+              jumpToPage={jumpToPage}
+            />
+          </div>
         )}
       </div>
       {projectConfig.showHistogram ? (
