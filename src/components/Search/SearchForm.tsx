@@ -139,7 +139,7 @@ export function SearchForm(props: SearchFormProps) {
 
   function inputFacetOnSubmitHandler(value: string) {
     const newTerms = {
-      [projectConfig.inputFacetOptions]: [value],
+      [projectConfig.inputFacetOptions]: value.split(","),
     };
 
     setSearchQuery({
@@ -169,8 +169,9 @@ export function SearchForm(props: SearchFormProps) {
             onSubmit={inputFacetOnSubmitHandler}
             key={searchQuery.terms[projectConfig.inputFacetOptions]?.toString()}
             inputValue={
-              searchQuery.terms[projectConfig.inputFacetOptions]?.toString() ??
-              ""
+              searchQuery.terms[
+                projectConfig.inputFacetOptions
+              ]?.toString() ?? [""]
             }
           />
         </div>
