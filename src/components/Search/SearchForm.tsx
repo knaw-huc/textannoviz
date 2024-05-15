@@ -169,9 +169,8 @@ export function SearchForm(props: SearchFormProps) {
             onSubmit={inputFacetOnSubmitHandler}
             key={searchQuery.terms[projectConfig.inputFacetOptions]?.toString()}
             inputValue={
-              searchQuery.terms[
-                projectConfig.inputFacetOptions
-              ]?.toString() ?? [""]
+              searchQuery.terms[projectConfig.inputFacetOptions]?.toString() ??
+              ""
             }
           />
         </div>
