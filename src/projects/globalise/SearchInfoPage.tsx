@@ -7,9 +7,10 @@ export const SearchInfoPage = () => {
         Welcome to the beta <i>GLOBALISE Transcriptions Viewer</i>. This tool
         allows you to easily search and view the machine-generated
         transcriptions and page images of the{" "}
-        <a href="https://globalise.huygens.knaw.nl">GLOBALISE project</a> source
-        corpus side-by-side in a web browser. A detailed explanation of how to
-        use this viewer, with search tips, is available via the{" "}
+        <a href="https://globalise.huygens.knaw.nl">GLOBALISE project&apos;s</a>{" "}
+        Dutch East India Company (VOC) source corpus in a web browser. A
+        detailed explanation of how to use this viewer, with search tips, is
+        available via the{" "}
         <a href="https://transcriptions.globalise.huygens.knaw.nl/help">Help</a>{" "}
         link at the top of the screen.
       </p>
@@ -18,7 +19,7 @@ export const SearchInfoPage = () => {
         Please note: the Transcriptions Viewer is <u>not</u> an early version of
         the GLOBALISE research portal. It was designed as an interim solution
         for searching and exploring the GLOBALISE corpus until the research
-        infrastructure is released to the public in 2026.
+        infrastructure is released to the public in mid-2026.
       </p>
 
       <p className="mb-4 mt-4 block">
@@ -39,8 +40,9 @@ export const SearchInfoPage = () => {
 
       <p className="mb-4 mt-4 block">
         The c. 4.8M transcriptions accessible from the GLOBALISE Transcriptions
-        Viewer are drawn from the{" "}
+        Viewer are drawn from the
         <i>
+          {" "}
           <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02/">
             Overgekomen brieven en papieren
           </a>
@@ -48,31 +50,31 @@ export const SearchInfoPage = () => {
         (1610-1796) collection of the Dutch East India Company (VOC) preserved
         at the Netherlands National Archives, The Hague, under VOC inventory
         numbers 1053-4454 and 7527-11024. These transcriptions represent the
-        first (v1.0) version of the machine-generated HTR created in May, 2023.
+        second version (v2.0) of the machine-generated HTR created in March
+        2024.
       </p>
 
       <p className="mb-4 mt-4 block">
-        The transcriptions are made available under a{" "}
+        All versions of the transcriptions are available under a{" "}
         <a href="http://creativecommons.org/publicdomain/zero/1.0">
-          Creative Commons CC0 v1
+          Creative Commons CC0
         </a>{" "}
         license. You are free to build upon, enhance, and reuse the
         transcriptions for any purposes without restriction. A full copy of the
         GLOBALISE transcriptions is{" "}
-        <a href="https://hdl.handle.net/10622/JCTCJ2">
+        <a href="https://hdl.handle.net/10622/LVXSBW">
           freely available for download
         </a>
         . The scans of the original documents are available on the{" "}
         <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02/">
-          {" "}
           website of the National Archives
         </a>
-        , also under a CC0 v1 license. Please reference the GLOBALISE project
-        and the National Archives when using these transcriptions using this
+        , also under a CC0 license. Please reference the GLOBALISE project and
+        the National Archives when using the v2.0 transcriptions using this
         format:{" "}
         <code className="bg-gray-300">
           NL-HaNA, VOC, [inv.nr.], [scan nr.], transcription GLOBALISE project
-          (https://globalise.huygens.knaw.nl/), May 2023.
+          (https://globalise.huygens.knaw.nl/), March 2024.
         </code>
       </p>
 
@@ -103,10 +105,16 @@ export const SearchInfoPage = () => {
       <h4>Feedback</h4>
 
       <p className="mb-4 mt-4 block">
-        We greatly value your feedback. Please share your comments and questions
-        about the Transcription Viewer via our{" "}
+        We greatly value your feedback. Please share general comments and
+        questions about the Globalise project via our{" "}
         <a href="https://globalise.huygens.knaw.nl/contact-us/">contact page</a>
-        .
+        . Questions about the Transcriptions Viewer, ideas for improvement, and
+        bug reports can be shared with us via our{" "}
+        <a href="https://globalise.canny.io/transcriptions-viewer/">
+          feedback page
+        </a>
+        . Here you&apos;ll also have an opportunity to vote on features
+        suggested by others, and to suggest new features of your own.
       </p>
 
       <h4>Credits</h4>
@@ -157,7 +165,41 @@ export const SearchInfoPage = () => {
 
       <h4>Release Notes</h4>
 
-      <p className="mb-4 mt-4 block">v0.2 (3 Oct 2023)</p>
+      <p className="mb-4 mt-4 block">v0.3 (May 2024)</p>
+
+      <ul className="mb-4 mt-4 block list-disc pl-10">
+        <li className="list-item">
+          New (v2.0) HTR with more accurate transcriptions and improved
+          (PageXML) layout elements.
+        </li>
+        <li className="list-item">
+          {" "}
+          <a href="https://transcriptions.globalise.huygens.knaw.nl/help">
+            Filter search results
+          </a>{" "}
+          by VOC archive{" "}
+          <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02">
+            inventory numbers
+          </a>
+          .
+        </li>
+        <li className="list-item">
+          Ability to goto a specific page in the search results.
+        </li>
+        <li className="list-item">
+          Searching without a search term now displays an alert message.
+        </li>
+        <li className="list-item">
+          Icons in the Mirador image view now always appear in the correct
+          position.
+        </li>
+        <li className="list-item">
+          Search results with more than 10,000 items now show the correct
+          totals.
+        </li>
+      </ul>
+
+      <p className="mb-4 mt-4 block">v0.2 (Oct 2023)</p>
 
       <ul className="mb-4 mt-4 block list-disc pl-10">
         <li className="list-item">
