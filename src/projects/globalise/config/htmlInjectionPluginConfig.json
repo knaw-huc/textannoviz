@@ -1,0 +1,11 @@
+{
+  "injections": [
+    {
+      "name": "Globalise HTML injection",
+      "path": "./src/projects/globalise/config/globalise-html-injection.html",
+      "type": "raw",
+      "injectTo": "head",
+      "buildModes": "both"
+    }
+  ]
+}
