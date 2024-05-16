@@ -2,7 +2,7 @@ export const Help = () => {
   return (
     <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
       <div className="hidden w-full grow flex-col self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12">
-        <nav className="flex flex-col gap-1">
+        <nav className="sticky top-0 flex flex-col gap-1 overflow-y-auto">
           <h3>Table of contents</h3>
           <h4 className="m-0">Search:</h4>
           <div className="mb-4 ml-4 flex flex-col gap-2">
