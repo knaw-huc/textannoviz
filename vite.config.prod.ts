@@ -48,7 +48,8 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       checker({ typescript: true }),
-      htmlInjectionPlugin(htmlInjectionPluginConfig),
+      htmlInjectionPluginConfig &&
+        htmlInjectionPlugin(htmlInjectionPluginConfig),
     ],
 
     css: {
