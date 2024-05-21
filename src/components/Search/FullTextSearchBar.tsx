@@ -1,6 +1,7 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import { sanitiseString } from "../../utils/sanitiseString.ts";
 import { SearchFieldComponent } from "../common/SearchFieldComponent.tsx";
 
 export function FullTextSearchBar(props: {
@@ -17,10 +18,6 @@ export function FullTextSearchBar(props: {
     } else {
       return false;
     }
-  }
-
-  function sanitiseString(value: string) {
-    return value.trim();
   }
 
   function submitHandler() {
