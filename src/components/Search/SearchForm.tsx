@@ -151,8 +151,13 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function fullTextSearchBarSubmitHandler(value: string) {
-    updateFullText(value);
+    const sanitisedValue = value.trim();
+    updateFullText(sanitisedValue);
     onSearch();
+  }
+
+  function fullTextSearchBarOnBlurHandler(value: string) {
+    updateFullText(value);
   }
 
   return (
@@ -162,6 +167,7 @@ export function SearchForm(props: SearchFormProps) {
           key={searchQuery.fullText}
           fullText={searchQuery.fullText}
           onSubmit={fullTextSearchBarSubmitHandler}
+          onBlur={fullTextSearchBarOnBlurHandler}
         />
       </div>
 

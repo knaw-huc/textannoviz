@@ -29,44 +29,50 @@ export function KeywordFacet(props: {
   }
 
   return (
-    <CheckboxGroupComponent
-      label={translateProject(props.facetName)}
-      value={selected}
-      onChange={checkboxChangeHandler}
-    >
-      {Object.entries(props.facet).map(
-        ([facetOptionName, facetOption], index) => {
-          const isSelected =
-            !!props.selectedFacets[props.facetName]?.includes(facetOptionName);
-          const facetOptionKey = `${props.facetName}-${facetOptionName}`;
-          return (
-            <div
-              key={index}
-              className="flex w-full flex-row items-center justify-between"
-            >
-              <CheckboxComponent
-                id={facetOptionKey}
+    <>
+      <CheckboxGroupComponent
+        label={translateProject(props.facetName)}
+        value={selected}
+        onChange={checkboxChangeHandler}
+      >
+        {Object.entries(props.facet).map(
+          ([facetOptionName, facetOption], index) => {
+            const isSelected =
+              !!props.selectedFacets[props.facetName]?.includes(
+                facetOptionName,
+              );
+            const facetOptionKey = `${props.facetName}-${facetOptionName}`;
+            return (
+              <div
                 key={index}
-                value={facetOptionName}
-                onChange={() =>
-                  props.onChangeKeywordFacet(
-                    props.facetName,
-                    facetOptionName,
-                    !isSelected,
-                  )
-                }
-                isSelected={isSelected}
+                className="flex w-full flex-row items-center justify-between"
               >
-                {/^[a-z]/.test(facetOptionName)
-                  ? facetOptionName.charAt(0).toUpperCase() +
-                    facetOptionName.slice(1)
-                  : translateProject(facetOptionName)}
-              </CheckboxComponent>
-              <div className="text-sm text-neutral-500">{facetOption}</div>
-            </div>
-          );
-        },
-      )}
-    </CheckboxGroupComponent>
+                <CheckboxComponent
+                  id={facetOptionKey}
+                  key={index}
+                  value={facetOptionName}
+                  onChange={() =>
+                    props.onChangeKeywordFacet(
+                      props.facetName,
+                      facetOptionName,
+                      !isSelected,
+                    )
+                  }
+                  isSelected={isSelected}
+                >
+                  {/^[a-z]/.test(facetOptionName)
+                    ? facetOptionName.charAt(0).toUpperCase() +
+                      facetOptionName.slice(1)
+                    : translateProject(facetOptionName)}
+                </CheckboxComponent>
+                <div className="pr-1.5 text-sm text-neutral-500">
+                  {facetOption}
+                </div>
+              </div>
+            );
+          },
+        )}
+      </CheckboxGroupComponent>
+    </>
   );
 }

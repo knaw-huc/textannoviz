@@ -179,23 +179,25 @@ export function SearchResults(props: {
       </div>
       <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-8">
         {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
-          <div className="flex w-full flex-row items-center justify-start gap-2">
-            <span className="text-brand1Grey-600 text-sm">
-              {translate("FILTERS")}:{" "}
-            </span>
-            {Object.entries(searchQuery.terms).map(
-              ([facetOptionName, facetOptions]) =>
-                facetOptions.map((facetOption, index) => {
-                  return (
-                    <KeywordFacetLabel
-                      key={index}
-                      option={facetOption}
-                      facet={facetOptionName}
-                      onRemove={removeFacet}
-                    />
-                  );
-                }),
-            )}
+          <div className="flex w-full flex-row items-center justify-start">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <span className="text-brand1Grey-600 text-sm">
+                {translate("FILTERS")}:{" "}
+              </span>
+              {Object.entries(searchQuery.terms).map(
+                ([facetOptionName, facetOptions]) =>
+                  facetOptions.map((facetOption, index) => {
+                    return (
+                      <KeywordFacetLabel
+                        key={index}
+                        option={facetOption}
+                        facet={facetOptionName}
+                        onRemove={removeFacet}
+                      />
+                    );
+                  }),
+              )}
+            </div>
           </div>
         )}
 
