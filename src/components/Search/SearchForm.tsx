@@ -155,6 +155,10 @@ export function SearchForm(props: SearchFormProps) {
     onSearch();
   }
 
+  function fullTextSearchBarOnBlurHandler(value: string) {
+    updateFullText(value);
+  }
+
   return (
     <div className={searchFormClasses}>
       <div className="w-full max-w-[450px]">
@@ -162,6 +166,7 @@ export function SearchForm(props: SearchFormProps) {
           key={searchQuery.fullText}
           fullText={searchQuery.fullText}
           onSubmit={fullTextSearchBarSubmitHandler}
+          onBlur={fullTextSearchBarOnBlurHandler}
         />
       </div>
 
