@@ -24,6 +24,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Resolution",
     "Reviewed",
     "Session",
+    "Entity",
     // "TextRegion",
     "Scan",
   ],
