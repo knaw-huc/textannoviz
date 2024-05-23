@@ -32,11 +32,6 @@ export function InputFacet(props: InputFacetProps) {
   function onBlurHandler() {
     const sanitisedInputValue = sanitiseString(inputValue);
 
-    if (sanitisedInputValue.length === 0) {
-      toast(translateProject("INPUT_FACET_EMPTY_WARNING"), { type: "warning" });
-      return;
-    }
-
     props.onBlur(sanitisedInputValue);
   }
 
