@@ -139,7 +139,7 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function inputFacetOnSubmitHandler(value: string) {
-    const uniqValues = uniq(value.split(","));
+    const uniqValues = uniq(value.replace(/\s/g, "").split(","));
 
     const newTerms = {
       [projectConfig.inputFacetOptions]: uniqValues,
@@ -153,7 +153,7 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function inputFacetOnBlurHandler(value: string) {
-    const uniqValues = uniq(value.split(","));
+    const uniqValues = uniq(value.replace(/\s/g, "").split(","));
 
     const newTerms = {
       [projectConfig.inputFacetOptions]: uniqValues,
