@@ -1,5 +1,6 @@
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 import React from "react";
 import type { Key } from "react-aria-components";
 import {
@@ -138,21 +139,24 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function inputFacetOnSubmitHandler(value: string) {
+    const uniqValues = uniq(value.split(","));
+
     const newTerms = {
-      [projectConfig.inputFacetOptions]: value.split(","),
+      [projectConfig.inputFacetOptions]: uniqValues,
     };
 
     setSearchQuery({
       ...searchQuery,
       terms: newTerms,
     });
-
     onSearch();
   }
 
   function inputFacetOnBlurHandler(value: string) {
+    const uniqValues = uniq(value.split(","));
+
     const newTerms = {
-      [projectConfig.inputFacetOptions]: value.split(","),
+      [projectConfig.inputFacetOptions]: uniqValues,
     };
 
     setSearchQuery({
