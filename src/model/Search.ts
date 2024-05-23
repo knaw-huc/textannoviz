@@ -101,7 +101,7 @@ export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
   };
 };
 
-export type FacetType = "date" | "keyword";
+export type FacetType = "date" | "keyword" | "short";
 
 export type FacetNamesByType = {
   [key: FacetName]: FacetType;

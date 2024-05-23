@@ -15,6 +15,7 @@ import {
 export type SearchQuery = {
   dateFacet?: FacetName;
   rangeFacet?: FacetName;
+  aggs?: string[];
   dateFrom: string;
   dateTo: string;
   rangeFrom: string;
@@ -99,6 +100,10 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
       from: query.rangeFrom,
       to: query.rangeTo,
     };
+  }
+
+  if (query.aggs) {
+    searchQuery.aggs = query.aggs.map((agg) => `${agg}:200`);
   }
 
   return searchQuery;

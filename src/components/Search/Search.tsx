@@ -67,33 +67,43 @@ export const Search = () => {
       }
       const queryDecoded = getUrlQuery(urlParams);
 
+      const newIndices = await getElasticIndices(projectConfig, signal);
+      if (!newIndices) {
+        return toast(translate("NO_INDICES_FOUND"), { type: "error" });
+      }
+      const newIndex: FacetNamesByType =
+        newIndices[projectConfig.elasticIndexName];
+      const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
+      const newFacets = await getFacets(projectConfig, newIndex, signal);
+
+      const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
+
+      const newKeywordFacets = filterFacetsByType(
+        newIndex,
+        newFacets,
+        "keyword",
+      );
+
+      const keywordAggs = newKeywordFacets.map(
+        (keywordFacet) => keywordFacet[0],
+      );
+
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
+        aggs: keywordAggs,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
         rangeFrom: projectConfig.initialRangeFrom,
         rangeTo: projectConfig.initialRangeTo,
         ...queryDecoded,
       };
-      const newIndices = await getElasticIndices(projectConfig, signal);
-      if (!newIndices) {
-        return toast(translate("NO_INDICES_FOUND"), { type: "error" });
-      }
-      const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      const newFacets = await getFacets(projectConfig, signal);
-      const newIndex = newIndices[projectConfig.elasticIndexName];
-      const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
+
       if (!isEmpty(newDateFacets)) {
         newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
       }
       if (projectConfig.showSliderFacets) {
         newSearchQuery.rangeFacet = "text.tokenCount";
       }
-      const newKeywordFacets = filterFacetsByType(
-        newIndex,
-        newFacets,
-        "keyword",
-      );
 
       setKeywordFacets(newKeywordFacets);
       setIndex(newIndex);
