@@ -30,6 +30,8 @@ export function InputFacet(props: InputFacetProps) {
   }
 
   function onBlurHandler() {
+    if (inputValue.length === 0) return;
+
     const sanitisedInputValue = sanitiseString(inputValue);
 
     props.onBlur(sanitisedInputValue);
