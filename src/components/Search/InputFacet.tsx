@@ -9,6 +9,7 @@ import { SearchFieldComponent } from "../common/SearchFieldComponent";
 
 type InputFacetProps = {
   onSubmit: (value: string) => void;
+  onBlur: (value: string) => void;
   inputValue: string;
 };
 
@@ -28,6 +29,17 @@ export function InputFacet(props: InputFacetProps) {
     props.onSubmit(sanitisedInputValue);
   }
 
+  function onBlurHandler() {
+    const sanitisedInputValue = sanitiseString(inputValue);
+
+    if (sanitisedInputValue.length === 0) {
+      toast(translateProject("INPUT_FACET_EMPTY_WARNING"), { type: "warning" });
+      return;
+    }
+
+    props.onBlur(sanitisedInputValue);
+  }
+
   return (
     <SearchFieldComponent
       label={translateProject("INPUT_FACET_LABEL")}
@@ -35,6 +47,7 @@ export function InputFacet(props: InputFacetProps) {
       value={inputValue}
       onChange={(newInputValue) => setInputValue(newInputValue)}
       onClear={() => setInputValue("")}
+      onBlur={onBlurHandler}
       onSubmit={onSubmitHandler}
     />
   );

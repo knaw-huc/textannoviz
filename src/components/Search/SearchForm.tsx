@@ -150,6 +150,17 @@ export function SearchForm(props: SearchFormProps) {
     onSearch();
   }
 
+  function inputFacetOnBlurHandler(value: string) {
+    const newTerms = {
+      [projectConfig.inputFacetOptions]: value.split(","),
+    };
+
+    setSearchQuery({
+      ...searchQuery,
+      terms: newTerms,
+    });
+  }
+
   function fullTextSearchBarSubmitHandler(value: string) {
     updateFullText(value);
     onSearch();
@@ -174,6 +185,7 @@ export function SearchForm(props: SearchFormProps) {
         <div className="w-full max-w-[450px]">
           <InputFacet
             onSubmit={inputFacetOnSubmitHandler}
+            onBlur={inputFacetOnBlurHandler}
             key={searchQuery.terms[projectConfig.inputFacetOptions]?.toString()}
             inputValue={
               searchQuery.terms[projectConfig.inputFacetOptions]?.toString() ??
