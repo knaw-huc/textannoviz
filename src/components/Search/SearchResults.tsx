@@ -8,6 +8,7 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
@@ -18,10 +19,12 @@ import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
 
-export function SearchResults(props: {
+type SearchResultsProps = {
   onSearch: (stayOnPage?: boolean) => void;
-}) {
-  const { onSearch } = props;
+  selectedFacets: SearchQuery;
+};
+
+export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const {
     searchUrlParams,
@@ -51,7 +54,7 @@ export function SearchResults(props: {
       sortBy: sorting.field,
       sortOrder: sorting.order,
     });
-    onSearch();
+    props.onSearch();
   }
 
   function selectPrevPage() {
@@ -81,7 +84,7 @@ export function SearchResults(props: {
       ...searchUrlParams,
       from: newFrom,
     });
-    onSearch(true);
+    props.onSearch(true);
   }
 
   const changePageSize = (key: Key) => {
@@ -92,7 +95,7 @@ export function SearchResults(props: {
       ...searchUrlParams,
       size: key as number,
     });
-    onSearch();
+    props.onSearch();
   };
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
@@ -100,7 +103,7 @@ export function SearchResults(props: {
     removeTerm(newTerms, facet, option);
     setSearchQuery({ ...searchQuery, terms: newTerms });
     setSearchUrlParams({ ...searchUrlParams });
-    onSearch();
+    props.onSearch();
   }
 
   if (!searchResults) {
@@ -131,7 +134,7 @@ export function SearchResults(props: {
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
     });
-    onSearch();
+    props.onSearch();
   }
 
   function returnToPrevDateRange() {
@@ -146,7 +149,7 @@ export function SearchResults(props: {
       dateTo: prevQuery.dateTo,
     });
 
-    onSearch();
+    props.onSearch();
   }
 
   return (
@@ -178,26 +181,27 @@ export function SearchResults(props: {
         </div>
       </div>
       <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-8">
-        {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
-          <div className="flex w-full flex-row items-center justify-start gap-2">
-            <span className="text-brand1Grey-600 text-sm">
-              {translate("FILTERS")}:{" "}
-            </span>
-            {Object.entries(searchQuery.terms).map(
-              ([facetOptionName, facetOptions]) =>
-                facetOptions.map((facetOption, index) => {
-                  return (
-                    <KeywordFacetLabel
-                      key={index}
-                      option={facetOption}
-                      facet={facetOptionName}
-                      onRemove={removeFacet}
-                    />
-                  );
-                }),
-            )}
-          </div>
-        )}
+        {projectConfig.showSelectedFilters &&
+          !isEmpty(props.selectedFacets.terms) && (
+            <div className="flex w-full flex-row items-center justify-start gap-2">
+              <span className="text-brand1Grey-600 text-sm">
+                {translate("FILTERS")}:{" "}
+              </span>
+              {Object.entries(props.selectedFacets.terms).map(
+                ([facetOptionName, facetOptions]) =>
+                  facetOptions.map((facetOption, index) => {
+                    return (
+                      <KeywordFacetLabel
+                        key={index}
+                        option={facetOption}
+                        facet={facetOptionName}
+                        onRemove={removeFacet}
+                      />
+                    );
+                  }),
+              )}
+            </div>
+          )}
 
         {searchResults.results.length >= 1 && (
           <div className="flex w-full flex-row justify-end">

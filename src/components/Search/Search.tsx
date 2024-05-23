@@ -1,6 +1,6 @@
 import { Base64 } from "js-base64";
 import isEmpty from "lodash/isEmpty";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FacetNamesByType } from "../../model/Search";
@@ -33,6 +33,14 @@ export const Search = () => {
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
   const [index, setIndex] = useState<FacetNamesByType>({});
   const [urlParams, setUrlParams] = useSearchParams();
+  const [selectedFacets, setSelectedFacets] = React.useState<SearchQuery>({
+    dateFrom: "",
+    dateTo: "",
+    rangeFrom: "",
+    rangeTo: "",
+    fullText: "",
+    terms: {},
+  });
   const translate = useProjectStore(translateSelector);
   const {
     searchUrlParams,
@@ -99,6 +107,7 @@ export const Search = () => {
       setIndex(newIndex);
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
+      setSelectedFacets(newSearchQuery);
 
       if (queryDecoded?.fullText) {
         await getSearchResults(
@@ -163,6 +172,7 @@ export const Search = () => {
       setShowingResults(true);
 
       updateSearchQueryHistory(searchQuery);
+      setSelectedFacets(searchQuery);
 
       await getSearchResults(index, searchUrlParams, searchQuery, signal);
       setDirty(false);
@@ -230,7 +240,12 @@ export const Search = () => {
         {!isShowingResults && isInit && (
           <projectConfig.components.SearchInfoPage />
         )}
-        {isShowingResults && <SearchResults onSearch={handleNewSearch} />}
+        {isShowingResults && (
+          <SearchResults
+            onSearch={handleNewSearch}
+            selectedFacets={selectedFacets}
+          />
+        )}
       </SearchResultsColumn>
     </div>
   );
