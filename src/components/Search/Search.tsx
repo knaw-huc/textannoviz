@@ -230,7 +230,7 @@ export const Search = () => {
   }
 
   return (
-    <div
+    <main
       id="searchContainer"
       className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
     >
@@ -247,6 +247,6 @@ export const Search = () => {
           />
         )}
       </SearchResultsColumn>
-    </div>
+    </main>
   );
 };

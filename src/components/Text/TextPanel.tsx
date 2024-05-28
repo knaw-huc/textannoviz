@@ -18,7 +18,7 @@ export const TextPanel = (props: TextPanelProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   return (
-    <div
+    <main
       id={props.panel}
       className="prose border-brand1Grey-100 mx-auto w-full max-w-full overflow-auto border-x border-y p-3 font-serif text-lg"
     >
@@ -33,10 +33,10 @@ export const TextPanel = (props: TextPanelProps) => {
           onClick={() => props.closePanelHandler(props.panel)}
         />
       )}
-      <strong className="text-brand1Grey-800 mb-4 block border-b">
+      <h1 className="text-brand1Grey-800 mb-4 block border-b text-base">
         {translateProject(`${props.panel}`)}
-      </strong>
+      </h1>
       <TextHighlighting text={props.text} />
-    </div>
+    </main>
   );
 };
