@@ -87,7 +87,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     return classesAsStr;
   }
 
-  function renderLines(line: string, index: number) {
+  function renderLine(line: string, index: number) {
     let result = (
       <span className={collectClasses(index) + "w-fit"}>{line}</span>
     );
@@ -141,9 +141,11 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
   return (
     <>
-      {textLinesToDisplay.map((lines, key) => (
-        <div key={key} className="leading-loose">
-          {lines.map((line, index) => renderLines(line, index))}
+      {textLinesToDisplay.map((lines, index) => (
+        <div key={index} className="leading-loose">
+          {lines.map((line, index) => (
+            <span key={index}>{renderLine(line, index)}</span>
+          ))}
           {/* Index is reset after each new line (see LL40-45 above). This results in the index no longer being in sync with the start and end of TextRepo. I.e., a person is mentioned on start 9, end 9, it will highlight index 9, even though the index of that array was reset because of a preceding new line. */}
         </div>
       ))}
