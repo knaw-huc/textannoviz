@@ -5,12 +5,13 @@ import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { useSearchStore } from "../../stores/search/search-store";
+import { getAnnotationsByType } from "./getAnnotationsByType.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
 };
 
-export const TextHighlighting = (props: TextHighlightingProps) => {
+export const LineTextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();
@@ -26,14 +27,10 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const textLinesToDisplay: string[][] = [[]];
 
   React.useEffect(() => {
-    const filteredAnnotations: AnnoRepoAnnotation[] = [];
-    annotationTypesToHighlight.forEach((annotationType) => {
-      const annotationsOfType = annotations.filter(
-        (annotation) => annotation.body.type === annotationType,
-      );
-      filteredAnnotations.push(...annotationsOfType);
-    });
-
+    const filteredAnnotations = getAnnotationsByType(
+      annotations,
+      annotationTypesToHighlight,
+    );
     setAnnotationsToHighlight(filteredAnnotations);
   }, [annotations, annotationTypesToHighlight]);
 
