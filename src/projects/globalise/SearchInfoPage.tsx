@@ -197,6 +197,9 @@ export const SearchInfoPage = () => {
           Search results with more than 10,000 items now show the correct
           totals.
         </li>
+        <li className="list-item">
+          Added inventory no. to page titles in search results.
+        </li>
       </ul>
 
       <p className="mb-4 mt-4 block">v0.2 (Oct 2023)</p>

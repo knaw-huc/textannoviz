@@ -35,7 +35,7 @@ export const Help = () => {
           <h4 className="m-0">Filter:</h4>
           <div className="mb-4 ml-4 flex flex-col gap-2">
             <a className="w-fit" href="#filter">
-              Filtering Search Results
+              Inventory Number
             </a>
           </div>
           <h4 className="m-0">View:</h4>
@@ -255,7 +255,7 @@ export const Help = () => {
           letter words ending in a question mark, such as{" "}
           <code className="bg-gray-300">is?</code>.
         </p>
-        <h4 id="filter">Filtering Search Results</h4>
+        <h4 id="filter">Filter</h4>
         <p className="mb-4 mt-4 block">
           At present, you can only filter your search results by the VOC
           archive&apos;s{" "}
