@@ -198,14 +198,14 @@ export const Help = () => {
           For example:{" "}
           <code className="bg-gray-300">
             trader OR merchant OR koopluyden OR schipper
-          </code>
+          </code>{" "}
           will find results in which any one of these words occur at least once.
         </p>
         <p className="mb-4 mt-4 block">
           For example:{" "}
           <code className="bg-gray-300">
             (gecommitteerd OR gecommitteerdens) NOT gecommitteer
-          </code>
+          </code>{" "}
           will find results which include the word{" "}
           <code className="bg-gray-300">gecommitteerd</code> or the word{" "}
           <code className="bg-gray-300">gecommitteerdens</code> at least once,
@@ -225,7 +225,7 @@ export const Help = () => {
           For example:{" "}
           <code className="bg-gray-300">
             (commis* OR gecommit*) NOT gecommitteerden
-          </code>
+          </code>{" "}
           will find results containing words starting with{" "}
           <code className="bg-gray-300">commis</code> or{" "}
           <code className="bg-gray-300">gecommit</code>, but not containing the
