@@ -24,17 +24,20 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Resolution",
     "Reviewed",
     "Session",
+    "Entity",
     // "TextRegion",
     "Scan",
   ],
-  annotationTypesToHighlight: ["Attendant"],
+  // TODO: remove?
+  annotationTypesToHighlight: ["Resolution", "Attendant", "Entity"],
   allowedAnnotationTypesToHighlight: [
     "AttendanceList",
     "Attendant",
     "Resolution",
     "Reviewed",
   ],
-  elasticIndexName: "republic-2024.01.19-wc",
+  // elasticIndexName: "republic-2024.01.19-wc",
+  elasticIndexName: "republic-2024.05.17",
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",
@@ -64,4 +67,6 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     showTopMenuButton: true,
     showWindowSideBar: true,
   },
+  // TODO: remove next dev line
+  showMirador: false,
 });
