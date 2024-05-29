@@ -2,6 +2,7 @@ import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { getAnnotationsByType } from "./getAnnotationsByType.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
+import * as _ from "lodash";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -32,14 +33,23 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
     annotations,
     typesToHighlight,
   );
-  const relativeAnnotationPositions = props.text.locations.annotations;
-  const logicalAnnotations = annotationsToHighlight.map((a) =>
-    withRelativePosition(a, relativeAnnotationPositions),
-  );
+  const relativePositions = props.text.locations.annotations;
+  const lines = props.text.lines;
+
+  let logicalAnnotations;
+  try {
+    logicalAnnotations = annotationsToHighlight
+      .filter((a) => isAnnotationInSingleLine(a, relativePositions))
+      .map((a) => withRelativePosition(a, relativePositions, lines));
+  } catch (e) {
+    console.error("Could not create logical annotations", e);
+    return null;
+  }
 
   console.log("LogicalTextHighlighting", {
+    typesToHighlight,
     annotationsToHighlight,
-    relativeAnnotationPositions,
+    relativeAnnotationPositions: relativePositions,
     logicalAnnotations,
   });
 
@@ -57,6 +67,7 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
 function withRelativePosition(
   annotation: AnnoRepoAnnotation,
   positionsRelativeToView: BroccoliViewPosition[],
+  lines: string[],
 ): RelativeTextAnnotation {
   const positionRelativeToView = positionsRelativeToView.find(
     (p) => p.bodyId === annotation.body.id,
@@ -67,16 +78,30 @@ function withRelativePosition(
   if (positionRelativeToView.start.line !== positionRelativeToView.end.line) {
     throw new Error(`Annotation spans multiple lines: ${annotation.body.id}`);
   }
-  if (
-    !positionRelativeToView.start.offset ||
-    !positionRelativeToView.end.offset
-  ) {
-    throw new Error(`Start or end offset missing: ${positionRelativeToView}`);
-  }
+  const startChar: number = _.has(positionRelativeToView.start, "offset")
+    ? positionRelativeToView.start.offset!
+    : 0;
+  const endChar: number = _.has(positionRelativeToView.end, "offset")
+    ? positionRelativeToView.end.offset!
+    : lines[positionRelativeToView.end.line].length;
   return {
     type: annotation.body.type,
     anno: annotation,
-    startChar: positionRelativeToView.start.offset,
-    endChar: positionRelativeToView.end.offset,
+    startChar,
+    endChar,
   };
+}
+
+function isAnnotationInSingleLine(
+  annotation: AnnoRepoAnnotation,
+  relativePositions: BroccoliViewPosition[],
+) {
+  const relative = relativePositions.find(
+    (p) => p.bodyId === annotation.body.id,
+  );
+  const isInSingleLine = relative && relative.start.line === relative.end.line;
+  if (!isInSingleLine) {
+    console.debug(`Ignoring annotation ${annotation.id}: not in single line`);
+  }
+  return isInSingleLine;
 }
