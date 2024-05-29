@@ -7,23 +7,24 @@ export async function getFacets(
   facetsByType: FacetNamesByType,
   signal: AbortSignal,
 ) {
-  const DEFAULT_ES_AGGS_SIZE = 50;
-  const invNrSize = 1000;
-  const otherDefaults = ["invNr"];
+  console.log(facetsByType);
+  // const DEFAULT_ES_AGGS_SIZE = 50;
+  // const invNrSize = 1000;
+  // const otherDefaults = ["invNr"];
 
-  const keywordAggs = Object.entries(facetsByType)
-    .filter(([, facetType]) => facetType === "keyword")
-    .map(([facetName]) => {
-      const size = otherDefaults.includes(facetName)
-        ? invNrSize
-        : DEFAULT_ES_AGGS_SIZE;
-      return `${facetName}:${size}`;
-    });
+  // const keywordAggs = Object.entries(facetsByType)
+  //   .filter(([, facetType]) => facetType === "keyword")
+  //   .map(([facetName]) => {
+  //     const size = otherDefaults.includes(facetName)
+  //       ? invNrSize
+  //       : DEFAULT_ES_AGGS_SIZE;
+  //     return `${facetName}:${size}`;
+  //   });
 
   const searchResults = await sendSearchQuery(
     projectConfig,
     { size: 0, indexName: projectConfig.elasticIndexName },
-    { aggs: keywordAggs, terms: {} },
+    {},
     signal,
   );
   if (!searchResults?.aggs) {

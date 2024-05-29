@@ -84,13 +84,13 @@ export const Search = () => {
         "keyword",
       );
 
-      const keywordAggs = newKeywordFacets.map(
-        (keywordFacet) => keywordFacet[0],
-      );
+      // const keywordAggs = newKeywordFacets.map(
+      //   (keywordFacet) => keywordFacet[0],
+      // );
 
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
-        aggs: keywordAggs,
+        // aggs: keywordAggs,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
         rangeFrom: projectConfig.initialRangeFrom,

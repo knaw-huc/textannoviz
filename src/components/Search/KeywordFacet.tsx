@@ -31,7 +31,8 @@ export function KeywordFacet(props: {
   return (
     <>
       <CheckboxGroupComponent
-        label={translateProject(props.facetName)}
+        translatedLabel={translateProject(props.facetName)}
+        dataLabel={props.facetName}
         value={selected}
         onChange={checkboxChangeHandler}
       >
@@ -65,7 +66,7 @@ export function KeywordFacet(props: {
                       facetOptionName.slice(1)
                     : translateProject(facetOptionName)}
                 </CheckboxComponent>
-                <div className="pr-1.5 text-sm text-neutral-500">
+                <div className="pr-2 text-sm text-neutral-500">
                   {facetOption}
                 </div>
               </div>
