@@ -2,10 +2,16 @@ import { toast } from "react-toastify";
 import { ProjectConfig } from "../model/ProjectConfig";
 import { SearchQueryRequestBody, SearchResult } from "../model/Search";
 import { SearchUrlParams } from "../stores/search/search-params-slice.ts";
-
+import { Broccoli } from "../model/Broccoli.ts";
+import dummy from "./dummy-broccoli-session-3248-num-14-resolution-4.json";
 const headers = {
   "Content-Type": "application/json",
 };
+
+export const fetchBroccoliScanWithOverlapDummy =
+  async (): Promise<Broccoli> => {
+    return Promise.resolve(dummy as unknown as Broccoli);
+  };
 
 export const fetchBroccoliScanWithOverlap = async (
   bodyId: string,
