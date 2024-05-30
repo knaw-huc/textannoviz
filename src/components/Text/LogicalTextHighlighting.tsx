@@ -1,19 +1,14 @@
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation.ts";
-import { getAnnotationsByType } from "./getAnnotationsByType.tsx";
+import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
-import * as _ from "lodash";
-import { RelativeTextAnnotation } from "./RelativeTextAnnotation.tsx";
+import { RelativeTextAnnotation } from "./RelativeTextAnnotation.ts";
 import { LogicalLine } from "./LogicalLine.tsx";
+import { withRelativePosition } from "./utils/withRelativePosition.ts";
+import { BroccoliViewPosition } from "./BroccoliViewPosition.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
-};
-
-type BroccoliViewPosition = {
-  bodyId: string;
-  start: { line: number; offset?: number };
-  end: { line: number; offset?: number };
 };
 
 export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
@@ -59,35 +54,6 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
   );
 };
 
-function withRelativePosition(
-  annotation: AnnoRepoAnnotation,
-  positionsRelativeToView: BroccoliViewPosition[],
-  lines: string[],
-): RelativeTextAnnotation {
-  const positionRelativeToView = positionsRelativeToView.find(
-    (p) => p.bodyId === annotation.body.id,
-  );
-  if (!positionRelativeToView) {
-    throw new Error(`Position not found of ${annotation}`);
-  }
-  if (positionRelativeToView.start.line !== positionRelativeToView.end.line) {
-    throw new Error(`Annotation spans multiple lines: ${annotation.body.id}`);
-  }
-  const startChar: number = _.has(positionRelativeToView.start, "offset")
-    ? positionRelativeToView.start.offset!
-    : 0;
-  const endChar: number = _.has(positionRelativeToView.end, "offset")
-    ? positionRelativeToView.end.offset!
-    : lines[positionRelativeToView.end.line].length;
-  return {
-    type: annotation.body.type,
-    anno: annotation,
-    lineIndex: positionRelativeToView.start.line,
-    startChar,
-    endChar,
-  };
-}
-
 function isAnnotationInSingleLine(
   annotation: AnnoRepoAnnotation,
   relativePositions: BroccoliViewPosition[],
@@ -97,7 +63,7 @@ function isAnnotationInSingleLine(
   );
   const isInSingleLine = relative && relative.start.line === relative.end.line;
   if (!isInSingleLine) {
-    console.debug(`Ignoring annotation ${annotation.id}: not in single line`);
+    console.debug(`Ignoring multiline annotation ${annotation.id}`);
   }
   return isInSingleLine;
 }

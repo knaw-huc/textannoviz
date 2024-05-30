@@ -5,7 +5,7 @@ import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { useSearchStore } from "../../stores/search/search-store";
-import { getAnnotationsByType } from "./getAnnotationsByType.tsx";
+import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;

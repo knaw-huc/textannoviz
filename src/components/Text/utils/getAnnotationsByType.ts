@@ -1,4 +1,4 @@
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
+import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation.ts";
 
 export function getAnnotationsByType(
   annotations: AnnoRepoAnnotation[],

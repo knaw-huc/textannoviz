@@ -37,8 +37,9 @@ export const TextPanel = (props: TextPanelProps) => {
       <strong className="text-brand1Grey-800 mb-4 block border-b">
         {translateProject(`${props.panel}`)}
       </strong>
-      <LineTextHighlighting text={props.text} />
       <LogicalTextHighlighting text={props.text} />
+      <hr />
+      <LineTextHighlighting text={props.text} />
     </div>
   );
 };

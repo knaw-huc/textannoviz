@@ -1,17 +1,22 @@
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 
 export type AnnotationType = string;
+export type AnnotationId = string;
 
 /**
  * Annotation with char positions relative to line
+ *
+ * Note: end offset excludes last character, as found in the body ID,
+ * but not in line with the char index as returned by broccoli (which includes the last char)
  */
 export type RelativeTextAnnotation = {
   type: AnnotationType;
   lineIndex: number;
+
   startChar: number;
 
   /**
-   * Including last character
+   * Excluding last character (see note {@link RelativeTextAnnotation})
    */
   endChar: number;
 
