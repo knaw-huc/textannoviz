@@ -498,7 +498,22 @@
           "source": "https://textrepo.republic-caf.diginfra.org/api/view/versions/1155e95c-19ee-42b0-87e5-5e235cdeef23/segments/index/209/288/209/299"
         }
       ]
+    },
+
+    {
+      "body": {
+        "comment": "dummy data to test overlapping annotation: overlapping with urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
+        "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:185-213",
+        "type": "Entity",
+        "text": "Rotterdam ten achteren staet",
+        "metadata": {
+          "category": "LOC",
+          "layer": "LOC"
+        }
+      }
     }
+
+
   ],
   "views": {
     "self": {
@@ -575,6 +590,19 @@
             "end": {
               "line": 1,
               "offset": 299
+            }
+          },
+
+          {
+            "comment": "dummy data to test overlapping annotation",
+            "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:185-213",
+            "start": {
+              "line": 0,
+              "offset": 185
+            },
+            "end": {
+              "line": 0,
+              "offset": 212
             }
           }
         ]
