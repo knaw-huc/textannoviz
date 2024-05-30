@@ -3,21 +3,11 @@ import { useAnnotationStore } from "../../stores/annotation.ts";
 import { getAnnotationsByType } from "./getAnnotationsByType.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import * as _ from "lodash";
+import { RelativeTextAnnotation } from "./RelativeTextAnnotation.tsx";
+import { LogicalLine } from "./LogicalLine.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
-};
-
-type AnnotationType = string;
-
-/**
- * Annotation with positions relative to item
- */
-type RelativeTextAnnotation = {
-  type: AnnotationType;
-  startChar: number;
-  endChar: number;
-  anno: AnnoRepoAnnotation;
 };
 
 type BroccoliViewPosition = {
@@ -36,7 +26,7 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
   const relativePositions = props.text.locations.annotations;
   const lines = props.text.lines;
 
-  let logicalAnnotations;
+  let logicalAnnotations: RelativeTextAnnotation[];
   try {
     logicalAnnotations = annotationsToHighlight
       .filter((a) => isAnnotationInSingleLine(a, relativePositions))
@@ -57,7 +47,12 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
     <div className="leading-loose">
       {props.text.lines.map((line, index) => (
         <div key={index} className="w-fit">
-          {line}
+          <LogicalLine
+            line={line}
+            annotations={logicalAnnotations.filter(
+              (a) => a.lineIndex === index,
+            )}
+          />
         </div>
       ))}
     </div>
@@ -87,6 +82,7 @@ function withRelativePosition(
   return {
     type: annotation.body.type,
     anno: annotation,
+    lineIndex: positionRelativeToView.start.line,
     startChar,
     endChar,
   };
