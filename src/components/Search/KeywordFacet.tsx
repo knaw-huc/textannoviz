@@ -4,6 +4,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
 import {
   CheckboxComponent,
   CheckboxGroupComponent,
@@ -15,10 +16,13 @@ export function KeywordFacet(props: {
   selectedFacets: Terms;
   onChangeKeywordFacet: (
     facetName: string,
-    facetOptionName: string,
+    facetValueName: string,
     selected: boolean,
   ) => void;
+  onSearch: (stayOnPage?: boolean) => void;
 }) {
+  const facetLength = Object.keys(props.facet).length;
+  const { searchQuery, setSearchQuery } = useSearchStore();
   const translateProject = useProjectStore(translateProjectSelector);
   const [selected, setSelected] = React.useState<string[]>(
     props.selectedFacets[props.facetName] ?? [],
@@ -28,6 +32,21 @@ export function KeywordFacet(props: {
     setSelected(newSelected);
   }
 
+  function sortAlphaAscIconClickHandler(aggregation: string, orderBy: string) {
+    const prevAggs = searchQuery.aggs;
+
+    const newAggs = prevAggs?.map((prevAgg) => {
+      return prevAgg === aggregation ? `${aggregation}:${orderBy}` : prevAgg;
+    });
+
+    setSearchQuery({
+      ...searchQuery,
+      aggs: newAggs,
+    });
+
+    props.onSearch();
+  }
+
   return (
     <>
       <CheckboxGroupComponent
@@ -35,14 +54,14 @@ export function KeywordFacet(props: {
         dataLabel={props.facetName}
         value={selected}
         onChange={checkboxChangeHandler}
+        sortAlphaAscIconClickHander={sortAlphaAscIconClickHandler}
+        facetLength={facetLength}
       >
         {Object.entries(props.facet).map(
-          ([facetOptionName, facetOption], index) => {
+          ([facetValueName, facetValueCount], index) => {
             const isSelected =
-              !!props.selectedFacets[props.facetName]?.includes(
-                facetOptionName,
-              );
-            const facetOptionKey = `${props.facetName}-${facetOptionName}`;
+              !!props.selectedFacets[props.facetName]?.includes(facetValueName);
+            const facetOptionKey = `${props.facetName}-${facetValueName}`;
             return (
               <div
                 key={index}
@@ -51,23 +70,20 @@ export function KeywordFacet(props: {
                 <CheckboxComponent
                   id={facetOptionKey}
                   key={index}
-                  value={facetOptionName}
+                  value={facetValueName}
                   onChange={() =>
                     props.onChangeKeywordFacet(
                       props.facetName,
-                      facetOptionName,
+                      facetValueName,
                       !isSelected,
                     )
                   }
                   isSelected={isSelected}
                 >
-                  {/^[a-z]/.test(facetOptionName)
-                    ? facetOptionName.charAt(0).toUpperCase() +
-                      facetOptionName.slice(1)
-                    : translateProject(facetOptionName)}
+                  {translateProject(facetValueName)}
                 </CheckboxComponent>
                 <div className="pr-2 text-sm text-neutral-500">
-                  {facetOption}
+                  {facetValueCount}
                 </div>
               </div>
             );

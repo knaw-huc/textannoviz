@@ -12,19 +12,18 @@ export async function getFacets(
   // const invNrSize = 1000;
   // const otherDefaults = ["invNr"];
 
-  // const keywordAggs = Object.entries(facetsByType)
-  //   .filter(([, facetType]) => facetType === "keyword")
-  //   .map(([facetName]) => {
-  //     const size = otherDefaults.includes(facetName)
-  //       ? invNrSize
-  //       : DEFAULT_ES_AGGS_SIZE;
-  //     return `${facetName}:${size}`;
-  //   });
+  const aggregations = Object.entries(facetsByType).map(([facetName]) => {
+    // const size = otherDefaults.includes(facetName)
+    //   ? invNrSize
+    //   : DEFAULT_ES_AGGS_SIZE;
+    // return `${facetName}:${size}`;
+    return facetName;
+  });
 
   const searchResults = await sendSearchQuery(
     projectConfig,
     { size: 0, indexName: projectConfig.elasticIndexName },
-    {},
+    { aggs: aggregations, terms: {} },
     signal,
   );
   if (!searchResults?.aggs) {

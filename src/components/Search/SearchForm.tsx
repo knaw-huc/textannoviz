@@ -1,7 +1,7 @@
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import React from "react";
-import type { Key } from "react-aria-components";
+import { type Key } from "react-aria-components";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -18,6 +18,7 @@ import { InputFacet } from "./InputFacet.tsx";
 import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
+import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
@@ -160,6 +161,21 @@ export function SearchForm(props: SearchFormProps) {
     updateFullText(value);
   }
 
+  function showMoreButtonClickHandler(aggregation: string) {
+    const prevAggs = searchQuery.aggs;
+
+    const newAggs = prevAggs?.map((prevAgg) => {
+      return prevAgg === aggregation ? `${aggregation}:200` : prevAgg;
+    });
+
+    setSearchQuery({
+      ...searchQuery,
+      aggs: newAggs,
+    });
+
+    props.onSearch();
+  }
+
   return (
     <div className={searchFormClasses}>
       <div className="w-full max-w-[450px]">
@@ -231,14 +247,28 @@ export function SearchForm(props: SearchFormProps) {
       {projectConfig.showKeywordFacets &&
         !isEmpty(keywordFacets) &&
         props.keywordFacets.map(([facetName, facetValue], i) => (
-          <div key={i} className="w-full max-w-[450px]">
-            <KeywordFacet
-              facetName={facetName}
-              facet={facetValue}
-              selectedFacets={searchQuery.terms}
-              onChangeKeywordFacet={updateKeywordFacet}
-            />
-          </div>
+          <>
+            <div
+              key={i}
+              className="max-h-[500px] w-full max-w-[450px] overflow-auto"
+            >
+              <KeywordFacet
+                facetName={facetName}
+                facet={facetValue}
+                selectedFacets={searchQuery.terms}
+                onChangeKeywordFacet={updateKeywordFacet}
+                onSearch={props.onSearch}
+              />
+            </div>
+            {Object.keys(facetValue).length < 10 ? null : (
+              <div key={i}>
+                <ShowMoreButton
+                  showMoreButtonClickHandler={showMoreButtonClickHandler}
+                  facetName={facetName}
+                />
+              </div>
+            )}
+          </>
         ))}
     </div>
   );

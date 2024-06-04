@@ -102,9 +102,9 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
     };
   }
 
-  // if (query.aggs) {
-  //   searchQuery.aggs = query.aggs.map((agg) => `${agg}:200`);
-  // }
+  if (query.aggs) {
+    searchQuery.aggs = query.aggs;
+  }
 
   return searchQuery;
 }

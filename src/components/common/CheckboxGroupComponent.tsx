@@ -8,7 +8,9 @@ interface CheckboxGroupComponentProps
   extends Omit<CheckboxGroupProps, "children"> {
   children?: React.ReactNode;
   translatedLabel?: string;
-  dataLabel?: string;
+  dataLabel: string;
+  sortAlphaAscIconClickHander: (agg: string, order: string) => void;
+  facetLength: number;
 }
 
 export function CheckboxGroupComponent({
@@ -17,21 +19,23 @@ export function CheckboxGroupComponent({
   children,
   ...props
 }: CheckboxGroupComponentProps) {
-  console.log(translatedLabel);
-  console.log(dataLabel);
-
   return (
     <CheckboxGroup
       {...props}
       className="bg-brand2-50 flex flex-col gap-2 rounded pb-2"
     >
       <>
-        <div className="border-brand2-100 flex h-12 flex-col items-start rounded-t border-b-2 bg-[hsl(195,30%,94%)]">
+        <div className="border-brand2-100 bg-brand2-100 flex h-12 flex-col items-start rounded-t border-b-2">
           <div className="flex h-12 w-full flex-row items-center pr-2">
             <Label className="w-full pl-3 font-semibold">
               {translatedLabel}
             </Label>
-            <Button className="fill-black outline-none transition hover:fill-black">
+            <Button
+              onPress={() =>
+                props.sortAlphaAscIconClickHander(dataLabel, "keyAsc")
+              }
+              className="fill-black outline-none transition hover:fill-black"
+            >
               <SortAlphaAscIcon />
             </Button>
           </div>

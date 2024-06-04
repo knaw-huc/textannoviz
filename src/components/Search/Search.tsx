@@ -19,6 +19,7 @@ import {
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
+import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { createHighlights } from "./util/createHighlights.ts";
@@ -48,8 +49,8 @@ export const Search = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    initSearch().catch((error) => {
-      console.error(error);
+    initSearch().catch(() => {
+      handleAbortControllerAbort(signal);
     });
 
     /**
@@ -84,13 +85,15 @@ export const Search = () => {
         "keyword",
       );
 
+      const aggregations = Object.keys(newFacets);
+
       // const keywordAggs = newKeywordFacets.map(
       //   (keywordFacet) => keywordFacet[0],
       // );
 
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
-        // aggs: keywordAggs,
+        aggs: aggregations,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
         rangeFrom: projectConfig.initialRangeFrom,
@@ -123,7 +126,7 @@ export const Search = () => {
       setInit(true);
     }
     return () => {
-      controller.abort();
+      controller.abort("useEffect cleanup cycle");
     };
   }, []);
 
@@ -159,10 +162,11 @@ export const Search = () => {
     }
 
     async function searchWhenDirty() {
-      if (
+      const isEmptySearch =
         searchQuery.fullText.length === 0 &&
-        !projectConfig.allowEmptyStringSearch
-      ) {
+        !projectConfig.allowEmptyStringSearch;
+
+      if (isEmptySearch) {
         toast(translate("NO_SEARCH_STRING"), {
           type: "warning",
         });
@@ -179,7 +183,7 @@ export const Search = () => {
     }
 
     return () => {
-      controller.abort();
+      controller.abort("useEffect cleanup cycle");
     };
   }, [isDirty]);
 
