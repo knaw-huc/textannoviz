@@ -169,11 +169,12 @@ export const SearchInfoPage = () => {
 
       <ul className="mb-4 mt-4 block list-disc pl-10">
         <li className="list-item">
-          New (v2.0) HTR with more accurate transcriptions and improved
-          (PageXML) layout elements.
+          New: Improved HTR (v2.0) HTR with more accurate transcriptions and
+          improved (PageXML) layout elements.
         </li>
         <li className="list-item">
           {" "}
+          New:{" "}
           <a href="https://transcriptions.globalise.huygens.knaw.nl/help">
             Filter search results
           </a>{" "}
@@ -184,21 +185,21 @@ export const SearchInfoPage = () => {
           .
         </li>
         <li className="list-item">
-          Ability to goto a specific page in the search results.
+          New: Ability to goto a specific page in the search results.
         </li>
         <li className="list-item">
-          Searching without a search term now displays an alert message.
+          New: Added inventory no. to page titles in search results.
         </li>
         <li className="list-item">
-          Icons in the Mirador image view now always appear in the correct
-          position.
+          Fixed: Searching without a search term now displays an alert message.
         </li>
         <li className="list-item">
-          Search results with more than 10,000 items now show the correct
+          Fixed: Icons in the Mirador image view now always appear in the
+          correct position.
+        </li>
+        <li className="list-item">
+          Fixed: Search results with more than 10,000 items now show the correct
           totals.
-        </li>
-        <li className="list-item">
-          Added inventory no. to page titles in search results.
         </li>
       </ul>
 
