@@ -3,15 +3,19 @@ import React from "react";
 import type { CheckboxGroupProps, CheckboxProps } from "react-aria-components";
 import { Button, Checkbox, CheckboxGroup, Label } from "react-aria-components";
 import { SortAlphaAscIcon } from "./icons/SortAlphaAscIcon";
+import { SortAlphaDescIcon } from "./icons/SortAlphaDescIcon";
+import { SortNumDescIcon } from "./icons/SortNumDescIcon";
 
 interface CheckboxGroupComponentProps
   extends Omit<CheckboxGroupProps, "children"> {
   children?: React.ReactNode;
   translatedLabel?: string;
   dataLabel: string;
-  sortAlphaAscIconClickHander: (agg: string, order: string) => void;
+  sortIconClickHandler: (agg: string, order: string) => void;
   facetLength: number;
 }
+
+type SortOrder = "countDesc" | "keyAsc" | "keyDesc";
 
 export function CheckboxGroupComponent({
   translatedLabel,
@@ -19,6 +23,15 @@ export function CheckboxGroupComponent({
   children,
   ...props
 }: CheckboxGroupComponentProps) {
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("countDesc");
+
+  function sortIconClickHandler(agg: string, order: SortOrder) {
+    if (sortOrder === order) return;
+
+    setSortOrder(order);
+    props.sortIconClickHandler(agg, order);
+  }
+
   return (
     <CheckboxGroup
       {...props}
@@ -30,14 +43,32 @@ export function CheckboxGroupComponent({
             <Label className="w-full pl-3 font-semibold">
               {translatedLabel}
             </Label>
-            <Button
-              onPress={() =>
-                props.sortAlphaAscIconClickHander(dataLabel, "keyAsc")
-              }
-              className="fill-black outline-none transition hover:fill-black"
-            >
-              <SortAlphaAscIcon />
-            </Button>
+            <div className="flex flex-row gap-1">
+              <Button
+                onPress={() => sortIconClickHandler(dataLabel, "keyAsc")}
+                className={`${
+                  sortOrder === "keyAsc" ? "fill-black" : "fill-brand2-500"
+                } outline-none transition hover:fill-black`}
+              >
+                <SortAlphaAscIcon />
+              </Button>
+              <Button
+                onPress={() => sortIconClickHandler(dataLabel, "keyDesc")}
+                className={`${
+                  sortOrder === "keyDesc" ? "fill-black" : "fill-brand2-500"
+                } outline-none transition hover:fill-black`}
+              >
+                <SortAlphaDescIcon />
+              </Button>
+              <Button
+                onPress={() => sortIconClickHandler(dataLabel, "countDesc")}
+                className={`${
+                  sortOrder === "countDesc" ? "fill-black" : "fill-brand2-500"
+                } outline-none transition hover:fill-black`}
+              >
+                <SortNumDescIcon />
+              </Button>
+            </div>
           </div>
         </div>
         {children}

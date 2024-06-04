@@ -32,11 +32,13 @@ export function KeywordFacet(props: {
     setSelected(newSelected);
   }
 
-  function sortAlphaAscIconClickHandler(aggregation: string, orderBy: string) {
+  function sortIconClickHandler(aggregation: string, orderBy: string) {
     const prevAggs = searchQuery.aggs;
 
     const newAggs = prevAggs?.map((prevAgg) => {
-      return prevAgg === aggregation ? `${aggregation}:${orderBy}` : prevAgg;
+      return prevAgg.startsWith(aggregation)
+        ? `${aggregation}:${orderBy}`
+        : prevAgg;
     });
 
     setSearchQuery({
@@ -54,7 +56,7 @@ export function KeywordFacet(props: {
         dataLabel={props.facetName}
         value={selected}
         onChange={checkboxChangeHandler}
-        sortAlphaAscIconClickHander={sortAlphaAscIconClickHandler}
+        sortIconClickHandler={sortIconClickHandler}
         facetLength={facetLength}
       >
         {Object.entries(props.facet).map(
