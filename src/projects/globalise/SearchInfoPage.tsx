@@ -72,7 +72,7 @@ export const SearchInfoPage = () => {
         , also under a CC0 license. Please reference the GLOBALISE project and
         the National Archives when using the v2.0 transcriptions using this
         format:{" "}
-        <code className="bg-gray-300">
+        <code className="bg-gray-300 text-[95%]">
           NL-HaNA, VOC, [inv.nr.], [scan nr.], transcription GLOBALISE project
           (https://globalise.huygens.knaw.nl/), March 2024.
         </code>
@@ -165,7 +165,7 @@ export const SearchInfoPage = () => {
 
       <h4>Release Notes</h4>
 
-      <p className="mb-4 mt-4 block">v0.3 (May 2024)</p>
+      <p className="mb-4 mt-4 block">v0.3 (June 2024)</p>
 
       <ul className="mb-4 mt-4 block list-disc pl-10">
         <li className="list-item">

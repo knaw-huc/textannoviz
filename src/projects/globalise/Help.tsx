@@ -262,8 +262,11 @@ export const Help = () => {
           <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02">
             inventory number
           </a>
-          . Lorem ipsum. Lorem ipsum. Lorem ipsum. Lorem ipsum. Lorem ipsum.
-          Lorem ipsum. Lorem ipsum. Lorem ipsum. Lorem ipsum. Lorem ipsum.
+          . First carry out a normal keyword based full-text search. Then enter
+          an inventory number (e.g. 1053) in the filter field to limit the list
+          of results to pages from that inventory. You can also filter on
+          multiple inventory numbers by listing them separated by commas (e.g.
+          1053,1604A).
         </p>
         <h4 id="view">Viewing Page Images and Transcriptions</h4>
         <p className="mb-4 mt-4 block">
