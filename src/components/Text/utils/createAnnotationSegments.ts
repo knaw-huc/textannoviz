@@ -1,54 +1,84 @@
 import { OffsetsByCharIndex } from "./listAnnotationOffsets.ts";
 import _ from "lodash";
 import {
-  AnnotationSegment,
+  NestedAnnotation,
   LineAnnotationSegment,
+  AnnotationGroup,
 } from "../LineAnnotationSegment.ts";
 
 export function createAnnotationSegments(
-  annotationOffsets: OffsetsByCharIndex[],
   line: string,
+  offsetsByCharIndex: OffsetsByCharIndex[],
 ) {
   const annotationSegments: LineAnnotationSegment[] = [];
-  const firstCharOffset = annotationOffsets[0].charIndex;
-  if (firstCharOffset !== 0) {
+
+  const firstCharIndex = offsetsByCharIndex[0]?.charIndex;
+  const lineStartsWithAnnotation = firstCharIndex === 0;
+  if (!lineStartsWithAnnotation) {
     annotationSegments.push({
-      body: line.slice(0, firstCharOffset),
+      body: line.slice(0, firstCharIndex),
     });
   }
-  const activeAnnotations: AnnotationSegment[] = [];
-  let currentDepth = 0;
-  for (let i = 0; i < annotationOffsets.length; i++) {
-    const current = annotationOffsets[i];
-    const next: OffsetsByCharIndex | undefined = annotationOffsets[i + 1];
-    const currentBody = line.slice(
-      current.charIndex,
+
+  const currentAnnotations: NestedAnnotation[] = [];
+  let currentAnnotationDepth = 0;
+
+  let annotationGroup: AnnotationGroup = {
+    id: 1,
+    maxDepth: 0,
+  };
+
+  for (let i = 0; i < offsetsByCharIndex.length; i++) {
+    const offsetsAtCharIndex = offsetsByCharIndex[i];
+    const next: OffsetsByCharIndex | undefined = offsetsByCharIndex[i + 1];
+    const currentLineSegment = line.slice(
+      offsetsAtCharIndex.charIndex,
       next?.charIndex || line.length,
     );
 
-    if (!currentBody) {
+    if (!currentLineSegment) {
       continue;
     }
 
-    currentDepth = _.maxBy(activeAnnotations, "depth")?.depth || 0;
+    const annotationsClosingAtCharIndex = offsetsAtCharIndex.offsets
+      .filter((offset) => offset.type === "end")
+      .map((endOffset) => endOffset.annotationId);
+    _.remove(currentAnnotations, (a) =>
+      annotationsClosingAtCharIndex.includes(a.id),
+    );
+    currentAnnotationDepth -= annotationsClosingAtCharIndex.length;
 
-    const opening = current.offsets
-      .filter((o) => o.type === "start")
-      .map((o) => ({
-        id: o.annotationId,
-        depth: ++currentDepth,
-      }));
-    activeAnnotations.push(...opening);
+    const hasClosedAllAnnotations =
+      !currentAnnotations.length && annotationsClosingAtCharIndex.length;
+    if (hasClosedAllAnnotations) {
+      currentAnnotationDepth = 0;
+      annotationGroup = {
+        id: annotationGroup.id + 1,
+        maxDepth: 0,
+      };
+    }
 
-    const closing = current.offsets
-      .filter((o) => o.type === "end")
-      .map((o) => o.annotationId);
-    _.remove(activeAnnotations, (aa) => closing.includes(aa.id));
+    const annotationsOpeningAtCharIndex = offsetsAtCharIndex.offsets
+      .filter((offset) => offset.type === "start")
+      .map(
+        (startOffset) =>
+          ({
+            id: startOffset.annotationId,
+            depth: ++currentAnnotationDepth,
+            group: annotationGroup,
+          }) as NestedAnnotation,
+      );
+
+    currentAnnotations.push(...annotationsOpeningAtCharIndex);
+    annotationGroup.maxDepth = _.max([
+      annotationGroup.maxDepth,
+      currentAnnotationDepth,
+    ])!;
 
     annotationSegments.push({
-      body: currentBody,
-      annotations: activeAnnotations.length
-        ? [...activeAnnotations]
+      body: currentLineSegment,
+      annotations: currentAnnotations.length
+        ? [...currentAnnotations]
         : undefined,
     });
   }

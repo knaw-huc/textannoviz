@@ -32,9 +32,8 @@ export function annotateLine(
   let toDisplay = "";
   console.time("create-line");
   const annotationOffsets = listAnnotationOffsets(annotations);
-  console.log(annotationOffsets);
-  const annotationSegments = createAnnotationSegments(annotationOffsets, line);
-  console.log({ annotationSegments });
+  const annotationSegments = createAnnotationSegments(line, annotationOffsets);
+  console.log({ line, annotationSegments });
   // for (const [charIndex, annotation] of annotationPositions) {
   //   if(annotation.type === 'start') {
   //
