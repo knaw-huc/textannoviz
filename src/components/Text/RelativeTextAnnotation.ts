@@ -1,7 +1,7 @@
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 
 export type AnnotationType = string;
-export type AnnotationId = string;
+export type AnnotationBodyId = string;
 
 /**
  * Annotation with char positions relative to line

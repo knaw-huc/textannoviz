@@ -1,11 +1,10 @@
-import { RelativeTextAnnotation } from "./RelativeTextAnnotation.ts";
+import {
+  AnnotationBodyId,
+  RelativeTextAnnotation,
+} from "./RelativeTextAnnotation.ts";
 import { listAnnotationOffsets } from "./utils/listAnnotationOffsets.ts";
 import { createAnnotationSegments } from "./utils/createAnnotationSegments.ts";
-import {
-  AnnotationGroup,
-  AnnotationSegment,
-  LineSegment,
-} from "./LineSegment.ts";
+import { AnnotationGroup, LineSegment } from "./LineSegment.ts";
 import { CSSProperties } from "react";
 import _ from "lodash";
 
@@ -24,6 +23,8 @@ import _ from "lodash";
 export function LogicalLineHighlighting(props: {
   line: string;
   annotations: RelativeTextAnnotation[];
+  hoveringOn: AnnotationBodyId | undefined;
+  onHover: (value: AnnotationBodyId) => void;
 }) {
   const { line, annotations } = props;
   console.timeEnd("create-line");
@@ -40,6 +41,7 @@ export function LogicalLineHighlighting(props: {
           key={i}
           segment={segment}
           annotations={annotations}
+          hoveringOn={props.hoveringOn}
         />
       ))}
     </>
@@ -54,9 +56,7 @@ export type HighlightedSegmentProps = Omit<
 export function HighlightedSegment(props: HighlightedSegmentProps) {
   const annotationGroup = props.segment.annotations[0]?.group;
   if (!annotationGroup) {
-    return (
-      <AnnotationSegmentBody body={props.segment.body} depthCorrection={0} />
-    );
+    return <SegmentBody body={props.segment.body} depthCorrection={0} />;
   } else {
     return (
       <HighlightedSegmentWithAnnotations {...props} group={annotationGroup} />
@@ -79,40 +79,39 @@ type NestedAnnotationProps = {
   segment: LineSegment;
   annotations: RelativeTextAnnotation[];
   depthCorrection: number;
+  hoveringOn: AnnotationBodyId | undefined;
 };
 
 export function NestedAnnotation(props: NestedAnnotationProps) {
   const segmentAnnotations = props.segment.annotations;
-  if (!segmentAnnotations.length) {
-    return (
-      <AnnotationSegmentBody
-        body={props.segment.body}
-        depthCorrection={props.depthCorrection}
-      />
-    );
-  }
   const toRender = segmentAnnotations[0];
   const toNest = segmentAnnotations.slice(1);
   const annotation = props.annotations.find(
-    (a) => (a.anno.body.id = toRender.id),
+    (a) => a.anno.body.id === toRender.id,
   );
   if (!annotation) {
-    throw new Error(`No annotation found for id ${toRender.id}`);
+    throw new Error(
+      `No annotation found for segment annotation id ${toRender.id}`,
+    );
   }
   return (
-    <span className={createAnnotationClasses(annotation, toRender)}>
-      <NestedAnnotation
-        {...props}
-        segment={{ ...props.segment, annotations: toNest }}
-      />
+    <span className={createAnnotationClasses(annotation, props.hoveringOn)}>
+      {toNest.length ? (
+        <NestedAnnotation
+          {...props}
+          segment={{ ...props.segment, annotations: toNest }}
+        />
+      ) : (
+        <SegmentBody
+          body={props.segment.body}
+          depthCorrection={props.depthCorrection}
+        />
+      )}
     </span>
   );
 }
 
-export function AnnotationSegmentBody(props: {
-  body: string;
-  depthCorrection: number;
-}) {
+export function SegmentBody(props: { body: string; depthCorrection: number }) {
   let className: string | undefined;
   const style: CSSProperties = {};
   if (props.depthCorrection) {
@@ -128,14 +127,15 @@ export function AnnotationSegmentBody(props: {
 
 function createAnnotationClasses(
   annotation: RelativeTextAnnotation,
-  toRender: AnnotationSegment,
+  hoveringOn: AnnotationBodyId | undefined,
 ) {
-  return [
+  const classes = [
     `nested-annotation`,
     `underlined-${annotation.anno.body.metadata.category}`,
     `id-${annotation.anno.body.id.replaceAll(":", "-")}`,
-    `depth-${toRender.depth}`,
-  ]
-    .join(" ")
-    .toLowerCase();
+  ];
+  if (hoveringOn === annotation.anno.body.id) {
+    classes.push("hover-underline");
+  }
+  return classes.join(" ").toLowerCase();
 }

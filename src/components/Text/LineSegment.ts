@@ -1,4 +1,4 @@
-import { AnnotationId } from "./RelativeTextAnnotation.ts";
+import { AnnotationBodyId } from "./RelativeTextAnnotation.ts";
 
 /**
  * Group of annotations connected by nesting or overlapping annotations
@@ -9,7 +9,7 @@ export type AnnotationGroup = {
 };
 
 export type AnnotationSegment = {
-  id: AnnotationId;
+  id: AnnotationBodyId;
 
   /**
    * Depth of nesting in other annotations

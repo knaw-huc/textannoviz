@@ -1,5 +1,5 @@
 import {
-  AnnotationId,
+  AnnotationBodyId,
   RelativeTextAnnotation,
 } from "../RelativeTextAnnotation.ts";
 import _ from "lodash";
@@ -7,7 +7,7 @@ import _ from "lodash";
 export type AnnotationOffset = {
   charIndex: number;
   type: "start" | "end";
-  annotationId: AnnotationId;
+  annotationId: AnnotationBodyId;
 };
 
 export type CharIndex = number;

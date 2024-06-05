@@ -1,10 +1,14 @@
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
-import { RelativeTextAnnotation } from "./RelativeTextAnnotation.ts";
+import {
+  AnnotationBodyId,
+  RelativeTextAnnotation,
+} from "./RelativeTextAnnotation.ts";
 import { LogicalLineHighlighting } from "./LogicalLineHighlighting.tsx";
 import { withRelativePosition } from "./utils/withRelativePosition.ts";
 import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
+import { useState } from "react";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -17,6 +21,9 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
     annotations,
     typesToHighlight,
   );
+  const [annotationUnderMouse, setAnnotationUnderMouse] =
+    useState<AnnotationBodyId>();
+
   const relativePositions = props.text.locations.annotations;
   const lines = props.text.lines;
 
@@ -46,6 +53,8 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
             annotations={logicalAnnotations.filter(
               (a) => a.lineIndex === index,
             )}
+            hoveringOn={annotationUnderMouse}
+            onHover={setAnnotationUnderMouse}
           />
         </div>
       ))}
