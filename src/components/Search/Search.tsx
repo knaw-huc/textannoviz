@@ -219,10 +219,10 @@ export const Search = () => {
       filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
     );
     setTextToHighlight(createHighlights(searchResults, exactSearch));
-    const target = document.getElementById("searchContainer");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    // const target = document.getElementById("searchContainer");
+    // if (target) {
+    //   target.scrollIntoView({ behavior: "smooth" });
+    // }
   }
 
   function handleNewSearch(stayOnPage?: boolean) {
