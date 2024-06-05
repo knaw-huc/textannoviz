@@ -1,14 +1,19 @@
-import { OffsetsByCharIndex } from "./listAnnotationOffsets.ts";
+import {
+  AnnotationOffset,
+  OffsetsByCharIndex,
+} from "./listAnnotationOffsets.ts";
 import _ from "lodash";
 import {
+  AnnotationGroup,
   AnnotationSegment,
   LineSegment,
-  AnnotationGroup,
 } from "../LineSegment.ts";
+import { RelativeTextAnnotation } from "../RelativeTextAnnotation.ts";
 
 export function createAnnotationSegments(
   line: string,
   offsetsByCharIndex: OffsetsByCharIndex[],
+  annotations: RelativeTextAnnotation[],
 ): LineSegment[] {
   const annotationSegments: LineSegment[] = [];
 
@@ -61,6 +66,7 @@ export function createAnnotationSegments(
 
     const annotationsOpeningAtCharIndex = offsetsAtCharIndex.offsets
       .filter((offset) => offset.type === "start")
+      .sort(byAnnotationSize)
       .map(
         (startOffset) =>
           ({
@@ -75,11 +81,35 @@ export function createAnnotationSegments(
       annotationGroup.maxDepth,
       currentAnnotationDepth,
     ])!;
-
     annotationSegments.push({
       body: currentLineSegment,
       annotations: currentAnnotations.length ? [...currentAnnotations] : [],
     });
   }
   return annotationSegments;
+
+  /**
+   * Smallest annotations first
+   */
+  function byAnnotationSize(
+    start1: AnnotationOffset,
+    start2: AnnotationOffset,
+  ) {
+    const a1 = annotations.find((a) => a.anno.body.id === start1.annotationId);
+    const a2 = annotations.find((a) => a.anno.body.id === start2.annotationId);
+    if (!a1 || !a2) {
+      throw new Error(
+        `Could not find annotation of ${JSON.stringify([start1, start2])}`,
+      );
+    }
+    const size1 = a1.endChar - a1.startChar;
+    const size2 = a2.endChar - a2.startChar;
+    if (size1 < size2) {
+      return 1;
+    } else if (size1 > size2) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
 }

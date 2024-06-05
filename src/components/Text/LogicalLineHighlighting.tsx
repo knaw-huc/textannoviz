@@ -30,7 +30,11 @@ export function LogicalLineHighlighting(props: {
   console.timeEnd("create-line");
   console.time("create-line");
   const annotationOffsets = listAnnotationOffsets(annotations);
-  const annotationSegments = createAnnotationSegments(line, annotationOffsets);
+  const annotationSegments = createAnnotationSegments(
+    line,
+    annotationOffsets,
+    annotations,
+  );
   if (line.startsWith("Synde ter vergaderinge")) {
     console.timeLog("create-line", { line, annotationSegments });
   }
