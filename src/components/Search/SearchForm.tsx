@@ -165,7 +165,13 @@ export function SearchForm(props: SearchFormProps) {
     const prevAggs = searchQuery.aggs;
 
     const newAggs = prevAggs?.map((prevAgg) => {
-      return prevAgg === aggregation ? `${aggregation}:200` : prevAgg;
+      if (!prevAgg.startsWith(aggregation)) return prevAgg;
+
+      if (prevAgg.includes(":")) {
+        return `${prevAgg},200`;
+      }
+
+      return `${aggregation}:200`;
     });
 
     setSearchQuery({
@@ -250,7 +256,7 @@ export function SearchForm(props: SearchFormProps) {
           <>
             <div
               key={i}
-              className="max-h-[500px] w-full max-w-[450px] overflow-auto"
+              className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
             >
               <KeywordFacet
                 facetName={facetName}
