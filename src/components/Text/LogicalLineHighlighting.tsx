@@ -7,6 +7,7 @@ import {
   LineSegment,
 } from "./LineSegment.ts";
 import { CSSProperties } from "react";
+import _ from "lodash";
 
 /**
  * Definitions:
@@ -62,7 +63,8 @@ export function HighlightedSegmentWithAnnotations(
   props: HighlightedSegmentProps & { group: AnnotationGroup },
 ) {
   const groupMaxDepth = props.group.maxDepth;
-  const segmentMaxDepth = props.segment.annotations.length;
+  const segmentMaxDepth =
+    _.maxBy(props.segment.annotations, "depth")?.depth ?? 0;
   const depthCorrection = groupMaxDepth - segmentMaxDepth;
 
   return <NestedAnnotation {...props} depthCorrection={depthCorrection} />;
