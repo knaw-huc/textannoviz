@@ -5,7 +5,7 @@ export const englishGlobaliseLabels = Object.assign({}, englishLabels, {
   bodyType: "Body type",
   className: "Class name",
   classDescription: "Class description",
-  INPUT_FACET_LABEL: "+ Filter by inventory nr.",
+  INPUT_FACET_LABEL: "+ filter by inventory nr.",
   INPUT_FACET_PLACEHOLDER: "Press ENTER to filter by inv. nr.",
   invNr: "inv. nr.",
   INPUT_FACET_EMPTY_WARNING:
