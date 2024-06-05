@@ -11,10 +11,15 @@ import _ from "lodash";
 
 /**
  * Definitions:
- * - Line annotation segment: all annotations at a segment of a line.
- *   When one of the annotations in a segment closed, or when a new annotation starts, the current segment is closed and a new segment is started
- * - Annotation text
- * - Lane: underline height an annotation has, must stay the same across annotation segments
+ * - Logical text: 'doorlopende' text, not split by line breaks
+ * - Line: piece of annotated text as received from broccoli, a 'line' could also contain a logical text
+ * - Annotation offset: character index at which an annotation starts or stops
+ * - Character index: start index marks first character to include, stop index marks first character to exclude
+ * - Line segment: piece of line uninterrupted by annotation offsets
+ * - Annotation segment: piece of an annotation uninterrupted by the offsets of other overlapping/nested annotations
+ * - Annotation group: all annotations that are connected to each other by other overlapping/nested annotations
+ * - Annotation depth: the number of levels that an annotation is nested in parent annotations or with overlapping annotations
+ *   (when two annotations overlap, the second annotation has a depth of 2)
  */
 export function LogicalLineHighlighting(props: {
   line: string;
