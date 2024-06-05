@@ -24,7 +24,7 @@ export function LogicalLineHighlighting(props: {
   line: string;
   annotations: RelativeTextAnnotation[];
   hoveringOn: AnnotationBodyId | undefined;
-  onHover: (value: AnnotationBodyId) => void;
+  onHoverChange: (value: AnnotationBodyId | undefined) => void;
 }) {
   const { line, annotations } = props;
   console.timeEnd("create-line");
@@ -42,6 +42,7 @@ export function LogicalLineHighlighting(props: {
           segment={segment}
           annotations={annotations}
           hoveringOn={props.hoveringOn}
+          onHoverChange={props.onHoverChange}
         />
       ))}
     </>
@@ -51,7 +52,9 @@ export function LogicalLineHighlighting(props: {
 export type HighlightedSegmentProps = Omit<
   NestedAnnotationProps,
   "depthCorrection"
->;
+> & {
+  onHoverChange: (value: AnnotationBodyId | undefined) => void;
+};
 
 export function HighlightedSegment(props: HighlightedSegmentProps) {
   const annotationGroup = props.segment.annotations[0]?.group;
@@ -59,20 +62,36 @@ export function HighlightedSegment(props: HighlightedSegmentProps) {
     return <SegmentBody body={props.segment.body} depthCorrection={0} />;
   } else {
     return (
-      <HighlightedSegmentWithAnnotations {...props} group={annotationGroup} />
+      <HighlightedSegmentWithAnnotations
+        {...props}
+        group={annotationGroup}
+        onHoverChange={props.onHoverChange}
+      />
     );
   }
 }
 
+type HighlightedSegmentWithAnnotationsProps = HighlightedSegmentProps & {
+  group: AnnotationGroup;
+};
+
 export function HighlightedSegmentWithAnnotations(
-  props: HighlightedSegmentProps & { group: AnnotationGroup },
+  props: HighlightedSegmentWithAnnotationsProps,
 ) {
   const groupMaxDepth = props.group.maxDepth;
   const segmentMaxDepth =
     _.maxBy(props.segment.annotations, "depth")?.depth ?? 0;
   const depthCorrection = groupMaxDepth - segmentMaxDepth;
 
-  return <NestedAnnotation {...props} depthCorrection={depthCorrection} />;
+  return (
+    <span
+      className="annotated-segment"
+      onMouseOver={() => props.onHoverChange(props.segment.annotations[0].id)}
+      onMouseLeave={() => props.onHoverChange(undefined)}
+    >
+      <NestedAnnotation {...props} depthCorrection={depthCorrection} />
+    </span>
+  );
 }
 
 type NestedAnnotationProps = {

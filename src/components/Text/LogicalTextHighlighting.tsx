@@ -54,7 +54,7 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
               (a) => a.lineIndex === index,
             )}
             hoveringOn={annotationUnderMouse}
-            onHover={setAnnotationUnderMouse}
+            onHoverChange={setAnnotationUnderMouse}
           />
         </div>
       ))}
