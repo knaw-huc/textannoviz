@@ -212,7 +212,9 @@ export type PxPageBody = AnnoRepoBody & {
 export type AnnoRepoBody = {
   id: string;
   type: string;
-  metadata:
+  metadata: {
+    category?: string;
+  } & (
     | SessionBody
     | ResolutionBody
     | ReviewedBody
@@ -227,7 +229,8 @@ export type AnnoRepoBody = {
     | TeiNoteBody
     | TeiRefBody
     | TeiRegBody
-    | TfLetterBody;
+    | TfLetterBody
+  );
 };
 
 export type Body =

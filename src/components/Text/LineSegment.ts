@@ -8,7 +8,7 @@ export type AnnotationGroup = {
   maxDepth: number;
 };
 
-export type NestedAnnotation = {
+export type AnnotationSegment = {
   id: AnnotationId;
 
   /**
@@ -19,7 +19,7 @@ export type NestedAnnotation = {
   group: AnnotationGroup;
 };
 
-export type LineAnnotationSegment = {
-  annotations?: NestedAnnotation[];
+export type LineSegment = {
+  annotations: AnnotationSegment[];
   body: string;
 };

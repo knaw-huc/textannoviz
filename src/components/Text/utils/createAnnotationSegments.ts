@@ -1,26 +1,27 @@
 import { OffsetsByCharIndex } from "./listAnnotationOffsets.ts";
 import _ from "lodash";
 import {
-  NestedAnnotation,
-  LineAnnotationSegment,
+  AnnotationSegment,
+  LineSegment,
   AnnotationGroup,
-} from "../LineAnnotationSegment.ts";
+} from "../LineSegment.ts";
 
 export function createAnnotationSegments(
   line: string,
   offsetsByCharIndex: OffsetsByCharIndex[],
-) {
-  const annotationSegments: LineAnnotationSegment[] = [];
+): LineSegment[] {
+  const annotationSegments: LineSegment[] = [];
 
   const firstCharIndex = offsetsByCharIndex[0]?.charIndex;
   const lineStartsWithAnnotation = firstCharIndex === 0;
   if (!lineStartsWithAnnotation) {
     annotationSegments.push({
       body: line.slice(0, firstCharIndex),
+      annotations: [],
     });
   }
 
-  const currentAnnotations: NestedAnnotation[] = [];
+  const currentAnnotations: AnnotationSegment[] = [];
   let currentAnnotationDepth = 0;
 
   let annotationGroup: AnnotationGroup = {
@@ -66,7 +67,7 @@ export function createAnnotationSegments(
             id: startOffset.annotationId,
             depth: ++currentAnnotationDepth,
             group: annotationGroup,
-          }) as NestedAnnotation,
+          }) as AnnotationSegment,
       );
 
     currentAnnotations.push(...annotationsOpeningAtCharIndex);
@@ -77,9 +78,7 @@ export function createAnnotationSegments(
 
     annotationSegments.push({
       body: currentLineSegment,
-      annotations: currentAnnotations.length
-        ? [...currentAnnotations]
-        : undefined,
+      annotations: currentAnnotations.length ? [...currentAnnotations] : [],
     });
   }
   return annotationSegments;

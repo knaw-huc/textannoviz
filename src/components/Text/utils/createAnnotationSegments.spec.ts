@@ -9,7 +9,7 @@ describe("createAnnotationSegments", () => {
   it("starts with segment of text without annotations when no annotation found", () => {
     const result = createAnnotationSegments(line, offsetsByCharIndex);
     expect(result[0].body).toEqual("aa");
-    expect(result[0].annotations).toBeUndefined();
+    expect(result[0].annotations).toEqual([]);
   });
 
   it("creates segment of text with annotation", () => {
@@ -37,7 +37,7 @@ describe("createAnnotationSegments", () => {
   it("ends with segment of text without annotations when no annotation found", () => {
     const result = createAnnotationSegments(line, offsetsByCharIndex);
     expect(result[4].body).toEqual("ee");
-    expect(result[4].annotations).toBeUndefined();
+    expect(result[4].annotations).toEqual([]);
   });
 
   it("can start with annotation", () => {
@@ -68,7 +68,7 @@ describe("createAnnotationSegments", () => {
     expect(result[0].annotations![0].id).toEqual("anno1");
     expect(result[0].annotations![0].depth).toEqual(1);
     expect(result[1].body).toEqual("b");
-    expect(result[1].annotations).toBeUndefined();
+    expect(result[1].annotations).toEqual([]);
   });
 
   it("can end with annotation", () => {
@@ -95,7 +95,7 @@ describe("createAnnotationSegments", () => {
       },
     ]);
     expect(result[0].body).toEqual("a");
-    expect(result[0].annotations).toBeUndefined();
+    expect(result[0].annotations).toEqual([]);
     expect(result[1].body).toEqual("bb");
     expect(result[1].annotations!.length).toEqual(1);
     expect(result[1].annotations![0].id).toEqual("anno1");
@@ -152,7 +152,7 @@ describe("createAnnotationSegments", () => {
     expect(result[0].annotations![0].id).toEqual("anno1");
     expect(result[0].annotations![0].depth).toEqual(1);
 
-    expect(result[1].annotations).toBeUndefined();
+    expect(result[1].annotations).toEqual([]);
 
     expect(result[2].annotations!.length).toEqual(1);
     expect(result[2].annotations![0].id).toEqual("anno2");

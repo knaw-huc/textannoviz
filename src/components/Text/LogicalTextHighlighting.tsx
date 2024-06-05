@@ -1,11 +1,10 @@
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { RelativeTextAnnotation } from "./RelativeTextAnnotation.ts";
-import { LogicalLine } from "./LogicalLine.tsx";
+import { LogicalLineHighlighting } from "./LogicalLineHighlighting.tsx";
 import { withRelativePosition } from "./utils/withRelativePosition.ts";
-import { BroccoliViewPosition } from "./BroccoliViewPosition.ts";
+import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -42,7 +41,7 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
     <div className="leading-loose">
       {props.text.lines.map((line, index) => (
         <div key={index} className="w-fit">
-          <LogicalLine
+          <LogicalLineHighlighting
             line={line}
             annotations={logicalAnnotations.filter(
               (a) => a.lineIndex === index,
@@ -53,17 +52,3 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
     </div>
   );
 };
-
-function isAnnotationInSingleLine(
-  annotation: AnnoRepoAnnotation,
-  relativePositions: BroccoliViewPosition[],
-) {
-  const relative = relativePositions.find(
-    (p) => p.bodyId === annotation.body.id,
-  );
-  const isInSingleLine = relative && relative.start.line === relative.end.line;
-  if (!isInSingleLine) {
-    console.debug(`Ignoring multiline annotation ${annotation.id}`);
-  }
-  return isInSingleLine;
-}

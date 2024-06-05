@@ -293,6 +293,23 @@ em {
   text-decoration: underline;
 }
 
+.nested-annotation,
+.depth-correction {
+  display: inline-block;
+  white-space: pre;
+}
+
+.nested-annotation {
+  margin-bottom: 2px;
+  cursor: pointer;
+  content: "";
+  border-bottom: 1px solid;
+}
+
+/*.section-nesting-correction {*/
+/*  border-bottom: 1px solid purple;*/
+/*}*/
+
 .underlined-resolution {
   border-bottom: 1px solid green;
   cursor: pointer;
@@ -307,6 +324,24 @@ em {
   content: "";
   border-bottom: 1px solid rgb(202 138 4);
   cursor: pointer;
+}
+
+.underlined-per {
+  content: "";
+  border-bottom: 1px solid rgb(202 138 4);
+  cursor: pointer;
+}
+
+.id-urn-republic-entity-occurrence-session-3248-num-14-para-6-162-194 {
+  border-bottom-color: purple;
+}
+
+.id-urn-republic-entity-occurrence-session-3248-num-14-para-6-185-194 {
+  border-bottom-color: pink;
+}
+
+.id-urn-republic-entity-occurrence-session-3248-num-14-para-6-185-213 {
+  border-bottom: 1px solid rgb(159, 202, 4);
 }
 
 .underlined-attendant::before {
