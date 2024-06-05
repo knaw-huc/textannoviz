@@ -60,15 +60,14 @@ export function HighlightedSegment(props: HighlightedSegmentProps) {
   const annotationGroup = props.segment.annotations[0]?.group;
   if (!annotationGroup) {
     return <SegmentBody body={props.segment.body} depthCorrection={0} />;
-  } else {
-    return (
-      <HighlightedSegmentWithAnnotations
-        {...props}
-        group={annotationGroup}
-        onHoverChange={props.onHoverChange}
-      />
-    );
   }
+  return (
+    <HighlightedSegmentWithAnnotations
+      {...props}
+      group={annotationGroup}
+      onHoverChange={props.onHoverChange}
+    />
+  );
 }
 
 type HighlightedSegmentWithAnnotationsProps = HighlightedSegmentProps & {
@@ -83,10 +82,14 @@ export function HighlightedSegmentWithAnnotations(
     _.maxBy(props.segment.annotations, "depth")?.depth ?? 0;
   const depthCorrection = groupMaxDepth - segmentMaxDepth;
 
+  const selectOnHover = props.segment.annotations.at(-1);
+  if (!selectOnHover) {
+    throw new Error("No annotation to select on hover");
+  }
   return (
     <span
       className="annotated-segment"
-      onMouseOver={() => props.onHoverChange(props.segment.annotations[0].id)}
+      onMouseOver={() => props.onHoverChange(selectOnHover.id)}
       onMouseLeave={() => props.onHoverChange(undefined)}
     >
       <NestedAnnotation {...props} depthCorrection={depthCorrection} />
