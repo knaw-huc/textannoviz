@@ -312,25 +312,19 @@ em {
 }
 
 .underlined-resolution {
-  border-bottom: 1px solid green;
-  cursor: pointer;
+  border-bottom-color: green;
 }
 
 .underlined-attendancelist {
-  border-bottom: 1px solid #b84040;
-  cursor: pointer;
+  border-bottom-color: #b84040;
 }
 
 .underlined-attendant {
-  content: "";
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
+  border-bottom-color: rgb(202 138 4);
 }
 
 .underlined-per {
-  content: "";
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
+  border-bottom-color: rgb(202 138 4);
 }
 
 .id-urn-republic-entity-occurrence-session-3248-num-14-para-6-162-194 {
@@ -351,28 +345,23 @@ em {
 }
 
 .underlined-reviewed {
-  border-bottom: 1px solid cyan;
-  cursor: pointer;
+  border-bottom-color: cyan;
 }
 
 .underlined-tei-rs {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
+  border-bottom-color: rgb(202 138 4);
 }
 
 .underlined-px-page {
-  border-bottom: 1px solid green;
-  cursor: pointer;
+  border-bottom-color: green;
 }
 
 .underlined-tei-ent {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
+  border-bottom-color: rgb(202 138 4);
 }
 
 .underlined-dataset {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
+  border-bottom-color: rgb(202 138 4);
 }
 
 input:invalid {
