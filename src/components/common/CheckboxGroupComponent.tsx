@@ -52,6 +52,7 @@ export function CheckboxGroupComponent({
               >
                 <SortAlphaAscIcon />
               </Button>
+              <span className="text-brand2-400 text-2xl"> | </span>
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyDesc")}
                 className={`${
@@ -60,6 +61,7 @@ export function CheckboxGroupComponent({
               >
                 <SortAlphaDescIcon />
               </Button>
+              <span className="text-brand2-400 text-2xl"> | </span>
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "countDesc")}
                 className={`${
