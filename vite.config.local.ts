@@ -48,6 +48,9 @@ export default defineConfig(({ mode }) => {
       react(),
       checker({
         typescript: true,
+        overlay: {
+          initialIsOpen: false,
+        },
       }),
       htmlInjectionPluginConfig &&
         htmlInjectionPlugin(htmlInjectionPluginConfig),
