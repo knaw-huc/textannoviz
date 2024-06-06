@@ -13,6 +13,7 @@ interface CheckboxGroupComponentProps
   dataLabel: string;
   sortIconClickHandler: (agg: string, order: string) => void;
   facetLength: number;
+  sortOrder: string | undefined;
 }
 
 type SortOrder = "countDesc" | "keyAsc" | "keyDesc";
@@ -23,12 +24,9 @@ export function CheckboxGroupComponent({
   children,
   ...props
 }: CheckboxGroupComponentProps) {
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("countDesc");
-
   function sortIconClickHandler(agg: string, order: SortOrder) {
-    if (sortOrder === order) return;
+    if (props.sortOrder === order) return;
 
-    setSortOrder(order);
     props.sortIconClickHandler(agg, order);
   }
 
@@ -47,7 +45,9 @@ export function CheckboxGroupComponent({
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyAsc")}
                 className={`${
-                  sortOrder === "keyAsc" ? "fill-black" : "fill-brand2-500"
+                  props.sortOrder === "keyAsc"
+                    ? "fill-black"
+                    : "fill-brand2-500"
                 } outline-none transition hover:fill-black`}
               >
                 <SortAlphaAscIcon />
@@ -56,7 +56,9 @@ export function CheckboxGroupComponent({
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyDesc")}
                 className={`${
-                  sortOrder === "keyDesc" ? "fill-black" : "fill-brand2-500"
+                  props.sortOrder === "keyDesc"
+                    ? "fill-black"
+                    : "fill-brand2-500"
                 } outline-none transition hover:fill-black`}
               >
                 <SortAlphaDescIcon />
@@ -65,7 +67,9 @@ export function CheckboxGroupComponent({
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "countDesc")}
                 className={`${
-                  sortOrder === "countDesc" ? "fill-black" : "fill-brand2-500"
+                  props.sortOrder === "countDesc"
+                    ? "fill-black"
+                    : "fill-brand2-500"
                 } outline-none transition hover:fill-black`}
               >
                 <SortNumDescIcon />

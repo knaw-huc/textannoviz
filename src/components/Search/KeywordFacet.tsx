@@ -63,6 +63,10 @@ export function KeywordFacet(props: {
         onChange={checkboxChangeHandler}
         sortIconClickHandler={sortIconClickHandler}
         facetLength={facetLength}
+        sortOrder={
+          searchQuery.aggs?.find((agg) => agg.facetName === props.facetName)
+            ?.order
+        }
       >
         {Object.entries(props.facet).map(
           ([facetValueName, facetValueCount], index) => {
