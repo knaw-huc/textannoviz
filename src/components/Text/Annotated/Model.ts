@@ -45,9 +45,9 @@ export type AnnotationGroup = {
 };
 
 /**
- * Segment of an annotation as found in {@link SegmentedLine}
+ * Segment of an annotation as found in {@link Segment}
  */
-export type SegmentedAnnotation = {
+export type AnnotationSegment = {
   id: AnnotationBodyId;
 
   /**
@@ -56,12 +56,18 @@ export type SegmentedAnnotation = {
   depth: number;
 
   group: AnnotationGroup;
+  startSegment: number;
+
+  /**
+   * Excluding last segment
+   */
+  endSegment: number;
 };
 
 /**
  * Segment of a line with its text and the annotations that apply
  */
-export type SegmentedLine = {
-  annotations: SegmentedAnnotation[];
+export type Segment = {
+  annotations: AnnotationSegment[];
   body: string;
 };

@@ -1,12 +1,8 @@
 import { LineText } from "./LineText.tsx";
-import {
-  AnnotationBodyId,
-  RelativeTextAnnotation,
-  SegmentedLine,
-} from "./Model.ts";
+import { AnnotationBodyId, RelativeTextAnnotation, Segment } from "./Model.ts";
 
 export type NestedAnnotationProps = {
-  segment: SegmentedLine;
+  segment: Segment;
   annotations: RelativeTextAnnotation[];
   depthCorrection: number;
   hoveringOn: AnnotationBodyId | undefined;

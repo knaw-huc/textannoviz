@@ -3,15 +3,15 @@ import {
   AnnotationGroup,
   AnnotationOffset,
   OffsetsByCharIndex,
-  SegmentedAnnotation,
-  SegmentedLine,
+  AnnotationSegment,
+  Segment,
 } from "../Model.ts";
 
 export function createAnnotationSegments(
   line: string,
   offsetsByCharIndex: OffsetsByCharIndex[],
-): SegmentedLine[] {
-  const annotationSegments: SegmentedLine[] = [];
+): Segment[] {
+  const segments: Segment[] = [];
 
   // To sort annotations by length:
   const endOffsets: AnnotationOffset[] = offsetsByCharIndex
@@ -21,21 +21,21 @@ export function createAnnotationSegments(
   const firstCharIndex = offsetsByCharIndex[0]?.charIndex;
   const lineStartsWithAnnotation = firstCharIndex === 0;
   if (!lineStartsWithAnnotation) {
-    annotationSegments.push({
+    segments.push({
       body: line.slice(0, firstCharIndex),
       annotations: [],
     });
   }
 
-  const currentAnnotations: SegmentedAnnotation[] = [];
+  const currentAnnotations: AnnotationSegment[] = [];
   let currentAnnotationDepth = 0;
-
   let annotationGroup: AnnotationGroup = {
     id: 1,
     maxDepth: 0,
   };
 
   for (let i = 0; i < offsetsByCharIndex.length; i++) {
+    // Handle first line section when without annotations:
     const offsetsAtCharIndex = offsetsByCharIndex[i];
     const next: OffsetsByCharIndex | undefined = offsetsByCharIndex[i + 1];
     const currentLineSegment = line.slice(
@@ -47,16 +47,21 @@ export function createAnnotationSegments(
       continue;
     }
 
-    const annotationsClosingAtCharIndex = offsetsAtCharIndex.offsets
+    // Handle annotations closing in current section:
+    const annotationIdsClosingAtCharIndex = offsetsAtCharIndex.offsets
       .filter((offset) => offset.type === "end")
       .map((endOffset) => endOffset.annotationId);
+    currentAnnotations
+      .filter((a) => annotationIdsClosingAtCharIndex.includes(a.id))
+      .forEach((a) => (a.endSegment = segments.length));
     _.remove(currentAnnotations, (a) =>
-      annotationsClosingAtCharIndex.includes(a.id),
+      annotationIdsClosingAtCharIndex.includes(a.id),
     );
-    currentAnnotationDepth -= annotationsClosingAtCharIndex.length;
+    currentAnnotationDepth -= annotationIdsClosingAtCharIndex.length;
 
+    // Handle annotation-less first segment:
     const hasClosedAllAnnotations =
-      !currentAnnotations.length && annotationsClosingAtCharIndex.length;
+      !currentAnnotations.length && annotationIdsClosingAtCharIndex.length;
     if (hasClosedAllAnnotations) {
       currentAnnotationDepth = 0;
       annotationGroup = {
@@ -65,32 +70,33 @@ export function createAnnotationSegments(
       };
     }
 
-    const annotationsOpeningAtCharIndex = offsetsAtCharIndex.offsets
-      .filter((offset) => offset.type === "start")
-      .sort(byAnnotationSize)
-      .map(
-        (startOffset) =>
-          ({
-            id: startOffset.annotationId,
-            depth: ++currentAnnotationDepth,
-            group: annotationGroup,
-          }) as SegmentedAnnotation,
-      );
-
+    // Handle annotations opening in current section:
+    const annotationsOpeningAtCharIndex: AnnotationSegment[] =
+      offsetsAtCharIndex.offsets
+        .filter((offset) => offset.type === "start")
+        .sort(byAnnotationSize)
+        .map((startOffset) => ({
+          id: startOffset.annotationId,
+          depth: ++currentAnnotationDepth,
+          group: annotationGroup,
+          startSegment: segments.length,
+          endSegment: -1, // Set on closing
+        }));
     currentAnnotations.push(...annotationsOpeningAtCharIndex);
     annotationGroup.maxDepth = _.max([
       annotationGroup.maxDepth,
       currentAnnotationDepth,
     ])!;
-    annotationSegments.push({
+
+    segments.push({
       body: currentLineSegment,
       annotations: currentAnnotations.length ? [...currentAnnotations] : [],
     });
   }
-  return annotationSegments;
+  return segments;
 
   /**
-   * Smallest annotations first
+   * Smallest annotations deepest
    */
   function byAnnotationSize(
     start1: AnnotationOffset,
