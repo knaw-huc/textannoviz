@@ -1,5 +1,5 @@
-import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation.ts";
-import { BroccoliViewPosition } from "../BroccoliViewPosition.ts";
+import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
+import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 
 export function isAnnotationInSingleLine(
   annotation: AnnoRepoAnnotation,

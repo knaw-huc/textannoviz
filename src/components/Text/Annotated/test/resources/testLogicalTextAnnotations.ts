@@ -1,5 +1,5 @@
-import { RelativeTextAnnotation } from "../../RelativeTextAnnotation.ts";
-import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
+import { RelativeTextAnnotation } from "../../../RelativeTextAnnotation.ts";
+import { AnnoRepoAnnotation } from "../../../../../model/AnnoRepoAnnotation.ts";
 import { OffsetsByCharIndex } from "../../utils/listAnnotationOffsets.ts";
 
 export const line = "aabbccddee";

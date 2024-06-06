@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { withRelativePosition } from "./withRelativePosition.ts";
 import dummy from "../test/resources/test-broccoli-session-3248-num-14-resolution-4.json";
-import { Broccoli } from "../../../model/Broccoli.ts";
+import { Broccoli } from "../../../../model/Broccoli.ts";
 
 describe("withRelativePosition", () => {
   it("excludes end character", () => {

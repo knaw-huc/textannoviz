@@ -1,7 +1,7 @@
 import {
   AnnotationBodyId,
   RelativeTextAnnotation,
-} from "../RelativeTextAnnotation.ts";
+} from "../../RelativeTextAnnotation.ts";
 import _ from "lodash";
 
 export type AnnotationOffset = {

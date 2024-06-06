@@ -5,17 +5,17 @@ import {
 import _ from "lodash";
 import {
   AnnotationGroup,
-  AnnotationSegment,
-  LineSegment,
-} from "../LineSegment.ts";
-import { RelativeTextAnnotation } from "../RelativeTextAnnotation.ts";
+  SegmentedAnnotation,
+  SegmentedLine,
+} from "../Model.ts";
+import { RelativeTextAnnotation } from "../../RelativeTextAnnotation.ts";
 
 export function createAnnotationSegments(
   line: string,
   offsetsByCharIndex: OffsetsByCharIndex[],
   annotations: RelativeTextAnnotation[],
-): LineSegment[] {
-  const annotationSegments: LineSegment[] = [];
+): SegmentedLine[] {
+  const annotationSegments: SegmentedLine[] = [];
 
   const firstCharIndex = offsetsByCharIndex[0]?.charIndex;
   const lineStartsWithAnnotation = firstCharIndex === 0;
@@ -26,7 +26,7 @@ export function createAnnotationSegments(
     });
   }
 
-  const currentAnnotations: AnnotationSegment[] = [];
+  const currentAnnotations: SegmentedAnnotation[] = [];
   let currentAnnotationDepth = 0;
 
   let annotationGroup: AnnotationGroup = {
@@ -73,7 +73,7 @@ export function createAnnotationSegments(
             id: startOffset.annotationId,
             depth: ++currentAnnotationDepth,
             group: annotationGroup,
-          }) as AnnotationSegment,
+          }) as SegmentedAnnotation,
       );
 
     currentAnnotations.push(...annotationsOpeningAtCharIndex);

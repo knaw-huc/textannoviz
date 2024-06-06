@@ -1,11 +1,11 @@
-import { BroccoliTextGeneric } from "../../model/Broccoli";
-import { useAnnotationStore } from "../../stores/annotation.ts";
+import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
+import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
 import {
   AnnotationBodyId,
   RelativeTextAnnotation,
-} from "./RelativeTextAnnotation.ts";
-import { LogicalLineHighlighting } from "./LogicalLineHighlighting.tsx";
+} from "../RelativeTextAnnotation.ts";
+import { AnnotatedLine } from "./AnnotatedLine.tsx";
 import { withRelativePosition } from "./utils/withRelativePosition.ts";
 import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
 import { useState } from "react";
@@ -14,7 +14,7 @@ type TextHighlightingProps = {
   text: BroccoliTextGeneric;
 };
 
-export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
+export const AnnotatedText = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore().annotations;
   const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
   const annotationsToHighlight = getAnnotationsByType(
@@ -48,7 +48,7 @@ export const LogicalTextHighlighting = (props: TextHighlightingProps) => {
     <div className="leading-loose">
       {props.text.lines.map((line, index) => (
         <div key={index} className="w-fit">
-          <LogicalLineHighlighting
+          <AnnotatedLine
             line={line}
             annotations={logicalAnnotations.filter(
               (a) => a.lineIndex === index,

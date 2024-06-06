@@ -5,13 +5,13 @@ import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { useSearchStore } from "../../stores/search/search-store";
-import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
+import { getAnnotationsByType } from "./Annotated/utils/getAnnotationsByType.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
 };
 
-export const LineTextHighlighting = (props: TextHighlightingProps) => {
+export const TextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();
