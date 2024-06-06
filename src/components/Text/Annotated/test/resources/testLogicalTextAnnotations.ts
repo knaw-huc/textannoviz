@@ -1,4 +1,3 @@
-import { AnnoRepoAnnotation } from "../../../../../model/AnnoRepoAnnotation.ts";
 import { OffsetsByCharIndex, RelativeTextAnnotation } from "../../Model.ts";
 
 export const line = "aabbccddee";
@@ -13,21 +12,21 @@ export const line = "aabbccddee";
 export const annotations: RelativeTextAnnotation[] = [
   {
     type: "Entity",
-    anno: { body: { id: "anno1" } } as AnnoRepoAnnotation,
+    id: "anno1",
     lineIndex: 0,
     startChar: 2,
     endChar: 6,
   },
   {
     type: "Entity",
-    anno: { body: { id: "anno2" } } as AnnoRepoAnnotation,
+    id: "anno2",
     lineIndex: 0,
     startChar: 4,
     endChar: 6,
   },
   {
     type: "Entity",
-    anno: { body: { id: "anno3" } } as AnnoRepoAnnotation,
+    id: "anno3",
     lineIndex: 0,
     startChar: 4,
     endChar: 8,

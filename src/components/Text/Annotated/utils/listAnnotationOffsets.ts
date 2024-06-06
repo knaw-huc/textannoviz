@@ -18,7 +18,7 @@ export function listAnnotationOffsets(
     const newStartOffset: AnnotationOffset = {
       charIndex: annotation.startChar,
       type: "start",
-      annotationId: annotation.anno.body.id,
+      annotationId: annotation.id,
     };
     const offsetsAtStartChar = annotationPositions.get(annotation.startChar);
     if (offsetsAtStartChar) {
@@ -30,7 +30,7 @@ export function listAnnotationOffsets(
     const newEndOffset: AnnotationOffset = {
       charIndex: annotation.endChar,
       type: "end",
-      annotationId: annotation.anno.body.id,
+      annotationId: annotation.id,
     };
     const offsetsAtEndChar = annotationPositions.get(annotation.endChar);
     if (offsetsAtEndChar) {

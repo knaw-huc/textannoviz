@@ -1,10 +1,6 @@
 import { LineText } from "./LineText.tsx";
-import {
-  AnnotationBodyId,
-  AnnotationSegment,
-  RelativeTextAnnotation,
-  Segment,
-} from "./Model.ts";
+import { AnnotationBodyId, RelativeTextAnnotation, Segment } from "./Model.ts";
+import { createAnnotationClasses } from "./utils/createAnnotationClasses.ts";
 
 export type NestedAnnotationProps = {
   segment: Segment;
@@ -18,7 +14,7 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
   const annotationSegment = segmentAnnotations[0];
   const toNest = segmentAnnotations.slice(1);
   const annotation = props.annotations.find(
-    (a) => a.anno.body.id === annotationSegment.id,
+    (a) => a.id === annotationSegment.id,
   );
   if (!annotation) {
     throw new Error(
@@ -47,27 +43,4 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
       )}
     </span>
   );
-}
-
-export function createAnnotationClasses(
-  segment: Segment,
-  annotationSegment: AnnotationSegment,
-  annotation: RelativeTextAnnotation,
-  hoveringOn: AnnotationBodyId | undefined,
-) {
-  const classes = [
-    `nested-annotation`,
-    `underlined-${annotation.anno.body.metadata.category}`,
-    `id-${annotation.anno.body.id.replaceAll(":", "-")}`,
-  ];
-  if (hoveringOn === annotation.anno.body.id) {
-    classes.push("hover-underline");
-  }
-  if (segment.index === annotationSegment.startSegment) {
-    classes.push("start-annotation");
-  }
-  if (segment.index === annotationSegment.endSegment - 1) {
-    classes.push("end-annotation");
-  }
-  return classes.join(" ").toLowerCase();
 }

@@ -294,15 +294,18 @@ em {
 }
 
 .nested-annotation,
-.depth-correction {
+.depth-correction,
+.search-highlight {
   display: inline-block;
   white-space: pre;
 }
 
+.search-highlight {
+  margin-bottom: 3px;
+}
+
 .nested-annotation {
   margin-bottom: 2px;
-  cursor: pointer;
-  content: "";
   border-bottom: 1px solid;
 }
 

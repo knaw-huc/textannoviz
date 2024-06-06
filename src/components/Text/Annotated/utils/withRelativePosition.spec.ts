@@ -11,7 +11,7 @@ describe("withRelativePosition", () => {
       broccoli.views.self.locations.annotations,
       broccoli.views.self.lines,
     );
-    expect(result.anno.body.id).toEqual(
+    expect(result.id).toEqual(
       "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
     );
     expect(result.startChar).toEqual(162);

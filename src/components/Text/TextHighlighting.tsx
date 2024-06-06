@@ -4,8 +4,9 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
-import { useSearchStore } from "../../stores/search/search-store";
 import { getAnnotationsByType } from "./Annotated/utils/getAnnotationsByType.ts";
+import { createSearchRegex } from "./createSearchRegex.tsx";
+import { useSearchStore } from "../../stores/search/search-store.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -91,16 +92,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
     if (textToHighlight.map.size > 0 && params.tier2) {
       if (textToHighlight.map.get(params.tier2)) {
-        const toHighlightStrings = textToHighlight.map.get(params.tier2);
-        const regexStrings = toHighlightStrings?.map((str) =>
-          str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-        );
-        let joinedRegexString: string | undefined = "";
-
-        textToHighlight.exact
-          ? (joinedRegexString = regexStrings?.join("\\s"))
-          : (joinedRegexString = regexStrings?.join("|"));
-        const regex = new RegExp(`${joinedRegexString}`, "g");
+        const regex = createSearchRegex(textToHighlight, params.tier2)!;
 
         projectName === "republic" || projectName === "globalise"
           ? (result = (

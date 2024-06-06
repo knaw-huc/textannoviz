@@ -22,16 +22,16 @@ export function AnnotatedLine(props: {
   onHoverChange: (value: AnnotationBodyId | undefined) => void;
 }) {
   const { line, annotations } = props;
-  console.timeEnd("create-line");
   console.time("create-line");
-  const annotationOffsets = listAnnotationOffsets(annotations);
-  const annotationSegments = createAnnotationSegments(line, annotationOffsets);
+  const offsets = listAnnotationOffsets(annotations);
+  const segments = createAnnotationSegments(line, offsets);
   if (line.startsWith("Synde ter vergaderinge")) {
-    console.timeLog("create-line", { line, annotationSegments });
+    console.timeLog("create-line", { line, annotationSegments: segments });
   }
+  console.timeEnd("create-line");
   return (
     <>
-      {annotationSegments.map((segment, i) => (
+      {segments.map((segment, i) => (
         <LineSegment
           key={i}
           segment={segment}

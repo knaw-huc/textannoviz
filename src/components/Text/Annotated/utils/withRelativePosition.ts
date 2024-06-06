@@ -24,8 +24,9 @@ export function withRelativePosition(
     ? positionRelativeToView.end.offset! + 1
     : lines[positionRelativeToView.end.line].length;
   return {
+    id: annotation.body.id,
+    category: annotation.body.metadata.category,
     type: annotation.body.type,
-    anno: annotation,
     lineIndex: positionRelativeToView.start.line,
     startChar,
     endChar,

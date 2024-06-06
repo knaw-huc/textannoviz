@@ -1,7 +1,22 @@
-import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation.ts";
+/**
+ * Annotation type
+ * - annotation
+ * - search highlight
+ */
+export type AnnotationType = "search" | "Entity" | string;
 
-export type AnnotationType = string;
+/**
+ * ID of annotation:
+ * - annotation body id
+ * - search highlight index
+ */
 export type AnnotationBodyId = string;
+
+/**
+ * Categories of an annotation type
+ * e.g. Entity LOC(ations), PER(sons), etc.
+ */
+export type AnnotationTypeCategory = string;
 
 /**
  * Annotation with char positions relative to line
@@ -10,17 +25,16 @@ export type AnnotationBodyId = string;
  * but not in line with the char index as returned by broccoli (which includes the last char)
  */
 export type RelativeTextAnnotation = {
+  id: AnnotationBodyId;
   type: AnnotationType;
+  category?: AnnotationTypeCategory;
   lineIndex: number;
-
   startChar: number;
 
   /**
    * Excluding last character (see note {@link RelativeTextAnnotation})
    */
   endChar: number;
-
-  anno: AnnoRepoAnnotation;
 };
 
 export type AnnotationOffset = {
