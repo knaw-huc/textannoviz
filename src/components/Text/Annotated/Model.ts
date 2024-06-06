@@ -68,6 +68,7 @@ export type AnnotationSegment = {
  * Segment of a line with its text and the annotations that apply
  */
 export type Segment = {
+  index: number;
   annotations: AnnotationSegment[];
   body: string;
 };

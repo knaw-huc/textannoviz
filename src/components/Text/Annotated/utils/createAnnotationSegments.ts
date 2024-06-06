@@ -22,6 +22,7 @@ export function createAnnotationSegments(
   const lineStartsWithAnnotation = firstCharIndex === 0;
   if (!lineStartsWithAnnotation) {
     segments.push({
+      index: 0,
       body: line.slice(0, firstCharIndex),
       annotations: [],
     });
@@ -89,6 +90,7 @@ export function createAnnotationSegments(
     ])!;
 
     segments.push({
+      index: segments.length,
       body: currentLineSegment,
       annotations: currentAnnotations.length ? [...currentAnnotations] : [],
     });
