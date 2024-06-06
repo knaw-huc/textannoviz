@@ -2,8 +2,8 @@ import { LineText } from "./LineText.tsx";
 import {
   AnnotationBodyId,
   RelativeTextAnnotation,
-} from "../RelativeTextAnnotation.ts";
-import { SegmentedLine } from "./Model.ts";
+  SegmentedLine,
+} from "./Model.ts";
 
 export type NestedAnnotationProps = {
   segment: SegmentedLine;

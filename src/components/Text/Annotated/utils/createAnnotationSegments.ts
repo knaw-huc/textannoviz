@@ -1,14 +1,12 @@
-import {
-  AnnotationOffset,
-  OffsetsByCharIndex,
-} from "./listAnnotationOffsets.ts";
 import _ from "lodash";
 import {
   AnnotationGroup,
+  AnnotationOffset,
+  OffsetsByCharIndex,
+  RelativeTextAnnotation,
   SegmentedAnnotation,
   SegmentedLine,
 } from "../Model.ts";
-import { RelativeTextAnnotation } from "../../RelativeTextAnnotation.ts";
 
 export function createAnnotationSegments(
   line: string,

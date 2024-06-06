@@ -1,7 +1,7 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { RelativeTextAnnotation } from "../../RelativeTextAnnotation.ts";
 import * as _ from "lodash";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
+import { RelativeTextAnnotation } from "../Model.ts";
 
 export function withRelativePosition(
   annotation: AnnoRepoAnnotation,

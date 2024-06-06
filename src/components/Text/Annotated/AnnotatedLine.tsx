@@ -1,10 +1,7 @@
-import {
-  AnnotationBodyId,
-  RelativeTextAnnotation,
-} from "../RelativeTextAnnotation.ts";
 import { listAnnotationOffsets } from "./utils/listAnnotationOffsets.ts";
 import { createAnnotationSegments } from "./utils/createAnnotationSegments.ts";
 import { LineSegment } from "./LineSegment.tsx";
+import { AnnotationBodyId, RelativeTextAnnotation } from "./Model.ts";
 
 /**
  * Definitions:

@@ -1,14 +1,11 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
-import {
-  AnnotationBodyId,
-  RelativeTextAnnotation,
-} from "../RelativeTextAnnotation.ts";
 import { AnnotatedLine } from "./AnnotatedLine.tsx";
 import { withRelativePosition } from "./utils/withRelativePosition.ts";
 import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
 import { useState } from "react";
+import { AnnotationBodyId, RelativeTextAnnotation } from "./Model.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;

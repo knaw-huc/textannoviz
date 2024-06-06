@@ -1,7 +1,7 @@
 import { LineText } from "./LineText.tsx";
 import { LineSegmentWithAnnotations } from "./LineSegmentWithAnnotations.tsx";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
-import { AnnotationBodyId } from "../RelativeTextAnnotation.ts";
+import { AnnotationBodyId } from "./Model.ts";
 
 export type LineSegmentProps = Omit<
   NestedAnnotationProps,

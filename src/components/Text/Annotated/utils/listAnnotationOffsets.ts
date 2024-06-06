@@ -1,21 +1,9 @@
-import {
-  AnnotationBodyId,
-  RelativeTextAnnotation,
-} from "../../RelativeTextAnnotation.ts";
 import _ from "lodash";
-
-export type AnnotationOffset = {
-  charIndex: number;
-  type: "start" | "end";
-  annotationId: AnnotationBodyId;
-};
-
-export type CharIndex = number;
-
-export type OffsetsByCharIndex = {
-  charIndex: CharIndex;
-  offsets: AnnotationOffset[];
-};
+import {
+  AnnotationOffset,
+  OffsetsByCharIndex,
+  RelativeTextAnnotation,
+} from "../Model.ts";
 
 /**
  * List all start and end offsets of annotations per character index
