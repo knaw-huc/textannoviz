@@ -28,7 +28,7 @@ export function listAnnotationOffsets(
     }
 
     const newEndOffset: AnnotationOffset = {
-      charIndex: annotation.startChar,
+      charIndex: annotation.endChar,
       type: "end",
       annotationId: annotation.anno.body.id,
     };

@@ -64,12 +64,12 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
     charIndex: 6,
     offsets: [
       {
-        charIndex: 2,
+        charIndex: 6,
         type: "end",
         annotationId: "anno1",
       },
       {
-        charIndex: 4,
+        charIndex: 6,
         type: "end",
         annotationId: "anno2",
       },
@@ -79,7 +79,7 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
     charIndex: 8,
     offsets: [
       {
-        charIndex: 4,
+        charIndex: 8,
         type: "end",
         annotationId: "anno3",
       },
