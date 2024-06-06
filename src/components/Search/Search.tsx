@@ -85,7 +85,15 @@ export const Search = () => {
         "keyword",
       );
 
-      const aggregations = Object.keys(newFacets);
+      const aggregations = Object.keys(newFacets).map((agg) => {
+        const newAgg = {
+          facetName: agg,
+          order: "countDesc",
+          size: 10,
+        };
+
+        return newAgg;
+      });
 
       // const keywordAggs = newKeywordFacets.map(
       //   (keywordFacet) => keywordFacet[0],

@@ -165,13 +165,14 @@ export function SearchForm(props: SearchFormProps) {
     const prevAggs = searchQuery.aggs;
 
     const newAggs = prevAggs?.map((prevAgg) => {
-      if (!prevAgg.startsWith(aggregation)) return prevAgg;
+      if (!prevAgg.facetName.startsWith(aggregation)) return prevAgg;
 
-      if (prevAgg.includes(":")) {
-        return `${prevAgg},200`;
-      }
+      const newAgg = {
+        ...prevAgg,
+        size: 1000,
+      };
 
-      return `${aggregation}:200`;
+      return newAgg;
     });
 
     setSearchQuery({

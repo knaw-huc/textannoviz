@@ -15,7 +15,11 @@ import {
 export type SearchQuery = {
   dateFacet?: FacetName;
   rangeFacet?: FacetName;
-  aggs?: string[];
+  aggs?: {
+    facetName: string;
+    order: string;
+    size: number;
+  }[];
   dateFrom: string;
   dateTo: string;
   rangeFrom: string;
@@ -103,7 +107,9 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
   }
 
   if (query.aggs) {
-    searchQuery.aggs = query.aggs;
+    searchQuery.aggs = query.aggs.map(
+      (agg) => `${agg.facetName}:${agg.order},${agg.size}`,
+    );
   }
 
   return searchQuery;

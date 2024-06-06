@@ -36,13 +36,14 @@ export function KeywordFacet(props: {
     const prevAggs = searchQuery.aggs;
 
     const newAggs = prevAggs?.map((prevAgg) => {
-      if (!prevAgg.startsWith(aggregation)) return prevAgg;
+      if (!prevAgg.facetName.startsWith(aggregation)) return prevAgg;
 
-      if (prevAgg.includes(":")) {
-        return `${prevAgg},${orderBy}`;
-      }
+      const newAgg = {
+        ...prevAgg,
+        order: orderBy,
+      };
 
-      return `${aggregation}:${orderBy}`;
+      return newAgg;
     });
 
     setSearchQuery({
