@@ -95,10 +95,6 @@ export const Search = () => {
         return newAgg;
       });
 
-      // const keywordAggs = newKeywordFacets.map(
-      //   (keywordFacet) => keywordFacet[0],
-      // );
-
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
         aggs: aggregations,
