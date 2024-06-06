@@ -28,6 +28,10 @@ export function KeywordFacet(props: {
     props.selectedFacets[props.facetName] ?? [],
   );
 
+  const sortOrder = searchQuery.aggs?.find(
+    (agg) => agg.facetName === props.facetName,
+  )?.order;
+
   function checkboxChangeHandler(newSelected: string[]) {
     setSelected(newSelected);
   }
@@ -63,10 +67,7 @@ export function KeywordFacet(props: {
         onChange={checkboxChangeHandler}
         sortIconClickHandler={sortIconClickHandler}
         facetLength={facetLength}
-        sortOrder={
-          searchQuery.aggs?.find((agg) => agg.facetName === props.facetName)
-            ?.order
-        }
+        sortOrder={sortOrder}
       >
         {Object.entries(props.facet).map(
           ([facetValueName, facetValueCount], index) => {
