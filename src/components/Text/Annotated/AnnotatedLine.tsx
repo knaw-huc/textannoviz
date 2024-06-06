@@ -25,11 +25,7 @@ export function AnnotatedLine(props: {
   console.timeEnd("create-line");
   console.time("create-line");
   const annotationOffsets = listAnnotationOffsets(annotations);
-  const annotationSegments = createAnnotationSegments(
-    line,
-    annotationOffsets,
-    annotations,
-  );
+  const annotationSegments = createAnnotationSegments(line, annotationOffsets);
   if (line.startsWith("Synde ter vergaderinge")) {
     console.timeLog("create-line", { line, annotationSegments });
   }

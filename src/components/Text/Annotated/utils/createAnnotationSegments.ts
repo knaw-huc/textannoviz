@@ -3,7 +3,6 @@ import {
   AnnotationGroup,
   AnnotationOffset,
   OffsetsByCharIndex,
-  RelativeTextAnnotation,
   SegmentedAnnotation,
   SegmentedLine,
 } from "../Model.ts";
@@ -11,9 +10,13 @@ import {
 export function createAnnotationSegments(
   line: string,
   offsetsByCharIndex: OffsetsByCharIndex[],
-  annotations: RelativeTextAnnotation[],
 ): SegmentedLine[] {
   const annotationSegments: SegmentedLine[] = [];
+
+  // To sort annotations by length:
+  const endOffsets: AnnotationOffset[] = offsetsByCharIndex
+    .flatMap((charIndex) => charIndex.offsets)
+    .filter((offset) => offset.type === "end");
 
   const firstCharIndex = offsetsByCharIndex[0]?.charIndex;
   const lineStartsWithAnnotation = firstCharIndex === 0;
@@ -93,15 +96,16 @@ export function createAnnotationSegments(
     start1: AnnotationOffset,
     start2: AnnotationOffset,
   ) {
-    const a1 = annotations.find((a) => a.anno.body.id === start1.annotationId);
-    const a2 = annotations.find((a) => a.anno.body.id === start2.annotationId);
-    if (!a1 || !a2) {
+    const end1 = endOffsets.find((o) => o.annotationId === start1.annotationId);
+    const end2 = endOffsets.find((o) => o.annotationId === start2.annotationId);
+    if (!end1 || !end2) {
       throw new Error(
-        `Could not find annotation of ${JSON.stringify([start1, start2])}`,
+        "Could not find annotations while sorting: " +
+          `${start1.annotationId}=${end1}, ${start2.annotationId}=${end2}`,
       );
     }
-    const size1 = a1.endChar - a1.startChar;
-    const size2 = a2.endChar - a2.startChar;
+    const size1 = end1.charIndex - start1.charIndex;
+    const size2 = end2.charIndex - start2.charIndex;
     if (size1 < size2) {
       return 1;
     } else if (size1 > size2) {
