@@ -51,6 +51,13 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
   showMiradorNavigationButtons: true,
+  overrideDefaultAggs: [
+    {
+      facetName: "sessionYear",
+      order: "countDesc",
+      size: 250,
+    },
+  ],
   components: {
     MetadataPanel,
     SearchItem,

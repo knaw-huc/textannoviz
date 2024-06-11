@@ -1,3 +1,4 @@
+import { SearchQuery } from "../stores/search/search-query-slice.ts";
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import {
@@ -59,6 +60,7 @@ export interface ProjectConfig {
   selectedLanguage: LanguageCode;
   inputFacetOptions: string;
   languages: Language[];
+  overrideDefaultAggs: SearchQuery["aggs"];
   mirador: {
     showWindowSideBar: boolean;
     showTopMenuButton: boolean;

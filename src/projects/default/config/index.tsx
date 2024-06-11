@@ -55,6 +55,7 @@ export const defaultConfig: Omit<
   showInputFacet: false,
   histogramFacet: "",
   inputFacetOptions: "",
+  overrideDefaultAggs: [],
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,

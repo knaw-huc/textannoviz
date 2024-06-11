@@ -75,7 +75,12 @@ export const Search = () => {
       const newIndex: FacetNamesByType =
         newIndices[projectConfig.elasticIndexName];
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      const newFacets = await getFacets(projectConfig, newIndex, signal);
+      const newFacets = await getFacets(
+        projectConfig,
+        newIndex,
+        searchQuery,
+        signal,
+      );
 
       const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
 
@@ -86,11 +91,21 @@ export const Search = () => {
       );
 
       const aggregations = Object.keys(newFacets).map((agg) => {
-        const newAgg = {
+        let newAgg = {
           facetName: agg,
           order: "countDesc",
           size: 10,
         };
+
+        projectConfig.overrideDefaultAggs?.map((override) => {
+          if (override.facetName === agg) {
+            newAgg = {
+              facetName: override.facetName,
+              order: override.order,
+              size: override.size,
+            };
+          }
+        });
 
         return newAgg;
       });

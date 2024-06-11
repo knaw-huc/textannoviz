@@ -1,29 +1,47 @@
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { FacetNamesByType } from "../../../model/Search";
+import {
+  SearchQuery,
+  toRequestBody,
+} from "../../../stores/search/search-query-slice";
 import { sendSearchQuery } from "../../../utils/broccoli";
 
 export async function getFacets(
   projectConfig: ProjectConfig,
   facetsByType: FacetNamesByType,
+  searchQuery: SearchQuery,
   signal: AbortSignal,
 ) {
-  console.log(facetsByType);
-  // const DEFAULT_ES_AGGS_SIZE = 50;
-  // const invNrSize = 1000;
-  // const otherDefaults = ["invNr"];
+  const aggregations = Object.keys(facetsByType).map((agg) => {
+    let newAgg = {
+      facetName: agg,
+      order: "countDesc",
+      size: 10,
+    };
 
-  const aggregations = Object.entries(facetsByType).map(([facetName]) => {
-    // const size = otherDefaults.includes(facetName)
-    //   ? invNrSize
-    //   : DEFAULT_ES_AGGS_SIZE;
-    // return `${facetName}:${size}`;
-    return facetName;
+    projectConfig.overrideDefaultAggs?.map((override) => {
+      if (override.facetName === agg) {
+        newAgg = {
+          facetName: override.facetName,
+          order: override.order,
+          size: override.size,
+        };
+      }
+    });
+
+    return newAgg;
   });
+
+  const query = {
+    ...searchQuery,
+    aggs: aggregations,
+    terms: {},
+  };
 
   const searchResults = await sendSearchQuery(
     projectConfig,
     { size: 0, indexName: projectConfig.elasticIndexName },
-    { aggs: aggregations, terms: {} },
+    toRequestBody(query),
     signal,
   );
   if (!searchResults?.aggs) {
