@@ -135,8 +135,16 @@ export const SearchInfoPage = () => {
         Infrastructure Department, KNAW Humanities Cluster using the{" "}
         <a href="https://github.com/knaw-huc/loghi">
           Loghi open-source HTR platform
-        </a>
-        .
+        </a>{" "}
+        in conjunction with the following GLOBALISE models:{" "}
+        <a href="https://hdl.handle.net/10622/VMSCBR">Laypa Baseline Model</a>{" "}
+        (August, 2023),{" "}
+        <a href="https://hdl.handle.net/10622/DMAS2T">Laypa Region Model</a>{" "}
+        (August, 2023),{" "}
+        <a href="https://hdl.handle.net/10622/X2JZYY">
+          Loghi Handwritten Text Recognition Model
+        </a>{" "}
+        (August, 2023).
       </p>
 
       <p className="mb-4 mt-4 block">
@@ -160,7 +168,7 @@ export const SearchInfoPage = () => {
         their prior work in this area. Reference transcriptions and region
         layout data to finetune the HTR models for the GLOBALISE corpus were
         created by GLOBALISE team members Kay Pepping, Maartje Hids, Merve
-        Tosun, and Femke Brink.
+        Tosun, Femke Brink, and Marja Swüste.
       </p>
 
       <h4>Release Notes</h4>
@@ -169,8 +177,8 @@ export const SearchInfoPage = () => {
 
       <ul className="mb-4 mt-4 block list-disc pl-10">
         <li className="list-item">
-          New: Improved HTR (v2.0) HTR with more accurate transcriptions and
-          improved (PageXML) layout elements.
+          New: Improved HTR (v2.0) with more accurate transcriptions and
+          (PageXML) layout elements.
         </li>
         <li className="list-item">
           {" "}
@@ -178,14 +186,14 @@ export const SearchInfoPage = () => {
           <a href="https://transcriptions.globalise.huygens.knaw.nl/help">
             Filter search results
           </a>{" "}
-          by VOC archive{" "}
+          by single or multiple VOC archive{" "}
           <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02">
             inventory numbers
           </a>
           .
         </li>
         <li className="list-item">
-          New: Ability to goto a specific page in the search results.
+          New: Ability to go to a specific page in the search results.
         </li>
         <li className="list-item">
           New: Added inventory no. to page titles in search results.
