@@ -19,15 +19,16 @@ export async function getFacets(
       size: 10,
     };
 
-    projectConfig.overrideDefaultAggs?.map((override) => {
-      if (override.facetName === agg) {
-        newAgg = {
-          facetName: override.facetName,
-          order: override.order,
-          size: override.size,
-        };
-      }
-    });
+    projectConfig.overrideDefaultAggs.length > 0 &&
+      projectConfig.overrideDefaultAggs.map((override) => {
+        if (override.facetName === agg) {
+          newAgg = {
+            facetName: override.facetName,
+            order: override.order,
+            size: override.size,
+          };
+        }
+      });
 
     return newAgg;
   });
