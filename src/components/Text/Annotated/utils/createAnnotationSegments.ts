@@ -5,6 +5,9 @@ import {
   OffsetsByCharIndex,
   AnnotationSegment,
   Segment,
+  SegmentOffsets,
+  isAnnotationSegment,
+  isSearchHighlightAnnotationSegment,
 } from "../Model.ts";
 
 export function createAnnotationSegments(
@@ -16,7 +19,7 @@ export function createAnnotationSegments(
   // To sort annotations by length:
   const endOffsets: AnnotationOffset[] = offsetsByCharIndex
     .flatMap((charIndex) => charIndex.offsets)
-    .filter((offset) => offset.type === "end");
+    .filter((offset) => offset.mark === "end");
 
   const firstCharIndex = offsetsByCharIndex[0]?.charIndex;
   const lineStartsWithAnnotation = firstCharIndex === 0;
@@ -28,7 +31,7 @@ export function createAnnotationSegments(
     });
   }
 
-  const currentAnnotations: AnnotationSegment[] = [];
+  const currentAnnotations: SegmentOffsets[] = [];
   let currentAnnotationDepth = 0;
   let annotationGroup: AnnotationGroup = {
     id: 1,
@@ -50,7 +53,7 @@ export function createAnnotationSegments(
 
     // Handle annotations closing in current section:
     const annotationIdsClosingAtCharIndex = offsetsAtCharIndex.offsets
-      .filter((offset) => offset.type === "end")
+      .filter((offset) => offset.mark === "end")
       .map((endOffset) => endOffset.annotationId);
     currentAnnotations
       .filter((a) => annotationIdsClosingAtCharIndex.includes(a.id))
@@ -74,25 +77,33 @@ export function createAnnotationSegments(
     // Handle annotations opening in current section:
     const annotationsOpeningAtCharIndex: AnnotationSegment[] =
       offsetsAtCharIndex.offsets
-        .filter((offset) => offset.type === "start")
+        .filter((offset) => offset.mark === "start")
         .sort(byAnnotationSize)
-        .map((startOffset) => ({
-          id: startOffset.annotationId,
-          depth: ++currentAnnotationDepth,
-          group: annotationGroup,
-          startSegment: segments.length,
-          endSegment: -1, // Set on closing
-        }));
+        .map(
+          (startOffset) =>
+            ({
+              id: startOffset.annotationId,
+              type: startOffset.annotationType,
+              depth: ++currentAnnotationDepth,
+              group: annotationGroup,
+              startSegment: segments.length,
+              endSegment: -1, // Set on closing
+            }) as AnnotationSegment,
+        );
     currentAnnotations.push(...annotationsOpeningAtCharIndex);
     annotationGroup.maxDepth = _.max([
       annotationGroup.maxDepth,
       currentAnnotationDepth,
     ])!;
-
+    const annotations = currentAnnotations.filter(isAnnotationSegment);
+    const searchHighlight = currentAnnotations.find(
+      isSearchHighlightAnnotationSegment,
+    );
     segments.push({
       index: segments.length,
       body: currentLineSegment,
-      annotations: currentAnnotations.length ? [...currentAnnotations] : [],
+      annotations,
+      searchHighlight,
     });
   }
   return segments;

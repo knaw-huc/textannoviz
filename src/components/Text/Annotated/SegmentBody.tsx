@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-export function LineText(props: { body: string; depthCorrection: number }) {
+export function SegmentBody(props: { body: string; depthCorrection: number }) {
   let className: string | undefined;
   const style: CSSProperties = {};
   if (props.depthCorrection) {

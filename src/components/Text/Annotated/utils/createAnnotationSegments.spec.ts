@@ -48,8 +48,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 0,
-            type: "start",
+            mark: "start",
             annotationId: "anno1",
+            annotationType: "Entity",
           },
         ],
       },
@@ -58,8 +59,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 2,
-            type: "end",
+            mark: "end",
             annotationId: "anno1",
+            annotationType: "Entity",
           },
         ],
       },
@@ -79,8 +81,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 1,
-            type: "start",
+            mark: "start",
             annotationId: "anno1",
+            annotationType: "Entity",
           },
         ],
       },
@@ -89,8 +92,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 3,
-            type: "end",
+            mark: "end",
             annotationId: "anno1",
+            annotationType: "Entity",
           },
         ],
       },
@@ -111,8 +115,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 0,
-            type: "start",
+            mark: "start",
             annotationId: "anno1",
+            annotationType: "Entity",
           },
         ],
       },
@@ -121,8 +126,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 2,
-            type: "end",
+            mark: "end",
             annotationId: "anno1",
+            annotationType: "Entity",
           },
         ],
       },
@@ -131,8 +137,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 4,
-            type: "start",
+            mark: "start",
             annotationId: "anno2",
+            annotationType: "Entity",
           },
         ],
       },
@@ -141,8 +148,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 6,
-            type: "end",
+            mark: "end",
             annotationId: "anno2",
+            annotationType: "Entity",
           },
         ],
       },
@@ -168,8 +176,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 0,
-            type: "start",
+            mark: "start",
             annotationId: "id-aabbcc",
+            annotationType: "Entity",
           },
         ],
       },
@@ -178,8 +187,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 2,
-            type: "start",
+            mark: "start",
             annotationId: "id-bbcc",
+            annotationType: "Entity",
           },
         ],
       },
@@ -188,8 +198,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 4,
-            type: "start",
+            mark: "start",
             annotationId: "id-cc",
+            annotationType: "Entity",
           },
         ],
       },
@@ -199,8 +210,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 6,
-            type: "end",
+            mark: "end",
             annotationId: "id-cc",
+            annotationType: "Entity",
           },
         ],
       },
@@ -209,18 +221,21 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 6,
-            type: "end",
+            mark: "end",
             annotationId: "id-cc",
+            annotationType: "Entity",
           },
           {
             charIndex: 6,
-            type: "end",
+            mark: "end",
             annotationId: "id-bbcc",
+            annotationType: "Entity",
           },
           {
             charIndex: 6,
-            type: "end",
+            mark: "end",
             annotationId: "id-aabbcc",
+            annotationType: "Entity",
           },
         ],
       },
@@ -242,8 +257,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 0,
-            type: "start",
+            mark: "start",
             annotationId: "id-aa",
+            annotationType: "Entity",
           },
         ],
       },
@@ -252,8 +268,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 2,
-            type: "end",
+            mark: "end",
             annotationId: "id-aa",
+            annotationType: "Entity",
           },
         ],
       },
@@ -262,8 +279,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 4,
-            type: "start",
+            mark: "start",
             annotationId: "id-cc",
+            annotationType: "Entity",
           },
         ],
       },
@@ -272,8 +290,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 6,
-            type: "end",
+            mark: "end",
             annotationId: "id-cc",
+            annotationType: "Entity",
           },
         ],
       },
@@ -294,8 +313,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 0,
-            type: "start",
+            mark: "start",
             annotationId: "id-aa",
+            annotationType: "Entity",
           },
         ],
       },
@@ -304,13 +324,15 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 2,
-            type: "end",
+            mark: "end",
             annotationId: "id-aa",
+            annotationType: "Entity",
           },
           {
             charIndex: 2,
-            type: "start",
+            mark: "start",
             annotationId: "id-bb",
+            annotationType: "Entity",
           },
         ],
       },
@@ -319,8 +341,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 4,
-            type: "end",
+            mark: "end",
             annotationId: "id-bb",
+            annotationType: "Entity",
           },
         ],
       },
@@ -341,13 +364,15 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 0,
-            type: "start",
+            mark: "start",
             annotationId: "id-abc",
+            annotationType: "Entity",
           },
           {
             charIndex: 0,
-            type: "start",
+            mark: "start",
             annotationId: "id-ab",
+            annotationType: "Entity",
           },
         ],
       },
@@ -356,8 +381,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 2,
-            type: "start",
+            mark: "start",
             annotationId: "id-bc",
+            annotationType: "Entity",
           },
         ],
       },
@@ -366,8 +392,9 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 4,
-            type: "end",
+            mark: "end",
             annotationId: "id-ab",
+            annotationType: "Entity",
           },
         ],
       },
@@ -376,13 +403,15 @@ describe("createAnnotationSegments", () => {
         offsets: [
           {
             charIndex: 6,
-            type: "end",
+            mark: "end",
             annotationId: "id-abc",
+            annotationType: "Entity",
           },
           {
             charIndex: 6,
-            type: "end",
+            mark: "end",
             annotationId: "id-bc",
+            annotationType: "Entity",
           },
         ],
       },

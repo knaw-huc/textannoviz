@@ -1,4 +1,4 @@
-import { OffsetsByCharIndex, RelativeTextAnnotation } from "../../Model.ts";
+import { OffsetsByCharIndex, AnnotationOffsets } from "../../Model.ts";
 
 export const line = "aabbccddee";
 /**
@@ -9,7 +9,7 @@ export const line = "aabbccddee";
  * dd (6,7) -> anno3
  * ee (8,9) -> none
  */
-export const annotations: RelativeTextAnnotation[] = [
+export const annotations: AnnotationOffsets[] = [
   {
     type: "Entity",
     id: "anno1",
@@ -39,8 +39,9 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
     offsets: [
       {
         charIndex: 2,
-        type: "start",
+        mark: "start",
         annotationId: "anno1",
+        annotationType: "Entity",
       },
     ],
   },
@@ -49,13 +50,15 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
     offsets: [
       {
         charIndex: 4,
-        type: "start",
+        mark: "start",
         annotationId: "anno2",
+        annotationType: "Entity",
       },
       {
         charIndex: 4,
-        type: "start",
+        mark: "start",
         annotationId: "anno3",
+        annotationType: "Entity",
       },
     ],
   },
@@ -64,13 +67,15 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
     offsets: [
       {
         charIndex: 6,
-        type: "end",
+        mark: "end",
         annotationId: "anno1",
+        annotationType: "Entity",
       },
       {
         charIndex: 6,
-        type: "end",
+        mark: "end",
         annotationId: "anno2",
+        annotationType: "Entity",
       },
     ],
   },
@@ -79,8 +84,9 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
     offsets: [
       {
         charIndex: 8,
-        type: "end",
+        mark: "end",
         annotationId: "anno3",
+        annotationType: "Entity",
       },
     ],
   },

@@ -1,7 +1,7 @@
-import { listAnnotationOffsets } from "./utils/listAnnotationOffsets.ts";
+import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 import { createAnnotationSegments } from "./utils/createAnnotationSegments.ts";
 import { LineSegment } from "./LineSegment.tsx";
-import { AnnotationBodyId, RelativeTextAnnotation } from "./Model.ts";
+import { AnnotationBodyId, RelativeOffsets } from "./Model.ts";
 
 /**
  * Definitions:
@@ -17,14 +17,14 @@ import { AnnotationBodyId, RelativeTextAnnotation } from "./Model.ts";
  */
 export function AnnotatedLine(props: {
   line: string;
-  annotations: RelativeTextAnnotation[];
+  offsets: RelativeOffsets[];
   hoveringOn: AnnotationBodyId | undefined;
   onHoverChange: (value: AnnotationBodyId | undefined) => void;
 }) {
-  const { line, annotations } = props;
+  const { line, offsets } = props;
   console.time("create-line");
-  const offsets = listAnnotationOffsets(annotations);
-  const segments = createAnnotationSegments(line, offsets);
+  const offsetsByChar = listOffsetsByChar(offsets);
+  const segments = createAnnotationSegments(line, offsetsByChar);
   if (line.startsWith("Synde ter vergaderinge")) {
     console.timeLog("create-line", { line, annotationSegments: segments });
   }
@@ -35,7 +35,7 @@ export function AnnotatedLine(props: {
         <LineSegment
           key={i}
           segment={segment}
-          annotations={annotations}
+          annotations={offsets}
           hoveringOn={props.hoveringOn}
           onHoverChange={props.onHoverChange}
         />

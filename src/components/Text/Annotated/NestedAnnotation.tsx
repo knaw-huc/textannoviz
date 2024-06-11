@@ -1,10 +1,10 @@
-import { LineText } from "./LineText.tsx";
-import { AnnotationBodyId, RelativeTextAnnotation, Segment } from "./Model.ts";
+import { AnnotationBodyId, AnnotationOffsets, Segment } from "./Model.ts";
 import { createAnnotationClasses } from "./utils/createAnnotationClasses.ts";
+import { SearchHighlightAnnotation } from "./SearchHighlightAnnotation.tsx";
 
 export type NestedAnnotationProps = {
   segment: Segment;
-  annotations: RelativeTextAnnotation[];
+  annotations: AnnotationOffsets[];
   depthCorrection: number;
   hoveringOn: AnnotationBodyId | undefined;
 };
@@ -36,8 +36,8 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
           segment={{ ...props.segment, annotations: toNest }}
         />
       ) : (
-        <LineText
-          body={props.segment.body}
+        <SearchHighlightAnnotation
+          segment={props.segment}
           depthCorrection={props.depthCorrection}
         />
       )}

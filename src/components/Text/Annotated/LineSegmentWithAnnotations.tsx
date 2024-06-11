@@ -1,16 +1,13 @@
 import _ from "lodash";
 import { NestedAnnotation } from "./NestedAnnotation.tsx";
-import { AnnotationGroup } from "./Model.ts";
 import { LineSegmentProps } from "./LineSegment.tsx";
 
-export type LineSegmentWithAnnotationsProps = LineSegmentProps & {
-  group: AnnotationGroup;
-};
+export type LineSegmentWithAnnotationsProps = LineSegmentProps;
 
 export function LineSegmentWithAnnotations(
   props: LineSegmentWithAnnotationsProps,
 ) {
-  const groupMaxDepth = props.group.maxDepth;
+  const groupMaxDepth = props.segment.annotations[0].depth;
   const segmentMaxDepth =
     _.maxBy(props.segment.annotations, "depth")?.depth ?? 0;
   const depthCorrection = groupMaxDepth - segmentMaxDepth;

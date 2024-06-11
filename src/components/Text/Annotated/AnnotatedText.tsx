@@ -2,13 +2,13 @@ import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
 import { AnnotatedLine } from "./AnnotatedLine.tsx";
-import { withRelativePosition } from "./utils/withRelativePosition.ts";
+import { toRelativeOffsets } from "./utils/toRelativeOffsets.ts";
 import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
 import { useState } from "react";
-import { AnnotationBodyId, RelativeTextAnnotation } from "./Model.ts";
+import { AnnotationBodyId, AnnotationOffsets } from "./Model.ts";
 import { useParams } from "react-router-dom";
 import { createSearchRegex } from "../createSearchRegex.tsx";
-import { createSearchAnnotations } from "./utils/createSearchAnnotations.ts";
+import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -39,31 +39,31 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const relativePositions = props.text.locations.annotations;
   const lines = props.text.lines;
 
-  let relativeAnnotations: RelativeTextAnnotation[];
+  let offsets: AnnotationOffsets[];
   try {
-    relativeAnnotations = annotationsToHighlight
+    offsets = annotationsToHighlight
       .filter((a) => isAnnotationInSingleLine(a, relativePositions))
-      .map((a) => withRelativePosition(a, relativePositions, lines));
+      .map((a) => toRelativeOffsets(a, relativePositions, lines));
   } catch (e) {
     console.error("Could not create logical annotations", e);
     return null;
   }
   const searchRegex = createSearchRegex(searchTerms, params.tier2);
-  const searchAnnotations = createSearchAnnotations(lines, searchRegex);
-  relativeAnnotations.push(...searchAnnotations);
+  const searchOffsets = createSearchOffsets(lines, searchRegex);
+  offsets.push(...searchOffsets);
   console.log("LogicalTextHighlighting", {
     typesToHighlight,
     annotationsToHighlight,
     relativePositions,
-    relativeAnnotations,
     searchTerms,
     searchRegex,
-    searchAnnotations,
+    searchOffsets,
+    offsets,
   });
 
   function handleHoverChange(id: string | undefined) {
     const isSearchHighlight =
-      relativeAnnotations.find((a) => a.id === id)?.type === "search";
+      offsets.find((a) => a.id === id)?.type === "search";
     if (isSearchHighlight) {
       return;
     }
@@ -76,9 +76,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
         <div key={index} className="w-fit">
           <AnnotatedLine
             line={line}
-            annotations={relativeAnnotations.filter(
-              (a) => a.lineIndex === index,
-            )}
+            offsets={offsets.filter((a) => a.lineIndex === index)}
             hoveringOn={annotationUnderMouse}
             onHoverChange={handleHoverChange}
           />

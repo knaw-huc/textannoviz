@@ -2,23 +2,24 @@ import _ from "lodash";
 import {
   AnnotationOffset,
   OffsetsByCharIndex,
-  RelativeTextAnnotation,
+  RelativeOffsets,
 } from "../Model.ts";
 
 /**
  * List all start and end offsets of annotations per character index
  *
- * Excluding last character (see note {@link RelativeTextAnnotation})
+ * Excluding last character (see note {@link AnnotationOffsets})
  */
-export function listAnnotationOffsets(
-  annotations: RelativeTextAnnotation[],
+export function listOffsetsByChar(
+  annotations: RelativeOffsets[],
 ): OffsetsByCharIndex[] {
   const annotationPositions = new Map<number, AnnotationOffset[]>();
   for (const annotation of annotations) {
     const newStartOffset: AnnotationOffset = {
       charIndex: annotation.startChar,
-      type: "start",
+      mark: "start",
       annotationId: annotation.id,
+      annotationType: annotation.type,
     };
     const offsetsAtStartChar = annotationPositions.get(annotation.startChar);
     if (offsetsAtStartChar) {
@@ -29,8 +30,9 @@ export function listAnnotationOffsets(
 
     const newEndOffset: AnnotationOffset = {
       charIndex: annotation.endChar,
-      type: "end",
+      mark: "end",
       annotationId: annotation.id,
+      annotationType: annotation.type,
     };
     const offsetsAtEndChar = annotationPositions.get(annotation.endChar);
     if (offsetsAtEndChar) {

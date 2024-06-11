@@ -1,8 +1,3 @@
-/**
- * Annotation type
- * - annotation
- * - search highlight
- */
 export type AnnotationType = "search" | "Entity" | string;
 
 /**
@@ -24,23 +19,39 @@ export type AnnotationTypeCategory = string;
  * Note: end offset excludes last character, as found in the body ID,
  * but not in line with the char index as returned by broccoli (which includes the last char)
  */
-export type RelativeTextAnnotation = {
-  id: AnnotationBodyId;
+export type RelativeOffsets = {
+  id: string;
   type: AnnotationType;
-  category?: AnnotationTypeCategory;
   lineIndex: number;
   startChar: number;
 
   /**
-   * Excluding last character (see note {@link RelativeTextAnnotation})
+   * Excluding last character (see note {@link RelativeOffsets})
    */
   endChar: number;
 };
 
+export type AnnotationOffsets = RelativeOffsets & {
+  id: AnnotationBodyId;
+  category?: AnnotationTypeCategory;
+};
+
+export type SearchHighlightAnnotationOffsets = RelativeOffsets;
+
+export function isSearchHighlightOffsets(
+  toTest: RelativeOffsets,
+): toTest is SearchHighlightAnnotationOffsets {
+  return toTest.type === "search";
+}
+
+/**
+ * Single (start or end) offset
+ */
 export type AnnotationOffset = {
   charIndex: number;
-  type: "start" | "end";
   annotationId: AnnotationBodyId;
+  annotationType: AnnotationType;
+  mark: "start" | "end";
 };
 
 export type CharIndex = number;
@@ -61,15 +72,10 @@ export type AnnotationGroup = {
 /**
  * Segment of an annotation as found in {@link Segment}
  */
-export type AnnotationSegment = {
-  id: AnnotationBodyId;
 
-  /**
-   * Depth of nesting in other annotations
-   */
-  depth: number;
-
-  group: AnnotationGroup;
+export type SegmentOffsets = {
+  id: string;
+  type: AnnotationType;
   startSegment: number;
 
   /**
@@ -79,10 +85,39 @@ export type AnnotationSegment = {
 };
 
 /**
+ * Segment of an annotation as found in {@link Segment}
+ */
+export type AnnotationSegment = SegmentOffsets & {
+  id: AnnotationBodyId;
+
+  /**
+   * Depth of nesting in other annotations
+   */
+  depth: number;
+
+  group: AnnotationGroup;
+};
+
+export type SearchHighlightAnnotationSegment = SegmentOffsets;
+
+export function isAnnotationSegment(
+  toTest: SegmentOffsets,
+): toTest is AnnotationSegment {
+  return !isSearchHighlightAnnotationSegment(toTest);
+}
+
+export function isSearchHighlightAnnotationSegment(
+  toTest: SegmentOffsets,
+): toTest is SearchHighlightAnnotationSegment {
+  return toTest.type === "search";
+}
+
+/**
  * Segment of a line with its text and the annotations that apply
  */
 export type Segment = {
   index: number;
   annotations: AnnotationSegment[];
+  searchHighlight?: SearchHighlightAnnotationSegment;
   body: string;
 };
