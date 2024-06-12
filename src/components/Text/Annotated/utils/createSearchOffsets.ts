@@ -1,10 +1,10 @@
-import { AnnotationOffsets } from "../Model.ts";
+import { RelativeOffsets, SearchHighlightBody } from "../AnnotationModel.ts";
 
 export function createSearchOffsets(
   lines: string[],
   regex: RegExp | undefined,
-): AnnotationOffsets[] {
-  const annotations: AnnotationOffsets[] = [];
+): RelativeOffsets[] {
+  const annotations: RelativeOffsets[] = [];
   if (!regex) {
     return annotations;
   }
@@ -18,13 +18,13 @@ function createSearchAnnotation(
   lines: string[],
   index: number,
   regex: RegExp,
-): AnnotationOffsets[] {
+): RelativeOffsets<SearchHighlightBody>[] {
   const line = lines[index];
   const matches = findStartEndChars(line, regex);
   return matches.map((startEndChars, i) => {
     return {
-      id: `search-match-${i}`,
       type: "search",
+      body: { id: `search-highlight-${i + 1}` },
       lineIndex: index,
       startChar: startEndChars[0],
       endChar: startEndChars[1],

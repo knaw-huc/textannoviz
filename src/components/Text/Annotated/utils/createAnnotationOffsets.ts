@@ -1,13 +1,13 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import * as _ from "lodash";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
-import { AnnotationOffsets } from "../Model.ts";
+import { RelativeOffsets } from "../AnnotationModel.ts";
 
-export function toRelativeOffsets(
+export function createAnnotationOffsets(
   annotation: AnnoRepoAnnotation,
   positionsRelativeToView: BroccoliViewPosition[],
   lines: string[],
-): AnnotationOffsets {
+): RelativeOffsets {
   const positionRelativeToView = positionsRelativeToView.find(
     (p) => p.bodyId === annotation.body.id,
   );
@@ -24,9 +24,8 @@ export function toRelativeOffsets(
     ? positionRelativeToView.end.offset! + 1
     : lines[positionRelativeToView.end.line].length;
   return {
-    id: annotation.body.id,
-    category: annotation.body.metadata.category,
-    type: annotation.body.type,
+    type: "annotation",
+    body: annotation.body,
     lineIndex: positionRelativeToView.start.line,
     startChar,
     endChar,

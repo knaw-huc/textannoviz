@@ -1,4 +1,8 @@
-import { OffsetsByCharIndex, AnnotationOffsets } from "../../Model.ts";
+import {
+  AnnotationBody,
+  OffsetsByCharIndex,
+  RelativeOffsets,
+} from "../../AnnotationModel.ts";
 
 export const line = "aabbccddee";
 /**
@@ -9,24 +13,24 @@ export const line = "aabbccddee";
  * dd (6,7) -> anno3
  * ee (8,9) -> none
  */
-export const annotations: AnnotationOffsets[] = [
+export const annotations: RelativeOffsets[] = [
   {
-    type: "Entity",
-    id: "anno1",
+    type: "annotation",
+    body: { id: "anno1" } as AnnotationBody,
     lineIndex: 0,
     startChar: 2,
     endChar: 6,
   },
   {
-    type: "Entity",
-    id: "anno2",
+    type: "annotation",
+    body: { id: "anno2" } as AnnotationBody,
     lineIndex: 0,
     startChar: 4,
     endChar: 6,
   },
   {
-    type: "Entity",
-    id: "anno3",
+    type: "annotation",
+    body: { id: "anno3" } as AnnotationBody,
     lineIndex: 0,
     startChar: 4,
     endChar: 8,
@@ -40,8 +44,8 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
       {
         charIndex: 2,
         mark: "start",
-        annotationId: "anno1",
-        annotationType: "Entity",
+        type: "annotation",
+        body: { id: "anno1" } as AnnotationBody,
       },
     ],
   },
@@ -51,14 +55,14 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
       {
         charIndex: 4,
         mark: "start",
-        annotationId: "anno2",
-        annotationType: "Entity",
+        type: "annotation",
+        body: { id: "anno1" } as AnnotationBody,
       },
       {
         charIndex: 4,
         mark: "start",
-        annotationId: "anno3",
-        annotationType: "Entity",
+        type: "annotation",
+        body: { id: "anno3" } as AnnotationBody,
       },
     ],
   },
@@ -68,14 +72,14 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
       {
         charIndex: 6,
         mark: "end",
-        annotationId: "anno1",
-        annotationType: "Entity",
+        type: "annotation",
+        body: { id: "anno1" } as AnnotationBody,
       },
       {
         charIndex: 6,
         mark: "end",
-        annotationId: "anno2",
-        annotationType: "Entity",
+        type: "annotation",
+        body: { id: "anno2" } as AnnotationBody,
       },
     ],
   },
@@ -85,8 +89,8 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
       {
         charIndex: 8,
         mark: "end",
-        annotationId: "anno3",
-        annotationType: "Entity",
+        type: "annotation",
+        body: { id: "anno3" } as AnnotationBody,
       },
     ],
   },

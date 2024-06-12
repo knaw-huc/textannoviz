@@ -2,19 +2,21 @@ import _ from "lodash";
 import {
   AnnotationGroup,
   AnnotationOffset,
-  OffsetsByCharIndex,
   AnnotationSegment,
+  isNestedAnnotationOffset,
+  isSearchHighlightAnnotationOffset,
+  NestedAnnotationSegment,
+  OffsetsByCharIndex,
+  SearchHighlightAnnotationSegment,
+  SearchHighlightBody,
   Segment,
-  SegmentOffsets,
-  isAnnotationSegment,
-  isSearchHighlightAnnotationSegment,
-} from "../Model.ts";
+} from "../AnnotationModel.ts";
 
 export function createAnnotationSegments(
   line: string,
   offsetsByCharIndex: OffsetsByCharIndex[],
 ): Segment[] {
-  const segments: Segment[] = [];
+  const currentSegments: Segment[] = [];
 
   // To sort annotations by length:
   const endOffsets: AnnotationOffset[] = offsetsByCharIndex
@@ -24,14 +26,14 @@ export function createAnnotationSegments(
   const firstCharIndex = offsetsByCharIndex[0]?.charIndex;
   const lineStartsWithAnnotation = firstCharIndex === 0;
   if (!lineStartsWithAnnotation) {
-    segments.push({
+    currentSegments.push({
       index: 0,
       body: line.slice(0, firstCharIndex),
       annotations: [],
     });
   }
 
-  const currentAnnotations: SegmentOffsets[] = [];
+  const currentAnnotations: AnnotationSegment[] = [];
   let currentAnnotationDepth = 0;
   let annotationGroup: AnnotationGroup = {
     id: 1,
@@ -54,12 +56,12 @@ export function createAnnotationSegments(
     // Handle annotations closing in current section:
     const annotationIdsClosingAtCharIndex = offsetsAtCharIndex.offsets
       .filter((offset) => offset.mark === "end")
-      .map((endOffset) => endOffset.annotationId);
+      .map((endOffset) => endOffset.body.id);
     currentAnnotations
-      .filter((a) => annotationIdsClosingAtCharIndex.includes(a.id))
-      .forEach((a) => (a.endSegment = segments.length));
+      .filter((a) => annotationIdsClosingAtCharIndex.includes(a.body.id))
+      .forEach((a) => (a.endSegment = currentSegments.length));
     _.remove(currentAnnotations, (a) =>
-      annotationIdsClosingAtCharIndex.includes(a.id),
+      annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
     currentAnnotationDepth -= annotationIdsClosingAtCharIndex.length;
 
@@ -79,34 +81,31 @@ export function createAnnotationSegments(
       offsetsAtCharIndex.offsets
         .filter((offset) => offset.mark === "start")
         .sort(byAnnotationSize)
-        .map(
-          (startOffset) =>
-            ({
-              id: startOffset.annotationId,
-              type: startOffset.annotationType,
-              depth: ++currentAnnotationDepth,
-              group: annotationGroup,
-              startSegment: segments.length,
-              endSegment: -1, // Set on closing
-            }) as AnnotationSegment,
-        );
+        .map((a) => {
+          if (isNestedAnnotationOffset(a)) {
+            return createNestedAnnotationSegment(a);
+          } else if (isSearchHighlightAnnotationOffset(a)) {
+            return createSearchAnnotationSegment(a);
+          } else {
+            throw new Error(
+              "Could could determine offset type of " + JSON.stringify(a),
+            );
+          }
+        });
+
     currentAnnotations.push(...annotationsOpeningAtCharIndex);
+
     annotationGroup.maxDepth = _.max([
       annotationGroup.maxDepth,
       currentAnnotationDepth,
     ])!;
-    const annotations = currentAnnotations.filter(isAnnotationSegment);
-    const searchHighlight = currentAnnotations.find(
-      isSearchHighlightAnnotationSegment,
-    );
-    segments.push({
-      index: segments.length,
+    currentSegments.push({
+      index: currentSegments.length,
       body: currentLineSegment,
-      annotations,
-      searchHighlight,
+      annotations: [...currentAnnotations],
     });
   }
-  return segments;
+  return currentSegments;
 
   /**
    * Smallest annotations deepest
@@ -115,12 +114,12 @@ export function createAnnotationSegments(
     start1: AnnotationOffset,
     start2: AnnotationOffset,
   ) {
-    const end1 = endOffsets.find((o) => o.annotationId === start1.annotationId);
-    const end2 = endOffsets.find((o) => o.annotationId === start2.annotationId);
+    const end1 = endOffsets.find((o) => o.body.id === start1.body.id);
+    const end2 = endOffsets.find((o) => o.body.id === start2.body.id);
     if (!end1 || !end2) {
       throw new Error(
         "Could not find annotations while sorting: " +
-          `${start1.annotationId}=${end1}, ${start2.annotationId}=${end2}`,
+          `${start1.body.id}=${end1}, ${start2.body.id}=${end2}`,
       );
     }
     const size1 = end1.charIndex - start1.charIndex;
@@ -132,5 +131,34 @@ export function createAnnotationSegments(
     } else {
       return 0;
     }
+  }
+
+  function createNestedAnnotationSegment(
+    startOffset: AnnotationOffset,
+  ): NestedAnnotationSegment {
+    return {
+      ...createSegmentOffsets(),
+      depth: ++currentAnnotationDepth,
+      group: annotationGroup,
+      type: "annotation",
+      body: startOffset.body,
+    } as NestedAnnotationSegment;
+  }
+
+  function createSearchAnnotationSegment(
+    startOffset: AnnotationOffset<SearchHighlightBody>,
+  ): SearchHighlightAnnotationSegment {
+    return {
+      ...createSegmentOffsets(),
+      type: "search",
+      body: startOffset.body,
+    };
+  }
+
+  function createSegmentOffsets() {
+    return {
+      startSegment: currentSegments.length,
+      endSegment: -1, // Set on closing
+    };
   }
 }

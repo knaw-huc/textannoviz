@@ -1,11 +1,11 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
-import { AnnotatedLine } from "./AnnotatedLine.tsx";
-import { toRelativeOffsets } from "./utils/toRelativeOffsets.ts";
+import { SegmentedLine } from "./SegmentedLine.tsx";
+import { createAnnotationOffsets } from "./utils/createAnnotationOffsets.ts";
 import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
 import { useState } from "react";
-import { AnnotationBodyId, AnnotationOffsets } from "./Model.ts";
+import { AnnotationBodyId } from "./AnnotationModel.ts";
 import { useParams } from "react-router-dom";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
@@ -39,15 +39,9 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const relativePositions = props.text.locations.annotations;
   const lines = props.text.lines;
 
-  let offsets: AnnotationOffsets[];
-  try {
-    offsets = annotationsToHighlight
-      .filter((a) => isAnnotationInSingleLine(a, relativePositions))
-      .map((a) => toRelativeOffsets(a, relativePositions, lines));
-  } catch (e) {
-    console.error("Could not create logical annotations", e);
-    return null;
-  }
+  const offsets = annotationsToHighlight
+    .filter((a) => isAnnotationInSingleLine(a, relativePositions))
+    .map((a) => createAnnotationOffsets(a, relativePositions, lines));
   const searchRegex = createSearchRegex(searchTerms, params.tier2);
   const searchOffsets = createSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
@@ -63,7 +57,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   function handleHoverChange(id: string | undefined) {
     const isSearchHighlight =
-      offsets.find((a) => a.id === id)?.type === "search";
+      offsets.find((a) => a.body.id === id)?.type === "search";
     if (isSearchHighlight) {
       return;
     }
@@ -74,7 +68,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     <div className="leading-loose">
       {props.text.lines.map((line, index) => (
         <div key={index} className="w-fit">
-          <AnnotatedLine
+          <SegmentedLine
             line={line}
             offsets={offsets.filter((a) => a.lineIndex === index)}
             hoveringOn={annotationUnderMouse}

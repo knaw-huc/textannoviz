@@ -16,11 +16,11 @@ describe("listAnnotationOffsets", () => {
 
     const annotationsAtSecondOffset = secondOffset.offsets;
     const firstAnnotation = annotationsAtSecondOffset[0];
-    expect(firstAnnotation.annotationId).toEqual("anno2");
+    expect(firstAnnotation.body.id).toEqual("anno2");
     expect(firstAnnotation.mark).toEqual("start");
 
     const secondAnnotation = annotationsAtSecondOffset[1];
-    expect(secondAnnotation.annotationId).toEqual("anno3");
+    expect(secondAnnotation.body.id).toEqual("anno3");
     expect(secondAnnotation.mark).toEqual("start");
   });
 });

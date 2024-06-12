@@ -3,7 +3,7 @@ import {
   AnnotationOffset,
   OffsetsByCharIndex,
   RelativeOffsets,
-} from "../Model.ts";
+} from "../AnnotationModel.ts";
 
 /**
  * List all start and end offsets of annotations per character index
@@ -11,42 +11,39 @@ import {
  * Excluding last character (see note {@link AnnotationOffsets})
  */
 export function listOffsetsByChar(
-  annotations: RelativeOffsets[],
+  offsets: RelativeOffsets[],
 ): OffsetsByCharIndex[] {
   const annotationPositions = new Map<number, AnnotationOffset[]>();
-  for (const annotation of annotations) {
+  for (const offset of offsets) {
     const newStartOffset: AnnotationOffset = {
-      charIndex: annotation.startChar,
+      charIndex: offset.startChar,
       mark: "start",
-      annotationId: annotation.id,
-      annotationType: annotation.type,
+      type: offset.type,
+      body: offset.body,
     };
-    const offsetsAtStartChar = annotationPositions.get(annotation.startChar);
+    const offsetsAtStartChar = annotationPositions.get(offset.startChar);
     if (offsetsAtStartChar) {
       offsetsAtStartChar.push(newStartOffset);
     } else {
-      annotationPositions.set(annotation.startChar, [newStartOffset]);
+      annotationPositions.set(offset.startChar, [newStartOffset]);
     }
 
     const newEndOffset: AnnotationOffset = {
-      charIndex: annotation.endChar,
+      charIndex: offset.endChar,
       mark: "end",
-      annotationId: annotation.id,
-      annotationType: annotation.type,
+      type: offset.type,
+      body: offset.body,
     };
-    const offsetsAtEndChar = annotationPositions.get(annotation.endChar);
+    const offsetsAtEndChar = annotationPositions.get(offset.endChar);
     if (offsetsAtEndChar) {
       offsetsAtEndChar.push(newEndOffset);
     } else {
-      annotationPositions.set(annotation.endChar, [newEndOffset]);
+      annotationPositions.set(offset.endChar, [newEndOffset]);
     }
   }
-  const annotationOffsetsByCharIndex = Array.from(
-    annotationPositions.entries(),
-  ).map(([charIndex, offsets]) => ({ charIndex, offsets }));
-  const sortedByCharIndex = _.sortBy(
-    annotationOffsetsByCharIndex,
-    (e) => e.charIndex,
+  const offsetsByCharIndex = Array.from(annotationPositions.entries()).map(
+    ([charIndex, offsets]) => ({ charIndex, offsets }),
   );
+  const sortedByCharIndex = _.sortBy(offsetsByCharIndex, (e) => e.charIndex);
   return sortedByCharIndex;
 }

@@ -4,6 +4,7 @@ import {
   line,
   offsetsByCharIndex,
 } from "../test/resources/testLogicalTextAnnotations.ts";
+import { AnnotationBody, NestedAnnotationSegment } from "../AnnotationModel.ts";
 
 describe("createAnnotationSegments", () => {
   it("starts with segment of text without annotations when no annotation found", () => {
@@ -16,16 +17,18 @@ describe("createAnnotationSegments", () => {
     const result = createAnnotationSegments(line, offsetsByCharIndex);
     expect(result[1].body).toEqual("bb");
     expect(result[1].annotations!.length).toEqual(1);
-    expect(result[1].annotations![0].depth).toEqual(1);
-    expect(result[1].annotations![0].id).toEqual("anno1");
+    expect(
+      (result[1].annotations![0] as NestedAnnotationSegment).depth,
+    ).toEqual(1);
+    expect(result[1].annotations![0].body.id).toEqual("anno1");
   });
 
   it("creates segment of text with multiple annotations", () => {
     const result = createAnnotationSegments(line, offsetsByCharIndex);
     expect(result[2].body).toEqual("cc");
     const annotationsIdAndDepth = result[2].annotations!.map((a) => ({
-      id: a.id,
-      depth: a.depth,
+      id: a.body.id,
+      depth: (a as NestedAnnotationSegment).depth,
     }));
     expect(annotationsIdAndDepth).toEqual([
       { id: "anno1", depth: 1 },
@@ -49,8 +52,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 0,
             mark: "start",
-            annotationId: "anno1",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "anno1" } as AnnotationBody,
           },
         ],
       },
@@ -60,16 +63,18 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 2,
             mark: "end",
-            annotationId: "anno1",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "anno1" } as AnnotationBody,
           },
         ],
       },
     ]);
     expect(result[0].body).toEqual("aa");
     expect(result[0].annotations!.length).toEqual(1);
-    expect(result[0].annotations![0].id).toEqual("anno1");
-    expect(result[0].annotations![0].depth).toEqual(1);
+    expect(result[0].annotations![0].body.id).toEqual("anno1");
+    expect(
+      (result[0].annotations![0] as NestedAnnotationSegment).depth,
+    ).toEqual(1);
     expect(result[1].body).toEqual("b");
     expect(result[1].annotations).toEqual([]);
   });
@@ -82,8 +87,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 1,
             mark: "start",
-            annotationId: "anno1",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "anno1" } as AnnotationBody,
           },
         ],
       },
@@ -93,8 +98,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 3,
             mark: "end",
-            annotationId: "anno1",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "anno1" } as AnnotationBody,
           },
         ],
       },
@@ -103,8 +108,10 @@ describe("createAnnotationSegments", () => {
     expect(result[0].annotations).toEqual([]);
     expect(result[1].body).toEqual("bb");
     expect(result[1].annotations!.length).toEqual(1);
-    expect(result[1].annotations![0].id).toEqual("anno1");
-    expect(result[1].annotations![0].depth).toEqual(1);
+    expect(result[1].annotations![0].body.id).toEqual("anno1");
+    expect(
+      (result[1].annotations![0] as NestedAnnotationSegment).depth,
+    ).toEqual(1);
   });
 
   it("can handle empty text in between annotations", () => {
@@ -116,8 +123,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 0,
             mark: "start",
-            annotationId: "anno1",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "anno1" } as AnnotationBody,
           },
         ],
       },
@@ -127,8 +134,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 2,
             mark: "end",
-            annotationId: "anno1",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "anno1" } as AnnotationBody,
           },
         ],
       },
@@ -138,8 +145,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 4,
             mark: "start",
-            annotationId: "anno2",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "anno2" } as AnnotationBody,
           },
         ],
       },
@@ -149,8 +156,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 6,
             mark: "end",
-            annotationId: "anno2",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "anno2" } as AnnotationBody,
           },
         ],
       },
@@ -158,14 +165,18 @@ describe("createAnnotationSegments", () => {
     expect(result.length).toEqual(3);
 
     expect(result[0].annotations!.length).toEqual(1);
-    expect(result[0].annotations![0].id).toEqual("anno1");
-    expect(result[0].annotations![0].depth).toEqual(1);
+    expect(result[0].annotations![0].body.id).toEqual("anno1");
+    expect(
+      (result[0].annotations![0] as NestedAnnotationSegment).depth,
+    ).toEqual(1);
 
     expect(result[1].annotations).toEqual([]);
 
     expect(result[2].annotations!.length).toEqual(1);
-    expect(result[2].annotations![0].id).toEqual("anno2");
-    expect(result[2].annotations![0].depth).toEqual(1);
+    expect(result[2].annotations![0].body.id).toEqual("anno2");
+    expect(
+      (result[2].annotations![0] as NestedAnnotationSegment).depth,
+    ).toEqual(1);
   });
 
   it("shares maximum annotation depth with group of connected annotations", () => {
@@ -177,8 +188,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 0,
             mark: "start",
-            annotationId: "id-aabbcc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-aabbcc" } as AnnotationBody,
           },
         ],
       },
@@ -188,8 +199,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 2,
             mark: "start",
-            annotationId: "id-bbcc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-bbcc" } as AnnotationBody,
           },
         ],
       },
@@ -199,8 +210,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 4,
             mark: "start",
-            annotationId: "id-cc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-cc" } as AnnotationBody,
           },
         ],
       },
@@ -211,8 +222,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 6,
             mark: "end",
-            annotationId: "id-cc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-cc" } as AnnotationBody,
           },
         ],
       },
@@ -222,20 +233,20 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 6,
             mark: "end",
-            annotationId: "id-cc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-cc" } as AnnotationBody,
           },
           {
             charIndex: 6,
             mark: "end",
-            annotationId: "id-bbcc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-bbcc" } as AnnotationBody,
           },
           {
             charIndex: 6,
             mark: "end",
-            annotationId: "id-aabbcc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-aabbcc" } as AnnotationBody,
           },
         ],
       },
@@ -244,9 +255,13 @@ describe("createAnnotationSegments", () => {
     expect(result.length).toEqual(3);
 
     expect(result[0].annotations!.length).toEqual(1);
-    expect(result[0].annotations![0].id).toEqual("id-aabbcc");
-    expect(result[0].annotations![0].depth).toEqual(1);
-    expect(result[0].annotations![0].group.maxDepth).toEqual(3);
+    expect(result[0].annotations![0].body.id).toEqual("id-aabbcc");
+    expect(
+      (result[0].annotations![0] as NestedAnnotationSegment).depth,
+    ).toEqual(1);
+    expect(
+      (result[0].annotations![0] as NestedAnnotationSegment).group.maxDepth,
+    ).toEqual(3);
   });
 
   it("creates new group after annotation-less part of line", () => {
@@ -258,8 +273,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 0,
             mark: "start",
-            annotationId: "id-aa",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-aa" } as AnnotationBody,
           },
         ],
       },
@@ -269,8 +284,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 2,
             mark: "end",
-            annotationId: "id-aa",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-aa" } as AnnotationBody,
           },
         ],
       },
@@ -280,8 +295,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 4,
             mark: "start",
-            annotationId: "id-cc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-cc" } as AnnotationBody,
           },
         ],
       },
@@ -291,18 +306,22 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 6,
             mark: "end",
-            annotationId: "id-cc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-cc" } as AnnotationBody,
           },
         ],
       },
     ]);
 
-    expect(result[0].annotations![0].id).toEqual("id-aa");
-    expect(result[0].annotations![0].group.id).toEqual(1);
+    expect(result[0].annotations![0].body.id).toEqual("id-aa");
+    expect(
+      (result[0].annotations![0] as NestedAnnotationSegment).group.id,
+    ).toEqual(1);
 
-    expect(result[2].annotations![0].id).toEqual("id-cc");
-    expect(result[2].annotations![0].group.id).toEqual(2);
+    expect(result[2].annotations![0].body.id).toEqual("id-cc");
+    expect(
+      (result[2].annotations![0] as NestedAnnotationSegment).group.id,
+    ).toEqual(2);
   });
 
   it("creates new group when no annotations are not overlapping or connected", () => {
@@ -314,8 +333,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 0,
             mark: "start",
-            annotationId: "id-aa",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-aa" } as AnnotationBody,
           },
         ],
       },
@@ -325,14 +344,14 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 2,
             mark: "end",
-            annotationId: "id-aa",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-aa" } as AnnotationBody,
           },
           {
             charIndex: 2,
             mark: "start",
-            annotationId: "id-bb",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-bb" } as AnnotationBody,
           },
         ],
       },
@@ -342,18 +361,22 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 4,
             mark: "end",
-            annotationId: "id-bb",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-bb" } as AnnotationBody,
           },
         ],
       },
     ]);
 
-    expect(result[0].annotations![0].id).toEqual("id-aa");
-    expect(result[0].annotations![0].group.id).toEqual(1);
+    expect(result[0].annotations![0].body.id).toEqual("id-aa");
+    expect(
+      (result[0].annotations![0] as NestedAnnotationSegment).group.id,
+    ).toEqual(1);
 
-    expect(result[1].annotations![0].id).toEqual("id-bb");
-    expect(result[1].annotations![0].group.id).toEqual(2);
+    expect(result[1].annotations![0].body.id).toEqual("id-bb");
+    expect(
+      (result[1].annotations![0] as NestedAnnotationSegment).group.id,
+    ).toEqual(2);
   });
 
   it("sorts annotations by length when starting at the same char index in multiple segments", () => {
@@ -365,14 +388,14 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 0,
             mark: "start",
-            annotationId: "id-abc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-abc" } as AnnotationBody,
           },
           {
             charIndex: 0,
             mark: "start",
-            annotationId: "id-ab",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-ab" } as AnnotationBody,
           },
         ],
       },
@@ -382,8 +405,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 2,
             mark: "start",
-            annotationId: "id-bc",
-            annotationType: "Entity",
+            body: { id: "id-bc" } as AnnotationBody,
+            type: "annotation",
           },
         ],
       },
@@ -393,8 +416,8 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 4,
             mark: "end",
-            annotationId: "id-ab",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-ab" } as AnnotationBody,
           },
         ],
       },
@@ -404,23 +427,27 @@ describe("createAnnotationSegments", () => {
           {
             charIndex: 6,
             mark: "end",
-            annotationId: "id-abc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-abc" } as AnnotationBody,
           },
           {
             charIndex: 6,
             mark: "end",
-            annotationId: "id-bc",
-            annotationType: "Entity",
+            type: "annotation",
+            body: { id: "id-bc" } as AnnotationBody,
           },
         ],
       },
     ]);
 
-    expect(result[0].annotations![1].id).toEqual("id-ab");
-    expect(result[0].annotations![1].depth).toEqual(2);
+    expect(result[0].annotations![1].body.id).toEqual("id-ab");
+    expect(
+      (result[0].annotations![1] as NestedAnnotationSegment).depth,
+    ).toEqual(2);
 
-    expect(result[1].annotations![1].id).toEqual("id-ab");
-    expect(result[1].annotations![1].depth).toEqual(2);
+    expect(result[1].annotations![1].body.id).toEqual("id-ab");
+    expect(
+      (result[1].annotations![1] as NestedAnnotationSegment).depth,
+    ).toEqual(2);
   });
 });

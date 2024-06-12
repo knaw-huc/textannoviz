@@ -1,26 +1,25 @@
 import {
   AnnotationBodyId,
-  AnnotationOffsets,
   AnnotationSegment,
+  NestedAnnotationSegment,
   SearchHighlightAnnotationSegment,
   Segment,
-} from "../Model.ts";
+} from "../AnnotationModel.ts";
 
 export function createAnnotationClasses(
   segment: Segment,
-  annotationSegment: AnnotationSegment,
-  annotation: AnnotationOffsets,
+  annotation: NestedAnnotationSegment,
   hoveringOn: AnnotationBodyId | undefined,
 ) {
-  const classes = [`id-${annotation.id.replaceAll(":", "-")}`];
-  if (annotation.type === "Entity") {
-    classes.push(`underlined-${annotation.category}`);
+  const classes = [`id-${annotation.body.id.replaceAll(":", "-")}`];
+  if (annotation.body.type === "Entity") {
+    classes.push(`underlined-${annotation.body.metadata.category}`);
   }
   classes.push("nested-annotation", "cursor-pointer");
-  if (hoveringOn === annotation.id) {
+  if (hoveringOn === annotation.body.id) {
     classes.push("hover-underline");
   }
-  classes.push(...createStartEndClasses(segment, annotationSegment));
+  classes.push(...createStartEndClasses(segment, annotation));
   return classes.join(" ").toLowerCase();
 }
 
@@ -36,7 +35,7 @@ export function createSearchHighlightClasses(
 
 function createStartEndClasses(
   segment: Segment,
-  annotationSegment: SearchHighlightAnnotationSegment,
+  annotationSegment: AnnotationSegment,
 ): string[] {
   const classes = [];
   if (segment.index === annotationSegment.startSegment) {
