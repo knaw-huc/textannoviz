@@ -23,6 +23,7 @@ export function createAnnotationSegments(
     .flatMap((charIndex) => charIndex.offsets)
     .filter((offset) => offset.mark === "end");
 
+  // Handle annotation-less first segment:
   const firstCharIndex = offsetsByCharIndex[0]?.charIndex;
   const lineStartsWithAnnotation = firstCharIndex === 0;
   if (!lineStartsWithAnnotation) {
@@ -65,7 +66,7 @@ export function createAnnotationSegments(
     );
     currentAnnotationDepth -= annotationIdsClosingAtCharIndex.length;
 
-    // Handle annotation-less first segment:
+    // Reset annotation group when all annotations are closed:
     const hasClosedAllAnnotations =
       !currentAnnotations.length && annotationIdsClosingAtCharIndex.length;
     if (hasClosedAllAnnotations) {
