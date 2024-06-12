@@ -91,22 +91,22 @@ export const Search = () => {
       );
 
       const aggregations = Object.keys(newFacets).map((agg) => {
-        let newAgg = {
+        const newAgg = {
           facetName: agg,
           order: "countDesc",
           size: 10,
         };
 
-        projectConfig.overrideDefaultAggs.length > 0 &&
-          projectConfig.overrideDefaultAggs.map((override) => {
-            if (override.facetName === agg) {
-              newAgg = {
-                facetName: override.facetName,
-                order: override.order,
-                size: override.size,
-              };
-            }
+        const override = projectConfig.overrideDefaultAggs.find(
+          (override) => override.facetName === agg,
+        );
+
+        if (override) {
+          Object.assign(newAgg, {
+            order: override.order,
+            size: override.size,
           });
+        }
 
         return newAgg;
       });
