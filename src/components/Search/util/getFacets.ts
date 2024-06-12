@@ -1,5 +1,4 @@
 import { ProjectConfig } from "../../../model/ProjectConfig";
-import { FacetNamesByType } from "../../../model/Search";
 import {
   SearchQuery,
   toRequestBody,
@@ -8,31 +7,14 @@ import { sendSearchQuery } from "../../../utils/broccoli";
 
 export async function getFacets(
   projectConfig: ProjectConfig,
-  facetsByType: FacetNamesByType,
+  aggregations: {
+    facetName: string;
+    order: string;
+    size: number;
+  }[],
   searchQuery: SearchQuery,
   signal: AbortSignal,
 ) {
-  const aggregations = Object.keys(facetsByType).map((agg) => {
-    const newAgg = {
-      facetName: agg,
-      order: "countDesc",
-      size: 10,
-    };
-
-    const override = projectConfig.overrideDefaultAggs.find(
-      (override) => override.facetName === agg,
-    );
-
-    if (override) {
-      Object.assign(newAgg, {
-        order: override.order,
-        size: override.size,
-      });
-    }
-
-    return newAgg;
-  });
-
   const query = {
     ...searchQuery,
     aggs: aggregations,

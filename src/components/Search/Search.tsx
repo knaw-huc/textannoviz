@@ -22,6 +22,7 @@ import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
+import { createAggs } from "./util/createAggs.ts";
 import { createHighlights } from "./util/createHighlights.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
@@ -74,10 +75,11 @@ export const Search = () => {
       }
       const newIndex: FacetNamesByType =
         newIndices[projectConfig.elasticIndexName];
+      const aggregations = createAggs(newIndex, projectConfig);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
       const newFacets = await getFacets(
         projectConfig,
-        newIndex,
+        aggregations,
         searchQuery,
         signal,
       );
@@ -89,27 +91,6 @@ export const Search = () => {
         newFacets,
         "keyword",
       );
-
-      const aggregations = Object.keys(newFacets).map((agg) => {
-        const newAgg = {
-          facetName: agg,
-          order: "countDesc",
-          size: 10,
-        };
-
-        const override = projectConfig.overrideDefaultAggs.find(
-          (override) => override.facetName === agg,
-        );
-
-        if (override) {
-          Object.assign(newAgg, {
-            order: override.order,
-            size: override.size,
-          });
-        }
-
-        return newAgg;
-      });
 
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
