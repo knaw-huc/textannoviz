@@ -4,6 +4,7 @@ import {
   AnnotationOffset,
   AnnotationSegment,
   isNestedAnnotationOffset,
+  isNestedAnnotationSegment,
   isSearchHighlightAnnotationOffset,
   NestedAnnotationSegment,
   OffsetsByCharIndex,
@@ -35,7 +36,7 @@ export function createAnnotationSegments(
   }
 
   const currentAnnotations: AnnotationSegment[] = [];
-  let currentAnnotationDepth = 0;
+  let currentAnnotationDepth = 0; // prefix increment, i.e. first depth is 1
   let annotationGroup: AnnotationGroup = {
     id: 1,
     maxDepth: 0,
@@ -58,13 +59,24 @@ export function createAnnotationSegments(
     const annotationIdsClosingAtCharIndex = offsetsAtCharIndex.offsets
       .filter((offset) => offset.mark === "end")
       .map((endOffset) => endOffset.body.id);
-    currentAnnotations
-      .filter((a) => annotationIdsClosingAtCharIndex.includes(a.body.id))
-      .forEach((a) => (a.endSegment = currentSegments.length));
+    const closingAnnotations = currentAnnotations.filter((a) =>
+      annotationIdsClosingAtCharIndex.includes(a.body.id),
+    );
+    closingAnnotations.forEach((a) => {
+      a.endSegment = currentSegments.length;
+    });
+    // Only decrement depth when closing annotation is of highest depth:
+    closingAnnotations
+      .filter(isNestedAnnotationSegment)
+      .sort((a1, a2) => (a1.depth > a2.depth ? 1 : -1))
+      .forEach((a) => {
+        if (a.depth === currentAnnotationDepth) {
+          currentAnnotationDepth--;
+        }
+      });
     _.remove(currentAnnotations, (a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
-    currentAnnotationDepth -= annotationIdsClosingAtCharIndex.length;
 
     // Reset annotation group when all annotations are closed:
     const hasClosedAllAnnotations =

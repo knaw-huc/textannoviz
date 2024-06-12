@@ -502,13 +502,25 @@
 
     {
       "body": {
-        "comment": "dummy data to test overlapping annotation: overlapping with urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
+        "comment": "prefix dummy data to test overlapping annotation",
         "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:185-213",
         "type": "Entity",
-        "text": "Rotterdam ten achteren staet",
+        "text": "aen t' Collegie",
         "metadata": {
           "category": "LOC",
           "layer": "LOC"
+        }
+      }
+    },
+    {
+      "body": {
+        "comment": "prefix dummy data to test overlapping annotation: overlapping with urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
+        "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:155-170",
+        "type": "Entity",
+        "text": "aen t' Collegie",
+        "metadata": {
+          "category": "PER",
+          "layer": "PER"
         }
       }
     }
@@ -603,6 +615,19 @@
             "end": {
               "line": 0,
               "offset": 212
+            }
+          },
+
+          {
+            "comment": "dummy data to test overlapping annotation -1",
+            "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:155-170",
+            "start": {
+              "line": 0,
+              "offset": 155
+            },
+            "end": {
+              "line": 0,
+              "offset": 170
             }
           }
         ]
