@@ -56,7 +56,7 @@ export const offsetsByCharIndex: OffsetsByCharIndex[] = [
         charIndex: 4,
         mark: "start",
         type: "annotation",
-        body: { id: "anno1" } as AnnotationBody,
+        body: { id: "anno2" } as AnnotationBody,
       },
       {
         charIndex: 4,
