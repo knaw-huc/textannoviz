@@ -11,7 +11,7 @@ export function createAnnotationClasses(
   annotation: NestedAnnotationSegment,
   hoveringOn: AnnotationBodyId | undefined,
 ) {
-  const classes = [`id-${annotation.body.id.replaceAll(":", "-")}`];
+  const classes = [];
   if (annotation.body.type === "Entity") {
     classes.push(`underlined-${annotation.body.metadata.category}`);
   }
