@@ -11,10 +11,5 @@ export function LineSegment(props: LineSegmentProps) {
   if (!hasAnnotations) {
     return <SegmentBody body={props.segment.body} depthCorrection={0} />;
   }
-  return (
-    <LineSegmentWithAnnotations
-      {...props}
-      onHoverChange={props.onHoverChange}
-    />
-  );
+  return <LineSegmentWithAnnotations {...props} />;
 }

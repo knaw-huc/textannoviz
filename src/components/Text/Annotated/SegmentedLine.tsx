@@ -1,7 +1,11 @@
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 import { createAnnotationSegments } from "./utils/createAnnotationSegments.ts";
 import { LineSegment } from "./LineSegment.tsx";
-import { AnnotationBodyId, RelativeOffsets } from "./AnnotationModel.ts";
+import {
+  AnnotationBodyId,
+  RelativeOffsets,
+  Segment,
+} from "./AnnotationModel.ts";
 
 /**
  * Definitions:
@@ -19,7 +23,8 @@ export function SegmentedLine(props: {
   line: string;
   offsets: RelativeOffsets[];
   hoveringOn: AnnotationBodyId | undefined;
-  onHoverChange: (value: AnnotationBodyId | undefined) => void;
+  onHoverChange: (value: Segment | undefined) => void;
+  onClick: (value: Segment | undefined) => void;
 }) {
   const { line, offsets } = props;
   if (line.startsWith("Synde ter vergaderinge")) {
@@ -39,6 +44,7 @@ export function SegmentedLine(props: {
           segment={segment}
           hoveringOn={props.hoveringOn}
           onHoverChange={props.onHoverChange}
+          onClick={props.onClick}
         />
       ))}
     </>

@@ -5,7 +5,11 @@ import { SegmentedLine } from "./SegmentedLine.tsx";
 import { createAnnotationOffsets } from "./utils/createAnnotationOffsets.ts";
 import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
 import { useState } from "react";
-import { AnnotationBodyId } from "./AnnotationModel.ts";
+import {
+  AnnotationBodyId,
+  isNestedAnnotationSegment,
+  Segment,
+} from "./AnnotationModel.ts";
 import { useParams } from "react-router-dom";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
@@ -55,13 +59,20 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     offsets,
   });
 
-  function handleHoverChange(id: string | undefined) {
-    const isSearchHighlight =
-      offsets.find((a) => a.body.id === id)?.type === "search";
-    if (isSearchHighlight) {
+  function handleHoverChange(segment: Segment | undefined) {
+    if (!segment) {
+      setAnnotationUnderMouse(undefined);
       return;
     }
-    return setAnnotationUnderMouse(id);
+    const nestedAnnotations = segment.annotations.filter(
+      isNestedAnnotationSegment,
+    );
+    const deepest = nestedAnnotations.slice(-1)[0];
+    setAnnotationUnderMouse(deepest.body.id);
+  }
+
+  function handleClick(clicked: Segment | undefined) {
+    console.log("handleClick", { clicked });
   }
 
   return (
@@ -73,6 +84,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
             offsets={offsets.filter((a) => a.lineIndex === index)}
             hoveringOn={annotationUnderMouse}
             onHoverChange={handleHoverChange}
+            onClick={handleClick}
           />
         </div>
       ))}
