@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createAnnotationOffsets } from "./createAnnotationOffsets.ts";
-import dummy from "../test/resources/test-broccoli-session-3248-num-14-resolution-4.json";
+import dummy from "../test/resources/dummy-broccoli-session-3248-num-14-resolution-4.json";
 import { Broccoli } from "../../../../model/Broccoli.ts";
 
 describe("withRelativePosition", () => {

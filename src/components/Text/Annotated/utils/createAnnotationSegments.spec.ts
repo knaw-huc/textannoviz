@@ -3,7 +3,7 @@ import { createAnnotationSegments } from "./createAnnotationSegments.ts";
 import {
   line,
   offsetsByCharIndex,
-} from "../test/resources/testLogicalTextAnnotations.ts";
+} from "../test/resources/dummyLogicalTextAnnotations.ts";
 import { AnnotationBody, NestedAnnotationSegment } from "../AnnotationModel.ts";
 
 describe("createAnnotationSegments", () => {
