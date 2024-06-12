@@ -1,5 +1,5 @@
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
-import { createAnnotationSegments } from "./utils/createAnnotationSegments.ts";
+import { AnnotationSegmentor } from "./utils/AnnotationSegmentor.ts";
 import { LineSegment } from "./LineSegment.tsx";
 import {
   AnnotationBodyId,
@@ -31,7 +31,7 @@ export function SegmentedLine(props: {
     console.time("create-line");
   }
   const offsetsByChar = listOffsetsByChar(offsets);
-  const segments = createAnnotationSegments(line, offsetsByChar);
+  const segments = new AnnotationSegmentor(line, offsetsByChar).segment();
   if (line.startsWith("Synde ter vergaderinge")) {
     console.timeLog("create-line", { line, annotationSegments: segments });
     console.timeEnd("create-line");

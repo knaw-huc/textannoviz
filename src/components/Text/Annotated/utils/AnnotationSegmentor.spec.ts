@@ -1,20 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { createAnnotationSegments } from "./createAnnotationSegments.ts";
 import {
   line,
   offsetsByCharIndex,
 } from "../test/resources/dummyLogicalTextAnnotations.ts";
 import { AnnotationBody, NestedAnnotationSegment } from "../AnnotationModel.ts";
+import { AnnotationSegmentor } from "./AnnotationSegmentor.ts";
 
-describe("createAnnotationSegments", () => {
+describe("AnnotationSegmentor", () => {
   it("starts with segment of text without annotations when no annotation found", () => {
-    const result = createAnnotationSegments(line, offsetsByCharIndex);
+    const result = new AnnotationSegmentor(line, offsetsByCharIndex).segment();
     expect(result[0].body).toEqual("aa");
     expect(result[0].annotations).toEqual([]);
   });
 
   it("creates segment of text with annotation", () => {
-    const result = createAnnotationSegments(line, offsetsByCharIndex);
+    const result = new AnnotationSegmentor(line, offsetsByCharIndex).segment();
     expect(result[1].body).toEqual("bb");
     expect(result[1].annotations!.length).toEqual(1);
     expect(
@@ -24,7 +24,7 @@ describe("createAnnotationSegments", () => {
   });
 
   it("creates segment of text with multiple annotations", () => {
-    const result = createAnnotationSegments(line, offsetsByCharIndex);
+    const result = new AnnotationSegmentor(line, offsetsByCharIndex).segment();
     expect(result[2].body).toEqual("cc");
     const annotationsIdAndDepth = result[2].annotations!.map((a) => ({
       id: a.body.id,
@@ -39,13 +39,13 @@ describe("createAnnotationSegments", () => {
   });
 
   it("ends with segment of text without annotations when no annotation found", () => {
-    const result = createAnnotationSegments(line, offsetsByCharIndex);
+    const result = new AnnotationSegmentor(line, offsetsByCharIndex).segment();
     expect(result[4].body).toEqual("ee");
     expect(result[4].annotations).toEqual([]);
   });
 
   it("can start with annotation", () => {
-    const result = createAnnotationSegments("aab", [
+    const result = new AnnotationSegmentor("aab", [
       {
         charIndex: 0,
         offsets: [
@@ -68,7 +68,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
     expect(result[0].body).toEqual("aa");
     expect(result[0].annotations!.length).toEqual(1);
     expect(result[0].annotations![0].body.id).toEqual("anno1");
@@ -80,7 +80,7 @@ describe("createAnnotationSegments", () => {
   });
 
   it("can end with annotation", () => {
-    const result = createAnnotationSegments("abb", [
+    const result = new AnnotationSegmentor("abb", [
       {
         charIndex: 1,
         offsets: [
@@ -103,7 +103,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
     expect(result[0].body).toEqual("a");
     expect(result[0].annotations).toEqual([]);
     expect(result[1].body).toEqual("bb");
@@ -116,7 +116,7 @@ describe("createAnnotationSegments", () => {
 
   it("can handle empty text in between annotations", () => {
     // <aa>bb<cc>
-    const result = createAnnotationSegments("aabbcc", [
+    const result = new AnnotationSegmentor("aabbcc", [
       {
         charIndex: 0,
         offsets: [
@@ -161,7 +161,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
     expect(result.length).toEqual(3);
 
     expect(result[0].annotations!.length).toEqual(1);
@@ -181,7 +181,7 @@ describe("createAnnotationSegments", () => {
 
   it("creates group for single annotation with depth=1 and maxDepth=1", () => {
     // <a>aa</a>
-    const segments = createAnnotationSegments("aa", [
+    const segments = new AnnotationSegmentor("aa", [
       {
         charIndex: 0,
         offsets: [
@@ -204,7 +204,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
 
     expect(segments.length).toEqual(1);
 
@@ -219,7 +219,7 @@ describe("createAnnotationSegments", () => {
 
   it("shares maximum annotation depth with group of connected annotations", () => {
     // <aa<bb<cc>>>
-    const result = createAnnotationSegments("aabbcc", [
+    const result = new AnnotationSegmentor("aabbcc", [
       {
         charIndex: 0,
         offsets: [
@@ -288,7 +288,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
 
     expect(result.length).toEqual(3);
 
@@ -304,7 +304,7 @@ describe("createAnnotationSegments", () => {
 
   it("creates new group after annotation-less part of line", () => {
     // <aa>bb<cc>
-    const result = createAnnotationSegments("aabbcc", [
+    const result = new AnnotationSegmentor("aabbcc", [
       {
         charIndex: 0,
         offsets: [
@@ -349,7 +349,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
 
     expect(result[0].annotations![0].body.id).toEqual("aa");
     expect(
@@ -364,7 +364,7 @@ describe("createAnnotationSegments", () => {
 
   it("creates new group when no annotations are not overlapping or connected", () => {
     // <aa><bb>
-    const result = createAnnotationSegments("aabb", [
+    const result = new AnnotationSegmentor("aabb", [
       {
         charIndex: 0,
         offsets: [
@@ -404,7 +404,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
 
     expect(result[0].annotations![0].body.id).toEqual("aa");
     expect(
@@ -419,7 +419,7 @@ describe("createAnnotationSegments", () => {
 
   it("sorts annotations by length when starting at the same char index in multiple segments", () => {
     // <abc><ab>aa<bc>bb</ab>cc</abc></bc>
-    const result = createAnnotationSegments("aabbcc", [
+    const result = new AnnotationSegmentor("aabbcc", [
       {
         charIndex: 0,
         offsets: [
@@ -476,7 +476,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
 
     expect(result[0].annotations![1].body.id).toEqual("ab");
     expect(
@@ -491,7 +491,7 @@ describe("createAnnotationSegments", () => {
 
   it("supports two overlapping annotations", () => {
     // <ab>aa<bc>bb</ab><cd>cc</bc>dd</cd>
-    const segment = createAnnotationSegments("aabbccdd", [
+    const segment = new AnnotationSegmentor("aabbccdd", [
       {
         charIndex: 0,
         offsets: [
@@ -553,7 +553,7 @@ describe("createAnnotationSegments", () => {
           },
         ],
       },
-    ]);
+    ]).segment();
 
     const ab = segment[0].annotations![0] as NestedAnnotationSegment;
     expect(ab.body.id).toEqual("ab");
