@@ -48,8 +48,8 @@ export class AnnotationSegmentor {
         continue;
       }
 
-      this.handleClosingAnnotation(offsetsAtCharIndex);
-      this.handleOpeningAnnotations(offsetsAtCharIndex, currentSegmentBody);
+      this.handleEndOffsets(offsetsAtCharIndex);
+      this.handleStartOffsets(offsetsAtCharIndex, currentSegmentBody);
     }
 
     return this.currentSegments;
@@ -79,7 +79,7 @@ export class AnnotationSegmentor {
     );
   }
 
-  private handleOpeningAnnotations(
+  private handleStartOffsets(
     offsetsAtCharIndex: OffsetsByCharIndex,
     currentLineSegment: string,
   ) {
@@ -112,7 +112,7 @@ export class AnnotationSegmentor {
     });
   }
 
-  private handleClosingAnnotation(offsetsAtCharIndex: OffsetsByCharIndex) {
+  private handleEndOffsets(offsetsAtCharIndex: OffsetsByCharIndex) {
     const annotationIdsClosingAtCharIndex = offsetsAtCharIndex.offsets
       .filter((offset) => offset.mark === "end")
       .map((endOffset) => endOffset.body.id);
