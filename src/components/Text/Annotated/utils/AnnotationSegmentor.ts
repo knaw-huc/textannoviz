@@ -42,14 +42,14 @@ export class AnnotationSegmentor {
 
     for (let i = 0; i < this.offsetsByCharIndex.length; i++) {
       const offsetsAtCharIndex = this.offsetsByCharIndex[i];
-      const currentLineBody = this.createLineBody(i, offsetsAtCharIndex);
+      const currentSegmentBody = this.createSegmentBody(i, offsetsAtCharIndex);
 
-      if (!currentLineBody) {
+      if (!currentSegmentBody) {
         continue;
       }
 
       this.handleClosingAnnotation(offsetsAtCharIndex);
-      this.handleOpeningAnnotations(offsetsAtCharIndex, currentLineBody);
+      this.handleOpeningAnnotations(offsetsAtCharIndex, currentSegmentBody);
     }
 
     return this.currentSegments;
@@ -67,7 +67,7 @@ export class AnnotationSegmentor {
     }
   }
 
-  private createLineBody(
+  private createSegmentBody(
     i: number,
     offsetsAtCharIndex: OffsetsByCharIndex,
   ): string {
