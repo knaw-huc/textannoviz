@@ -512,15 +512,40 @@
         }
       }
     },
+
     {
       "body": {
-        "comment": "prefix dummy data to test overlapping annotation: overlapping with urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
-        "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:155-170",
+        "comment": "dm1: achteren",
+        "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:199-207",
         "type": "Entity",
-        "text": "aen t' Collegie",
+        "text": "achteren",
         "metadata": {
-          "category": "PER",
-          "layer": "PER"
+          "category": "reviewed",
+          "layer": "reviewed"
+        }
+      }
+    },
+    {
+      "body": {
+        "comment": "dm2: acht",
+        "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:199-203",
+        "type": "Entity",
+        "text": "acht",
+        "metadata": {
+          "category": "loc",
+          "layer": "loc"
+        }
+      }
+    },
+    {
+      "body": {
+        "comment": "dm3: chte",
+        "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:200-204",
+        "type": "Entity",
+        "text": "chte",
+        "metadata": {
+          "category": "per",
+          "layer": "per"
         }
       }
     }
@@ -617,7 +642,6 @@
               "offset": 212
             }
           },
-
           {
             "comment": "dummy data to test overlapping annotation -1",
             "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:155-170",
@@ -628,6 +652,43 @@
             "end": {
               "line": 0,
               "offset": 170
+            }
+          },
+
+          {
+            "comment": "dummy mountains 1: achteren",
+            "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:199-207",
+            "start": {
+              "line": 0,
+              "offset": 199
+            },
+            "end": {
+              "line": 0,
+              "offset": 206
+            }
+          },
+          {
+            "comment": "dummy mountains 2: acht",
+            "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:199-203",
+            "start": {
+              "line": 0,
+              "offset": 199
+            },
+            "end": {
+              "line": 0,
+              "offset": 202
+            }
+          },
+          {
+            "comment": "dummy mountains 3: chte",
+            "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:200-204",
+            "start": {
+              "line": 0,
+              "offset": 200
+            },
+            "end": {
+              "line": 0,
+              "offset": 203
             }
           }
         ]
