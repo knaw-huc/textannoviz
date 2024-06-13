@@ -515,7 +515,7 @@
 
     {
       "body": {
-        "comment": "dm1: achteren",
+        "comment": "am1: achteren",
         "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:199-207",
         "type": "Entity",
         "text": "achteren",
@@ -527,7 +527,7 @@
     },
     {
       "body": {
-        "comment": "dm2: acht",
+        "comment": "am2: acht",
         "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:199-203",
         "type": "Entity",
         "text": "acht",
@@ -539,13 +539,37 @@
     },
     {
       "body": {
-        "comment": "dm3: chte",
+        "comment": "am3: chte",
         "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:200-204",
         "type": "Entity",
         "text": "chte",
         "metadata": {
           "category": "per",
           "layer": "per"
+        }
+      }
+    },
+    {
+      "body": {
+        "comment": "am4: hter",
+        "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:201-205",
+        "type": "Entity",
+        "text": "hter",
+        "metadata": {
+          "category": "reviewed",
+          "layer": "reviewed"
+        }
+      }
+    },
+    {
+      "body": {
+        "comment": "am5: n",
+        "id": "urn:republic:entity-occurrence:session-3248-num-14-para-6:206-207",
+        "type": "Entity",
+        "text": "n",
+        "metadata": {
+          "category": "loc",
+          "layer": "loc"
         }
       }
     }
@@ -656,7 +680,7 @@
           },
 
           {
-            "comment": "dummy mountains 1: achteren",
+            "comment": "annotation mountains 1: achteren",
             "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:199-207",
             "start": {
               "line": 0,
@@ -668,7 +692,7 @@
             }
           },
           {
-            "comment": "dummy mountains 2: acht",
+            "comment": "annotation mountains 2: acht",
             "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:199-203",
             "start": {
               "line": 0,
@@ -680,7 +704,7 @@
             }
           },
           {
-            "comment": "dummy mountains 3: chte",
+            "comment": "annotation mountains 3: chte",
             "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:200-204",
             "start": {
               "line": 0,
@@ -689,6 +713,30 @@
             "end": {
               "line": 0,
               "offset": 203
+            }
+          },
+          {
+            "comment": "annotation mountains 4: hter",
+            "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:201-205",
+            "start": {
+              "line": 0,
+              "offset": 201
+            },
+            "end": {
+              "line": 0,
+              "offset": 204
+            }
+          },
+          {
+            "comment": "annotation mountains 5: n",
+            "bodyId": "urn:republic:entity-occurrence:session-3248-num-14-para-6:206-207",
+            "start": {
+              "line": 0,
+              "offset": 206
+            },
+            "end": {
+              "line": 0,
+              "offset": 206
             }
           }
         ]

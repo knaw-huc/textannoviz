@@ -13,7 +13,7 @@ import {
   Segment,
 } from "../AnnotationModel.ts";
 
-export class AnnotationSegmentor {
+export class AnnotationSegmenter {
   private endOffsets: AnnotationOffset[];
   private currentAnnotations: AnnotationSegment[] = [];
 
@@ -134,6 +134,10 @@ export class AnnotationSegmentor {
     _.remove(this.currentAnnotations, (a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
+    const currentNested = this.currentAnnotations.filter(
+      isNestedAnnotationSegment,
+    );
+    this.currentAnnotationDepth = _.maxBy(currentNested, "depth")?.depth || 0;
 
     // Reset annotation group when all annotations are closed:
     const hasClosedAllAnnotations =
