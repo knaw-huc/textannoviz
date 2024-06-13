@@ -39,6 +39,7 @@ export const TextPanel = (props: TextPanelProps) => {
       </strong>
       <AnnotatedText text={props.text} />
       <hr />
+      {/*TODO: remove or merge with AnnotatedText? */}
       <TextHighlighting text={props.text} />
     </div>
   );
