@@ -148,7 +148,7 @@ export class AnnotationSegmenter {
     const end2 = this.endOffsets.find((o) => o.body.id === start2.body.id);
     if (!end1 || !end2) {
       throw new Error(
-        "Could not find annotations while sorting: " +
+        "Could not find end offset while sorting: " +
           `${start1.body.id}=${end1}, ${start2.body.id}=${end2}`,
       );
     }
