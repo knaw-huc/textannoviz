@@ -122,15 +122,6 @@ export class AnnotationSegmenter {
     closingAnnotations.forEach((a) => {
       a.endSegment = this.currentSegments.length;
     });
-    // Only decrement depth when closing annotation is of highest depth:
-    closingAnnotations
-      .filter(isNestedAnnotationSegment)
-      .sort((a1, a2) => (a1.depth > a2.depth ? 1 : -1))
-      .forEach((a) => {
-        if (a.depth === this.currentAnnotationDepth) {
-          this.currentAnnotationDepth--;
-        }
-      });
     _.remove(this.currentAnnotations, (a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );

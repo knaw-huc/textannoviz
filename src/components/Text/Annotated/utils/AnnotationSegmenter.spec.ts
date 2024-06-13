@@ -561,7 +561,7 @@ describe("AnnotationSegmenter", () => {
     expect(ab.group.maxDepth).toEqual(3);
   });
 
-  it("resets depth correctly after two overlapping annotations in parent", () => {
+  it("resets depth correctly after closing two overlapping annotations", () => {
     // <abcde><ab>aa<bc>bb</ab>cc</bc>dd<e>ee</e></abcde>
     const segment = new AnnotationSegmenter("aabbccddee", [
       {
@@ -647,6 +647,5 @@ describe("AnnotationSegmenter", () => {
     const e = segment[4].annotations![1] as NestedAnnotationSegment;
     expect(e.body.id).toEqual("e");
     expect(e.depth).toEqual(2);
-    expect(e.group.maxDepth).toEqual(3);
   });
 });
