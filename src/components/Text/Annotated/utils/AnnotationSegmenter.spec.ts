@@ -648,4 +648,70 @@ describe("AnnotationSegmenter", () => {
     expect(e.body.id).toEqual("e");
     expect(e.depth).toEqual(2);
   });
+
+  it("sets start and end segment", () => {
+    // aa<bc>bbcc</bc>dd
+    const segment = new AnnotationSegmenter("aabbccdd", [
+      {
+        charIndex: 2,
+        offsets: [
+          {
+            charIndex: 2,
+            mark: "start",
+            type: "annotation",
+            body: { id: "bc" } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 6,
+        offsets: [
+          {
+            charIndex: 6,
+            mark: "end",
+            type: "annotation",
+            body: { id: "bc" } as AnnotationBody,
+          },
+        ],
+      },
+    ]).segment();
+
+    const abc = segment[1].annotations![0] as NestedAnnotationSegment;
+    expect(abc.body.id).toEqual("bc");
+    expect(abc.startSegment).toEqual(1);
+    expect(abc.endSegment).toEqual(2);
+  });
+
+  it("sets start and end segment when opening and closing at first and last segment", () => {
+    // <abc>aabbcc</abc>
+    const segment = new AnnotationSegmenter("aabbcc", [
+      {
+        charIndex: 0,
+        offsets: [
+          {
+            charIndex: 0,
+            mark: "start",
+            type: "annotation",
+            body: { id: "abc" } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 6,
+        offsets: [
+          {
+            charIndex: 6,
+            mark: "end",
+            type: "annotation",
+            body: { id: "abc" } as AnnotationBody,
+          },
+        ],
+      },
+    ]).segment();
+
+    const abc = segment[0].annotations![0] as NestedAnnotationSegment;
+    expect(abc.body.id).toEqual("abc");
+    expect(abc.startSegment).toEqual(0);
+    expect(abc.endSegment).toEqual(1);
+  });
 });

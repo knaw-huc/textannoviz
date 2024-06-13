@@ -26,7 +26,7 @@ export class AnnotationSegmenter {
     maxDepth: 0,
   };
 
-  private currentSegments: Segment[] = [];
+  private segments: Segment[] = [];
 
   constructor(
     private line: string,
@@ -42,24 +42,22 @@ export class AnnotationSegmenter {
 
     for (let i = 0; i < this.offsetsByCharIndex.length; i++) {
       const offsetsAtCharIndex = this.offsetsByCharIndex[i];
+      this.handleEndOffsets(offsetsAtCharIndex);
       const currentSegmentBody = this.createSegmentBody(i, offsetsAtCharIndex);
-
       if (!currentSegmentBody) {
         continue;
       }
-
-      this.handleEndOffsets(offsetsAtCharIndex);
       this.handleStartOffsets(offsetsAtCharIndex, currentSegmentBody);
     }
 
-    return this.currentSegments;
+    return this.segments;
   }
 
   private handleAnnotationlessStart() {
     const firstCharIndex = this.offsetsByCharIndex[0]?.charIndex;
     const lineStartsWithAnnotation = firstCharIndex === 0;
     if (!lineStartsWithAnnotation) {
-      this.currentSegments.push({
+      this.segments.push({
         index: 0,
         body: this.line.slice(0, firstCharIndex),
         annotations: [],
@@ -105,8 +103,8 @@ export class AnnotationSegmenter {
       this.annotationGroup.maxDepth,
       this.currentAnnotationDepth,
     ])!;
-    this.currentSegments.push({
-      index: this.currentSegments.length,
+    this.segments.push({
+      index: this.segments.length,
       body: currentLineSegment,
       annotations: [...this.currentAnnotations],
     });
@@ -120,7 +118,7 @@ export class AnnotationSegmenter {
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
     closingAnnotations.forEach((a) => {
-      a.endSegment = this.currentSegments.length;
+      a.endSegment = this.segments.length;
     });
     _.remove(this.currentAnnotations, (a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
@@ -189,8 +187,8 @@ export class AnnotationSegmenter {
 
   private createSegmentOffsets() {
     return {
-      startSegment: this.currentSegments.length,
-      endSegment: -1, // Set endSegment on closing
+      startSegment: this.segments.length,
+      endSegment: -1, // Set endSegment at end offset
     };
   }
 }
