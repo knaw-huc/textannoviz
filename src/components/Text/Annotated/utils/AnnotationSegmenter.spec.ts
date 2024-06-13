@@ -414,7 +414,7 @@ describe("AnnotationSegmenter", () => {
     expect(segment2bb.group.id).toEqual(2);
   });
 
-  it("sorts annotations by length when starting at the same char index in multiple segments", () => {
+  it("sorts annotations by length when starting at the same char index", () => {
     // <abc><ab>aa<bc>bb</ab>cc</abc></bc>
     const segments = new AnnotationSegmenter("aabbcc", [
       {
@@ -475,10 +475,12 @@ describe("AnnotationSegmenter", () => {
       },
     ]).segment();
 
+    // ab is shorter than abc:
     const segment1ab = segments[0].annotations![1] as NestedAnnotationSegment;
     expect(segment1ab.body.id).toEqual("ab");
     expect(segment1ab.depth).toEqual(2);
 
+    // ab keeps depth across segments:
     const segment2ab = segments[1].annotations![1] as NestedAnnotationSegment;
     expect(segment2ab.body.id).toEqual("ab");
     expect(segment2ab.depth).toEqual(2);
