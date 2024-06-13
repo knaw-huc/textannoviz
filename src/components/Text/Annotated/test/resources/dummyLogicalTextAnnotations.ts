@@ -4,7 +4,11 @@ import {
   RelativeOffsets,
 } from "../../AnnotationModel.ts";
 
+/**
+ * aa<anno1>bb<anno2><anno3>cc</anno2></anno1>dd</anno3>ee
+ */
 export const line = "aabbccddee";
+
 /**
  * Annotated sections:
  * aa (0,1) -> none
