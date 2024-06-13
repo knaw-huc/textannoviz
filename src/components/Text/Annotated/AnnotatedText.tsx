@@ -13,6 +13,8 @@ import {
 import { useParams } from "react-router-dom";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
+import { useSearchStore } from "../../../stores/search/search-store.ts";
+import { DUMMY_ANNOTATION_RESOLUTION } from "../../../utils/broccoli.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -20,17 +22,19 @@ type TextHighlightingProps = {
 
 export const AnnotatedText = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore().annotations;
-  // const searchTerms = useSearchStore((state) => state.textToHighlight);
-  const searchTerms = {
+  const params = useParams();
+
+  // TODO: clean up dummy search terms
+  const useDummy = params.tier2 === DUMMY_ANNOTATION_RESOLUTION;
+  console.log("AnnotatedText", { useDummy });
+  const searchTermsFromStore = useSearchStore((state) => state.textToHighlight);
+  const dummySearchTerms = {
     map: new Map([
-      [
-        "urn:republic:session-3189-num-183-resolution-7",
-        ["Huijgens", "Bronchoven", "rdam"],
-      ],
+      [DUMMY_ANNOTATION_RESOLUTION, ["Huijgens", "Bronchoven", "rdam"]],
     ]),
     exact: false,
   };
-  const params = useParams();
+  const searchTerms = useDummy ? dummySearchTerms : searchTermsFromStore;
 
   const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
   const annotationsToHighlight = getAnnotationsByType(
@@ -49,7 +53,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const searchRegex = createSearchRegex(searchTerms, params.tier2);
   const searchOffsets = createSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
-  console.log("LogicalTextHighlighting", {
+  console.debug("LogicalTextHighlighting", {
     typesToHighlight,
     annotationsToHighlight,
     relativePositions,

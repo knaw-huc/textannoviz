@@ -12,6 +12,7 @@ import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
 import { useTextStore } from "./stores/text";
 import {
+  DUMMY_ANNOTATION_RESOLUTION,
   fetchBroccoliScanWithOverlap,
   fetchBroccoliScanWithOverlapDummy,
 } from "./utils/broccoli";
@@ -51,10 +52,10 @@ export const Detail = (props: DetailProps) => {
       const overlapTypes = annotationTypesToInclude;
       const relativeTo = "Origin";
 
-      const useDummy =
-        bodyId === "urn:republic:session-3248-num-14-resolution-4";
+      const useDummy = bodyId === DUMMY_ANNOTATION_RESOLUTION;
       const result = useDummy
-        ? await fetchBroccoliScanWithOverlap(
+        ? await fetchBroccoliScanWithOverlapDummy()
+        : await fetchBroccoliScanWithOverlap(
             bodyId,
             overlapTypes,
             includeResults,
@@ -62,8 +63,7 @@ export const Detail = (props: DetailProps) => {
             relativeTo,
             props.config,
             signal,
-          ).catch(handleAbort)
-        : await fetchBroccoliScanWithOverlapDummy();
+          ).catch(handleAbort);
 
       if (!result) {
         return;

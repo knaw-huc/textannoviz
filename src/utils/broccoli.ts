@@ -9,6 +9,9 @@ const headers = {
   "Content-Type": "application/json",
 };
 
+// TODO: clean up dummy broccoli call
+export const DUMMY_ANNOTATION_RESOLUTION =
+  "urn:republic:session-3248-num-14-resolution-4";
 export const fetchBroccoliScanWithOverlapDummy =
   async (): Promise<Broccoli> => {
     return Promise.resolve(dummy as unknown as Broccoli);
