@@ -25,6 +25,7 @@ import { removeTerm } from "./util/removeTerm.ts";
 interface SearchFormProps {
   onSearch: (stayOnPage?: boolean) => void;
   keywordFacets: FacetEntry[];
+  updateAggs: (query: SearchQuery) => void;
 }
 
 const searchFormClasses =
@@ -175,12 +176,14 @@ export function SearchForm(props: SearchFormProps) {
       return newAgg;
     });
 
-    setSearchQuery({
+    const newQuery = {
       ...searchQuery,
       aggs: newAggs,
-    });
+    };
 
-    props.onSearch();
+    setSearchQuery(newQuery);
+
+    props.updateAggs(newQuery);
   }
 
   return (
@@ -265,6 +268,7 @@ export function SearchForm(props: SearchFormProps) {
                 selectedFacets={searchQuery.terms}
                 onChangeKeywordFacet={updateKeywordFacet}
                 onSearch={props.onSearch}
+                updateAggs={props.updateAggs}
               />
             </div>
             {Object.keys(facetValue).length < 10 ? null : (

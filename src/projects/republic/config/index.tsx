@@ -34,7 +34,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Resolution",
     "Reviewed",
   ],
-  elasticIndexName: "republic-2024.05.17",
+  elasticIndexName: "republic-2024.06.12",
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",

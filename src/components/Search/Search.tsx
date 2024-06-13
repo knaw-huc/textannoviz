@@ -188,6 +188,26 @@ export const Search = () => {
     };
   }, [isDirty]);
 
+  async function updateAggs(query: SearchQuery) {
+    const newParams = {
+      ...searchUrlParams,
+      indexName: projectConfig.elasticIndexName,
+      size: 0,
+    };
+
+    const searchResults = await sendSearchQuery(
+      projectConfig,
+      newParams,
+      toRequestBody(query),
+    );
+
+    if (!searchResults) {
+      return;
+    }
+
+    setKeywordFacets(filterFacetsByType(index, searchResults.aggs, "keyword"));
+  }
+
   async function getSearchResults(
     facetsByType: FacetNamesByType,
     params: SearchUrlParams,
@@ -239,7 +259,11 @@ export const Search = () => {
       id="searchContainer"
       className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
     >
-      <SearchForm onSearch={handleNewSearch} keywordFacets={keywordFacets} />
+      <SearchForm
+        onSearch={handleNewSearch}
+        keywordFacets={keywordFacets}
+        updateAggs={updateAggs}
+      />
       <SearchResultsColumn>
         {/* Wait for init, to prevent a flicker of info page before results are shown: */}
         {!isShowingResults && isInit && (

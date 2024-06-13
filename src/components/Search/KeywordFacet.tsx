@@ -4,6 +4,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import {
   CheckboxComponent,
@@ -20,6 +21,7 @@ export function KeywordFacet(props: {
     selected: boolean,
   ) => void;
   onSearch: (stayOnPage?: boolean) => void;
+  updateAggs: (query: SearchQuery) => void;
 }) {
   const facetLength = Object.keys(props.facet).length;
   const { searchQuery, setSearchQuery } = useSearchStore();
@@ -50,12 +52,14 @@ export function KeywordFacet(props: {
       return newAgg;
     });
 
-    setSearchQuery({
+    const newQuery = {
       ...searchQuery,
       aggs: newAggs,
-    });
+    };
 
-    props.onSearch();
+    setSearchQuery(newQuery);
+
+    props.updateAggs(newQuery);
   }
 
   return (
