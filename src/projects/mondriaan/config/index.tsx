@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
+import logo from "../../../assets/logo-mondrian-papers.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import AnnotationItem from "../AnnotationItem.tsx";
@@ -99,6 +99,7 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   allowedAnnotationTypesToHighlight: ["tei:Rs"],
   showToggleTextPanels: true,
   logoImageUrl: logo,
+  headerColor: "bg-brand1-900 text-brand1-400",
   headerTitle: "MONDRIAAN",
   logoHref:
     "https://rkd.nl/nl/projecten-en-publicaties/projecten/130-mondriaan-editieproject",

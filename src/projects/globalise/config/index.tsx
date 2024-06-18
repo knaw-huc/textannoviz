@@ -32,6 +32,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   defaultShowMetadataPanel: false,
   logoImageUrl: logo,
+  headerColor: "bg-brand1-900 text-brand1-200",
   headerTitle: "GLOBALISE Transcriptions Viewer",
   logoHref: "https://globalise.huygens.knaw.nl",
   showSearchQueryHistory: false,
