@@ -40,6 +40,7 @@ export interface ProjectConfig {
   logoImageUrl: string;
   headerTitle: string;
   logoHref: string;
+  headerColor: string;
   showSearchQueryHistory: boolean;
   showDateFacets: boolean;
   showKeywordFacets: boolean;
