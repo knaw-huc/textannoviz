@@ -44,19 +44,19 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const [annotationUnderMouse, setAnnotationUnderMouse] =
     useState<AnnotationBodyId>();
 
-  const relativePositions = props.text.locations.annotations;
+  const positions = props.text.locations.annotations;
   const lines = props.text.lines;
 
   const offsets = annotationsToHighlight
-    .filter((a) => isAnnotationInSingleLine(a, relativePositions))
-    .map((a) => createAnnotationOffsets(a, relativePositions, lines));
+    .filter((a) => isAnnotationInSingleLine(a, positions))
+    .map((a) => createAnnotationOffsets(a, positions, lines));
   const searchRegex = createSearchRegex(searchTerms, params.tier2);
   const searchOffsets = createSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
   console.debug("LogicalTextHighlighting", {
     typesToHighlight,
     annotationsToHighlight,
-    relativePositions,
+    positions,
     searchTerms,
     searchRegex,
     searchOffsets,
