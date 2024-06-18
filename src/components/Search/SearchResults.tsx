@@ -8,6 +8,7 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
@@ -18,10 +19,12 @@ import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
 
-export function SearchResults(props: {
+type SearchResultsProps = {
   onSearch: (stayOnPage?: boolean) => void;
-}) {
-  const { onSearch } = props;
+  selectedFacets: SearchQuery;
+};
+
+export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const {
     searchUrlParams,
@@ -51,7 +54,7 @@ export function SearchResults(props: {
       sortBy: sorting.field,
       sortOrder: sorting.order,
     });
-    onSearch();
+    props.onSearch();
   }
 
   function selectPrevPage() {
@@ -81,7 +84,7 @@ export function SearchResults(props: {
       ...searchUrlParams,
       from: newFrom,
     });
-    onSearch(true);
+    props.onSearch(true);
   }
 
   const changePageSize = (key: Key) => {
@@ -92,7 +95,7 @@ export function SearchResults(props: {
       ...searchUrlParams,
       size: key as number,
     });
-    onSearch();
+    props.onSearch();
   };
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
@@ -100,7 +103,7 @@ export function SearchResults(props: {
     removeTerm(newTerms, facet, option);
     setSearchQuery({ ...searchQuery, terms: newTerms });
     setSearchUrlParams({ ...searchUrlParams });
-    onSearch();
+    props.onSearch();
   }
 
   if (!searchResults) {
@@ -131,7 +134,7 @@ export function SearchResults(props: {
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
     });
-    onSearch();
+    props.onSearch();
   }
 
   function returnToPrevDateRange() {
@@ -146,7 +149,7 @@ export function SearchResults(props: {
       dateTo: prevQuery.dateTo,
     });
 
-    onSearch();
+    props.onSearch();
   }
 
   return (

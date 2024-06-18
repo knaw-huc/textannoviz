@@ -1,5 +1,6 @@
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 import React from "react";
 import { type Key } from "react-aria-components";
 import {
@@ -140,16 +141,30 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function inputFacetOnSubmitHandler(value: string) {
+    const uniqValues = uniq(value.replace(/\s/g, "").split(","));
+
     const newTerms = {
-      [projectConfig.inputFacetOptions]: value.split(","),
+      [projectConfig.inputFacetOptions]: uniqValues,
     };
 
     setSearchQuery({
       ...searchQuery,
       terms: newTerms,
     });
-
     onSearch();
+  }
+
+  function inputFacetOnBlurHandler(value: string) {
+    const uniqValues = uniq(value.replace(/\s/g, "").split(","));
+
+    const newTerms = {
+      [projectConfig.inputFacetOptions]: uniqValues,
+    };
+
+    setSearchQuery({
+      ...searchQuery,
+      terms: newTerms,
+    });
   }
 
   function fullTextSearchBarSubmitHandler(value: string) {
@@ -201,6 +216,7 @@ export function SearchForm(props: SearchFormProps) {
         <div className="w-full max-w-[450px]">
           <InputFacet
             onSubmit={inputFacetOnSubmitHandler}
+            onBlur={inputFacetOnBlurHandler}
             key={searchQuery.terms[projectConfig.inputFacetOptions]?.toString()}
             inputValue={
               searchQuery.terms[projectConfig.inputFacetOptions]?.toString() ??

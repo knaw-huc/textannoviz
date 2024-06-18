@@ -35,7 +35,7 @@ export const Help = () => {
           <h4 className="m-0">Filter:</h4>
           <div className="mb-4 ml-4 flex flex-col gap-2">
             <a className="w-fit" href="#filter">
-              Filtering Search Results
+              Inventory Number
             </a>
           </div>
           <h4 className="m-0">View:</h4>
@@ -198,14 +198,14 @@ export const Help = () => {
           For example:{" "}
           <code className="bg-gray-300">
             trader OR merchant OR koopluyden OR schipper
-          </code>
+          </code>{" "}
           will find results in which any one of these words occur at least once.
         </p>
         <p className="mb-4 mt-4 block">
           For example:{" "}
           <code className="bg-gray-300">
             (gecommitteerd OR gecommitteerdens) NOT gecommitteer
-          </code>
+          </code>{" "}
           will find results which include the word{" "}
           <code className="bg-gray-300">gecommitteerd</code> or the word{" "}
           <code className="bg-gray-300">gecommitteerdens</code> at least once,
@@ -225,7 +225,7 @@ export const Help = () => {
           For example:{" "}
           <code className="bg-gray-300">
             (commis* OR gecommit*) NOT gecommitteerden
-          </code>
+          </code>{" "}
           will find results containing words starting with{" "}
           <code className="bg-gray-300">commis</code> or{" "}
           <code className="bg-gray-300">gecommit</code>, but not containing the
@@ -255,15 +255,18 @@ export const Help = () => {
           letter words ending in a question mark, such as{" "}
           <code className="bg-gray-300">is?</code>.
         </p>
-        <h4 id="filter">Filtering Search Results</h4>
+        <h4 id="filter">Filter</h4>
         <p className="mb-4 mt-4 block">
           At present, you can only filter your search results by the VOC
           archive&apos;s{" "}
           <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02">
             inventory number
           </a>
-          . Lorem ipsum. Lorem ipsum. Lorem ipsum. Lorem ipsum. Lorem ipsum.
-          Lorem ipsum. Lorem ipsum. Lorem ipsum. Lorem ipsum. Lorem ipsum.
+          . First carry out a normal keyword based full-text search. Then enter
+          an inventory number (e.g. 1053) in the filter field to limit the list
+          of results to pages from that inventory. You can also filter on
+          multiple inventory numbers by listing them separated by commas (e.g.
+          1053,1604A).
         </p>
         <h4 id="view">Viewing Page Images and Transcriptions</h4>
         <p className="mb-4 mt-4 block">

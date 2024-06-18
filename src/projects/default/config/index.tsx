@@ -22,6 +22,7 @@ export const defaultConfig: Omit<
   | "maxRange"
   | "logoImageUrl"
   | "relativeTo"
+  | "headerColor"
 > = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},

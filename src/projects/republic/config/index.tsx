@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
+import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { MetadataPanel } from "../MetadataPanel.tsx";
@@ -24,6 +24,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Resolution",
     "Reviewed",
     "Session",
+    "Entity",
     // "TextRegion",
     "Scan",
   ],
@@ -41,7 +42,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "62000",
   maxRange: 62000,
   logoImageUrl: logo,
-  headerTitle: "REPUBLIC",
+  headerColor: "bg-brand1-950 text-brand1-400",
+  headerTitle: "",
   logoHref: "https://republic.huygens.knaw.nl/",
   histogramFacet: "sessionYear",
   showHistogram: true,
