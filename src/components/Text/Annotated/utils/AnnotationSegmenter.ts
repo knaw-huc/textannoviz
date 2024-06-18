@@ -14,18 +14,35 @@ import {
 } from "../AnnotationModel.ts";
 
 export class AnnotationSegmenter {
+  /**
+   * Needed to determine length of annotations
+   * when sorting annotations {@link byAnnotationSize}
+   */
   private endOffsets: AnnotationOffset[];
+
+  /**
+   * Annotations that include the current character
+   */
   private currentAnnotations: AnnotationSegment[] = [];
 
   /**
+   * Depth of nested annotations in an annotation group
    * prefix increment, i.e. first depth is 1
    */
   private currentAnnotationDepth = 0;
+
+  /**
+   * Group of annotations connected through overlap or nesting
+   * (just touching is not enough)
+   */
   private annotationGroup: AnnotationGroup = {
     id: 1,
     maxDepth: 0,
   };
 
+  /**
+   * Segments to return
+   */
   private segments: Segment[] = [];
 
   constructor(
