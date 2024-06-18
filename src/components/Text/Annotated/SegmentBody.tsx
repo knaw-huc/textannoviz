@@ -1,15 +1,9 @@
-import { CSSProperties } from "react";
+import { DepthCorrection } from "./DepthCorrection.tsx";
 
 export function SegmentBody(props: { body: string; depthCorrection: number }) {
-  let className: string | undefined;
-  const style: CSSProperties = {};
-  if (props.depthCorrection) {
-    className = `depth-correction`;
-    style.marginBottom = props.depthCorrection * 3;
-  }
   return (
-    <span className={className} style={style}>
+    <DepthCorrection depthCorrection={props.depthCorrection}>
       {props.body}
-    </span>
+    </DepthCorrection>
   );
 }

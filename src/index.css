@@ -300,6 +300,7 @@ em {
   white-space: pre;
 }
 
+.depth-correction,
 .nested-annotation {
   margin-bottom: 2px;
   border-bottom: 1px solid;
@@ -308,6 +309,10 @@ em {
 .hover-underline {
   margin-bottom: 1px;
   border-bottom: 2px solid;
+}
+
+.depth-correction {
+  border-bottom-color: rgba(0, 0, 0, 0);
 }
 
 .underlined-resolution {
