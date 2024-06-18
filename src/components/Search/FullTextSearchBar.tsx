@@ -43,17 +43,6 @@ export function FullTextSearchBar(props: {
     }
   }
 
-  function onBlurHandler() {
-    if (includesTrailingBackslash(fullText)) {
-      toast("Please remove trailing backslash from query", { type: "error" });
-      return;
-    }
-
-    if (fullText) {
-      props.onBlur(fullText);
-    }
-  }
-
   return (
     <SearchFieldComponent
       label={translate("FULL_TEXT_SEARCH")}
