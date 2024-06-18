@@ -21,20 +21,19 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
   const toNest = nestedAnnotations.slice(1);
 
   /**
-   * Every annotation has a certain depth. In order to align the underlines correctly
-   * between segments, a gap between two nested annotations needs to be filled
-   * with some empty space.
+   * Every annotation has a certain depth. In order to align underlines
+   * between segments, gaps between nested annotations need to be filled.
    *
    * Consider three annotations, ABC, AB and BC:
-   *         text: aabbcc
+   *          text: aabbcc
    * BC  (depth 3):   ____
    * AB  (depth 2): ____##
    * ABC (depth 1): ______
    * (underscores mark an underline, empty space is marked with ##)
    *
-   * The annotation BC overlaps with AB
-   * This overlap results in an empty 'lane' between BC and the parent annotation ABC
-   * To correct for this empty space, a spacing component `DepthCorrection` is added
+   * The annotation BC overlaps with AB.
+   * This overlap results in an empty 'lane' between BC and the parent annotation ABC (##).
+   * To correct for this empty space, a spacing component `DepthCorrection` is added.
    */
   const emptyAnnotationSpace = toNest[0]
     ? toNest[0].depth - toRender.depth - 1
