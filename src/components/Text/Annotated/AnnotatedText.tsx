@@ -2,7 +2,7 @@ import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
 import { SegmentedLine } from "./SegmentedLine.tsx";
-import { createAnnotationOffsets } from "./utils/createAnnotationOffsets.ts";
+import { createLineOffsets } from "./utils/createLineOffsets.ts";
 import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
 import { useState } from "react";
 import {
@@ -12,7 +12,7 @@ import {
 } from "./AnnotationModel.ts";
 import { useParams } from "react-router-dom";
 import { createSearchRegex } from "../createSearchRegex.tsx";
-import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
+import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
 import { useSearchStore } from "../../../stores/search/search-store.ts";
 import { DUMMY_ANNOTATION_RESOLUTION } from "../../../utils/broccoli.ts";
 
@@ -49,9 +49,9 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   const offsets = annotationsToHighlight
     .filter((a) => isAnnotationInSingleLine(a, positions))
-    .map((a) => createAnnotationOffsets(a, positions, lines));
+    .map((a) => createLineOffsets(a, positions, lines));
   const searchRegex = createSearchRegex(searchTerms, params.tier2);
-  const searchOffsets = createSearchOffsets(lines, searchRegex);
+  const searchOffsets = createLineSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
   console.debug("LogicalTextHighlighting", {
     typesToHighlight,

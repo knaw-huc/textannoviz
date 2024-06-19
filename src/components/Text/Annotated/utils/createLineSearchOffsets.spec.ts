@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { createSearchOffsets } from "./createSearchOffsets.ts";
+import { createLineSearchOffsets } from "./createLineSearchOffsets.ts";
 
-describe("createSearchAnnotations", () => {
+describe("createLineSearchOffsets", () => {
   it("creates search annotation", () => {
     const lines = ["aa bb cc"];
     const regex = /bb/g;
-    const result = createSearchOffsets(lines, regex);
+    const result = createLineSearchOffsets(lines, regex);
     expect(result[0].type).toEqual("search");
     expect(result[0].startChar).toEqual(3);
     expect(result[0].endChar).toEqual(5);

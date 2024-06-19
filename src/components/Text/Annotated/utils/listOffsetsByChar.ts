@@ -2,7 +2,7 @@ import _ from "lodash";
 import {
   AnnotationOffset,
   OffsetsByCharIndex,
-  RelativeOffsets,
+  LineOffsets,
 } from "../AnnotationModel.ts";
 
 /**
@@ -11,7 +11,7 @@ import {
  * Excluding last character (see note {@link AnnotationOffsets})
  */
 export function listOffsetsByChar(
-  offsets: RelativeOffsets[],
+  offsets: LineOffsets[],
 ): OffsetsByCharIndex[] {
   const annotationPositions = new Map<number, AnnotationOffset[]>();
   for (const offset of offsets) {

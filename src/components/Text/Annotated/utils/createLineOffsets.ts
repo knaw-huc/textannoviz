@@ -1,13 +1,13 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import * as _ from "lodash";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
-import { RelativeOffsets } from "../AnnotationModel.ts";
+import { LineOffsets } from "../AnnotationModel.ts";
 
-export function createAnnotationOffsets(
+export function createLineOffsets(
   annotation: AnnoRepoAnnotation,
   positionsRelativeToView: BroccoliViewPosition[],
   lines: string[],
-): RelativeOffsets {
+): LineOffsets {
   const positionRelativeToView = positionsRelativeToView.find(
     (p) => p.bodyId === annotation.body.id,
   );

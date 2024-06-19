@@ -1,11 +1,7 @@
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
 import { LineSegment } from "./LineSegment.tsx";
-import {
-  AnnotationBodyId,
-  RelativeOffsets,
-  Segment,
-} from "./AnnotationModel.ts";
+import { AnnotationBodyId, LineOffsets, Segment } from "./AnnotationModel.ts";
 
 /**
  * Definitions:
@@ -21,7 +17,7 @@ import {
  */
 export function SegmentedLine(props: {
   line: string;
-  offsets: RelativeOffsets[];
+  offsets: LineOffsets[];
   hoveringOn: AnnotationBodyId | undefined;
   onHoverChange: (value: Segment | undefined) => void;
   onClick: (value: Segment | undefined) => void;

@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { createAnnotationOffsets } from "./createAnnotationOffsets.ts";
+import { createLineOffsets } from "./createLineOffsets.ts";
 import dummy from "../test/resources/dummy-broccoli-session-3248-num-14-resolution-4.json";
 import { Broccoli } from "../../../../model/Broccoli.ts";
 
-describe("withRelativePosition", () => {
+describe("createLineOffsets", () => {
   it("excludes end character", () => {
     const broccoli: Broccoli = dummy as unknown as Broccoli;
-    const result = createAnnotationOffsets(
+    const result = createLineOffsets(
       broccoli.anno[1],
       broccoli.views.self.locations.annotations,
       broccoli.views.self.lines,

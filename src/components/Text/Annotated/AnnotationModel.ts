@@ -22,18 +22,18 @@ export type WithTypeAndBody<T extends AnnotationBody> = {
 };
 
 /**
- * Annotation with char positions relative to line
+ * Annotation with offsets relative to line
  *
  * Note: end offset excludes last character, as found in the body ID,
  * but not in line with the char index as returned by broccoli (which includes the last char)
  */
-export type RelativeOffsets<T extends AnnotationBody = AnnotationBody> =
+export type LineOffsets<T extends AnnotationBody = AnnotationBody> =
   WithTypeAndBody<T> & {
     lineIndex: number;
     startChar: number;
 
     /**
-     * Excluding last character (see note {@link RelativeOffsets})
+     * Excluding last character (see note {@link LineOffsets})
      */
     endChar: number;
   };
