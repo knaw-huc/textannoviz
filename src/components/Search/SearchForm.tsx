@@ -19,6 +19,7 @@ import { InputFacet } from "./InputFacet.tsx";
 import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
+import { ShowLessButton } from "./ShowLessButton.tsx";
 import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
@@ -29,6 +30,8 @@ interface SearchFormProps {
   updateAggs: (query: SearchQuery) => void;
 }
 
+type ShowMoreClickedState = Record<string, boolean>;
+
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
 
@@ -38,6 +41,8 @@ export function SearchForm(props: SearchFormProps) {
   const queryHistory = useSearchStore((state) => state.searchQueryHistory);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
+  const [showMoreClicked, setShowMoreClicked] =
+    React.useState<ShowMoreClickedState>({});
 
   const {
     searchUrlParams,
@@ -185,7 +190,7 @@ export function SearchForm(props: SearchFormProps) {
 
       const newAgg = {
         ...prevAgg,
-        size: 1000,
+        size: showMoreClicked[aggregation] ? 10 : 1000,
       };
 
       return newAgg;
@@ -197,6 +202,11 @@ export function SearchForm(props: SearchFormProps) {
     };
 
     setSearchQuery(newQuery);
+
+    setShowMoreClicked({
+      ...showMoreClicked,
+      [aggregation]: !showMoreClicked[aggregation],
+    });
 
     props.updateAggs(newQuery);
   }
@@ -288,11 +298,20 @@ export function SearchForm(props: SearchFormProps) {
               />
             </div>
             {Object.keys(facetValue).length < 10 ? null : (
-              <div key={i}>
-                <ShowMoreButton
-                  showMoreButtonClickHandler={showMoreButtonClickHandler}
-                  facetName={facetName}
-                />
+              <div key={`btn-${i}`}>
+                {showMoreClicked[facetName] ? (
+                  <ShowLessButton
+                    showLessButtonClickHandler={() =>
+                      showMoreButtonClickHandler(facetName)
+                    }
+                    facetName={facetName}
+                  />
+                ) : (
+                  <ShowMoreButton
+                    showMoreButtonClickHandler={showMoreButtonClickHandler}
+                    facetName={facetName}
+                  />
+                )}
               </div>
             )}
           </>
