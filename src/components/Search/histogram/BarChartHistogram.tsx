@@ -34,7 +34,7 @@ export const BarChartHistogram = (props: BarChartHistorgramProps) => (
       <Bar
         dataKey="count"
         name="Occurrences per year"
-        className="fill-brand1-400"
+        fill="hsl(32, 95%, 64%)"
       />
     </BarChart>
   </ResponsiveContainer>

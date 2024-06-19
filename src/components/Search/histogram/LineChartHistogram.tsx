@@ -30,7 +30,11 @@ export const LineChartHistogram = (props: LineChartHistorgramProps) => (
       <YAxis dataKey="count" allowDecimals={false} />
       <Tooltip />
       <Legend />
-      <Line dataKey="count" name="Occurrences per year" stroke="#8884d8" />
+      <Line
+        dataKey="count"
+        name="Occurrences per year"
+        stroke="hsl(32, 95%, 64%)"
+      />
     </LineChart>
   </ResponsiveContainer>
 );
