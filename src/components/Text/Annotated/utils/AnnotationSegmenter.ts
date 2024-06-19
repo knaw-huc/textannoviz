@@ -13,6 +13,12 @@ import {
   Segment,
 } from "../AnnotationModel.ts";
 
+/**
+ * An {@link AnnotationOffset} (start or end) marks the boundary between two segments,
+ * all offsets together result in a line split up into a list of {@link Segment}s.
+ * A Segment also contains a list of annotations that apply to that line segment.
+ * When a line segment contains no annotations, the segment annotation list will be empty.
+ */
 export class AnnotationSegmenter {
   /**
    * Needed to determine length of annotations
