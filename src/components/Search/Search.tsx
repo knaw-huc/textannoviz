@@ -12,8 +12,8 @@ import {
 import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
 import {
   FacetEntry,
-  SearchQuery,
   filterFacetsByType,
+  SearchQuery,
   toRequestBody,
 } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -21,7 +21,6 @@ import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
-import { createHighlights } from "./util/createHighlights.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
 
@@ -40,7 +39,6 @@ export const Search = () => {
     searchQuery,
     setSearchQuery,
     setSearchResults,
-    setTextToHighlight,
     updateSearchQueryHistory,
     resetPage,
   } = useSearchStore();
@@ -185,12 +183,6 @@ export const Search = () => {
 
     const newParams = { ...params, indexName: projectConfig.elasticIndexName };
 
-    let exactSearch = false;
-
-    if (query.fullText.startsWith('"')) {
-      exactSearch = true;
-    }
-
     const searchResults = await sendSearchQuery(
       projectConfig,
       newParams,
@@ -204,7 +196,6 @@ export const Search = () => {
     setKeywordFacets(
       filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
     );
-    setTextToHighlight(createHighlights(searchResults, exactSearch));
     const target = document.getElementById("searchContainer");
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
@@ -230,7 +221,9 @@ export const Search = () => {
         {!isShowingResults && isInit && (
           <projectConfig.components.SearchInfoPage />
         )}
-        {isShowingResults && <SearchResults onSearch={handleNewSearch} />}
+        {isShowingResults && (
+          <SearchResults onSearch={handleNewSearch} query={searchQuery} />
+        )}
       </SearchResultsColumn>
     </div>
   );

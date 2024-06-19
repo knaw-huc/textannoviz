@@ -10,11 +10,10 @@ import {
   isNestedAnnotationSegment,
   Segment,
 } from "./AnnotationModel.ts";
-import { useParams } from "react-router-dom";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
-import { useSearchStore } from "../../../stores/search/search-store.ts";
 import { DUMMY_ANNOTATION_RESOLUTION } from "../../../utils/broccoli.ts";
+import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -22,19 +21,12 @@ type TextHighlightingProps = {
 
 export const AnnotatedText = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore().annotations;
-  const params = useParams();
-
+  const { tier2, highlight } = useDetailUrlParams();
   // TODO: clean up dummy search terms
-  const useDummy = params.tier2 === DUMMY_ANNOTATION_RESOLUTION;
+  const useDummy = tier2 === DUMMY_ANNOTATION_RESOLUTION;
   console.log("AnnotatedText", { useDummy });
-  const searchTermsFromStore = useSearchStore((state) => state.textToHighlight);
-  const dummySearchTerms = {
-    map: new Map([
-      [DUMMY_ANNOTATION_RESOLUTION, ["Huijgens", "Bronchoven", "rdam"]],
-    ]),
-    exact: false,
-  };
-  const searchTerms = useDummy ? dummySearchTerms : searchTermsFromStore;
+  const dummySearchTerms = "Huijgens Bronchoven rdam";
+  const searchTerms = useDummy ? dummySearchTerms : highlight;
 
   const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
   const annotationsToHighlight = getAnnotationsByType(
@@ -50,7 +42,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const offsets = annotationsToHighlight
     .filter((a) => isAnnotationInSingleLine(a, positions))
     .map((a) => createLineOffsets(a, positions, lines));
-  const searchRegex = createSearchRegex(searchTerms, params.tier2);
+  const searchRegex = createSearchRegex(searchTerms, tier2);
   const searchOffsets = createLineSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
   console.debug("LogicalTextHighlighting", {

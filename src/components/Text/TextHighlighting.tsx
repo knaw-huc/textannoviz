@@ -6,7 +6,7 @@ import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { getAnnotationsByType } from "./Annotated/utils/getAnnotationsByType.ts";
 import { createSearchRegex } from "./createSearchRegex.tsx";
-import { useSearchStore } from "../../stores/search/search-store.ts";
+import { useDetailUrlParams } from "./Annotated/utils/useDetailUrlParams.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -16,7 +16,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();
-  const textToHighlight = useSearchStore((state) => state.textToHighlight);
+  const textToHighlight = useDetailUrlParams().highlight;
   const params = useParams();
   const [annotationsToHighlight, setAnnotationsToHighlight] = React.useState<
     AnnoRepoAnnotation[]
@@ -90,34 +90,32 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       <span className={collectClasses(index) + "w-fit"}>{line}</span>
     );
 
-    if (textToHighlight.map.size > 0 && params.tier2) {
-      if (textToHighlight.map.get(params.tier2)) {
-        const regex = createSearchRegex(textToHighlight, params.tier2)!;
+    if (textToHighlight?.length && params.tier2) {
+      const regex = createSearchRegex(textToHighlight, params.tier2)!;
 
-        projectName === "republic" || projectName === "globalise"
-          ? (result = (
-              <div
-                className={collectClasses(index) + "w-fit"}
-                dangerouslySetInnerHTML={{
-                  __html: line.replace(
-                    regex,
-                    '<span class="rounded bg-yellow-200 p-1">$&</span>',
-                  ),
-                }}
-              />
-            ))
-          : (result = (
-              <span
-                className={collectClasses(index) + "w-fit"}
-                dangerouslySetInnerHTML={{
-                  __html: line.replace(
-                    regex,
-                    '<span class="rounded bg-yellow-200 p-1">$&</span>',
-                  ),
-                }}
-              />
-            ));
-      }
+      projectName === "republic" || projectName === "globalise"
+        ? (result = (
+            <div
+              className={collectClasses(index) + "w-fit"}
+              dangerouslySetInnerHTML={{
+                __html: line.replace(
+                  regex,
+                  '<span class="rounded bg-yellow-200 p-1">$&</span>',
+                ),
+              }}
+            />
+          ))
+        : (result = (
+            <span
+              className={collectClasses(index) + "w-fit"}
+              dangerouslySetInnerHTML={{
+                __html: line.replace(
+                  regex,
+                  '<span class="rounded bg-yellow-200 p-1">$&</span>',
+                ),
+              }}
+            />
+          ));
       return result;
     } else {
       if (projectName === "republic" || projectName === "globalise") {

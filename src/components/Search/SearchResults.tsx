@@ -17,8 +17,10 @@ import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
+import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 
 export function SearchResults(props: {
+  query: SearchQuery;
   onSearch: (stayOnPage?: boolean) => void;
 }) {
   const { onSearch } = props;
@@ -234,7 +236,11 @@ export function SearchResults(props: {
 
       {searchResults.results.length >= 1 &&
         searchResults.results.map((result, index) => (
-          <projectConfig.components.SearchItem key={index} result={result} />
+          <projectConfig.components.SearchItem
+            key={index}
+            result={result}
+            query={props.query}
+          />
         ))}
       {searchResults.results.length >= 1 && (
         <SearchPagination

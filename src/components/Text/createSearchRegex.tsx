@@ -1,29 +1,19 @@
-export type SearchHighlights = {
-  exact: boolean;
-  map: Map<string, string[]>;
-};
+export type SearchHighlights = string;
 
 /**
  * Extracted from TextHighlighting
+ * Modified to handle highlight query param
  */
 export function createSearchRegex(
-  textToHighlight: SearchHighlights,
+  searchTerms: SearchHighlights | undefined,
   tier2: string | undefined,
 ): RegExp | undefined {
-  if (textToHighlight.map.size === 0 || !tier2) {
+  if (!tier2 || !searchTerms) {
     return;
   }
-  const toHighlight: string[] | undefined = textToHighlight.map.get(tier2);
-  if (!toHighlight) {
-    return;
-  }
-  const regexStrings = toHighlight.map((str) =>
+  const termsToHighlight = searchTerms.split(" ");
+  const regexTerms = termsToHighlight.map((str) =>
     str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
   );
-  let joinedRegexString: string | undefined = "";
-
-  textToHighlight.exact
-    ? (joinedRegexString = regexStrings?.join("\\s"))
-    : (joinedRegexString = regexStrings?.join("|"));
-  return new RegExp(`${joinedRegexString}`, "g");
+  return new RegExp(regexTerms?.join("|"), "ig");
 }
