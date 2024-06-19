@@ -18,9 +18,10 @@ import { AnnotationBodyId, LineOffsets, Segment } from "./AnnotationModel.ts";
 export function SegmentedLine(props: {
   line: string;
   offsets: LineOffsets[];
+  clickedOn: AnnotationBodyId | undefined;
   hoveringOn: AnnotationBodyId | undefined;
-  onHoverChange: (value: Segment | undefined) => void;
-  onClick: (value: Segment | undefined) => void;
+  onSegmentHoverChange: (value: Segment | undefined) => void;
+  onSegmentClicked: (value: Segment | undefined) => void;
 }) {
   const { line, offsets } = props;
   if (line.startsWith("Synde ter vergaderinge")) {
@@ -38,9 +39,10 @@ export function SegmentedLine(props: {
         <LineSegment
           key={i}
           segment={segment}
+          clickedOn={props.clickedOn}
           hoveringOn={props.hoveringOn}
-          onHoverChange={props.onHoverChange}
-          onClick={props.onClick}
+          onHoverChange={props.onSegmentHoverChange}
+          onClick={props.onSegmentClicked}
         />
       ))}
     </>

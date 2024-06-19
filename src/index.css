@@ -315,6 +315,14 @@ em {
   border-bottom-color: rgba(0, 0, 0, 0);
 }
 
+.text-button,
+.text-button:active,
+.text-button:focus {
+  border: none;
+  outline: none;
+  background: none;
+}
+
 .underlined-resolution {
   border-bottom-color: green;
 }

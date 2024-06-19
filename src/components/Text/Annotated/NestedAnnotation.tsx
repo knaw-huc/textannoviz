@@ -7,11 +7,21 @@ import {
 import { createAnnotationClasses } from "./utils/createAnnotationClasses.ts";
 import { SearchHighlightAnnotation } from "./SearchHighlightAnnotation.tsx";
 import { DepthCorrection } from "./DepthCorrection.tsx";
+import { PropsWithChildren } from "react";
+import {
+  Button,
+  Dialog,
+  DialogTrigger,
+  OverlayArrow,
+  Popover,
+} from "react-aria-components";
+import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 
 export type NestedAnnotationProps = {
   segment: Segment;
   toNest: AnnotationSegment[];
   depthCorrection: number;
+  clickedOn: AnnotationBodyId | undefined;
   hoveringOn: AnnotationBodyId | undefined;
 };
 
@@ -40,16 +50,47 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
         props.hoveringOn,
       )}
     >
-      <DepthCorrection depthCorrection={emptyAnnotationSpace}>
-        {toNest.length ? (
-          <NestedAnnotation {...props} toNest={toNest} />
-        ) : (
-          <SearchHighlightAnnotation
-            segment={props.segment}
-            depthCorrection={props.depthCorrection}
-          />
-        )}
-      </DepthCorrection>
+      <ClickedAnnotationPopover
+        annotation={
+          props.toNest.find((a) => a.body.id === props.clickedOn)
+            ?.body as AnnoRepoBody
+        }
+      >
+        <DepthCorrection depthCorrection={emptyAnnotationSpace}>
+          {toNest.length ? (
+            <NestedAnnotation {...props} toNest={toNest} />
+          ) : (
+            <SearchHighlightAnnotation
+              segment={props.segment}
+              depthCorrection={props.depthCorrection}
+            />
+          )}
+        </DepthCorrection>
+      </ClickedAnnotationPopover>
     </span>
+  );
+}
+
+export function ClickedAnnotationPopover(
+  props: PropsWithChildren<{
+    annotation?: AnnoRepoBody;
+  }>,
+) {
+  if (!props.annotation) {
+    return <>{props.children}</>;
+  }
+  return (
+    <>
+      <DialogTrigger>
+        <Button className="text-button">{props.children}</Button>
+        <Popover>
+          <OverlayArrow />
+          <Dialog>
+            {props.annotation.type} / {props.annotation.metadata.category} /{" "}
+            {props.annotation.id}
+          </Dialog>
+        </Popover>
+      </DialogTrigger>
+    </>
   );
 }

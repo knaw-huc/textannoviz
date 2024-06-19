@@ -35,6 +35,8 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   );
   const [annotationUnderMouse, setAnnotationUnderMouse] =
     useState<AnnotationBodyId>();
+  const [annotationClicked, setAnnotationClicked] =
+    useState<AnnotationBodyId>();
 
   const positions = props.text.locations.annotations;
   const lines = props.text.lines;
@@ -55,20 +57,29 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     offsets,
   });
 
-  function handleHoverChange(segment: Segment | undefined) {
-    if (!segment) {
-      setAnnotationUnderMouse(undefined);
-      return;
-    }
+  function getActiveAnnotationId(segment: Segment) {
     const nestedAnnotations = segment.annotations.filter(
       isNestedAnnotationSegment,
     );
     const deepest = nestedAnnotations.slice(-1)[0];
-    setAnnotationUnderMouse(deepest.body.id);
+    return deepest?.body.id;
   }
 
-  function handleClick(clicked: Segment | undefined) {
+  function handleSegmentHoverChange(hovered: Segment | undefined) {
+    if (!hovered) {
+      setAnnotationUnderMouse(undefined);
+      return;
+    }
+    setAnnotationUnderMouse(getActiveAnnotationId(hovered));
+  }
+
+  function handleSegmentClicked(clicked: Segment | undefined) {
+    if (!clicked) {
+      setAnnotationClicked(undefined);
+      return;
+    }
     console.log("handleClick", { clicked });
+    setAnnotationClicked(getActiveAnnotationId(clicked));
   }
 
   return (
@@ -78,9 +89,10 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
           <SegmentedLine
             line={line}
             offsets={offsets.filter((a) => a.lineIndex === index)}
+            clickedOn={annotationClicked}
             hoveringOn={annotationUnderMouse}
-            onHoverChange={handleHoverChange}
-            onClick={handleClick}
+            onSegmentHoverChange={handleSegmentHoverChange}
+            onSegmentClicked={handleSegmentClicked}
           />
         </div>
       ))}
