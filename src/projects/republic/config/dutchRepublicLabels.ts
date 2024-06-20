@@ -22,6 +22,8 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   bodyType: "Type",
   propositionType: "Propositietype",
   sliderFacetLabel: "Aantal woorden in resoluties",
+  resolutionType: "Resolutie type",
+  textType: "Productieproces resolutie",
 
   // text panel titles:
   self: "Tekst",

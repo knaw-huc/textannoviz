@@ -29,6 +29,8 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   bodyType: "Type",
   propositionType: "Proposition type",
   sliderFacetLabel: "Min/max number of words",
+  resolutionType: "Resolution type",
+  textType: "Production process resolution",
 
   // text panel titles:
   self: "Text",
