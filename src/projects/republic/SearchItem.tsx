@@ -45,9 +45,11 @@ export const SearchItem = (props: SearchItemProps) => {
         className="hover:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
-          <div className="flex w-full flex-col justify-between p-4 font-semibold">
-            <div>{translateProject(props.result.bodyType)}</div>
-            <div className="text-brand1Grey-500 font-normal italic">
+          <div className="flex flex-col p-4">
+            <div className="font-semibold">
+              {translateProject(props.result.bodyType)}
+            </div>
+            <div className="text-brand1Grey-500 italic">
               {props.result.resolutionType}, {props.result.textType}
             </div>
           </div>
