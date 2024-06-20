@@ -2,13 +2,13 @@ import { englishLabels } from "../../default/config/englishLabels.ts";
 
 export const englishRepublicLabels = Object.assign({}, englishLabels, {
   // facet translations:
-  Lunæ: "Monday",
-  Martis: "Tuesday",
-  Mercurii: "Wednesday",
-  Jovis: "Thirsday",
-  Veneris: "Friday",
-  Sabbathi: "Saturday",
-  Dominica: "Sunday",
+  maandag: "Monday",
+  dinsdag: "Tuesday",
+  woensdag: "Wednesday",
+  donderdag: "Thursday",
+  vrijdag: "Friday",
+  zaterdag: "Saturday",
+  zondag: "Sunday",
   Resolution: "Resolution",
   AttendanceList: "Attendance list",
 
