@@ -101,6 +101,7 @@ export const Footer = (props: FooterProps) => {
               onClick={() => setIsOpen(!isOpen)}
               ref={trifferRef}
               className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 text-neutral-500"
+              aria-label="Settingsmenu detailpagina"
             >
               <Cog6ToothIcon className="inline h-4 w-4" />
             </button>

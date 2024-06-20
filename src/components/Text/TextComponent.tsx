@@ -39,6 +39,10 @@ export const TextComponent = (props: TextComponentProps) => {
 
   return (
     <div className="relative w-6/12 grow self-stretch">
+      <div className="sr-only">
+        <h1>Resolutie</h1>
+      </div>
+
       {projectConfig.showToggleTextPanels ? (
         <ToggleTextPanels
           textPanelsCheckboxHandler={textPanelsCheckboxHandler}

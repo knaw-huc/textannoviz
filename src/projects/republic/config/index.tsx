@@ -9,6 +9,7 @@ import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
+  broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
   colours: {
     resolution: "green",
     attendant: "#DB4437",
@@ -35,7 +36,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Resolution",
     "Reviewed",
   ],
-  elasticIndexName: "republic-2024.05.17",
+  elasticIndexName: "republic-2024.06.18",
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",

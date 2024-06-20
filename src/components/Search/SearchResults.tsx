@@ -235,29 +235,30 @@ export function SearchResults(props: SearchResultsProps) {
           />
         </>
       ) : null}
-
-      {searchResults.results.length >= 1 &&
-        searchResults.results.map((result, index) => (
-          <projectConfig.components.SearchItem key={index} result={result} />
-        ))}
-      {searchResults.results.length >= 1 && (
-        <SearchPagination
-          prevPageClickHandler={selectPrevPage}
-          nextPageClickHandler={selectNextPage}
-          pageNumber={pageNumber}
-          searchResult={searchResults}
-          elasticSize={pageSize}
-          jumpToPage={jumpToPage}
-        />
-      )}
+      <div id="resultsList">
+        {searchResults.results.length >= 1 &&
+          searchResults.results.map((result, index) => (
+            <projectConfig.components.SearchItem key={index} result={result} />
+          ))}
+        {searchResults.results.length >= 1 && (
+          <SearchPagination
+            prevPageClickHandler={selectPrevPage}
+            nextPageClickHandler={selectNextPage}
+            pageNumber={pageNumber}
+            searchResult={searchResults}
+            elasticSize={pageSize}
+            jumpToPage={jumpToPage}
+          />
+        )}
+      </div>
     </>
   );
 }
 
 export function SearchResultsColumn(props: { children?: ReactNode }) {
   return (
-    <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
+    <main className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
       {props.children}
-    </div>
+    </main>
   );
 }

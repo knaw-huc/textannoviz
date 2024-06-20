@@ -16,8 +16,13 @@ export function CheckboxGroupComponent({
 }: CheckboxGroupComponentProps) {
   return (
     <CheckboxGroup {...props} className="flex flex-col gap-2">
-      <Label className="font-semibold">{label}</Label>
+      <Label className="font-semibold" tabIndex={0}>
+        {label}
+      </Label>
       {children}
+      <div className="sr-only">
+        <a href="#resultsList">Jump to search results</a>
+      </div>
     </CheckboxGroup>
   );
 }
@@ -35,6 +40,7 @@ export function CheckboxComponent({
       {({ isSelected }) => (
         <>
           <div
+            aria-label="filter on "
             className={`${
               isSelected ? "bg-brand2-600 border-brand2-600" : ""
             } flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition`}

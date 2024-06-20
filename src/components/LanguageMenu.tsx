@@ -31,7 +31,10 @@ export function LanguageMenu() {
   }, [searchParams]);
 
   return (
-    <div className="languages ml-4 flex flex-row items-center gap-2">
+    <div
+      className="languages ml-4 flex flex-row items-center gap-2"
+      aria-label="select language"
+    >
       {languages.length > 1 &&
         languages
           .map<ReactNode>((l) => (
@@ -58,11 +61,11 @@ export function LanguageIcon(props: {
   onClick: (code: LanguageCode) => void;
 }) {
   return (
-    <span
-      className={props.selected ? "selected" : ""}
+    <button
+      className={props.selected ? "selected" : "hover:underline"}
       onClick={() => props.onClick(props.code)}
     >
       {props.code.toUpperCase()}
-    </span>
+    </button>
   );
 }
