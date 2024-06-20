@@ -23,6 +23,8 @@ export interface RepublicSearchResultBody {
   sessionYear: number;
   sessionWeekday: string;
   propositionType: string;
+  resolutionType: string;
+  textType: string;
   _hits: {
     text: string[];
   };

@@ -42,11 +42,14 @@ export const SearchItem = (props: SearchItemProps) => {
       </li>
       <Link
         to={`/detail/${props.result._id}`}
-        className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
+        className="hover:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
-          <div className="p-4 font-semibold">
-            {translateProject(props.result.bodyType)}
+          <div className="flex w-full flex-col justify-between p-4 font-semibold">
+            <div>{translateProject(props.result.bodyType)}</div>
+            <div className="text-brand1Grey-500 font-normal italic">
+              {props.result.resolutionType}, {props.result.textType}
+            </div>
           </div>
           {props.result._hits?.text.map((hit, key) => (
             <div key={key} className="hover:bg-brand1Grey-50 w-full p-4">
