@@ -22,6 +22,7 @@ export const defaultConfig: Omit<
   | "maxRange"
   | "logoImageUrl"
   | "relativeTo"
+  | "headerColor"
 > = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
@@ -54,6 +55,8 @@ export const defaultConfig: Omit<
   showMiradorNavigationButtons: false,
   showInputFacet: false,
   histogramFacet: "",
+  inputFacetOptions: "",
+  overrideDefaultAggs: [],
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,

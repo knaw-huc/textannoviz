@@ -17,7 +17,7 @@ export const SearchItem = (props: SearchItemProps) => {
     dateOptions,
   );
 
-  const searchItemTitle = `Letter to ${props.result.correspondent}, ${formattedDate}`;
+  const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}, ${formattedDate}`;
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">

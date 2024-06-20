@@ -1,9 +1,9 @@
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export function KeywordFacetLabel(props: {
   option: FacetOptionName;

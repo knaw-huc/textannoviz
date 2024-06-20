@@ -22,6 +22,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
+  headerColor: "bg-brand1-900 text-brand1-400",
   headerTitle: "TRANSLATIN",
   showSearchResultsButtonFooter: false,
 

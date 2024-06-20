@@ -32,21 +32,26 @@ export const SearchItem = (props: SearchItemProps) => {
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
-      <li className="mb-3 text-base">
+      <li className="mb-3 text-base" tabIndex={0}>
         {translateProject(props.result.sessionWeekday)}{" "}
-        <strong className="font-semibold">
+        <span className="font-semibold">
           {props.result.sessionDay}{" "}
           {translate(monthNumberToString[props.result.sessionMonth])}{" "}
           {props.result.sessionYear}
-        </strong>
+        </span>
       </li>
       <Link
         to={`/detail/${props.result._id}`}
-        className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
+        className="hover:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
-          <div className="p-4 font-semibold">
-            {translateProject(props.result.bodyType)}
+          <div className="flex flex-col p-4">
+            <div className="font-semibold">
+              {translateProject(props.result.bodyType)}
+            </div>
+            <div className="text-brand1Grey-500 italic">
+              {props.result.resolutionType}, {props.result.textType}
+            </div>
           </div>
           {props.result._hits?.text.map((hit, key) => (
             <div key={key} className="hover:bg-brand1Grey-50 w-full p-4">

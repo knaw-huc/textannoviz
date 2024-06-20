@@ -58,6 +58,8 @@ export const englishLabels: Labels = {
   NO_FACETS_FOUND: "No search facets found",
   NO_INDICES_FOUND: "No search indices found",
   NO_SEARCH_RESULTS: "No results. Please try a different query.",
+  NO_SEARCH_STRING:
+    "No full-text keyword was specified. Please specify a search term.",
 
   DATE: "Date",
 };

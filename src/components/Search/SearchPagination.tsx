@@ -19,6 +19,11 @@ export const SearchPagination = (props: SearchPaginationProps) => {
     props.pageNumber.toString(),
   );
 
+  //Keep state in sync with prop
+  React.useEffect(() => {
+    setPageNumber(props.pageNumber.toString());
+  }, [props.pageNumber]);
+
   function pageNumberInputChangeHandler(newValue: string) {
     setPageNumber(newValue);
   }

@@ -1,7 +1,8 @@
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 import React from "react";
-import type { Key } from "react-aria-components";
+import { type Key } from "react-aria-components";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -18,13 +19,18 @@ import { InputFacet } from "./InputFacet.tsx";
 import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
+import { ShowLessButton } from "./ShowLessButton.tsx";
+import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
 interface SearchFormProps {
   onSearch: (stayOnPage?: boolean) => void;
   keywordFacets: FacetEntry[];
+  updateAggs: (query: SearchQuery) => void;
 }
+
+type ShowMoreClickedState = Record<string, boolean>;
 
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
@@ -35,6 +41,8 @@ export function SearchForm(props: SearchFormProps) {
   const queryHistory = useSearchStore((state) => state.searchQueryHistory);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
+  const [showMoreClicked, setShowMoreClicked] =
+    React.useState<ShowMoreClickedState>({});
 
   const {
     searchUrlParams,
@@ -137,22 +145,94 @@ export function SearchForm(props: SearchFormProps) {
     }
   }
 
+  function inputFacetOnSubmitHandler(value: string) {
+    const uniqValues = uniq(value.replace(/\s/g, "").split(","));
+
+    const newTerms = {
+      [projectConfig.inputFacetOptions]: uniqValues,
+    };
+
+    setSearchQuery({
+      ...searchQuery,
+      terms: newTerms,
+    });
+    onSearch();
+  }
+
+  function inputFacetOnBlurHandler(value: string) {
+    const uniqValues = uniq(value.replace(/\s/g, "").split(","));
+
+    const newTerms = {
+      [projectConfig.inputFacetOptions]: uniqValues,
+    };
+
+    setSearchQuery({
+      ...searchQuery,
+      terms: newTerms,
+    });
+  }
+
+  function fullTextSearchBarSubmitHandler(value: string) {
+    const sanitisedValue = value.trim();
+    updateFullText(sanitisedValue);
+    onSearch();
+  }
+
+  function fullTextSearchBarOnBlurHandler(value: string) {
+    updateFullText(value);
+  }
+
+  function showMoreButtonClickHandler(aggregation: string) {
+    const prevAggs = searchQuery.aggs;
+
+    const newAggs = prevAggs?.map((prevAgg) => {
+      if (!prevAgg.facetName.startsWith(aggregation)) return prevAgg;
+
+      const newAgg = {
+        ...prevAgg,
+        size: showMoreClicked[aggregation] ? 10 : 1000,
+      };
+
+      return newAgg;
+    });
+
+    const newQuery = {
+      ...searchQuery,
+      aggs: newAggs,
+    };
+
+    setSearchQuery(newQuery);
+
+    setShowMoreClicked({
+      ...showMoreClicked,
+      [aggregation]: !showMoreClicked[aggregation],
+    });
+
+    props.updateAggs(newQuery);
+  }
+
   return (
     <div className={searchFormClasses}>
       <div className="w-full max-w-[450px]">
         <FullTextSearchBar
           key={searchQuery.fullText}
           fullText={searchQuery.fullText}
-          onSubmit={(newFullText) => {
-            updateFullText(newFullText);
-            onSearch();
-          }}
+          onSubmit={fullTextSearchBarSubmitHandler}
+          onBlur={fullTextSearchBarOnBlurHandler}
         />
       </div>
 
       {projectConfig.showInputFacet && (
         <div className="w-full max-w-[450px]">
-          <InputFacet />
+          <InputFacet
+            onSubmit={inputFacetOnSubmitHandler}
+            onBlur={inputFacetOnBlurHandler}
+            key={searchQuery.terms[projectConfig.inputFacetOptions]?.toString()}
+            inputValue={
+              searchQuery.terms[projectConfig.inputFacetOptions]?.toString() ??
+              ""
+            }
+          />
         </div>
       )}
 
@@ -203,14 +283,38 @@ export function SearchForm(props: SearchFormProps) {
       {projectConfig.showKeywordFacets &&
         !isEmpty(keywordFacets) &&
         props.keywordFacets.map(([facetName, facetValue], i) => (
-          <div key={i} className="w-full max-w-[450px]">
-            <KeywordFacet
-              facetName={facetName}
-              facet={facetValue}
-              selectedFacets={searchQuery.terms}
-              onChangeKeywordFacet={updateKeywordFacet}
-            />
-          </div>
+          <>
+            <div
+              key={i}
+              className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
+            >
+              <KeywordFacet
+                facetName={facetName}
+                facet={facetValue}
+                selectedFacets={searchQuery.terms}
+                onChangeKeywordFacet={updateKeywordFacet}
+                onSearch={props.onSearch}
+                updateAggs={props.updateAggs}
+              />
+            </div>
+            {Object.keys(facetValue).length < 10 ? null : (
+              <div key={`btn-${i}`}>
+                {showMoreClicked[facetName] ? (
+                  <ShowLessButton
+                    showLessButtonClickHandler={() =>
+                      showMoreButtonClickHandler(facetName)
+                    }
+                    facetName={facetName}
+                  />
+                ) : (
+                  <ShowMoreButton
+                    showMoreButtonClickHandler={showMoreButtonClickHandler}
+                    facetName={facetName}
+                  />
+                )}
+              </div>
+            )}
+          </>
         ))}
     </div>
   );

@@ -40,6 +40,7 @@ export interface ProjectConfig {
   logoImageUrl: string;
   headerTitle: string;
   logoHref: string;
+  headerColor: string;
   showSearchQueryHistory: boolean;
   showDateFacets: boolean;
   showKeywordFacets: boolean;
@@ -57,7 +58,13 @@ export interface ProjectConfig {
   showMiradorNavigationButtons: boolean;
   showInputFacet: boolean;
   selectedLanguage: LanguageCode;
+  inputFacetOptions: string;
   languages: Language[];
+  overrideDefaultAggs: {
+    facetName: string;
+    order: string;
+    size: number;
+  }[];
   mirador: {
     showWindowSideBar: boolean;
     showTopMenuButton: boolean;
@@ -84,4 +91,6 @@ export interface ProjectConfig {
   };
 }
 
-export interface AnnotationItemProps { annotation: AnnoRepoAnnotation }
+export interface AnnotationItemProps {
+  annotation: AnnoRepoAnnotation;
+}

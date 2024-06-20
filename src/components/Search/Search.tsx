@@ -1,6 +1,6 @@
 import { Base64 } from "js-base64";
 import isEmpty from "lodash/isEmpty";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FacetNamesByType } from "../../model/Search";
@@ -19,8 +19,10 @@ import {
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
+import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
+import { createAggs } from "./util/createAggs.ts";
 import { createHighlights } from "./util/createHighlights.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
@@ -33,6 +35,14 @@ export const Search = () => {
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
   const [index, setIndex] = useState<FacetNamesByType>({});
   const [urlParams, setUrlParams] = useSearchParams();
+  const [selectedFacets, setSelectedFacets] = React.useState<SearchQuery>({
+    dateFrom: "",
+    dateTo: "",
+    rangeFrom: "",
+    rangeTo: "",
+    fullText: "",
+    terms: {},
+  });
   const translate = useProjectStore(translateSelector);
   const {
     searchUrlParams,
@@ -48,8 +58,8 @@ export const Search = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    initSearch().catch((error) => {
-      console.error(error);
+    initSearch().catch(() => {
+      handleAbortControllerAbort(signal);
     });
 
     /**
@@ -67,38 +77,51 @@ export const Search = () => {
       }
       const queryDecoded = getUrlQuery(urlParams);
 
-      const newSearchQuery: SearchQuery = {
-        ...searchQuery,
-        dateFrom: projectConfig.initialDateFrom,
-        dateTo: projectConfig.initialDateTo,
-        rangeFrom: projectConfig.initialRangeFrom,
-        rangeTo: projectConfig.initialRangeTo,
-        ...queryDecoded,
-      };
       const newIndices = await getElasticIndices(projectConfig, signal);
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
+      const newIndex: FacetNamesByType =
+        newIndices[projectConfig.elasticIndexName];
+      const aggregations = createAggs(newIndex, projectConfig);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      const newFacets = await getFacets(projectConfig, signal);
-      const newIndex = newIndices[projectConfig.elasticIndexName];
+      const newFacets = await getFacets(
+        projectConfig,
+        aggregations,
+        searchQuery,
+        signal,
+      );
+
       const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
-      if (!isEmpty(newDateFacets)) {
-        newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
-      }
-      if (projectConfig.showSliderFacets) {
-        newSearchQuery.rangeFacet = "text.tokenCount";
-      }
+
       const newKeywordFacets = filterFacetsByType(
         newIndex,
         newFacets,
         "keyword",
       );
 
+      const newSearchQuery: SearchQuery = {
+        ...searchQuery,
+        aggs: aggregations,
+        dateFrom: projectConfig.initialDateFrom,
+        dateTo: projectConfig.initialDateTo,
+        rangeFrom: projectConfig.initialRangeFrom,
+        rangeTo: projectConfig.initialRangeTo,
+        ...queryDecoded,
+      };
+
+      if (!isEmpty(newDateFacets)) {
+        newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
+      }
+      if (projectConfig.showSliderFacets) {
+        newSearchQuery.rangeFacet = "text.tokenCount";
+      }
+
       setKeywordFacets(newKeywordFacets);
       setIndex(newIndex);
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
+      setSelectedFacets(newSearchQuery);
 
       if (queryDecoded?.fullText) {
         await getSearchResults(
@@ -113,7 +136,7 @@ export const Search = () => {
       setInit(true);
     }
     return () => {
-      controller.abort();
+      controller.abort("useEffect cleanup cycle");
     };
   }, []);
 
@@ -149,16 +172,51 @@ export const Search = () => {
     }
 
     async function searchWhenDirty() {
+      const isEmptySearch =
+        searchQuery.fullText.length === 0 &&
+        !projectConfig.allowEmptyStringSearch;
+
+      if (isEmptySearch) {
+        toast(translate("NO_SEARCH_STRING"), {
+          type: "warning",
+        });
+        setDirty(false);
+        return;
+      }
+
+      setShowingResults(true);
+
       updateSearchQueryHistory(searchQuery);
+      setSelectedFacets(searchQuery);
 
       await getSearchResults(index, searchUrlParams, searchQuery, signal);
       setDirty(false);
     }
 
     return () => {
-      controller.abort();
+      controller.abort("useEffect cleanup cycle");
     };
   }, [isDirty]);
+
+  async function updateAggs(query: SearchQuery) {
+    const newParams = {
+      ...searchUrlParams,
+      indexName: projectConfig.elasticIndexName,
+      size: 0,
+    };
+
+    const searchResults = await sendSearchQuery(
+      projectConfig,
+      newParams,
+      toRequestBody(query),
+    );
+
+    if (!searchResults) {
+      return;
+    }
+
+    setKeywordFacets(filterFacetsByType(index, searchResults.aggs, "keyword"));
+  }
 
   async function getSearchResults(
     facetsByType: FacetNamesByType,
@@ -192,18 +250,18 @@ export const Search = () => {
       filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
     );
     setTextToHighlight(createHighlights(searchResults, exactSearch));
-    const target = document.getElementById("searchContainer");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    // const target = document.getElementById("searchContainer");
+    // if (target) {
+    //   target.scrollIntoView({ behavior: "smooth" });
+    // }
   }
 
   function handleNewSearch(stayOnPage?: boolean) {
     if (!stayOnPage) {
       resetPage();
     }
+
     setDirty(true);
-    setShowingResults(true);
   }
 
   return (
@@ -211,7 +269,11 @@ export const Search = () => {
       id="searchContainer"
       className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
     >
-      <SearchForm onSearch={handleNewSearch} keywordFacets={keywordFacets} />
+      <SearchForm
+        onSearch={handleNewSearch}
+        keywordFacets={keywordFacets}
+        updateAggs={updateAggs}
+      />
       <SearchResultsColumn>
         {/* Wait for init, to prevent a flicker of info page before results are shown: */}
         {!isShowingResults && isInit && (
@@ -220,7 +282,7 @@ export const Search = () => {
         {isShowingResults && (
           <SearchResults
             onSearch={handleNewSearch}
-            keywordFacets={keywordFacets}
+            selectedFacets={selectedFacets}
           />
         )}
       </SearchResultsColumn>

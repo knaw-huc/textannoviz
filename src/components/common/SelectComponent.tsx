@@ -38,7 +38,7 @@ export function SelectComponent<T extends object>({
       <Button
         className={`${
           buttonWidth ? buttonWidth : "w-[150px]"
-        } border-brand1Grey-700 flex cursor-default items-center justify-between rounded border bg-white px-2 py-1 text-sm focus:outline-none`}
+        } border-brand1Grey-700 flex cursor-default items-center justify-between rounded border bg-white px-2 py-1 text-sm`}
       >
         <SelectValue className="truncate" />
         <ChevronDownIcon className="h-4 w-4" />

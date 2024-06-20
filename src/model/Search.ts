@@ -23,6 +23,8 @@ export interface RepublicSearchResultBody {
   sessionYear: number;
   sessionWeekday: string;
   propositionType: string;
+  resolutionType: string;
+  textType: string;
   _hits: {
     text: string[];
   };
@@ -49,6 +51,9 @@ export type TranslatinSearchResultsBody = {
 export type MondriaanSearchResultsBody = {
   _id: string;
   bodyType: string;
+  correspondent: string;
+  sender: string;
+  period: string;
   type: string;
   _hits: {
     text: string[];
@@ -58,6 +63,7 @@ export type MondriaanSearchResultsBody = {
 export type VanGoghSearchResultsBody = {
   _id: string;
   correspondent: string;
+  sender: string;
   institution: string;
   location: string;
   msid: string;
@@ -97,7 +103,7 @@ export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
   };
 };
 
-export type FacetType = "date" | "keyword";
+export type FacetType = "date" | "keyword" | "short";
 
 export type FacetNamesByType = {
   [key: FacetName]: FacetType;

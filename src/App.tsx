@@ -31,12 +31,26 @@ async function fetchExternalConfig(): Promise<ExternalConfig | null> {
 }
 
 if (import.meta.env.PROD && config.useExternalConfig === true) {
-  const serverConfig = await fetchExternalConfig();
+  const externalConfig = await fetchExternalConfig();
 
-  if (serverConfig) {
-    config.elasticIndexName = serverConfig.indexName;
-    config.initialDateFrom = serverConfig.initialDateFrom;
-    config.initialDateTo = serverConfig.initialDateTo;
+  if (externalConfig) {
+    const {
+      indexName,
+      initialDateFrom,
+      initialDateTo,
+      initialRangeFrom,
+      initialRangeTo,
+      maxRange,
+      broccoliUrl,
+    } = externalConfig;
+
+    config.elasticIndexName = indexName;
+    if (initialDateFrom) config.initialDateFrom = initialDateFrom;
+    if (initialDateTo) config.initialDateTo = initialDateTo;
+    if (initialRangeFrom) config.initialRangeFrom = initialRangeFrom;
+    if (initialRangeTo) config.initialRangeTo = initialRangeTo;
+    if (maxRange) config.maxRange = maxRange;
+    if (broccoliUrl) config.broccoliUrl = broccoliUrl;
   }
 }
 

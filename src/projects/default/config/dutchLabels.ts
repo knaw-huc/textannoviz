@@ -59,6 +59,7 @@ export const dutchLabels: Labels = {
   NO_INDICES_FOUND: "Geen zoek indices gevonden",
   NO_SEARCH_RESULTS:
     "Geen zoekresultaten. Probeer een andere combinatie van facetten.",
+  NO_SEARCH_STRING: "Geen zoekterm opgegeven. Geef een zoekterm op.",
 
   DATE: "Datum",
 };

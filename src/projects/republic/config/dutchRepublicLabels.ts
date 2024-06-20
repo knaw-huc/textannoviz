@@ -2,13 +2,6 @@ import { dutchLabels } from "../../default/config/dutchLabels.ts";
 
 export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   // facet translations:
-  Lunæ: "Maandag",
-  Martis: "Dinsdag",
-  Mercurii: "Woensdag",
-  Jovis: "Donderdag",
-  Veneris: "Vrijdag",
-  Sabbathi: "Zaterdag",
-  Dominica: "Zondag",
   Resolution: "Resolutie",
   AttendanceList: "Presentielijst",
 
@@ -29,6 +22,8 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   bodyType: "Type",
   propositionType: "Propositietype",
   sliderFacetLabel: "Aantal woorden in resoluties",
+  resolutionType: "Resolutietype",
+  textType: "Teksttype",
 
   // text panel titles:
   self: "Tekst",

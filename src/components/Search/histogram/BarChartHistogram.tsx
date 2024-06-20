@@ -31,7 +31,11 @@ export const BarChartHistogram = (props: BarChartHistorgramProps) => (
       <YAxis dataKey="count" allowDecimals={false} />
       <Tooltip />
       <Legend />
-      <Bar dataKey="count" name="Occurrences per year" fill="#8884d8" />
+      <Bar
+        dataKey="count"
+        name="Occurrences per year"
+        fill="hsl(32, 95%, 64%)"
+      />
     </BarChart>
   </ResponsiveContainer>
 );
