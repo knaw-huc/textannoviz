@@ -62,7 +62,7 @@ export function LanguageIcon(props: {
 }) {
   return (
     <button
-      className={props.selected ? "selected" : ""}
+      className={props.selected ? "selected" : "hover:underline"}
       onClick={() => props.onClick(props.code)}
     >
       {props.code.toUpperCase()}
