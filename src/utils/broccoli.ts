@@ -73,7 +73,7 @@ export const sendSearchQuery = async (
 
 export const getElasticIndices = async (
   projectConfig: ProjectConfig,
-  signal: AbortSignal,
+  signal?: AbortSignal,
 ) => {
   const response = await fetch(
     `${projectConfig.broccoliUrl}/brinta/${projectConfig.id}/indices`,

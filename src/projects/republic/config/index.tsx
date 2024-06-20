@@ -40,8 +40,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",
-  initialRangeTo: "62000",
-  maxRange: 62000,
+  initialRangeTo: "66000",
+  maxRange: 66000,
   logoImageUrl: logo,
   headerColor: "bg-brand1-950 text-brand1-400",
   headerTitle: "",
@@ -54,6 +54,13 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
   showMiradorNavigationButtons: true,
+  overrideDefaultAggs: [
+    {
+      facetName: "sessionYear",
+      order: "countDesc",
+      size: 250,
+    },
+  ],
   components: {
     MetadataPanel,
     SearchItem,

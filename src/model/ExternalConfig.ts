@@ -5,4 +5,5 @@ export type ExternalConfig = {
   initialRangeFrom?: string;
   initialRangeTo?: string;
   maxRange?: number;
+  broccoliUrl?: string;
 };

@@ -19,8 +19,10 @@ import {
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
+import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
+import { createAggs } from "./util/createAggs.ts";
 import { createHighlights } from "./util/createHighlights.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
@@ -56,8 +58,8 @@ export const Search = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    initSearch().catch((error) => {
-      console.error(error);
+    initSearch().catch(() => {
+      handleAbortControllerAbort(signal);
     });
 
     /**
@@ -75,33 +77,45 @@ export const Search = () => {
       }
       const queryDecoded = getUrlQuery(urlParams);
 
+      const newIndices = await getElasticIndices(projectConfig, signal);
+      if (!newIndices) {
+        return toast(translate("NO_INDICES_FOUND"), { type: "error" });
+      }
+      const newIndex: FacetNamesByType =
+        newIndices[projectConfig.elasticIndexName];
+      const aggregations = createAggs(newIndex, projectConfig);
+      const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
+      const newFacets = await getFacets(
+        projectConfig,
+        aggregations,
+        searchQuery,
+        signal,
+      );
+
+      const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
+
+      const newKeywordFacets = filterFacetsByType(
+        newIndex,
+        newFacets,
+        "keyword",
+      );
+
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
+        aggs: aggregations,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
         rangeFrom: projectConfig.initialRangeFrom,
         rangeTo: projectConfig.initialRangeTo,
         ...queryDecoded,
       };
-      const newIndices = await getElasticIndices(projectConfig, signal);
-      if (!newIndices) {
-        return toast(translate("NO_INDICES_FOUND"), { type: "error" });
-      }
-      const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      const newFacets = await getFacets(projectConfig, signal);
-      const newIndex = newIndices[projectConfig.elasticIndexName];
-      const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
+
       if (!isEmpty(newDateFacets)) {
         newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
       }
       if (projectConfig.showSliderFacets) {
         newSearchQuery.rangeFacet = "text.tokenCount";
       }
-      const newKeywordFacets = filterFacetsByType(
-        newIndex,
-        newFacets,
-        "keyword",
-      );
 
       setKeywordFacets(newKeywordFacets);
       setIndex(newIndex);
@@ -122,7 +136,7 @@ export const Search = () => {
       setInit(true);
     }
     return () => {
-      controller.abort();
+      controller.abort("useEffect cleanup cycle");
     };
   }, []);
 
@@ -158,10 +172,11 @@ export const Search = () => {
     }
 
     async function searchWhenDirty() {
-      if (
+      const isEmptySearch =
         searchQuery.fullText.length === 0 &&
-        !projectConfig.allowEmptyStringSearch
-      ) {
+        !projectConfig.allowEmptyStringSearch;
+
+      if (isEmptySearch) {
         toast(translate("NO_SEARCH_STRING"), {
           type: "warning",
         });
@@ -179,9 +194,29 @@ export const Search = () => {
     }
 
     return () => {
-      controller.abort();
+      controller.abort("useEffect cleanup cycle");
     };
   }, [isDirty]);
+
+  async function updateAggs(query: SearchQuery) {
+    const newParams = {
+      ...searchUrlParams,
+      indexName: projectConfig.elasticIndexName,
+      size: 0,
+    };
+
+    const searchResults = await sendSearchQuery(
+      projectConfig,
+      newParams,
+      toRequestBody(query),
+    );
+
+    if (!searchResults) {
+      return;
+    }
+
+    setKeywordFacets(filterFacetsByType(index, searchResults.aggs, "keyword"));
+  }
 
   async function getSearchResults(
     facetsByType: FacetNamesByType,
@@ -215,10 +250,10 @@ export const Search = () => {
       filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
     );
     setTextToHighlight(createHighlights(searchResults, exactSearch));
-    const target = document.getElementById("searchContainer");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    // const target = document.getElementById("searchContainer");
+    // if (target) {
+    //   target.scrollIntoView({ behavior: "smooth" });
+    // }
   }
 
   function handleNewSearch(stayOnPage?: boolean) {
@@ -234,7 +269,11 @@ export const Search = () => {
       id="searchContainer"
       className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
     >
-      <SearchForm onSearch={handleNewSearch} keywordFacets={keywordFacets} />
+      <SearchForm
+        onSearch={handleNewSearch}
+        keywordFacets={keywordFacets}
+        updateAggs={updateAggs}
+      />
       <SearchResultsColumn>
         {/* Wait for init, to prevent a flicker of info page before results are shown: */}
         {!isShowingResults && isInit && (

@@ -1,28 +1,84 @@
 import { CheckIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import type { CheckboxGroupProps, CheckboxProps } from "react-aria-components";
-import { Checkbox, CheckboxGroup, Label } from "react-aria-components";
+import { Button, Checkbox, CheckboxGroup, Label } from "react-aria-components";
+import { SortAlphaAscIcon } from "./icons/SortAlphaAscIcon";
+import { SortAlphaDescIcon } from "./icons/SortAlphaDescIcon";
+import { SortNumDescIcon } from "./icons/SortNumDescIcon";
 
 interface CheckboxGroupComponentProps
   extends Omit<CheckboxGroupProps, "children"> {
   children?: React.ReactNode;
-  label?: string;
+  translatedLabel?: string;
+  dataLabel: string;
+  sortIconClickHandler: (agg: string, order: string) => void;
+  facetLength: number;
+  sortOrder: string | undefined;
 }
 
+type SortOrder = "countDesc" | "keyAsc" | "keyDesc";
+
 export function CheckboxGroupComponent({
-  label,
+  translatedLabel,
+  dataLabel,
   children,
   ...props
 }: CheckboxGroupComponentProps) {
+  function sortIconClickHandler(agg: string, order: SortOrder) {
+    if (props.sortOrder === order) return;
+
+    props.sortIconClickHandler(agg, order);
+  }
+
   return (
-    <CheckboxGroup {...props} className="flex flex-col gap-2">
-      <Label className="font-semibold" tabIndex={0}>
-        {label}
-      </Label>
-      {children}
-      <div className="sr-only">
-        <a href="#resultsList">Jump to search results</a>
-      </div>
+    <CheckboxGroup
+      {...props}
+      className="bg-brand2-50 flex flex-col gap-2 rounded pb-2"
+    >
+      <>
+        <div className="border-brand2-100 bg-brand2-100 flex h-12 flex-col items-start rounded-t border-b-2">
+          <div className="flex h-12 w-full flex-row items-center pr-2">
+            <Label className="w-full pl-3 font-semibold">
+              {translatedLabel}
+            </Label>
+            <div className="flex flex-row gap-1">
+              <Button
+                onPress={() => sortIconClickHandler(dataLabel, "keyAsc")}
+                className={`${
+                  props.sortOrder === "keyAsc"
+                    ? "fill-black"
+                    : "fill-brand2-500"
+                } outline-none transition hover:fill-black`}
+              >
+                <SortAlphaAscIcon />
+              </Button>
+              <span className="text-brand2-400 text-2xl"> | </span>
+              <Button
+                onPress={() => sortIconClickHandler(dataLabel, "keyDesc")}
+                className={`${
+                  props.sortOrder === "keyDesc"
+                    ? "fill-black"
+                    : "fill-brand2-500"
+                } outline-none transition hover:fill-black`}
+              >
+                <SortAlphaDescIcon />
+              </Button>
+              <span className="text-brand2-400 text-2xl"> | </span>
+              <Button
+                onPress={() => sortIconClickHandler(dataLabel, "countDesc")}
+                className={`${
+                  props.sortOrder === "countDesc"
+                    ? "fill-black"
+                    : "fill-brand2-500"
+                } outline-none transition hover:fill-black`}
+              >
+                <SortNumDescIcon />
+              </Button>
+            </div>
+          </div>
+        </div>
+        {children}
+      </>
     </CheckboxGroup>
   );
 }
@@ -36,7 +92,10 @@ export function CheckboxComponent({
   ...props
 }: CheckboxComponentProps) {
   return (
-    <Checkbox {...props} className="group flex items-center gap-2 transition">
+    <Checkbox
+      {...props}
+      className="group flex items-center gap-2 pb-1 pl-2 pt-1 transition"
+    >
       {({ isSelected }) => (
         <>
           <div

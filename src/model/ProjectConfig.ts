@@ -60,6 +60,11 @@ export interface ProjectConfig {
   selectedLanguage: LanguageCode;
   inputFacetOptions: string;
   languages: Language[];
+  overrideDefaultAggs: {
+    facetName: string;
+    order: string;
+    size: number;
+  }[];
   mirador: {
     showWindowSideBar: boolean;
     showTopMenuButton: boolean;
