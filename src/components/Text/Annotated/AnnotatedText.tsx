@@ -24,7 +24,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const { tier2, highlight } = useDetailUrlParams();
   // TODO: clean up dummy search terms
   const useDummy = tier2 === DUMMY_ANNOTATION_RESOLUTION;
-  console.log("AnnotatedText", { useDummy });
+  // console.log("AnnotatedText", { useDummy });
   const dummySearchTerms = "Huijgens Bronchoven rdam";
   const searchTerms = useDummy ? dummySearchTerms : highlight;
 
@@ -47,15 +47,15 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const searchRegex = createSearchRegex(searchTerms, tier2);
   const searchOffsets = createLineSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
-  console.debug("LogicalTextHighlighting", {
-    typesToHighlight,
-    annotationsToHighlight,
-    positions,
-    searchTerms,
-    searchRegex,
-    searchOffsets,
-    offsets,
-  });
+  // console.debug("LogicalTextHighlighting", {
+  //   typesToHighlight,
+  //   annotationsToHighlight,
+  //   positions,
+  //   searchTerms,
+  //   searchRegex,
+  //   searchOffsets,
+  //   offsets,
+  // });
 
   function getActiveAnnotationId(segment: Segment) {
     const nestedAnnotations = segment.annotations.filter(
