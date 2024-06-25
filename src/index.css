@@ -297,18 +297,18 @@ em {
 .depth-correction,
 .search-highlight {
   display: inline-block;
-  white-space: pre;
+  /* white-space: pre; */
 }
 
 .depth-correction,
 .nested-annotation {
   margin-bottom: 2px;
-  border-bottom: 1px solid;
+  /* border-bottom: 1px solid; */
 }
 
 .hover-underline {
-  margin-bottom: 1px;
-  border-bottom: 2px solid;
+  /* margin-bottom: 1px;
+  border-bottom: 2px solid; */
 }
 
 .depth-correction {
@@ -452,5 +452,90 @@ input:valid + span::after {
         background: hsl(350, 45%, 20%);
       }
     }
+  }
+}
+
+@layer components {
+  .annotated-segment {
+    @apply relative;
+  }
+
+  .annotated-segment span {
+    @apply inline;
+  }
+
+  .annotated-segment span span {
+    @apply inline border-t-4;
+  }
+
+  .annotated-segment span span span {
+    @apply inline border-b-4;
+  }
+
+  .annotated-segment span span span span {
+    @apply inline border-t-4 pt-1;
+  }
+
+  .annotated-segment span span span span {
+    @apply inline border-b-4 pb-1;
+  }
+
+  /* before:-translate-y-6 */
+
+  .underlined-com {
+    @apply border-red-500;
+  }
+
+  .start-annotation {
+    @apply before:inline-block before:font-sans before:text-xs;
+  }
+
+  .underlined-com.start-annotation {
+    @apply before:text-red-700 before:content-['C'];
+  }
+
+  .underlined-per {
+    @apply border-yellow-600;
+  }
+
+  .underlined-per.start-annotation {
+    @apply before:text-yellow-500 before:content-['P'];
+  }
+
+  .underlined-hoe {
+    @apply border-emerald-600;
+  }
+  .underlined-hoe.start-annotation {
+    @apply before:text-emerald-500 before:content-['H'];
+  }
+
+  .underlined-loc {
+    @apply border-blue-500;
+  }
+
+  .underlined-loc.start-annotation {
+    @apply before:text-blue-500 before:content-['L'];
+  }
+
+  .underlined-org {
+    @apply border-pink-400;
+  }
+
+  .underlined-org {
+    @apply border-pink-400;
+  }
+
+  .underlined-com-underline {
+    @apply border-b border-red-500;
+  }
+
+  .underlined-org {
+    @apply bg-pink-400/50;
+  }
+}
+
+@layer utilities {
+  .bigLine {
+    line-height: 3rem;
   }
 }
