@@ -4,7 +4,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import {
   Dialog,
   Heading,
@@ -60,15 +60,16 @@ export const Footer = (props: FooterProps) => {
     <div className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
       <div className="mx-auto flex w-full flex-col justify-between lg:flex-row">
         <div className="flex w-full flex-row justify-start gap-8 lg:w-2/5">
-          <button className="flex flex-row items-center gap-1 py-1 pl-10 text-neutral-500">
-            <Link
-              to={`/?${urlSearchParams}&query=${Base64.toBase64(cleanQuery)}`}
-              className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
-            >
-              <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
-              {translate("BACK_TO_SEARCH")}
-            </Link>
-          </button>
+          <FooterLink classes={["pl-10"]} to={""}>
+            &lt; Previous
+          </FooterLink>
+          <FooterLink
+            to={`/?${urlSearchParams}&query=${Base64.toBase64(cleanQuery)}`}
+          >
+            <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
+            {translate("BACK_TO_SEARCH")}
+          </FooterLink>
+          <FooterLink to={""}>Next &gt;</FooterLink>
           {projectConfig.showSearchResultsButtonFooter ? (
             <button
               className={`${
@@ -159,3 +160,25 @@ export const Footer = (props: FooterProps) => {
     </div>
   );
 };
+
+export function FooterLink(
+  props: PropsWithChildren<{
+    classes?: string[];
+    to: string;
+  }>,
+) {
+  const btnClassName = [
+    "flex flex-row items-center gap-1 py-1 text-neutral-500",
+    ...(props.classes ?? []),
+  ].join(" ");
+  return (
+    <button className={btnClassName}>
+      <Link
+        to={props.to}
+        className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
+      >
+        {props.children}
+      </Link>
+    </button>
+  );
+}
