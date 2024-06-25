@@ -101,7 +101,7 @@ export const Detail = (props: DetailProps) => {
     <>
       {broccoliResult ? (
         <>
-          <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
+          <main className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
             {showIiifViewer && props.config.showMirador ? (
               <Mirador broccoliResult={broccoliResult} />
             ) : null}
@@ -111,7 +111,7 @@ export const Detail = (props: DetailProps) => {
               isLoading={isLoading}
             />
             {showAnnotationPanel ? <Annotation isLoading={isLoading} /> : null}
-          </div>
+          </main>
           <div>
             <Footer
               showIiifViewerHandler={showIiifViewerHandler}

@@ -41,6 +41,7 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
       initialRangeFrom,
       initialRangeTo,
       maxRange,
+      broccoliUrl,
     } = externalConfig;
 
     config.elasticIndexName = indexName;
@@ -49,6 +50,7 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
     if (initialRangeFrom) config.initialRangeFrom = initialRangeFrom;
     if (initialRangeTo) config.initialRangeTo = initialRangeTo;
     if (maxRange) config.maxRange = maxRange;
+    if (broccoliUrl) config.broccoliUrl = broccoliUrl;
   }
 }
 

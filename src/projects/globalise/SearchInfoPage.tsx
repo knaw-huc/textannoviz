@@ -72,7 +72,7 @@ export const SearchInfoPage = () => {
         , also under a CC0 license. Please reference the GLOBALISE project and
         the National Archives when using the v2.0 transcriptions using this
         format:{" "}
-        <code className="bg-gray-300">
+        <code className="bg-gray-300 text-[95%]">
           NL-HaNA, VOC, [inv.nr.], [scan nr.], transcription GLOBALISE project
           (https://globalise.huygens.knaw.nl/), March 2024.
         </code>
@@ -135,8 +135,16 @@ export const SearchInfoPage = () => {
         Infrastructure Department, KNAW Humanities Cluster using the{" "}
         <a href="https://github.com/knaw-huc/loghi">
           Loghi open-source HTR platform
-        </a>
-        .
+        </a>{" "}
+        in conjunction with the following GLOBALISE models:{" "}
+        <a href="https://hdl.handle.net/10622/VMSCBR">Laypa Baseline Model</a>{" "}
+        (August, 2023),{" "}
+        <a href="https://hdl.handle.net/10622/DMAS2T">Laypa Region Model</a>{" "}
+        (August, 2023),{" "}
+        <a href="https://hdl.handle.net/10622/X2JZYY">
+          Loghi Handwritten Text Recognition Model
+        </a>{" "}
+        (August, 2023).
       </p>
 
       <p className="mb-4 mt-4 block">
@@ -160,41 +168,45 @@ export const SearchInfoPage = () => {
         their prior work in this area. Reference transcriptions and region
         layout data to finetune the HTR models for the GLOBALISE corpus were
         created by GLOBALISE team members Kay Pepping, Maartje Hids, Merve
-        Tosun, and Femke Brink.
+        Tosun, Femke Brink, and Marja Swüste.
       </p>
 
       <h4>Release Notes</h4>
 
-      <p className="mb-4 mt-4 block">v0.3 (May 2024)</p>
+      <p className="mb-4 mt-4 block">v0.3 (June 2024)</p>
 
       <ul className="mb-4 mt-4 block list-disc pl-10">
         <li className="list-item">
-          New (v2.0) HTR with more accurate transcriptions and improved
+          New: Improved HTR (v2.0) with more accurate transcriptions and
           (PageXML) layout elements.
         </li>
         <li className="list-item">
           {" "}
+          New:{" "}
           <a href="https://transcriptions.globalise.huygens.knaw.nl/help">
             Filter search results
           </a>{" "}
-          by VOC archive{" "}
+          by single or multiple VOC archive{" "}
           <a href="https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02">
             inventory numbers
           </a>
           .
         </li>
         <li className="list-item">
-          Ability to goto a specific page in the search results.
+          New: Ability to go to a specific page in the search results.
         </li>
         <li className="list-item">
-          Searching without a search term now displays an alert message.
+          New: Added inventory no. to page titles in search results.
         </li>
         <li className="list-item">
-          Icons in the Mirador image view now always appear in the correct
-          position.
+          Fixed: Searching without a search term now displays an alert message.
         </li>
         <li className="list-item">
-          Search results with more than 10,000 items now show the correct
+          Fixed: Icons in the Mirador image view now always appear in the
+          correct position.
+        </li>
+        <li className="list-item">
+          Fixed: Search results with more than 10,000 items now show the correct
           totals.
         </li>
       </ul>

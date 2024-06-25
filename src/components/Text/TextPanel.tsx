@@ -34,7 +34,7 @@ export const TextPanel = (props: TextPanelProps) => {
           onClick={() => props.closePanelHandler(props.panel)}
         />
       )}
-      <strong className="text-brand1Grey-800 mb-4 block border-b">
+      <strong className="text-brand1Grey-800 mb-4 block border-b" tabIndex={0}>
         {translateProject(`${props.panel}`)}
       </strong>
       <AnnotatedText text={props.text} />

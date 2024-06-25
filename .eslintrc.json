@@ -29,5 +29,5 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off"
   },
-  "ignorePatterns": ["postcss.config.js"]
+  "ignorePatterns": ["tailwind.*", "*.cjs", "*.js"]
 }

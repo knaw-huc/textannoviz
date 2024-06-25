@@ -8,6 +8,7 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
@@ -17,13 +18,14 @@ import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
-import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 
-export function SearchResults(props: {
+type SearchResultsProps = {
   query: SearchQuery;
   onSearch: (stayOnPage?: boolean) => void;
-}) {
-  const { onSearch } = props;
+  selectedFacets: SearchQuery;
+};
+
+export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const {
     searchUrlParams,
@@ -53,7 +55,7 @@ export function SearchResults(props: {
       sortBy: sorting.field,
       sortOrder: sorting.order,
     });
-    onSearch();
+    props.onSearch();
   }
 
   function selectPrevPage() {
@@ -83,7 +85,7 @@ export function SearchResults(props: {
       ...searchUrlParams,
       from: newFrom,
     });
-    onSearch(true);
+    props.onSearch(true);
   }
 
   const changePageSize = (key: Key) => {
@@ -94,7 +96,7 @@ export function SearchResults(props: {
       ...searchUrlParams,
       size: key as number,
     });
-    onSearch();
+    props.onSearch();
   };
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
@@ -102,7 +104,7 @@ export function SearchResults(props: {
     removeTerm(newTerms, facet, option);
     setSearchQuery({ ...searchQuery, terms: newTerms });
     setSearchUrlParams({ ...searchUrlParams });
-    onSearch();
+    props.onSearch();
   }
 
   if (!searchResults) {
@@ -133,7 +135,7 @@ export function SearchResults(props: {
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
     });
-    onSearch();
+    props.onSearch();
   }
 
   function returnToPrevDateRange() {
@@ -148,7 +150,7 @@ export function SearchResults(props: {
       dateTo: prevQuery.dateTo,
     });
 
-    onSearch();
+    props.onSearch();
   }
 
   return (
@@ -181,23 +183,25 @@ export function SearchResults(props: {
       </div>
       <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-8">
         {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
-          <div className="flex w-full flex-row items-center justify-start gap-2">
-            <span className="text-brand1Grey-600 text-sm">
-              {translate("FILTERS")}:{" "}
-            </span>
-            {Object.entries(searchQuery.terms).map(
-              ([facetOptionName, facetOptions]) =>
-                facetOptions.map((facetOption, index) => {
-                  return (
-                    <KeywordFacetLabel
-                      key={index}
-                      option={facetOption}
-                      facet={facetOptionName}
-                      onRemove={removeFacet}
-                    />
-                  );
-                }),
-            )}
+          <div className="flex w-full flex-row items-center justify-start">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <span className="text-brand1Grey-600 text-sm">
+                {translate("FILTERS")}:{" "}
+              </span>
+              {Object.entries(searchQuery.terms).map(
+                ([facetOptionName, facetOptions]) =>
+                  facetOptions.map((facetOption, index) => {
+                    return (
+                      <KeywordFacetLabel
+                        key={index}
+                        option={facetOption}
+                        facet={facetOptionName}
+                        onRemove={removeFacet}
+                      />
+                    );
+                  }),
+              )}
+            </div>
           </div>
         )}
 
@@ -233,33 +237,34 @@ export function SearchResults(props: {
           />
         </>
       ) : null}
-
-      {searchResults.results.length >= 1 &&
-        searchResults.results.map((result, index) => (
-          <projectConfig.components.SearchItem
-            key={index}
-            result={result}
-            query={props.query}
+      <div id="resultsList">
+        {searchResults.results.length >= 1 &&
+          searchResults.results.map((result, index) => (
+            <projectConfig.components.SearchItem
+              key={index}
+              result={result}
+              query={props.query}
+            />
+          ))}
+        {searchResults.results.length >= 1 && (
+          <SearchPagination
+            prevPageClickHandler={selectPrevPage}
+            nextPageClickHandler={selectNextPage}
+            pageNumber={pageNumber}
+            searchResult={searchResults}
+            elasticSize={pageSize}
+            jumpToPage={jumpToPage}
           />
-        ))}
-      {searchResults.results.length >= 1 && (
-        <SearchPagination
-          prevPageClickHandler={selectPrevPage}
-          nextPageClickHandler={selectNextPage}
-          pageNumber={pageNumber}
-          searchResult={searchResults}
-          elasticSize={pageSize}
-          jumpToPage={jumpToPage}
-        />
-      )}
+        )}
+      </div>
     </>
   );
 }
 
 export function SearchResultsColumn(props: { children?: ReactNode }) {
   return (
-    <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
+    <main className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
       {props.children}
-    </div>
+    </main>
   );
 }

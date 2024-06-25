@@ -129,7 +129,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   return (
     <>
       {textLinesToDisplay.map((lines, index) => (
-        <div key={index} className="leading-loose">
+        <div key={index} className="leading-loose" tabIndex={0}>
           {lines.map((line, index) => (
             <span key={index}>{renderLine(line, index)}</span>
           ))}

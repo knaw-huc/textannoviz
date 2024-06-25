@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
+import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { MetadataPanel } from "../MetadataPanel.tsx";
@@ -9,6 +9,7 @@ import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
+  broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
   colours: {
     resolution: "green",
     attendant: "#DB4437",
@@ -28,7 +29,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     // "TextRegion",
     "Scan",
   ],
-  // TODO: remove?
+  // TODO: remove resolution and entity (added for testing purposes)
   annotationTypesToHighlight: ["Resolution", "Attendant", "Entity"],
   allowedAnnotationTypesToHighlight: [
     "AttendanceList",
@@ -36,15 +37,15 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Resolution",
     "Reviewed",
   ],
-  // elasticIndexName: "republic-2024.01.19-wc",
-  elasticIndexName: "republic-2024.05.17",
+  elasticIndexName: "republic-2024.06.18",
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",
-  initialRangeTo: "62000",
-  maxRange: 62000,
+  initialRangeTo: "66000",
+  maxRange: 66000,
   logoImageUrl: logo,
-  headerTitle: "REPUBLIC",
+  headerColor: "bg-brand1-950 text-brand1-400",
+  headerTitle: "",
   logoHref: "https://republic.huygens.knaw.nl/",
   histogramFacet: "sessionYear",
   showHistogram: true,
@@ -54,6 +55,13 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
   showMiradorNavigationButtons: true,
+  overrideDefaultAggs: [
+    {
+      facetName: "sessionYear",
+      order: "countDesc",
+      size: 250,
+    },
+  ],
   components: {
     MetadataPanel,
     SearchItem,
