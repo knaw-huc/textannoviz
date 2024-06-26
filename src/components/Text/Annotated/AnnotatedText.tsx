@@ -83,7 +83,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   }
 
   return (
-    <div className="leading-loose">
+    <div className="leading-[4rem]">
       {props.text.lines.map((line, index) => (
         <div key={index} className="w-fit">
           <SegmentedLine
