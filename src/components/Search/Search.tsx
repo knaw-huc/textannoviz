@@ -50,7 +50,7 @@ export const Search = () => {
     setSearchQuery,
     setSearchResults,
     updateSearchQueryHistory,
-    resetPage,
+    toFirstPage,
   } = useSearchStore();
 
   useEffect(() => {
@@ -247,11 +247,12 @@ export const Search = () => {
     // }
   }
 
-  function handleNewSearch(stayOnPage?: boolean) {
-    if (!stayOnPage) {
-      resetPage();
-    }
+  function handleNewSearch() {
+    toFirstPage();
+    setDirty(true);
+  }
 
+  function handlePageChange() {
     setDirty(true);
   }
 
@@ -273,6 +274,7 @@ export const Search = () => {
         {isShowingResults && (
           <SearchResults
             onSearch={handleNewSearch}
+            onPageChange={handlePageChange}
             query={searchQuery}
             selectedFacets={selectedFacets}
           />

@@ -21,7 +21,8 @@ import { toPageNumber } from "./util/toPageNumber.ts";
 
 type SearchResultsProps = {
   query: SearchQuery;
-  onSearch: (stayOnPage?: boolean) => void;
+  onSearch: () => void;
+  onPageChange: () => void;
   selectedFacets: SearchQuery;
 };
 
@@ -85,7 +86,7 @@ export function SearchResults(props: SearchResultsProps) {
       ...searchUrlParams,
       from: newFrom,
     });
-    props.onSearch(true);
+    props.onPageChange();
   }
 
   const changePageSize = (key: Key) => {
