@@ -20,7 +20,7 @@ export function DepthCorrection(
     depthCorrection: number;
   }>,
 ) {
-  return props.children;
+  return <>{props.children}</>;
   // TODO:
   // if (!props.depthCorrection) {
   //   return <>{props.children}</>;
