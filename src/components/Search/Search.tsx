@@ -9,11 +9,10 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
 import {
   FacetEntry,
-  SearchQuery,
   filterFacetsByType,
+  SearchQuery,
   toRequestBody,
 } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -25,6 +24,7 @@ import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
+import { useSearchResults } from "./useSearchResults.tsx";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -52,6 +52,8 @@ export const Search = () => {
     updateSearchQueryHistory,
     toFirstPage,
   } = useSearchStore();
+
+  const { getSearchResults } = useSearchResults({ projectConfig });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -122,17 +124,22 @@ export const Search = () => {
       setSelectedFacets(newSearchQuery);
 
       if (queryDecoded?.fullText) {
-        await getSearchResults(
+        const searchResults = await getSearchResults(
           newIndex,
           newSearchParams,
           newSearchQuery,
           signal,
         );
+        if (searchResults) {
+          setSearchResults(searchResults.results);
+          setKeywordFacets(searchResults.facets);
+        }
         setShowingResults(true);
       }
 
       setInit(true);
     }
+
     return () => {
       controller.abort("useEffect cleanup cycle");
     };
@@ -187,7 +194,16 @@ export const Search = () => {
       updateSearchQueryHistory(searchQuery);
       setSelectedFacets(searchQuery);
 
-      await getSearchResults(index, searchUrlParams, searchQuery, signal);
+      const searchResults = await getSearchResults(
+        index,
+        searchUrlParams,
+        searchQuery,
+        signal,
+      );
+      if (searchResults) {
+        setSearchResults(searchResults.results);
+        setKeywordFacets(searchResults.facets);
+      }
       setDirty(false);
     }
 
@@ -214,37 +230,6 @@ export const Search = () => {
     }
 
     setKeywordFacets(filterFacetsByType(index, searchResults.aggs, "keyword"));
-  }
-
-  async function getSearchResults(
-    facetsByType: FacetNamesByType,
-    params: SearchUrlParams,
-    query: SearchQuery,
-    signal: AbortSignal,
-  ) {
-    if (!searchQuery.terms) {
-      return;
-    }
-
-    const newParams = { ...params, indexName: projectConfig.elasticIndexName };
-
-    const searchResults = await sendSearchQuery(
-      projectConfig,
-      newParams,
-      toRequestBody(query),
-      signal,
-    );
-    if (!searchResults) {
-      return;
-    }
-    setSearchResults(searchResults);
-    setKeywordFacets(
-      filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
-    );
-    // const target = document.getElementById("searchContainer");
-    // if (target) {
-    //   target.scrollIntoView({ behavior: "smooth" });
-    // }
   }
 
   function handleNewSearch() {
