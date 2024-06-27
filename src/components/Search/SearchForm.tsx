@@ -2,7 +2,7 @@ import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import React from "react";
-import { type Key } from "react-aria-components";
+import type { Key, Selection } from "react-aria-components";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -13,6 +13,7 @@ import {
 } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { DateFacet } from "./DateFacet.tsx";
+import { FacetFilter } from "./FacetFilter.tsx";
 import { FragmenterSelection } from "./FragmenterSelection.tsx";
 import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
 import { InputFacet } from "./InputFacet.tsx";
@@ -43,6 +44,8 @@ export function SearchForm(props: SearchFormProps) {
   const [isToDateValid, setIsToDateValid] = React.useState(true);
   const [showMoreClicked, setShowMoreClicked] =
     React.useState<ShowMoreClickedState>({});
+  const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
+  const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
 
   const {
     searchUrlParams,
@@ -58,6 +61,25 @@ export function SearchForm(props: SearchFormProps) {
     }, 250),
     [],
   );
+
+  React.useEffect(() => {
+    if (defaultAggsIsInit) return;
+    if (!isEmpty(props.keywordFacets)) {
+      const initialFilteredAggs = props.keywordFacets.reduce<string[]>(
+        (accumulator, keywordFacet) => {
+          if (
+            projectConfig.defaultKeywordAggsToRender.includes(keywordFacet[0])
+          ) {
+            accumulator.push(keywordFacet[0]);
+          }
+          return accumulator;
+        },
+        [],
+      );
+      setDefaultAggsIsInit(true);
+      setFilteredAggs(initialFilteredAggs);
+    }
+  }, [props.keywordFacets, projectConfig.defaultKeywordAggsToRender]);
 
   function updateKeywordFacet(
     facetName: string,
@@ -211,16 +233,10 @@ export function SearchForm(props: SearchFormProps) {
     props.updateAggs(newQuery);
   }
 
-  const filteredAggs = !isEmpty(props.keywordFacets)
-    ? props.keywordFacets.reduce<FacetEntry[]>((accumulator, keywordFacet) => {
-        if (
-          projectConfig.defaultKeywordAggsToRender.includes(keywordFacet[0])
-        ) {
-          accumulator.push(keywordFacet);
-        }
-        return accumulator;
-      }, [])
-    : [];
+  function facetFilterChangeHandler(keys: Selection) {
+    const updatedFilteredAggs = Array.from(keys) as string[];
+    setFilteredAggs(updatedFilteredAggs);
+  }
 
   return (
     <div className={searchFormClasses}>
@@ -291,41 +307,56 @@ export function SearchForm(props: SearchFormProps) {
         />
       )}
 
+      <div className="w-full max-w-[450px]">
+        <FacetFilter
+          allPossibleKeywordFacets={props.keywordFacets}
+          filteredKeywordFacets={filteredAggs}
+          facetFilterChangeHandler={facetFilterChangeHandler}
+        />
+      </div>
+
       {projectConfig.showKeywordFacets &&
-        filteredAggs.map(([facetName, facetValue], i) => (
-          <>
-            <div
-              key={i}
-              className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
-            >
-              <KeywordFacet
-                facetName={facetName}
-                facet={facetValue}
-                selectedFacets={searchQuery.terms}
-                onChangeKeywordFacet={updateKeywordFacet}
-                onSearch={props.onSearch}
-                updateAggs={props.updateAggs}
-              />
-            </div>
-            {Object.keys(facetValue).length < 10 ? null : (
-              <div key={`btn-${i}`}>
-                {showMoreClicked[facetName] ? (
-                  <ShowLessButton
-                    showLessButtonClickHandler={() =>
-                      showMoreButtonClickHandler(facetName)
-                    }
-                    facetName={facetName}
-                  />
-                ) : (
-                  <ShowMoreButton
-                    showMoreButtonClickHandler={showMoreButtonClickHandler}
-                    facetName={facetName}
-                  />
-                )}
+        !isEmpty(props.keywordFacets) &&
+        filteredAggs.map((facetName, index) => {
+          const facetValue = props.keywordFacets.find(
+            (facet) => facet[0] === facetName,
+          )?.[1];
+
+          return facetValue ? (
+            <>
+              <div
+                key={index}
+                className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
+              >
+                <KeywordFacet
+                  facetName={facetName}
+                  facet={facetValue}
+                  selectedFacets={searchQuery.terms}
+                  onChangeKeywordFacet={updateKeywordFacet}
+                  onSearch={props.onSearch}
+                  updateAggs={props.updateAggs}
+                />
               </div>
-            )}
-          </>
-        ))}
+              {Object.keys(facetValue).length < 10 ? null : (
+                <div key={`btn-${index}`}>
+                  {showMoreClicked[facetName] ? (
+                    <ShowLessButton
+                      showLessButtonClickHandler={() =>
+                        showMoreButtonClickHandler(facetName)
+                      }
+                      facetName={facetName}
+                    />
+                  ) : (
+                    <ShowMoreButton
+                      showMoreButtonClickHandler={showMoreButtonClickHandler}
+                      facetName={facetName}
+                    />
+                  )}
+                </div>
+              )}
+            </>
+          ) : null;
+        })}
     </div>
   );
 }
