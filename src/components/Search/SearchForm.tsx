@@ -307,7 +307,7 @@ export function SearchForm(props: SearchFormProps) {
         />
       )}
 
-      <div className="w-full max-w-[450px]">
+      <div className="flex w-full max-w-[450px] flex-col gap-4">
         <FacetFilter
           allPossibleKeywordFacets={props.keywordFacets}
           filteredKeywordFacets={filteredAggs}
