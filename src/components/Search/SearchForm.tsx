@@ -36,7 +36,7 @@ const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
 
 export function SearchForm(props: SearchFormProps) {
-  const { keywordFacets, onSearch } = props;
+  const { onSearch } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const queryHistory = useSearchStore((state) => state.searchQueryHistory);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
@@ -211,6 +211,17 @@ export function SearchForm(props: SearchFormProps) {
     props.updateAggs(newQuery);
   }
 
+  const filteredAggs = !isEmpty(props.keywordFacets)
+    ? props.keywordFacets.reduce<FacetEntry[]>((accumulator, keywordFacet) => {
+        if (
+          projectConfig.defaultKeywordAggsToRender.includes(keywordFacet[0])
+        ) {
+          accumulator.push(keywordFacet);
+        }
+        return accumulator;
+      }, [])
+    : [];
+
   return (
     <div className={searchFormClasses}>
       <div className="w-full max-w-[450px]">
@@ -281,8 +292,7 @@ export function SearchForm(props: SearchFormProps) {
       )}
 
       {projectConfig.showKeywordFacets &&
-        !isEmpty(keywordFacets) &&
-        props.keywordFacets.map(([facetName, facetValue], i) => (
+        filteredAggs.map(([facetName, facetValue], i) => (
           <>
             <div
               key={i}
