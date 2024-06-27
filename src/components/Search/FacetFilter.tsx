@@ -39,7 +39,7 @@ export function FacetFilter(props: FacetFilterProps) {
   return (
     <>
       <Button
-        className="bg-brand1-100 hover:bg-brand1-200 pressed:bg-brand1-300 text-brand1-700 hover:text-brand1-900 fill-brand1-700 flex w-fit flex-row items-center rounded px-2 py-2 text-sm outline-none"
+        className="bg-brand1-100 hover:bg-brand1-200 pressed:bg-brand1-300 text-brand1-700 hover:text-brand1-900 fill-brand1-700 hover:fill-brand1-900 flex w-fit flex-row items-center rounded px-2 py-2 text-sm outline-none"
         onPress={() => setIsOpen(!isOpen)}
       >
         Filter facets {!isOpen ? <ChevronRight /> : <ChevronDown />}
