@@ -293,27 +293,27 @@ em {
   text-decoration: underline;
 }
 
-.nested-annotation,
+/* .nested-annotation,
 .depth-correction,
 .search-highlight {
   display: inline-block;
   /* white-space: pre; */
-}
+/* } */
 
-.depth-correction,
+/* .depth-correction,
 .nested-annotation {
-  margin-bottom: 2px;
-  /* border-bottom: 1px solid; */
-}
+  margin-bottom: 2px; */
+/* border-bottom: 1px solid; */
+/* } */
 
-.hover-underline {
-  /* margin-bottom: 1px;
+/* .hover-underline { */
+/* margin-bottom: 1px;
   border-bottom: 2px solid; */
-}
+/* } */
 
-.depth-correction {
-  border-bottom-color: rgba(0, 0, 0, 0);
-}
+/* .depth-correction { */
+/* border-bottom-color: rgba(0, 0, 0, 0); */
+/* } */
 
 .text-button,
 .text-button:active,
@@ -323,7 +323,7 @@ em {
   background: none;
 }
 
-.underlined-resolution {
+/* .underlined-resolution {
   border-bottom-color: green;
 }
 
@@ -370,7 +370,7 @@ em {
 
 .underlined-dataset {
   border-bottom-color: rgb(202 138 4);
-}
+} */
 
 input:invalid {
   border: none;
@@ -456,6 +456,34 @@ input:valid + span::after {
 }
 
 @layer components {
+  /* nested annotations markup */
+
+  /* start marker icons */
+  .start-annotation {
+    @apply before:inline-block;
+  }
+
+  .underlined-per.start-annotation {
+    @apply before:text-yellow-500 before:content-[url('assets/icon-annotation-person.png')];
+  }
+
+  .underlined-hoe.start-annotation {
+    @apply before:text-emerald-500 before:content-[url('assets/icon-annotation-hoedanigheid.png')];
+  }
+
+  .underlined-org.start-annotation {
+    @apply before:text-pink-500 before:content-[url('assets/icon-annotation-organisation.png')];
+  }
+
+  .underlined-com.start-annotation {
+    @apply before:text-red-700 before:content-[url('assets/icon-annotation-commision.png')];
+  }
+
+  .underlined-loc.start-annotation {
+    @apply before:text-blue-500 before:content-[url('assets/icon-annotation-location.png')];
+  }
+
+  /* show levels */
   .annotated-segment {
     @apply relative;
   }
@@ -464,73 +492,103 @@ input:valid + span::after {
     @apply inline;
   }
 
-  .annotated-segment span span {
-    @apply inline border-t-4;
+  /* layer 1 */
+  .annotated-segment > span > span {
+    @apply inline border-b-0 border-t-0;
+  }
+  .annotated-segment > span > .underlined-per {
+    @apply bg-yellow-100;
+  }
+  .annotated-segment > span > .underlined-hoe {
+    @apply bg-emerald-100;
+  }
+  .annotated-segment > span > .underlined-com {
+    @apply bg-red-100;
+  }
+  .annotated-segment > span > .underlined-loc {
+    @apply bg-blue-100;
   }
 
-  .annotated-segment span span span {
-    @apply inline border-b-4;
+  /* layer 2 */
+  .annotated-segment > span > span > span {
+    @apply inline border-b-0 border-t-4 bg-none;
+  }
+  .annotated-segment > span > span > .underlined-per {
+    @apply border-t-yellow-500 bg-none;
+  }
+  .annotated-segment > span > span > .underlined-hoe {
+    @apply border-t-emerald-500 bg-none;
+  }
+  .annotated-segment > span > span > .underlined-com {
+    @apply border-t-red-500 bg-none;
+  }
+  .annotated-segment > span > span > .underlined-loc {
+    @apply border-t-blue-500 bg-none;
   }
 
-  .annotated-segment span span span span {
-    @apply inline border-t-4 pt-1;
+  .annotated-segment > span > span > .start-annotation {
+    @apply before:-translate-y-6;
   }
 
-  .annotated-segment span span span span {
-    @apply inline border-b-4 pb-1;
+  /* layer 3 */
+  .annotated-segment > span > span > span > span {
+    @apply inline border-b-4 border-t-0 bg-none;
+  }
+  .annotated-segment > span > span > span > .underlined-per {
+    @apply border-b-yellow-500 bg-none;
+  }
+  .annotated-segment > span > span > span > .underlined-hoe {
+    @apply border-b-emerald-500 bg-none;
+  }
+  .annotated-segment > span > span > span > .underlined-com {
+    @apply border-b-red-500 bg-none;
+  }
+  .annotated-segment > span > span > span > .underlined-loc {
+    @apply border-b-blue-500 bg-none;
+  }
+  .annotated-segment > span > span > span > .start-annotation {
+    @apply before:translate-y-7;
   }
 
-  /* before:-translate-y-6 */
-
-  .underlined-com {
-    @apply border-red-500;
+  /* layer 4 */
+  .annotated-segment > span > span > span > span > span {
+    @apply inline border-b-0 border-t-4 bg-none pt-1;
+  }
+  .annotated-segment > span > span > span > .underlined-per {
+    @apply border-b-yellow-500 bg-none;
+  }
+  .annotated-segment > span > span > span > span > .underlined-hoe {
+    @apply border-b-emerald-500 bg-none;
+  }
+  .annotated-segment > span > span > span > span > .underlined-com {
+    @apply border-b-red-500 bg-none;
+  }
+  .annotated-segment > span > span > span > span > .underlined-loc {
+    @apply border-b-blue-500 bg-none;
   }
 
-  .start-annotation {
-    @apply before:inline-block before:font-sans before:text-xs;
+  .annotated-segment > span > span > span > span > .start-annotation {
+    @apply before:-translate-y-6;
   }
 
-  .underlined-com.start-annotation {
-    @apply before:text-red-700 before:content-['C'];
+  /* layer 5 */
+  .annotated-segment > span > span > span > span > span {
+    @apply inline border-b-4 border-t-0 bg-none pb-1;
   }
-
-  .underlined-per {
-    @apply border-yellow-600;
+  .annotated-segment > span > span > span > span > .underlined-per {
+    @apply border-b-yellow-500 bg-none;
   }
-
-  .underlined-per.start-annotation {
-    @apply before:text-yellow-500 before:content-['P'];
+  .annotated-segment > span > span > span > span > span > .underlined-hoe {
+    @apply border-b-emerald-500 bg-none;
   }
-
-  .underlined-hoe {
-    @apply border-emerald-600;
+  .annotated-segment > span > span > span > span > span > .underlined-com {
+    @apply border-b-red-500 bg-none;
   }
-  .underlined-hoe.start-annotation {
-    @apply before:text-emerald-500 before:content-['H'];
+  .annotated-segment > span > span > span > span > span > .underlined-loc {
+    @apply border-b-blue-500 bg-none;
   }
-
-  .underlined-loc {
-    @apply border-blue-500;
-  }
-
-  .underlined-loc.start-annotation {
-    @apply before:text-blue-500 before:content-['L'];
-  }
-
-  .underlined-org {
-    @apply border-pink-400;
-  }
-
-  .underlined-org {
-    @apply border-pink-400;
-  }
-
-  .underlined-com-underline {
-    @apply border-b border-red-500;
-  }
-
-  .underlined-org {
-    @apply bg-pink-400/50;
+  .annotated-segment > span > span > span > span > span > .start-annotation {
+    @apply before:translate-y-10;
   }
 }
 
