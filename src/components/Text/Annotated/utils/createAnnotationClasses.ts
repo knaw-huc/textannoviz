@@ -12,10 +12,10 @@ export function createAnnotationClasses(
   hoveringOn: AnnotationBodyId | undefined,
 ) {
   const classes = [];
+  classes.push("nested-annotation", "cursor-pointer");
   if (annotation.body.type === "Entity") {
     classes.push(`underlined-${annotation.body.metadata.category}`);
   }
-  classes.push("nested-annotation", "cursor-pointer");
   if (hoveringOn === annotation.body.id) {
     classes.push("hover-underline");
   }
