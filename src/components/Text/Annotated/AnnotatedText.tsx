@@ -85,7 +85,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   return (
     <div className="">
       {props.text.lines.map((line, index) => (
-        <div key={index} className="fullNestedAnnotation w-fit">
+        <div key={index} className="closedNestedAnnotation w-fit">
           <SegmentedLine
             line={line}
             offsets={offsets.filter((a) => a.lineIndex === index)}
