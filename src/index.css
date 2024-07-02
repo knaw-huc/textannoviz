@@ -293,6 +293,7 @@ em {
   text-decoration: underline;
 }
 
+/* TODO: clean up unused annotation styling */
 /* .nested-annotation,
 .depth-correction,
 .search-highlight {
