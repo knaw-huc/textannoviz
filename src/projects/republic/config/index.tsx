@@ -9,7 +9,7 @@ import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
-  broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
+  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {
     resolution: "green",
     attendant: "#DB4437",
