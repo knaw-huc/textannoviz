@@ -9,7 +9,6 @@ export type LineSegmentWithAnnotationsProps = Omit<
   NestedAnnotationProps,
   "depthCorrection" | "toNest"
 > & {
-  onHoverChange: (value: Segment | undefined) => void;
   onClick: (value: Segment | undefined) => void;
 };
 
@@ -30,8 +29,6 @@ export function LineSegmentWithAnnotations(
   return (
     <span
       className="annotated-segment"
-      onMouseOver={() => props.onHoverChange(props.segment)}
-      onMouseLeave={() => props.onHoverChange(undefined)}
       onClick={() => props.onClick(props.segment)}
     >
       <NestedAnnotation

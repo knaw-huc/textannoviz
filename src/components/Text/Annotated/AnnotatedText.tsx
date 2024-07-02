@@ -33,8 +33,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     annotations,
     typesToHighlight,
   );
-  const [annotationUnderMouse, setAnnotationUnderMouse] =
-    useState<AnnotationBodyId>();
   const [annotationClicked, setAnnotationClicked] =
     useState<AnnotationBodyId>();
 
@@ -65,14 +63,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     return deepest?.body.id;
   }
 
-  function handleSegmentHoverChange(hovered: Segment | undefined) {
-    if (!hovered) {
-      setAnnotationUnderMouse(undefined);
-      return;
-    }
-    setAnnotationUnderMouse(getActiveAnnotationId(hovered));
-  }
-
   function handleSegmentClicked(clicked: Segment | undefined) {
     if (!clicked) {
       setAnnotationClicked(undefined);
@@ -90,8 +80,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
             line={line}
             offsets={offsets.filter((a) => a.lineIndex === index)}
             clickedOn={annotationClicked}
-            hoveringOn={annotationUnderMouse}
-            onSegmentHoverChange={handleSegmentHoverChange}
             onSegmentClicked={handleSegmentClicked}
           />
         </div>

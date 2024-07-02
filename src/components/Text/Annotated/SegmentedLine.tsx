@@ -19,8 +19,6 @@ export function SegmentedLine(props: {
   line: string;
   offsets: LineOffsets[];
   clickedOn: AnnotationBodyId | undefined;
-  hoveringOn: AnnotationBodyId | undefined;
-  onSegmentHoverChange: (value: Segment | undefined) => void;
   onSegmentClicked: (value: Segment | undefined) => void;
 }) {
   const { line, offsets } = props;
@@ -40,8 +38,6 @@ export function SegmentedLine(props: {
           key={i}
           segment={segment}
           clickedOn={props.clickedOn}
-          hoveringOn={props.hoveringOn}
-          onHoverChange={props.onSegmentHoverChange}
           onClick={props.onSegmentClicked}
         />
       ))}
