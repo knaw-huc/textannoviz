@@ -4,7 +4,8 @@ import { AriaTooltipProps, TooltipTriggerProps } from "@react-types/tooltip";
 import { useTooltipTriggerState } from "react-stately";
 import { mergeProps, useTooltip, useTooltipTrigger } from "react-aria";
 import { TooltipTriggerState } from "@react-stately/tooltip";
-
+import { Button, Dialog, DialogTrigger, Modal } from "react-aria-components";
+import "./MyModal.css";
 export type ToolTipProps = PropsWithChildren<
   AriaTooltipProps & { state: TooltipTriggerState }
 >;
@@ -74,5 +75,19 @@ export function Tbs() {
 }
 
 export function MyModal() {
-  return <TooltipTrigger tooltip="blarp">Blarp</TooltipTrigger>;
+  return (
+    <DialogTrigger>
+      <Button>Sign up…</Button>
+      <Modal>
+        <Dialog>
+          {({ close }) => (
+            <div>
+              <p>Modal</p>
+              <button onClick={() => close()}>close</button>
+            </div>
+          )}
+        </Dialog>
+      </Modal>
+    </DialogTrigger>
+  );
 }
