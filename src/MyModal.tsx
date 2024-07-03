@@ -1,7 +1,8 @@
-import { useTooltipTriggerState } from "react-stately";
-import { mergeProps, useTooltip, useTooltipTrigger } from "react-aria";
 import { PropsWithChildren, ReactNode, useRef } from "react";
 import { AriaTooltipProps, TooltipTriggerProps } from "@react-types/tooltip";
+
+import { useTooltipTriggerState } from "react-stately";
+import { mergeProps, useTooltip, useTooltipTrigger } from "react-aria";
 import { TooltipTriggerState } from "@react-stately/tooltip";
 
 export type ToolTipProps = PropsWithChildren<
@@ -32,7 +33,7 @@ function Tooltip(props: ToolTipProps) {
   );
 }
 
-function TooltipButton(
+function TooltipTrigger(
   props: PropsWithChildren<TooltipTriggerProps & { tooltip: ReactNode }>,
 ) {
   const state = useTooltipTriggerState(props);
@@ -43,14 +44,16 @@ function TooltipButton(
 
   return (
     <span style={{ position: "relative" }}>
-      <button
+      <span
         ref={ref}
         {...triggerProps}
         style={{ fontSize: 18 }}
-        onClick={() => alert("Pressed button")}
+        onClick={() => (state.isOpen ? state.close(true) : state.open(true))}
+        onMouseOver={(e) => e.preventDefault()}
+        onMouseLeave={(e) => e.preventDefault()}
       >
         {props.children}
-      </button>
+      </span>
       {state.isOpen && (
         <Tooltip state={state} {...tooltipProps}>
           {props.tooltip}
@@ -63,8 +66,13 @@ function TooltipButton(
 export function Tbs() {
   return (
     <>
-      <TooltipButton tooltip="Edit">✏️</TooltipButton>
-      <TooltipButton tooltip="Delete">🚮</TooltipButton>
+      <TooltipTrigger tooltip="Edit">✏️</TooltipTrigger>
+      <TooltipTrigger tooltip="Delete">🚮</TooltipTrigger>
+      <MyModal />
     </>
   );
+}
+
+export function MyModal() {
+  return <TooltipTrigger tooltip="blarp">Blarp</TooltipTrigger>;
 }
