@@ -17,6 +17,7 @@ import { translatinConfig } from "./projects/translatin/config";
 import { vangoghConfig } from "./projects/vangogh/config";
 import { useAnnotationStore } from "./stores/annotation";
 import { setProjectConfigSelector, useProjectStore } from "./stores/project";
+import { Tbs } from "./MyModal.tsx";
 
 const { project, config } = createProjectConfig();
 const router = await createRouter();
@@ -72,6 +73,10 @@ export default function App() {
 function Layout() {
   return (
     <>
+      <div>
+        test!
+        <Tbs />
+      </div>
       <Header projectConfig={config} />
       <Outlet />
     </>
