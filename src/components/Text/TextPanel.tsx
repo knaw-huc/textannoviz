@@ -7,6 +7,7 @@ import {
 } from "../../stores/project";
 import { AnnotatedText } from "./Annotated/AnnotatedText.tsx";
 import { TextHighlighting } from "./TextHighlighting.tsx";
+import { PropsWithChildren } from "react";
 
 type TextPanelProps = {
   panel: string;
@@ -19,10 +20,7 @@ export const TextPanel = (props: TextPanelProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   return (
-    <div
-      id={props.panel}
-      className="prose border-brand1Grey-100 mx-auto w-full max-w-full overflow-auto border-x border-y p-3 font-serif text-lg"
-    >
+    <StyledText panel={props.panel}>
       {projectConfig.allowCloseTextPanel && (
         <XMarkIcon
           style={{
@@ -41,6 +39,17 @@ export const TextPanel = (props: TextPanelProps) => {
       <hr />
       {/*TODO: remove or merge with AnnotatedText? */}
       <TextHighlighting text={props.text} />
-    </div>
+    </StyledText>
   );
 };
+
+export function StyledText(props: PropsWithChildren<{ panel: string }>) {
+  return (
+    <div
+      id={props.panel}
+      className="prose border-brand1Grey-100 mx-auto w-full max-w-full overflow-auto border-x border-y p-3 font-serif text-lg"
+    >
+      {props.children}
+    </div>
+  );
+}

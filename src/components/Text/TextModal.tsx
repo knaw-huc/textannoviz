@@ -1,8 +1,9 @@
 import { ElementType, PropsWithChildren, useRef } from "react";
 import { useButton } from "react-aria";
 import { Dialog, DialogTrigger, Modal } from "react-aria-components";
-import "./MyModal.css";
+import "../../MyModal.css";
 import { AriaButtonOptions } from "@react-aria/button";
+import { StyledText } from "./TextPanel.tsx";
 
 function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   const ref = useRef(null);
@@ -16,17 +17,17 @@ function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   );
 }
 
-export function MyModal() {
+export function TextModal() {
   return (
     <DialogTrigger>
       <SpanButton>Open</SpanButton>
       <Modal>
         <Dialog>
           {({ close }) => (
-            <div className="prose border-brand1Grey-100 mx-auto w-full max-w-full overflow-auto border-x border-y p-3 font-serif text-lg">
+            <StyledText panel="text-modal">
               <p>Modal</p>
               <button onClick={() => close()}>close</button>
-            </div>
+            </StyledText>
           )}
         </Dialog>
       </Modal>
