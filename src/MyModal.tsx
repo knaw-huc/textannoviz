@@ -1,11 +1,18 @@
-import { PropsWithChildren, ReactNode, useRef } from "react";
+import { ElementType, PropsWithChildren, ReactNode, useRef } from "react";
 import { AriaTooltipProps, TooltipTriggerProps } from "@react-types/tooltip";
 
 import { useTooltipTriggerState } from "react-stately";
-import { mergeProps, useTooltip, useTooltipTrigger } from "react-aria";
+import {
+  mergeProps,
+  useButton,
+  useTooltip,
+  useTooltipTrigger,
+} from "react-aria";
 import { TooltipTriggerState } from "@react-stately/tooltip";
-import { Button, Dialog, DialogTrigger, Modal } from "react-aria-components";
+import { Dialog, DialogTrigger, Modal } from "react-aria-components";
 import "./MyModal.css";
+import { AriaButtonOptions } from "@react-aria/button";
+
 export type ToolTipProps = PropsWithChildren<
   AriaTooltipProps & { state: TooltipTriggerState }
 >;
@@ -74,14 +81,26 @@ export function Tbs() {
   );
 }
 
+function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
+  const ref = useRef(null);
+  const { buttonProps } = useButton(props, ref);
+  const { children } = props;
+
+  return (
+    <span {...buttonProps} ref={ref}>
+      {children}
+    </span>
+  );
+}
+
 export function MyModal() {
   return (
     <DialogTrigger>
-      <Button>Sign up…</Button>
+      <SpanButton>Sign up…</SpanButton>
       <Modal>
         <Dialog>
           {({ close }) => (
-            <div>
+            <div className="prose border-brand1Grey-100 mx-auto w-full max-w-full overflow-auto border-x border-y p-3 font-serif text-lg">
               <p>Modal</p>
               <button onClick={() => close()}>close</button>
             </div>
