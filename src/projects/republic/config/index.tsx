@@ -30,7 +30,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Scan",
   ],
   // TODO: remove resolution and entity (added for testing purposes)
-  annotationTypesToHighlight: ["Resolution", "Attendant", "Entity"],
+  annotationTypesToHighlight: ["Attendant", "Entity"],
   allowedAnnotationTypesToHighlight: [
     "AttendanceList",
     "Attendant",
