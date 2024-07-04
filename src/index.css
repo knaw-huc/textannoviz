@@ -493,122 +493,85 @@ input:valid + span::after {
     @apply relative;
   }
 
-  .fullNestedAnnotation .annotated-segment span {
-    @apply inline;
-  }
-
   /* layer 1 */
-  .fullNestedAnnotation .annotated-segment > span > span {
+  .fullNestedAnnotation .annotated-segment > span {
     @apply inline border-b-0 border-t-0;
   }
-  .fullNestedAnnotation .annotated-segment > span > .underlined-per {
+  .fullNestedAnnotation .annotated-segment > .nested-annotation {
+    @apply bg-purple-50;
+  }
+  .fullNestedAnnotation .annotated-segment > .underlined-per {
     @apply bg-annotation-per500/10;
   }
-  .fullNestedAnnotation .annotated-segment > span > .underlined-hoe {
+  .fullNestedAnnotation .annotated-segment > .underlined-hoe {
     @apply bg-annotation-hoe500/10;
   }
-  .fullNestedAnnotation .annotated-segment > span > .underlined-com {
+  .fullNestedAnnotation .annotated-segment > .underlined-com {
     @apply bg-annotation-com500/10;
   }
-  .fullNestedAnnotation .annotated-segment > span > .underlined-loc {
+  .fullNestedAnnotation .annotated-segment > .underlined-loc {
     @apply bg-annotation-loc500/10;
   }
-  .fullNestedAnnotation .annotated-segment > span > .underlined-org {
+  .fullNestedAnnotation .annotated-segment > .underlined-org {
     @apply bg-annotation-org500/10;
   }
 
   /* layer 2 */
-  .fullNestedAnnotation .annotated-segment > span > span > span {
+  .fullNestedAnnotation .annotated-segment > span > span {
     @apply inline border-b-0 border-t-4 bg-none;
   }
-  .fullNestedAnnotation .annotated-segment > span > span > .underlined-per {
+  .fullNestedAnnotation .annotated-segment > span > .underlined-per {
     @apply border-t-annotation-per500 bg-none;
   }
-  .fullNestedAnnotation .annotated-segment > span > span > .underlined-hoe {
+  .fullNestedAnnotation .annotated-segment > span > .underlined-hoe {
     @apply border-t-annotation-hoe500 bg-none;
   }
-  .fullNestedAnnotation .annotated-segment > span > span > .underlined-com {
+  .fullNestedAnnotation .annotated-segment > span > .underlined-com {
     @apply border-t-annotation-com500 bg-none;
   }
-  .fullNestedAnnotation .annotated-segment > span > span > .underlined-loc {
+  .fullNestedAnnotation .annotated-segment > span > .underlined-loc {
     @apply border-t-annotation-loc500 bg-none;
   }
-  .fullNestedAnnotation .annotated-segment > span > span > .underlined-org {
+  .fullNestedAnnotation .annotated-segment > span > .underlined-org {
     @apply border-t-annotation-org500 bg-none;
   }
 
-  .fullNestedAnnotation .annotated-segment > span > span > .start-annotation {
+  .fullNestedAnnotation .annotated-segment > span > .start-annotation {
     @apply before:-translate-y-6;
   }
 
   /* layer 3 */
-  .fullNestedAnnotation .annotated-segment > span > span > span > span {
+  .fullNestedAnnotation .annotated-segment > span > span > span {
     @apply inline border-b-4 border-t-0 bg-none;
   }
-  .fullNestedAnnotation
-    .annotated-segment
-    > span
-    > span
-    > span
-    > .underlined-per {
+  .fullNestedAnnotation .annotated-segment > span > span > .underlined-per {
     @apply border-b-annotation-per500 bg-none;
   }
-  .fullNestedAnnotation
-    .annotated-segment
-    > span
-    > span
-    > span
-    > .underlined-hoe {
+  .fullNestedAnnotation .annotated-segment > span > span > .underlined-hoe {
     @apply border-b-annotation-hoe500 bg-none;
   }
-  .fullNestedAnnotation
-    .annotated-segment
-    > span
-    > span
-    > span
-    > .underlined-com {
+  .fullNestedAnnotation .annotated-segment > span > span > .underlined-com {
     @apply border-b-annotation-com500 bg-none;
   }
-  .fullNestedAnnotation
-    .annotated-segment
-    > span
-    > span
-    > span
-    > .underlined-loc {
+  .fullNestedAnnotation .annotated-segment > span > span > .underlined-loc {
     @apply border-b-annotation-loc500 bg-none;
   }
-  .fullNestedAnnotation
-    .annotated-segment
-    > span
-    > span
-    > span
-    > .underlined-org {
+  .fullNestedAnnotation .annotated-segment > span > span > .underlined-org {
     @apply border-b-annotation-org500 bg-none;
   }
-  .fullNestedAnnotation
-    .annotated-segment
-    > span
-    > span
-    > span
-    > .start-annotation {
+  .fullNestedAnnotation .annotated-segment > span > span > .start-annotation {
     @apply before:translate-y-7;
   }
 
   /* layer 4 */
-  .fullNestedAnnotation .annotated-segment > span > span > span > span > span {
+  .fullNestedAnnotation .annotated-segment > span > span > span > span {
     @apply inline border-b-0 border-t-4 bg-none pt-1;
   }
-  .fullNestedAnnotation
-    .annotated-segment
-    > span
-    > span
-    > span
-    > .underlined-per {
+  .fullNestedAnnotation .annotated-segment > span > span > .underlined-per {
     @apply border-b-annotation-per500 bg-none;
   }
   .fullNestedAnnotation
     .annotated-segment
-    > span
     > span
     > span
     > span
@@ -620,13 +583,11 @@ input:valid + span::after {
     > span
     > span
     > span
-    > span
     > .underlined-com {
     @apply border-b-annotation-com500 bg-none;
   }
   .fullNestedAnnotation
     .annotated-segment
-    > span
     > span
     > span
     > span
@@ -638,14 +599,12 @@ input:valid + span::after {
     > span
     > span
     > span
-    > span
     > .underlined-org {
     @apply border-b-annotation-org500 bg-none;
   }
 
   .fullNestedAnnotation
     .annotated-segment
-    > span
     > span
     > span
     > span
@@ -654,12 +613,11 @@ input:valid + span::after {
   }
 
   /* layer 5 */
-  .fullNestedAnnotation .annotated-segment > span > span > span > span > span {
+  .fullNestedAnnotation .annotated-segment > span > span > span > span {
     @apply inline border-b-4 border-t-0 bg-none pb-1;
   }
   .fullNestedAnnotation
     .annotated-segment
-    > span
     > span
     > span
     > span
@@ -668,7 +626,6 @@ input:valid + span::after {
   }
   .fullNestedAnnotation
     .annotated-segment
-    > span
     > span
     > span
     > span
@@ -682,13 +639,11 @@ input:valid + span::after {
     > span
     > span
     > span
-    > span
     > .underlined-com {
     @apply border-b-annotation-com500 bg-none;
   }
   .fullNestedAnnotation
     .annotated-segment
-    > span
     > span
     > span
     > span
@@ -702,7 +657,6 @@ input:valid + span::after {
     > span
     > span
     > span
-    > span
     > .underlined-org {
     @apply border-b-annotation-org500 bg-none;
   }
@@ -712,24 +666,26 @@ input:valid + span::after {
     > span
     > span
     > span
-    > span
     > .start-annotation {
     @apply before:translate-y-10;
   }
 
-  .closedNestedAnnotation .annotated-segment > span > span {
+  .closedNestedAnnotation .annotated-segment > span {
     @apply inline border-b-0 border-t-0;
   }
-  .closedNestedAnnotation .annotated-segment > span > .underlined-per {
+  .closedNestedAnnotation .annotated-segment > .nested-annotation {
+    @apply bg-purple-100;
+  }
+  .closedNestedAnnotation .annotated-segment > .underlined-per {
     @apply bg-yellow-100;
   }
-  .closedNestedAnnotation .annotated-segment > span > .underlined-hoe {
+  .closedNestedAnnotation .annotated-segment > .underlined-hoe {
     @apply bg-emerald-100;
   }
-  .closedNestedAnnotation .annotated-segment > span > .underlined-com {
+  .closedNestedAnnotation .annotated-segment > .underlined-com {
     @apply bg-red-100;
   }
-  .closedNestedAnnotation .annotated-segment > span > .underlined-loc {
+  .closedNestedAnnotation .annotated-segment > .underlined-loc {
     @apply bg-blue-100;
   }
 
