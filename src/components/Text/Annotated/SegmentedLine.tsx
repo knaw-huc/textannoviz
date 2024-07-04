@@ -1,7 +1,8 @@
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
-import { LineSegment } from "./LineSegment.tsx";
 import { AnnotationBodyId, LineOffsets, Segment } from "./AnnotationModel.ts";
+import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
+import { TextModal } from "../TextModal.tsx";
 
 /**
  * Definitions:
@@ -18,7 +19,7 @@ import { AnnotationBodyId, LineOffsets, Segment } from "./AnnotationModel.ts";
 export function SegmentedLine(props: {
   line: string;
   offsets: LineOffsets[];
-  clickedOn: AnnotationBodyId | undefined;
+  clickedAnnotation: AnnotationBodyId | undefined;
   onSegmentClicked: (value: Segment | undefined) => void;
 }) {
   const { line, offsets } = props;
@@ -33,14 +34,13 @@ export function SegmentedLine(props: {
   }
   return (
     <>
-      {segments.map((segment, i) => (
-        <LineSegment
-          key={i}
-          segment={segment}
-          clickedOn={props.clickedOn}
-          onClick={props.onSegmentClicked}
-        />
-      ))}
+      <TextModal segments={segments} />
+      <LineSegmentsViewer
+        segments={segments}
+        showDetails={false}
+        clickedAnnotation={props.clickedAnnotation}
+        onSegmentClicked={props.onSegmentClicked}
+      />
     </>
   );
 }

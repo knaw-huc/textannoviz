@@ -3,7 +3,11 @@ import { useButton } from "react-aria";
 import { Dialog, DialogTrigger, Modal } from "react-aria-components";
 import "../../MyModal.css";
 import { AriaButtonOptions } from "@react-aria/button";
-import { StyledText } from "./TextPanel.tsx";
+
+import { StyledText } from "./StyledText.tsx";
+import { LineSegmentsViewer } from "./Annotated/LineSegmentsViewer.tsx";
+import _ from "lodash";
+import { Segment } from "./Annotated/AnnotationModel.ts";
 
 function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   const ref = useRef(null);
@@ -17,16 +21,22 @@ function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   );
 }
 
-export function TextModal() {
+export function TextModal(props: { segments: Segment[] }) {
   return (
     <DialogTrigger>
-      <SpanButton>Open</SpanButton>
-      <Modal>
+      <SpanButton>
+        <i>*Click on annotation*</i>
+      </SpanButton>
+      <Modal style={{ width: "600px" }}>
         <Dialog>
           {({ close }) => (
             <StyledText panel="text-modal">
-              <p>Modal</p>
-              <button onClick={() => close()}>close</button>
+              <button onClick={() => close()}>[X]</button>
+              <LineSegmentsViewer
+                segments={props.segments}
+                showDetails={true}
+                onSegmentClicked={_.noop}
+              />
             </StyledText>
           )}
         </Dialog>

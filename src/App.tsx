@@ -17,7 +17,6 @@ import { translatinConfig } from "./projects/translatin/config";
 import { vangoghConfig } from "./projects/vangogh/config";
 import { useAnnotationStore } from "./stores/annotation";
 import { setProjectConfigSelector, useProjectStore } from "./stores/project";
-import { TextModal } from "./components/Text/TextModal.tsx";
 
 const { project, config } = createProjectConfig();
 const router = await createRouter();
@@ -73,7 +72,6 @@ export default function App() {
 function Layout() {
   return (
     <>
-      <TextModal />
       <Header projectConfig={config} />
       <Outlet />
     </>

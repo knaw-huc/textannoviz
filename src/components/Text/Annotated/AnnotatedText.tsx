@@ -17,6 +17,7 @@ import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
+  showDetail: boolean;
 };
 
 export const AnnotatedText = (props: TextHighlightingProps) => {
@@ -73,16 +74,15 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   }
 
   return (
-    <div className="">
+    <div>
       {props.text.lines.map((line, index) => (
-        <div key={index} className="closedNestedAnnotation w-fit">
-          <SegmentedLine
-            line={line}
-            offsets={offsets.filter((a) => a.lineIndex === index)}
-            clickedOn={annotationClicked}
-            onSegmentClicked={handleSegmentClicked}
-          />
-        </div>
+        <SegmentedLine
+          key={index}
+          line={line}
+          offsets={offsets.filter((a) => a.lineIndex === index)}
+          clickedAnnotation={annotationClicked}
+          onSegmentClicked={handleSegmentClicked}
+        />
       ))}
     </div>
   );

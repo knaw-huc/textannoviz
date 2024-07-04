@@ -9,7 +9,7 @@ export type LineSegmentWithAnnotationsProps = Omit<
   NestedAnnotationProps,
   "depthCorrection" | "toNest"
 > & {
-  onClick: (value: Segment | undefined) => void;
+  onClickSegment: (value: Segment | undefined) => void;
 };
 
 export function LineSegmentWithAnnotations(
@@ -29,7 +29,7 @@ export function LineSegmentWithAnnotations(
   return (
     <span
       className="annotated-segment"
-      onClick={() => props.onClick(props.segment)}
+      onClick={() => props.onClickSegment(props.segment)}
     >
       <NestedAnnotation
         {...props}

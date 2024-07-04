@@ -7,7 +7,7 @@ import {
 } from "../../stores/project";
 import { AnnotatedText } from "./Annotated/AnnotatedText.tsx";
 import { TextHighlighting } from "./TextHighlighting.tsx";
-import { PropsWithChildren } from "react";
+import { StyledText } from "./StyledText.tsx";
 
 type TextPanelProps = {
   panel: string;
@@ -35,21 +35,10 @@ export const TextPanel = (props: TextPanelProps) => {
       <strong className="text-brand1Grey-800 mb-4 block border-b" tabIndex={0}>
         {translateProject(`${props.panel}`)}
       </strong>
-      <AnnotatedText text={props.text} />
+      <AnnotatedText text={props.text} showDetail={false} />
       <hr />
       {/*TODO: remove or merge with AnnotatedText? */}
       <TextHighlighting text={props.text} />
     </StyledText>
   );
 };
-
-export function StyledText(props: PropsWithChildren<{ panel: string }>) {
-  return (
-    <div
-      id={props.panel}
-      className="prose border-brand1Grey-100 mx-auto w-full max-w-full overflow-auto border-x border-y p-3 font-serif text-lg"
-    >
-      {props.children}
-    </div>
-  );
-}

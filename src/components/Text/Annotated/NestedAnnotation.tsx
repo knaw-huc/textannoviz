@@ -12,7 +12,7 @@ export type NestedAnnotationProps = {
   segment: Segment;
   toNest: AnnotationSegment[];
   depthCorrection: number;
-  clickedOn?: AnnotationBodyId;
+  clickedAnnotation?: AnnotationBodyId;
 };
 
 export function NestedAnnotation(props: NestedAnnotationProps) {
