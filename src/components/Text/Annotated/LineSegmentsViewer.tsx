@@ -1,11 +1,11 @@
 import { LineSegment } from "./LineSegment.tsx";
-import { AnnotationBodyId, Segment } from "./AnnotationModel.ts";
+import { Segment } from "./AnnotationModel.ts";
 
 export type LineSegmentsViewerProps = {
   segments: Segment[];
   showDetails: boolean;
-  clickedAnnotation?: AnnotationBodyId;
-  onSegmentClicked: (value: Segment | undefined) => void;
+  clickedSegment?: Segment;
+  onClickSegment: (value: Segment | undefined) => void;
 };
 
 export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
@@ -19,8 +19,8 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
         <LineSegment
           key={i}
           segment={segment}
-          clickedAnnotation={props.clickedAnnotation}
-          onClickSegment={props.onSegmentClicked}
+          clickedSegment={props.clickedSegment}
+          onClickSegment={props.onClickSegment}
         />
       ))}
     </div>

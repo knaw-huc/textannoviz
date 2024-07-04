@@ -4,7 +4,7 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
-import { getAnnotationsByType } from "./Annotated/utils/getAnnotationsByType.ts";
+import { getAnnotationsByTypes } from "./Annotated/utils/getAnnotationsByTypes.ts";
 import { createSearchRegex } from "./createSearchRegex.tsx";
 import { useDetailUrlParams } from "./Annotated/utils/useDetailUrlParams.tsx";
 
@@ -28,7 +28,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const textLinesToDisplay: string[][] = [[]];
 
   React.useEffect(() => {
-    const filteredAnnotations = getAnnotationsByType(
+    const filteredAnnotations = getAnnotationsByTypes(
       annotations,
       annotationTypesToHighlight,
     );

@@ -1,15 +1,9 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
+import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { SegmentedLine } from "./SegmentedLine.tsx";
 import { createLineOffsets } from "./utils/createLineOffsets.ts";
 import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
-import { useState } from "react";
-import {
-  AnnotationBodyId,
-  isNestedAnnotationSegment,
-  Segment,
-} from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
 import { DUMMY_ANNOTATION_RESOLUTION } from "../../../utils/broccoli.ts";
@@ -30,19 +24,17 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const searchTerms = useDummy ? dummySearchTerms : highlight;
 
   const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
-  const annotationsToHighlight = getAnnotationsByType(
+  const positions = props.text.locations.annotations;
+
+  const annotationsToHighlight = getAnnotationsByTypes(
     annotations,
     typesToHighlight,
-  );
-  const [annotationClicked, setAnnotationClicked] =
-    useState<AnnotationBodyId>();
-
-  const positions = props.text.locations.annotations;
+  ).filter((a) => isAnnotationInSingleLine(a, positions));
   const lines = props.text.lines;
 
-  const offsets = annotationsToHighlight
-    .filter((a) => isAnnotationInSingleLine(a, positions))
-    .map((a) => createLineOffsets(a, positions, lines));
+  const offsets = annotationsToHighlight.map((a) =>
+    createLineOffsets(a, positions, lines),
+  );
   const searchRegex = createSearchRegex(searchTerms, tier2);
   const searchOffsets = createLineSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
@@ -56,23 +48,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     offsets,
   });
 
-  function getActiveAnnotationId(segment: Segment) {
-    const nestedAnnotations = segment.annotations.filter(
-      isNestedAnnotationSegment,
-    );
-    const deepest = nestedAnnotations.slice(-1)[0];
-    return deepest?.body.id;
-  }
-
-  function handleSegmentClicked(clicked: Segment | undefined) {
-    if (!clicked) {
-      setAnnotationClicked(undefined);
-      return;
-    }
-    console.log("handleClick", { clicked });
-    setAnnotationClicked(getActiveAnnotationId(clicked));
-  }
-
   return (
     <div>
       {props.text.lines.map((line, index) => (
@@ -80,8 +55,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
           key={index}
           line={line}
           offsets={offsets.filter((a) => a.lineIndex === index)}
-          clickedAnnotation={annotationClicked}
-          onSegmentClicked={handleSegmentClicked}
         />
       ))}
     </div>

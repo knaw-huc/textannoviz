@@ -1,8 +1,14 @@
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
-import { AnnotationBodyId, LineOffsets, Segment } from "./AnnotationModel.ts";
+import {
+  AnnotationGroup,
+  isNestedAnnotationSegment,
+  LineOffsets,
+  Segment,
+} from "./AnnotationModel.ts";
 import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
 import { TextModal } from "../TextModal.tsx";
+import { useEffect, useState } from "react";
 
 /**
  * Definitions:
@@ -16,31 +22,67 @@ import { TextModal } from "../TextModal.tsx";
  * - Annotation depth: the number of levels that an annotation is nested in parent annotations or with overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
  */
-export function SegmentedLine(props: {
-  line: string;
-  offsets: LineOffsets[];
-  clickedAnnotation: AnnotationBodyId | undefined;
-  onSegmentClicked: (value: Segment | undefined) => void;
-}) {
+export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   const { line, offsets } = props;
+  const [segments, setSegments] = useState<Segment[]>([]);
+
   if (line.startsWith("Synde ter vergaderinge")) {
     console.time("create-line");
   }
   const offsetsByChar = listOffsetsByChar(offsets);
-  const segments = new AnnotationSegmenter(line, offsetsByChar).segment();
+  const [clickedSegment, setClickedSegment] = useState<Segment>();
+  const clickedAnnotationGroup: AnnotationGroup | undefined =
+    getAnnotationGroup(clickedSegment);
+
+  useEffect(() => {
+    const s = new AnnotationSegmenter(line, offsetsByChar).segment();
+    console.log("SegmentedLine", { s });
+    setSegments(s);
+  }, []);
+
+  function handleClickSegment(clicked: Segment | undefined) {
+    if (!clicked) {
+      setClickedSegment(undefined);
+      return;
+    }
+    console.log("handleClick", { clicked });
+    setClickedSegment(clicked);
+  }
+
+  function isInGroupOfClickedSegment(segment: Segment): boolean {
+    // console.log('findAnnotationGroupSegments', segment)
+    if (!clickedAnnotationGroup) {
+      return false;
+    }
+    const group = segment.annotations.find(isNestedAnnotationSegment)?.group;
+    if (!group) {
+      return false;
+    }
+    return group.id === clickedAnnotationGroup?.id;
+  }
+
   if (line.startsWith("Synde ter vergaderinge")) {
     console.timeLog("create-line", { line, annotationSegments: segments });
     console.timeEnd("create-line");
   }
+  const clickedGroup = segments.filter(isInGroupOfClickedSegment);
+  console.log("segments", { clickedGroup, segments });
   return (
     <>
-      <TextModal segments={segments} />
+      <TextModal segments={clickedGroup} />
       <LineSegmentsViewer
         segments={segments}
         showDetails={false}
-        clickedAnnotation={props.clickedAnnotation}
-        onSegmentClicked={props.onSegmentClicked}
+        clickedSegment={clickedSegment}
+        onClickSegment={handleClickSegment}
       />
     </>
   );
+}
+
+function getAnnotationGroup(segment?: Segment): AnnotationGroup | undefined {
+  if (!segment) {
+    return;
+  }
+  return segment.annotations.find(isNestedAnnotationSegment)?.group;
 }

@@ -35,7 +35,7 @@ export function TextModal(props: { segments: Segment[] }) {
               <LineSegmentsViewer
                 segments={props.segments}
                 showDetails={true}
-                onSegmentClicked={_.noop}
+                onClickSegment={_.noop}
               />
             </StyledText>
           )}
