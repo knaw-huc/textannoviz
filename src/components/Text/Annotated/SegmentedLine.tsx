@@ -8,7 +8,7 @@ import {
 } from "./AnnotationModel.ts";
 import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
 import { useEffect, useState } from "react";
-import { TextModal } from "../TextModal.tsx";
+import { AnnotatedSegmentModal } from "../AnnotatedSegmentModal.tsx";
 
 /**
  * Definitions:
@@ -66,14 +66,14 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   }
   const clickedGroup = segments.filter(isInGroupOfClickedSegment);
   return (
-    <TextModal segments={clickedGroup}>
+    <AnnotatedSegmentModal segments={clickedGroup}>
       <LineSegmentsViewer
         segments={segments}
         showDetails={false}
         clickedSegment={clickedSegment}
         onClickSegment={handleClickSegment}
       />
-    </TextModal>
+    </AnnotatedSegmentModal>
   );
 }
 

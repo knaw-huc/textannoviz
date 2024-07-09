@@ -7,7 +7,12 @@ import { AriaButtonOptions } from "@react-aria/button";
 import { StyledText } from "./StyledText.tsx";
 import { LineSegmentsViewer } from "./Annotated/LineSegmentsViewer.tsx";
 import _ from "lodash";
-import { Segment } from "./Annotated/AnnotationModel.ts";
+import {
+  isNestedAnnotationSegment,
+  Segment,
+} from "./Annotated/AnnotationModel.ts";
+import { isEntityBody } from "../../model/AnnoRepoAnnotation.ts";
+import { EntitySummary } from "./Annotated/EntitySummary.tsx";
 
 function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   const ref = useRef(null);
@@ -21,7 +26,21 @@ function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   );
 }
 
-export function TextModal(props: PropsWithChildren<{ segments: Segment[] }>) {
+export function AnnotatedSegmentModal(
+  props: PropsWithChildren<{
+    segments: Segment[];
+  }>,
+) {
+  const { segments } = props;
+  const annotationBodies = _.unionBy(
+    segments
+      .flatMap((s) => s.annotations)
+      .filter(isNestedAnnotationSegment)
+      .map((a) => a.body)
+      .filter(isEntityBody),
+    "id",
+  );
+
   return (
     <DialogTrigger>
       <SpanButton>{props.children}</SpanButton>
@@ -32,11 +51,16 @@ export function TextModal(props: PropsWithChildren<{ segments: Segment[] }>) {
               <button onClick={() => close()}>[X]</button>
               <StyledText panel="text-modal">
                 <LineSegmentsViewer
-                  segments={props.segments}
+                  segments={segments}
                   showDetails={true}
                   onClickSegment={_.noop}
                 />
               </StyledText>
+              <ul>
+                {annotationBodies.map((a, i) => (
+                  <EntitySummary key={i} body={a} />
+                ))}
+              </ul>
             </>
           )}
         </Dialog>

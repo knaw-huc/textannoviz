@@ -778,3 +778,9 @@ input:valid + span::after {
     transform: scale(1);
   }
 }
+
+.annotation-summary,
+.annotation-summary li {
+  list-style-type: circle;
+  margin-left: 1em;
+}
