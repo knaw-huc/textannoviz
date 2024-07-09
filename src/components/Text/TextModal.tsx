@@ -21,23 +21,23 @@ function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   );
 }
 
-export function TextModal(props: { segments: Segment[] }) {
+export function TextModal(props: PropsWithChildren<{ segments: Segment[] }>) {
   return (
     <DialogTrigger>
-      <SpanButton>
-        <i>*Click on annotation*</i>
-      </SpanButton>
+      <SpanButton>{props.children}</SpanButton>
       <Modal style={{ width: "600px" }}>
         <Dialog>
           {({ close }) => (
-            <StyledText panel="text-modal">
+            <>
               <button onClick={() => close()}>[X]</button>
-              <LineSegmentsViewer
-                segments={props.segments}
-                showDetails={true}
-                onClickSegment={_.noop}
-              />
-            </StyledText>
+              <StyledText panel="text-modal">
+                <LineSegmentsViewer
+                  segments={props.segments}
+                  showDetails={true}
+                  onClickSegment={_.noop}
+                />
+              </StyledText>
+            </>
           )}
         </Dialog>
       </Modal>

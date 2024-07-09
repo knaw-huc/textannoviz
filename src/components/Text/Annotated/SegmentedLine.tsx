@@ -7,8 +7,8 @@ import {
   Segment,
 } from "./AnnotationModel.ts";
 import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
-import { TextModal } from "../TextModal.tsx";
 import { useEffect, useState } from "react";
+import { TextModal } from "../TextModal.tsx";
 
 /**
  * Definitions:
@@ -35,9 +35,8 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
     getAnnotationGroup(clickedSegment);
 
   useEffect(() => {
-    const s = new AnnotationSegmenter(line, offsetsByChar).segment();
-    console.log("SegmentedLine", { s });
-    setSegments(s);
+    setSegments(new AnnotationSegmenter(line, offsetsByChar).segment());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleClickSegment(clicked: Segment | undefined) {
@@ -62,21 +61,19 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   }
 
   if (line.startsWith("Synde ter vergaderinge")) {
-    console.timeLog("create-line", { line, annotationSegments: segments });
+    console.timeLog("create-line", { line, segments });
     console.timeEnd("create-line");
   }
   const clickedGroup = segments.filter(isInGroupOfClickedSegment);
-  console.log("segments", { clickedGroup, segments });
   return (
-    <>
-      <TextModal segments={clickedGroup} />
+    <TextModal segments={clickedGroup}>
       <LineSegmentsViewer
         segments={segments}
         showDetails={false}
         clickedSegment={clickedSegment}
         onClickSegment={handleClickSegment}
       />
-    </>
+    </TextModal>
   );
 }
 
