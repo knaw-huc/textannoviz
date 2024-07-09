@@ -10,7 +10,11 @@ export function createAnnotationClasses(
   annotation: NestedAnnotationSegment,
 ) {
   const classes = [];
-  classes.push("nested-annotation", "cursor-pointer");
+  classes.push(
+    "nested-annotation",
+    "cursor-pointer",
+    "depth-" + annotation.depth,
+  );
   if (annotation.body.type === "Entity") {
     classes.push(`underlined-${annotation.body.metadata.category}`);
   }
