@@ -8,6 +8,7 @@ import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
 import { DUMMY_ANNOTATION_RESOLUTION } from "../../../utils/broccoli.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
+import _ from "lodash";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -15,7 +16,8 @@ type TextHighlightingProps = {
 };
 
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const annotations = useAnnotationStore().annotations;
+  // TODO: why are there duplicates?
+  const annotations = _.uniqBy(useAnnotationStore().annotations, "body.id");
   const { tier2, highlight } = useDetailUrlParams();
   // TODO: clean up dummy search terms
   const useDummy = tier2 === DUMMY_ANNOTATION_RESOLUTION;
