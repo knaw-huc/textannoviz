@@ -56,6 +56,7 @@ export function AnnotatedSegmentModal(
               <StyledText panel="text-modal">
                 <LineSegmentsViewer
                   segments={clickedGroup.segments}
+                  groupId={clickedGroup.id}
                   showDetails={true}
                 />
               </StyledText>
