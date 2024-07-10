@@ -1,20 +1,26 @@
 import { LineSegment } from "./LineSegment.tsx";
 import { Segment } from "./AnnotationModel.ts";
+import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
+import _ from "lodash";
 
 export type LineSegmentsViewerProps = {
   segments: Segment[];
   showDetails: boolean;
   clickedSegment?: Segment;
-  onClickSegment: (value: Segment | undefined) => void;
+  onClickSegment?: OnClickSegment;
+  groupId?: number;
 };
 
 export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
-  const classes = ["w-fit"];
+  const classes = [];
   classes.push(
     props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation",
   );
+  if (_.isNumber(props.groupId)) {
+    classes.push(`group-${props.groupId}`);
+  }
   return (
-    <div className={classes.join(" ")}>
+    <span className={classes.join(" ")}>
       {props.segments.map((segment, i) => (
         <LineSegment
           key={i}
@@ -23,6 +29,6 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
           onClickSegment={props.onClickSegment}
         />
       ))}
-    </div>
+    </span>
   );
 }

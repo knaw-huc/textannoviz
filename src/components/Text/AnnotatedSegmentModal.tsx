@@ -8,8 +8,8 @@ import { StyledText } from "./StyledText.tsx";
 import { LineSegmentsViewer } from "./Annotated/LineSegmentsViewer.tsx";
 import _ from "lodash";
 import {
+  GroupedSegments,
   isNestedAnnotationSegment,
-  Segment,
 } from "./Annotated/AnnotationModel.ts";
 import { isEntityBody } from "../../model/AnnoRepoAnnotation.ts";
 import { EntitySummary } from "./Annotated/EntitySummary.tsx";
@@ -28,12 +28,12 @@ function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
 
 export function AnnotatedSegmentModal(
   props: PropsWithChildren<{
-    clickedGroup: Segment[];
+    clickedGroup: GroupedSegments;
   }>,
 ) {
   const { clickedGroup } = props;
   const annotationBodies = _.unionBy(
-    clickedGroup
+    clickedGroup.segments
       .flatMap((s) => s.annotations)
       .filter(isNestedAnnotationSegment)
       .map((a) => a.body)
@@ -41,6 +41,10 @@ export function AnnotatedSegmentModal(
     "id",
   );
 
+  /**
+   * Opening of model is handled by react-area
+   * (see {@link DialogTrigger} and {@link useButton})
+   */
   return (
     <DialogTrigger>
       <SpanButton>{props.children}</SpanButton>
@@ -51,9 +55,8 @@ export function AnnotatedSegmentModal(
               <button onClick={() => close()}>[X]</button>
               <StyledText panel="text-modal">
                 <LineSegmentsViewer
-                  segments={clickedGroup}
+                  segments={clickedGroup.segments}
                   showDetails={true}
-                  onClickSegment={_.noop}
                 />
               </StyledText>
               <ul>

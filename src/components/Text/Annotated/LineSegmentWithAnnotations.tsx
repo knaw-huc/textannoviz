@@ -5,11 +5,12 @@ import {
 } from "./NestedAnnotation.tsx";
 import { isNestedAnnotationSegment, Segment } from "./AnnotationModel.ts";
 
+export type OnClickSegment = (value: Segment | undefined) => void;
 export type LineSegmentWithAnnotationsProps = Omit<
   NestedAnnotationProps,
   "depthCorrection" | "toNest"
 > & {
-  onClickSegment: (value: Segment | undefined) => void;
+  onClickSegment?: OnClickSegment;
 };
 
 export function LineSegmentWithAnnotations(
@@ -29,7 +30,9 @@ export function LineSegmentWithAnnotations(
   return (
     <span
       className="annotated-segment"
-      onClick={() => props.onClickSegment(props.segment)}
+      onClick={() =>
+        props.onClickSegment && props.onClickSegment(props.segment)
+      }
     >
       <NestedAnnotation
         {...props}

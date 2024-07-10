@@ -2,6 +2,7 @@ import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
 import {
   AnnotationGroup,
+  GroupedSegments,
   isNestedAnnotationSegment,
   LineOffsets,
   Segment,
@@ -9,6 +10,8 @@ import {
 import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
 import { useEffect, useState } from "react";
 import { AnnotatedSegmentModal } from "../AnnotatedSegmentModal.tsx";
+import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
+import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
 
 /**
  * Definitions:
@@ -44,34 +47,55 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
       setClickedSegment(undefined);
       return;
     }
-    console.log("handleClick", { clicked });
     setClickedSegment(clicked);
-  }
-
-  function isInGroupOfClickedSegment(segment: Segment): boolean {
-    // console.log('findAnnotationGroupSegments', segment)
-    if (!clickedAnnotationGroup) {
-      return false;
-    }
-    const group = segment.annotations.find(isNestedAnnotationSegment)?.group;
-    if (!group) {
-      return false;
-    }
-    return group.id === clickedAnnotationGroup?.id;
   }
 
   if (line.startsWith("Synde ter vergaderinge")) {
     console.timeLog("create-line", { line, segments });
     console.timeEnd("create-line");
   }
-  const clickedGroup = segments.filter(isInGroupOfClickedSegment);
+  const grouped = groupSegmentsByGroupId(segments);
+  const clickedGroup = grouped.find((g) => g.id === clickedAnnotationGroup?.id);
+  return (
+    <>
+      {grouped.map((group, i) => (
+        <SegmentGroup
+          key={i}
+          group={group}
+          clickedGroup={clickedGroup}
+          clickedSegment={clickedSegment}
+          onClickSegment={handleClickSegment}
+        />
+      ))}
+    </>
+  );
+}
+
+export function SegmentGroup(props: {
+  group: GroupedSegments;
+  clickedGroup?: GroupedSegments;
+  clickedSegment?: Segment | undefined;
+  onClickSegment?: OnClickSegment;
+}) {
+  const { group, clickedGroup, clickedSegment } = props;
+
+  if (!clickedGroup) {
+    return (
+      <LineSegmentsViewer
+        segments={group.segments}
+        showDetails={false}
+        clickedSegment={clickedSegment}
+      />
+    );
+  }
   return (
     <AnnotatedSegmentModal clickedGroup={clickedGroup}>
       <LineSegmentsViewer
-        segments={segments}
+        groupId={group.id}
+        segments={group.segments}
         showDetails={false}
         clickedSegment={clickedSegment}
-        onClickSegment={handleClickSegment}
+        onClickSegment={props.onClickSegment}
       />
     </AnnotatedSegmentModal>
   );
