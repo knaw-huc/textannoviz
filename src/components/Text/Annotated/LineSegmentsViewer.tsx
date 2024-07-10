@@ -17,7 +17,7 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
     props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation",
   );
   if (_.isNumber(props.groupId)) {
-    classes.push(`group-${props.groupId}`);
+    classes.push(`group group-${props.groupId}`);
   }
   return (
     <span className={classes.join(" ")}>
