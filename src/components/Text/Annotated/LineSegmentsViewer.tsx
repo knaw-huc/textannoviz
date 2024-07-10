@@ -13,14 +13,14 @@ export type LineSegmentsViewerProps = {
 
 export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
   const classes = [];
-  classes.push(
-    props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation",
-  );
   if (_.isNumber(props.groupId)) {
-    classes.push(`group group-${props.groupId}`);
+    classes.push(
+      props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation",
+    );
+    classes.push(`group-${props.groupId}`);
   }
   return (
-    <span className={classes.join(" ")}>
+    <span className={classes.length ? classes.join(" ") : undefined}>
       {props.segments.map((segment, i) => (
         <LineSegment
           key={i}
