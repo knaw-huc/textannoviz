@@ -66,7 +66,7 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   }
   const clickedGroup = segments.filter(isInGroupOfClickedSegment);
   return (
-    <AnnotatedSegmentModal segments={clickedGroup}>
+    <AnnotatedSegmentModal clickedGroup={clickedGroup}>
       <LineSegmentsViewer
         segments={segments}
         showDetails={false}

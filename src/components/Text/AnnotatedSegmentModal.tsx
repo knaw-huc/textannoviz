@@ -28,12 +28,12 @@ function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
 
 export function AnnotatedSegmentModal(
   props: PropsWithChildren<{
-    segments: Segment[];
+    clickedGroup: Segment[];
   }>,
 ) {
-  const { segments } = props;
+  const { clickedGroup } = props;
   const annotationBodies = _.unionBy(
-    segments
+    clickedGroup
       .flatMap((s) => s.annotations)
       .filter(isNestedAnnotationSegment)
       .map((a) => a.body)
@@ -51,7 +51,7 @@ export function AnnotatedSegmentModal(
               <button onClick={() => close()}>[X]</button>
               <StyledText panel="text-modal">
                 <LineSegmentsViewer
-                  segments={segments}
+                  segments={clickedGroup}
                   showDetails={true}
                   onClickSegment={_.noop}
                 />
