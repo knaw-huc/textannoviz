@@ -2,7 +2,7 @@ import { StateCreator } from "zustand";
 import {
   Facet,
   FacetName,
-  FacetNamesByType,
+  FacetTypes,
   FacetType,
   Facets,
   SearchQueryRequestBody,
@@ -65,15 +65,15 @@ export const createSearchQuerySlice: StateCreator<
 export type FacetEntry = [FacetName, Facet];
 
 export function filterFacetsByType(
-  facetByType: FacetNamesByType,
+  facetTypes: FacetTypes,
   facets: Facets,
   type: FacetType,
 ): FacetEntry[] {
-  if (!facets || !facetByType) {
+  if (!facets || !facetTypes) {
     return [];
   }
   return Object.entries(facets).filter(([name]) => {
-    return facetByType[name] === type;
+    return facetTypes[name] === type;
   });
 }
 

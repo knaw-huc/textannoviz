@@ -1,4 +1,4 @@
-import { FacetNamesByType, SearchResult } from "../../model/Search.ts";
+import { FacetTypes, SearchResult } from "../../model/Search.ts";
 import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
 import {
   FacetEntry,
@@ -21,10 +21,10 @@ export function useSearchResults() {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   async function getSearchResults(
-    facetsByType: FacetNamesByType,
+    facetTypes: FacetTypes,
     params: SearchUrlParams,
     query: SearchQuery,
-    signal: AbortSignal,
+    signal?: AbortSignal,
   ): Promise<SearchResultsAndFacets | undefined> {
     if (!query.terms) {
       return;
@@ -42,7 +42,7 @@ export function useSearchResults() {
       return;
     }
     const keywordFacets = filterFacetsByType(
-      facetsByType,
+      facetTypes,
       searchResults.aggs,
       "keyword",
     );

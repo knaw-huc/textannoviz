@@ -3,7 +3,6 @@ import isEmpty from "lodash/isEmpty";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FacetNamesByType } from "../../model/Search";
 import {
   projectConfigSelector,
   translateSelector,
@@ -32,7 +31,7 @@ export const Search = () => {
   const [isDirty, setDirty] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
-  const [index, setIndex] = useState<FacetNamesByType>({});
+  const { searchFacetTypes, setSearchFacetTypes } = useSearchStore();
   const [urlParams, setUrlParams] = useSearchParams();
   const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
     dateFrom: "",
@@ -81,9 +80,9 @@ export const Search = () => {
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
-      const newIndex: FacetNamesByType =
-        newIndices[projectConfig.elasticIndexName];
-      const aggregations = createAggs(newIndex, projectConfig);
+      const newFacetTypes = newIndices[projectConfig.elasticIndexName];
+      console.log("Search", { newFacetTypes });
+      const aggregations = createAggs(newFacetTypes, projectConfig);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
       const newFacets = await getFacets(
         projectConfig,
@@ -92,10 +91,14 @@ export const Search = () => {
         signal,
       );
 
-      const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
+      const newDateFacets = filterFacetsByType(
+        newFacetTypes,
+        newFacets,
+        "date",
+      );
 
       const newKeywordFacets = filterFacetsByType(
-        newIndex,
+        newFacetTypes,
         newFacets,
         "keyword",
       );
@@ -118,14 +121,14 @@ export const Search = () => {
       }
 
       setKeywordFacets(newKeywordFacets);
-      setIndex(newIndex);
+      setSearchFacetTypes(newFacetTypes);
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
       setSelectedFacets(newSearchQuery);
 
       if (queryDecoded?.fullText) {
         const searchResults = await getSearchResults(
-          newIndex,
+          newFacetTypes,
           newSearchParams,
           newSearchQuery,
           signal,
@@ -195,7 +198,7 @@ export const Search = () => {
       setSelectedFacets(searchQuery);
 
       const searchResults = await getSearchResults(
-        index,
+        searchFacetTypes,
         searchUrlParams,
         searchQuery,
         signal,
@@ -229,7 +232,9 @@ export const Search = () => {
       return;
     }
 
-    setKeywordFacets(filterFacetsByType(index, searchResults.aggs, "keyword"));
+    setKeywordFacets(
+      filterFacetsByType(searchFacetTypes, searchResults.aggs, "keyword"),
+    );
   }
 
   function handleNewSearch() {
