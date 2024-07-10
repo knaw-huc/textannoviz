@@ -13,11 +13,11 @@ export type LineSegmentsViewerProps = {
 
 export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
   const classes = [];
-  if (_.isNumber(props.groupId)) {
+  const isPartOfAnnotationGroup = _.isNumber(props.groupId);
+  if (isPartOfAnnotationGroup) {
     classes.push(
       props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation",
     );
-    classes.push(`group-${props.groupId}`);
   }
   return (
     <span className={classes.length ? classes.join(" ") : undefined}>
