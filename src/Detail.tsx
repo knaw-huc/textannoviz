@@ -11,7 +11,7 @@ import { useAnnotationStore } from "./stores/annotation";
 import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
 import { useTextStore } from "./stores/text";
-import { fetchBroccoliScanWithOverlap } from "./utils/broccoli";
+import { fetchBroccoliBodyIdWithOverlap } from "./utils/broccoli";
 
 interface DetailProps {
   project: string;
@@ -48,7 +48,7 @@ export const Detail = (props: DetailProps) => {
       const overlapTypes = annotationTypesToInclude;
       const relativeTo = "Origin";
 
-      const result = await fetchBroccoliScanWithOverlap(
+      const result = await fetchBroccoliBodyIdWithOverlap(
         bodyId,
         overlapTypes,
         includeResults,
@@ -60,7 +60,6 @@ export const Detail = (props: DetailProps) => {
 
       setBroccoliResult(result);
 
-      setProjectName(props.project);
       setAnnotations(result.anno);
       setViews(result.views);
 
@@ -68,6 +67,8 @@ export const Detail = (props: DetailProps) => {
     }
 
     if (params.tier2) {
+      setProjectName(props.project);
+
       const bodyId = params.tier2;
       fetchBroccoli(bodyId);
     }

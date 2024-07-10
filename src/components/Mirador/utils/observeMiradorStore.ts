@@ -4,7 +4,7 @@ export function observeMiradorStore(
   store: any,
   windowId: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _onChange?: any,
+  onChange: (canvasId: string) => void,
 ) {
   let currentValue: string;
 
@@ -12,9 +12,10 @@ export function observeMiradorStore(
     const previousValue = currentValue;
     currentValue = store.getState().windows[windowId].canvasId;
 
+    if (!previousValue) return;
+
     if (previousValue !== currentValue) {
-      console.log("niet hetzelfde");
-      console.log(previousValue, currentValue);
+      onChange(currentValue);
     }
   }
 

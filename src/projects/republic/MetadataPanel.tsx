@@ -15,7 +15,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
+import { fetchBroccoliBodyIdWithOverlap } from "../../utils/broccoli";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -68,7 +68,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     setAttendanceList(undefined);
     async function fetchData() {
       if (!session) return;
-      const result: Broccoli = await fetchBroccoliScanWithOverlap(
+      const result: Broccoli = await fetchBroccoliBodyIdWithOverlap(
         session.body.id,
         ["AttendanceList"],
         ["anno"],

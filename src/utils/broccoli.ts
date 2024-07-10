@@ -7,7 +7,7 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export const fetchBroccoliScanWithOverlap = async (
+export const fetchBroccoliBodyIdWithOverlap = async (
   bodyId: string,
   overlapTypes: string[],
   includeResults: string[],

@@ -1,5 +1,6 @@
 import mirador from "mirador-knaw-huc-mui5";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { iiifAnn } from "../../model/AnnoRepoAnnotation";
 import { Broccoli } from "../../model/Broccoli";
 import { MiradorConfig } from "../../model/MiradorConfig";
@@ -42,6 +43,8 @@ export function Mirador(props: MiradorProps) {
     projectConfig,
   );
 
+  const navigate = useNavigate();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function renderAnnosMirador(mirStore: any) {
     visualizeAnnosMirador(
@@ -68,6 +71,11 @@ export function Mirador(props: MiradorProps) {
         iiifAnn,
       ),
     );
+  }
+
+  function onCanvasChange(canvasId: string) {
+    console.log(canvasId);
+    navigate("/detail/urn:republic:session-3846-num-71-resolution-7");
   }
 
   React.useEffect(() => {
@@ -98,7 +106,7 @@ export function Mirador(props: MiradorProps) {
     }
 
     function performPostInitialisationActions() {
-      observeMiradorStore(viewer.store, projectConfig.id);
+      observeMiradorStore(viewer.store, projectConfig.id, onCanvasChange);
 
       if (projectConfig.zoomAnnoMirador) {
         zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
