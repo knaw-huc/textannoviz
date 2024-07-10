@@ -520,8 +520,8 @@
         "type": "Entity",
         "text": "achteren",
         "metadata": {
-          "category": "reviewed",
-          "layer": "reviewed"
+          "category": "hoe",
+          "layer": "hoe"
         }
       }
     },
@@ -556,8 +556,8 @@
         "type": "Entity",
         "text": "hter",
         "metadata": {
-          "category": "reviewed",
-          "layer": "reviewed"
+          "category": "hoe",
+          "layer": "hoe"
         }
       }
     },
