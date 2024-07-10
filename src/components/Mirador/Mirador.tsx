@@ -9,6 +9,7 @@ import { useMiradorStore } from "../../stores/mirador";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { defaultMiradorConfig } from "./defaultMiradorConfig";
+import { observeMiradorStore } from "./utils/observeMiradorStore";
 import { zoomAnnoMirador } from "./zoomAnnoMirador";
 
 type MiradorProps = {
@@ -97,6 +98,8 @@ export function Mirador(props: MiradorProps) {
     }
 
     function performPostInitialisationActions() {
+      observeMiradorStore(viewer.store, projectConfig.id);
+
       if (projectConfig.zoomAnnoMirador) {
         zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
       }
