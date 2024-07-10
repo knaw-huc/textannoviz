@@ -53,7 +53,7 @@ export const Search = () => {
     toFirstPage,
   } = useSearchStore();
 
-  const { getSearchResults } = useSearchResults({ projectConfig });
+  const { getSearchResults } = useSearchResults();
 
   useEffect(() => {
     const controller = new AbortController();

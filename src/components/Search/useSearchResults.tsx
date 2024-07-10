@@ -7,15 +7,18 @@ import {
   toRequestBody,
 } from "../../stores/search/search-query-slice.ts";
 import { sendSearchQuery } from "../../utils/broccoli.ts";
-import { ProjectConfig } from "../../model/ProjectConfig.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 
 type SearchResultsAndFacets = {
   results: SearchResult;
   facets: FacetEntry[];
 };
 
-export function useSearchResults(params: { projectConfig: ProjectConfig }) {
-  const { projectConfig } = params;
+export function useSearchResults() {
+  const projectConfig = useProjectStore(projectConfigSelector);
 
   async function getSearchResults(
     facetsByType: FacetNamesByType,
