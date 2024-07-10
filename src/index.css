@@ -400,7 +400,6 @@ input:valid + span::after {
 
 .react-aria-Dialog {
   outline: none;
-  padding: 30px;
 }
 
 .react-aria-Switch {
@@ -645,6 +644,12 @@ input:valid + span::after {
     @apply rounded-r;
   }
 
+  .closedNestedAnnotation {
+    @apply relative shadow-none
+    transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 
+    before:font-sans before:text-sm before:text-white hover:shadow hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_nested_annotation"];
+  }
+
   /* remove nested start icon */
   .closedNestedAnnotation .depth-2.start-annotation {
     @apply before:content-[url('')];
@@ -691,11 +696,7 @@ input:valid + span::after {
 
 .react-aria-Modal {
   box-shadow: 0 8px 20px rgba(0 0 0 / 0.1);
-  border-radius: 6px;
-  background: white;
-  color: var(--text-color);
-  border: 1px solid var(--gray-400);
-  outline: none;
+
   max-width: 300px;
 
   &[data-entering] {
@@ -727,8 +728,8 @@ input:valid + span::after {
   }
 }
 
-.annotation-summary,
+/* .annotation-summary,
 .annotation-summary li {
   list-style-type: circle;
   margin-left: 1em;
-}
+} */

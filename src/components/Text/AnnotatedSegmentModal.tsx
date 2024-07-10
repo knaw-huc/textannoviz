@@ -13,6 +13,7 @@ import {
 } from "./Annotated/AnnotationModel.ts";
 import { isEntityBody } from "../../model/AnnoRepoAnnotation.ts";
 import { EntitySummary } from "./Annotated/EntitySummary.tsx";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   const ref = useRef(null);
@@ -48,11 +49,18 @@ export function AnnotatedSegmentModal(
   return (
     <DialogTrigger>
       <SpanButton>{props.children}</SpanButton>
-      <Modal style={{ width: "600px" }}>
+      <Modal className="w-full max-w-7xl rounded-lg bg-white shadow-xl">
         <Dialog>
           {({ close }) => (
             <>
-              <button onClick={() => close()}>[X]</button>
+              <div className="my-4 flex w-full justify-end px-4">
+                <button
+                  className="rounded bg-neutral-200 p-2"
+                  onClick={() => close()}
+                >
+                  <XMarkIcon className="h-6 fill-neutral-500 stroke-neutral-800" />
+                </button>
+              </div>
               <StyledText panel="text-modal">
                 <LineSegmentsViewer
                   segments={clickedGroup.segments}
@@ -60,11 +68,13 @@ export function AnnotatedSegmentModal(
                   showDetails={true}
                 />
               </StyledText>
-              <ul>
-                {annotationBodies.map((a, i) => (
-                  <EntitySummary key={i} body={a} />
-                ))}
-              </ul>
+              <div className="rounded-b-lg bg-neutral-100 p-4">
+                <ul>
+                  {annotationBodies.map((a, i) => (
+                    <EntitySummary key={i} body={a} />
+                  ))}
+                </ul>
+              </div>
             </>
           )}
         </Dialog>

@@ -4,7 +4,7 @@ import { trimMiddle } from "./utils/trimMiddle.ts";
 export function EntitySummary(props: { body: EntityBody }) {
   const { body } = props;
   return (
-    <li className="annotation-summary">
+    <li className="annotation-summary mb-6">
       <ul>
         <span className="name-summary">
           {trimMiddle(body.text, 120)} ({body.metadata.category})
@@ -15,7 +15,11 @@ export function EntitySummary(props: { body: EntityBody }) {
           </a>
         </li>
         <li>
-          <a target="_blank" href="https://entity.sd.di.huc.knaw.nl/" rel="noreferrer">
+          <a
+            target="_blank"
+            href="https://entity.sd.di.huc.knaw.nl/"
+            rel="noreferrer"
+          >
             Entity browser
           </a>
         </li>
