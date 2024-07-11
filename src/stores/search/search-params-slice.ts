@@ -26,7 +26,8 @@ export const createSearchParamsSlice: StateCreator<
     indexName: "",
     fragmentSize: 100,
     from: 0,
-    size: 10,
+    // TODO: revert to 10
+    size: 3,
     sortBy: "_score",
     sortOrder: "desc",
   },
