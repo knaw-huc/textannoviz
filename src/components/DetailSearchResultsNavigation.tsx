@@ -119,18 +119,12 @@ function createPrevUrl(
   highlight: string | undefined,
   searchResults?: SearchResult,
 ): string | undefined {
-  if (!searchResults) {
-    return;
-  }
-  const resultIndex = searchResults.results.findIndex((r) => r._id === tier2);
-  if (resultIndex === -1) {
-    return;
-  }
-  const prevResultId = searchResults.results[resultIndex - 1]?._id;
-  if (!prevResultId) {
-    return;
-  }
-  return toDetailPageUrl(prevResultId, { highlight });
+  return createBrowseUrl(
+    searchResults,
+    tier2,
+    highlight,
+    (resultIndex) => resultIndex - 1,
+  );
 }
 
 function createNextUrl(
@@ -138,6 +132,20 @@ function createNextUrl(
   highlight: string | undefined,
   searchResults?: SearchResult,
 ): string | undefined {
+  return createBrowseUrl(
+    searchResults,
+    tier2,
+    highlight,
+    (resultIndex) => resultIndex + 1,
+  );
+}
+
+function createBrowseUrl(
+  searchResults: SearchResult | undefined,
+  tier2: string,
+  highlight: string | undefined,
+  toIndex: (oldIndex: number) => number,
+) {
   if (!searchResults) {
     return;
   }
@@ -145,11 +153,11 @@ function createNextUrl(
   if (resultIndex === -1) {
     return;
   }
-  const nextResultId = searchResults.results[resultIndex + 1]?._id;
-  if (!nextResultId) {
+  const newResultId = searchResults.results[toIndex(resultIndex)]?._id;
+  if (!newResultId) {
     return;
   }
-  return toDetailPageUrl(nextResultId, { highlight });
+  return toDetailPageUrl(newResultId, { highlight });
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
