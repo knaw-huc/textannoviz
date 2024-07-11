@@ -17,7 +17,7 @@ export function DetailSearchResultsNavigation() {
   const { searchQuery, searchUrlParams, searchResults } = useSearchStore();
   const detailParams = useDetailUrlParams();
 
-  const { prevResult, nextResult } = createPrevNextUrls(
+  const { prevResultPath, nextResultPath } = createPrevNextUrls(
     detailParams,
     searchResults,
   );
@@ -27,21 +27,45 @@ export function DetailSearchResultsNavigation() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const urlSearchParams = new URLSearchParams(searchUrlParams as any);
 
-  const isOnFirstOfPage = !prevResult;
+  const isOnFirstOfPage = !prevResultPath;
   // TODO:
   const hasPreviousPage = false;
   const isPrevDisabled = isOnFirstOfPage && !hasPreviousPage;
 
-  const isOnEndOfPage = !nextResult;
+  const isOnEndOfPage = !nextResultPath;
+  const total = searchResults?.total.value || 0;
+  const lastPageResult = searchUrlParams.from + searchUrlParams.size;
   // TODO:
-  const hasNextPage = false;
+  const hasNextPage = total > lastPageResult;
   const isNextDisabled = isOnEndOfPage && !hasNextPage;
+  console.log("DetailSearchResultsNavigation", {
+    total,
+    isOnEndOfPage,
+    lastPageResult,
+    hasNextPage,
+    isNextDisabled,
+  });
+
+  function handleNextPageClick() {
+    if (!nextResultPath && !hasNextPage) {
+      return;
+    }
+    if (nextResultPath) {
+      navigate(nextResultPath);
+      return;
+    }
+    console.log(`
+    // TODO:
+    //  - load next page
+    //  - navigate to first result on next page
+    `);
+  }
 
   return (
     <>
       <FooterLink
         classes={["pl-10"]}
-        onClick={() => prevResult && navigate(prevResult)}
+        onClick={() => prevResultPath && navigate(prevResultPath)}
         disabled={isPrevDisabled}
       >
         &lt; Previous
@@ -54,10 +78,7 @@ export function DetailSearchResultsNavigation() {
         <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
         {translate("BACK_TO_SEARCH")}
       </FooterLink>
-      <FooterLink
-        onClick={() => nextResult && navigate(nextResult)}
-        disabled={isNextDisabled}
-      >
+      <FooterLink onClick={handleNextPageClick} disabled={isNextDisabled}>
         Next &gt;
       </FooterLink>
     </>
@@ -68,8 +89,8 @@ function createPrevNextUrls(
   detailParams: DetailParams,
   searchResults?: SearchResult,
 ): {
-  prevResult?: string;
-  nextResult?: string;
+  prevResultPath?: string;
+  nextResultPath?: string;
 } {
   if (!searchResults) {
     return {};
@@ -78,17 +99,17 @@ function createPrevNextUrls(
   const resultIndex = searchResults.results.findIndex((r) => r._id === tier2);
   const prevResultId =
     resultIndex > 0 ? searchResults.results[resultIndex - 1]._id : undefined;
-  const prevResult = prevResultId
+  const prevResultPath = prevResultId
     ? toDetailPageUrl(prevResultId, { highlight })
     : undefined;
   const nextResultId =
     resultIndex !== -1 && resultIndex < searchResults.results.length - 1
       ? searchResults.results[resultIndex + 1]._id
       : undefined;
-  const nextResult = nextResultId
+  const nextResultPath = nextResultId
     ? toDetailPageUrl(nextResultId, { highlight })
     : undefined;
-  return { prevResult, nextResult };
+  return { prevResultPath, nextResultPath };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
