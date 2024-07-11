@@ -235,7 +235,10 @@ export function SearchForm(props: SearchFormProps) {
 
   function facetFilterChangeHandler(keys: Selection) {
     const updatedFilteredAggs = Array.from(keys) as string[];
-    setFilteredAggs(updatedFilteredAggs);
+    const orderedFilteredAggs = props.keywordFacets
+      .map((facet) => facet[0])
+      .filter((facetName) => updatedFilteredAggs.includes(facetName));
+    setFilteredAggs(orderedFilteredAggs);
   }
 
   return (
