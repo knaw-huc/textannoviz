@@ -30,15 +30,17 @@ export function DetailSearchResultsNavigation() {
     console.log("DetailSearchResultsNavigation", searchUrlParams);
   }, [searchUrlParams]);
 
-  const prevResultPath = createPrevUrl(
+  const prevResultPath = createResultPath(
+    searchResults,
     detailParams.tier2,
     detailParams.highlight,
-    searchResults,
+    (resultIndex) => resultIndex - 1,
   );
-  const nextResultPath = createNextUrl(
+  const nextResultPath = createResultPath(
+    searchResults,
     detailParams.tier2,
     detailParams.highlight,
-    searchResults,
+    (resultIndex) => resultIndex + 1,
   );
 
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
@@ -69,10 +71,11 @@ export function DetailSearchResultsNavigation() {
       searchQuery,
     );
     if (newSearchResults) {
-      const nextUrl = createNextUrl(
+      const nextUrl = createResultPath(
+        newSearchResults.results,
         newSearchResults.results.results[0]._id,
         detailParams.highlight,
-        newSearchResults.results,
+        (resultIndex) => resultIndex,
       );
       if (!nextUrl) {
         throw new Error("No results found");
@@ -99,10 +102,11 @@ export function DetailSearchResultsNavigation() {
       searchQuery,
     );
     if (newSearchResults) {
-      const prevUrl = createPrevUrl(
+      const prevUrl = createResultPath(
+        newSearchResults.results,
         newSearchResults.results.results[0]._id,
         detailParams.highlight,
-        newSearchResults.results,
+        () => newSearchResults.results.results.length - 1,
       );
       if (!prevUrl) {
         throw new Error("No results found");
@@ -136,46 +140,23 @@ export function DetailSearchResultsNavigation() {
   );
 }
 
-function createPrevUrl(
-  tier2: string,
-  highlight: string | undefined,
-  searchResults?: SearchResult,
-): string | undefined {
-  return createBrowseUrl(
-    searchResults,
-    tier2,
-    highlight,
-    (resultIndex) => resultIndex - 1,
-  );
-}
-
-function createNextUrl(
-  tier2: string,
-  highlight: string | undefined,
-  searchResults?: SearchResult,
-): string | undefined {
-  return createBrowseUrl(
-    searchResults,
-    tier2,
-    highlight,
-    (resultIndex) => resultIndex + 1,
-  );
-}
-
-function createBrowseUrl(
+function createResultPath(
   searchResults: SearchResult | undefined,
-  tier2: string,
+  resultId: string,
   highlight: string | undefined,
-  toIndex: (oldIndex: number) => number,
+  updateResultIndex: (oldIndex: number) => number,
 ) {
   if (!searchResults) {
     return;
   }
-  const resultIndex = searchResults.results.findIndex((r) => r._id === tier2);
+  const resultIndex = searchResults.results.findIndex(
+    (r) => r._id === resultId,
+  );
   if (resultIndex === -1) {
     return;
   }
-  const newResultId = searchResults.results[toIndex(resultIndex)]?._id;
+  const newResultId =
+    searchResults.results[updateResultIndex(resultIndex)]?._id;
   if (!newResultId) {
     return;
   }
