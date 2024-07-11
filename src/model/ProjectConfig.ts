@@ -66,6 +66,7 @@ export interface ProjectConfig {
     size: number;
   }[];
   defaultKeywordAggsToRender: string[];
+  showFacetFilter: boolean;
   mirador: {
     showWindowSideBar: boolean;
     showTopMenuButton: boolean;

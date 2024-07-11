@@ -70,6 +70,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "delegateName",
     "entityName",
   ],
+  showFacetFilter: true,
   components: {
     MetadataPanel,
     SearchItem,

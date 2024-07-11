@@ -58,6 +58,7 @@ export const defaultConfig: Omit<
   inputFacetOptions: "",
   overrideDefaultAggs: [],
   defaultKeywordAggsToRender: [],
+  showFacetFilter: true,
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,

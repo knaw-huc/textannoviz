@@ -310,13 +310,15 @@ export function SearchForm(props: SearchFormProps) {
         />
       )}
 
-      <div className="flex w-full max-w-[450px] flex-col gap-4">
-        <FacetFilter
-          allPossibleKeywordFacets={props.keywordFacets}
-          filteredKeywordFacets={filteredAggs}
-          facetFilterChangeHandler={facetFilterChangeHandler}
-        />
-      </div>
+      {projectConfig.showFacetFilter && (
+        <div className="flex w-full max-w-[450px] flex-col gap-4">
+          <FacetFilter
+            allPossibleKeywordFacets={props.keywordFacets}
+            filteredKeywordFacets={filteredAggs}
+            facetFilterChangeHandler={facetFilterChangeHandler}
+          />
+        </div>
+      )}
 
       {projectConfig.showKeywordFacets &&
         !isEmpty(props.keywordFacets) &&
