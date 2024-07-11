@@ -63,6 +63,14 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
       size: 250,
     },
   ],
+  defaultKeywordAggsToRender: [
+    "propositionType",
+    "textType",
+    "resolutionType",
+    "delegateName",
+    "entityName",
+  ],
+  showFacetFilter: true,
   components: {
     MetadataPanel,
     SearchItem,
