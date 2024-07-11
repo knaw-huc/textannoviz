@@ -9,6 +9,7 @@ import { toDetailPageUrl } from "./Text/Annotated/utils/toDetailPageUrl.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { usePagination } from "../utils/usePagination.tsx";
 import { useSearchResults } from "./Search/useSearchResults.tsx";
+import { useEffect } from "react";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
@@ -22,8 +23,12 @@ export function DetailSearchResultsNavigation() {
     searchFacetTypes,
     setSearchResults,
   } = useSearchStore();
-  const { selectNextPage, hasNextPage } = usePagination();
+  const { selectNextPage, hasNextPage, hasPrevPage, selectPrevPage } =
+    usePagination();
   const { getSearchResults } = useSearchResults();
+  useEffect(() => {
+    console.log("DetailSearchResultsNavigation", searchUrlParams);
+  }, [searchUrlParams]);
 
   const prevResultPath = createPrevUrl(
     detailParams.tier2,
@@ -41,24 +46,11 @@ export function DetailSearchResultsNavigation() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const urlSearchParams = new URLSearchParams(searchUrlParams as any);
 
-  const total = searchResults?.total.value || 0;
-
   const isOnFirstOfPage = !prevResultPath;
-  // TODO:
-  const hasPreviousPage = false;
-  const isPrevDisabled = isOnFirstOfPage && !hasPreviousPage;
+  const isPrevDisabled = isOnFirstOfPage && !hasPrevPage();
 
   const isOnEndOfPage = !nextResultPath;
-  const lastPageResult = searchUrlParams.from + searchUrlParams.size;
   const isNextDisabled = isOnEndOfPage && !hasNextPage();
-
-  console.log("DetailSearchResultsNavigation", {
-    total,
-    isOnEndOfPage,
-    lastPageResult,
-    hasNextPage: hasNextPage(),
-    isNextDisabled,
-  });
 
   async function handleNextResultClick() {
     if (!nextResultPath && !hasNextPage()) {
@@ -90,11 +82,41 @@ export function DetailSearchResultsNavigation() {
     }
   }
 
+  async function handlePrevResultClick() {
+    if (!prevResultPath && !hasPrevPage()) {
+      return;
+    }
+
+    if (prevResultPath) {
+      navigate(prevResultPath);
+      return;
+    }
+
+    selectPrevPage();
+    const newSearchResults = await getSearchResults(
+      searchFacetTypes,
+      searchUrlParams,
+      searchQuery,
+    );
+    if (newSearchResults) {
+      const prevUrl = createPrevUrl(
+        newSearchResults.results.results[0]._id,
+        detailParams.highlight,
+        newSearchResults.results,
+      );
+      if (!prevUrl) {
+        throw new Error("No results found");
+      }
+      navigate(prevUrl);
+      setSearchResults(newSearchResults.results);
+    }
+  }
+
   return (
     <>
       <FooterLink
         classes={["pl-10"]}
-        onClick={() => prevResultPath && navigate(prevResultPath)}
+        onClick={handlePrevResultClick}
         disabled={isPrevDisabled}
       >
         &lt; Previous
