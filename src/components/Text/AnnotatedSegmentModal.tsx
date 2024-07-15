@@ -68,7 +68,8 @@ export function AnnotatedSegmentModal(
                   showDetails={true}
                 />
               </StyledText>
-              <div className="rounded-b-lg bg-neutral-100 p-4">
+              <div className="rounded-b-lg bg-neutral-100 px-6 py-6 lg:px-10">
+                <div className="mb-2 mt-4 font-bold">Entiteiten</div>
                 <ul>
                   {annotationBodies.map((a, i) => (
                     <EntitySummary key={i} body={a} />

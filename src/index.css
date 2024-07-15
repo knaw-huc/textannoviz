@@ -462,8 +462,13 @@ input:valid + span::after {
     @apply leading-[4rem];
   }
 
+  .annotationMarker {
+    @apply relative pl-4 before:absolute before:inline-block before:-translate-x-4 before:translate-y-1;
+  }
+
   /* start marker icons */
-  .start-annotation {
+  .start-annotation,
+  .annotationMarker {
     @apply relative before:absolute before:inline-block;
   }
 
@@ -471,7 +476,8 @@ input:valid + span::after {
     @apply inline-block before:relative;
   }
 
-  .underlined-per.start-annotation {
+  .underlined-per.start-annotation,
+  .underlined-per.annotationMarker {
     @apply before:content-[url('assets/icon-annotation-person.png')];
   }
 
@@ -646,8 +652,8 @@ input:valid + span::after {
 
   .closedNestedAnnotation {
     @apply relative shadow-none
-    transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 
-    before:font-sans before:text-sm before:text-white hover:shadow hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_nested_annotation"];
+    transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 before:font-sans
+    before:text-sm before:text-white hover:shadow hover:before:w-[200px] hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_nested_annotation"];
   }
 
   /* remove nested start icon */
