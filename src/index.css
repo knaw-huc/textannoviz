@@ -481,19 +481,23 @@ input:valid + span::after {
     @apply before:content-[url('assets/icon-annotation-person.png')];
   }
 
-  .underlined-hoe.start-annotation {
+  .underlined-hoe.start-annotation,
+  .underlined-hoe.annotationMarker {
     @apply before:content-[url('assets/icon-annotation-hoedanigheid.png')];
   }
 
-  .underlined-org.start-annotation {
+  .underlined-org.start-annotation,
+  .underlined-org.annotationMarker {
     @apply before:content-[url('assets/icon-annotation-organisation.png')];
   }
 
-  .underlined-com.start-annotation {
+  .underlined-com.start-annotation,
+  .underlined-com.annotationMarker {
     @apply before:content-[url('assets/icon-annotation-commision.png')];
   }
 
-  .underlined-loc.start-annotation {
+  .underlined-loc.start-annotation,
+  .underlined-loc.annotationMarker {
     @apply before:content-[url('assets/icon-annotation-location.png')];
   }
 
