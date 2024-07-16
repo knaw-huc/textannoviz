@@ -1,3 +1,4 @@
+import { miradorImageToolsPlugin } from "mirador-image-tools/es";
 import mirador from "mirador-knaw-huc-mui5";
 import React from "react";
 import { iiifAnn } from "../../model/AnnoRepoAnnotation";
@@ -70,7 +71,7 @@ export function Mirador(props: MiradorProps) {
   }
 
   React.useEffect(() => {
-    const viewer = mirador.viewer(miradorConfig);
+    const viewer = mirador.viewer(miradorConfig, [...miradorImageToolsPlugin]);
     setMiradorStore(viewer.store);
 
     const INIT_CHECK_INTERVAL_MS = 250;

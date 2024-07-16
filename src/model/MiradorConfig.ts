@@ -15,6 +15,8 @@ export type MiradorConfig = {
   };
   windows: [
     {
+      imageToolsEnabled: boolean;
+      imageToolsOpen: boolean;
       manifestId: string;
       canvasId: string;
       id: string;

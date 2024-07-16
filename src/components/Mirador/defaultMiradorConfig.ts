@@ -24,6 +24,8 @@ export const defaultMiradorConfig: MiradorConfig = {
   },
   windows: [
     {
+      imageToolsEnabled: true,
+      imageToolsOpen: true,
       manifestId: "",
       canvasId: "",
       id: "",
