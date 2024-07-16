@@ -52,7 +52,7 @@ export function DetailSearchResultsNavigation() {
   const isNextDisabled = isOnEndOfPage && !hasNextPage();
 
   useEffect(() => {
-    if (prevFrom === searchUrlParams.from) {
+    if (searchUrlParams.from === prevFrom) {
       return;
     }
     loadNextPrevSearchResultPage();
