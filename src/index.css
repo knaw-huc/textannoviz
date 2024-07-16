@@ -682,6 +682,7 @@ input:valid + span::after {
 }
 
 .react-aria-ModalOverlay {
+  padding-top: 1em;
   position: fixed;
   top: 0;
   left: 0;
