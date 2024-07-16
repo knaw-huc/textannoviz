@@ -79,12 +79,14 @@ export function SegmentGroup(props: {
 }) {
   const { group, clickedGroup, clickedSegment } = props;
 
-  if (!clickedGroup) {
+  if (!clickedGroup?.id || !group.id) {
     return (
       <LineSegmentsViewer
+        groupId={group.id}
         segments={group.segments}
         showDetails={false}
         clickedSegment={clickedSegment}
+        onClickSegment={props.onClickSegment}
       />
     );
   }
