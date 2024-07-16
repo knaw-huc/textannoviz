@@ -10,19 +10,18 @@ export function EntitySummary(props: { body: EntityBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
   const category = body.metadata.category || "";
 
-  console.log("EntitySummary", body);
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
-      <div className="">
+      <div>
         <div
           className={`underlined-${category} annotationMarker text-sm italic`}
         >
           {translateProject(category)}
         </div>
-        <div className="">{trimMiddle(body.text, 120)}</div>
+        <div>{trimMiddle(body.text, 120)}</div>
       </div>
       <div className="flex gap-4">
-        <div className="">
+        <div>
           <button
             className="rounded border border-neutral-300  px-3 py-1 text-sm transition hover:bg-neutral-200"
             onClick={() => alert("Not implemented")}
@@ -34,7 +33,7 @@ export function EntitySummary(props: { body: EntityBody }) {
           </div>
         </div>
 
-        <div className="">
+        <div>
           <button
             className="rounded border border-neutral-300 px-3 py-1 text-sm transition hover:bg-neutral-200"
             onClick={() => alert("Not implemented")}
