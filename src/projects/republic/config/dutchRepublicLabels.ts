@@ -27,4 +27,13 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
 
   // text panel titles:
   self: "Tekst",
+
+  COM: "commissie",
+  HOE: "hoedanigheid",
+  LOC: "locatie",
+  ORG: "organisatie",
+  PER: "persoon",
+
+  WARNING_NEW_SEARCH: "Let op: dit start een nieuwe zoekactie",
+  MORE_INFO_ON_CATEGORY: "Meer informatie over deze",
 });
