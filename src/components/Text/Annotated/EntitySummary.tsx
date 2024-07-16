@@ -27,7 +27,7 @@ export function EntitySummary(props: { body: EntityBody }) {
             className="rounded border border-neutral-300  px-3 py-1 text-sm transition hover:bg-neutral-200"
             onClick={() => alert("Not implemented")}
           >
-            Zoek naar deze commissie
+            {translateProject("SEARCH_CATEGORY")} {translateProject(category)}
           </button>
           <div className="mt-2 text-xs italic text-neutral-600">
             {translateProject("WARNING_NEW_SEARCH")}
