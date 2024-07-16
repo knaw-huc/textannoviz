@@ -1,7 +1,6 @@
 import { ElementType, PropsWithChildren, useRef } from "react";
 import { useButton } from "react-aria";
 import { Dialog, DialogTrigger, Modal } from "react-aria-components";
-import "../../MyModal.css";
 import { AriaButtonOptions } from "@react-aria/button";
 
 import { StyledText } from "./StyledText.tsx";
@@ -49,7 +48,7 @@ export function AnnotatedSegmentModal(
   return (
     <DialogTrigger>
       <SpanButton>{props.children}</SpanButton>
-      <Modal className="w-full max-w-7xl rounded-lg bg-white shadow-xl">
+      <Modal className="w-full max-w-7xl overflow-scroll rounded-lg bg-white shadow-xl">
         <Dialog>
           {({ close }) => (
             <>

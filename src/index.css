@@ -681,8 +681,6 @@ input:valid + span::after {
   }
 }
 
-/*@import url('index.css');*/
-
 .react-aria-ModalOverlay {
   position: fixed;
   top: 0;
@@ -691,7 +689,6 @@ input:valid + span::after {
   height: var(--visual-viewport-height);
   background: rgba(0 0 0 / 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
   z-index: 100;
 
@@ -737,9 +734,3 @@ input:valid + span::after {
     transform: scale(1);
   }
 }
-
-/* .annotation-summary,
-.annotation-summary li {
-  list-style-type: circle;
-  margin-left: 1em;
-} */
