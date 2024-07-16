@@ -9,13 +9,12 @@ import { toDetailPageUrl } from "./Text/Annotated/utils/toDetailPageUrl.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { usePagination } from "../utils/usePagination.tsx";
 import { useSearchResults } from "./Search/useSearchResults.tsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
   const translate = useProjectStore(translateSelector);
   const detailParams = useDetailUrlParams();
-
   const {
     searchQuery,
     searchUrlParams,
@@ -23,12 +22,10 @@ export function DetailSearchResultsNavigation() {
     searchFacetTypes,
     setSearchResults,
   } = useSearchStore();
-  const { selectNextPage, hasNextPage, hasPrevPage, selectPrevPage } =
+  const [prevFrom, setPrevFrom] = useState(searchUrlParams.from);
+  const { hasNextPage, selectNextPage, hasPrevPage, selectPrevPage } =
     usePagination();
   const { getSearchResults } = useSearchResults();
-  useEffect(() => {
-    console.log("DetailSearchResultsNavigation", searchUrlParams);
-  }, [searchUrlParams]);
 
   const prevResultPath = createResultPath(
     searchResults,
@@ -54,6 +51,44 @@ export function DetailSearchResultsNavigation() {
   const isOnEndOfPage = !nextResultPath;
   const isNextDisabled = isOnEndOfPage && !hasNextPage();
 
+  useEffect(() => {
+    if (prevFrom === searchUrlParams.from) {
+      return;
+    }
+    loadNextPrevSearchResultPage();
+
+    async function loadNextPrevSearchResultPage() {
+      const newSearchResults = await getSearchResults(
+        searchFacetTypes,
+        searchUrlParams,
+        searchQuery,
+      );
+
+      if (!newSearchResults) {
+        return;
+      }
+
+      const resultIndexUpdater =
+        searchUrlParams.from > prevFrom
+          ? // Start with first result of next page:
+            () => 0
+          : // Start with last result of previous page:
+            () => newSearchResults.results.results.length - 1;
+
+      const nextUrl = createResultPath(
+        newSearchResults.results,
+        newSearchResults.results.results[0]._id,
+        detailParams.highlight,
+        resultIndexUpdater,
+      );
+      if (!nextUrl) {
+        throw new Error("No results found");
+      }
+      setSearchResults(newSearchResults.results);
+      navigate(nextUrl);
+    }
+  }, [searchUrlParams.from]);
+
   async function handleNextResultClick() {
     if (!nextResultPath && !hasNextPage()) {
       return;
@@ -64,25 +99,8 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
+    setPrevFrom(searchUrlParams.from);
     selectNextPage();
-    const newSearchResults = await getSearchResults(
-      searchFacetTypes,
-      searchUrlParams,
-      searchQuery,
-    );
-    if (newSearchResults) {
-      const nextUrl = createResultPath(
-        newSearchResults.results,
-        newSearchResults.results.results[0]._id,
-        detailParams.highlight,
-        (resultIndex) => resultIndex,
-      );
-      if (!nextUrl) {
-        throw new Error("No results found");
-      }
-      navigate(nextUrl);
-      setSearchResults(newSearchResults.results);
-    }
   }
 
   async function handlePrevResultClick() {
@@ -95,25 +113,8 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
+    setPrevFrom(searchUrlParams.from);
     selectPrevPage();
-    const newSearchResults = await getSearchResults(
-      searchFacetTypes,
-      searchUrlParams,
-      searchQuery,
-    );
-    if (newSearchResults) {
-      const prevUrl = createResultPath(
-        newSearchResults.results,
-        newSearchResults.results.results[0]._id,
-        detailParams.highlight,
-        () => newSearchResults.results.results.length - 1,
-      );
-      if (!prevUrl) {
-        throw new Error("No results found");
-      }
-      navigate(prevUrl);
-      setSearchResults(newSearchResults.results);
-    }
   }
 
   return (
@@ -144,7 +145,7 @@ function createResultPath(
   searchResults: SearchResult | undefined,
   resultId: string,
   highlight: string | undefined,
-  updateResultIndex: (oldIndex: number) => number,
+  resultIndexUpdater: (oldIndex: number) => number,
 ) {
   if (!searchResults) {
     return;
@@ -156,7 +157,7 @@ function createResultPath(
     return;
   }
   const newResultId =
-    searchResults.results[updateResultIndex(resultIndex)]?._id;
+    searchResults.results[resultIndexUpdater(resultIndex)]?._id;
   if (!newResultId) {
     return;
   }
