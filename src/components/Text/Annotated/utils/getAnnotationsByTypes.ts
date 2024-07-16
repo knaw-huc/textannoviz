@@ -1,6 +1,6 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 
-export function getAnnotationsByType(
+export function getAnnotationsByTypes(
   annotations: AnnoRepoAnnotation[],
   annotationTypes: string[],
 ) {

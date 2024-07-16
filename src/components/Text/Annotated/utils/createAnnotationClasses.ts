@@ -1,5 +1,4 @@
 import {
-  AnnotationBodyId,
   AnnotationSegment,
   NestedAnnotationSegment,
   SearchHighlightAnnotationSegment,
@@ -9,15 +8,15 @@ import {
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
-  hoveringOn: AnnotationBodyId | undefined,
 ) {
   const classes = [];
+  classes.push(
+    "nested-annotation",
+    "cursor-pointer",
+    "depth-" + annotation.depth,
+  );
   if (annotation.body.type === "Entity") {
     classes.push(`underlined-${annotation.body.metadata.category}`);
-  }
-  classes.push("nested-annotation", "cursor-pointer");
-  if (hoveringOn === annotation.body.id) {
-    classes.push("hover-underline");
   }
   classes.push(...createStartEndClasses(segment, annotation));
   return classes.join(" ").toLowerCase();

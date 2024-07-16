@@ -9,7 +9,7 @@ import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
-  broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
+  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {
     resolution: "green",
     attendant: "#DB4437",
@@ -29,14 +29,9 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     // "TextRegion",
     "Scan",
   ],
-  // TODO: remove resolution and entity (added for testing purposes)
-  annotationTypesToHighlight: ["Resolution", "Attendant", "Entity"],
-  allowedAnnotationTypesToHighlight: [
-    "AttendanceList",
-    "Attendant",
-    "Resolution",
-    "Reviewed",
-  ],
+  // TODO: what annotations besides entities should be highlighted?
+  annotationTypesToHighlight: ["Entity"],
+  allowedAnnotationTypesToHighlight: ["Entity"],
   elasticIndexName: "republic-2024.06.18",
   initialDateFrom: "1588-01-01",
   initialDateTo: "1796-12-31",

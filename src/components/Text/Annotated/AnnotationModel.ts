@@ -132,3 +132,8 @@ export type Segment = {
   annotations: AnnotationSegment[];
   body: string;
 };
+
+export type GroupedSegments = {
+  id?: number;
+  segments: Segment[];
+};

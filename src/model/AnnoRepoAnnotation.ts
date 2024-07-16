@@ -1,4 +1,4 @@
-export type SessionBody = AnnoRepoBody & {
+export type SessionBody = AnnoRepoBodyBase & {
   metadata: {
     dateShiftStatus: string;
     hasSessionDateElement: boolean;
@@ -16,7 +16,7 @@ export type SessionBody = AnnoRepoBody & {
   };
 };
 
-export type ResolutionBody = AnnoRepoBody & {
+export type ResolutionBody = AnnoRepoBodyBase & {
   metadata: {
     inventoryNum: number;
     sourceId: string;
@@ -43,7 +43,7 @@ export type ResolutionBody = AnnoRepoBody & {
   };
 };
 
-export type ReviewedBody = AnnoRepoBody & {
+export type ReviewedBody = AnnoRepoBodyBase & {
   metadata: {
     inventoryNum: number;
     sourceId: string;
@@ -58,7 +58,7 @@ export type ReviewedBody = AnnoRepoBody & {
   text: string;
 };
 
-export type AttendanceListBody = AnnoRepoBody & {
+export type AttendanceListBody = AnnoRepoBodyBase & {
   metadata: {
     inventoryNum: number;
     sourceId: string;
@@ -84,7 +84,7 @@ type attendanceSpansType = {
   delegateScore: number;
 };
 
-export type AttendantBody = AnnoRepoBody & {
+export type AttendantBody = AnnoRepoBodyBase & {
   metadata: {
     offset: number;
     end: number;
@@ -96,21 +96,21 @@ export type AttendantBody = AnnoRepoBody & {
   };
 };
 
-export type ScanBody = AnnoRepoBody & {
+export type ScanBody = AnnoRepoBodyBase & {
   metadata: {
     volume: string;
     opening: number;
   };
 };
 
-export type TeiDivBody = AnnoRepoBody & {
+export type TeiDivBody = AnnoRepoBodyBase & {
   metadata: {
     lang: string;
     type: string;
   };
 };
 
-export type TeiRsBody = AnnoRepoBody & {
+export type TeiRsBody = AnnoRepoBodyBase & {
   metadata: {
     key: string;
     type: string;
@@ -118,51 +118,51 @@ export type TeiRsBody = AnnoRepoBody & {
   };
 };
 
-export type TeiObjectdescBody = AnnoRepoBody & {
+export type TeiObjectdescBody = AnnoRepoBodyBase & {
   metadata: {
     form: string;
   };
 };
 
-export type TeiCorrespactionBody = AnnoRepoBody & {
+export type TeiCorrespactionBody = AnnoRepoBodyBase & {
   metadata: {
     type: string;
   };
 };
 
-export type TeiDateBody = AnnoRepoBody & {
+export type TeiDateBody = AnnoRepoBodyBase & {
   metadata: {
     when: string;
   };
 };
 
-export type TeiPtrBody = AnnoRepoBody & {
+export type TeiPtrBody = AnnoRepoBodyBase & {
   metadata: {
     target: string;
     type?: string;
   };
 };
 
-export type TeiNoteBody = AnnoRepoBody & {
+export type TeiNoteBody = AnnoRepoBodyBase & {
   metadata: {
     type?: string;
     id?: string;
   };
 };
 
-export type TeiRefBody = AnnoRepoBody & {
+export type TeiRefBody = AnnoRepoBodyBase & {
   metadata: {
     target: string;
   };
 };
 
-export type TeiRegBody = AnnoRepoBody & {
+export type TeiRegBody = AnnoRepoBodyBase & {
   metadata: {
     type: string;
   };
 };
 
-export type TfLetterBody = AnnoRepoBody & {
+export type TfLetterBody = AnnoRepoBodyBase & {
   metadata: {
     correspondent: string;
     country: string;
@@ -179,7 +179,7 @@ export type TfLetterBody = AnnoRepoBody & {
   };
 };
 
-export type SurianoTfFileBody = AnnoRepoBody & {
+export type SurianoTfFileBody = AnnoRepoBodyBase & {
   metadata: {
     date: string;
     editornotes: string;
@@ -194,14 +194,14 @@ export type SurianoTfFileBody = AnnoRepoBody & {
   };
 };
 
-export type DocumentBody = AnnoRepoBody & {
+export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {
     document: string;
     manifest: string;
   };
 };
 
-export type PxPageBody = AnnoRepoBody & {
+export type PxPageBody = AnnoRepoBodyBase & {
   metadata: {
     document: string;
     prevPageId: string;
@@ -209,29 +209,49 @@ export type PxPageBody = AnnoRepoBody & {
   };
 };
 
-export type AnnoRepoBody = {
+export type AnnoRepoBodyBase = {
   id: string;
   type: string;
   metadata: {
     category?: string;
-  } & (
-    | SessionBody
-    | ResolutionBody
-    | ReviewedBody
-    | AttendanceListBody
-    | AttendantBody
-    | TeiDivBody
-    | TeiRsBody
-    | TeiObjectdescBody
-    | TeiCorrespactionBody
-    | TeiDateBody
-    | TeiPtrBody
-    | TeiNoteBody
-    | TeiRefBody
-    | TeiRegBody
-    | TfLetterBody
-  );
+  };
 };
+
+export type EntityBody = AnnoRepoBodyBase & {
+  type: "Entity";
+  text: string;
+  metadata: {
+    entityId: string;
+    entityLabels: string[];
+    inventoryNum: string;
+    name: string;
+  };
+};
+
+export type AnnoRepoBody =
+  | SessionBody
+  | ResolutionBody
+  | ReviewedBody
+  | AttendanceListBody
+  | AttendantBody
+  | TeiDivBody
+  | TeiRsBody
+  | TeiObjectdescBody
+  | TeiCorrespactionBody
+  | TeiDateBody
+  | TeiPtrBody
+  | TeiNoteBody
+  | TeiRefBody
+  | TeiRegBody
+  | TfLetterBody
+  | EntityBody;
+
+export function isEntityBody(toTest: AnnoRepoBody): toTest is EntityBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "Entity";
+}
 
 export type Body =
   | AnnoRepoBody

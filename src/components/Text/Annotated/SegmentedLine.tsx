@@ -1,7 +1,17 @@
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
-import { LineSegment } from "./LineSegment.tsx";
-import { AnnotationBodyId, LineOffsets, Segment } from "./AnnotationModel.ts";
+import {
+  AnnotationGroup,
+  GroupedSegments,
+  isNestedAnnotationSegment,
+  LineOffsets,
+  Segment,
+} from "./AnnotationModel.ts";
+import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
+import { useEffect, useState } from "react";
+import { AnnotatedSegmentModal } from "../AnnotatedSegmentModal.tsx";
+import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
+import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
 
 /**
  * Definitions:
@@ -15,36 +25,85 @@ import { AnnotationBodyId, LineOffsets, Segment } from "./AnnotationModel.ts";
  * - Annotation depth: the number of levels that an annotation is nested in parent annotations or with overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
  */
-export function SegmentedLine(props: {
-  line: string;
-  offsets: LineOffsets[];
-  clickedOn: AnnotationBodyId | undefined;
-  hoveringOn: AnnotationBodyId | undefined;
-  onSegmentHoverChange: (value: Segment | undefined) => void;
-  onSegmentClicked: (value: Segment | undefined) => void;
-}) {
+export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   const { line, offsets } = props;
+  const [segments, setSegments] = useState<Segment[]>([]);
+
   if (line.startsWith("Synde ter vergaderinge")) {
     console.time("create-line");
   }
   const offsetsByChar = listOffsetsByChar(offsets);
-  const segments = new AnnotationSegmenter(line, offsetsByChar).segment();
+  const [clickedSegment, setClickedSegment] = useState<Segment>();
+  const clickedAnnotationGroup: AnnotationGroup | undefined =
+    getAnnotationGroup(clickedSegment);
+
+  useEffect(() => {
+    setSegments(new AnnotationSegmenter(line, offsetsByChar).segment());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleClickSegment(clicked: Segment | undefined) {
+    if (!clicked) {
+      setClickedSegment(undefined);
+      return;
+    }
+    setClickedSegment(clicked);
+  }
+
   if (line.startsWith("Synde ter vergaderinge")) {
-    console.timeLog("create-line", { line, annotationSegments: segments });
+    console.timeLog("create-line", { line, segments });
     console.timeEnd("create-line");
   }
+  const grouped = groupSegmentsByGroupId(segments);
+  const clickedGroup = grouped.find((g) => g.id === clickedAnnotationGroup?.id);
   return (
     <>
-      {segments.map((segment, i) => (
-        <LineSegment
+      {grouped.map((group, i) => (
+        <SegmentGroup
           key={i}
-          segment={segment}
-          clickedOn={props.clickedOn}
-          hoveringOn={props.hoveringOn}
-          onHoverChange={props.onSegmentHoverChange}
-          onClick={props.onSegmentClicked}
+          group={group}
+          clickedGroup={clickedGroup}
+          clickedSegment={clickedSegment}
+          onClickSegment={handleClickSegment}
         />
       ))}
     </>
   );
+}
+
+export function SegmentGroup(props: {
+  group: GroupedSegments;
+  clickedGroup?: GroupedSegments;
+  clickedSegment?: Segment | undefined;
+  onClickSegment?: OnClickSegment;
+}) {
+  const { group, clickedGroup, clickedSegment } = props;
+
+  if (!clickedGroup) {
+    return (
+      <LineSegmentsViewer
+        segments={group.segments}
+        showDetails={false}
+        clickedSegment={clickedSegment}
+      />
+    );
+  }
+  return (
+    <AnnotatedSegmentModal clickedGroup={clickedGroup}>
+      <LineSegmentsViewer
+        groupId={group.id}
+        segments={group.segments}
+        showDetails={false}
+        clickedSegment={clickedSegment}
+        onClickSegment={props.onClickSegment}
+      />
+    </AnnotatedSegmentModal>
+  );
+}
+
+function getAnnotationGroup(segment?: Segment): AnnotationGroup | undefined {
+  if (!segment) {
+    return;
+  }
+  return segment.annotations.find(isNestedAnnotationSegment)?.group;
 }

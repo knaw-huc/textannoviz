@@ -1,26 +1,22 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { getAnnotationsByType } from "./utils/getAnnotationsByType.ts";
+import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { SegmentedLine } from "./SegmentedLine.tsx";
 import { createLineOffsets } from "./utils/createLineOffsets.ts";
-import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
-import { useState } from "react";
-import {
-  AnnotationBodyId,
-  isNestedAnnotationSegment,
-  Segment,
-} from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
 import { DUMMY_ANNOTATION_RESOLUTION } from "../../../utils/broccoli.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
+import _ from "lodash";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
+  showDetail: boolean;
 };
 
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const annotations = useAnnotationStore().annotations;
+  // TODO: why are there duplicates?
+  const annotations = _.uniqBy(useAnnotationStore().annotations, "body.id");
   const { tier2, highlight } = useDetailUrlParams();
   // TODO: clean up dummy search terms
   const useDummy = tier2 === DUMMY_ANNOTATION_RESOLUTION;
@@ -29,21 +25,17 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const searchTerms = useDummy ? dummySearchTerms : highlight;
 
   const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
-  const annotationsToHighlight = getAnnotationsByType(
+  const positions = props.text.locations.annotations;
+
+  const annotationsToHighlight = getAnnotationsByTypes(
     annotations,
     typesToHighlight,
   );
-  const [annotationUnderMouse, setAnnotationUnderMouse] =
-    useState<AnnotationBodyId>();
-  const [annotationClicked, setAnnotationClicked] =
-    useState<AnnotationBodyId>();
-
-  const positions = props.text.locations.annotations;
   const lines = props.text.lines;
 
-  const offsets = annotationsToHighlight
-    .filter((a) => isAnnotationInSingleLine(a, positions))
-    .map((a) => createLineOffsets(a, positions, lines));
+  const offsets = annotationsToHighlight.map((a) =>
+    createLineOffsets(a, positions, lines),
+  );
   const searchRegex = createSearchRegex(searchTerms, tier2);
   const searchOffsets = createLineSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
@@ -57,44 +49,14 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   //   offsets,
   // });
 
-  function getActiveAnnotationId(segment: Segment) {
-    const nestedAnnotations = segment.annotations.filter(
-      isNestedAnnotationSegment,
-    );
-    const deepest = nestedAnnotations.slice(-1)[0];
-    return deepest?.body.id;
-  }
-
-  function handleSegmentHoverChange(hovered: Segment | undefined) {
-    if (!hovered) {
-      setAnnotationUnderMouse(undefined);
-      return;
-    }
-    setAnnotationUnderMouse(getActiveAnnotationId(hovered));
-  }
-
-  function handleSegmentClicked(clicked: Segment | undefined) {
-    if (!clicked) {
-      setAnnotationClicked(undefined);
-      return;
-    }
-    console.log("handleClick", { clicked });
-    setAnnotationClicked(getActiveAnnotationId(clicked));
-  }
-
   return (
-    <div className="leading-loose">
+    <div>
       {props.text.lines.map((line, index) => (
-        <div key={index} className="w-fit">
-          <SegmentedLine
-            line={line}
-            offsets={offsets.filter((a) => a.lineIndex === index)}
-            clickedOn={annotationClicked}
-            hoveringOn={annotationUnderMouse}
-            onSegmentHoverChange={handleSegmentHoverChange}
-            onSegmentClicked={handleSegmentClicked}
-          />
-        </div>
+        <SegmentedLine
+          key={index}
+          line={line}
+          offsets={offsets.filter((a) => a.lineIndex === index)}
+        />
       ))}
     </div>
   );
