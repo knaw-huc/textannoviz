@@ -48,10 +48,10 @@ export function AnnotatedSegmentModal(
   return (
     <DialogTrigger>
       <SpanButton>{props.children}</SpanButton>
-      <Modal className="w-full max-w-7xl overflow-scroll rounded-lg bg-white shadow-xl">
+      <Modal className="h-fit w-full max-w-7xl rounded-lg bg-white shadow-xl">
         <Dialog>
           {({ close }) => (
-            <>
+            <div className="scrollable-modal-content">
               <div className="my-4 flex w-full justify-end px-4">
                 <button
                   className="rounded bg-neutral-200 p-2"
@@ -75,7 +75,7 @@ export function AnnotatedSegmentModal(
                   ))}
                 </ul>
               </div>
-            </>
+            </div>
           )}
         </Dialog>
       </Modal>

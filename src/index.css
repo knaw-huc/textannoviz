@@ -686,7 +686,7 @@ input:valid + span::after {
   top: 0;
   left: 0;
   width: 100vw;
-  height: var(--visual-viewport-height);
+  height: 100%;
   background: rgba(0 0 0 / 0.5);
   display: flex;
   justify-content: center;
@@ -702,6 +702,8 @@ input:valid + span::after {
 }
 
 .react-aria-Modal {
+  height: fit-content;
+
   box-shadow: 0 8px 20px rgba(0 0 0 / 0.1);
 
   max-width: 300px;
@@ -713,6 +715,11 @@ input:valid + span::after {
   .react-aria-TextField {
     margin-bottom: 8px;
   }
+}
+
+.scrollable-modal-content {
+  overflow: scroll;
+  max-height: 100vh;
 }
 
 @keyframes modal-fade {
