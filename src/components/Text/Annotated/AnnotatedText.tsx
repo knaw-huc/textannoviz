@@ -3,7 +3,6 @@ import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { SegmentedLine } from "./SegmentedLine.tsx";
 import { createLineOffsets } from "./utils/createLineOffsets.ts";
-import { isAnnotationInSingleLine } from "./utils/isAnnotationInSingleLine.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
 import { DUMMY_ANNOTATION_RESOLUTION } from "../../../utils/broccoli.ts";
@@ -31,7 +30,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const annotationsToHighlight = getAnnotationsByTypes(
     annotations,
     typesToHighlight,
-  ).filter((a) => isAnnotationInSingleLine(a, positions));
+  );
   const lines = props.text.lines;
 
   const offsets = annotationsToHighlight.map((a) =>
