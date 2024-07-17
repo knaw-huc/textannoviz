@@ -1,7 +1,7 @@
 import { GroupedSegments, Segment } from "./AnnotationModel.ts";
 import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
 import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
-import { AnnotatedSegmentModal } from "../AnnotatedSegmentModal.tsx";
+import { AnnotatedSegmentModal } from "./AnnotatedSegmentModal.tsx";
 
 export function SegmentGroup(props: {
   group: GroupedSegments;
