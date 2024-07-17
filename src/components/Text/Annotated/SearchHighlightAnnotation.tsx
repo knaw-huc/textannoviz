@@ -4,7 +4,7 @@ import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
 import { isSearchHighlightAnnotationSegment } from "./AnnotationModel.ts";
 
 export function SearchHighlightAnnotation(
-  props: Pick<NestedAnnotationProps, "segment" | "depthCorrection">,
+  props: Pick<NestedAnnotationProps, "segment">,
 ) {
   const classNames: string[] = [];
   const searchHighlight = props.segment.annotations.find(
@@ -12,21 +12,13 @@ export function SearchHighlightAnnotation(
   );
 
   if (!searchHighlight) {
-    return (
-      <SegmentBody
-        body={props.segment.body}
-        depthCorrection={props.depthCorrection}
-      />
-    );
+    return <SegmentBody body={props.segment.body} />;
   }
 
   classNames.push(createSearchHighlightClasses(searchHighlight, props.segment));
   return (
     <span className={classNames.join(" ")}>
-      <SegmentBody
-        body={props.segment.body}
-        depthCorrection={props.depthCorrection}
-      />
+      <SegmentBody body={props.segment.body} />
     </span>
   );
 }
