@@ -7,6 +7,10 @@ import { createSearchRegex } from "../createSearchRegex.tsx";
 import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import _ from "lodash";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -26,6 +30,11 @@ type TextHighlightingProps = {
  *   (when two annotations overlap, the second annotation has a depth of 2)
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
+  const projectConfig = useProjectStore(projectConfigSelector);
+  if (projectConfig.showAnnotations) {
+    import("./annotated.css");
+  }
+
   // TODO: why are there duplicates?
   const annotations = _.uniqBy(useAnnotationStore().annotations, "body.id");
 
