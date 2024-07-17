@@ -42,7 +42,7 @@ export function AnnotatedSegmentModal(
   );
 
   /**
-   * Opening of model is handled by react-area
+   * Opening of model is handled by react-aria
    * (see {@link DialogTrigger} and {@link useButton})
    */
   return (
