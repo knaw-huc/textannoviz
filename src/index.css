@@ -293,29 +293,6 @@ em {
   text-decoration: underline;
 }
 
-/* TODO: clean up unused annotation styling */
-/* .nested-annotation,
-.depth-correction,
-.search-highlight {
-  display: inline-block;
-  /* white-space: pre; */
-/* } */
-
-/* .depth-correction,
-.nested-annotation {
-  margin-bottom: 2px; */
-/* border-bottom: 1px solid; */
-/* } */
-
-/* .hover-underline { */
-/* margin-bottom: 1px;
-  border-bottom: 2px solid; */
-/* } */
-
-/* .depth-correction { */
-/* border-bottom-color: rgba(0, 0, 0, 0); */
-/* } */
-
 .text-button,
 .text-button:active,
 .text-button:focus {
@@ -323,55 +300,6 @@ em {
   outline: none;
   background: none;
 }
-
-/* .underlined-resolution {
-  border-bottom-color: green;
-}
-
-.underlined-attendancelist {
-  border-bottom-color: #b84040;
-}
-
-.underlined-attendant {
-  border-bottom-color: rgb(202 138 4);
-}
-
-.underlined-per {
-  border-bottom-color: rgb(202 138 4);
-}
-
-.underlined-loc {
-  border-bottom-color: pink;
-}
-
-.underlined-org {
-  border-bottom-color: rgb(159, 202, 4);
-}
-
-.underlined-attendant::before {
-  content: "👤";
-  margin-right: 0.25rem;
-}
-
-.underlined-reviewed {
-  border-bottom-color: #35a8a8;
-}
-
-.underlined-tei-rs {
-  border-bottom-color: rgb(202 138 4);
-}
-
-.underlined-px-page {
-  border-bottom-color: green;
-}
-
-.underlined-tei-ent {
-  border-bottom-color: rgb(202 138 4);
-}
-
-.underlined-dataset {
-  border-bottom-color: rgb(202 138 4);
-} */
 
 input:invalid {
   border: none;

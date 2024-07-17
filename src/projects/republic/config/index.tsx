@@ -29,7 +29,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     // "TextRegion",
     "Scan",
   ],
-  // TODO: what annotations besides entities should be highlighted?
+  showAnnotations: false,
   annotationTypesToHighlight: ["Entity"],
   allowedAnnotationTypesToHighlight: ["Entity"],
   elasticIndexName: "republic-2024.06.18",

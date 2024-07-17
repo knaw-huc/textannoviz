@@ -3,15 +3,15 @@ import { useButton } from "react-aria";
 import { Dialog, DialogTrigger, Modal } from "react-aria-components";
 import { AriaButtonOptions } from "@react-aria/button";
 
-import { StyledText } from "./StyledText.tsx";
-import { LineSegmentsViewer } from "./Annotated/LineSegmentsViewer.tsx";
+import { StyledText } from "../StyledText.tsx";
+import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
 import _ from "lodash";
 import {
   GroupedSegments,
   isNestedAnnotationSegment,
-} from "./Annotated/AnnotationModel.ts";
-import { isEntityBody } from "../../model/AnnoRepoAnnotation.ts";
-import { EntitySummary } from "./Annotated/EntitySummary.tsx";
+} from "./AnnotationModel.ts";
+import { isEntityBody } from "../../../model/AnnoRepoAnnotation.ts";
+import { EntitySummary } from "./EntitySummary.tsx";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
@@ -42,7 +42,7 @@ export function AnnotatedSegmentModal(
   );
 
   /**
-   * Opening of model is handled by react-area
+   * Opening of model is handled by react-aria
    * (see {@link DialogTrigger} and {@link useButton})
    */
   return (

@@ -38,14 +38,13 @@ export const TextPanel = (props: TextPanelProps) => {
           </button>
         </div>
       )}
-
       <div className="m-auto mb-24 max-w-3xl">
-        <AnnotatedText text={props.text} showDetail={false} />
+        {projectConfig.showAnnotations ? (
+          <AnnotatedText text={props.text} showDetail={false} />
+        ) : (
+          <TextHighlighting text={props.text} />
+        )}
       </div>
-
-      <hr />
-      {/*TODO: remove or merge with AnnotatedText? */}
-      <TextHighlighting text={props.text} />
     </StyledText>
   );
 };
