@@ -70,6 +70,5 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     showTopMenuButton: true,
     showWindowSideBar: true,
   },
-  // TODO: remove next dev line
-  showMirador: false,
+  showMirador: true,
 });
