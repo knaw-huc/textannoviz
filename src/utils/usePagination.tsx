@@ -17,7 +17,7 @@ export function usePagination() {
   }
 
   function hasPrevPage(): boolean {
-    return !!isValidFrom(getPrevFrom());
+    return isValidFrom(getPrevFrom());
   }
 
   function selectPrevPage(): PageParams {
