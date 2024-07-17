@@ -20,6 +20,7 @@ export interface ProjectConfig {
    */
   relativeTo: string;
 
+  showAnnotations: boolean;
   annotationTypesToInclude: string[];
   annotationTypesToHighlight: string[];
   allowedAnnotationTypesToHighlight: string[];
