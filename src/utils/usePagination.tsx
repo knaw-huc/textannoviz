@@ -1,64 +1,74 @@
 import { useSearchStore } from "../stores/search/search-store.ts";
+import { SearchUrlParams } from "../stores/search/search-params-slice.ts";
+import _ from "lodash";
+
+export type PageParams = Pick<SearchUrlParams, "from" | "size">;
+
+function toPageParams(searchUrlParams: SearchUrlParams) {
+  return _.pick(searchUrlParams, ["from", "size"]);
+}
 
 export function usePagination() {
   const { searchResults, searchUrlParams, setSearchUrlParams } =
     useSearchStore();
 
-  function getPrevFrom() {
+  function getPrevFrom(): number {
     return searchUrlParams.from - searchUrlParams.size;
   }
 
-  function hasPrevPage() {
-    return isValidFrom(getPrevFrom());
+  function hasPrevPage(): boolean {
+    return !!isValidFrom(getPrevFrom());
   }
 
-  function selectPrevPage() {
+  function selectPrevPage(): PageParams {
     if (!hasPrevPage()) {
-      return;
+      return toPageParams(searchUrlParams);
     }
-    selectPage(getPrevFrom());
+    return selectPage(getPrevFrom());
   }
 
-  function getNextFrom() {
+  function getNextFrom(): number {
     return searchUrlParams.from + searchUrlParams.size;
   }
 
-  function isValidFrom(from: number) {
-    return searchResults && from >= 0 && from < searchResults.total.value;
+  function isValidFrom(from: number): boolean {
+    return !!(searchResults && from >= 0 && from < searchResults.total.value);
   }
 
-  function hasNextPage() {
+  function hasNextPage(): boolean {
     return isValidFrom(getNextFrom());
   }
 
-  function selectNextPage() {
+  function selectNextPage(): PageParams {
     if (!hasNextPage()) {
-      return;
+      return toPageParams(searchUrlParams);
     }
-    selectPage(getNextFrom());
+    return selectPage(getNextFrom());
   }
 
-  function selectPage(newFrom: number) {
-    setSearchUrlParams({
+  function selectPage(newFrom: number): PageParams {
+    const update = {
       ...searchUrlParams,
       from: newFrom,
-    });
+    };
+    setSearchUrlParams(update);
+    return toPageParams(update);
   }
 
-  function fromToPage(from: number) {
+  function fromToPage(from: number): number {
     return Math.floor(from / searchUrlParams.size) + 1;
   }
 
-  function pageToFrom(page: number) {
+  function pageToFrom(page: number): number {
     return (page - 1) * searchUrlParams.size;
   }
 
-  function jumpToPage(page: number) {
+  function jumpToPage(page: number): PageParams {
     const newFrom = pageToFrom(page);
     if (!isValidFrom(newFrom)) {
-      return;
+      return toPageParams(searchUrlParams);
     }
-    selectPage(newFrom);
+    return selectPage(newFrom);
   }
 
   return {

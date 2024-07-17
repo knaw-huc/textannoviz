@@ -9,7 +9,6 @@ import { toDetailPageUrl } from "./Text/Annotated/utils/toDetailPageUrl.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { usePagination } from "../utils/usePagination.tsx";
 import { useSearchResults } from "./Search/useSearchResults.tsx";
-import { useEffect, useState } from "react";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ export function DetailSearchResultsNavigation() {
     searchFacetTypes,
     setSearchResults,
   } = useSearchStore();
-  const [prevFrom, setPrevFrom] = useState(searchUrlParams.from);
   const { hasNextPage, selectNextPage, hasPrevPage, selectPrevPage } =
     usePagination();
   const { getSearchResults } = useSearchResults();
@@ -51,44 +49,6 @@ export function DetailSearchResultsNavigation() {
   const isOnEndOfPage = !nextResultPath;
   const isNextDisabled = isOnEndOfPage && !hasNextPage();
 
-  useEffect(() => {
-    if (searchUrlParams.from === prevFrom) {
-      return;
-    }
-    loadNextPrevSearchResultPage();
-
-    async function loadNextPrevSearchResultPage() {
-      const newSearchResults = await getSearchResults(
-        searchFacetTypes,
-        searchUrlParams,
-        searchQuery,
-      );
-
-      if (!newSearchResults) {
-        return;
-      }
-
-      const resultIndexUpdater =
-        searchUrlParams.from > prevFrom
-          ? // Start with first result of next page:
-            () => 0
-          : // Start with last result of previous page:
-            () => newSearchResults.results.results.length - 1;
-
-      const nextUrl = createResultPath(
-        newSearchResults.results,
-        newSearchResults.results.results[0]._id,
-        detailParams.highlight,
-        resultIndexUpdater,
-      );
-      if (!nextUrl) {
-        throw new Error("No results found");
-      }
-      setSearchResults(newSearchResults.results);
-      navigate(nextUrl);
-    }
-  }, [searchUrlParams.from]);
-
   async function handleNextResultClick() {
     if (!nextResultPath && !hasNextPage()) {
       return;
@@ -99,8 +59,8 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
-    setPrevFrom(searchUrlParams.from);
-    selectNextPage();
+    const { from } = selectNextPage();
+    await loadNewSearchResultPage(from);
   }
 
   async function handlePrevResultClick() {
@@ -113,8 +73,39 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
-    setPrevFrom(searchUrlParams.from);
-    selectPrevPage();
+    const { from } = selectPrevPage();
+    await loadNewSearchResultPage(from);
+  }
+
+  async function loadNewSearchResultPage(newFrom: number) {
+    const newSearchResults = await getSearchResults(
+      searchFacetTypes,
+      { ...searchUrlParams, from: newFrom },
+      searchQuery,
+    );
+
+    if (!newSearchResults) {
+      return;
+    }
+
+    const resultIndexUpdater =
+      newFrom > searchUrlParams.from
+        ? // Start with first result of next page:
+          () => 0
+        : // Start with last result of previous page:
+          () => newSearchResults.results.results.length - 1;
+
+    const nextUrl = createResultPath(
+      newSearchResults.results,
+      newSearchResults.results.results[0]._id,
+      detailParams.highlight,
+      resultIndexUpdater,
+    );
+    if (!nextUrl) {
+      throw new Error("No results found");
+    }
+    setSearchResults(newSearchResults.results);
+    navigate(nextUrl);
   }
 
   return (
