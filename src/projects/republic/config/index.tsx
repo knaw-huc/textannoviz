@@ -71,5 +71,5 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     showWindowSideBar: true,
   },
   // TODO: remove next dev line
-  showMirador: false,
+  showMirador: true,
 });
