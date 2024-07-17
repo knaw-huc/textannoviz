@@ -19,6 +19,10 @@ export const TextPanel = (props: TextPanelProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
 
+  if (projectConfig.showAnnotations) {
+    import("./Annotated/annotated.css");
+  }
+
   return (
     <StyledText panel={props.panel}>
       {projectConfig.allowCloseTextPanel && (
