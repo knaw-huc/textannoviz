@@ -20,7 +20,7 @@ type TextHighlightingProps = {
 /**
  * Definitions:
  * - Logical text: 'doorlopende' text, not split by line breaks
- * - Line: piece of annotated text as received from broccoli, a 'line' could also contain a logical text
+ * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
  * - Annotation offset: character index at which an annotation starts or stops
  * - Character index: start index marks first character to include, stop index marks first character to exclude
  * - Line segment: piece of line uninterrupted by annotation offsets
