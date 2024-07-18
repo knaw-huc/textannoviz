@@ -31,7 +31,6 @@ export const Search = () => {
   const [isDirty, setDirty] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
-  const { searchFacetTypes, setSearchFacetTypes } = useSearchStore();
   const [urlParams, setUrlParams] = useSearchParams();
   const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
     dateFrom: "",
@@ -50,6 +49,8 @@ export const Search = () => {
     setSearchResults,
     updateSearchQueryHistory,
     toFirstPage,
+    searchFacetTypes,
+    setSearchFacetTypes,
   } = useSearchStore();
 
   const { getSearchResults } = useSearchResults();
