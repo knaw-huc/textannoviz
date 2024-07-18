@@ -1,7 +1,7 @@
 import { GroupedSegments, Segment } from "./AnnotationModel.ts";
 import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
 import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
-import { AnnotatedSegmentModal } from "./AnnotatedSegmentModal.tsx";
+import { AnnotationModalButton } from "./AnnotationModalButton.tsx";
 
 export function SegmentGroup(props: {
   group: GroupedSegments;
@@ -11,7 +11,7 @@ export function SegmentGroup(props: {
 }) {
   const { group, clickedGroup, clickedSegment } = props;
 
-  if (!clickedGroup) {
+  if (!group?.id) {
     return (
       <LineSegmentsViewer
         segments={group.segments}
@@ -21,7 +21,7 @@ export function SegmentGroup(props: {
     );
   }
   return (
-    <AnnotatedSegmentModal clickedGroup={clickedGroup}>
+    <AnnotationModalButton clickedGroup={clickedGroup}>
       <LineSegmentsViewer
         groupId={group.id}
         segments={group.segments}
@@ -29,6 +29,6 @@ export function SegmentGroup(props: {
         clickedSegment={clickedSegment}
         onClickSegment={props.onClickSegment}
       />
-    </AnnotatedSegmentModal>
+    </AnnotationModalButton>
   );
 }
