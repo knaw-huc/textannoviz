@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+import { Button } from "react-aria-components";
 
 export function FooterLink(
   props: PropsWithChildren<{
@@ -20,14 +21,14 @@ export function FooterLink(
   }
 
   return (
-    <button
-      disabled={props.disabled}
+    <Button
+      isDisabled={props.disabled}
       className={btnClasses.join(" ")}
-      onClick={props.onClick}
+      onPress={props.onClick}
     >
       <span aria-disabled={props.disabled} className={textClasses.join(" ")}>
         {props.children}
       </span>
-    </button>
+    </Button>
   );
 }
