@@ -82,7 +82,6 @@ export const Search = () => {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
       const newFacetTypes = newIndices[projectConfig.elasticIndexName];
-      console.log("Search", { newFacetTypes });
       const aggregations = createAggs(newFacetTypes, projectConfig);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
       const newFacets = await getFacets(
