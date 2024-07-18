@@ -29,7 +29,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     // "TextRegion",
     "Scan",
   ],
-  showAnnotations: true,
+  showAnnotations: false,
   annotationTypesToHighlight: ["Entity"],
   allowedAnnotationTypesToHighlight: ["Entity"],
   elasticIndexName: "republic-2024.06.18",
@@ -70,6 +70,4 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     showTopMenuButton: true,
     showWindowSideBar: true,
   },
-  // TODO: remove next dev line
-  showMirador: true,
 });
