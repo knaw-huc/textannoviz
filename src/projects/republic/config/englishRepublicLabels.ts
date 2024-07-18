@@ -41,7 +41,9 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   ORG: "organisation",
   PER: "person",
 
-  SEARCH_CATEGORY: "Search for ",
+  SEARCH_CATEGORY: "Search for",
   WARNING_NEW_SEARCH: "Note: this will start a new search session",
   MORE_INFO_ON_CATEGORY: "More info on",
+
+  ENTITIES: "Entities",
 });

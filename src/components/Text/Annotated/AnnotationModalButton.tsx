@@ -1,6 +1,6 @@
 import { ElementType, PropsWithChildren, useRef } from "react";
 import { useButton } from "react-aria";
-import { Dialog, DialogTrigger, Modal } from "react-aria-components";
+import { Button, Dialog, DialogTrigger, Modal } from "react-aria-components";
 import { AriaButtonOptions } from "@react-aria/button";
 
 import { StyledText } from "../StyledText.tsx";
@@ -14,6 +14,10 @@ import { isEntityBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { EntitySummary } from "./EntitySummary.tsx";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Optional } from "../../../utils/Optional.ts";
+import {
+  translateProjectSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 type AnnotationModalProps = PropsWithChildren<{
   clickedGroup: GroupedSegments;
@@ -55,7 +59,7 @@ function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
 
 export function AnnotationModal(props: AnnotationModalProps) {
   const { clickedGroup } = props;
-
+  const translateProject = useProjectStore(translateProjectSelector);
   const entityBodies = clickedGroup
     ? _.unionBy(
         clickedGroup.segments
@@ -73,12 +77,12 @@ export function AnnotationModal(props: AnnotationModalProps) {
         {({ close }) => (
           <div className="scrollable-modal-content">
             <div className="my-4 flex w-full justify-end px-4">
-              <button
+              <Button
                 className="rounded bg-neutral-200 p-2"
-                onClick={() => close()}
+                onPress={() => close()}
               >
                 <XMarkIcon className="h-6 fill-neutral-500 stroke-neutral-800" />
-              </button>
+              </Button>
             </div>
             <StyledText panel="text-modal">
               <LineSegmentsViewer
@@ -88,7 +92,9 @@ export function AnnotationModal(props: AnnotationModalProps) {
               />
             </StyledText>
             <div className="rounded-b-lg bg-neutral-100 px-6 py-6 lg:px-10">
-              <div className="mb-2 mt-4 font-bold">Entiteiten</div>
+              <div className="mb-2 mt-4 font-bold">
+                {translateProject("ENTITIES")}
+              </div>
               <ul>
                 {entityBodies.map((a, i) => (
                   <EntitySummary key={i} body={a} />
