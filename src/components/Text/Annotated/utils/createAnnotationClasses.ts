@@ -4,6 +4,7 @@ import {
   SearchHighlightAnnotationSegment,
   Segment,
 } from "../AnnotationModel.ts";
+import { Any } from "../../../../utils/Any.ts";
 
 export function createAnnotationClasses(
   segment: Segment,
@@ -16,7 +17,8 @@ export function createAnnotationClasses(
     "depth-" + annotation.depth,
   );
   if (annotation.body.type === "Entity") {
-    classes.push(`underlined-${annotation.body.metadata.category}`);
+    const category = annotation.body.metadata.category;
+    classes.push(toAnnotationClassname(category));
   }
   classes.push(...createStartEndClasses(segment, annotation));
   return classes.join(" ").toLowerCase();
@@ -44,4 +46,20 @@ function createStartEndClasses(
     classes.push("end-annotation");
   }
   return classes;
+}
+
+const categoryToCssClassName = {
+  COM: "com",
+  HOE: "hoe",
+  LOC: "loc",
+  ORG: "org",
+  PER: "per",
+  PERS: "per",
+} as Any;
+
+function toAnnotationClassname(annotationCategory?: string) {
+  const categoryPostfix = annotationCategory
+    ? categoryToCssClassName[annotationCategory]
+    : "unknown";
+  return `underlined-${categoryPostfix}`;
 }
