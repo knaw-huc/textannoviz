@@ -20,7 +20,12 @@ function SpanButton(props: PropsWithChildren<AriaButtonOptions<ElementType>>) {
   const { children } = props;
 
   return (
-    <span {...buttonProps} ref={ref}>
+    <span
+      {...buttonProps}
+      ref={ref}
+      // @ts-expect-error useButton should not add type="button"
+      type={undefined}
+    >
       {children}
     </span>
   );
