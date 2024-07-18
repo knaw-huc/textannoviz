@@ -115,7 +115,7 @@ export function DetailSearchResultsNavigation() {
         onClick={handlePrevResultClick}
         disabled={isPrevDisabled}
       >
-        &lt; Previous
+        &lt; {translate("PREV")}
       </FooterLink>
       <FooterLink
         onClick={() =>
@@ -126,7 +126,7 @@ export function DetailSearchResultsNavigation() {
         {translate("BACK_TO_SEARCH")}
       </FooterLink>
       <FooterLink onClick={handleNextResultClick} disabled={isNextDisabled}>
-        Next &gt;
+        {translate("NEXT")} &gt;
       </FooterLink>
     </>
   );
