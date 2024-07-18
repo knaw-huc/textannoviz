@@ -24,6 +24,7 @@ export const englishLabels: Labels = {
   PRESS_ENTER_TO_SEARCH: "Press ENTER to search",
   RESULTS: "Results",
   FILTERS: "Filters",
+  FILTER_FACETS: "Filter facets",
 
   JANUARY: "January",
   FEBRUARY: "February",

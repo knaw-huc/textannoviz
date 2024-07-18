@@ -88,6 +88,15 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
+  defaultKeywordAggsToRender: [
+    "correspondent",
+    "institution",
+    "location",
+    "msid",
+    "period",
+    "periodlong",
+    "sender",
+  ],
   components: {
     SearchItem,
     MetadataPanel,

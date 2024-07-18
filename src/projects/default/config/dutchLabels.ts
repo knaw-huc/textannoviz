@@ -24,6 +24,7 @@ export const dutchLabels: Labels = {
   PRESS_ENTER_TO_SEARCH: "Druk op ENTER om te zoeken",
   RESULTS: "Resultaten",
   FILTERS: "Filters",
+  FILTER_FACETS: "Filter facetten",
 
   JANUARY: "januari",
   FEBRUARY: "februari",

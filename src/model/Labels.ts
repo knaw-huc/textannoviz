@@ -22,6 +22,7 @@ export type Labels = {
   PRESS_ENTER_TO_SEARCH: string;
   RESULTS: string;
   FILTERS: string;
+  FILTER_FACETS: string;
 
   JANUARY: string;
   FEBRUARY: string;
