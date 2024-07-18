@@ -80,6 +80,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   useExternalConfig: true,
   showToggleTextPanels: true,
   showKeywordFacets: false,
+  showFacetFilter: false,
   components: {
     SearchItem,
     MetadataPanel,
