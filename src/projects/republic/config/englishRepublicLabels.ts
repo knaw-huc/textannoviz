@@ -36,7 +36,7 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   self: "Text",
 
   COM: "commission",
-  HOE: "capacity",
+  HOE: "role",
   LOC: "location",
   ORG: "organisation",
   PER: "person",
