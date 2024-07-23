@@ -105,7 +105,7 @@ export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
 
 export type FacetType = "date" | "keyword" | "short";
 
-export type FacetNamesByType = {
+export type FacetTypes = {
   [key: FacetName]: FacetType;
 };
 

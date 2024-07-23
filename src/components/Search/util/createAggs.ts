@@ -1,11 +1,11 @@
 import { ProjectConfig } from "../../../model/ProjectConfig";
-import { FacetNamesByType } from "../../../model/Search";
+import { FacetTypes } from "../../../model/Search";
 
 export function createAggs(
-  index: FacetNamesByType,
+  facetTypes: FacetTypes,
   projectConfig: ProjectConfig,
 ) {
-  return Object.keys(index).map((agg) => {
+  return Object.keys(facetTypes).map((agg) => {
     const newAgg = {
       facetName: agg,
       order: "countDesc",

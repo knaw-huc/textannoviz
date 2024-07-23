@@ -26,7 +26,7 @@ import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
 interface SearchFormProps {
-  onSearch: (stayOnPage?: boolean) => void;
+  onSearch: () => void;
   keywordFacets: FacetEntry[];
   updateAggs: (query: SearchQuery) => void;
 }

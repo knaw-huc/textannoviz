@@ -5,9 +5,9 @@ import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { TextFieldComponent } from "../common/TextFieldComponent.tsx";
 
 interface SearchPaginationProps {
-  prevPageClickHandler: () => void;
-  nextPageClickHandler: () => void;
-  jumpToPage: (page: number) => void;
+  onPrevPageClick: () => void;
+  onNextPageClick: () => void;
+  onJumpToPage: (page: number) => void;
   pageNumber: number;
   searchResult: SearchResult;
   elasticSize: number;
@@ -34,10 +34,10 @@ export const SearchPagination = (props: SearchPaginationProps) => {
     if (event.key === "Enter") {
       if (pageNumber === "0") {
         setPageNumber("1");
-        props.jumpToPage(1);
+        props.onJumpToPage(1);
         return;
       }
-      props.jumpToPage(parseInt(pageNumber));
+      props.onJumpToPage(parseInt(pageNumber));
     }
   }
 
@@ -58,7 +58,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
       const prevPageNumber = parseInt(prev, 10);
       return (prevPageNumber - 1).toString();
     });
-    props.prevPageClickHandler();
+    props.onPrevPageClick();
   }
 
   function nextButtonClickHandler() {
@@ -66,7 +66,7 @@ export const SearchPagination = (props: SearchPaginationProps) => {
       const prevPageNumber = parseInt(prev, 10);
       return (prevPageNumber + 1).toString();
     });
-    props.nextPageClickHandler();
+    props.onNextPageClick();
   }
 
   return (

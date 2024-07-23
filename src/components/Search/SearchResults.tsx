@@ -17,11 +17,12 @@ import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
-import { toPageNumber } from "./util/toPageNumber.ts";
+import { usePagination } from "../../utils/usePagination.tsx";
 
 type SearchResultsProps = {
   query: SearchQuery;
-  onSearch: (stayOnPage?: boolean) => void;
+  onSearch: () => void;
+  onPageChange: () => void;
   selectedFacets: SearchQuery;
 };
 
@@ -34,10 +35,18 @@ export function SearchResults(props: SearchResultsProps) {
     setSearchQuery,
     searchResults,
   } = useSearchStore();
+  const {
+    hasPrevPage,
+    selectPrevPage,
+    hasNextPage,
+    selectNextPage,
+    jumpToPage,
+    fromToPage,
+  } = usePagination();
 
   const resultsStart = searchUrlParams.from + 1;
   const pageSize = searchUrlParams.size;
-  const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
+  const pageNumber = fromToPage(searchUrlParams.from);
   const translate = useProjectStore(translateSelector);
 
   const [graphType, setGraphType] = React.useState("bar");
@@ -58,34 +67,25 @@ export function SearchResults(props: SearchResultsProps) {
     props.onSearch();
   }
 
-  function selectPrevPage() {
-    const newFrom = searchUrlParams.from - searchUrlParams.size;
-    if (!searchResults || newFrom < 0) {
+  function handleSelectPrevPageClick() {
+    if (!hasPrevPage()) {
       return;
     }
-    selectPage(newFrom);
+    selectPrevPage();
+    props.onPageChange();
   }
 
-  function selectNextPage() {
-    const newFrom = searchUrlParams.from + searchUrlParams.size;
-    if (!searchResults || newFrom >= searchResults.total.value) {
+  function handleSelectNextPageClick() {
+    if (!hasNextPage()) {
       return;
     }
-    selectPage(newFrom);
+    selectNextPage();
+    props.onPageChange();
   }
 
-  function jumpToPage(page: number) {
-    const newFrom = (page - 1) * searchUrlParams.size;
-    if (!searchResults || newFrom >= searchResults.total.value) return;
-    selectPage(newFrom);
-  }
-
-  function selectPage(newFrom: number) {
-    setSearchUrlParams({
-      ...searchUrlParams,
-      from: newFrom,
-    });
-    props.onSearch(true);
+  function handleJumpToPage(page: number) {
+    jumpToPage(page);
+    props.onPageChange();
   }
 
   const changePageSize = (key: Key) => {
@@ -208,12 +208,12 @@ export function SearchResults(props: SearchResultsProps) {
         {searchResults.results.length >= 1 && (
           <div className="flex w-full flex-row justify-end">
             <SearchPagination
-              prevPageClickHandler={selectPrevPage}
-              nextPageClickHandler={selectNextPage}
+              onPrevPageClick={handleSelectPrevPageClick}
+              onNextPageClick={handleSelectNextPageClick}
               pageNumber={pageNumber}
               searchResult={searchResults}
               elasticSize={pageSize}
-              jumpToPage={jumpToPage}
+              onJumpToPage={handleJumpToPage}
             />
           </div>
         )}
@@ -248,12 +248,12 @@ export function SearchResults(props: SearchResultsProps) {
           ))}
         {searchResults.results.length >= 1 && (
           <SearchPagination
-            prevPageClickHandler={selectPrevPage}
-            nextPageClickHandler={selectNextPage}
+            onPrevPageClick={handleSelectPrevPageClick}
+            onNextPageClick={handleSelectNextPageClick}
             pageNumber={pageNumber}
             searchResult={searchResults}
             elasticSize={pageSize}
-            jumpToPage={jumpToPage}
+            onJumpToPage={handleJumpToPage}
           />
         )}
       </div>

@@ -11,10 +11,18 @@ import {
   createSearchQuerySlice,
   SearchQuerySlice,
 } from "./search-query-slice.ts";
+import {
+  createSearchFacetTypesSlice,
+  SearchFacetTypesSlice,
+} from "./search-facet-types-slice.ts";
 
-type SearchStore = SearchResultsSlice & SearchParamsSlice & SearchQuerySlice;
+type SearchStore = SearchResultsSlice &
+  SearchParamsSlice &
+  SearchQuerySlice &
+  SearchFacetTypesSlice;
 
 export const useSearchStore = create<SearchStore>()((...a) => ({
+  ...createSearchFacetTypesSlice(...a),
   ...createSearchResultsSlice(...a),
   ...createSearchParamsSlice(...a),
   ...createSearchQuerySlice(...a),

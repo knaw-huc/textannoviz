@@ -1,9 +1,7 @@
 import {
   Cog6ToothIcon,
   InformationCircleIcon,
-  MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
-import { Base64 } from "js-base64";
 import React from "react";
 import {
   Dialog,
@@ -12,15 +10,14 @@ import {
   Popover,
   Switch,
 } from "react-aria-components";
-import { Link } from "react-router-dom";
 import { useAnnotationStore } from "../stores/annotation";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../stores/project";
-import { useSearchStore } from "../stores/search/search-store";
 import { AnnotationButtons } from "./Annotations/AnnotationButtons";
+import { DetailSearchResultsNavigation } from "./DetailSearchResultsNavigation.tsx";
 
 type FooterProps = {
   showIiifViewerHandler: () => void;
@@ -31,11 +28,6 @@ type FooterProps = {
   panelShowState: boolean;
   searchResultsShowState: boolean;
 };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function skipEmptyValues(_: string, v: any) {
-  return [null, ""].includes(v) ? undefined : v;
-}
 
 export const Footer = (props: FooterProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -49,26 +41,11 @@ export const Footer = (props: FooterProps) => {
     (state) => state.setShowSvgsAnnosMirador,
   );
 
-  const { searchQuery, searchUrlParams } = useSearchStore();
-
-  const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const urlSearchParams = new URLSearchParams(searchUrlParams as any);
-
   return (
     <div className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
       <div className="mx-auto flex w-full flex-col justify-between lg:flex-row">
         <div className="flex w-full flex-row justify-start gap-8 lg:w-2/5">
-          <button className="flex flex-row items-center gap-1 py-1 pl-10 text-neutral-500">
-            <Link
-              to={`/?${urlSearchParams}&query=${Base64.toBase64(cleanQuery)}`}
-              className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
-            >
-              <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
-              {translate("BACK_TO_SEARCH")}
-            </Link>
-          </button>
+          <DetailSearchResultsNavigation />
           {projectConfig.showSearchResultsButtonFooter ? (
             <button
               className={`${
