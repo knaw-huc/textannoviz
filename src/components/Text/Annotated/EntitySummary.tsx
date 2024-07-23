@@ -8,6 +8,7 @@ import {
   alignAnnotationCategory,
   toAnnotationClassname,
 } from "./utils/createAnnotationClasses.ts";
+import { toast } from "react-toastify";
 
 export function EntitySummary(props: { body: EntityBody }) {
   const { body } = props;
@@ -30,7 +31,7 @@ export function EntitySummary(props: { body: EntityBody }) {
         <div>
           <button
             className="rounded border border-neutral-300  px-3 py-1 text-sm transition hover:bg-neutral-200"
-            onClick={() => alert("Not implemented")}
+            onClick={() => toast("Not implemented", { type: "info" })}
           >
             {translateProject("SEARCH_CATEGORY")} {translateProject(category)}
           </button>
@@ -42,7 +43,7 @@ export function EntitySummary(props: { body: EntityBody }) {
         <div>
           <button
             className="rounded border border-neutral-300 px-3 py-1 text-sm transition hover:bg-neutral-200"
-            onClick={() => alert("Not implemented")}
+            onClick={() => toast("Not implemented", { type: "info" })}
           >
             {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
             {translateProject(category)}
