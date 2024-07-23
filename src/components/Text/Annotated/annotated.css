@@ -33,27 +33,27 @@
 
   .underlined-per.start-annotation,
   .underlined-per.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-person.png')];
+    @apply before:content-[url('/src/assets/icon-annotation-person.svg')];
   }
 
   .underlined-hoe.start-annotation,
   .underlined-hoe.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-hoedanigheid.png')];
+    @apply before:content-[url('/src/assets/icon-annotation-hoedanigheid.svg')];
   }
 
   .underlined-org.start-annotation,
   .underlined-org.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-organisation.png')];
+    @apply before:content-[url('/src/assets/icon-annotation-organisation.svg')];
   }
 
   .underlined-com.start-annotation,
   .underlined-com.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-commision.png')];
+    @apply before:content-[url('/src/assets/icon-annotation-commision.svg')];
   }
 
   .underlined-loc.start-annotation,
   .underlined-loc.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-location.png')];
+    @apply before:content-[url('/src/assets/icon-annotation-location.svg')];
   }
 
   /* show levels */
