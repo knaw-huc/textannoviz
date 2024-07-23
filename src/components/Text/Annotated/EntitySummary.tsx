@@ -4,6 +4,10 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import {
+  alignAnnotationCategory,
+  toAnnotationClassname,
+} from "./utils/createAnnotationClasses.ts";
 
 export function EntitySummary(props: { body: EntityBody }) {
   const { body } = props;
@@ -14,9 +18,11 @@ export function EntitySummary(props: { body: EntityBody }) {
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
       <div>
         <div
-          className={`underlined-${category} annotationMarker text-sm italic`}
+          className={`${toAnnotationClassname(
+            category,
+          )} annotationMarker text-sm italic`}
         >
-          {translateProject(category)}
+          {translateProject(alignAnnotationCategory(category))}
         </div>
         <div>{trimMiddle(body.text, 120)}</div>
       </div>

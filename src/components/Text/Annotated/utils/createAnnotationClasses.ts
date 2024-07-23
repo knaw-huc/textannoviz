@@ -48,18 +48,26 @@ function createStartEndClasses(
   return classes;
 }
 
-const categoryToCssClassName = {
-  COM: "com",
-  HOE: "hoe",
-  LOC: "loc",
-  ORG: "org",
-  PER: "per",
-  PERS: "per",
+const dataToEntityCategory = {
+  COM: "COM",
+  HOE: "HOE",
+  LOC: "LOC",
+  ORG: "ORG",
+
+  /**
+   * PER can also be named PERS
+   */
+  PER: "PER",
+  PERS: "PER",
 } as Any;
 
-function toAnnotationClassname(annotationCategory?: string) {
-  const categoryPostfix = annotationCategory
-    ? categoryToCssClassName[annotationCategory]
-    : "unknown";
-  return `underlined-${categoryPostfix}`;
+export function toAnnotationClassname(annotationCategory?: string) {
+  return `underlined-${alignAnnotationCategory(
+    annotationCategory,
+  ).toLowerCase()}`;
+}
+export function alignAnnotationCategory(annotationCategory?: string) {
+  return annotationCategory
+    ? dataToEntityCategory[annotationCategory]
+    : "UNKNOWN";
 }

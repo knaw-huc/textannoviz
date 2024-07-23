@@ -30,7 +30,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     // "TextRegion",
     "Scan",
   ],
-  showAnnotations: false,
+  showAnnotations: true,
   annotationTypesToHighlight: ["Entity"],
   allowedAnnotationTypesToHighlight: ["Entity"],
   // elasticIndexName: "republic-2024.06.18",
