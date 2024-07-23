@@ -1,6 +1,6 @@
 import { Base64 } from "js-base64";
 import isEmpty from "lodash/isEmpty";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FacetNamesByType } from "../../model/Search";
@@ -23,7 +23,6 @@ import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbo
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
-import { createHighlights } from "./util/createHighlights.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
 
@@ -35,7 +34,7 @@ export const Search = () => {
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
   const [index, setIndex] = useState<FacetNamesByType>({});
   const [urlParams, setUrlParams] = useSearchParams();
-  const [selectedFacets, setSelectedFacets] = React.useState<SearchQuery>({
+  const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
     dateFrom: "",
     dateTo: "",
     rangeFrom: "",
@@ -50,7 +49,6 @@ export const Search = () => {
     searchQuery,
     setSearchQuery,
     setSearchResults,
-    setTextToHighlight,
     updateSearchQueryHistory,
     resetPage,
   } = useSearchStore();
@@ -230,12 +228,6 @@ export const Search = () => {
 
     const newParams = { ...params, indexName: projectConfig.elasticIndexName };
 
-    let exactSearch = false;
-
-    if (query.fullText.startsWith('"')) {
-      exactSearch = true;
-    }
-
     const searchResults = await sendSearchQuery(
       projectConfig,
       newParams,
@@ -249,7 +241,6 @@ export const Search = () => {
     setKeywordFacets(
       filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
     );
-    setTextToHighlight(createHighlights(searchResults, exactSearch));
     // const target = document.getElementById("searchContainer");
     // if (target) {
     //   target.scrollIntoView({ behavior: "smooth" });
@@ -282,6 +273,7 @@ export const Search = () => {
         {isShowingResults && (
           <SearchResults
             onSearch={handleNewSearch}
+            query={searchQuery}
             selectedFacets={selectedFacets}
           />
         )}

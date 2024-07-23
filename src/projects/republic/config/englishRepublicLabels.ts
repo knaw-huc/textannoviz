@@ -34,4 +34,16 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
 
   // text panel titles:
   self: "Text",
+
+  COM: "commission",
+  HOE: "capacity",
+  LOC: "location",
+  ORG: "organisation",
+  PER: "person",
+
+  SEARCH_CATEGORY: "Search for",
+  WARNING_NEW_SEARCH: "Note: this will start a new search session",
+  MORE_INFO_ON_CATEGORY: "More info on",
+
+  ENTITIES: "Entities",
 });

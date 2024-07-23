@@ -20,6 +20,7 @@ import { removeTerm } from "./util/removeTerm.ts";
 import { toPageNumber } from "./util/toPageNumber.ts";
 
 type SearchResultsProps = {
+  query: SearchQuery;
   onSearch: (stayOnPage?: boolean) => void;
   selectedFacets: SearchQuery;
 };
@@ -239,7 +240,11 @@ export function SearchResults(props: SearchResultsProps) {
       <div id="resultsList">
         {searchResults.results.length >= 1 &&
           searchResults.results.map((result, index) => (
-            <projectConfig.components.SearchItem key={index} result={result} />
+            <projectConfig.components.SearchItem
+              key={index}
+              result={result}
+              query={props.query}
+            />
           ))}
         {searchResults.results.length >= 1 && (
           <SearchPagination

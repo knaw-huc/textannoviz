@@ -1,5 +1,5 @@
 import { Skeleton } from "@nextui-org/react";
-import React from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
 import { Footer } from "./components/Footer";
@@ -19,13 +19,13 @@ interface DetailProps {
 }
 
 export const Detail = (props: DetailProps) => {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [showSearchResults, setShowSearchResults] = React.useState(false);
-  const [showIiifViewer, setShowIiifViewer] = React.useState(true);
-  const [showAnnotationPanel, setShowAnnotationPanel] = React.useState(
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showIiifViewer, setShowIiifViewer] = useState(true);
+  const [showAnnotationPanel, setShowAnnotationPanel] = useState(
     props.config.defaultShowMetadataPanel,
   );
-  const [broccoliResult, setBroccoliResult] = React.useState<Broccoli>();
+  const [broccoliResult, setBroccoliResult] = useState<Broccoli>();
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
   const setViews = useTextStore((state) => state.setViews);
@@ -35,7 +35,7 @@ export const Detail = (props: DetailProps) => {
   const globalSearchResults = useSearchStore((state) => state.searchResults);
   const params = useParams();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     setIsLoading(true);
@@ -56,7 +56,11 @@ export const Detail = (props: DetailProps) => {
         relativeTo,
         props.config,
         signal,
-      );
+      ).catch(handleAbort);
+
+      if (!result) {
+        return;
+      }
 
       setBroccoliResult(result);
 
@@ -71,9 +75,7 @@ export const Detail = (props: DetailProps) => {
       const bodyId = params.tier2;
       fetchBroccoli(bodyId);
     }
-    return () => {
-      controller.abort();
-    };
+    return () => controller.abort();
   }, [annotationTypesToInclude, params.tier2, props.config]);
 
   function showIiifViewerHandler() {
@@ -125,3 +127,11 @@ export const Detail = (props: DetailProps) => {
     </>
   );
 };
+
+function handleAbort(e: Error) {
+  if (e instanceof DOMException && e.name == "AbortError") {
+    console.debug("fetchBroccoliScanWithOverlap aborted by useEffect callback");
+  } else {
+    throw e;
+  }
+}
