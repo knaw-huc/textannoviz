@@ -16,6 +16,7 @@ import { DateFacet } from "./DateFacet.tsx";
 import { FacetFilter } from "./FacetFilter.tsx";
 import { FragmenterSelection } from "./FragmenterSelection.tsx";
 import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
+import { HierarchicalFacet } from "./HierarchicalFacet.tsx";
 import { InputFacet } from "./InputFacet.tsx";
 import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
@@ -319,6 +320,10 @@ export function SearchForm(props: SearchFormProps) {
           />
         </div>
       )}
+
+      <div className="w-full max-w-[450px]">
+        <HierarchicalFacet />
+      </div>
 
       {projectConfig.showKeywordFacets &&
         !isEmpty(props.keywordFacets) &&

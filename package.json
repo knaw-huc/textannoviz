@@ -24,6 +24,7 @@
     "primereact": "^10.5.1",
     "react": "^18.2.0",
     "react-aria-components": "^1.2.1",
+    "react-checkbox-tree": "^1.8.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
     "react-toastify": "^10.0.4",

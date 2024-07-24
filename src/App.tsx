@@ -1,5 +1,6 @@
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
+import "react-checkbox-tree/lib/react-checkbox-tree.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
