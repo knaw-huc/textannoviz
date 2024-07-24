@@ -293,52 +293,6 @@ em {
   text-decoration: underline;
 }
 
-.underlined-resolution {
-  border-bottom: 1px solid green;
-  cursor: pointer;
-}
-
-.underlined-attendancelist {
-  border-bottom: 1px solid #b84040;
-  cursor: pointer;
-}
-
-.underlined-attendant {
-  content: "";
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
-}
-
-.underlined-attendant::before {
-  content: "👤";
-  margin-right: 0.25rem;
-}
-
-.underlined-reviewed {
-  border-bottom: 1px solid cyan;
-  cursor: pointer;
-}
-
-.underlined-tei-rs {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
-}
-
-.underlined-px-page {
-  border-bottom: 1px solid green;
-  cursor: pointer;
-}
-
-.underlined-tei-ent {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
-}
-
-.underlined-dataset {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
-}
-
 input:invalid {
   border: none;
   outline: 1px solid red;
@@ -366,7 +320,6 @@ input:valid + span::after {
 
 .react-aria-Dialog {
   outline: none;
-  padding: 30px;
 }
 
 .react-aria-Switch {

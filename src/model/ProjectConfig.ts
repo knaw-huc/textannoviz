@@ -6,6 +6,7 @@ import {
   RepublicSearchResultBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
+import { SearchQuery } from "../stores/search/search-query-slice.ts";
 
 export interface ProjectConfig {
   id: string;
@@ -19,6 +20,7 @@ export interface ProjectConfig {
    */
   relativeTo: string;
 
+  showAnnotations: boolean;
   annotationTypesToInclude: string[];
   annotationTypesToHighlight: string[];
   allowedAnnotationTypesToHighlight: string[];
@@ -84,6 +86,7 @@ export interface ProjectConfig {
     }) => JSX.Element;
     SearchInfoPage: () => JSX.Element;
     SearchItem: (props: {
+      query: SearchQuery;
       result:
         | RepublicSearchResultBody
         | TranslatinSearchResultsBody

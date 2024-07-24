@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="15" viewBox="0 0 18 15">
+  <g id="icon-annotation-hoedanigheid" transform="translate(-668 -83.07)">
+    <rect id="Rectangle_15" data-name="Rectangle 15" width="18" height="15" transform="translate(668 83.07)" fill="none"/>
+    <path id="Rectangle_5" data-name="Rectangle 5" d="M2,0h9a2,2,0,0,1,2,2V9a0,0,0,0,1,0,0H0A0,0,0,0,1,0,9V2A2,2,0,0,1,2,0Z" transform="translate(668 89.07)" fill="#33ae75"/>
+    <g id="Rectangle_6" data-name="Rectangle 6" transform="translate(671 85.07)" fill="none" stroke="#33ae75" stroke-width="2">
+      <rect width="7" height="7" rx="3.5" stroke="none"/>
+      <rect x="1" y="1" width="5" height="5" rx="2.5" fill="none"/>
+    </g>
+  </g>
+</svg>

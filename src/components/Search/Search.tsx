@@ -1,19 +1,17 @@
 import { Base64 } from "js-base64";
 import isEmpty from "lodash/isEmpty";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FacetNamesByType } from "../../model/Search";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
 import {
   FacetEntry,
-  SearchQuery,
   filterFacetsByType,
+  SearchQuery,
   toRequestBody,
 } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -23,9 +21,9 @@ import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbo
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
-import { createHighlights } from "./util/createHighlights.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
+import { useSearchResults } from "./useSearchResults.tsx";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -33,9 +31,8 @@ export const Search = () => {
   const [isDirty, setDirty] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
-  const [index, setIndex] = useState<FacetNamesByType>({});
   const [urlParams, setUrlParams] = useSearchParams();
-  const [selectedFacets, setSelectedFacets] = React.useState<SearchQuery>({
+  const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
     dateFrom: "",
     dateTo: "",
     rangeFrom: "",
@@ -50,10 +47,13 @@ export const Search = () => {
     searchQuery,
     setSearchQuery,
     setSearchResults,
-    setTextToHighlight,
     updateSearchQueryHistory,
-    resetPage,
+    toFirstPage,
+    searchFacetTypes,
+    setSearchFacetTypes,
   } = useSearchStore();
+
+  const { getSearchResults } = useSearchResults();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -81,9 +81,8 @@ export const Search = () => {
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
-      const newIndex: FacetNamesByType =
-        newIndices[projectConfig.elasticIndexName];
-      const aggregations = createAggs(newIndex, projectConfig);
+      const newFacetTypes = newIndices[projectConfig.elasticIndexName];
+      const aggregations = createAggs(newFacetTypes, projectConfig);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
       const newFacets = await getFacets(
         projectConfig,
@@ -92,10 +91,14 @@ export const Search = () => {
         signal,
       );
 
-      const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
+      const newDateFacets = filterFacetsByType(
+        newFacetTypes,
+        newFacets,
+        "date",
+      );
 
       const newKeywordFacets = filterFacetsByType(
-        newIndex,
+        newFacetTypes,
         newFacets,
         "keyword",
       );
@@ -118,23 +121,28 @@ export const Search = () => {
       }
 
       setKeywordFacets(newKeywordFacets);
-      setIndex(newIndex);
+      setSearchFacetTypes(newFacetTypes);
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
       setSelectedFacets(newSearchQuery);
 
       if (queryDecoded?.fullText) {
-        await getSearchResults(
-          newIndex,
+        const searchResults = await getSearchResults(
+          newFacetTypes,
           newSearchParams,
           newSearchQuery,
           signal,
         );
+        if (searchResults) {
+          setSearchResults(searchResults.results);
+          setKeywordFacets(searchResults.facets);
+        }
         setShowingResults(true);
       }
 
       setInit(true);
     }
+
     return () => {
       controller.abort("useEffect cleanup cycle");
     };
@@ -189,7 +197,16 @@ export const Search = () => {
       updateSearchQueryHistory(searchQuery);
       setSelectedFacets(searchQuery);
 
-      await getSearchResults(index, searchUrlParams, searchQuery, signal);
+      const searchResults = await getSearchResults(
+        searchFacetTypes,
+        searchUrlParams,
+        searchQuery,
+        signal,
+      );
+      if (searchResults) {
+        setSearchResults(searchResults.results);
+        setKeywordFacets(searchResults.facets);
+      }
       setDirty(false);
     }
 
@@ -215,52 +232,17 @@ export const Search = () => {
       return;
     }
 
-    setKeywordFacets(filterFacetsByType(index, searchResults.aggs, "keyword"));
-  }
-
-  async function getSearchResults(
-    facetsByType: FacetNamesByType,
-    params: SearchUrlParams,
-    query: SearchQuery,
-    signal: AbortSignal,
-  ) {
-    if (!searchQuery.terms) {
-      return;
-    }
-
-    const newParams = { ...params, indexName: projectConfig.elasticIndexName };
-
-    let exactSearch = false;
-
-    if (query.fullText.startsWith('"')) {
-      exactSearch = true;
-    }
-
-    const searchResults = await sendSearchQuery(
-      projectConfig,
-      newParams,
-      toRequestBody(query),
-      signal,
-    );
-    if (!searchResults) {
-      return;
-    }
-    setSearchResults(searchResults);
     setKeywordFacets(
-      filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
+      filterFacetsByType(searchFacetTypes, searchResults.aggs, "keyword"),
     );
-    setTextToHighlight(createHighlights(searchResults, exactSearch));
-    // const target = document.getElementById("searchContainer");
-    // if (target) {
-    //   target.scrollIntoView({ behavior: "smooth" });
-    // }
   }
 
-  function handleNewSearch(stayOnPage?: boolean) {
-    if (!stayOnPage) {
-      resetPage();
-    }
+  function handleNewSearch() {
+    toFirstPage();
+    setDirty(true);
+  }
 
+  function handlePageChange() {
     setDirty(true);
   }
 
@@ -282,6 +264,8 @@ export const Search = () => {
         {isShowingResults && (
           <SearchResults
             onSearch={handleNewSearch}
+            onPageChange={handlePageChange}
+            query={searchQuery}
             selectedFacets={selectedFacets}
           />
         )}
