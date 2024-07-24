@@ -18,7 +18,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     attendancelist: "yellow",
     textregion: "blue",
   },
-  relativeTo: "Scan",
+  relativeTo: "Page",
   annotationTypesToInclude: [
     "AttendanceList",
     "RepublicParagraph",
@@ -28,7 +28,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Session",
     "Entity",
     // "TextRegion",
-    "Scan",
+    "Page",
   ],
   showAnnotations: true,
   annotationTypesToHighlight: ["Entity"],
