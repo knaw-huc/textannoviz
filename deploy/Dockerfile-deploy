@@ -2,8 +2,9 @@ FROM node:lts-alpine as build
 
 WORKDIR /textannoviz
 COPY ./package.json /textannoviz/package.json
+COPY ./package-lock.json /textannoviz/package-lock.json
 
-RUN npm install --force
+RUN npm ci --force
 
 COPY . .
 RUN npm run build
