@@ -1,16 +1,15 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
-import { SegmentedLine } from "./SegmentedLine.tsx";
-import { createLineOffsets } from "./utils/createLineOffsets.ts";
-import { createSearchRegex } from "../createSearchRegex.tsx";
-import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
-import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
-import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import { createSearchRegex } from "../createSearchRegex.tsx";
+import { SegmentedLine } from "./SegmentedLine.tsx";
+import { createLineOffsets } from "./utils/createLineOffsets.ts";
+import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
+import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
+import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -35,8 +34,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     import("./annotated.css");
   }
 
-  // TODO: why are there duplicates?
-  const annotations = _.uniqBy(useAnnotationStore().annotations, "body.id");
+  const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
   const searchTerms = highlight;
