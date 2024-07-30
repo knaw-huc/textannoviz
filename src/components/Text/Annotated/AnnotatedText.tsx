@@ -1,15 +1,12 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import {
-  projectConfigSelector,
-  useProjectStore,
-} from "../../../stores/project.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { SegmentedLine } from "./SegmentedLine.tsx";
 import { createLineOffsets } from "./utils/createLineOffsets.ts";
 import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
 import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
+import "./annotated.css";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -29,11 +26,6 @@ type TextHighlightingProps = {
  *   (when two annotations overlap, the second annotation has a depth of 2)
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const projectConfig = useProjectStore(projectConfigSelector);
-  if (projectConfig.showAnnotations) {
-    import("./annotated.css");
-  }
-
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
