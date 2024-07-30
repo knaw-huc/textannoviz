@@ -35,26 +35,22 @@ export function AnnotationButtons() {
 
   return (
     <>
-      {params.tier2 ? (
-        <>
-          <Button
-            className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
-            onPress={prevLetterButtonClickHandler}
-            isDisabled={isPrevButtonDisabled}
-          >
-            <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" />
-            Prev letter
-          </Button>
-          <Button
-            className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
-            onPress={nextLetterButtonClickHandler}
-            isDisabled={isNextButtonDisabled}
-          >
-            Next letter
-            <ChevronRightIcon className="h-4 w-4 fill-neutral-500" />
-          </Button>
-        </>
-      ) : null}
+      <Button
+        className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
+        onPress={prevLetterButtonClickHandler}
+        isDisabled={isPrevButtonDisabled}
+      >
+        <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" />
+        Prev letter
+      </Button>
+      <Button
+        className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
+        onPress={nextLetterButtonClickHandler}
+        isDisabled={isNextButtonDisabled}
+      >
+        Next letter
+        <ChevronRightIcon className="h-4 w-4 fill-neutral-500" />
+      </Button>
     </>
   );
 }
