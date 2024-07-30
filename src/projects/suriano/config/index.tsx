@@ -67,7 +67,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   defaultTextPanels: ["text"],
   annotationTypesToHighlight: ["tei:Ent"],
   allowedAnnotationTypesToHighlight: ["tei:Ent"],
-  elasticIndexName: "suriano-0.2.1e",
+  elasticIndexName: "suriano-0.4.3e-010",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
@@ -81,6 +81,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showToggleTextPanels: true,
   showKeywordFacets: false,
   showFacetFilter: false,
+  showMiradorNavigationButtons: true,
   components: {
     SearchItem,
     MetadataPanel,
