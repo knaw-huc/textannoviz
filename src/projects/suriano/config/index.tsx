@@ -2,6 +2,7 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
@@ -65,9 +66,10 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "self",
   ],
   defaultTextPanels: ["text"],
-  annotationTypesToHighlight: ["tei:Ent"],
-  allowedAnnotationTypesToHighlight: ["tei:Ent"],
-  elasticIndexName: "suriano-0.4.3e-010",
+  // showAnnotations: true,
+  annotationTypesToHighlight: ["tf:Ent"],
+  allowedAnnotationTypesToHighlight: ["tf:Ent"],
+  elasticIndexName: "suriano-0.4.3e-010-with-logical-text",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
@@ -85,6 +87,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   components: {
     SearchItem,
     MetadataPanel,
+    AnnotationButtons,
   },
 
   selectedLanguage: "en",

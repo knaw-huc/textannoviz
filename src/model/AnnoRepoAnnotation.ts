@@ -191,6 +191,8 @@ export type SurianoTfFileBody = AnnoRepoBodyBase & {
     shelfmark: string;
     summary: string;
     type: string;
+    prevFile: string;
+    nextFile: string;
   };
 };
 
