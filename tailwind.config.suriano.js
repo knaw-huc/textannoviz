@@ -1,14 +1,10 @@
-import typography from "@tailwindcss/typography";
-import reactAria from "tailwindcss-react-aria-components/src/index";
+import _ from "lodash";
+import defaultTailwindConfig from "./tailwind.config.default.js";
 
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+export default _.merge(defaultTailwindConfig, {
   theme: {
     extend: {
-      fontFamily: {
-        public: ["Public Sans", "sans-serif"],
-      },
       colors: {
         brand1: {
           50: "hsl(250, 45%, 97%)",
@@ -52,10 +48,6 @@ export default {
           institution: "hsl(160, 67%, 80%)",
         },
       },
-      dropShadow: {
-        top: "15px 15px 15px rgba(0, 0, 0, 0.75)",
-      },
     },
   },
-  plugins: [typography(), reactAria()],
-};
+});
