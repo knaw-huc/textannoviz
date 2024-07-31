@@ -8,18 +8,18 @@ type TextPanelsProps = {
 };
 
 export const TextPanels = (props: TextPanelsProps) => {
-  function renderPanels() {
-    return props.panels.map((panel, key) => {
-      return (
-        <TextPanel
-          key={key}
-          text={props.text[`${panel}`]}
-          panel={panel}
-          closePanelHandler={props.closePanelHandler}
-        />
-      );
-    });
-  }
-
-  return <>{renderPanels()}</>;
+  return (
+    <>
+      {props.panels.map((panel, key) => {
+        return (
+          <TextPanel
+            key={key}
+            text={props.text[`${panel}`]}
+            panel={panel}
+            closePanelHandler={props.closePanelHandler}
+          />
+        );
+      })}
+    </>
+  );
 };

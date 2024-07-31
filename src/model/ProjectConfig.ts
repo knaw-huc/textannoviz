@@ -24,6 +24,8 @@ export interface ProjectConfig {
   annotationTypesToInclude: string[];
   annotationTypesToHighlight: string[];
   allowedAnnotationTypesToHighlight: string[];
+  footnoteMarkerAnnotations: string[];
+
   elasticIndexName: string;
   initialDateFrom: string;
   initialDateTo: string;

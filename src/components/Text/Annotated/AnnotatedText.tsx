@@ -2,11 +2,16 @@ import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { SegmentedLine } from "./SegmentedLine.tsx";
-import { createLineOffsets } from "./utils/createLineOffsets.ts";
 import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
 import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import "./annotated.css";
+import { createLineOffsets } from "./utils/createLineOffsets.ts";
+import { BroccoliViewPosition } from "../BroccoliViewPosition.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -26,26 +31,47 @@ type TextHighlightingProps = {
  *   (when two annotations overlap, the second annotation has a depth of 2)
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
+  const { footnoteMarkerAnnotations } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
   const searchTerms = highlight;
 
   const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
-  const positions = props.text.locations.annotations;
-
   const annotationsToHighlight = getAnnotationsByTypes(
     annotations,
     typesToHighlight,
-  );
+    // TODO: clean up dummy data
+  ).slice(0, 1);
   const lines = props.text.lines;
 
+  // TODO: clean up dummy data
+  // const positions = props.text.locations.annotations;
+  const positions: BroccoliViewPosition[] = [
+    {
+      bodyId: annotationsToHighlight.find((a) => a.body.type === "tei:Ptr")!
+        .body.id,
+      start: { line: 0, offset: 10 },
+      end: { line: 0, offset: -1 },
+    },
+  ];
+
   const offsets = annotationsToHighlight.map((a) =>
-    createLineOffsets(a, positions, lines),
+    createLineOffsets(
+      a,
+      positions,
+      lines,
+      footnoteMarkerAnnotations.includes(a.body.type),
+    ),
   );
   const searchRegex = createSearchRegex(searchTerms, tier2);
   const searchOffsets = createLineSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
+
+  console.log("AnnotatedText", {
+    annotationsToHighlight,
+    offsets,
+  });
 
   return (
     <div>

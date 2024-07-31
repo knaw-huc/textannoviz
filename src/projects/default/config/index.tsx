@@ -26,10 +26,13 @@ export const defaultConfig: Omit<
 > = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
+
   showAnnotations: false,
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
   allowedAnnotationTypesToHighlight: [],
+  footnoteMarkerAnnotations: [],
+
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
   showSearchSortBy: true,

@@ -7,12 +7,15 @@ export function createLineOffsets(
   annotation: AnnoRepoAnnotation,
   positionsRelativeToView: BroccoliViewPosition[],
   lines: string[],
+  isFootnote: boolean,
 ): LineOffsets {
   const positionRelativeToView = positionsRelativeToView.find(
     (p) => p.bodyId === annotation.body.id,
   );
   if (!positionRelativeToView) {
-    throw new Error(`Position not found of ${annotation}`);
+    throw new Error(
+      `No relative position found for annotation ${annotation?.body?.id}`,
+    );
   }
   if (positionRelativeToView.start.line !== positionRelativeToView.end.line) {
     throw new Error(`Annotation spans multiple lines: ${annotation.body.id}`);
@@ -20,9 +23,16 @@ export function createLineOffsets(
   const startChar: number = _.has(positionRelativeToView.start, "offset")
     ? positionRelativeToView.start.offset!
     : 0;
-  const endChar: number = _.has(positionRelativeToView.end, "offset")
-    ? positionRelativeToView.end.offset! + 1
-    : lines[positionRelativeToView.end.line].length;
+  let endChar: number;
+
+  if (isFootnote) {
+    endChar = startChar;
+  } else if (_.has(positionRelativeToView.end, "offset")) {
+    endChar = positionRelativeToView.end.offset! + 1;
+  } else {
+    endChar = lines[positionRelativeToView.end.line].length;
+  }
+
   return {
     type: "annotation",
     body: annotation.body,

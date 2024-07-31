@@ -61,7 +61,11 @@ export const Detail = (props: DetailProps) => {
       if (!result) {
         return;
       }
-
+      const resultAsStr = JSON.stringify(result);
+      if (resultAsStr.includes("tf:Ptr")) {
+        console.log("has tf:Ptr", resultAsStr);
+      }
+      console.log();
       setBroccoliResult(result);
 
       setProjectName(props.project);
