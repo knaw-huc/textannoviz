@@ -1,6 +1,12 @@
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 
-export type AnnotationType = "search" | "annotation";
+/**
+ * Annotation types:
+ * - search: search highlights
+ * - annotation: entity annotations
+ * - marker: footnote markers of zero length
+ */
+export type AnnotationType = "search" | "annotation" | "marker";
 
 /**
  * ID of annotation:

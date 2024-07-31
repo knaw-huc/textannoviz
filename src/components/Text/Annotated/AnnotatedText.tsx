@@ -31,7 +31,7 @@ type TextHighlightingProps = {
  *   (when two annotations overlap, the second annotation has a depth of 2)
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const { footnoteMarkerAnnotations } = useProjectStore(projectConfigSelector);
+  const { markerAnnotations } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
@@ -56,14 +56,10 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     },
   ];
 
-  const offsets = annotationsToHighlight.map((a) =>
-    createLineOffsets(
-      a,
-      positions,
-      lines,
-      footnoteMarkerAnnotations.includes(a.body.type),
-    ),
+  const offsets = annotationsToHighlight.map((annotation) =>
+    createLineOffsets(annotation, positions, lines, markerAnnotations),
   );
+
   const searchRegex = createSearchRegex(searchTerms, tier2);
   const searchOffsets = createLineSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);

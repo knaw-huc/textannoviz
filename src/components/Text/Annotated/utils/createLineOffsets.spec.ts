@@ -54,11 +54,44 @@ describe("createLineOffsets", () => {
       annotation,
       positionsRelativeToView,
       lines,
+      [],
     );
     expect(result.body.id).toEqual(
       "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
     );
     expect(result.startChar).toEqual(162);
     expect(result.endChar).toEqual(194);
+  });
+
+  it("supports markers", () => {
+    const annotation = {
+      id: "anno-repo-id",
+      type: "Annotation",
+      body: {
+        id: "urn:foo:ptr:1978932",
+        type: "tei:Ptr",
+        metadata: {},
+      },
+    } as unknown as AnnoRepoAnnotation;
+    const positionsRelativeToView: BroccoliViewPosition[] = [
+      {
+        bodyId: "urn:foo:ptr:1978932",
+        start: {
+          line: 0,
+          offset: 5,
+        },
+      } as BroccoliViewPosition,
+    ];
+    const lines = ["Synde ter vergaderinge gelesen"];
+    const result = createLineOffsets(
+      annotation,
+      positionsRelativeToView,
+      lines,
+      ["tei:Ptr"],
+    );
+    expect(result.body.id).toEqual("urn:foo:ptr:1978932");
+    expect(result.type).toEqual("marker");
+    expect(result.startChar).toEqual(5);
+    expect(result.endChar).toEqual(5);
   });
 });

@@ -31,7 +31,7 @@ export const defaultConfig: Omit<
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
   allowedAnnotationTypesToHighlight: [],
-  footnoteMarkerAnnotations: [],
+  markerAnnotations: [],
 
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
