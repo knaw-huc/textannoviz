@@ -10,6 +10,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        public: ["Public Sans", "sans-serif"],
+      },
       colors: {
         annotation: {
           per100: "#f8f2d2",
