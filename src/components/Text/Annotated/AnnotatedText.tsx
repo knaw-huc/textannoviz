@@ -19,15 +19,14 @@ type TextHighlightingProps = {
 };
 
 /**
- * Definitions:
+ * Annotation terms:
  * - Logical text: 'doorlopende' text, not split by line breaks
  * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
- * - Annotation offset: character index at which an annotation starts or stops
  * - Character index: start index marks first character to include, stop index marks first character to exclude
- * - Line segment: piece of line uninterrupted by annotation offsets
- * - Annotation segment: piece of an annotation uninterrupted by the offsets of other overlapping/nested annotations
- * - Annotation group: all annotations that are connected to each other by other overlapping/nested annotations
- * - Annotation depth: the number of levels that an annotation is nested in parent annotations or with overlapping annotations
+ * - Offset: start or end character index of an annotation
+ * - Segment: piece of line or annotation uninterrupted by annotation offsets
+ * - Group: all annotations or segments that are connected to each other by other overlapping/nested annotations
+ * - Depth: the number of levels that an annotation is nested in parent annotations or with overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
