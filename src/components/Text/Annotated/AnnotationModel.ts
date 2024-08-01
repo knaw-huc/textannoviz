@@ -9,16 +9,20 @@ import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 export type AnnotationType = "search" | "annotation" | "marker";
 
 /**
- * ID of annotation:
- * - annotation body id
+ * IDs refer to:
+ * - marker, note or 'ordinary' annotation body IDs
  * - search highlight index
  */
 export type AnnotationBodyId = string;
-export type SearchHighlightBodyId = string;
+export type MarkerBodyId = string;
+export type FootnoteBodyId = string;
+export type SearchHighlightId = string;
 
 export type SearchHighlightBody = {
-  id: SearchHighlightBodyId;
+  id: SearchHighlightId;
 };
+
+export type MarkerBody = AnnoRepoBody;
 
 export type AnnotationBody = AnnoRepoBody | SearchHighlightBody;
 
@@ -56,13 +60,19 @@ export type AnnotationOffset<T extends AnnotationBody = AnnotationBody> =
 export function isNestedAnnotationOffset(
   toTest: AnnotationOffset,
 ): toTest is AnnotationOffset<AnnoRepoBody> {
-  return !isSearchHighlightAnnotationOffset(toTest);
+  return toTest.type === "annotation";
 }
 
 export function isSearchHighlightAnnotationOffset(
   toTest: AnnotationOffset,
 ): toTest is AnnotationOffset<SearchHighlightBody> {
   return toTest.type === "search";
+}
+
+export function isMarkerAnnotationOffset(
+  toTest: AnnotationOffset,
+): toTest is AnnotationOffset<SearchHighlightBody> {
+  return toTest.type === "marker";
 }
 
 export type CharIndex = number;
@@ -96,11 +106,12 @@ export type AnnotationSegmentWithBodyAndOffsets<
 > = WithTypeAndBody<T> & WithSegmentOffsets;
 
 /**
- * Search highlight 'annotations' aren't part of nested annotations
- * but always rendered as the innermost annotation
+ * Marker and search highlight 'annotations' aren't part of nested annotations
+ * but are rendered inside all nested annotations
  */
-export type SearchHighlightAnnotationSegment =
+export type SearchHighlightSegment =
   AnnotationSegmentWithBodyAndOffsets<SearchHighlightBody>;
+export type MarkerSegment = AnnotationSegmentWithBodyAndOffsets<MarkerBody>;
 
 /**
  * Segment of an annotation as found in {@link Segment}
@@ -116,18 +127,24 @@ export type NestedAnnotationSegment =
 
 export type AnnotationSegment =
   | NestedAnnotationSegment
-  | SearchHighlightAnnotationSegment;
+  | SearchHighlightSegment
+  | MarkerSegment;
 
 export function isNestedAnnotationSegment(
   toTest: AnnotationSegment,
 ): toTest is NestedAnnotationSegment {
-  return !isSearchHighlightAnnotationSegment(toTest);
+  return toTest.type === "annotation";
 }
 
-export function isSearchHighlightAnnotationSegment(
+export function isSearchHighlightSegment(
   toTest: AnnotationSegment,
-): toTest is SearchHighlightAnnotationSegment {
+): toTest is SearchHighlightSegment {
   return toTest.type === "search";
+}
+export function isMarkerSegment(
+  toTest: AnnotationSegment,
+): toTest is MarkerSegment {
+  return toTest.type === "marker";
 }
 
 /**

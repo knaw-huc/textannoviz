@@ -8,9 +8,12 @@ import {
   isSearchHighlightAnnotationOffset,
   NestedAnnotationSegment,
   OffsetsByCharIndex,
-  SearchHighlightAnnotationSegment,
+  SearchHighlightSegment,
   SearchHighlightBody,
   Segment,
+  isMarkerSegment,
+  MarkerSegment,
+  MarkerBody,
 } from "../AnnotationModel.ts";
 
 /**
@@ -113,6 +116,8 @@ export class AnnotationSegmenter {
             return this.createNestedAnnotationSegment(a);
           } else if (isSearchHighlightAnnotationOffset(a)) {
             return this.createSearchAnnotationSegment(a);
+          } else if (isMarkerSegment(a)) {
+            return this.createMarkerSegment(a);
           } else {
             throw new Error(
               "Could could determine offset type of " + JSON.stringify(a),
@@ -200,10 +205,20 @@ export class AnnotationSegmenter {
 
   private createSearchAnnotationSegment(
     startOffset: AnnotationOffset<SearchHighlightBody>,
-  ): SearchHighlightAnnotationSegment {
+  ): SearchHighlightSegment {
     return {
       ...this.createSegmentOffsets(),
       type: "search",
+      body: startOffset.body,
+    };
+  }
+
+  private createMarkerSegment(
+    startOffset: AnnotationOffset<MarkerBody>,
+  ): MarkerSegment {
+    return {
+      ...this.createSegmentOffsets(),
+      type: "marker",
       body: startOffset.body,
     };
   }

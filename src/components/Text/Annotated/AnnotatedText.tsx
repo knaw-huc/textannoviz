@@ -7,7 +7,6 @@ import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import "./annotated.css";
 import { createLineOffsets } from "./utils/createLineOffsets.ts";
-import { BroccoliViewPosition } from "../BroccoliViewPosition.ts";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -17,6 +16,8 @@ type TextHighlightingProps = {
   text: BroccoliTextGeneric;
   showDetail: boolean;
 };
+
+export const DUMMY_ID = "urn:suriano:file:1697716";
 
 /**
  * Annotation terms:
@@ -35,25 +36,26 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   const { tier2, highlight } = useDetailUrlParams();
   const searchTerms = highlight;
-
+  const isDummy = DUMMY_ID === tier2;
   const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
   const annotationsToHighlight = getAnnotationsByTypes(
     annotations,
     typesToHighlight,
     // TODO: clean up dummy data
-  ).slice(0, 1);
+  ).slice(0, isDummy ? 1 : undefined);
   const lines = props.text.lines;
 
   // TODO: clean up dummy data
-  // const positions = props.text.locations.annotations;
-  const positions: BroccoliViewPosition[] = [
-    {
-      bodyId: annotationsToHighlight.find((a) => a.body.type === "tei:Ptr")!
-        .body.id,
-      start: { line: 0, offset: 10 },
-      end: { line: 0, offset: -1 },
-    },
-  ];
+  const positions = isDummy
+    ? [
+        {
+          bodyId: annotationsToHighlight.find((a) => a.body.type === "tei:Ptr")!
+            .body.id,
+          start: { line: 0, offset: 10 },
+          end: { line: 0, offset: -1 },
+        },
+      ]
+    : props.text.locations.annotations;
 
   const offsets = annotationsToHighlight.map((annotation) =>
     createLineOffsets(annotation, positions, lines, markerAnnotations),
@@ -64,6 +66,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   offsets.push(...searchOffsets);
 
   console.log("AnnotatedText", {
+    markerAnnotations,
     annotationsToHighlight,
     offsets,
   });

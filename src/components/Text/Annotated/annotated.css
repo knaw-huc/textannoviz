@@ -228,6 +228,14 @@
   .closedNestedAnnotation .depth-5.start-annotation {
     @apply before:content-[url('')];
   }
+
+  /* Marker annotations */
+  .marker {
+    color: darkcyan;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 @layer utilities {
