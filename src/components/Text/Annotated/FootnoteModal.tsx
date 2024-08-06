@@ -4,11 +4,17 @@ import { Optional } from "../../../utils/Optional.ts";
 import { ScrollableModal } from "./ScrollableModal.tsx";
 import { SpanModalButton } from "./SpanModalButton.tsx";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
+import {
+  AnnoRepoAnnotation,
+  isNoteBody,
+} from "../../../model/AnnoRepoAnnotation.ts";
+import { useTextStore } from "../../../stores/text.ts";
+import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 
 /**
- * A footnote annotation is connected to text by a marker annotation
+ * Marker annotations link footnote annotations to a location in the line
  */
-export function FootnoteModalButton(
+export function FootnoteModalMarkerButton(
   props: Optional<FootnoteModalProps, "clickedMarker">,
 ) {
   return (
@@ -29,12 +35,42 @@ type FootnoteModalProps = PropsWithChildren<{
 
 export function FootnoteModal(props: FootnoteModalProps) {
   const annotations = useAnnotationStore().annotations;
-  const footnotes = annotations.filter((a) => a.body.type === "tei:Note");
-  console.log("FootnoteModal", { annotations, footnotes });
-
+  const textPanels = useTextStore((state) => state.views);
+  if (!textPanels) {
+    throw new Error(`No text panels found`);
+  }
+  const noteId = props.clickedMarker.body.metadata.target.split("#")[1];
+  const note = annotations.find(
+    (a) => isNoteBody(a.body) && a.body.metadata["tei:id"] === noteId,
+  );
+  if (!note) {
+    throw new Error(`No note found for marker ${noteId}`);
+  }
+  const lines = findNoteLines(textPanels.self, note);
   return (
     <ScrollableModal>
-      <pre>{JSON.stringify(props.clickedMarker, null, 2)}</pre>
+      <div>{lines.join("")}</div>
     </ScrollableModal>
   );
+}
+
+function findNoteLines(panel: BroccoliTextGeneric, note: AnnoRepoAnnotation) {
+  const noteOffsets = panel.locations.annotations.find(
+    (a) => a.bodyId === note.body.id,
+  );
+  if (!noteOffsets) {
+    throw new Error("No relative note found");
+  }
+  const noteLines = panel.lines.slice(
+    noteOffsets.start.line,
+    // Broccoli end includes last element:
+    noteOffsets.end.line + 1,
+  );
+  noteLines[0] = noteLines[0].slice(
+    noteOffsets.start.offset,
+    noteLines[0].length,
+  );
+  const lastLine = noteLines.length - 1;
+  noteLines[lastLine] = noteLines[lastLine].slice(0, noteOffsets.end.offset);
+  return noteLines;
 }

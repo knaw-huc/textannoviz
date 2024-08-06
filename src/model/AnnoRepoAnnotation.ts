@@ -230,6 +230,40 @@ export type EntityBody = AnnoRepoBodyBase & {
   };
 };
 
+export function isEntityBody(toTest: AnnoRepoBody): toTest is EntityBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "Entity";
+}
+
+export type NoteBody = AnnoRepoBodyBase & {
+  type: "tei:Note";
+  "tf:textfabricNode": string;
+  metadata: {
+    "tei:id": string;
+    lang: string;
+    type: "tt:NoteMetadata";
+  };
+};
+
+export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "tei:Note";
+}
+
+export type MarkerBody = AnnoRepoBodyBase & {
+  type: "tei:Ptr";
+  "tf:textfabricNode": number;
+  metadata: {
+    n: string;
+    target: string;
+    type: "tt:PtrMetadata";
+  };
+};
+
 export type AnnoRepoBody =
   | SessionBody
   | ResolutionBody
@@ -246,14 +280,9 @@ export type AnnoRepoBody =
   | TeiRefBody
   | TeiRegBody
   | TfLetterBody
-  | EntityBody;
-
-export function isEntityBody(toTest: AnnoRepoBody): toTest is EntityBody {
-  if (!toTest) {
-    return false;
-  }
-  return toTest.type === "Entity";
-}
+  | EntityBody
+  | MarkerBody
+  | NoteBody;
 
 export type Body =
   | AnnoRepoBody
@@ -319,7 +348,7 @@ export type TextAnchorTarget = {
 
 export type TextTarget = {
   source: string;
-  type: "Text";
+  type: "Text" | "LogicalText";
 };
 
 export type Target =

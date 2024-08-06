@@ -34,7 +34,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:MsDesc",
     // "tei:MsIdentifier",
     // "tei:Name",
-    // "tei:Note",
+    "tei:Note",
     // "tei:Num",
     // "tei:P",
     // "tei:Pb",

@@ -3,18 +3,18 @@ import {
   AnnotationGroup,
   AnnotationOffset,
   AnnotationSegment,
+  isMarkerSegment,
   isNestedAnnotationOffset,
   isNestedAnnotationSegment,
   isSearchHighlightAnnotationOffset,
+  MarkerSegment,
   NestedAnnotationSegment,
   OffsetsByCharIndex,
-  SearchHighlightSegment,
   SearchHighlightBody,
+  SearchHighlightSegment,
   Segment,
-  isMarkerSegment,
-  MarkerSegment,
-  MarkerBody,
 } from "../AnnotationModel.ts";
+import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * An {@link AnnotationOffset} (start or end) marks the boundary between two segments,

@@ -1,4 +1,4 @@
-import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
+import { AnnoRepoBody, MarkerBody } from "../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * Annotation types:
@@ -22,9 +22,13 @@ export type SearchHighlightBody = {
   id: SearchHighlightId;
 };
 
-export type MarkerBody = AnnoRepoBody;
-
-export type AnnotationBody = AnnoRepoBody | SearchHighlightBody;
+export type AnnotationBody =
+  // Nested:
+  | AnnoRepoBody
+  // Highlight:
+  | SearchHighlightBody
+  // Marker:
+  | MarkerBody;
 
 export type WithTypeAndBody<T extends AnnotationBody> = {
   type: AnnotationType;
