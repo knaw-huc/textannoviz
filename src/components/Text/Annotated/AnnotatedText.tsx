@@ -32,12 +32,13 @@ export const DUMMY_ID = "urn:suriano:file:1697716";
  * - Segment: piece of line or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const { markerAnnotations } = useProjectStore(projectConfigSelector);
+  const { markerAnnotationTypes } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
   const searchTerms = highlight;
-  const isDummy = DUMMY_ID === tier2;
+  // const isDummy = DUMMY_ID === tier2;
+  const isDummy = false;
   const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
   const annotationsToHighlight = getAnnotationsByTypes(
     annotations,
@@ -58,16 +59,18 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
       ]
     : props.text.locations.annotations;
 
-  const offsets = annotationsToHighlight.map((annotation) =>
-    createLineOffsets(annotation, positions, lines, markerAnnotations),
-  );
+  const offsets = positions.length
+    ? annotationsToHighlight.map((annotation) =>
+        createLineOffsets(annotation, positions, lines, markerAnnotationTypes),
+      )
+    : [];
 
   const searchRegex = createSearchRegex(searchTerms, tier2);
   const searchOffsets = createLineSearchOffsets(lines, searchRegex);
   offsets.push(...searchOffsets);
 
   console.log("AnnotatedText", {
-    markerAnnotations,
+    markerAnnotationTypes,
     annotationsToHighlight,
     offsets,
   });

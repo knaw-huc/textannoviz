@@ -68,7 +68,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   defaultTextPanels: ["text"],
   showAnnotations: true,
   annotationTypesToHighlight: ["tei:Ptr"],
-  markerAnnotations: ["tei:Ptr"],
+  markerAnnotationTypes: ["tei:Ptr"],
   // annotationTypesToHighlight: ["tf:Ent"],
   allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
   elasticIndexName: "suriano-0.4.3e-010-with-logical-text",
