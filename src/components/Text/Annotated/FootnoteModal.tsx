@@ -4,12 +4,12 @@ import { Optional } from "../../../utils/Optional.ts";
 import { ScrollableModal } from "./ScrollableModal.tsx";
 import { SpanModalButton } from "./SpanModalButton.tsx";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import {
-  AnnoRepoAnnotation,
-  isNoteBody,
-} from "../../../model/AnnoRepoAnnotation.ts";
+import { isNoteBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { useTextStore } from "../../../stores/text.ts";
-import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
+import {
+  BroccoliRelativeAnno,
+  BroccoliTextGeneric,
+} from "../../../model/Broccoli.ts";
 
 /**
  * Marker annotations link footnote annotations to a location in the line
@@ -46,7 +46,14 @@ export function FootnoteModal(props: FootnoteModalProps) {
   if (!note) {
     throw new Error(`No note found for marker ${noteId}`);
   }
-  const lines = findNoteLines(textPanels.self, note);
+  const textPanel = textPanels.self;
+  const noteOffsets = textPanel.locations.annotations.find(
+    (a) => a.bodyId === note.body.id,
+  );
+  if (!noteOffsets) {
+    throw new Error("No relative note found");
+  }
+  const lines = createNoteLines(textPanel, noteOffsets);
   return (
     <ScrollableModal>
       <div>{lines.join("")}</div>
@@ -54,13 +61,10 @@ export function FootnoteModal(props: FootnoteModalProps) {
   );
 }
 
-function findNoteLines(panel: BroccoliTextGeneric, note: AnnoRepoAnnotation) {
-  const noteOffsets = panel.locations.annotations.find(
-    (a) => a.bodyId === note.body.id,
-  );
-  if (!noteOffsets) {
-    throw new Error("No relative note found");
-  }
+function createNoteLines(
+  panel: BroccoliTextGeneric,
+  noteOffsets: BroccoliRelativeAnno,
+) {
   const noteLines = panel.lines.slice(
     noteOffsets.start.line,
     // Broccoli end includes last element:
