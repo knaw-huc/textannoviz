@@ -107,7 +107,7 @@ export type AnnotationSegmentWithBodyAndOffsets<
 
 /**
  * Marker and search highlight 'annotations' aren't part of nested annotations
- * but are rendered inside all nested annotations
+ * but are nested inside the 'ordinary' nested annotations
  */
 export type SearchHighlightSegment =
   AnnotationSegmentWithBodyAndOffsets<SearchHighlightBody>;

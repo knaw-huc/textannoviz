@@ -2,7 +2,7 @@ import { createMarkerClasses } from "./utils/createAnnotationClasses.ts";
 import { SegmentBody } from "./SegmentBody.tsx";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
 import { isMarkerSegment } from "./AnnotationModel.ts";
-import { MarkerModalButton } from "./MarkerModal.tsx";
+import { FootnoteModalButton } from "./FootnoteModal.tsx";
 
 export function MarkerAnnotation(
   props: Pick<NestedAnnotationProps, "segment">,
@@ -17,7 +17,7 @@ export function MarkerAnnotation(
   classNames.push(createMarkerClasses(marker));
   return (
     <span className={classNames.join(" ")}>
-      <MarkerModalButton clickedMarker={marker}>*</MarkerModalButton>
+      <FootnoteModalButton clickedMarker={marker}>*</FootnoteModalButton>
     </span>
   );
 }

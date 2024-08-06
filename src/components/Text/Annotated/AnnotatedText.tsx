@@ -20,15 +20,16 @@ type TextHighlightingProps = {
 export const DUMMY_ID = "urn:suriano:file:1697716";
 
 /**
- * Annotation terms:
- * - Logical text: 'doorlopende' text, not split by line breaks
- * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
- * - Character index: start index marks first character to include, stop index marks first character to exclude
- * - Offset: start or end character index of an annotation
- * - Segment: piece of line or annotation uninterrupted by annotation offsets
- * - Group: all annotations or segments that are connected to each other by other overlapping/nested annotations
- * - Depth: the number of levels that an annotation is nested in parent annotations or with overlapping annotations
+ * Annotation definitions
+ * - Depth: the number of levels that an annotation is nested in parent annotations or overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
+ * - Group: all annotations or segments that are connected to each other by other overlapping/nested annotations
+ * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
+ * - Marker: annotation of zero length marking the location of a footnote annotation
+ * - Offset: start or end character index of an annotation in a line
+ *   - start index marks first character to include
+ *   - stop index marks first character to exclude
+ * - Segment: piece of line or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
   const { markerAnnotations } = useProjectStore(projectConfigSelector);
