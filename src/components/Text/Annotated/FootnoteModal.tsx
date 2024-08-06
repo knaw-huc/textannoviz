@@ -6,10 +6,7 @@ import { SpanModalButton } from "./SpanModalButton.tsx";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { isNoteBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { useTextStore } from "../../../stores/text.ts";
-import {
-  BroccoliRelativeAnno,
-  BroccoliTextGeneric,
-} from "../../../model/Broccoli.ts";
+import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 
 /**
  * Marker annotations link footnote annotations to a location in the line
@@ -39,21 +36,16 @@ export function FootnoteModal(props: FootnoteModalProps) {
   if (!textPanels) {
     throw new Error(`No text panels found`);
   }
-  const noteId = props.clickedMarker.body.metadata.target.split("#")[1];
+  const noteTargetId = props.clickedMarker.body.metadata.target.split("#")[1];
   const note = annotations.find(
-    (a) => isNoteBody(a.body) && a.body.metadata["tei:id"] === noteId,
+    (a) => isNoteBody(a.body) && a.body.metadata["tei:id"] === noteTargetId,
   );
   if (!note) {
-    throw new Error(`No note found for marker ${noteId}`);
+    throw new Error(`No note found for marker ${noteTargetId}`);
   }
   const textPanel = textPanels.self;
-  const noteOffsets = textPanel.locations.annotations.find(
-    (a) => a.bodyId === note.body.id,
-  );
-  if (!noteOffsets) {
-    throw new Error("No relative note found");
-  }
-  const lines = createNoteLines(textPanel, noteOffsets);
+  const noteBodyId = note.body.id;
+  const lines = createNoteLines(textPanel, noteBodyId);
   return (
     <ScrollableModal>
       <div>{lines.join("")}</div>
@@ -61,10 +53,13 @@ export function FootnoteModal(props: FootnoteModalProps) {
   );
 }
 
-function createNoteLines(
-  panel: BroccoliTextGeneric,
-  noteOffsets: BroccoliRelativeAnno,
-) {
+function createNoteLines(panel: BroccoliTextGeneric, noteBodyId: string) {
+  const noteOffsets = panel.locations.annotations.find(
+    (a) => a.bodyId === noteBodyId,
+  );
+  if (!noteOffsets) {
+    throw new Error("No relative note found");
+  }
   const noteLines = panel.lines.slice(
     noteOffsets.start.line,
     // Broccoli end includes last element:
