@@ -1,6 +1,6 @@
 import { Base64 } from "js-base64";
 import isEmpty from "lodash/isEmpty";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -20,10 +20,10 @@ import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
+import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
-import { useSearchResults } from "./useSearchResults.tsx";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -54,6 +54,7 @@ export const Search = () => {
   } = useSearchStore();
 
   const { getSearchResults } = useSearchResults();
+  const skipUrlSyncRef = useRef(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -144,28 +145,63 @@ export const Search = () => {
     }
 
     return () => {
+      setInit(false);
       controller.abort("useEffect cleanup cycle");
     };
   }, []);
+
+  useEffect(() => {
+    if (!isInit) {
+      return;
+    }
+
+    const queryDecoded = getUrlQuery(urlParams);
+    const newSearchQuery = {
+      ...searchQuery,
+      ...queryDecoded,
+    };
+
+    async function doSearch() {
+      const searchResults = await getSearchResults(
+        searchFacetTypes,
+        searchUrlParams,
+        newSearchQuery,
+      );
+      if (searchResults) {
+        setSearchResults(searchResults.results);
+        setKeywordFacets(searchResults.facets);
+      }
+      setShowingResults(true);
+    }
+
+    skipUrlSyncRef.current = true;
+
+    setSearchQuery(newSearchQuery);
+    setSelectedFacets(newSearchQuery);
+
+    if (
+      queryDecoded?.fullText &&
+      JSON.stringify(searchQuery) !== JSON.stringify(queryDecoded)
+    ) {
+      doSearch();
+    }
+  }, [urlParams, isInit]);
 
   //THIS ONE IS RUN MULTIPLE TIMES
   useEffect(() => {
     syncUrlWithSearchParams();
 
     function syncUrlWithSearchParams() {
-      if (!isInit) {
+      if (!isInit || skipUrlSyncRef.current) {
+        skipUrlSyncRef.current = false;
         return;
       }
-      const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      function skipEmptyValues(_: string, v: any) {
-        return [null, ""].includes(v) ? undefined : v;
-      }
+      const query = JSON.stringify(searchQuery);
 
       const newUrlParams = addToUrlParams(urlParams, {
         ...searchUrlParams,
-        query: Base64.toBase64(cleanQuery),
+        query: Base64.toBase64(query),
         indexName: projectConfig.elasticIndexName,
       });
       setUrlParams(newUrlParams);
