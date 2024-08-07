@@ -15,7 +15,6 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@heroicons/react": "^2.1.1",
-    "@nextui-org/react": "^2.2.9",
     "@spectrum-icons/workflow": "^4.2.11",
     "framer-motion": "^11.0.8",
     "immer": "^9.0.21",

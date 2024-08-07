@@ -1,4 +1,4 @@
-import { Skeleton } from "@nextui-org/react";
+import { Skeleton } from "primereact/skeleton";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
@@ -119,9 +119,9 @@ export const Detail = (props: DetailProps) => {
         </>
       ) : (
         <div className="flex flex-col gap-2 pl-2 pt-2">
-          <Skeleton className="h-4 w-64 rounded-lg" />
-          <Skeleton className="h-4 w-96 rounded-lg" />
-          <Skeleton className="h-4 w-48 rounded-lg" />
+          <Skeleton width="16rem" borderRadius="8px" className="h-4" />
+          <Skeleton width="24rem" borderRadius="8px" className="h-4" />
+          <Skeleton width="12rem" borderRadius="8px" className="h-4" />
         </div>
       )}
     </>

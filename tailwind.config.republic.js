@@ -1,6 +1,3 @@
-import { nextui } from "@nextui-org/react";
-import typography from "@tailwindcss/typography";
-import reactAria from "tailwindcss-react-aria-components/src/index";
 import _ from "lodash";
 import defaultTailwindConfig from "./tailwind.config.default.js";
 
