@@ -11,6 +11,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import _ from "lodash";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -48,7 +49,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const lines = props.text.lines;
 
   // TODO: clean up dummy data
-  const positions = isDummy
+  const relativeAnnotations = isDummy
     ? [
         {
           bodyId: annotationsToHighlight.find((a) => a.body.type === "tei:Ptr")!
@@ -59,9 +60,15 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
       ]
     : props.text.locations.annotations;
 
-  const offsets = positions.length
+  // No offsets when no relative annotations
+  const offsets = relativeAnnotations.length
     ? annotationsToHighlight.map((annotation) =>
-        createLineOffsets(annotation, positions, lines, markerAnnotationTypes),
+        createLineOffsets(
+          annotation,
+          relativeAnnotations,
+          lines,
+          markerAnnotationTypes,
+        ),
       )
     : [];
 
@@ -72,7 +79,9 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   console.log("AnnotatedText", {
     markerAnnotationTypes,
     annotationsToHighlight,
+    relativeAnnotations,
     offsets,
+    searchOffsets,
   });
 
   return (
@@ -87,3 +96,5 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     </div>
   );
 };
+
+Object.assign(window, { _ });

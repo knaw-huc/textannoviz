@@ -256,7 +256,7 @@ export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
 
 export type MarkerBody = AnnoRepoBodyBase & {
   type: "tei:Ptr";
-  "tf:textfabricNode": number;
+  "tf:textfabricNode": string;
   metadata: {
     n: string;
     target: string;

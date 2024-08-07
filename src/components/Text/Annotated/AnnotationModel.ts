@@ -75,7 +75,7 @@ export function isSearchHighlightAnnotationOffset(
 
 export function isMarkerAnnotationOffset(
   toTest: AnnotationOffset,
-): toTest is AnnotationOffset<SearchHighlightBody> {
+): toTest is AnnotationOffset<MarkerBody> {
   return toTest.type === "marker";
 }
 
