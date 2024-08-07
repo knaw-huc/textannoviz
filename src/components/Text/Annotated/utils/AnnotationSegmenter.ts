@@ -120,44 +120,60 @@ export class AnnotationSegmenter {
       .filter((offset) => offset.mark === "start")
       .sort(this.byAnnotationSize.bind(this));
 
-    // Create highlights and nested annotation segments:
-    const annotationsOpeningAtCharIndex = startOffsets
-      .filter((o) => o.type !== "marker")
-      .map((offset) => {
-        if (isNestedAnnotationOffset(offset)) {
-          return this.createNestedAnnotationSegment(offset);
-        } else if (isSearchHighlightAnnotationOffset(offset)) {
-          return this.createSearchAnnotationSegment(offset);
-        } else {
-          throw new Error(
-            "Could could determine offset type of " + JSON.stringify(offset),
-          );
-        }
-      });
-    this.currentAnnotations.push(...annotationsOpeningAtCharIndex);
+    this.currentAnnotations.push(
+      ...this.createAnnotationSegments(startOffsets),
+    );
     this.annotationGroup.maxDepth = _.max([
       this.annotationGroup.maxDepth,
       this.currentAnnotationDepth,
     ])!;
 
-    // Create marker segments:
-    startOffsets.filter(isMarkerAnnotationOffset).forEach((markerOffset) => {
-      this.segments.push({
+    this.segments.push(...this.createEmptyMarkerSegments(startOffsets));
+    this.segments.push(this.createSegmentFromLine(lineFromCurrentToNextOffset));
+  }
+
+  private createSegmentFromLine(lineFromCurrentToNextOffset: string) {
+    return {
+      index: this.segments.length,
+      body: lineFromCurrentToNextOffset,
+      annotations: [...this.currentAnnotations],
+    };
+  }
+
+  private createEmptyMarkerSegments(
+    startOffsets: AnnotationOffset[],
+  ): Segment[] {
+    return startOffsets.filter(isMarkerAnnotationOffset).map((markerOffset) => {
+      return {
         index: this.segments.length,
         body: "",
         annotations: [
           this.createMarkerSegment(markerOffset),
           ...this.currentAnnotations,
         ],
-      });
+      };
     });
+  }
 
-    // Add highlights and nested annotation segments:
-    this.segments.push({
-      index: this.segments.length,
-      body: lineFromCurrentToNextOffset,
-      annotations: [...this.currentAnnotations],
-    });
+  private createAnnotationSegments(
+    startOffsets: AnnotationOffset[],
+  ): (AnnotationSegment | SearchHighlightSegment)[] {
+    return (
+      startOffsets
+        // Markers are handled seperately:
+        .filter((o) => o.type !== "marker")
+        .map((offset) => {
+          if (isNestedAnnotationOffset(offset)) {
+            return this.createNestedAnnotationSegment(offset);
+          } else if (isSearchHighlightAnnotationOffset(offset)) {
+            return this.createSearchAnnotationSegment(offset);
+          } else {
+            throw new Error(
+              "Could could determine offset type of " + JSON.stringify(offset),
+            );
+          }
+        })
+    );
   }
 
   private handleEndOffsets(offsetsAtCharIndex: OffsetsByCharIndex) {
