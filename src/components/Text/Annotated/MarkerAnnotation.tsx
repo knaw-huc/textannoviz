@@ -18,7 +18,7 @@ export function MarkerAnnotation(
   return (
     <span className={classNames.join(" ")}>
       <FootnoteModalMarkerButton clickedMarker={marker}>
-        *
+        [{marker.body.metadata.n}]
       </FootnoteModalMarkerButton>
     </span>
   );

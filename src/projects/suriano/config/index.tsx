@@ -65,7 +65,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "notes",
     "self",
   ],
-  defaultTextPanels: ["text"],
+  defaultTextPanels: ["self"],
   showAnnotations: true,
   annotationTypesToHighlight: ["tei:Ptr"],
   markerAnnotationTypes: ["tei:Ptr"],

@@ -231,7 +231,7 @@
 
   /* Marker annotations */
   .marker {
-    color: darkcyan;
+    color: #008a8a;
     &:hover {
       text-decoration: underline;
     }
