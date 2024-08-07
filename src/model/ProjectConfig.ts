@@ -1,3 +1,4 @@
+import { SearchQuery } from "../stores/search/search-query-slice.ts";
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import {
@@ -6,7 +7,6 @@ import {
   RepublicSearchResultBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
-import { SearchQuery } from "../stores/search/search-query-slice.ts";
 
 export interface ProjectConfig {
   id: string;
@@ -93,6 +93,8 @@ export interface ProjectConfig {
         | MondriaanSearchResultsBody
         | GlobaliseSearchResultsBody;
     }) => JSX.Element;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    EntityMetadata: (props: { body: any }) => JSX.Element;
   };
 }
 

@@ -1,6 +1,7 @@
-import { EntityBody } from "../../../model/AnnoRepoAnnotation.ts";
-import { trimMiddle } from "./utils/trimMiddle.ts";
+import { toast } from "react-toastify";
+import { RepublicEntityBody } from "../../../model/AnnoRepoAnnotation.ts";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
@@ -8,12 +9,13 @@ import {
   alignAnnotationCategory,
   toAnnotationClassname,
 } from "./utils/createAnnotationClasses.ts";
-import { toast } from "react-toastify";
+import { trimMiddle } from "./utils/trimMiddle.ts";
 
-export function EntitySummary(props: { body: EntityBody }) {
+export function EntitySummary(props: { body: RepublicEntityBody }) {
   const { body } = props;
   const translateProject = useProjectStore(translateProjectSelector);
   const category = body.metadata.category || "";
+  const projectConfig = useProjectStore(projectConfigSelector);
 
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
@@ -26,6 +28,7 @@ export function EntitySummary(props: { body: EntityBody }) {
           {translateProject(alignAnnotationCategory(category))}
         </div>
         <div>{trimMiddle(body.text, 120)}</div>
+        <div>{<projectConfig.components.EntityMetadata body={body} />}</div>
       </div>
       <div className="flex gap-4">
         <div>

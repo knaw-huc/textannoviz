@@ -219,7 +219,7 @@ export type AnnoRepoBodyBase = {
   };
 };
 
-export type EntityBody = AnnoRepoBodyBase & {
+export type RepublicEntityBody = AnnoRepoBodyBase & {
   type: "Entity";
   text: string;
   metadata: {
@@ -246,9 +246,11 @@ export type AnnoRepoBody =
   | TeiRefBody
   | TeiRegBody
   | TfLetterBody
-  | EntityBody;
+  | RepublicEntityBody;
 
-export function isEntityBody(toTest: AnnoRepoBody): toTest is EntityBody {
+export function isEntityBody(
+  toTest: AnnoRepoBody,
+): toTest is RepublicEntityBody {
   if (!toTest) {
     return false;
   }
