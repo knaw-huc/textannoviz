@@ -120,9 +120,10 @@ export class AnnotationSegmenter {
       .filter((offset) => offset.mark === "start")
       .sort(this.byAnnotationSize.bind(this));
 
-    const annotationOffsets = startOffsets.filter((o) => o.type !== "marker");
-    const annotationsOpeningAtCharIndex: AnnotationSegment[] =
-      annotationOffsets.map((offset) => {
+    // Create highlights and nested annotation segments:
+    const annotationsOpeningAtCharIndex = startOffsets
+      .filter((o) => o.type !== "marker")
+      .map((offset) => {
         if (isNestedAnnotationOffset(offset)) {
           return this.createNestedAnnotationSegment(offset);
         } else if (isSearchHighlightAnnotationOffset(offset)) {
@@ -133,28 +134,25 @@ export class AnnotationSegmenter {
           );
         }
       });
-
     this.currentAnnotations.push(...annotationsOpeningAtCharIndex);
-
     this.annotationGroup.maxDepth = _.max([
       this.annotationGroup.maxDepth,
       this.currentAnnotationDepth,
     ])!;
 
-    const markerOffsets = startOffsets.filter((o) => o.type === "marker");
-    markerOffsets.forEach((markerOffset) => {
-      if (isMarkerAnnotationOffset(markerOffset)) {
-        this.segments.push({
-          index: this.segments.length,
-          body: "",
-          annotations: [
-            this.createMarkerSegment(markerOffset),
-            ...this.currentAnnotations,
-          ],
-        });
-      }
+    // Create marker segments:
+    startOffsets.filter(isMarkerAnnotationOffset).forEach((markerOffset) => {
+      this.segments.push({
+        index: this.segments.length,
+        body: "",
+        annotations: [
+          this.createMarkerSegment(markerOffset),
+          ...this.currentAnnotations,
+        ],
+      });
     });
 
+    // Add highlights and nested annotation segments:
     this.segments.push({
       index: this.segments.length,
       body: lineFromCurrentToNextOffset,
@@ -165,7 +163,7 @@ export class AnnotationSegmenter {
   private handleEndOffsets(offsetsAtCharIndex: OffsetsByCharIndex) {
     const annotationIdsClosingAtCharIndex = offsetsAtCharIndex.offsets
       .filter((offset) => offset.mark === "end")
-      // Can be ignored:
+      // Marker start sets end, ignore end offset:
       .filter((offset) => offset.type !== "marker")
       .map((endOffset) => endOffset.body.id);
     const closingAnnotations = this.currentAnnotations.filter((a) =>
