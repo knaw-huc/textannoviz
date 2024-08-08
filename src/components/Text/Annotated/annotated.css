@@ -244,7 +244,10 @@
   }
 }
 
-/* modal */
+/**
+ * Modal
+ * source: https://react-spectrum.adobe.com/react-aria/Modal.html
+ */
 .react-aria-ModalOverlay {
   padding-top: 1em;
   position: fixed;
@@ -307,7 +310,10 @@
   }
 }
 
-/* tooltip */
+/**
+ * Tooltip
+ * source: https://react-spectrum.adobe.com/react-aria/Tooltip.html
+ */
 .react-aria-Tooltip {
   box-shadow: 0 0 10px rgba(0 0 0 / 0.2);
   border-radius: 4px;
@@ -362,7 +368,6 @@
     animation: slide 200ms reverse ease-in;
   }
 }
-
 @keyframes slide {
   from {
     transform: var(--origin);
