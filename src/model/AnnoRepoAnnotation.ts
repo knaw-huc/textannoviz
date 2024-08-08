@@ -346,6 +346,14 @@ export type TextAnchorTarget = {
   };
 };
 
+export function isLogicalTextAnchorTarget(
+  toTest: Target,
+): toTest is TextAnchorTarget {
+  return (
+    toTest.type === "LogicalText" && !!(toTest as TextAnchorTarget).selector
+  );
+}
+
 export type TextTarget = {
   source: string;
   type: "Text" | "LogicalText";

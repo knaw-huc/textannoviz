@@ -17,9 +17,6 @@ export function createLineOffsets(
       `No relative position found for annotation ${annotation?.body?.id}`,
     );
   }
-  if (positionRelativeToView.start.line !== positionRelativeToView.end.line) {
-    throw new Error(`Annotation spans multiple lines: ${annotation.body.id}`);
-  }
   const startChar: number = _.has(positionRelativeToView.start, "offset")
     ? positionRelativeToView.start.offset!
     : 0;

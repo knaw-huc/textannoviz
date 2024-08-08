@@ -12,6 +12,10 @@ import {
   useProjectStore,
 } from "../../../stores/project.ts";
 import _ from "lodash";
+import {
+  AnnoRepoAnnotation,
+  isLogicalTextAnchorTarget,
+} from "../../../model/AnnoRepoAnnotation.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -62,14 +66,16 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   // No offsets when no relative annotations
   const offsets = relativeAnnotations.length
-    ? annotationsToHighlight.map((annotation) =>
-        createLineOffsets(
-          annotation,
-          relativeAnnotations,
-          lines,
-          markerAnnotationTypes,
-        ),
-      )
+    ? annotationsToHighlight
+        .filter(withTargetInSingleLine)
+        .map((annotation) =>
+          createLineOffsets(
+            annotation,
+            relativeAnnotations,
+            lines,
+            markerAnnotationTypes,
+          ),
+        )
     : [];
 
   const searchRegex = createSearchRegex(searchTerms, tier2);
@@ -96,5 +102,20 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     </div>
   );
 };
+
+function withTargetInSingleLine(a: AnnoRepoAnnotation) {
+  if (!Array.isArray(a.target)) {
+    return false;
+  }
+  const textAnchorSelector = a.target.find(isLogicalTextAnchorTarget);
+  if (!textAnchorSelector) {
+    return false;
+  }
+  if (textAnchorSelector.selector.start !== textAnchorSelector.selector.end) {
+    console.warn(`Ignoring annotation that spans multiple lines: ${a.body.id}`);
+    return false;
+  }
+  return true;
+}
 
 Object.assign(window, { _ });
