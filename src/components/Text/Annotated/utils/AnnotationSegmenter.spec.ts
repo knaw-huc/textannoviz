@@ -126,7 +126,7 @@ describe("AnnotationSegmenter", () => {
     expect(anno1.depth).toEqual(1);
   });
 
-  it("can handle empty text in between annotations", () => {
+  it("keeps empty text in between annotations", () => {
     // <aa>bb<cc>
     const segments = new AnnotationSegmenter("aabbcc", [
       {
@@ -716,7 +716,7 @@ describe("AnnotationSegmenter", () => {
     expect(abc.endSegment).toEqual(1);
   });
 
-  it("should create empty note marker segment with endSegment equal to startSegment", () => {
+  it("creates empty note marker segment with endSegment equal to startSegment", () => {
     // aa*bb
     const segments = new AnnotationSegmenter("aabb", [
       {
@@ -756,7 +756,7 @@ describe("AnnotationSegmenter", () => {
     expect(marker.body.id).toEqual("urn:foo:ptr:1");
   });
 
-  it("should create last segment when no annotations present", () => {
+  it("creates last segment when no annotations present", () => {
     // <a>aa</a>bb
     const segments = new AnnotationSegmenter("aabb", [
       {
