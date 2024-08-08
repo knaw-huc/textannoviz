@@ -2,7 +2,7 @@ import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { SegmentedLine } from "./SegmentedLine.tsx";
-import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
+import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
 import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import "./annotated.css";
@@ -37,7 +37,9 @@ export const DUMMY_ID = "urn:suriano:file:1697716";
  * - Segment: piece of line or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const { markerAnnotationTypes } = useProjectStore(projectConfigSelector);
+  const { footnoteMarkerAnnotationTypes } = useProjectStore(
+    projectConfigSelector,
+  );
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
@@ -73,21 +75,22 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
             annotation,
             relativeAnnotations,
             lines,
-            markerAnnotationTypes,
+            footnoteMarkerAnnotationTypes,
           ),
         )
     : [];
 
   const searchRegex = createSearchRegex(searchTerms, tier2);
-  const searchOffsets = createLineSearchOffsets(lines, searchRegex);
-  offsets.push(...searchOffsets);
+  offsets.push(...createSearchOffsets(lines, searchRegex));
+  // TODO:
+  // offsets.push(...createPageOffsets(lines, searchRegex));
 
   console.log("AnnotatedText", {
-    markerAnnotationTypes,
+    footnoteMarkerAnnotationTypes,
     annotationsToHighlight,
     relativeAnnotations,
     offsets,
-    searchOffsets,
+    searchOffsets: createSearchOffsets(lines, searchRegex),
   });
 
   return (
