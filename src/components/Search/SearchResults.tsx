@@ -5,6 +5,7 @@ import { CategoricalChartState } from "recharts/types/chart/types";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   projectConfigSelector,
+  translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
@@ -48,6 +49,7 @@ export function SearchResults(props: SearchResultsProps) {
   const pageSize = searchUrlParams.size;
   const pageNumber = fromToPage(searchUrlParams.from);
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const [graphType, setGraphType] = React.useState("bar");
   const [graphFrom] = React.useState(
@@ -158,9 +160,9 @@ export function SearchResults(props: SearchResultsProps) {
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
         <span className="font-semibold">
           {resultStartEnd
-            ? `${resultStartEnd} ${searchResults.total.value} ${translate(
-                "RESULTS",
-              ).toLowerCase()}`
+            ? `${resultStartEnd} ${
+                searchResults.total.value
+              } ${translateProject("results").toLowerCase()}`
             : translate("NO_SEARCH_RESULTS")}
         </span>
         <div className="flex items-center justify-between gap-10">

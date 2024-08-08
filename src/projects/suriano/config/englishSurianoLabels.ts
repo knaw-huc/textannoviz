@@ -20,4 +20,7 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   //Metadata panel
   summary: "Summary",
   shelfmark: "Shelfmark",
+
+  // search results:
+  results: "letters",
 });
