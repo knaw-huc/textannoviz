@@ -11,7 +11,7 @@ import { SpanTooltipButton } from "./SpanTooltipButton.tsx";
 /**
  * Marker annotations link footnote annotations to a location in the line
  */
-export function FootnoteModalMarkerButton(
+export function FootnoteTooltipMarkerButton(
   props: Optional<FootnoteModalProps, "clickedMarker">,
 ) {
   return (
@@ -22,6 +22,7 @@ export function FootnoteModalMarkerButton(
           <FootnoteTooltip {...props} clickedMarker={props.clickedMarker} />
         )
       }
+      delay={100}
     />
   );
 }
