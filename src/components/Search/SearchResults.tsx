@@ -10,6 +10,7 @@ import {
 } from "../../stores/project.ts";
 import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { usePagination } from "../../utils/usePagination.tsx";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
 import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
@@ -17,7 +18,6 @@ import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
-import { usePagination } from "../../utils/usePagination.tsx";
 
 type SearchResultsProps = {
   query: SearchQuery;
@@ -218,7 +218,7 @@ export function SearchResults(props: SearchResultsProps) {
           </div>
         )}
       </div>
-      {projectConfig.showHistogram ? (
+      {projectConfig.showHistogram && searchResults.results.length >= 1 ? (
         <>
           <HistogramControls
             graphTypeButtonClickHandler={graphTypeButtonClickHandler}
