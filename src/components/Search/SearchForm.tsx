@@ -310,7 +310,7 @@ export function SearchForm(props: SearchFormProps) {
         />
       )}
 
-      {projectConfig.showFacetFilter && (
+      {projectConfig.showFacetFilter && props.keywordFacets.length !== 0 && (
         <div className="flex w-full max-w-[450px] flex-col gap-4">
           <FacetFilter
             allPossibleKeywordFacets={props.keywordFacets}
