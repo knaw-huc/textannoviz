@@ -1,12 +1,12 @@
 import { PropsWithChildren } from "react";
 import { MarkerSegment } from "./AnnotationModel.ts";
 import { Optional } from "../../../utils/Optional.ts";
-import { ScrollableModal } from "./ScrollableModal.tsx";
-import { SpanModalButton } from "./SpanModalButton.tsx";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { isNoteBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { useTextStore } from "../../../stores/text.ts";
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
+import { OverlayArrow, Tooltip } from "react-aria-components";
+import { SpanTooltipButton } from "./SpanTooltipButton.tsx";
 
 /**
  * Marker annotations link footnote annotations to a location in the line
@@ -15,11 +15,11 @@ export function FootnoteModalMarkerButton(
   props: Optional<FootnoteModalProps, "clickedMarker">,
 ) {
   return (
-    <SpanModalButton
+    <SpanTooltipButton
       label={props.children}
-      modal={
+      tooltip={
         props.clickedMarker && (
-          <FootnoteModal {...props} clickedMarker={props.clickedMarker} />
+          <FootnoteTooltip {...props} clickedMarker={props.clickedMarker} />
         )
       }
     />
@@ -30,7 +30,7 @@ type FootnoteModalProps = PropsWithChildren<{
   clickedMarker: MarkerSegment;
 }>;
 
-export function FootnoteModal(props: FootnoteModalProps) {
+export function FootnoteTooltip(props: FootnoteModalProps) {
   const annotations = useAnnotationStore().annotations;
   const textPanels = useTextStore((state) => state.views);
   if (!textPanels) {
@@ -47,9 +47,14 @@ export function FootnoteModal(props: FootnoteModalProps) {
   const noteBodyId = note.body.id;
   const lines = createNoteLines(textPanel, noteBodyId);
   return (
-    <ScrollableModal>
+    <Tooltip {...props}>
+      <OverlayArrow>
+        <svg width={8} height={8} viewBox="0 0 8 8">
+          <path d="M0 0 L4 4 L8 0" />
+        </svg>
+      </OverlayArrow>
       <div>{lines.join("")}</div>
-    </ScrollableModal>
+    </Tooltip>
   );
 }
 
