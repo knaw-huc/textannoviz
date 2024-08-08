@@ -32,7 +32,7 @@ export class AnnotationSegmenter {
   /**
    * Annotations that include the current character
    */
-  private currentAnnotations: AnnotationSegment[] = [];
+  private currentAnnotationSegments: AnnotationSegment[] = [];
 
   /**
    * Depth of nested annotations in an annotation group
@@ -120,7 +120,7 @@ export class AnnotationSegmenter {
       .filter((offset) => offset.mark === "start")
       .sort(this.byAnnotationSize.bind(this));
 
-    this.currentAnnotations.push(
+    this.currentAnnotationSegments.push(
       ...this.createAnnotationSegments(startOffsets),
     );
     this.annotationGroup.maxDepth = _.max([
@@ -136,7 +136,7 @@ export class AnnotationSegmenter {
     return {
       index: this.segments.length,
       body: lineFromCurrentToNextOffset,
-      annotations: [...this.currentAnnotations],
+      annotations: [...this.currentAnnotationSegments],
     };
   }
 
@@ -149,7 +149,7 @@ export class AnnotationSegmenter {
         body: "",
         annotations: [
           this.createMarkerSegment(markerOffset),
-          ...this.currentAnnotations,
+          ...this.currentAnnotationSegments,
         ],
       };
     });
@@ -182,23 +182,24 @@ export class AnnotationSegmenter {
       // Marker start sets end, ignore end offset:
       .filter((offset) => offset.type !== "marker")
       .map((endOffset) => endOffset.body.id);
-    const closingAnnotations = this.currentAnnotations.filter((a) =>
+    const closingAnnotations = this.currentAnnotationSegments.filter((a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
     closingAnnotations.forEach((a) => {
       a.endSegment = this.segments.length;
     });
-    _.remove(this.currentAnnotations, (a) =>
+    _.remove(this.currentAnnotationSegments, (a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
-    const currentNested = this.currentAnnotations.filter(
+    const currentNested = this.currentAnnotationSegments.filter(
       isNestedAnnotationSegment,
     );
     this.currentAnnotationDepth = _.maxBy(currentNested, "depth")?.depth || 0;
 
     // Create new annotation group when all annotations are closed:
     const hasClosedAllAnnotations =
-      !this.currentAnnotations.length && annotationIdsClosingAtCharIndex.length;
+      !this.currentAnnotationSegments.length &&
+      annotationIdsClosingAtCharIndex.length;
     if (hasClosedAllAnnotations) {
       this.currentAnnotationDepth = 0;
       this.annotationGroup = {
