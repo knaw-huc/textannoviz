@@ -70,7 +70,8 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showAnnotations: true,
   annotationTypesToHighlight: ["tei:Ptr", "tei:P", "tei:Pb", "tf:Page"],
   footnoteMarkerAnnotationTypes: ["tei:Ptr"],
-  // annotationTypesToHighlight: ["tf:Ent"],
+  pageMarkerAnnotationTypes: ["tf:Page"],
+
   allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
   elasticIndexName: "suriano-0.4.3e-010-with-logical-text",
   initialDateFrom: "1600-01-01",

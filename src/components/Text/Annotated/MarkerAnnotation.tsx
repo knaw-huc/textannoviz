@@ -22,7 +22,7 @@ export function MarkerAnnotation(
   if (projectConfig.footnoteMarkerAnnotationTypes.includes(marker.body.type)) {
     return <FootnoteMarkerAnnotation marker={marker} />;
   }
-  return <>MARKER</>;
+  return <>---marker---</>;
 }
 
 export function FootnoteMarkerAnnotation(props: { marker: MarkerSegment }) {

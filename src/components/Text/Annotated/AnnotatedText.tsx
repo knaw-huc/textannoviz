@@ -6,7 +6,6 @@ import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
 import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import "./annotated.css";
-import { createLineOffsets } from "./utils/createLineOffsets.ts";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -16,6 +15,12 @@ import {
   AnnoRepoAnnotation,
   isLogicalTextAnchorTarget,
 } from "../../../model/AnnoRepoAnnotation.ts";
+import {
+  createFootnoteMarkLineOffsets,
+  createNestedLineOffsets,
+  createPageMarkLineOffsets,
+} from "./utils/createLineOffsets.ts";
+import { LineOffsets } from "./AnnotationModel.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -37,9 +42,8 @@ export const DUMMY_ID = "urn:suriano:file:1697716";
  * - Segment: piece of line or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const { footnoteMarkerAnnotationTypes } = useProjectStore(
-    projectConfigSelector,
-  );
+  const { footnoteMarkerAnnotationTypes, pageMarkerAnnotationTypes } =
+    useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
@@ -65,32 +69,41 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
         },
       ]
     : props.text.locations.annotations;
-
   // No offsets when no relative annotations
-  const offsets = relativeAnnotations.length
-    ? annotationsToHighlight
-        .filter(withTargetInSingleLine)
-        .map((annotation) =>
-          createLineOffsets(
-            annotation,
-            relativeAnnotations,
-            lines,
-            footnoteMarkerAnnotationTypes,
-          ),
-        )
-    : [];
+  const offsets: LineOffsets[] = [];
+
+  const singleLineAnnotations = annotationsToHighlight.filter(
+    withTargetInSingleLine,
+  );
+
+  if (relativeAnnotations.length) {
+    singleLineAnnotations.map((annotation) =>
+      createNestedLineOffsets(annotation, relativeAnnotations, lines),
+    );
+  }
 
   const searchRegex = createSearchRegex(searchTerms, tier2);
   offsets.push(...createSearchOffsets(lines, searchRegex));
-  // TODO:
-  // offsets.push(...createPageOffsets(lines, searchRegex));
+  offsets.push(
+    ...singleLineAnnotations
+      .filter((a) => footnoteMarkerAnnotationTypes.includes(a.body.type))
+      .map((annotation) =>
+        createFootnoteMarkLineOffsets(annotation, relativeAnnotations),
+      ),
+  );
+  offsets.push(
+    ...annotationsToHighlight
+      .filter((a) => pageMarkerAnnotationTypes.includes(a.body.type))
+      .map((annotation) =>
+        createPageMarkLineOffsets(annotation, relativeAnnotations),
+      ),
+  );
 
   console.log("AnnotatedText", {
     footnoteMarkerAnnotationTypes,
     annotationsToHighlight,
     relativeAnnotations,
     offsets,
-    searchOffsets: createSearchOffsets(lines, searchRegex),
   });
 
   return (

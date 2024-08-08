@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { createLineOffsets } from "./createLineOffsets.ts";
+import {
+  createFootnoteMarkLineOffsets,
+  createNestedLineOffsets,
+} from "./createLineOffsets.ts";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 
@@ -50,11 +53,10 @@ describe("createLineOffsets", () => {
     const lines = [
       "Synde ter vergaderinge gelesen de requeste van weduwe van wylen den Capn. Willem Bouwensz keert de koe om te hebben betalinge van twee ordonnantien die sy aen t' Collegie ter admt. tot Rotterdam ten achteren staet.",
     ];
-    const result = createLineOffsets(
+    const result = createNestedLineOffsets(
       annotation,
       positionsRelativeToView,
       lines,
-      [],
     );
     expect(result.body.id).toEqual(
       "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
@@ -82,12 +84,9 @@ describe("createLineOffsets", () => {
         },
       } as BroccoliViewPosition,
     ];
-    const lines = ["Synde ter vergaderinge gelesen"];
-    const result = createLineOffsets(
+    const result = createFootnoteMarkLineOffsets(
       annotation,
       positionsRelativeToView,
-      lines,
-      ["tei:Ptr"],
     );
     expect(result.body.id).toEqual("urn:foo:ptr:1978932");
     expect(result.type).toEqual("marker");
