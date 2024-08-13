@@ -77,8 +77,10 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   );
 
   if (relativeAnnotations.length) {
-    singleLineAnnotations.map((annotation) =>
-      createNestedLineOffsets(annotation, relativeAnnotations, lines),
+    offsets.push(
+      ...singleLineAnnotations.map((annotation) =>
+        createNestedLineOffsets(annotation, relativeAnnotations, lines),
+      ),
     );
   }
 
