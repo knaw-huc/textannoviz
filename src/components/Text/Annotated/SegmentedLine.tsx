@@ -32,7 +32,7 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   const clickedGroup = grouped.find((g) => g.id === clickedAnnotationGroup?.id);
 
   return (
-    <>
+    <span className="segmented-line">
       {grouped.map((group, i) => (
         <SegmentGroup
           key={i}
@@ -42,7 +42,7 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
           onClickSegment={handleClickSegment}
         />
       ))}
-    </>
+    </span>
   );
 }
 

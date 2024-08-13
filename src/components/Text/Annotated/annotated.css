@@ -13,6 +13,10 @@
 @layer components {
   /* nested annotations markup */
 
+  .segmented-line {
+    display: block;
+  }
+
   .fullNestedAnnotation {
     @apply leading-[4rem];
   }
