@@ -14,6 +14,7 @@ export function createAnnotationClasses(
   const classes = [];
   classes.push(
     "nested-annotation",
+    annotation.body.id,
     "cursor-pointer",
     "depth-" + annotation.depth,
   );

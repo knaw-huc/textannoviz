@@ -3,7 +3,6 @@ import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { SegmentedLine } from "./SegmentedLine.tsx";
 import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
-import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import "./annotated.css";
 import {
@@ -50,12 +49,10 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const searchTerms = highlight;
   // const isDummy = DUMMY_ID === tier2;
   const isDummy = false;
-  const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
-  const annotationsToHighlight = getAnnotationsByTypes(
-    annotations,
-    typesToHighlight,
-    // TODO: clean up dummy data
-  ).slice(0, isDummy ? 1 : undefined);
+  const annotationTypesToHighlight =
+    useAnnotationStore().annotationTypesToHighlight;
+  // TODO: clean up dummy data
+  const annotationsToHighlight = annotations.slice(0, isDummy ? 1 : undefined);
   const lines = props.text.lines;
 
   // TODO: clean up dummy data
@@ -78,9 +75,11 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   if (relativeAnnotations.length) {
     offsets.push(
-      ...singleLineAnnotations.map((annotation) =>
-        createNestedLineOffsets(annotation, relativeAnnotations, lines),
-      ),
+      ...singleLineAnnotations
+        .filter((a) => annotationTypesToHighlight.includes(a.body.type))
+        .map((annotation) =>
+          createNestedLineOffsets(annotation, relativeAnnotations, lines),
+        ),
     );
   }
 
