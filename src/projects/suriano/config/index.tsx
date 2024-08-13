@@ -69,7 +69,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   // showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
   allowedAnnotationTypesToHighlight: ["tf:Ent"],
-  elasticIndexName: "suriano-0.4.3e-010-with-logical-text",
+  elasticIndexName: "suriano-0.4.4e-018",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
