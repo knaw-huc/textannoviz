@@ -219,6 +219,8 @@ export type AnnoRepoBodyBase = {
   };
 };
 
+export type EntityDetail = { label: string; value: string };
+
 export type EntityBody = AnnoRepoBodyBase & {
   type: "Entity";
   text: string;
@@ -227,6 +229,7 @@ export type EntityBody = AnnoRepoBodyBase & {
     entityLabels: string[];
     inventoryNum: string;
     name: string;
+    details?: EntityDetail[];
   };
 };
 

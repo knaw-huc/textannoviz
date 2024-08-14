@@ -1,4 +1,4 @@
-import { EntityBody } from "../../../model/AnnoRepoAnnotation.ts";
+import { EntityBody, EntityDetail } from "../../../model/AnnoRepoAnnotation.ts";
 import { trimMiddle } from "./utils/trimMiddle.ts";
 import {
   translateProjectSelector,
@@ -9,11 +9,27 @@ import {
   toAnnotationClassname,
 } from "./utils/createAnnotationClasses.ts";
 import { toast } from "react-toastify";
+import dummyDetails from "./dummyEntityDetails.json";
+import { MetadataDetailLabelValues } from "./MetadataDetailLabelValues.tsx";
+
+let currentIndex = 0;
+
+function rotateDetails() {
+  const result = dummyDetails[currentIndex];
+  currentIndex++;
+  if (currentIndex > dummyDetails.length) {
+    currentIndex = 0;
+  }
+  return result;
+}
 
 export function EntitySummary(props: { body: EntityBody }) {
   const { body } = props;
   const translateProject = useProjectStore(translateProjectSelector);
   const category = body.metadata.category || "";
+
+  // TODO: replace dummy suriano data when views are fixed:
+  body.metadata.details = rotateDetails() as EntityDetail[];
 
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
@@ -26,6 +42,7 @@ export function EntitySummary(props: { body: EntityBody }) {
           {translateProject(alignAnnotationCategory(category))}
         </div>
         <div>{trimMiddle(body.text, 120)}</div>
+        <MetadataDetailLabelValues details={body.metadata.details} />
       </div>
       <div className="flex gap-4">
         <div>
