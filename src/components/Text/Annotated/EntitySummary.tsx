@@ -31,6 +31,7 @@ export function EntitySummary(props: { body: EntityBody }) {
         <div>
           <button
             className="rounded border border-neutral-300  px-3 py-1 text-sm transition hover:bg-neutral-200"
+            // TODO:
             onClick={() => toast("Not implemented", { type: "info" })}
           >
             {translateProject("SEARCH_CATEGORY")}{" "}
@@ -44,6 +45,7 @@ export function EntitySummary(props: { body: EntityBody }) {
         <div>
           <button
             className="rounded border border-neutral-300 px-3 py-1 text-sm transition hover:bg-neutral-200"
+            // TODO:
             onClick={() => toast("Not implemented", { type: "info" })}
           >
             {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
