@@ -58,6 +58,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tf:File",
     "tf:Folder",
     "tf:Page",
+    "LetterBody",
   ],
   allPossibleTextPanels: [
     "original",
@@ -71,7 +72,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   // showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
   allowedAnnotationTypesToHighlight: ["tf:Ent"],
-  elasticIndexName: "suriano-0.4.4e-018",
+  elasticIndexName: "suriano-0.4.5e-021",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",

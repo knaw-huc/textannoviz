@@ -182,17 +182,34 @@ export type TfLetterBody = AnnoRepoBodyBase & {
 export type SurianoTfFileBody = AnnoRepoBodyBase & {
   metadata: {
     date: string;
-    editornotes: string;
+    editorNotes: string;
     file: string;
     recipient: string;
-    recipientloc: string;
+    recipientLoc: string;
     sender: string;
-    senderloc: string;
+    senderLoc: string;
     shelfmark: string;
     summary: string;
     type: string;
     prevFile: string;
     nextFile: string;
+  };
+};
+
+export type SurianoLetterBody = AnnoRepoBodyBase & {
+  metadata: {
+    date: string;
+    editorNotes: string;
+    file: string;
+    recipient: string;
+    recipientLoc: string;
+    sender: string;
+    senderLoc: string;
+    shelfmark: string;
+    summary: string;
+    type: string;
+    prevLetterBody: string;
+    nextLetterBody: string;
   };
 };
 
