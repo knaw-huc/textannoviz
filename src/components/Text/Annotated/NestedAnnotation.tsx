@@ -5,6 +5,10 @@ import {
 } from "./AnnotationModel.ts";
 import { createAnnotationClasses } from "./utils/createAnnotationClasses.ts";
 import { SearchHighlightAnnotation } from "./SearchHighlightAnnotation.tsx";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 export type NestedAnnotationProps = {
   segment: Segment;
@@ -13,6 +17,9 @@ export type NestedAnnotationProps = {
 };
 
 export function NestedAnnotation(props: NestedAnnotationProps) {
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const entityTypes = projectConfig.entityAnnotationTypes;
+
   const nestedAnnotations = props.toNest.filter(isNestedAnnotationSegment);
   const toRender = nestedAnnotations[0];
   const toNest = nestedAnnotations.slice(1);
@@ -21,7 +28,9 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
     return <SearchHighlightAnnotation segment={props.segment} />;
   }
   return (
-    <span className={createAnnotationClasses(props.segment, toRender)}>
+    <span
+      className={createAnnotationClasses(props.segment, toRender, entityTypes)}
+    >
       {toNest.length ? (
         <NestedAnnotation {...props} toNest={toNest} />
       ) : (

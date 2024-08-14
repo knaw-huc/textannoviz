@@ -10,6 +10,7 @@ import { Any } from "../../../../utils/Any.ts";
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
+  entityTypes: string[],
 ) {
   const classes = [];
   classes.push(
@@ -18,8 +19,10 @@ export function createAnnotationClasses(
     "cursor-pointer",
     "depth-" + annotation.depth,
   );
-  if (annotation.body.type === "Entity") {
+
+  if (entityTypes.includes(annotation.body.type)) {
     const category = annotation.body.metadata.category;
+    console.log({ category });
     classes.push(toAnnotationClassname(category));
   }
   classes.push(...createStartEndClasses(segment, annotation));
@@ -69,13 +72,17 @@ const dataToEntityCategory = {
   PERS: "PER",
 } as Any;
 
+const unknownCategory = "UNKNOWN";
+
 export function toAnnotationClassname(annotationCategory?: string) {
   return `underlined-${alignAnnotationCategory(
     annotationCategory,
   ).toLowerCase()}`;
 }
+
 export function alignAnnotationCategory(annotationCategory?: string) {
-  return annotationCategory
-    ? dataToEntityCategory[annotationCategory]
-    : "UNKNOWN";
+  if (!annotationCategory) {
+    return unknownCategory;
+  }
+  return dataToEntityCategory[annotationCategory] ?? unknownCategory;
 }

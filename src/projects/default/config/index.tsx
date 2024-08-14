@@ -33,6 +33,7 @@ export const defaultConfig: Omit<
   allowedAnnotationTypesToHighlight: [],
   footnoteMarkerAnnotationTypes: [],
   pageMarkerAnnotationTypes: [],
+  entityAnnotationTypes: ["Entity"],
 
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],

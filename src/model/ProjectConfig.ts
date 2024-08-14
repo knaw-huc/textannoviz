@@ -26,6 +26,7 @@ export interface ProjectConfig {
   allowedAnnotationTypesToHighlight: string[];
   footnoteMarkerAnnotationTypes: string[];
   pageMarkerAnnotationTypes: string[];
+  entityAnnotationTypes: string[];
 
   elasticIndexName: string;
   initialDateFrom: string;

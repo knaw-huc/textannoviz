@@ -33,6 +33,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   showAnnotations: true,
   annotationTypesToHighlight: ["Entity"],
   allowedAnnotationTypesToHighlight: ["Entity"],
+  entityAnnotationTypes: ["Entity"],
+
   // elasticIndexName: "republic-2024.06.18",
   elasticIndexName: "republic-2024.07.18",
   initialDateFrom: "1576-01-01",

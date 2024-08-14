@@ -51,16 +51,13 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const isDummy = false;
   const annotationTypesToHighlight =
     useAnnotationStore().annotationTypesToHighlight;
-  // TODO: clean up dummy data
-  const annotationsToHighlight = annotations.slice(0, isDummy ? 1 : undefined);
   const lines = props.text.lines;
 
   // TODO: clean up dummy data
   const relativeAnnotations = isDummy
     ? [
         {
-          bodyId: annotationsToHighlight.find((a) => a.body.type === "tei:Ptr")!
-            .body.id,
+          bodyId: annotations.find((a) => a.body.type === "tei:Ptr")!.body.id,
           start: { line: 0, offset: 10 },
           end: { line: 0, offset: -1 },
         },
@@ -69,18 +66,16 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   // No offsets when no relative annotations
   const offsets: LineOffsets[] = [];
 
-  const singleLineAnnotations = annotationsToHighlight.filter(
-    withTargetInSingleLine,
-  );
+  const singleLineAnnotations = annotations.filter(withTargetInSingleLine);
 
   if (relativeAnnotations.length) {
-    offsets.push(
-      ...singleLineAnnotations
-        .filter((a) => annotationTypesToHighlight.includes(a.body.type))
-        .map((annotation) =>
-          createNestedLineOffsets(annotation, relativeAnnotations, lines),
-        ),
-    );
+    const nestedAnnotations = singleLineAnnotations
+      .filter((a) => annotationTypesToHighlight.includes(a.body.type))
+      .map((annotation) =>
+        createNestedLineOffsets(annotation, relativeAnnotations, lines),
+      );
+    console.log("nestedAnnotations", nestedAnnotations);
+    offsets.push(...nestedAnnotations);
   }
 
   const searchRegex = createSearchRegex(searchTerms, tier2);
@@ -93,7 +88,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
       ),
   );
   offsets.push(
-    ...annotationsToHighlight
+    ...annotations
       .filter((a) => pageMarkerAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
         createPageMarkLineOffsets(annotation, relativeAnnotations),
@@ -102,7 +97,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   console.log("AnnotatedText", {
     footnoteMarkerAnnotationTypes,
-    annotationsToHighlight,
+    annotations,
     relativeAnnotations,
     offsets,
   });

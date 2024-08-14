@@ -67,10 +67,12 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "self",
   ],
   defaultTextPanels: ["self"],
+
   showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
   footnoteMarkerAnnotationTypes: ["tei:Ptr"],
   pageMarkerAnnotationTypes: ["tf:Page"],
+  entityAnnotationTypes: ["tf:Ent"],
 
   allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
   elasticIndexName: "suriano-0.4.4e-018",
