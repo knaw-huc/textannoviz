@@ -13,20 +13,19 @@ export function MarkerAnnotation(
   props: Pick<NestedAnnotationProps, "segment">,
 ) {
   const projectConfig = useProjectStore(projectConfigSelector);
+  const pageTypes = projectConfig.pageMarkerAnnotationTypes;
+  const footnoteTypes = projectConfig.footnoteMarkerAnnotationTypes;
 
   const marker = props.segment.annotations.find(isMarkerSegment);
 
   if (!marker) {
     return <SegmentBody body={props.segment.body} />;
-  }
-  if (projectConfig.footnoteMarkerAnnotationTypes.includes(marker.body.type)) {
+  } else if (footnoteTypes.includes(marker.body.type)) {
     return <FootnoteMarkerAnnotation marker={marker} />;
-  } else if (
-    projectConfig.pageMarkerAnnotationTypes.includes(marker.body.type)
-  ) {
-    return <span className="block">---page---</span>;
+  } else if (pageTypes.includes(marker.body.type)) {
+    return <hr className="mb-3 mt-3 block" />;
   } else {
-    toast("Unknown marker " + marker.body.type, { type: "error" });
+    toast(`Unknown marker ${marker.body.type}`, { type: "error" });
     return <></>;
   }
 }

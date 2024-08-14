@@ -38,7 +38,7 @@ export function createSearchHighlightClasses(
 
 export function createFootnoteMarkerClasses(marker: MarkerSegment) {
   const classes = [];
-  classes.push("marker", "cursor-pointer", marker.body.id);
+  classes.push("marker", "cursor-help", marker.body.id);
   return classes.join(" ");
 }
 
