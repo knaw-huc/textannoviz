@@ -3,6 +3,7 @@ import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
+import { BrowseScanButtons } from "../BrowseScanButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
@@ -56,6 +57,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tf:Chunk",
     "tf:File",
     "tf:Folder",
+    "tf:Page",
   ],
   allPossibleTextPanels: [
     "original",
@@ -83,11 +85,12 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showToggleTextPanels: true,
   showKeywordFacets: false,
   showFacetFilter: false,
-  showMiradorNavigationButtons: true,
+  showMiradorNavigationButtons: false,
   components: {
     SearchItem,
     MetadataPanel,
     AnnotationButtons,
+    BrowseScanButtons,
   },
 
   selectedLanguage: "en",

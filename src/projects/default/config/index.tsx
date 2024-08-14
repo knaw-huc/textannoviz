@@ -70,6 +70,7 @@ export const defaultConfig: Omit<
     SearchInfoPage: Placeholder,
     SearchItem: SearchItem,
     EntityMetadata: Empty,
+    BrowseScanButtons: Empty,
   },
   selectedLanguage: "en",
   languages: [

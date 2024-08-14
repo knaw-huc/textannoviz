@@ -95,6 +95,7 @@ export interface ProjectConfig {
     }) => JSX.Element;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     EntityMetadata: (props: { body: any }) => JSX.Element;
+    BrowseScanButtons: () => JSX.Element;
   };
 }
 
