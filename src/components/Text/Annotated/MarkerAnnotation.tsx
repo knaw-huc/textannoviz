@@ -7,6 +7,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import { toast } from "react-toastify";
 
 export function MarkerAnnotation(
   props: Pick<NestedAnnotationProps, "segment">,
@@ -18,11 +19,16 @@ export function MarkerAnnotation(
   if (!marker) {
     return <SegmentBody body={props.segment.body} />;
   }
-  console.log("marker", marker);
   if (projectConfig.footnoteMarkerAnnotationTypes.includes(marker.body.type)) {
     return <FootnoteMarkerAnnotation marker={marker} />;
+  } else if (
+    projectConfig.pageMarkerAnnotationTypes.includes(marker.body.type)
+  ) {
+    return <span className="block">---page---</span>;
+  } else {
+    toast("Unknown marker " + marker.body.type, { type: "error" });
+    return <></>;
   }
-  return <>---marker---</>;
 }
 
 export function FootnoteMarkerAnnotation(props: { marker: MarkerSegment }) {
