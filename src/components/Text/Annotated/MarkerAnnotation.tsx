@@ -23,7 +23,14 @@ export function MarkerAnnotation(
   } else if (footnoteTypes.includes(marker.body.type)) {
     return <FootnoteMarkerAnnotation marker={marker} />;
   } else if (pageTypes.includes(marker.body.type)) {
-    return <hr className="mb-3 mt-3 block" />;
+    return (
+      <div className="mb-10 mt-5">
+        <div className="mb-3 text-center text-sm text-gray-500">
+          ({marker.body.metadata.n})
+        </div>
+        <hr />
+      </div>
+    );
   } else {
     toast(`Unknown marker ${marker.body.type}`, { type: "error" });
     return <></>;
