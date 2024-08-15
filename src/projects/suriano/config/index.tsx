@@ -66,7 +66,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "notes",
     "self",
   ],
-  defaultTextPanels: ["self"],
+  defaultTextPanels: ["original"],
 
   showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],

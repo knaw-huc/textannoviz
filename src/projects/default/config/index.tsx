@@ -36,8 +36,8 @@ export const defaultConfig: Omit<
   entityAnnotationTypes: ["Entity"],
   entityCategoryPath: "metadata.category",
 
-  allPossibleTextPanels: ["original"],
-  defaultTextPanels: ["original"],
+  allPossibleTextPanels: ["self"],
+  defaultTextPanels: ["self"],
   showSearchSortBy: true,
   showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,
