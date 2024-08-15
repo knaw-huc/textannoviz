@@ -60,4 +60,8 @@ export type Labels = {
   NO_SEARCH_STRING: string;
 
   DATE: string;
+
+  SEARCH_CATEGORY: string;
+  WARNING_NEW_SEARCH: string;
+  MORE_INFO_ON_CATEGORY: string;
 };

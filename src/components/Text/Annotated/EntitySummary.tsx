@@ -1,47 +1,37 @@
-import { EntityBody, EntityDetail } from "../../../model/AnnoRepoAnnotation.ts";
+import { EntityBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { trimMiddle } from "./utils/trimMiddle.ts";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
 import {
-  alignAnnotationCategory,
-  toAnnotationClassname,
+  getEntityCategory,
+  normalizeEntityCategory,
+  toEntityClassname,
 } from "./utils/createAnnotationClasses.ts";
 import { toast } from "react-toastify";
-import dummyDetails from "./dummyEntityDetails.json";
 import { MetadataDetailLabelValues } from "./MetadataDetailLabelValues.tsx";
 
-let currentIndex = 0;
-
-function rotateDetails() {
-  const result = dummyDetails[currentIndex];
-  currentIndex++;
-  if (currentIndex > dummyDetails.length) {
-    currentIndex = 0;
-  }
-  return result;
-}
-
 export function EntitySummary(props: { body: EntityBody }) {
-  const { body } = props;
   const translateProject = useProjectStore(translateProjectSelector);
-  const category = body.metadata.category || "";
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const annotationCategoryPath = projectConfig.entityCategoryPath;
 
-  // TODO: replace dummy suriano data when views are fixed:
-  body.metadata.details = rotateDetails() as EntityDetail[];
+  const { body } = props;
 
+  const entityCategory = normalizeEntityCategory(
+    getEntityCategory(body, annotationCategoryPath),
+  );
+  const entityClassname = toEntityClassname(entityCategory);
+  console.log("EntitySummary", props);
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
       <div>
-        <div
-          className={`${toAnnotationClassname(
-            category,
-          )} annotationMarker text-sm italic`}
-        >
-          {translateProject(alignAnnotationCategory(category))}
+        <div className={`${entityClassname} annotationMarker text-sm italic`}>
+          {translateProject(entityCategory)}
         </div>
-        <div>{trimMiddle(body.text, 120)}</div>
+        {props.body.text && <div>{trimMiddle(props.body.text, 120)}</div>}
         <MetadataDetailLabelValues details={body.metadata.details} />
       </div>
       <div className="flex gap-4">
@@ -52,7 +42,7 @@ export function EntitySummary(props: { body: EntityBody }) {
             onClick={() => toast("Not implemented", { type: "info" })}
           >
             {translateProject("SEARCH_CATEGORY")}{" "}
-            {translateProject(alignAnnotationCategory(category))}
+            {translateProject(entityCategory)}
           </button>
           <div className="mt-2 text-xs italic text-neutral-600">
             {translateProject("WARNING_NEW_SEARCH")}
@@ -66,7 +56,7 @@ export function EntitySummary(props: { body: EntityBody }) {
             onClick={() => toast("Not implemented", { type: "info" })}
           >
             {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
-            {translateProject(alignAnnotationCategory(category))}
+            {translateProject(entityCategory)}
           </button>
         </div>
       </div>

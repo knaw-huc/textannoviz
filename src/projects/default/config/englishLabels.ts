@@ -63,4 +63,8 @@ export const englishLabels: Labels = {
     "No full-text keyword was specified. Please specify a search term.",
 
   DATE: "Date",
+
+  SEARCH_CATEGORY: "Search for",
+  WARNING_NEW_SEARCH: "Note: this will start a new search session",
+  MORE_INFO_ON_CATEGORY: "More info on",
 };

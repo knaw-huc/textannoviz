@@ -20,4 +20,15 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   //Metadata panel
   summary: "Summary",
   shelfmark: "Shelfmark",
+
+  COM: "commission",
+  HOE: "role",
+  LOC: "location",
+  ORG: "organisation",
+  PER: "person",
+
+  "PRIMARY NAME": "Primary name",
+  "OCCUPATIONS, ROLES, and/or TITLES": "Occupations, roles, titles",
+  "BIRTH YEAR": "Date of birth",
+  "DEATH YEAR": "Date of death",
 });

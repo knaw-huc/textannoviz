@@ -7,12 +7,13 @@ import {
 } from "../AnnotationModel.ts";
 import { Any } from "../../../../utils/Any.ts";
 import _ from "lodash";
+import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
   entityTypes: string[],
-  entityCategoryPath: string,
+  entityCategory: string,
 ) {
   const classes = [];
   classes.push(
@@ -23,8 +24,8 @@ export function createAnnotationClasses(
   );
 
   if (entityTypes.includes(annotation.body.type)) {
-    const category = _.get(annotation, entityCategoryPath);
-    classes.push(toAnnotationClassname(category));
+    const category = getEntityCategory(annotation.body, entityCategory);
+    classes.push(toEntityClassname(category));
   }
   classes.push(...createStartEndClasses(segment, annotation));
   return classes.join(" ").toLowerCase();
@@ -75,15 +76,22 @@ const dataToEntityCategory = {
 
 const unknownCategory = "UNKNOWN";
 
-export function toAnnotationClassname(annotationCategory?: string) {
-  return `underlined-${alignAnnotationCategory(
+export function toEntityClassname(annotationCategory?: string) {
+  return `underlined-${normalizeEntityCategory(
     annotationCategory,
   ).toLowerCase()}`;
 }
 
-export function alignAnnotationCategory(annotationCategory?: string) {
+export function normalizeEntityCategory(annotationCategory?: string) {
   if (!annotationCategory) {
     return unknownCategory;
   }
   return dataToEntityCategory[annotationCategory] ?? unknownCategory;
+}
+
+export function getEntityCategory(
+  annoRepoBody: AnnoRepoBody,
+  entityCategoryPath: string,
+) {
+  return _.get(annoRepoBody, entityCategoryPath);
 }

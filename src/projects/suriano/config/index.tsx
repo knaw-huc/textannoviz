@@ -73,7 +73,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   footnoteMarkerAnnotationTypes: ["tei:Ptr"],
   pageMarkerAnnotationTypes: ["tf:Page"],
   entityAnnotationTypes: ["tf:Ent"],
-  entityCategoryPath: "body.metadata.kind",
+  entityCategoryPath: "metadata.kind",
 
   allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
   elasticIndexName: "suriano-0.4.5e-021",

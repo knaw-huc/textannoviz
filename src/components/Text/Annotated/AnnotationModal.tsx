@@ -7,10 +7,11 @@ import {
   GroupedSegments,
   isNestedAnnotationSegment,
 } from "./AnnotationModel.ts";
-import { isEntityBody } from "../../../model/AnnoRepoAnnotation.ts";
+import { EntityBody, isEntityBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { EntitySummary } from "./EntitySummary.tsx";
 import { Optional } from "../../../utils/Optional.ts";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
@@ -37,15 +38,20 @@ export function AnnotationModalButton(
 }
 
 export function AnnotationModal(props: AnnotationModalProps) {
-  const { clickedGroup } = props;
   const translateProject = useProjectStore(translateProjectSelector);
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const entityAnnotationTypes = projectConfig.entityAnnotationTypes;
+
+  const { clickedGroup } = props;
   const entityBodies = clickedGroup
     ? _.unionBy(
         clickedGroup.segments
           .flatMap((s) => s.annotations)
           .filter(isNestedAnnotationSegment)
           .map((a) => a.body)
-          .filter(isEntityBody),
+          .filter((a) =>
+            isEntityBody(a, entityAnnotationTypes),
+          ) as EntityBody[],
         "id",
       )
     : [];

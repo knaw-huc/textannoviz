@@ -233,11 +233,14 @@ export type EntityBody = AnnoRepoBodyBase & {
   };
 };
 
-export function isEntityBody(toTest: AnnoRepoBody): toTest is EntityBody {
+export function isEntityBody(
+  toTest: AnnoRepoBody,
+  validTypes: string[],
+): toTest is EntityBody {
   if (!toTest) {
     return false;
   }
-  return toTest.type === "Entity";
+  return validTypes.includes(toTest.type);
 }
 
 export type NoteBody = AnnoRepoBodyBase & {

@@ -63,4 +63,8 @@ export const dutchLabels: Labels = {
   NO_SEARCH_STRING: "Geen zoekterm opgegeven. Geef een zoekterm op.",
 
   DATE: "Datum",
+
+  SEARCH_CATEGORY: "Zoek naar",
+  WARNING_NEW_SEARCH: "Let op: dit start een nieuwe zoekactie",
+  MORE_INFO_ON_CATEGORY: "Meer informatie over",
 };
