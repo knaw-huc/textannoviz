@@ -46,7 +46,7 @@ export const defaultConfig: Omit<
   showSliderFacets: false,
   showSelectedFilters: true,
   showNewSearchButton: true,
-  allowCloseTextPanel: true,
+  allowCloseTextPanel: false,
   showWebAnnoTab: true,
   showHistogram: false,
   useExternalConfig: false,
