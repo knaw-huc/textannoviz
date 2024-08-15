@@ -54,6 +54,14 @@
   display: flex;
 }
 
+.p-checkbox-box {
+  border: 2px solid #ced4da;
+}
+
+.p-checkbox-box.p-highlight {
+  border-color: #007bff;
+}
+
 .toggleTextPanelCheckboxLabel {
   margin-left: 0.5rem;
 }
