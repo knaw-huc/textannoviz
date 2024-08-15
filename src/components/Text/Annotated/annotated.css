@@ -216,7 +216,7 @@
   .closedNestedAnnotation {
     @apply relative shadow-none
         transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 before:font-sans
-        before:text-sm before:text-white hover:shadow hover:before:w-[200px] hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_nested_annotation"];
+        before:text-sm before:text-white hover:shadow hover:before:w-[160px] hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_detailed_view"];
   }
 
   /* remove nested start icon */

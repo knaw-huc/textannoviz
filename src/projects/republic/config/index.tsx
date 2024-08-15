@@ -34,6 +34,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   annotationTypesToHighlight: ["Entity"],
   allowedAnnotationTypesToHighlight: ["Entity"],
   entityAnnotationTypes: ["Entity"],
+  entityCategoryPath: "body.metadata.category",
 
   // elasticIndexName: "republic-2024.06.18",
   elasticIndexName: "republic-2024.07.18",

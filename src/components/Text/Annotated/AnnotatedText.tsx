@@ -124,7 +124,9 @@ function withTargetInSingleLine(a: AnnoRepoAnnotation) {
     return false;
   }
   if (textAnchorSelector.selector.start !== textAnchorSelector.selector.end) {
-    console.warn(`Ignoring annotation that spans multiple lines: ${a.body.id}`);
+    console.debug(
+      `Ignoring annotation that spans multiple lines: ${a.body.id}`,
+    );
     return false;
   }
   return true;

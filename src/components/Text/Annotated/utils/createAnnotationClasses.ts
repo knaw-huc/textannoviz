@@ -6,11 +6,13 @@ import {
   Segment,
 } from "../AnnotationModel.ts";
 import { Any } from "../../../../utils/Any.ts";
+import _ from "lodash";
 
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
   entityTypes: string[],
+  entityCategoryPath: string,
 ) {
   const classes = [];
   classes.push(
@@ -21,8 +23,7 @@ export function createAnnotationClasses(
   );
 
   if (entityTypes.includes(annotation.body.type)) {
-    const category = annotation.body.metadata.category;
-    console.log({ category });
+    const category = _.get(annotation, entityCategoryPath);
     classes.push(toAnnotationClassname(category));
   }
   classes.push(...createStartEndClasses(segment, annotation));

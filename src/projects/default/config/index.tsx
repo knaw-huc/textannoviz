@@ -34,6 +34,7 @@ export const defaultConfig: Omit<
   footnoteMarkerAnnotationTypes: [],
   pageMarkerAnnotationTypes: [],
   entityAnnotationTypes: ["Entity"],
+  entityCategoryPath: "body.metadata.category",
 
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
