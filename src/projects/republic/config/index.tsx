@@ -6,6 +6,7 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
+import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -36,6 +37,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   entityAnnotationTypes: ["Entity"],
   entityCategoryPath: "metadata.category",
 
+  pageAnnotation: "Page",
+  showPrevNextScanButtons: true,
   // elasticIndexName: "republic-2024.06.18",
   elasticIndexName: "republic-2024.07.18",
   initialDateFrom: "1576-01-01",
@@ -71,6 +74,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   showFacetFilter: true,
   components: {
+    EntitySummaryDetails,
     MetadataPanel,
     SearchItem,
   },

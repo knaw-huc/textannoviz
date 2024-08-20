@@ -99,7 +99,7 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   allowedAnnotationTypesToHighlight: ["tei:Rs"],
   showToggleTextPanels: true,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-900 text-brand1-400",
+  headerColor: "bg-brand1-100 text-brand1-700",
   headerTitle: "MONDRIAAN",
   logoHref:
     "https://rkd.nl/nl/projecten-en-publicaties/projecten/130-mondriaan-editieproject",

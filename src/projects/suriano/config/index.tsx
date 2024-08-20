@@ -6,6 +6,7 @@ import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
+import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -25,7 +26,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:Div",
     // "tei:Editor",
     "tf:Ent",
-    "tf:Page",
     // "tei:FileDesc",
     // "tei:Head",
     // "tei:Hi",
@@ -57,6 +57,8 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tf:Chunk",
     "tf:File",
     "tf:Folder",
+    "tf:Page",
+    "LetterBody",
   ],
   allPossibleTextPanels: [
     "original",
@@ -70,12 +72,14 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
 
   showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
+  allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
   footnoteMarkerAnnotationTypes: ["tei:Ptr"],
   pageMarkerAnnotationTypes: ["tf:Page"],
   entityAnnotationTypes: ["tf:Ent"],
   entityCategoryPath: "metadata.kind",
 
-  allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
+  showPrevNextScanButtons: true,
+  pageAnnotation: "tf:Page",
   elasticIndexName: "suriano-0.4.5e-021",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
@@ -83,15 +87,17 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-900 text-brand1-400",
+  headerColor: "bg-brand1-100 text-brand1-700",
   headerTitle: "The Correspondence of Christofforo Suriano",
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
   showKeywordFacets: false,
   showFacetFilter: false,
-  showMiradorNavigationButtons: true,
+  showMiradorNavigationButtons: false,
+  allowCloseTextPanel: true,
   components: {
+    EntitySummaryDetails,
     SearchItem,
     MetadataPanel,
     AnnotationButtons,
@@ -99,5 +105,4 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
 
   selectedLanguage: "en",
   languages: [{ code: "en", labels: englishSurianoLabels }],
-  showMirador: false,
 });

@@ -13,4 +13,7 @@ export const englishGlobaliseLabels = Object.assign({}, englishLabels, {
 
   // text panel titles:
   self: "Full text",
+
+  // search results:
+  results: "pages",
 });

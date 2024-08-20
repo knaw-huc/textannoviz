@@ -1,4 +1,5 @@
-import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation.ts";
+import { SearchQuery } from "../stores/search/search-query-slice.ts";
+import { AnnoRepoAnnotation, EntityBody } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import {
   GlobaliseSearchResultsBody,
@@ -6,7 +7,10 @@ import {
   RepublicSearchResultBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
-import { SearchQuery } from "../stores/search/search-query-slice.ts";
+
+export type EntitySummaryDetailsProps = {
+  body: EntityBody;
+};
 
 export interface ProjectConfig {
   id: string;
@@ -74,6 +78,8 @@ export interface ProjectConfig {
   }[];
   defaultKeywordAggsToRender: string[];
   showFacetFilter: boolean;
+  pageAnnotation: string;
+  showPrevNextScanButtons: boolean;
   mirador: {
     showWindowSideBar: boolean;
     showTopMenuButton: boolean;
@@ -85,6 +91,7 @@ export interface ProjectConfig {
       annotation: AnnoRepoAnnotation;
     }) => JSX.Element;
     AnnotationLinks: () => JSX.Element | null;
+    EntitySummaryDetails: (props: EntitySummaryDetailsProps) => JSX.Element;
     Help: () => JSX.Element;
     MetadataPanel: (props: {
       annotations: AnnoRepoAnnotation[];
@@ -98,6 +105,9 @@ export interface ProjectConfig {
         | MondriaanSearchResultsBody
         | GlobaliseSearchResultsBody;
     }) => JSX.Element;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    EntityMetadata: (props: { body: any }) => JSX.Element;
+    BrowseScanButtons: () => JSX.Element;
   };
 }
 

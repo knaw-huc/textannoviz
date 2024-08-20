@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { Summary } from "./Summary";
 import { SurianoSearchResultsBody } from "../../model/Search.ts";
+import { Summary } from "./Summary";
 
-import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { toDetailPageUrl } from "../../components/Text/Annotated/utils/toDetailPageUrl.tsx";
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
 
 export const SearchItem = (
   props: SearchItemProps<SurianoSearchResultsBody>,
@@ -39,7 +39,7 @@ export const SearchItem = (
               />
             ) : null}
           </div>
-          {props.result._hits?.text.map((hit, index) => (
+          {props.result._hits?.text?.map((hit, index) => (
             <div key={index} className="hover:bg-brand1Grey-50 w-full p-4">
               <div
                 className="mb-1 font-serif text-base"

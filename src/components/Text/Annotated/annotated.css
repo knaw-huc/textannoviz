@@ -184,7 +184,7 @@
     @apply inline border-b-0 border-t-0;
   }
   .closedNestedAnnotation .depth-2 {
-    @apply border-b-1 border-dashed border-neutral-600;
+    @apply border-b border-dashed border-neutral-600;
   }
   .closedNestedAnnotation .annotated-segment > .nested-annotation {
     @apply inline;

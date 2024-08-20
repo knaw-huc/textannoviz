@@ -25,6 +25,9 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   resolutionType: "Resolutietype",
   textType: "Teksttype",
 
+  // search results:
+  results: "resoluties",
+
   // text panel titles:
   self: "Tekst",
 

@@ -32,6 +32,9 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   resolutionType: "Resolution type",
   textType: "Text type",
 
+  // search results:
+  results: "resolutions",
+
   // text panel titles:
   self: "Text",
 

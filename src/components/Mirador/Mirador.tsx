@@ -110,7 +110,7 @@ export function Mirador(props: MiradorProps) {
         const target = document.getElementsByClassName(
           "mirador-osd-navigation",
         );
-        target[0].remove();
+        target[0]?.remove();
       }
     }
 

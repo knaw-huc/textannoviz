@@ -182,17 +182,34 @@ export type TfLetterBody = AnnoRepoBodyBase & {
 export type SurianoTfFileBody = AnnoRepoBodyBase & {
   metadata: {
     date: string;
-    editornotes: string;
+    editorNotes: string;
     file: string;
     recipient: string;
-    recipientloc: string;
+    recipientLoc: string;
     sender: string;
-    senderloc: string;
+    senderLoc: string;
     shelfmark: string;
     summary: string;
     type: string;
     prevFile: string;
     nextFile: string;
+  };
+};
+
+export type SurianoLetterBody = AnnoRepoBodyBase & {
+  metadata: {
+    date: string;
+    editorNotes: string;
+    file: string;
+    recipient: string;
+    recipientLoc: string;
+    sender: string;
+    senderLoc: string;
+    shelfmark: string;
+    summary: string;
+    type: string;
+    prevLetterBody: string;
+    nextLetterBody: string;
   };
 };
 
@@ -221,7 +238,7 @@ export type AnnoRepoBodyBase = {
 
 export type EntityDetail = { label: string; value: string };
 
-export type EntityBody = AnnoRepoBodyBase & {
+export type RepublicEntityBody = AnnoRepoBodyBase & {
   type: "Entity";
   text: string;
   metadata: {
@@ -229,11 +246,41 @@ export type EntityBody = AnnoRepoBodyBase & {
     entityLabels: string[];
     inventoryNum: string;
     name: string;
-    details?: EntityDetail[];
   };
 };
 
+export function isRepublicEntity(
+  toTest: AnnoRepoBodyBase,
+): toTest is RepublicEntityBody {
+  return (toTest as RepublicEntityBody).text !== undefined;
+}
+
+export function isSurianoEntity(
+  toTest: AnnoRepoBodyBase,
+): toTest is SurianoEntityBody {
+  return (toTest as SurianoEntityBody).metadata.details !== undefined;
+}
+
+export type SurianoEntityBody = AnnoRepoBodyBase & {
+  type: "tf:Ent";
+  metadata: {
+    details: EntityDetail[];
+  };
+};
+
+export type EntityBody = RepublicEntityBody | SurianoEntityBody;
+
 export function isEntityBody(
+  toTest: AnnoRepoBody,
+  validTypes: string[],
+): toTest is EntityBody {
+  if (!toTest) {
+    return false;
+  }
+  return validTypes.includes(toTest.type);
+}
+
+export function hasBodyText(
   toTest: AnnoRepoBody,
   validTypes: string[],
 ): toTest is EntityBody {
@@ -286,7 +333,8 @@ export type AnnoRepoBody =
   | TeiRefBody
   | TeiRegBody
   | TfLetterBody
-  | EntityBody
+  | RepublicEntityBody
+  | SurianoEntityBody
   | MarkerBody
   | NoteBody;
 

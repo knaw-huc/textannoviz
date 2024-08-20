@@ -2,7 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { Button } from "react-aria-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { SurianoTfFileBody } from "../../model/AnnoRepoAnnotation";
+import { SurianoLetterBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 
 export function AnnotationButtons() {
@@ -15,10 +15,11 @@ export function AnnotationButtons() {
   const currentAnnotation = annotations.find(
     (annotation) => annotation.body.id === params.tier2,
   );
-  const nextLetter = (currentAnnotation?.body as SurianoTfFileBody)?.metadata
-    .nextFile;
-  const prevLetter = (currentAnnotation?.body as SurianoTfFileBody)?.metadata
-    .prevFile;
+
+  const nextLetter = (currentAnnotation?.body as SurianoLetterBody)?.metadata
+    .nextLetterBody;
+  const prevLetter = (currentAnnotation?.body as SurianoLetterBody)?.metadata
+    .prevLetterBody;
 
   React.useEffect(() => {
     setIsNextButtonDisabled(nextLetter === params.tier2);

@@ -83,7 +83,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-900 text-brand1-400",
+  headerColor: "bg-brand1-100 text-brand1-700",
   headerTitle: "Correspondence of Vincent van Gogh",
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,

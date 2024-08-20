@@ -1,5 +1,5 @@
-import { Skeleton } from "@nextui-org/react";
 import { CheckboxChangeEvent } from "primereact/checkbox";
+import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
@@ -58,9 +58,9 @@ export const TextComponent = (props: TextComponentProps) => {
           />
         ) : (
           <div className="flex flex-col gap-2 pl-2 pt-2">
-            <Skeleton className="h-4 w-64 rounded-lg" />
-            <Skeleton className="h-4 w-96 rounded-lg" />
-            <Skeleton className="h-4 w-48 rounded-lg" />
+            <Skeleton width="16rem" borderRadius="8px" className="h-4" />
+            <Skeleton width="24rem" borderRadius="8px" className="h-4" />
+            <Skeleton width="12rem" borderRadius="8px" className="h-4" />
           </div>
         )}
       </div>

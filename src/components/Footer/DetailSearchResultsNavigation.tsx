@@ -1,14 +1,14 @@
-import { useNavigate } from "react-router-dom";
-import { translateSelector, useProjectStore } from "../stores/project.ts";
-import { useSearchStore } from "../stores/search/search-store.ts";
-import { useDetailUrlParams } from "./Text/Annotated/utils/useDetailUrlParams.tsx";
-import { Base64 } from "js-base64";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { SearchResult } from "../model/Search.ts";
-import { toDetailPageUrl } from "./Text/Annotated/utils/toDetailPageUrl.tsx";
+import { Base64 } from "js-base64";
+import { useNavigate } from "react-router-dom";
+import { SearchResult } from "../../model/Search.ts";
+import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { usePagination } from "../../utils/usePagination.tsx";
+import { useSearchResults } from "../Search/useSearchResults.tsx";
+import { toDetailPageUrl } from "../Text/Annotated/utils/toDetailPageUrl.tsx";
+import { useDetailUrlParams } from "../Text/Annotated/utils/useDetailUrlParams.tsx";
 import { FooterLink } from "./FooterLink.tsx";
-import { usePagination } from "../utils/usePagination.tsx";
-import { useSearchResults } from "./Search/useSearchResults.tsx";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
