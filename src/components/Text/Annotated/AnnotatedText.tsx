@@ -34,7 +34,7 @@ export const DUMMY_ID = "urn:suriano:file:1697716";
  *   (when two annotations overlap, the second annotation has a depth of 2)
  * - Group: all annotations or segments that are connected to each other by other overlapping/nested annotations
  * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
- * - Marker: annotation of zero length marking the location of a footnote annotation
+ * - Marker: annotation of zero length, useful for marking locations of footnotes, page endings, etc.
  * - Offset: start or end character index of an annotation in a line
  *   - start index marks first character to include
  *   - stop index marks first character to exclude
