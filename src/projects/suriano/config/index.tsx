@@ -3,7 +3,6 @@ import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
-import { BrowseScanButtons } from "../BrowseScanButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
@@ -72,6 +71,8 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   // showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
   allowedAnnotationTypesToHighlight: ["tf:Ent"],
+  showPrevNextScanButtons: true,
+  pageAnnotation: "tf:Page",
   elasticIndexName: "suriano-0.4.5e-021",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
@@ -92,7 +93,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchItem,
     MetadataPanel,
     AnnotationButtons,
-    BrowseScanButtons,
   },
 
   selectedLanguage: "en",

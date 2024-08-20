@@ -60,6 +60,8 @@ export const defaultConfig: Omit<
   overrideDefaultAggs: [],
   defaultKeywordAggsToRender: [],
   showFacetFilter: true,
+  showPrevNextScanButtons: false,
+  pageAnnotation: "",
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,

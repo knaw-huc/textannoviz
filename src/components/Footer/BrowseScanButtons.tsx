@@ -4,16 +4,18 @@ import { Button } from "react-aria-components";
 import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
-import { useProjectStore } from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 
 export function BrowseScanButtons() {
+  const projectConfig = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
   const miradorStore = useMiradorStore().miradorStore;
   const projectName = useProjectStore().projectName;
   const [currentCanvas, setCurrentCanvas] = React.useState("");
+  const pageAnnoType = projectConfig.pageAnnotation;
 
   const pageAnnotations = annotations.filter(
-    (anno) => anno.body.type === "Page",
+    (anno) => anno.body.type === pageAnnoType,
   );
 
   const canvases = pageAnnotations.flatMap((pageAnno) =>

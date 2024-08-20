@@ -10,13 +10,13 @@ import {
   Popover,
   Switch,
 } from "react-aria-components";
-import { useAnnotationStore } from "../stores/annotation";
+import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
-} from "../stores/project";
-import { AnnotationButtons } from "./Annotations/AnnotationButtons";
+} from "../../stores/project";
+import { AnnotationButtons } from "../Annotations/AnnotationButtons";
 import { DetailSearchResultsNavigation } from "./DetailSearchResultsNavigation.tsx";
 
 type FooterProps = {
