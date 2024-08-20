@@ -238,6 +238,7 @@ export type AnnoRepoBodyBase = {
 
 export type EntityDetail = { label: string; value: string };
 
+// TODO: Move to project specific model
 export type RepublicEntityBody = AnnoRepoBodyBase & {
   type: "Entity";
   text: string;
@@ -252,21 +253,23 @@ export type RepublicEntityBody = AnnoRepoBodyBase & {
 export function isRepublicEntity(
   toTest: AnnoRepoBodyBase,
 ): toTest is RepublicEntityBody {
-  return (toTest as RepublicEntityBody).text !== undefined;
+  return (toTest as RepublicEntityBody).type === "Entity";
 }
 
-export function isSurianoEntity(
-  toTest: AnnoRepoBodyBase,
-): toTest is SurianoEntityBody {
-  return (toTest as SurianoEntityBody).metadata.details !== undefined;
-}
-
+// TODO: Move to project specific model
 export type SurianoEntityBody = AnnoRepoBodyBase & {
   type: "tf:Ent";
   metadata: {
     details: EntityDetail[];
+    n: string;
   };
 };
+
+export function isSurianoEntity(
+  toTest: AnnoRepoBodyBase,
+): toTest is SurianoEntityBody {
+  return (toTest as SurianoEntityBody).type === "tf:Ent";
+}
 
 export type EntityBody = RepublicEntityBody | SurianoEntityBody;
 

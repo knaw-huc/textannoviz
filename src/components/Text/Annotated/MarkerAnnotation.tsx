@@ -23,18 +23,22 @@ export function MarkerAnnotation(
   } else if (footnoteTypes.includes(marker.body.type)) {
     return <FootnoteMarkerAnnotation marker={marker} />;
   } else if (pageTypes.includes(marker.body.type)) {
-    return (
-      <div className="mb-10 mt-5">
-        <div className="mb-3 text-center text-sm text-gray-500">
-          ({marker.body.metadata.n})
-        </div>
-        <hr />
-      </div>
-    );
+    return <PageMarkerAnnotation marker={marker} />;
   } else {
     toast(`Unknown marker ${marker.body.type}`, { type: "error" });
     return <></>;
   }
+}
+
+export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
+  return (
+    <div className="mb-10 mt-5">
+      <div className="mb-3 text-center text-sm text-gray-500">
+        ({props.marker.body.metadata.n ?? "*"})
+      </div>
+      <hr />
+    </div>
+  );
 }
 
 export function FootnoteMarkerAnnotation(props: { marker: MarkerSegment }) {
@@ -44,7 +48,7 @@ export function FootnoteMarkerAnnotation(props: { marker: MarkerSegment }) {
   return (
     <span className={classNames.join(" ")}>
       <FootnoteTooltipMarkerButton clickedMarker={marker}>
-        [{marker.body.metadata.n || "*"}]
+        [{marker.body.metadata.n ?? "*"}]
       </FootnoteTooltipMarkerButton>
     </span>
   );
