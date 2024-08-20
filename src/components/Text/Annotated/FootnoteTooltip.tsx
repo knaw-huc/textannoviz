@@ -9,7 +9,7 @@ import { OverlayArrow, Tooltip } from "react-aria-components";
 import { SpanTooltipButton } from "./SpanTooltipButton.tsx";
 
 /**
- * Marker annotations link footnote annotations to a location in the line
+ * Marker annotation links footnote annotation to a location in the text
  */
 export function FootnoteTooltipMarkerButton(
   props: Optional<FootnoteModalProps, "clickedMarker">,
@@ -47,6 +47,7 @@ export function FootnoteTooltip(props: FootnoteModalProps) {
   const textPanel = textPanels.self;
   const noteBodyId = note.body.id;
   const lines = createNoteLines(textPanel, noteBodyId);
+
   return (
     <Tooltip {...props}>
       <OverlayArrow>
@@ -59,14 +60,14 @@ export function FootnoteTooltip(props: FootnoteModalProps) {
   );
 }
 
-function createNoteLines(panel: BroccoliTextGeneric, noteBodyId: string) {
-  const noteOffsets = panel.locations.annotations.find(
+function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {
+  const noteOffsets = view.locations.annotations.find(
     (a) => a.bodyId === noteBodyId,
   );
   if (!noteOffsets) {
     throw new Error("No relative note found");
   }
-  const noteLines = panel.lines.slice(
+  const noteLines = view.lines.slice(
     noteOffsets.start.line,
     // Broccoli end includes last element:
     noteOffsets.end.line + 1,
