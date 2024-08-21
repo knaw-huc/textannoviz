@@ -34,7 +34,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   return (
     <div className="mb-10 mt-5">
       <div className="mb-3 text-center text-sm text-gray-500">
-        ({props.marker.body.metadata.n ?? "*"})
+        ({props.marker.body.metadata.n ?? "page break"})
       </div>
       <hr />
     </div>
