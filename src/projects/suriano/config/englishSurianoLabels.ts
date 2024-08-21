@@ -24,10 +24,6 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   // search results:
   results: "letters",
 
-  COM: "commission",
-  HOE: "role",
-  LOC: "location",
-  ORG: "organisation",
   PER: "person",
 
   "PRIMARY NAME": "Primary name",

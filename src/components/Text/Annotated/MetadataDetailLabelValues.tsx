@@ -7,7 +7,6 @@ import {
 export function MetadataDetailLabelValues(props: { details?: EntityDetail[] }) {
   const translateProject = useProjectStore(translateProjectSelector);
 
-  console.log("MetadataDetailLabelValues", props.details);
   if (!props.details?.length) {
     return null;
   }

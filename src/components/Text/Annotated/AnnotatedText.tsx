@@ -9,7 +9,6 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
-import _ from "lodash";
 import {
   AnnoRepoAnnotation,
   isLogicalTextAnchorTarget,
@@ -25,8 +24,6 @@ type TextHighlightingProps = {
   text: BroccoliTextGeneric;
   showDetail: boolean;
 };
-
-export const DUMMY_ID = "urn:suriano:file:1697716";
 
 /**
  * Annotation definitions
@@ -47,22 +44,11 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   const { tier2, highlight } = useDetailUrlParams();
   const searchTerms = highlight;
-  // const isDummy = DUMMY_ID === tier2;
-  const isDummy = false;
   const annotationTypesToHighlight =
     useAnnotationStore().annotationTypesToHighlight;
   const lines = props.text.lines;
 
-  // TODO: clean up dummy data
-  const relativeAnnotations = isDummy
-    ? [
-        {
-          bodyId: annotations.find((a) => a.body.type === "tei:Ptr")!.body.id,
-          start: { line: 0, offset: 10 },
-          end: { line: 0, offset: -1 },
-        },
-      ]
-    : props.text.locations.annotations;
+  const relativeAnnotations = props.text.locations.annotations;
   // No offsets when no relative annotations
   const offsets: LineOffsets[] = [];
 
@@ -74,7 +60,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
       .map((annotation) =>
         createNestedLineOffsets(annotation, relativeAnnotations, lines),
       );
-    console.log("nestedAnnotations", nestedAnnotations);
     offsets.push(...nestedAnnotations);
   }
 
@@ -94,13 +79,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
         createPageMarkLineOffsets(annotation, relativeAnnotations),
       ),
   );
-
-  console.log("AnnotatedText", {
-    footnoteMarkerAnnotationTypes,
-    annotations,
-    relativeAnnotations,
-    offsets,
-  });
 
   return (
     <div>
@@ -131,5 +109,3 @@ function withTargetInSingleLine(a: AnnoRepoAnnotation) {
   }
   return true;
 }
-
-Object.assign(window, { _ });
