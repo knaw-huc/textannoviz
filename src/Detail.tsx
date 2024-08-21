@@ -12,6 +12,7 @@ import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
 import { useTextStore } from "./stores/text";
 import { fetchBroccoliScanWithOverlap } from "./utils/broccoli";
+import { NOTES_VIEW } from "./components/Text/Annotated/FootnoteTooltip.tsx";
 
 interface DetailProps {
   project: string;
@@ -43,7 +44,7 @@ export const Detail = (props: DetailProps) => {
     async function fetchBroccoli(bodyId: string) {
       const includeResults = ["anno", "iiif", "text"];
 
-      const views = props.config.allPossibleTextPanels.toString();
+      const viewNames = props.config.allPossibleTextPanels.toString();
 
       const overlapTypes = annotationTypesToInclude;
       const relativeTo = "Origin";
@@ -52,7 +53,7 @@ export const Detail = (props: DetailProps) => {
         bodyId,
         overlapTypes,
         includeResults,
-        views,
+        viewNames,
         relativeTo,
         props.config,
         signal,
@@ -62,15 +63,33 @@ export const Detail = (props: DetailProps) => {
         return;
       }
 
+      const annotations = result.anno;
+      const views = result.views;
+
+      if (props.project === "suriano") {
+        const tfFileId = bodyId.replace("letter_body", "file");
+        console.warn("Add suriano notes panel by " + tfFileId);
+        const withNotes = await fetchBroccoliScanWithOverlap(
+          tfFileId,
+          ["tei:Note"],
+          ["anno", "text"],
+          "self",
+          relativeTo,
+          props.config,
+          signal,
+        );
+        annotations.push(...withNotes.anno);
+        views[NOTES_VIEW] = withNotes.views.self;
+      }
+
       setBroccoliResult(result);
 
       setProjectName(props.project);
-      setAnnotations(result.anno);
-      setViews(result.views);
+      setAnnotations(annotations);
+      setViews(views);
 
       setIsLoading(false);
     }
-
     if (params.tier2) {
       const bodyId = params.tier2;
       fetchBroccoli(bodyId);

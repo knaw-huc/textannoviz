@@ -16,9 +16,7 @@ export const fetchBroccoliScanWithOverlap = async (
   config: ProjectConfig,
   signal: AbortSignal,
 ) => {
-  // TODO: remove `replace`; how to search for file instead of letter_body?
-  const byFile = bodyId.replace("letter_body", "file");
-  const url = `${config.broccoliUrl}/projects/${config.id}/${byFile}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`;
+  const url = `${config.broccoliUrl}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`;
   const response = await fetch(url, { signal });
   if (!response.ok) {
     const error = await response.json();

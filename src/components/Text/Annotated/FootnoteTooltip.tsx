@@ -8,6 +8,9 @@ import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { OverlayArrow, Tooltip } from "react-aria-components";
 import { SpanTooltipButton } from "./SpanTooltipButton.tsx";
 
+// Detail.tsx performs an additional broccoli call to retrieve notes:
+export const NOTES_VIEW = "notes";
+
 /**
  * Marker annotation links footnote annotation to a location in the text
  */
@@ -44,9 +47,12 @@ export function FootnoteTooltip(props: FootnoteModalProps) {
   if (!note) {
     throw new Error(`No note found for marker ${noteTargetId}`);
   }
-  const textPanel = textPanels.self;
+  const notesView = textPanels[NOTES_VIEW];
+  if (!notesView) {
+    throw new Error("No `notes` text panel found");
+  }
   const noteBodyId = note.body.id;
-  const lines = createNoteLines(textPanel, noteBodyId);
+  const lines = createNoteLines(notesView, noteBodyId);
 
   return (
     <Tooltip {...props}>
@@ -65,7 +71,7 @@ function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {
     (a) => a.bodyId === noteBodyId,
   );
   if (!noteOffsets) {
-    throw new Error("No relative note found");
+    throw new Error(`No relative note found for ${noteBodyId}`);
   }
   const noteLines = view.lines.slice(
     noteOffsets.start.line,
