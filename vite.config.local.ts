@@ -39,7 +39,7 @@ export default defineConfig(({ mode }) => {
       tailwindConfig = "tailwind.config.vangogh.js";
       break;
     default:
-      tailwindConfig = "tailwind.config.js";
+      tailwindConfig = "tailwind.default.config.js";
   }
 
   return {
