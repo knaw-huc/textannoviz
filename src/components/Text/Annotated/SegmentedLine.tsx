@@ -16,26 +16,23 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
 
   const offsetsByChar = listOffsetsByChar(offsets);
   const [clickedSegment, setClickedSegment] = useState<Segment>();
-  const clickedAnnotationGroup: AnnotationGroup | undefined =
-    getAnnotationGroup(clickedSegment);
 
   useEffect(() => {
-    setSegments(new AnnotationSegmenter(line, offsetsByChar).segment());
+    const newSegments = new AnnotationSegmenter(line, offsetsByChar).segment();
+    setSegments(newSegments);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleClickSegment(clicked: Segment | undefined) {
-    if (!clicked) {
-      setClickedSegment(undefined);
-      return;
-    }
     setClickedSegment(clicked);
   }
 
   const grouped = groupSegmentsByGroupId(segments);
+  const clickedAnnotationGroup = getAnnotationGroup(clickedSegment);
   const clickedGroup = grouped.find((g) => g.id === clickedAnnotationGroup?.id);
+
   return (
-    <>
+    <span className="segmented-line">
       {grouped.map((group, i) => (
         <SegmentGroup
           key={i}
@@ -45,7 +42,7 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
           onClickSegment={handleClickSegment}
         />
       ))}
-    </>
+    </span>
   );
 }
 

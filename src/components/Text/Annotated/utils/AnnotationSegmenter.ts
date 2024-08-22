@@ -3,15 +3,18 @@ import {
   AnnotationGroup,
   AnnotationOffset,
   AnnotationSegment,
+  isMarkerAnnotationOffset,
   isNestedAnnotationOffset,
   isNestedAnnotationSegment,
   isSearchHighlightAnnotationOffset,
+  MarkerSegment,
   NestedAnnotationSegment,
   OffsetsByCharIndex,
-  SearchHighlightAnnotationSegment,
   SearchHighlightBody,
+  SearchHighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
+import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * An {@link AnnotationOffset} (start or end) marks the boundary between two segments,
@@ -29,7 +32,7 @@ export class AnnotationSegmenter {
   /**
    * Annotations that include the current character
    */
-  private currentAnnotations: AnnotationSegment[] = [];
+  private currentAnnotationSegments: AnnotationSegment[] = [];
 
   /**
    * Depth of nested annotations in an annotation group
@@ -63,16 +66,22 @@ export class AnnotationSegmenter {
   public segment(): Segment[] {
     this.handleAnnotationlessStart();
 
-    for (let i = 0; i < this.offsetsByCharIndex.length; i++) {
-      const offsetsAtCharIndex = this.offsetsByCharIndex[i];
+    for (
+      let charIndex = 0;
+      charIndex < this.offsetsByCharIndex.length;
+      charIndex++
+    ) {
+      const offsetsAtCharIndex = this.offsetsByCharIndex[charIndex];
       this.handleEndOffsets(offsetsAtCharIndex);
-      const currentSegmentBody = this.createSegmentBody(i, offsetsAtCharIndex);
+      const currentSegmentBody = this.createSegmentBody(
+        charIndex,
+        offsetsAtCharIndex,
+      );
       if (!currentSegmentBody) {
         continue;
       }
       this.handleStartOffsets(offsetsAtCharIndex, currentSegmentBody);
     }
-
     return this.segments;
   }
 
@@ -88,6 +97,9 @@ export class AnnotationSegmenter {
     }
   }
 
+  /**
+   * From current offset to next offset, or to end of line
+   */
   private createSegmentBody(
     i: number,
     offsetsAtCharIndex: OffsetsByCharIndex,
@@ -102,58 +114,92 @@ export class AnnotationSegmenter {
 
   private handleStartOffsets(
     offsetsAtCharIndex: OffsetsByCharIndex,
-    currentLineSegment: string,
+    lineFromCurrentToNextOffset: string,
   ) {
-    const annotationsOpeningAtCharIndex: AnnotationSegment[] =
-      offsetsAtCharIndex.offsets
-        .filter((offset) => offset.mark === "start")
-        .sort(this.byAnnotationSize.bind(this))
-        .map((a) => {
-          if (isNestedAnnotationOffset(a)) {
-            return this.createNestedAnnotationSegment(a);
-          } else if (isSearchHighlightAnnotationOffset(a)) {
-            return this.createSearchAnnotationSegment(a);
-          } else {
-            throw new Error(
-              "Could could determine offset type of " + JSON.stringify(a),
-            );
-          }
-        });
+    const startOffsets = offsetsAtCharIndex.offsets
+      .filter((offset) => offset.mark === "start")
+      .sort(this.byAnnotationSize.bind(this));
 
-    this.currentAnnotations.push(...annotationsOpeningAtCharIndex);
-
+    this.currentAnnotationSegments.push(
+      ...this.createAnnotationSegments(startOffsets),
+    );
     this.annotationGroup.maxDepth = _.max([
       this.annotationGroup.maxDepth,
       this.currentAnnotationDepth,
     ])!;
-    this.segments.push({
+
+    this.segments.push(...this.createEmptyMarkerSegments(startOffsets));
+    this.segments.push(this.createSegmentFromLine(lineFromCurrentToNextOffset));
+  }
+
+  private createSegmentFromLine(lineFromCurrentToNextOffset: string) {
+    return {
       index: this.segments.length,
-      body: currentLineSegment,
-      annotations: [...this.currentAnnotations],
+      body: lineFromCurrentToNextOffset,
+      annotations: [...this.currentAnnotationSegments],
+    };
+  }
+
+  private createEmptyMarkerSegments(
+    startOffsets: AnnotationOffset[],
+  ): Segment[] {
+    return startOffsets.filter(isMarkerAnnotationOffset).map((markerOffset) => {
+      return {
+        index: this.segments.length,
+        body: "",
+        annotations: [
+          this.createMarkerSegment(markerOffset),
+          ...this.currentAnnotationSegments,
+        ],
+      };
     });
+  }
+
+  private createAnnotationSegments(
+    startOffsets: AnnotationOffset[],
+  ): (AnnotationSegment | SearchHighlightSegment)[] {
+    return (
+      startOffsets
+        // Markers are handled seperately:
+        .filter((o) => o.type !== "marker")
+        .map((offset) => {
+          if (isNestedAnnotationOffset(offset)) {
+            return this.createNestedAnnotationSegment(offset);
+          } else if (isSearchHighlightAnnotationOffset(offset)) {
+            return this.createSearchAnnotationSegment(offset);
+          } else {
+            throw new Error(
+              "Could could determine offset type of " + JSON.stringify(offset),
+            );
+          }
+        })
+    );
   }
 
   private handleEndOffsets(offsetsAtCharIndex: OffsetsByCharIndex) {
     const annotationIdsClosingAtCharIndex = offsetsAtCharIndex.offsets
       .filter((offset) => offset.mark === "end")
+      // Marker start sets end, ignore end offset:
+      .filter((offset) => offset.type !== "marker")
       .map((endOffset) => endOffset.body.id);
-    const closingAnnotations = this.currentAnnotations.filter((a) =>
+    const closingAnnotations = this.currentAnnotationSegments.filter((a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
     closingAnnotations.forEach((a) => {
       a.endSegment = this.segments.length;
     });
-    _.remove(this.currentAnnotations, (a) =>
+    _.remove(this.currentAnnotationSegments, (a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
-    const currentNested = this.currentAnnotations.filter(
+    const currentNested = this.currentAnnotationSegments.filter(
       isNestedAnnotationSegment,
     );
     this.currentAnnotationDepth = _.maxBy(currentNested, "depth")?.depth || 0;
 
-    // Reset annotation group when all annotations are closed:
+    // Create new annotation group when all annotations are closed:
     const hasClosedAllAnnotations =
-      !this.currentAnnotations.length && annotationIdsClosingAtCharIndex.length;
+      !this.currentAnnotationSegments.length &&
+      annotationIdsClosingAtCharIndex.length;
     if (hasClosedAllAnnotations) {
       this.currentAnnotationDepth = 0;
       this.annotationGroup = {
@@ -200,10 +246,21 @@ export class AnnotationSegmenter {
 
   private createSearchAnnotationSegment(
     startOffset: AnnotationOffset<SearchHighlightBody>,
-  ): SearchHighlightAnnotationSegment {
+  ): SearchHighlightSegment {
     return {
       ...this.createSegmentOffsets(),
       type: "search",
+      body: startOffset.body,
+    };
+  }
+
+  private createMarkerSegment(
+    startOffset: AnnotationOffset<MarkerBody>,
+  ): MarkerSegment {
+    return {
+      startSegment: this.segments.length,
+      endSegment: this.segments.length, // Set endSegment at end offset
+      type: "marker",
       body: startOffset.body,
     };
   }

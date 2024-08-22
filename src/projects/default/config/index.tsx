@@ -26,10 +26,16 @@ export const defaultConfig: Omit<
 > = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
+
   showAnnotations: false,
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
   allowedAnnotationTypesToHighlight: [],
+  footnoteMarkerAnnotationTypes: [],
+  pageMarkerAnnotationTypes: [],
+  entityAnnotationTypes: ["Entity"],
+  entityCategoryPath: "metadata.category",
+
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
   showSearchSortBy: true,
@@ -67,6 +73,7 @@ export const defaultConfig: Omit<
     AnnotationItemContent: AnnotationItemContent,
     AnnotationLinks: Placeholder,
     AnnotationButtons: Empty,
+    EntitySummaryDetails: Placeholder,
     Help: Placeholder,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,

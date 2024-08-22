@@ -45,11 +45,15 @@ const CheckboxList = React.memo((props: CheckboxListProps) => (
 CheckboxList.displayName = "CheckboxList";
 
 export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
+
   const [show, setShow] = React.useState(false);
   const views = useTextStore((state) => state.views);
   const viewsInData = Object.keys(views!).map((view) => view);
-  const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const filteredViewsInData = viewsInData.filter((viewInData) =>
+    projectConfig.allPossibleTextPanels.includes(viewInData),
+  );
 
   return (
     <div className="toggleTextPanelsContainer">
@@ -63,7 +67,7 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
           textPanelsCheckboxHandler={props.textPanelsCheckboxHandler}
           projectConfig={projectConfig}
           translateProject={translateProject}
-          viewsInData={viewsInData}
+          viewsInData={filteredViewsInData}
         />
       )}
     </div>

@@ -1,36 +1,49 @@
 import {
   AnnotationSegment,
+  MarkerSegment,
   NestedAnnotationSegment,
-  SearchHighlightAnnotationSegment,
+  SearchHighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
 import { Any } from "../../../../utils/Any.ts";
+import _ from "lodash";
+import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
+  entityTypes: string[],
+  entityCategory: string,
 ) {
   const classes = [];
   classes.push(
     "nested-annotation",
+    annotation.body.id,
     "cursor-pointer",
     "depth-" + annotation.depth,
   );
-  if (annotation.body.type === "Entity") {
-    const category = annotation.body.metadata.category;
-    classes.push(toAnnotationClassname(category));
+
+  if (entityTypes.includes(annotation.body.type)) {
+    const category = getEntityCategory(annotation.body, entityCategory);
+    classes.push(toEntityClassname(category));
   }
   classes.push(...createStartEndClasses(segment, annotation));
   return classes.join(" ").toLowerCase();
 }
 
 export function createSearchHighlightClasses(
-  annotationSegment: SearchHighlightAnnotationSegment,
+  annotationSegment: SearchHighlightSegment,
   segment: Segment,
 ) {
   const classes = [];
   classes.push("search-highlight", "bg-yellow-200 rounded");
   classes.push(...createStartEndClasses(segment, annotationSegment));
+  return classes.join(" ");
+}
+
+export function createFootnoteMarkerClasses(marker: MarkerSegment) {
+  const classes = [];
+  classes.push("marker", "cursor-help", marker.body.id);
   return classes.join(" ");
 }
 
@@ -61,13 +74,24 @@ const dataToEntityCategory = {
   PERS: "PER",
 } as Any;
 
-export function toAnnotationClassname(annotationCategory?: string) {
-  return `underlined-${alignAnnotationCategory(
+const unknownCategory = "UNKNOWN";
+
+export function toEntityClassname(annotationCategory?: string) {
+  return `underlined-${normalizeEntityCategory(
     annotationCategory,
   ).toLowerCase()}`;
 }
-export function alignAnnotationCategory(annotationCategory?: string) {
-  return annotationCategory
-    ? dataToEntityCategory[annotationCategory]
-    : "UNKNOWN";
+
+export function normalizeEntityCategory(annotationCategory?: string) {
+  if (!annotationCategory) {
+    return unknownCategory;
+  }
+  return dataToEntityCategory[annotationCategory] ?? unknownCategory;
+}
+
+export function getEntityCategory(
+  annoRepoBody: AnnoRepoBody,
+  entityCategoryPath: string,
+) {
+  return _.get(annoRepoBody, entityCategoryPath);
 }

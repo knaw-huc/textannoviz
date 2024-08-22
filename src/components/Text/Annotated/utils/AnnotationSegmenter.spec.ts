@@ -3,7 +3,11 @@ import {
   line,
   offsetsByCharIndex,
 } from "../test/resources/dummyLogicalTextAnnotations.ts";
-import { AnnotationBody, NestedAnnotationSegment } from "../AnnotationModel.ts";
+import {
+  AnnotationBody,
+  MarkerSegment,
+  NestedAnnotationSegment,
+} from "../AnnotationModel.ts";
 import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
 
 describe("AnnotationSegmenter", () => {
@@ -122,7 +126,7 @@ describe("AnnotationSegmenter", () => {
     expect(anno1.depth).toEqual(1);
   });
 
-  it("can handle empty text in between annotations", () => {
+  it("keeps empty text in between annotations", () => {
     // <aa>bb<cc>
     const segments = new AnnotationSegmenter("aabbcc", [
       {
@@ -710,5 +714,77 @@ describe("AnnotationSegmenter", () => {
     expect(abc.body.id).toEqual("abc");
     expect(abc.startSegment).toEqual(0);
     expect(abc.endSegment).toEqual(1);
+  });
+
+  it("creates empty note marker segment with endSegment equal to startSegment", () => {
+    // aa*bb
+    const segments = new AnnotationSegmenter("aabb", [
+      {
+        charIndex: 2,
+        offsets: [
+          {
+            charIndex: 2,
+            mark: "start",
+            type: "marker",
+            body: {
+              id: "urn:foo:ptr:1",
+              type: "tei:Ptr",
+              "tf:textfabricNode": "1",
+              metadata: {},
+            },
+          },
+          {
+            charIndex: 2,
+            mark: "end",
+            type: "marker",
+            body: {
+              id: "urn:foo:ptr:1",
+              type: "tei:Ptr",
+              "tf:textfabricNode": "1",
+              metadata: {},
+            },
+          },
+        ],
+      },
+    ]).segment();
+    expect(segments.length).toBe(3);
+    const markerSegment = segments[1];
+    expect(markerSegment.body).toEqual("");
+    expect(markerSegment.annotations.length).toBe(1);
+    const marker = markerSegment.annotations[0] as MarkerSegment;
+    expect(marker.body.type).toEqual("tei:Ptr");
+    expect(marker.body.id).toEqual("urn:foo:ptr:1");
+  });
+
+  it("creates last segment when no annotations present", () => {
+    // <a>aa</a>bb
+    const segments = new AnnotationSegmenter("aabb", [
+      {
+        charIndex: 0,
+        offsets: [
+          {
+            charIndex: 0,
+            mark: "start",
+            type: "annotation",
+            body: { id: "a" } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 2,
+        offsets: [
+          {
+            charIndex: 2,
+            mark: "end",
+            type: "annotation",
+            body: { id: "a" } as AnnotationBody,
+          },
+        ],
+      },
+    ]).segment();
+    expect(segments.length).toBe(2);
+    const bb = segments[1];
+    expect(bb.body).toEqual("bb");
+    expect(bb.annotations.length).toEqual(0);
   });
 });

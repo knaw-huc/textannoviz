@@ -3,6 +3,7 @@ import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
+import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
@@ -64,13 +65,19 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "appendix",
     "text",
     "secretarial",
-    "notes",
+    // "notes",
     "self",
   ],
   defaultTextPanels: ["self"],
-  // showAnnotations: true,
+
+  showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
-  allowedAnnotationTypesToHighlight: ["tf:Ent"],
+  allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
+  footnoteMarkerAnnotationTypes: ["tei:Ptr"],
+  pageMarkerAnnotationTypes: ["tf:Page"],
+  entityAnnotationTypes: ["tf:Ent"],
+  entityCategoryPath: "metadata.kind",
+
   showPrevNextScanButtons: true,
   pageAnnotation: "tf:Page",
   elasticIndexName: "suriano-0.4.5e-021",
@@ -90,6 +97,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showMiradorNavigationButtons: false,
   allowCloseTextPanel: true,
   components: {
+    EntitySummaryDetails,
     SearchItem,
     MetadataPanel,
     AnnotationButtons,

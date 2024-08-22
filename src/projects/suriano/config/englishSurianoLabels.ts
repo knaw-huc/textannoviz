@@ -23,4 +23,11 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
 
   // search results:
   results: "letters",
+
+  PER: "person",
+
+  "PRIMARY NAME": "Primary name",
+  "OCCUPATIONS, ROLES, and/or TITLES": "Occupations, roles, titles",
+  "BIRTH YEAR": "Date of birth",
+  "DEATH YEAR": "Date of death",
 });

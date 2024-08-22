@@ -236,6 +236,9 @@ export type AnnoRepoBodyBase = {
   };
 };
 
+export type EntityDetail = { label: string; value: string };
+
+// TODO: Move to project specific model
 export type RepublicEntityBody = AnnoRepoBodyBase & {
   type: "Entity";
   text: string;
@@ -244,6 +247,76 @@ export type RepublicEntityBody = AnnoRepoBodyBase & {
     entityLabels: string[];
     inventoryNum: string;
     name: string;
+  };
+};
+
+export function isRepublicEntity(
+  toTest: AnnoRepoBodyBase,
+): toTest is RepublicEntityBody {
+  return (toTest as RepublicEntityBody).type === "Entity";
+}
+
+// TODO: Move to project specific model
+export type SurianoEntityBody = AnnoRepoBodyBase & {
+  type: "tf:Ent";
+  metadata: {
+    details: EntityDetail[];
+    n: string;
+  };
+};
+
+export function isSurianoEntity(
+  toTest: AnnoRepoBodyBase,
+): toTest is SurianoEntityBody {
+  return (toTest as SurianoEntityBody).type === "tf:Ent";
+}
+
+export type EntityBody = RepublicEntityBody | SurianoEntityBody;
+
+export function isEntityBody(
+  toTest: AnnoRepoBody,
+  validTypes: string[],
+): toTest is EntityBody {
+  if (!toTest) {
+    return false;
+  }
+  return validTypes.includes(toTest.type);
+}
+
+export function hasBodyText(
+  toTest: AnnoRepoBody,
+  validTypes: string[],
+): toTest is EntityBody {
+  if (!toTest) {
+    return false;
+  }
+  return validTypes.includes(toTest.type);
+}
+
+export type NoteBody = AnnoRepoBodyBase & {
+  type: "tei:Note";
+  "tf:textfabricNode": string;
+  metadata: {
+    "tei:id": string;
+    lang: string;
+    type: "tt:NoteMetadata";
+  };
+};
+
+export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "tei:Note";
+}
+
+export type MarkerBody = AnnoRepoBodyBase & {
+  type: "tei:Ptr";
+  "tf:textfabricNode": string;
+  metadata: {
+    n: string;
+    target: string;
+    type: "tt:PtrMetadata";
   };
 };
 
@@ -263,16 +336,10 @@ export type AnnoRepoBody =
   | TeiRefBody
   | TeiRegBody
   | TfLetterBody
-  | RepublicEntityBody;
-
-export function isEntityBody(
-  toTest: AnnoRepoBody,
-): toTest is RepublicEntityBody {
-  if (!toTest) {
-    return false;
-  }
-  return toTest.type === "Entity";
-}
+  | RepublicEntityBody
+  | SurianoEntityBody
+  | MarkerBody
+  | NoteBody;
 
 export type Body =
   | AnnoRepoBody
@@ -336,9 +403,17 @@ export type TextAnchorTarget = {
   };
 };
 
+export function isLogicalTextAnchorTarget(
+  toTest: Target,
+): toTest is TextAnchorTarget {
+  return (
+    toTest.type === "LogicalText" && !!(toTest as TextAnchorTarget).selector
+  );
+}
+
 export type TextTarget = {
   source: string;
-  type: "Text";
+  type: "Text" | "LogicalText";
 };
 
 export type Target =

@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { createLineOffsets } from "./createLineOffsets.ts";
+import {
+  createFootnoteMarkLineOffsets,
+  createNestedLineOffsets,
+} from "./createLineOffsets.ts";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 
@@ -50,7 +53,7 @@ describe("createLineOffsets", () => {
     const lines = [
       "Synde ter vergaderinge gelesen de requeste van weduwe van wylen den Capn. Willem Bouwensz keert de koe om te hebben betalinge van twee ordonnantien die sy aen t' Collegie ter admt. tot Rotterdam ten achteren staet.",
     ];
-    const result = createLineOffsets(
+    const result = createNestedLineOffsets(
       annotation,
       positionsRelativeToView,
       lines,
@@ -60,5 +63,34 @@ describe("createLineOffsets", () => {
     );
     expect(result.startChar).toEqual(162);
     expect(result.endChar).toEqual(194);
+  });
+
+  it("supports markers", () => {
+    const annotation = {
+      id: "anno-repo-id",
+      type: "Annotation",
+      body: {
+        id: "urn:foo:ptr:1978932",
+        type: "tei:Ptr",
+        metadata: {},
+      },
+    } as unknown as AnnoRepoAnnotation;
+    const positionsRelativeToView: BroccoliViewPosition[] = [
+      {
+        bodyId: "urn:foo:ptr:1978932",
+        start: {
+          line: 0,
+          offset: 5,
+        },
+      } as BroccoliViewPosition,
+    ];
+    const result = createFootnoteMarkLineOffsets(
+      annotation,
+      positionsRelativeToView,
+    );
+    expect(result.body.id).toEqual("urn:foo:ptr:1978932");
+    expect(result.type).toEqual("marker");
+    expect(result.startChar).toEqual(5);
+    expect(result.endChar).toEqual(5);
   });
 });

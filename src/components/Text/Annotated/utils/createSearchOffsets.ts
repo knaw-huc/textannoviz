@@ -1,6 +1,6 @@
 import { LineOffsets, SearchHighlightBody } from "../AnnotationModel.ts";
 
-export function createLineSearchOffsets(
+export function createSearchOffsets(
   lines: string[],
   regex: RegExp | undefined,
 ): LineOffsets[] {

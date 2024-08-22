@@ -2,11 +2,23 @@ import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { SegmentedLine } from "./SegmentedLine.tsx";
-import { createLineOffsets } from "./utils/createLineOffsets.ts";
-import { createLineSearchOffsets } from "./utils/createLineSearchOffsets.ts";
-import { getAnnotationsByTypes } from "./utils/getAnnotationsByTypes.ts";
+import { createSearchOffsets } from "./utils/createSearchOffsets.ts";
 import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import "./annotated.css";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
+import {
+  AnnoRepoAnnotation,
+  isLogicalTextAnchorTarget,
+} from "../../../model/AnnoRepoAnnotation.ts";
+import {
+  createFootnoteMarkLineOffsets,
+  createNestedLineOffsets,
+  createPageMarkLineOffsets,
+} from "./utils/createLineOffsets.ts";
+import { LineOffsets } from "./AnnotationModel.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -14,38 +26,59 @@ type TextHighlightingProps = {
 };
 
 /**
- * Definitions:
- * - Logical text: 'doorlopende' text, not split by line breaks
- * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
- * - Annotation offset: character index at which an annotation starts or stops
- * - Character index: start index marks first character to include, stop index marks first character to exclude
- * - Line segment: piece of line uninterrupted by annotation offsets
- * - Annotation segment: piece of an annotation uninterrupted by the offsets of other overlapping/nested annotations
- * - Annotation group: all annotations that are connected to each other by other overlapping/nested annotations
- * - Annotation depth: the number of levels that an annotation is nested in parent annotations or with overlapping annotations
+ * Annotation definitions
+ * - Depth: the number of levels that an annotation is nested in parent annotations or overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
+ * - Group: all annotations or segments that are connected to each other by other overlapping/nested annotations
+ * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
+ * - Marker: annotation of zero length, useful for marking locations of footnotes, page endings, etc.
+ * - Offset: start or end character index of an annotation in a line
+ *   - start index marks first character to include
+ *   - stop index marks first character to exclude
+ * - Segment: piece of line or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
+  const { footnoteMarkerAnnotationTypes, pageMarkerAnnotationTypes } =
+    useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
   const searchTerms = highlight;
-
-  const typesToHighlight = useAnnotationStore().annotationTypesToHighlight;
-  const positions = props.text.locations.annotations;
-
-  const annotationsToHighlight = getAnnotationsByTypes(
-    annotations,
-    typesToHighlight,
-  );
+  const annotationTypesToHighlight =
+    useAnnotationStore().annotationTypesToHighlight;
   const lines = props.text.lines;
 
-  const offsets = annotationsToHighlight.map((a) =>
-    createLineOffsets(a, positions, lines),
-  );
+  const relativeAnnotations = props.text.locations.annotations;
+  // No offsets when no relative annotations
+  const offsets: LineOffsets[] = [];
+
+  const singleLineAnnotations = annotations.filter(withTargetInSingleLine);
+
+  if (relativeAnnotations.length) {
+    const nestedAnnotations = singleLineAnnotations
+      .filter((a) => annotationTypesToHighlight.includes(a.body.type))
+      .map((annotation) =>
+        createNestedLineOffsets(annotation, relativeAnnotations, lines),
+      );
+    offsets.push(...nestedAnnotations);
+  }
+
   const searchRegex = createSearchRegex(searchTerms, tier2);
-  const searchOffsets = createLineSearchOffsets(lines, searchRegex);
-  offsets.push(...searchOffsets);
+  offsets.push(...createSearchOffsets(lines, searchRegex));
+  offsets.push(
+    ...singleLineAnnotations
+      .filter((a) => footnoteMarkerAnnotationTypes.includes(a.body.type))
+      .map((annotation) =>
+        createFootnoteMarkLineOffsets(annotation, relativeAnnotations),
+      ),
+  );
+  offsets.push(
+    ...annotations
+      .filter((a) => pageMarkerAnnotationTypes.includes(a.body.type))
+      .map((annotation) =>
+        createPageMarkLineOffsets(annotation, relativeAnnotations),
+      ),
+  );
 
   return (
     <div>
@@ -59,3 +92,20 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     </div>
   );
 };
+
+function withTargetInSingleLine(a: AnnoRepoAnnotation) {
+  if (!Array.isArray(a.target)) {
+    return false;
+  }
+  const textAnchorSelector = a.target.find(isLogicalTextAnchorTarget);
+  if (!textAnchorSelector) {
+    return false;
+  }
+  if (textAnchorSelector.selector.start !== textAnchorSelector.selector.end) {
+    console.debug(
+      `Ignoring annotation that spans multiple lines: ${a.body.id}`,
+    );
+    return false;
+  }
+  return true;
+}
