@@ -53,7 +53,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   useExternalConfig: true,
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
-  showMiradorNavigationButtons: true,
+  showMiradorNavigationButtons: false,
   overrideDefaultAggs: [
     {
       facetName: "sessionYear",
