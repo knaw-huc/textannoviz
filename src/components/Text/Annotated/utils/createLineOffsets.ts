@@ -65,7 +65,7 @@ export function createPageMarkLineOffsets(
   return {
     type: "marker",
     body: annotation.body,
-    lineIndex: relativePosition.end.line,
+    lineIndex: relativePosition.start.line,
     startChar,
     endChar: startChar,
   };
