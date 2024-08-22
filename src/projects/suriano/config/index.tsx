@@ -3,10 +3,10 @@ import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
+import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
-import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -68,7 +68,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "notes",
     "self",
   ],
-  defaultTextPanels: ["original"],
+  defaultTextPanels: ["self"],
 
   showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
