@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
+import { toDetailPageUrl } from "../../components/Text/Annotated/utils/toDetailPageUrl.tsx";
 import { Labels } from "../../model/Labels.ts";
+import { RepublicSearchResultBody } from "../../model/Search.ts";
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import {
   translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
-import { RepublicSearchResultBody } from "../../model/Search.ts";
-import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import { toDetailPageUrl } from "../../components/Text/Annotated/utils/toDetailPageUrl.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<RepublicSearchResultBody>,
@@ -40,13 +40,13 @@ export const SearchItem = (
           {props.result.sessionYear}
         </span>
       </li>
-      <Link
-        to={toDetailPageUrl(props.result._id, {
-          highlight: props.query.fullText,
-        })}
-        className="hover:text-brand1-700 text-inherit no-underline"
-      >
-        <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
+      <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
+        <Link
+          to={toDetailPageUrl(props.result._id, {
+            highlight: props.query.fullText,
+          })}
+          className="hover:text-brand1-700 cursor-pointer text-inherit no-underline transition"
+        >
           <div className="flex flex-col p-4">
             <div className="font-semibold">
               {translateProject(props.result.bodyType)}
@@ -55,16 +55,17 @@ export const SearchItem = (
               {props.result.resolutionType}, {props.result.textType}
             </div>
           </div>
-          {props.result._hits?.text.map((hit, key) => (
-            <div key={key} className="hover:bg-brand1Grey-50 w-full p-4">
-              <div
-                className="mb-1 font-serif text-base"
-                dangerouslySetInnerHTML={{ __html: hit }}
-              ></div>
-            </div>
-          ))}
-        </li>
-      </Link>
+        </Link>
+
+        {props.result._hits?.text.map((hit, key) => (
+          <div key={key} className="w-full p-4">
+            <div
+              className="mb-1 font-serif text-base"
+              dangerouslySetInnerHTML={{ __html: hit }}
+            ></div>
+          </div>
+        ))}
+      </li>
     </ul>
   );
 };

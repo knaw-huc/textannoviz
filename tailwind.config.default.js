@@ -1,6 +1,7 @@
 import typography from "@tailwindcss/typography";
 import reactAria from "tailwindcss-react-aria-components/src/index";
 
+/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
