@@ -1,5 +1,5 @@
-import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import * as _ from "lodash";
+import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { LineOffsets } from "../AnnotationModel.ts";
 
