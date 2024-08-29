@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import {
   AnnotationGroup,
   AnnotationOffset,
@@ -14,7 +15,6 @@ import {
   SearchHighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
-import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * An {@link AnnotationOffset} (start or end) marks the boundary between two segments,
@@ -77,9 +77,7 @@ export class AnnotationSegmenter {
         charIndex,
         offsetsAtCharIndex,
       );
-      if (!currentSegmentBody) {
-        continue;
-      }
+
       this.handleStartOffsets(offsetsAtCharIndex, currentSegmentBody);
     }
     return this.segments;
