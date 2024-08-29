@@ -3,6 +3,15 @@
  */
 export type MiradorConfig = {
   id: string;
+  theme: {
+    palette: {
+      annotations: {
+        default: { strokeStyle: string };
+        hovered: { strokeStyle: string };
+        selected: { strokeStyle: string };
+      };
+    };
+  };
   window: {
     allowClose: boolean;
     allowWindowSideBar: boolean;
