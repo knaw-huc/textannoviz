@@ -65,7 +65,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "appendix",
     "text",
     "secretarial",
-    // "notes",
     "self",
   ],
   defaultTextPanels: ["self"],
