@@ -6,4 +6,5 @@ export type ExternalConfig = {
   initialRangeTo?: string;
   maxRange?: number;
   broccoliUrl?: string;
+  annotationTypesToInclude?: string[];
 };
