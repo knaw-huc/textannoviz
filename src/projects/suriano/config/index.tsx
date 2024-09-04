@@ -85,7 +85,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   headerColor: "bg-brand1-100 text-brand1-700",
   headerTitle: "The Correspondence of Christofforo Suriano",
   showSearchResultsButtonFooter: false,
-  useExternalConfig: true,
+  useExternalConfig: false,
   showToggleTextPanels: true,
   showKeywordFacets: false,
   showFacetFilter: false,
