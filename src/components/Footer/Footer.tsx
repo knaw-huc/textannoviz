@@ -42,7 +42,7 @@ export const Footer = (props: FooterProps) => {
   );
 
   return (
-    <div className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
+    <footer className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
       <div className="mx-auto flex w-full flex-col justify-between lg:flex-row">
         <div className="flex w-full flex-row justify-start gap-8 lg:w-2/5">
           <DetailSearchResultsNavigation />
@@ -133,6 +133,6 @@ export const Footer = (props: FooterProps) => {
           </button>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
