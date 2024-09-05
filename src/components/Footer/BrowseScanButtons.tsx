@@ -5,6 +5,7 @@ import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 
 export function BrowseScanButtons() {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -35,16 +36,32 @@ export function BrowseScanButtons() {
 
   function prevCanvas() {
     miradorStore.dispatch(mirador.actions.setPreviousCanvas(projectName));
-    setCurrentCanvas(
-      miradorStore?.getState().windows[projectName].canvasId as string,
-    );
+    const newCanvas = miradorStore?.getState().windows[projectName]
+      .canvasId as string;
+    setCurrentCanvas(newCanvas);
+    if (projectConfig.visualizeAnnosMirador) {
+      visualizeAnnosMirador(
+        annotations,
+        miradorStore,
+        newCanvas,
+        projectConfig,
+      );
+    }
   }
 
   function nextCanvas() {
     miradorStore.dispatch(mirador.actions.setNextCanvas(projectName));
-    setCurrentCanvas(
-      miradorStore?.getState().windows[projectName].canvasId as string,
-    );
+    const newCanvas = miradorStore?.getState().windows[projectName]
+      .canvasId as string;
+    setCurrentCanvas(newCanvas);
+    if (projectConfig.visualizeAnnosMirador) {
+      visualizeAnnosMirador(
+        annotations,
+        miradorStore,
+        newCanvas,
+        projectConfig,
+      );
+    }
   }
 
   return (
