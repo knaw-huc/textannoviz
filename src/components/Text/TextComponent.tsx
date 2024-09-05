@@ -49,7 +49,13 @@ export const TextComponent = (props: TextComponentProps) => {
           panels={panelsToRender}
         />
       ) : null}
-      <div className="flex h-[calc(100vh-150px)] flex-row overflow-auto">
+      <div
+        className={`${
+          projectConfig.showToggleTextPanels
+            ? "h-[calc(100vh-150px)]"
+            : "h-[calc(100vh-100px)]"
+        } flex flex-row overflow-auto`}
+      >
         {textPanels && !props.isLoading ? (
           <TextPanels
             panels={panelsToRender}
