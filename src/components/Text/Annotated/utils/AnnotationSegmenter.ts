@@ -56,9 +56,9 @@ export class AnnotationSegmenter {
 
   constructor(
     private line: string,
-    private offsetsByCharIndex: OffsetsByCharIndex[],
+    private allOffsetsAtCharIndex: OffsetsByCharIndex[],
   ) {
-    this.endOffsets = this.offsetsByCharIndex
+    this.endOffsets = this.allOffsetsAtCharIndex
       .flatMap((charIndex) => charIndex.offsets)
       .filter((offset) => offset.mark === "end");
   }
@@ -66,27 +66,52 @@ export class AnnotationSegmenter {
   public segment(): Segment[] {
     this.handleAnnotationlessStart();
 
-    for (
-      let charIndex = 0;
-      charIndex < this.offsetsByCharIndex.length;
-      charIndex++
-    ) {
-      const offsetsAtCharIndex = this.offsetsByCharIndex[charIndex];
+    /**
+     * Note: i is an element index in the allOffsetsAtChar array,
+     * not the char index itself
+     */
+    for (let i = 0; i < this.allOffsetsAtCharIndex.length; i++) {
+      const offsetsAtCharIndex = this.allOffsetsAtCharIndex[i];
       this.handleEndOffsets(offsetsAtCharIndex);
-      const currentSegmentBody = this.createSegmentBody(
-        charIndex,
-        offsetsAtCharIndex,
-      );
-      if (!currentSegmentBody) {
-        continue;
-      }
-      this.handleStartOffsets(offsetsAtCharIndex, currentSegmentBody);
+      this.handleStartOffsets(offsetsAtCharIndex);
+
+      this.createLineSegment(offsetsAtCharIndex, i);
+
+      // this.handleAnnotationlessSegment(offsetsAtCharIndex, i);
     }
+
+    // this.handleAnnotationlessEnd();
+
     return this.segments;
   }
 
+  private createLineSegment(offsetsAtCharIndex: OffsetsByCharIndex, i: number) {
+    const currentSegmentBody = this.createSegmentBody(offsetsAtCharIndex, i);
+    if (currentSegmentBody.length || this.currentAnnotationSegments.length) {
+      this.segments.push(this.createSegmentFromLine(currentSegmentBody));
+    }
+  }
+
+  // @ts-expect-error TODO
+  private handleAnnotationlessSegment(
+    offsetsAtCharIndex: OffsetsByCharIndex,
+    i: number,
+  ) {
+    const hasNoAnnotationsInGroup = this.annotationGroup.maxDepth === 0;
+    // let noStartAnnotations = !offsetsAtCharIndex.offsets.filter(o => o.mark === 'start').length;
+    if (hasNoAnnotationsInGroup) {
+      const currentSegmentBody = this.createSegmentBody(offsetsAtCharIndex, i);
+      console.log("empty segment?", currentSegmentBody);
+      this.segments.push({
+        index: 0,
+        body: currentSegmentBody,
+        annotations: [],
+      });
+    }
+  }
+
   private handleAnnotationlessStart() {
-    const firstCharIndex = this.offsetsByCharIndex[0]?.charIndex;
+    const firstCharIndex = this.allOffsetsAtCharIndex[0]?.charIndex;
     const lineStartsWithAnnotation = firstCharIndex === 0;
     if (!lineStartsWithAnnotation) {
       this.segments.push({
@@ -97,25 +122,39 @@ export class AnnotationSegmenter {
     }
   }
 
+  // @ts-expect-error TODO
+  private handleAnnotationlessEnd() {
+    const lastCharWithAnnotationIndex =
+      this.allOffsetsAtCharIndex.at(-1)?.charIndex;
+    const lastCharIndex = this.line.length - 1;
+    const lineEndsWithAnnotation =
+      lastCharWithAnnotationIndex === lastCharIndex;
+    if (!lineEndsWithAnnotation) {
+      this.segments.push({
+        index: 0,
+        body: this.line.slice(lastCharWithAnnotationIndex, lastCharIndex),
+        annotations: [],
+      });
+    }
+  }
+
   /**
+   * // TODO: create no body when no nextOffsets
    * From current offset to next offset, or to end of line
    */
   private createSegmentBody(
-    i: number,
     offsetsAtCharIndex: OffsetsByCharIndex,
+    i: number,
   ): string {
     const nextOffsets: OffsetsByCharIndex | undefined =
-      this.offsetsByCharIndex[i + 1];
+      this.allOffsetsAtCharIndex[i + 1];
     return this.line.slice(
       offsetsAtCharIndex.charIndex,
       nextOffsets?.charIndex || this.line.length,
     );
   }
 
-  private handleStartOffsets(
-    offsetsAtCharIndex: OffsetsByCharIndex,
-    lineFromCurrentToNextOffset: string,
-  ) {
+  private handleStartOffsets(offsetsAtCharIndex: OffsetsByCharIndex) {
     const startOffsets = offsetsAtCharIndex.offsets
       .filter((offset) => offset.mark === "start")
       .sort(this.byAnnotationSize.bind(this));
@@ -129,7 +168,6 @@ export class AnnotationSegmenter {
     ])!;
 
     this.segments.push(...this.createEmptyMarkerSegments(startOffsets));
-    this.segments.push(this.createSegmentFromLine(lineFromCurrentToNextOffset));
   }
 
   private createSegmentFromLine(lineFromCurrentToNextOffset: string) {
