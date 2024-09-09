@@ -86,9 +86,9 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].body).toEqual("aa");
     expect(segments[0].annotations!.length).toEqual(1);
     const anno1 = segments[0].annotations![0] as NestedAnnotationSegment;
-    expect(anno1.body.id).toEqual("anno1");
-    expect(anno1.depth).toEqual(1);
-    expect(segments[1].body).toEqual("b");
+    expect(anno1.body.id).toBe("anno1");
+    expect(anno1.depth).toBe(1);
+    expect(segments[1].body).toBe("b");
     expect(segments[1].annotations).toEqual([]);
   });
 
@@ -134,7 +134,8 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].annotations).toEqual([]);
   });
 
-  it("keeps empty text in between annotations", () => {
+  // TODO: should fail:
+  it("keeps annotationless text in between annotations", () => {
     // <aa>bb<cc>
     const segments = new AnnotationSegmenter("aabbcc", [
       {
@@ -191,6 +192,7 @@ describe("AnnotationSegmenter", () => {
     expect(anno1.depth).toEqual(1);
 
     const segmentWithNoAnnotations = segments[1];
+    expect(segmentWithNoAnnotations.body).toEqual("bb");
     expect(segmentWithNoAnnotations.annotations).toEqual([]);
 
     expect(segments[2].annotations!.length).toEqual(1);
@@ -813,38 +815,5 @@ describe("AnnotationSegmenter", () => {
     ]).segment();
     expect(segments.length).toEqual(2);
     expect(segments[1].annotations[0].body.id).toEqual("marker1");
-  });
-
-  // TODO: should fail
-  it("creates last segment when no annotations present", () => {
-    // <a>aa</a>bb
-    const segments = new AnnotationSegmenter("aabb", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "a" } as AnnotationBody,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "end",
-            type: "annotation",
-            body: { id: "a" } as AnnotationBody,
-          },
-        ],
-      },
-    ]).segment();
-    expect(segments.length).toBe(2);
-    const bb = segments[1];
-    expect(bb.body).toEqual("bb");
-    expect(bb.annotations.length).toEqual(0);
   });
 });

@@ -74,39 +74,26 @@ export class AnnotationSegmenter {
       const offsetsAtCharIndex = this.allOffsetsAtCharIndex[i];
       this.handleEndOffsets(offsetsAtCharIndex);
       this.handleStartOffsets(offsetsAtCharIndex);
-
       this.createLineSegment(offsetsAtCharIndex, i);
-
-      // this.handleAnnotationlessSegment(offsetsAtCharIndex, i);
     }
 
-    // this.handleAnnotationlessEnd();
+    this.handleAnnotationlessEnd();
 
     return this.segments;
   }
 
   private createLineSegment(offsetsAtCharIndex: OffsetsByCharIndex, i: number) {
-    const currentSegmentBody = this.createSegmentBody(offsetsAtCharIndex, i);
-    if (currentSegmentBody.length || this.currentAnnotationSegments.length) {
-      this.segments.push(this.createSegmentFromLine(currentSegmentBody));
+    const nextOffsets: OffsetsByCharIndex | undefined =
+      this.allOffsetsAtCharIndex[i + 1];
+    if (!nextOffsets) {
+      return;
     }
-  }
-
-  // @ts-expect-error TODO
-  private handleAnnotationlessSegment(
-    offsetsAtCharIndex: OffsetsByCharIndex,
-    i: number,
-  ) {
-    const hasNoAnnotationsInGroup = this.annotationGroup.maxDepth === 0;
-    // let noStartAnnotations = !offsetsAtCharIndex.offsets.filter(o => o.mark === 'start').length;
-    if (hasNoAnnotationsInGroup) {
-      const currentSegmentBody = this.createSegmentBody(offsetsAtCharIndex, i);
-      console.log("empty segment?", currentSegmentBody);
-      this.segments.push({
-        index: 0,
-        body: currentSegmentBody,
-        annotations: [],
-      });
+    const segmentBody = this.line.slice(
+      offsetsAtCharIndex.charIndex,
+      nextOffsets.charIndex,
+    );
+    if (segmentBody) {
+      this.segments.push(this.createSegmentFromLine(segmentBody));
     }
   }
 
@@ -122,36 +109,24 @@ export class AnnotationSegmenter {
     }
   }
 
-  // @ts-expect-error TODO
   private handleAnnotationlessEnd() {
-    const lastCharWithAnnotationIndex =
-      this.allOffsetsAtCharIndex.at(-1)?.charIndex;
-    const lastCharIndex = this.line.length - 1;
-    const lineEndsWithAnnotation =
-      lastCharWithAnnotationIndex === lastCharIndex;
+    const lastCharWithAnnotation = this.allOffsetsAtCharIndex.at(-1)?.charIndex;
+
+    if (!lastCharWithAnnotation) {
+      return;
+    }
+
+    // End offset excludes last char, so no .length-1:
+    const lastChar = this.line.length;
+
+    const lineEndsWithAnnotation = lastCharWithAnnotation === lastChar;
     if (!lineEndsWithAnnotation) {
       this.segments.push({
         index: 0,
-        body: this.line.slice(lastCharWithAnnotationIndex, lastCharIndex),
+        body: this.line.slice(lastCharWithAnnotation, lastChar),
         annotations: [],
       });
     }
-  }
-
-  /**
-   * // TODO: create no body when no nextOffsets
-   * From current offset to next offset, or to end of line
-   */
-  private createSegmentBody(
-    offsetsAtCharIndex: OffsetsByCharIndex,
-    i: number,
-  ): string {
-    const nextOffsets: OffsetsByCharIndex | undefined =
-      this.allOffsetsAtCharIndex[i + 1];
-    return this.line.slice(
-      offsetsAtCharIndex.charIndex,
-      nextOffsets?.charIndex || this.line.length,
-    );
   }
 
   private handleStartOffsets(offsetsAtCharIndex: OffsetsByCharIndex) {
