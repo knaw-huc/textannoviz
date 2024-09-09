@@ -2,18 +2,18 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
-import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   // broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
   colours: {
-    resolution: "green",
+    resolution: "yellow",
     attendant: "#DB4437",
     reviewed: "cyan",
     attendancelist: "yellow",

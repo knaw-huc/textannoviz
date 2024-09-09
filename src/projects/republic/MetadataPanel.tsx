@@ -98,7 +98,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
       return (
         <>
           <strong>Aanwezigen: </strong>
-          <div className={gridOneColumn + "divide divide-y"}>
+          <div className={gridOneColumn + "divide divide-y pb-8"}>
             {(attendanceList[0].body as AttendanceListBody).attendanceSpans.map(
               (attendant, index) =>
                 attendant.delegateName !== "" ? (

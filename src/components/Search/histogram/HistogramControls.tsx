@@ -25,7 +25,7 @@ export const HistogramControls = (props: HistogramControlsProps) => {
             onPress={props.returnToPrevDateRange}
             isDisabled={!props.histogramZoomed}
           >
-            Zoom out
+            Reset date
           </Button>
         </div>
       </div>

@@ -23,7 +23,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:CorrespAction",
     // "tei:CorrespDesc",
     // "tei:Date",
-    // "tei:Div",
+    "tei:Div",
     // "tei:Editor",
     "tf:Ent",
     // "tei:FileDesc",
@@ -80,7 +80,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
 
   showPrevNextScanButtons: true,
   pageAnnotation: "tf:Page",
-  elasticIndexName: "suriano-0.4.5e-021",
+  elasticIndexName: "suriano-0.5.1e-024",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",

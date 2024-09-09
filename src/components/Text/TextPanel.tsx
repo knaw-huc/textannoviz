@@ -21,7 +21,7 @@ export const TextPanel = (props: TextPanelProps) => {
 
   return (
     <StyledText panel={props.panel}>
-      <div className="m-auto mb-8 flex w-full max-w-3xl items-center justify-between border-b pb-4">
+      <div className="mx-auto mb-8 flex w-full max-w-3xl items-center justify-between border-b pb-4">
         <span
           className="font-sans text-sm uppercase text-neutral-800"
           tabIndex={0}
@@ -39,7 +39,7 @@ export const TextPanel = (props: TextPanelProps) => {
         </button>
       </div>
 
-      <div className="m-auto mb-24 max-w-3xl">
+      <div className="mx-auto flex max-w-3xl pb-8">
         {projectConfig.showAnnotations ? (
           <AnnotatedText text={props.text} showDetail={false} />
         ) : (
