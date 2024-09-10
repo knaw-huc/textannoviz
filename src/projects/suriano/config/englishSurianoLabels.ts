@@ -30,4 +30,7 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   "OCCUPATIONS, ROLES, and/or TITLES": "Occupations, roles, titles",
   "BIRTH YEAR": "Date of birth",
   "DEATH YEAR": "Date of death",
+  "GENERAL NOTES ON PERSON": "General notes",
+  "RELATED RESOURCE NAME": "Related resource",
+  "RELATED RESOURCE URL": "Related resource url",
 });
