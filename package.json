@@ -9,7 +9,8 @@
     "build": "vite build --config vite.config.prod.ts",
     "preview": "vite preview",
     "prepare": "husky install",
-    "test": "vitest"
+    "test": "vitest run",
+    "test-watch": "vitest"
   },
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
