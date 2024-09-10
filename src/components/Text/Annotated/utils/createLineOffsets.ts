@@ -51,7 +51,7 @@ export function createFootnoteMarkLineOffsets(
 }
 
 /**
- * Mark end of page using end offset
+ * Mark start of page using end offset
  */
 export function createPageMarkLineOffsets(
   annotation: AnnoRepoAnnotation,
@@ -61,13 +61,13 @@ export function createPageMarkLineOffsets(
     allRelativePositions,
     annotation,
   );
-  const endChar: number = relativePosition.end.offset ?? 0;
+  const startChar = relativePosition.start.offset ?? 0;
   return {
     type: "marker",
     body: annotation.body,
-    lineIndex: relativePosition.end.line,
-    startChar: endChar,
-    endChar,
+    lineIndex: relativePosition.start.line,
+    startChar,
+    endChar: startChar,
   };
 }
 

@@ -57,7 +57,7 @@ describe("AnnotationSegmenter", () => {
     expect(segments[4].annotations).toEqual([]);
   });
 
-  it("can start with annotation", () => {
+  it("can start with and end without annotation", () => {
     // <anno1>aa</anno1>b
     const segments = new AnnotationSegmenter("aab", [
       {
@@ -86,13 +86,14 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].body).toEqual("aa");
     expect(segments[0].annotations!.length).toEqual(1);
     const anno1 = segments[0].annotations![0] as NestedAnnotationSegment;
-    expect(anno1.body.id).toEqual("anno1");
-    expect(anno1.depth).toEqual(1);
-    expect(segments[1].body).toEqual("b");
+    expect(anno1.body.id).toBe("anno1");
+    expect(anno1.depth).toBe(1);
+    expect(segments[1].body).toBe("b");
     expect(segments[1].annotations).toEqual([]);
   });
 
-  it("can end with annotation", () => {
+  it("can start without and end with annotation", () => {
+    // a<anno1>bb</anno1>
     const segments = new AnnotationSegmenter("abb", [
       {
         charIndex: 1,
@@ -126,7 +127,14 @@ describe("AnnotationSegmenter", () => {
     expect(anno1.depth).toEqual(1);
   });
 
-  it("keeps empty text in between annotations", () => {
+  it("can contain no annotations", () => {
+    const segments = new AnnotationSegmenter("a", []).segment();
+    expect(segments.length).toEqual(1);
+    expect(segments[0].body).toEqual("a");
+    expect(segments[0].annotations).toEqual([]);
+  });
+
+  it("keeps annotationless text in between annotations", () => {
     // <aa>bb<cc>
     const segments = new AnnotationSegmenter("aabbcc", [
       {
@@ -183,6 +191,7 @@ describe("AnnotationSegmenter", () => {
     expect(anno1.depth).toEqual(1);
 
     const segmentWithNoAnnotations = segments[1];
+    expect(segmentWithNoAnnotations.body).toEqual("bb");
     expect(segmentWithNoAnnotations.annotations).toEqual([]);
 
     expect(segments[2].annotations!.length).toEqual(1);
@@ -256,18 +265,6 @@ describe("AnnotationSegmenter", () => {
           {
             charIndex: 4,
             mark: "start",
-            type: "annotation",
-            body: { id: "cc" } as AnnotationBody,
-          },
-        ],
-      },
-
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
             type: "annotation",
             body: { id: "cc" } as AnnotationBody,
           },
@@ -756,35 +753,66 @@ describe("AnnotationSegmenter", () => {
     expect(marker.body.id).toEqual("urn:foo:ptr:1");
   });
 
-  it("creates last segment when no annotations present", () => {
-    // <a>aa</a>bb
-    const segments = new AnnotationSegmenter("aabb", [
+  it("can contain bodiless marker", () => {
+    // a[marker1]b
+    const segments = new AnnotationSegmenter("ab", [
       {
-        charIndex: 0,
+        charIndex: 1,
         offsets: [
           {
-            charIndex: 0,
+            charIndex: 1,
             mark: "start",
-            type: "annotation",
-            body: { id: "a" } as AnnotationBody,
+            type: "marker",
+            body: { id: "marker1" } as AnnotationBody,
           },
         ],
       },
       {
-        charIndex: 2,
+        charIndex: 1,
         offsets: [
           {
-            charIndex: 2,
+            charIndex: 1,
             mark: "end",
-            type: "annotation",
-            body: { id: "a" } as AnnotationBody,
+            type: "marker",
+            body: { id: "anno1" } as AnnotationBody,
           },
         ],
       },
     ]).segment();
-    expect(segments.length).toBe(2);
-    const bb = segments[1];
-    expect(bb.body).toEqual("bb");
-    expect(bb.annotations.length).toEqual(0);
+    expect(segments.length).toEqual(3);
+    expect(segments[1].body).toEqual("");
+    expect(segments[1].annotations.length).toEqual(1);
+    expect(segments[1].annotations[0].type).toEqual("marker");
+    expect(segments[1].annotations[0].body.id).toEqual("marker1");
+  });
+
+  it("can contain bodiless marker after last char", () => {
+    // a[marker1]
+    const segments = new AnnotationSegmenter("a", [
+      {
+        charIndex: 1,
+        offsets: [
+          {
+            charIndex: 1,
+            mark: "start",
+            type: "marker",
+            body: { id: "marker1" } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 1,
+        offsets: [
+          {
+            charIndex: 1,
+            mark: "end",
+            type: "marker",
+            body: { id: "anno1" } as AnnotationBody,
+          },
+        ],
+      },
+    ]).segment();
+    expect(segments.length).toEqual(2);
+    expect(segments[1].annotations[0].body.id).toEqual("marker1");
   });
 });

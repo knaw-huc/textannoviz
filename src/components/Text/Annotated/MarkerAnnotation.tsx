@@ -54,14 +54,14 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   }
 
   return (
-    <div className="mb-10 mt-5">
+    <div className="mb-3 mt-10">
+      <hr />
       <div
-        className="mb-3 text-center text-sm text-gray-500 transition hover:cursor-pointer hover:text-gray-900 hover:underline"
+        className="mt-8 cursor-pointer text-center text-sm text-gray-500"
         onClick={pageBreakClickHandler}
       >
         ({props.marker.body.metadata.n ?? "page break"})
       </div>
-      <hr />
     </div>
   );
 }
