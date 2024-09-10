@@ -73,8 +73,7 @@ export class AnnotationSegmenter {
     for (let i = 0; i < this.allOffsetsAtCharIndex.length; i++) {
       const offsetsAtCharIndex = this.allOffsetsAtCharIndex[i];
       this.handleEndOffsets(offsetsAtCharIndex);
-      this.handleStartOffsets(offsetsAtCharIndex);
-      this.createLineSegment(offsetsAtCharIndex, i);
+      this.handleStartOffsets(offsetsAtCharIndex, i);
     }
 
     this.handleAnnotationlessEnd();
@@ -82,19 +81,23 @@ export class AnnotationSegmenter {
     return this.segments;
   }
 
-  private createLineSegment(offsetsAtCharIndex: OffsetsByCharIndex, i: number) {
+  private createSegmentWhenBodyAndAnnotations(
+    offsetsAtCharIndex: OffsetsByCharIndex,
+    i: number,
+  ): Segment[] {
     const nextOffsets: OffsetsByCharIndex | undefined =
       this.allOffsetsAtCharIndex[i + 1];
     if (!nextOffsets) {
-      return;
+      return [];
     }
     const segmentBody = this.line.slice(
       offsetsAtCharIndex.charIndex,
       nextOffsets.charIndex,
     );
-    if (segmentBody) {
-      this.segments.push(this.createSegmentFromLine(segmentBody));
+    if (!segmentBody) {
+      return [];
     }
+    return [this.createSegmentFromLine(segmentBody)];
   }
 
   private handleAnnotationlessStart() {
@@ -132,7 +135,10 @@ export class AnnotationSegmenter {
     }
   }
 
-  private handleStartOffsets(offsetsAtCharIndex: OffsetsByCharIndex) {
+  private handleStartOffsets(
+    offsetsAtCharIndex: OffsetsByCharIndex,
+    i: number,
+  ) {
     const startOffsets = offsetsAtCharIndex.offsets
       .filter((offset) => offset.mark === "start")
       .sort(this.byAnnotationSize.bind(this));
@@ -145,10 +151,13 @@ export class AnnotationSegmenter {
       this.currentAnnotationDepth,
     ])!;
 
-    this.segments.push(...this.createEmptyMarkerSegments(startOffsets));
+    this.segments.push(
+      ...this.createEmptyMarkerSegments(startOffsets),
+      ...this.createSegmentWhenBodyAndAnnotations(offsetsAtCharIndex, i),
+    );
   }
 
-  private createSegmentFromLine(lineFromCurrentToNextOffset: string) {
+  private createSegmentFromLine(lineFromCurrentToNextOffset: string): Segment {
     return {
       index: this.segments.length,
       body: lineFromCurrentToNextOffset,
