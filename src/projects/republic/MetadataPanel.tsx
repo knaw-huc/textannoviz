@@ -188,7 +188,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
               {(resolution.body as ResolutionBody).metadata.propositionType ? (
                 <li className="mb-8">
                   <div className={gridOneColumn}>
-                    <strong>Propositie type: </strong>
+                    <strong>Propositietype: </strong>
                     {(
                       resolution.body as ResolutionBody
                     ).metadata.propositionType
@@ -203,7 +203,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
               {(resolution.body as ResolutionBody).metadata.resolutionType ? (
                 <li className="mb-8">
                   <div className={gridOneColumn}>
-                    <strong>Resolutie type: </strong>
+                    <strong>Resolutietype: </strong>
                     {(resolution.body as ResolutionBody).metadata.resolutionType
                       .charAt(0)
                       .toUpperCase() +
