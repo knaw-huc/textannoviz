@@ -110,20 +110,23 @@ export class AnnotationSegmenter {
   }
 
   private handleAnnotationlessEnd() {
-    const lastCharWithAnnotation = this.allOffsetsAtCharIndex.at(-1)?.charIndex;
+    const lastOffsets = this.allOffsetsAtCharIndex.at(-1);
 
-    if (!lastCharWithAnnotation) {
+    // No annotations, already sorted by annotationless start:
+    if (!lastOffsets) {
       return;
     }
+
+    const lastAnnotatedChar = lastOffsets?.charIndex;
 
     // End offset excludes last char, so no .length-1:
     const lastChar = this.line.length;
 
-    const lineEndsWithAnnotation = lastCharWithAnnotation === lastChar;
+    const lineEndsWithAnnotation = lastAnnotatedChar === lastChar;
     if (!lineEndsWithAnnotation) {
       this.segments.push({
         index: 0,
-        body: this.line.slice(lastCharWithAnnotation, lastChar),
+        body: this.line.slice(lastAnnotatedChar, lastChar),
         annotations: [],
       });
     }
