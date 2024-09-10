@@ -81,7 +81,7 @@ export class AnnotationSegmenter {
     return this.segments;
   }
 
-  private createSegmentWhenBodyAndAnnotations(
+  private createSegmentWithBody(
     offsetsAtCharIndex: OffsetsByCharIndex,
     i: number,
   ): Segment[] {
@@ -152,8 +152,8 @@ export class AnnotationSegmenter {
     ])!;
 
     this.segments.push(
-      ...this.createEmptyMarkerSegments(startOffsets),
-      ...this.createSegmentWhenBodyAndAnnotations(offsetsAtCharIndex, i),
+      ...this.createBodilessMarkerSegments(startOffsets),
+      ...this.createSegmentWithBody(offsetsAtCharIndex, i),
     );
   }
 
@@ -165,7 +165,7 @@ export class AnnotationSegmenter {
     };
   }
 
-  private createEmptyMarkerSegments(
+  private createBodilessMarkerSegments(
     startOffsets: AnnotationOffset[],
   ): Segment[] {
     return startOffsets.filter(isMarkerAnnotationOffset).map((markerOffset) => {
