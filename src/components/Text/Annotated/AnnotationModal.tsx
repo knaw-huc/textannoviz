@@ -16,7 +16,8 @@ import {
   useProjectStore,
 } from "../../../stores/project.ts";
 import { ScrollableModal } from "./ScrollableModal.tsx";
-import { SpanModalButton } from "./SpanModalButton.tsx";
+import { DialogTrigger } from "react-aria-components";
+import { SpanButton } from "./SpanButton.tsx";
 
 type AnnotationModalProps = PropsWithChildren<{
   clickedGroup: GroupedSegments;
@@ -26,14 +27,12 @@ export function AnnotationModalButton(
   props: Optional<AnnotationModalProps, "clickedGroup">,
 ) {
   return (
-    <SpanModalButton
-      label={props.children}
-      modal={
-        props.clickedGroup && (
-          <AnnotationModal {...props} clickedGroup={props.clickedGroup} />
-        )
-      }
-    />
+    <DialogTrigger>
+      <SpanButton>{props.children}</SpanButton>
+      {props.clickedGroup && (
+        <AnnotationModal {...props} clickedGroup={props.clickedGroup} />
+      )}
+    </DialogTrigger>
   );
 }
 
@@ -42,6 +41,10 @@ export function AnnotationModal(props: AnnotationModalProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const entityAnnotationTypes = projectConfig.entityAnnotationTypes;
 
+  const annotationCount = props.clickedGroup.segments.flatMap(
+    (s) => s.annotations,
+  ).length;
+  const annotationCountClass = `annotations-${annotationCount}`;
   const { clickedGroup } = props;
   const entityBodies = clickedGroup
     ? _.unionBy(
@@ -57,7 +60,9 @@ export function AnnotationModal(props: AnnotationModalProps) {
     : [];
 
   return (
-    <ScrollableModal>
+    <ScrollableModal
+      className={`w-full max-w-7xl rounded-lg shadow-xl ${annotationCountClass}`}
+    >
       <StyledText panel="text-modal">
         <LineSegmentsViewer
           segments={clickedGroup.segments}
