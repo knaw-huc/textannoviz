@@ -5,6 +5,7 @@ import { HOSTS } from "../../Config";
 import {
   AnnoRepoAnnotation,
   AttendanceListBody,
+  RepublicEntityBody,
   ResolutionBody,
   ScanBody,
   SessionBody,
@@ -38,6 +39,27 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const session = props.annotations.find(
     (annotation) => annotation.body.type === "Session",
+  );
+
+  const entities = props.annotations.filter(
+    (anno) => anno.body.type === "Entity",
+  );
+
+  const hoeEntities = entities.filter(
+    (entity) => (entity.body as RepublicEntityBody).metadata.category === "HOE",
+  );
+  // const locEntities = entities.filter(
+  //   (entity) => (entity.body as RepublicEntityBody).metadata.category === "LOC",
+  // );
+  // const comEntities = entities.filter(
+  //   (entity) => (entity.body as RepublicEntityBody).metadata.category === "COM",
+  // );
+  // const orgEntities = entities.filter(
+  //   (entity) => (entity.body as RepublicEntityBody).metadata.category === "ORG",
+  // );
+  const perEntities = entities.filter(
+    (entity) =>
+      (entity.body as RepublicEntityBody).metadata.category === "PERS",
   );
 
   const gridOneColumn = "grid grid-cols-1";
@@ -309,10 +331,58 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     return <div>No panel defined for this annotation type.</div>;
   }
 
+  function renderHoeEntities() {
+    return (
+      <>
+        <strong>Hoedanigheden</strong>
+        {hoeEntities.map((hoeEntity, index) => (
+          <ul key={index}>
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                Name: {(hoeEntity.body as RepublicEntityBody).metadata.name}
+              </div>
+              <div className={gridOneColumn}>
+                Labels:{" "}
+                {(
+                  hoeEntity.body as RepublicEntityBody
+                ).metadata.entityLabels.join(", ")}
+              </div>
+            </li>
+          </ul>
+        ))}
+      </>
+    );
+  }
+
+  function renderPerEntities() {
+    return (
+      <>
+        <strong>Personen</strong>
+        {perEntities.map((perEntity, index) => (
+          <ul key={index}>
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                Name: {(perEntity.body as RepublicEntityBody).metadata.name}
+              </div>
+              <div className={gridOneColumn}>
+                Labels:{" "}
+                {(
+                  perEntity.body as RepublicEntityBody
+                ).metadata.entityLabels.join(", ")}
+              </div>
+            </li>
+          </ul>
+        ))}
+      </>
+    );
+  }
+
   return (
     <>
       {params.tier0 && params.tier1 ? renderMetadataPanelScanView() : null}
       {params.tier2 ? renderMetadataPanelAnnotationView() : null}
+      {hoeEntities ? renderHoeEntities() : null}
+      {perEntities ? renderPerEntities() : null}
     </>
   );
 };
