@@ -1,10 +1,11 @@
-import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { Button } from "react-aria-components";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { ArrowRotateLeft } from "../common/icons/ArrowRotateLeft.tsx";
 
 type DateFacetProps = {
   dateTo: string;
@@ -78,12 +79,9 @@ export function DateFacet(props: DateFacetProps) {
           <span className="validity" />
         </form>
       </div>
-      <div>
-        <ArrowPathIcon
-          className="mt-7 h-5 w-5 cursor-pointer"
-          onClick={resetClickHandler}
-        />
-      </div>
+      <Button onPress={resetClickHandler}>
+        <ArrowRotateLeft />
+      </Button>
     </div>
   );
 }

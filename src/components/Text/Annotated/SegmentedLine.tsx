@@ -1,14 +1,14 @@
-import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
-import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
+import { useEffect, useState } from "react";
 import {
   AnnotationGroup,
   isNestedAnnotationSegment,
   LineOffsets,
   Segment,
 } from "./AnnotationModel.ts";
-import { useEffect, useState } from "react";
-import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
 import { SegmentGroup } from "./SegmentGroup.tsx";
+import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
+import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
+import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 
 export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   const { line, offsets } = props;

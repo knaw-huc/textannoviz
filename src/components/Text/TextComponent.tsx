@@ -38,7 +38,7 @@ export const TextComponent = (props: TextComponentProps) => {
   }
 
   return (
-    <div className="relative w-6/12 grow self-stretch">
+    <div className="flex h-full w-6/12 grow flex-col self-stretch">
       <div className="sr-only">
         <h1>Resolutie</h1>
       </div>
@@ -49,7 +49,7 @@ export const TextComponent = (props: TextComponentProps) => {
           panels={panelsToRender}
         />
       ) : null}
-      <div className="flex h-[calc(100vh-79px)] flex-row overflow-auto">
+      <div className="flex h-[calc(100vh-150px)] flex-row overflow-auto">
         {textPanels && !props.isLoading ? (
           <TextPanels
             panels={panelsToRender}

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
 import { Footer } from "./components/Footer/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
+import { NOTES_VIEW } from "./components/Text/Annotated/FootnoteTooltip.tsx";
 import { TextComponent } from "./components/Text/TextComponent";
 import { Broccoli } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
@@ -12,7 +13,6 @@ import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
 import { useTextStore } from "./stores/text";
 import { fetchBroccoliScanWithOverlap } from "./utils/broccoli";
-import { NOTES_VIEW } from "./components/Text/Annotated/FootnoteTooltip.tsx";
 
 interface DetailProps {
   project: string;
@@ -124,17 +124,15 @@ export const Detail = (props: DetailProps) => {
             />
             {showAnnotationPanel ? <Annotation isLoading={isLoading} /> : null}
           </main>
-          <div>
-            <Footer
-              showIiifViewerHandler={showIiifViewerHandler}
-              showAnnotationPanelHandler={showAnnotationPanelHandler}
-              showSearchResultsHandler={showSearchResultsHandler}
-              showSearchResultsDisabled={globalSearchResults === undefined}
-              facsimileShowState={showIiifViewer}
-              panelShowState={showAnnotationPanel}
-              searchResultsShowState={showSearchResults}
-            />
-          </div>
+          <Footer
+            showIiifViewerHandler={showIiifViewerHandler}
+            showAnnotationPanelHandler={showAnnotationPanelHandler}
+            showSearchResultsHandler={showSearchResultsHandler}
+            showSearchResultsDisabled={globalSearchResults === undefined}
+            facsimileShowState={showIiifViewer}
+            panelShowState={showAnnotationPanel}
+            searchResultsShowState={showSearchResults}
+          />
         </>
       ) : (
         <div className="flex flex-col gap-2 pl-2 pt-2">

@@ -12,6 +12,17 @@ type Action = {
  */
 export const defaultMiradorConfig: MiradorConfig = {
   id: "mirador",
+  theme: {
+    palette: {
+      annotations: {
+        default: {
+          strokeStyle: "yellow",
+        },
+        hovered: { strokeStyle: "yellow" },
+        selected: { strokeStyle: "yellow" },
+      },
+    },
+  },
   window: {
     allowClose: false,
     allowWindowSideBar: true,
