@@ -134,7 +134,6 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].annotations).toEqual([]);
   });
 
-  // TODO: should fail:
   it("keeps annotationless text in between annotations", () => {
     // <aa>bb<cc>
     const segments = new AnnotationSegmenter("aabbcc", [

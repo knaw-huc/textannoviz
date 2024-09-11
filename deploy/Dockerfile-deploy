@@ -7,6 +7,7 @@ COPY ./package-lock.json /textannoviz/package-lock.json
 RUN npm ci --force
 
 COPY . .
+RUN npm test
 RUN npm run build
 
 FROM nginx:stable-alpine

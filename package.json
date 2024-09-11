@@ -1,6 +1,6 @@
 {
   "name": "textannoviz",
-  "version": "0.15.6",
+  "version": "0.15.8",
   "description": "",
   "private": true,
   "type": "module",
@@ -9,7 +9,8 @@
     "build": "vite build --config vite.config.prod.ts",
     "preview": "vite preview",
     "prepare": "husky install",
-    "test": "vitest"
+    "test": "vitest run",
+    "test-watch": "vitest"
   },
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
