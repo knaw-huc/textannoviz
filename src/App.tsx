@@ -42,6 +42,7 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
       initialRangeTo,
       maxRange,
       broccoliUrl,
+      annotationTypesToInclude,
     } = externalConfig;
 
     config.elasticIndexName = indexName;
@@ -51,6 +52,8 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
     if (initialRangeTo) config.initialRangeTo = initialRangeTo;
     if (maxRange) config.maxRange = maxRange;
     if (broccoliUrl) config.broccoliUrl = broccoliUrl;
+    if (annotationTypesToInclude)
+      config.annotationTypesToInclude = annotationTypesToInclude;
   }
 }
 
