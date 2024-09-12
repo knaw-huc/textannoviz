@@ -19,4 +19,4 @@ sed \
 
 docker build -t $TAG --platform=linux/amd64 -f deploy/Dockerfile-deploy .
 
-#docker push $TAG
+docker push $TAG
