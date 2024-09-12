@@ -16,7 +16,7 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
-import { gridOneColumn } from "../../utils/gridOneColum";
+import { gridOneColumn } from "../../utils/gridOneColumn";
 import { monthNumberToString } from "../../utils/monthNumberToString";
 
 type RenderMetadataPanelProps = {
