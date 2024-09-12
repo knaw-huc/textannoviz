@@ -10,7 +10,17 @@
     "preview": "vite preview",
     "prepare": "husky install",
     "test": "vitest run",
-    "test-watch": "vitest"
+    "test-watch": "vitest",
+
+    "docker:build-push:globalise": "./scripts/docker-globalise-all.sh",
+    "docker:build-push:globalise-demo": "./scripts/docker-globalise-demo-all.sh",
+    "docker:build-push:hooft": "./scripts/docker-hooft-all.sh",
+    "docker:build-push:mondriaan": "./scripts/docker-mondriaan-all.sh",
+    "docker:build-push:republic": "./scripts/docker-republic-all.sh",
+    "docker:build-push:republic-test": "./scripts/docker-republic-test-all.sh",
+    "docker:build-push:suriano": "./scripts/docker-suriano-all.sh",
+    "docker:build-push:translatin": "./scripts/docker-translatin-all.sh",
+    "docker:build-push:vangogh": "./scripts/docker-vangogh-all.sht"
   },
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
