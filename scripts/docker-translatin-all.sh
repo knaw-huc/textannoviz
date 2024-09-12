@@ -2,8 +2,8 @@
 
 export VERSION=$(npm pkg get version | tr -d \")
 export DOCKER_DOMAIN=registry.diginfra.net/tt
-export PROJECT=mondriaan
-export TITLE="Textannoviz - Mondriaan"
+export PROJECT=translatin
+export TITLE="Textannoviz - Translatin"
 export TAG=${DOCKER_DOMAIN}/textannoviz-${PROJECT}-frontend:${VERSION}
 
-./docker-build-push.sh
+./scripts/docker-build-push.sh

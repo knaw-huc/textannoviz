@@ -6,4 +6,4 @@ PROJECT=globalise
 TITLE="Textannoviz - Globalise"
 TAG=${DOCKER_DOMAIN}/textannoviz-${PROJECT}-frontend:${VERSION}
 
-./docker-build-push.sh
+./scripts/docker-build-push.sh

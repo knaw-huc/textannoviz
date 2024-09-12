@@ -6,4 +6,4 @@ export PROJECT=republic
 export TITLE="Textannoviz - Republic"
 export TAG=${DOCKER_DOMAIN}/textannoviz-${PROJECT}-test-frontend:${VERSION}
 
-./docker-build-push.sh
+./scripts/docker-build-push.sh

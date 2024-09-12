@@ -6,4 +6,4 @@ export PROJECT=globalise
 export TITLE="Globalise Transcriptions Viewer"
 export TAG=${DOCKER_DOMAIN}/textannoviz-${PROJECT}-demo-frontend:${VERSION}
 
-./docker-build-push.sh
+./scripts/docker-build-push.sh
