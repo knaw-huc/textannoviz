@@ -1,6 +1,6 @@
 {
   "name": "textannoviz",
-  "version": "0.15.9",
+  "version": "0.15.10",
   "description": "",
   "private": true,
   "type": "module",
@@ -11,7 +11,6 @@
     "prepare": "husky install",
     "test": "vitest run",
     "test-watch": "vitest",
-
     "docker:build-push:globalise": "./scripts/docker-globalise-all.sh",
     "docker:build-push:globalise-demo": "./scripts/docker-globalise-demo-all.sh",
     "docker:build-push:hooft": "./scripts/docker-hooft-all.sh",
