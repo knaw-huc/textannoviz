@@ -61,7 +61,7 @@ export function AnnotationModal(props: AnnotationModalProps) {
 
   return (
     <ScrollableModal
-      className={`w-full max-w-7xl rounded-lg shadow-xl ${annotationCountClass}`}
+      className={`w-full max-w-4xl rounded-lg shadow-xl ${annotationCountClass}`}
     >
       <StyledText panel="text-modal">
         <LineSegmentsViewer

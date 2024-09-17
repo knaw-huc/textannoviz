@@ -235,10 +235,24 @@
 
   /* Marker annotations */
   .marker {
-    color: #008a8a;
+    height: 24px;
+    width: 24px;
+    background-color: white;
+    border: 1px solid #333;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    font-size: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+    transform: translate(0px, -5px);
+
+    /* color: #008a8a;
     &:hover {
       text-decoration: underline;
-    }
+    } */
   }
 }
 

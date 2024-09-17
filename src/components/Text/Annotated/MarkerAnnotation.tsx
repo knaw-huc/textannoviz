@@ -54,13 +54,21 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   }
 
   return (
-    <div className="mb-3 mt-10">
-      <hr />
-      <div
-        className="mt-8 cursor-pointer text-center text-sm text-gray-500"
-        onClick={pageBreakClickHandler}
-      >
-        ({props.marker.body.metadata.n ?? "page break"})
+    <div className="mb-3 mt-10 border-t border-neutral-200">
+      <div className="group flex -translate-x-0 -translate-y-4 gap-2 font-sans text-xs text-neutral-600">
+        <button
+          className="inline-flex rounded border border-neutral-200 bg-white px-2 py-1  "
+          onClick={pageBreakClickHandler}
+        >
+          {" "}
+          ←{" "}
+          <span className="hidden w-0 transition group-hover:inline-block group-hover:w-24">
+            Show facsimile
+          </span>
+        </button>
+        <div className="inline-flex rounded border border-neutral-200 bg-white px-2 py-1  ">
+          Page ({props.marker.body.metadata.n ?? "page break"})
+        </div>
       </div>
     </div>
   );
