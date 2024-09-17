@@ -2,12 +2,16 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
+import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
-import { getEntityCategory } from "./getEntityCategory.ts";
+import { getEntityCategory } from "../annotation/getEntityCategory.ts";
+import {
+  isEntity,
+  projectEntityTypes,
+} from "../annotation/ProjectAnnotationModel.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -34,10 +38,12 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "DateOccurrence",
   ],
   showAnnotations: true,
-  annotationTypesToHighlight: ["Entity", "DateOccurrence"],
-  allowedAnnotationTypesToHighlight: ["Entity", "DateOccurrence"],
-  entityAnnotationTypes: ["Entity", "DateOccurrence"],
+
+  annotationTypesToHighlight: projectEntityTypes,
+  allowedAnnotationTypesToHighlight: projectEntityTypes,
+  entityAnnotationTypes: projectEntityTypes,
   getEntityCategory: getEntityCategory,
+  isEntity: isEntity,
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,

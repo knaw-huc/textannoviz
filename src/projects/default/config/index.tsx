@@ -6,6 +6,7 @@ import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getEntityCategory } from "./getEntityCategory.ts";
+import { isEntity } from "./isEntity.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -36,6 +37,8 @@ export const defaultConfig: Omit<
   pageMarkerAnnotationTypes: [],
   entityAnnotationTypes: ["Entity"],
   getEntityCategory: getEntityCategory,
+  isEntity: isEntity,
+
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
   showSearchSortBy: true,

@@ -8,9 +8,9 @@ import {
   normalizeEntityCategory,
   toEntityClassname,
 } from "./utils/createAnnotationClasses.ts";
-import { EntityBody } from "../../../model/AnnoRepoAnnotation.ts";
+import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 
-export function EntitySummary(props: { body: EntityBody }) {
+export function EntitySummary(props: { body: AnnoRepoBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
 

@@ -2,7 +2,7 @@ import { SearchQuery } from "../stores/search/search-query-slice.ts";
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,
-  EntityBody,
+  AnnoRepoBodyBase,
 } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import {
@@ -12,8 +12,10 @@ import {
   TranslatinSearchResultsBody,
 } from "./Search.ts";
 
+export type ProjectEntityBody = AnnoRepoBodyBase;
+
 export type EntitySummaryDetailsProps = {
-  body: EntityBody;
+  body: ProjectEntityBody;
 };
 
 export type EntityCategoryGetter = (annoRepoBoby: AnnoRepoBody) => string;
@@ -31,13 +33,32 @@ export interface ProjectConfig {
   relativeTo: string;
 
   showAnnotations: boolean;
+  /**
+   * Annotation types to load from the backend
+   */
   annotationTypesToInclude: string[];
+  /**
+   * Default annotation types that are highlighted in the text
+   */
   annotationTypesToHighlight: string[];
+  /**
+   * All annotations that are potentially highlightable
+   */
   allowedAnnotationTypesToHighlight: string[];
+  /**
+   * Footnote markers, showing a tooltip with the note
+   */
   footnoteMarkerAnnotationTypes: string[];
+  /**
+   * Annotations marking the start or end of a page
+   */
   pageMarkerAnnotationTypes: string[];
+  /**
+   * Annotations that can be clicked and opened in the detail viewer
+   */
   entityAnnotationTypes: string[];
   getEntityCategory: EntityCategoryGetter;
+  isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   elasticIndexName: string;
   initialDateFrom: string;

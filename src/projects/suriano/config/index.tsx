@@ -3,11 +3,17 @@ import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
-import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
+import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 import { getEntityCategory } from "./getEntityCategory.ts";
+
+import {
+  projectEntityTypes,
+  projectFootnoteMarkerAnnotationTypes,
+  projectPageMarkerAnnotationTypes,
+} from "../annotation/ProjectAnnotationModel.ts";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -66,18 +72,19 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "self",
   ],
   defaultTextPanels: ["self"],
-
   showAnnotations: true,
-  annotationTypesToHighlight: ["tf:Ent"],
-  allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
-  footnoteMarkerAnnotationTypes: ["tei:Ptr"],
-  pageMarkerAnnotationTypes: ["tf:Page"],
-  entityAnnotationTypes: ["tf:Ent"],
+
+  annotationTypesToHighlight: projectEntityTypes,
+  allowedAnnotationTypesToHighlight: projectEntityTypes,
+  entityAnnotationTypes: projectEntityTypes,
+  footnoteMarkerAnnotationTypes: projectFootnoteMarkerAnnotationTypes,
+  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+
   getEntityCategory: getEntityCategory,
 
   showPrevNextScanButtons: true,
   pageAnnotation: "tf:Page",
-  elasticIndexName: "suriano-0.5.1e-024",
+  elasticIndexName: "suriano-0.6.0e-025",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
