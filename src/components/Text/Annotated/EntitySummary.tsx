@@ -33,7 +33,7 @@ export function EntitySummary(props: { body: EntityBody }) {
       <div className="flex gap-4">
         <div>
           <button
-            className="rounded border border-neutral-300 px-3 py-1 transition hover:bg-neutral-200"
+            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
             // TODO:
             onClick={() => toast("Not implemented", { type: "info" })}
           >
@@ -47,7 +47,7 @@ export function EntitySummary(props: { body: EntityBody }) {
 
         <div>
           <button
-            className="rounded border border-neutral-300 px-3 py-1 transition hover:bg-neutral-200"
+            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
             // TODO:
             onClick={() => toast("Not implemented", { type: "info" })}
           >
