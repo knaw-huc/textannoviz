@@ -21,8 +21,6 @@ export function createAnnotationClasses(
     "cursor-pointer",
     "depth-" + annotation.depth,
   );
-
-  console.log("annotation.body.type", annotation.body.type);
   if (entityTypes.includes(annotation.body.type)) {
     const category = getEntityCategory(annotation.body);
     classes.push(toEntityClassname(category));
