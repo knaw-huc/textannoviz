@@ -54,20 +54,19 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   }
 
   return (
-    <div className="mb-3 mt-10 border-t border-neutral-200">
-      <div className="group flex -translate-x-0 -translate-y-4 gap-2 font-sans text-xs text-neutral-600">
+    <div className="-ml-7 mt-20 border-t border-neutral-100">
+      <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-600">
         <button
-          className="inline-flex rounded border border-neutral-200 bg-white px-2 py-1  "
+          className="inline-flex rounded border border-neutral-200 bg-white px-1 py-1  "
           onClick={pageBreakClickHandler}
           aria-label="Click to show the facsimile"
         >
-          {" "}
-          ←{" "}
-          <span className="hidden w-0 transition group-hover:inline-block group-hover:w-24">
+          ←
+          <span className="hidden transition group-hover:inline-block ">
             Show facsimile
           </span>
         </button>
-        <div className="inline-flex rounded border border-neutral-200 bg-white px-2 py-1  ">
+        <div className="border2 inline-flex rounded border-neutral-200 bg-white px-2 py-1  ">
           Page ({props.marker.body.metadata.n ?? "page break"})
         </div>
       </div>
