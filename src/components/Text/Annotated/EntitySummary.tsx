@@ -5,7 +5,6 @@ import {
   useProjectStore,
 } from "../../../stores/project.ts";
 import {
-  getEntityCategory,
   normalizeEntityCategory,
   toEntityClassname,
 } from "./utils/createAnnotationClasses.ts";
@@ -14,12 +13,11 @@ import { EntityBody } from "../../../model/AnnoRepoAnnotation.ts";
 export function EntitySummary(props: { body: EntityBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const annotationCategoryPath = projectConfig.entityCategoryPath;
 
   const { body } = props;
 
   const entityCategory = normalizeEntityCategory(
-    getEntityCategory(body, annotationCategoryPath),
+    projectConfig.getEntityCategory(body),
   );
   const entityClassname = toEntityClassname(entityCategory);
   return (

@@ -7,6 +7,7 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
+import { getEntityCategory } from "./getEntityCategory.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -30,12 +31,13 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Entity",
     // "TextRegion",
     "Page",
+    "DateOccurrence",
   ],
   showAnnotations: true,
-  annotationTypesToHighlight: ["Entity"],
-  allowedAnnotationTypesToHighlight: ["Entity"],
-  entityAnnotationTypes: ["Entity"],
-  entityCategoryPath: "metadata.category",
+  annotationTypesToHighlight: ["Entity", "DateOccurrence"],
+  allowedAnnotationTypesToHighlight: ["Entity", "DateOccurrence"],
+  entityAnnotationTypes: ["Entity", "DateOccurrence"],
+  getEntityCategory: getEntityCategory,
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,

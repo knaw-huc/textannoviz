@@ -5,6 +5,7 @@ import { AnnotationItem } from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
+import { getEntityCategory } from "./getEntityCategory.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -34,8 +35,7 @@ export const defaultConfig: Omit<
   footnoteMarkerAnnotationTypes: [],
   pageMarkerAnnotationTypes: [],
   entityAnnotationTypes: ["Entity"],
-  entityCategoryPath: "metadata.category",
-
+  getEntityCategory: getEntityCategory,
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
   showSearchSortBy: true,

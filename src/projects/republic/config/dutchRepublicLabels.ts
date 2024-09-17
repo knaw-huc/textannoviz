@@ -32,6 +32,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   self: "Tekst",
 
   COM: "commissie",
+  DAT: "datum",
   HOE: "hoedanigheid",
   LOC: "locatie",
   ORG: "organisatie",

@@ -6,14 +6,13 @@ import {
   Segment,
 } from "../AnnotationModel.ts";
 import { Any } from "../../../../utils/Any.ts";
-import _ from "lodash";
-import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
+import { EntityCategoryGetter } from "../../../../model/ProjectConfig.ts";
 
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
   entityTypes: string[],
-  entityCategory: string,
+  getEntityCategory: EntityCategoryGetter,
 ) {
   const classes = [];
   classes.push(
@@ -23,8 +22,9 @@ export function createAnnotationClasses(
     "depth-" + annotation.depth,
   );
 
+  console.log("annotation.body.type", annotation.body.type);
   if (entityTypes.includes(annotation.body.type)) {
-    const category = getEntityCategory(annotation.body, entityCategory);
+    const category = getEntityCategory(annotation.body);
     classes.push(toEntityClassname(category));
   }
   classes.push(...createStartEndClasses(segment, annotation));
@@ -63,6 +63,7 @@ function createStartEndClasses(
 
 const dataToEntityCategory = {
   COM: "COM",
+  DAT: "DAT",
   HOE: "HOE",
   LOC: "LOC",
   ORG: "ORG",
@@ -87,11 +88,4 @@ export function normalizeEntityCategory(annotationCategory?: string) {
     return unknownCategory;
   }
   return dataToEntityCategory[annotationCategory] ?? unknownCategory;
-}
-
-export function getEntityCategory(
-  annoRepoBody: AnnoRepoBody,
-  entityCategoryPath: string,
-) {
-  return _.get(annoRepoBody, entityCategoryPath);
 }

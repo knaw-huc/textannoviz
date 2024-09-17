@@ -1,5 +1,9 @@
 import { SearchQuery } from "../stores/search/search-query-slice.ts";
-import { AnnoRepoAnnotation, EntityBody } from "./AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  AnnoRepoBody,
+  EntityBody,
+} from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import {
   GlobaliseSearchResultsBody,
@@ -11,6 +15,8 @@ import {
 export type EntitySummaryDetailsProps = {
   body: EntityBody;
 };
+
+export type EntityCategoryGetter = (annoRepoBoby: AnnoRepoBody) => string;
 
 export interface ProjectConfig {
   id: string;
@@ -31,7 +37,7 @@ export interface ProjectConfig {
   footnoteMarkerAnnotationTypes: string[];
   pageMarkerAnnotationTypes: string[];
   entityAnnotationTypes: string[];
-  entityCategoryPath: string;
+  getEntityCategory: EntityCategoryGetter;
 
   elasticIndexName: string;
   initialDateFrom: string;
