@@ -59,6 +59,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
         <button
           className="inline-flex rounded border border-neutral-200 bg-white px-2 py-1  "
           onClick={pageBreakClickHandler}
+          aria-label="Click to show the facsimile"
         >
           {" "}
           ←{" "}

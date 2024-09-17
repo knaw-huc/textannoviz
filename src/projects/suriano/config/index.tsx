@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
+import logo from "../../../assets/logo-correspondense-of-Suriano.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
@@ -87,8 +87,8 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-100 text-brand1-700",
-  headerTitle: "The Correspondence of Christofforo Suriano",
+  headerColor: "bg-brand2-800 text-white",
+  headerTitle: "",
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
