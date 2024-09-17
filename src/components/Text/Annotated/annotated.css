@@ -50,6 +50,11 @@
     @apply before:content-[url('/src/assets/icon-annotation-organisation.svg')];
   }
 
+  .underlined-dat.start-annotation,
+  .underlined-dat.annotationMarker {
+    @apply before:content-[url('/src/assets/icon-annotation-date.svg')];
+  }
+
   .underlined-com.start-annotation,
   .underlined-com.annotationMarker {
     @apply before:content-[url('/src/assets/icon-annotation-commision.svg')];
@@ -84,6 +89,9 @@
   .fullNestedAnnotation .depth-1.underlined-org {
     @apply bg-annotation-org500/10;
   }
+  .fullNestedAnnotation .depth-1.underlined-dat {
+    @apply bg-annotation-dat500/10;
+  }
 
   /* layer 2 */
   .fullNestedAnnotation .depth-2 {
@@ -103,6 +111,9 @@
   }
   .fullNestedAnnotation .depth-2.underlined-org {
     @apply border-t-annotation-org500 bg-none;
+  }
+  .fullNestedAnnotation .depth-2.underlined-dat {
+    @apply border-t-annotation-dat500 bg-none;
   }
 
   .fullNestedAnnotation .depth-2.start-annotation {
@@ -128,6 +139,9 @@
   .fullNestedAnnotation .depth-3.underlined-org {
     @apply border-b-annotation-org500 bg-none;
   }
+  .fullNestedAnnotation .depth-3.underlined-dat {
+    @apply border-b-annotation-dat500 bg-none;
+  }
   .fullNestedAnnotation .depth-3.start-annotation {
     @apply before:-top-5 before:translate-y-7;
   }
@@ -150,6 +164,9 @@
   }
   .fullNestedAnnotation .depth-4.underlined-org {
     @apply border-t-annotation-org500 bg-none;
+  }
+  .fullNestedAnnotation .depth-4.underlined-dat {
+    @apply border-t-annotation-dat500 bg-none;
   }
 
   .fullNestedAnnotation .depth-4.start-annotation {
@@ -174,6 +191,9 @@
   }
   .fullNestedAnnotation .depth-5.underlined-org {
     @apply border-b-annotation-org500 bg-none;
+  }
+  .fullNestedAnnotation .depth-5.underlined-dat {
+    @apply border-b-annotation-dat500 bg-none;
   }
   .fullNestedAnnotation .depth-5.start-annotation {
     @apply before:-top-5 before:translate-y-10;
@@ -203,6 +223,9 @@
   }
   .closedNestedAnnotation .annotated-segment > .underlined-org {
     @apply bg-annotation-org100;
+  }
+  .closedNestedAnnotation .annotated-segment > .underlined-dat {
+    @apply bg-annotation-dat100;
   }
 
   .depth-1.start-annotation {
