@@ -53,6 +53,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
     }
   }
 
+  const pageNumber = props.marker.body.metadata.n;
   return (
     <div className="-ml-7 mt-20 border-t border-neutral-100">
       <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-600">
@@ -67,7 +68,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
           </span>
         </button>
         <div className="border2 inline-flex rounded border-neutral-200 bg-white px-2 py-1  ">
-          Page ({props.marker.body.metadata.n ?? "page break"})
+          {pageNumber ? `Page ${pageNumber}` : "page break"}
         </div>
       </div>
     </div>
@@ -81,7 +82,7 @@ export function FootnoteMarkerAnnotation(props: { marker: MarkerSegment }) {
   return (
     <span className={classNames.join(" ")}>
       <FootnoteTooltipMarkerButton clickedMarker={marker}>
-        [{marker.body.metadata.n ?? "*"}]
+        {marker.body.metadata.n ?? "*"}
       </FootnoteTooltipMarkerButton>
     </span>
   );
