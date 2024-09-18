@@ -319,7 +319,7 @@ export function SearchForm(props: SearchFormProps) {
           />
         </div>
       )}
-
+      {/* keyword facetten ombouwen in checkbox facetten? Dat is dan een combi van keyword en nested facetten. Daar dan overheen lopen */}
       {projectConfig.showKeywordFacets &&
         !isEmpty(props.keywordFacets) &&
         filteredAggs.map((facetName, index) => {
