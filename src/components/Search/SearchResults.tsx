@@ -12,7 +12,7 @@ import {
 import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
-import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
+import { CheckboxFacetLabel } from "./CheckboxFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
 import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
 import { SearchSorting, Sorting } from "./SearchSorting.tsx";
@@ -194,7 +194,7 @@ export function SearchResults(props: SearchResultsProps) {
                 ([facetOptionName, facetOptions]) =>
                   facetOptions.map((facetOption, index) => {
                     return (
-                      <KeywordFacetLabel
+                      <CheckboxFacetLabel
                         key={index}
                         option={facetOption}
                         facet={facetOptionName}

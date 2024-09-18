@@ -64,7 +64,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
       size: 250,
     },
   ],
-  defaultKeywordAggsToRender: [
+  defaultCheckboxAggsToRender: [
     "propositionType",
     "textType",
     "resolutionType",

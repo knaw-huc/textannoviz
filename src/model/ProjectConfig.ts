@@ -54,7 +54,7 @@ export interface ProjectConfig {
   headerColor: string;
   showSearchQueryHistory: boolean;
   showDateFacets: boolean;
-  showKeywordFacets: boolean;
+  showCheckboxFacets: boolean;
   showSliderFacets: boolean;
   showSelectedFilters: boolean;
   showNewSearchButton: boolean;
@@ -76,7 +76,7 @@ export interface ProjectConfig {
     order: string;
     size: number;
   }[];
-  defaultKeywordAggsToRender: string[];
+  defaultCheckboxAggsToRender: string[];
   showFacetFilter: boolean;
   pageAnnotation: string;
   showPrevNextScanButtons: boolean;

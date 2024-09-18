@@ -12,12 +12,12 @@ import {
   SearchQuery,
 } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { CheckboxFacet } from "./CheckboxFacet.tsx";
 import { DateFacet } from "./DateFacet.tsx";
 import { FacetFilter } from "./FacetFilter.tsx";
 import { FragmenterSelection } from "./FragmenterSelection.tsx";
 import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
 import { InputFacet } from "./InputFacet.tsx";
-import { KeywordFacet } from "./KeywordFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
 import { ShowLessButton } from "./ShowLessButton.tsx";
@@ -27,7 +27,7 @@ import { removeTerm } from "./util/removeTerm.ts";
 
 interface SearchFormProps {
   onSearch: () => void;
-  keywordFacets: FacetEntry[];
+  checkboxFacets: FacetEntry[];
   updateAggs: (query: SearchQuery) => void;
 }
 
@@ -64,13 +64,13 @@ export function SearchForm(props: SearchFormProps) {
 
   React.useEffect(() => {
     if (defaultAggsIsInit) return;
-    if (!isEmpty(props.keywordFacets)) {
-      const initialFilteredAggs = props.keywordFacets.reduce<string[]>(
-        (accumulator, keywordFacet) => {
+    if (!isEmpty(props.checkboxFacets)) {
+      const initialFilteredAggs = props.checkboxFacets.reduce<string[]>(
+        (accumulator, checkboxFacet) => {
           if (
-            projectConfig.defaultKeywordAggsToRender.includes(keywordFacet[0])
+            projectConfig.defaultCheckboxAggsToRender.includes(checkboxFacet[0])
           ) {
-            accumulator.push(keywordFacet[0]);
+            accumulator.push(checkboxFacet[0]);
           }
           return accumulator;
         },
@@ -79,9 +79,9 @@ export function SearchForm(props: SearchFormProps) {
       setDefaultAggsIsInit(true);
       setFilteredAggs(initialFilteredAggs);
     }
-  }, [props.keywordFacets, projectConfig.defaultKeywordAggsToRender]);
+  }, [props.checkboxFacets, projectConfig.defaultCheckboxAggsToRender]);
 
-  function updateKeywordFacet(
+  function updateCheckboxFacet(
     facetName: string,
     facetOptionName: string,
     selected: boolean,
@@ -235,7 +235,7 @@ export function SearchForm(props: SearchFormProps) {
 
   function facetFilterChangeHandler(keys: Selection) {
     const updatedFilteredAggs = Array.from(keys) as string[];
-    const orderedFilteredAggs = props.keywordFacets
+    const orderedFilteredAggs = props.checkboxFacets
       .map((facet) => facet[0])
       .filter((facetName) => updatedFilteredAggs.includes(facetName));
     setFilteredAggs(orderedFilteredAggs);
@@ -310,20 +310,20 @@ export function SearchForm(props: SearchFormProps) {
         />
       )}
 
-      {projectConfig.showFacetFilter && props.keywordFacets.length !== 0 && (
+      {projectConfig.showFacetFilter && props.checkboxFacets.length !== 0 && (
         <div className="flex w-full max-w-[450px] flex-col gap-4">
           <FacetFilter
-            allPossibleKeywordFacets={props.keywordFacets}
-            filteredKeywordFacets={filteredAggs}
+            allPossibleCheckboxFacets={props.checkboxFacets}
+            filteredCheckboxFacets={filteredAggs}
             facetFilterChangeHandler={facetFilterChangeHandler}
           />
         </div>
       )}
       {/* keyword facetten ombouwen in checkbox facetten? Dat is dan een combi van keyword en nested facetten. Daar dan overheen lopen */}
-      {projectConfig.showKeywordFacets &&
-        !isEmpty(props.keywordFacets) &&
+      {projectConfig.showCheckboxFacets &&
+        !isEmpty(props.checkboxFacets) &&
         filteredAggs.map((facetName, index) => {
-          const facetValue = props.keywordFacets.find(
+          const facetValue = props.checkboxFacets.find(
             (facet) => facet[0] === facetName,
           )?.[1];
 
@@ -333,11 +333,11 @@ export function SearchForm(props: SearchFormProps) {
                 key={index}
                 className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
               >
-                <KeywordFacet
+                <CheckboxFacet
                   facetName={facetName}
                   facet={facetValue}
                   selectedFacets={searchQuery.terms}
-                  onChangeKeywordFacet={updateKeywordFacet}
+                  onChangeCheckboxFacet={updateCheckboxFacet}
                   onSearch={props.onSearch}
                   updateAggs={props.updateAggs}
                 />

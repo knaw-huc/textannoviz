@@ -5,7 +5,7 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 
-export function KeywordFacetLabel(props: {
+export function CheckboxFacetLabel(props: {
   option: FacetOptionName;
   facet: FacetName;
   onRemove: (facet: string, option: string) => void;

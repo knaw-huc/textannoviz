@@ -30,7 +30,7 @@ export const Search = () => {
   const [isInit, setInit] = useState(false);
   const [isDirty, setDirty] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
-  const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
+  const [checkboxFacets, setCheckboxFacets] = useState<FacetEntry[]>([]);
   const [urlParams, setUrlParams] = useSearchParams();
   const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
     dateFrom: "",
@@ -104,6 +104,8 @@ export const Search = () => {
         "keyword",
       );
 
+      const newCheckboxFacets = newKeywordFacets;
+
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
         aggs: aggregations,
@@ -121,7 +123,7 @@ export const Search = () => {
         newSearchQuery.rangeFacet = "text.tokenCount";
       }
 
-      setKeywordFacets(newKeywordFacets);
+      setCheckboxFacets(newCheckboxFacets);
       setSearchFacetTypes(newFacetTypes);
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
@@ -136,7 +138,7 @@ export const Search = () => {
         );
         if (searchResults) {
           setSearchResults(searchResults.results);
-          setKeywordFacets(searchResults.facets);
+          setCheckboxFacets(searchResults.facets);
         }
         setShowingResults(true);
       }
@@ -169,7 +171,7 @@ export const Search = () => {
       );
       if (searchResults) {
         setSearchResults(searchResults.results);
-        setKeywordFacets(searchResults.facets);
+        setCheckboxFacets(searchResults.facets);
       }
       setShowingResults(true);
     }
@@ -241,7 +243,7 @@ export const Search = () => {
       );
       if (searchResults) {
         setSearchResults(searchResults.results);
-        setKeywordFacets(searchResults.facets);
+        setCheckboxFacets(searchResults.facets);
       }
       setDirty(false);
     }
@@ -268,7 +270,7 @@ export const Search = () => {
       return;
     }
 
-    setKeywordFacets(
+    setCheckboxFacets(
       filterFacetsByType(searchFacetTypes, searchResults.aggs, "keyword"),
     );
   }
@@ -289,7 +291,7 @@ export const Search = () => {
     >
       <SearchForm
         onSearch={handleNewSearch}
-        keywordFacets={keywordFacets}
+        checkboxFacets={checkboxFacets}
         updateAggs={updateAggs}
       />
       <SearchResultsColumn>

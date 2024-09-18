@@ -11,11 +11,11 @@ import {
   CheckboxGroupComponent,
 } from "../common/CheckboxGroupComponent.tsx";
 
-export function KeywordFacet(props: {
+export function CheckboxFacet(props: {
   facetName: string;
   facet: Facet;
   selectedFacets: Terms;
-  onChangeKeywordFacet: (
+  onChangeCheckboxFacet: (
     facetName: string,
     facetValueName: string,
     selected: boolean,
@@ -88,7 +88,7 @@ export function KeywordFacet(props: {
                   key={index}
                   value={facetValueName}
                   onChange={() =>
-                    props.onChangeKeywordFacet(
+                    props.onChangeCheckboxFacet(
                       props.facetName,
                       facetValueName,
                       !isSelected,

@@ -16,8 +16,8 @@ import { ChevronDown } from "../common/icons/ChevronDown";
 import { ChevronRight } from "../common/icons/ChevronRight";
 
 type FacetFilterProps = {
-  allPossibleKeywordFacets: FacetEntry[];
-  filteredKeywordFacets: string[];
+  allPossibleCheckboxFacets: FacetEntry[];
+  filteredCheckboxFacets: string[];
   facetFilterChangeHandler: (keys: Selection) => void;
 };
 
@@ -28,10 +28,10 @@ export function FacetFilter(props: FacetFilterProps) {
   const translate = useProjectStore(translateSelector);
 
   React.useEffect(() => {
-    if (props.filteredKeywordFacets.length > 0) {
-      setSelected(new Set(props.filteredKeywordFacets));
+    if (props.filteredCheckboxFacets.length > 0) {
+      setSelected(new Set(props.filteredCheckboxFacets));
     }
-  }, [props.filteredKeywordFacets]);
+  }, [props.filteredCheckboxFacets]);
 
   function listBoxItemToggleHandler(keys: Selection) {
     setSelected(new Set(keys));
@@ -56,8 +56,8 @@ export function FacetFilter(props: FacetFilterProps) {
           onSelectionChange={listBoxItemToggleHandler}
           className="border-brand1Grey-200 flex max-h-64 cursor-default flex-col gap-2 overflow-auto rounded border bg-white px-1 py-1 text-sm"
         >
-          {!isEmpty(props.allPossibleKeywordFacets) &&
-            props.allPossibleKeywordFacets.map(([facetLabel], index) => (
+          {!isEmpty(props.allPossibleCheckboxFacets) &&
+            props.allPossibleCheckboxFacets.map(([facetLabel], index) => (
               <ListBoxItem
                 key={index}
                 id={facetLabel}

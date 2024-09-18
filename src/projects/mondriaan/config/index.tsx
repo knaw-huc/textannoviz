@@ -105,7 +105,7 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
     "https://rkd.nl/nl/projecten-en-publicaties/projecten/130-mondriaan-editieproject",
   histogramFacet: "period",
   showHistogram: true,
-  defaultKeywordAggsToRender: [
+  defaultCheckboxAggsToRender: [
     "anno",
     "bodyType",
     "correspondent",

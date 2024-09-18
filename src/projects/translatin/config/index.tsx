@@ -25,7 +25,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   headerColor: "bg-brand1-100 text-brand1-800",
   headerTitle: "TRANSLATIN",
   showSearchResultsButtonFooter: false,
-  defaultKeywordAggsToRender: [
+  defaultCheckboxAggsToRender: [
     "bodyType",
     "latinTitle",
     "earliest",

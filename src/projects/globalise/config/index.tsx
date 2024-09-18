@@ -37,7 +37,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   logoHref: "https://globalise.huygens.knaw.nl",
   showSearchQueryHistory: false,
   showDateFacets: false,
-  showKeywordFacets: false,
+  showCheckboxFacets: false,
   showSelectedFilters: true,
   showNewSearchButton: false,
   allowCloseTextPanel: false,

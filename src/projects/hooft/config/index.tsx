@@ -22,5 +22,5 @@ export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   showMirador: false,
   useExternalConfig: true,
-  defaultKeywordAggsToRender: ["bodyType"],
+  defaultCheckboxAggsToRender: ["bodyType"],
 });

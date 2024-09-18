@@ -88,7 +88,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
-  showKeywordFacets: false,
+  showCheckboxFacets: false,
   showFacetFilter: false,
   showMiradorNavigationButtons: false,
   allowCloseTextPanel: true,

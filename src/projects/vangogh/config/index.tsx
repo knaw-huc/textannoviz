@@ -88,7 +88,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
-  defaultKeywordAggsToRender: [
+  defaultCheckboxAggsToRender: [
     "correspondent",
     "institution",
     "location",
