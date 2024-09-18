@@ -7,8 +7,8 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
-import { getEntityCategory } from "../annotation/getEntityCategory.ts";
 import {
+  getEntityCategory,
   isEntity,
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";

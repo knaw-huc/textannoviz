@@ -7,9 +7,10 @@ import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
-import { getEntityCategory } from "../annotation/getEntityCategory.ts";
 
 import {
+  getEntityCategory,
+  isEntity,
   projectEntityTypes,
   projectFootnoteMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
@@ -81,6 +82,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
 
   getEntityCategory: getEntityCategory,
+  isEntity: isEntity,
 
   showPrevNextScanButtons: true,
   pageAnnotation: "tf:Page",
