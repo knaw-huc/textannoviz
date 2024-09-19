@@ -103,7 +103,7 @@ export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
   };
 };
 
-export type FacetType = "date" | "keyword" | "short";
+export type FacetType = string | Record<string, string>;
 
 export type FacetTypes = {
   [key: FacetName]: FacetType;
@@ -127,11 +127,30 @@ export type Facet = Record<FacetOptionName, number>;
  */
 export type Terms = Record<FacetName, FacetOptionName[]>;
 
+export type Indices = {
+  [key: string]: {
+    [key: string]: string;
+  };
+};
+
+export type SimpleAggregation = {
+  order: string;
+  size: number;
+};
+
+export type NestedAggregation = {
+  [key: string]: SimpleAggregation;
+};
+
+export type Aggregations = {
+  [key: string]: SimpleAggregation | NestedAggregation;
+};
+
 export type SearchQueryRequestBody =
   | {
       text?: string;
       terms: Terms;
-      aggs?: string[];
+      aggs?: Aggregations;
       date?: {
         from: string;
         to: string;

@@ -1,4 +1,5 @@
 import { Base64 } from "js-base64";
+import _ from "lodash";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -24,6 +25,28 @@ import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
+
+const dummyIndex: Record<string, string | Record<string, string>> = {
+  bodyType: "keyword",
+  propositionType: "keyword",
+  resolutionType: "keyword",
+  textType: "keyword",
+  sessionDate: "date",
+  sessionDay: "byte",
+  sessionMonth: "byte",
+  sessionYear: "short",
+  attendants: {
+    id: "keyword",
+    name: "keyword",
+  },
+  entities: {
+    category: "keyword",
+    id: "keyword",
+    labels: "keyword",
+    name: "keyword",
+  },
+  sessionWeekday: "keyword",
+};
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -82,8 +105,10 @@ export const Search = () => {
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
-      const newFacetTypes = newIndices[projectConfig.elasticIndexName];
+      // const newFacetTypes = newIndices[projectConfig.elasticIndexName];
+      const newFacetTypes = dummyIndex;
       const aggregations = createAggs(newFacetTypes, projectConfig);
+      console.log(aggregations);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
       const newFacets = await getFacets(
         projectConfig,
@@ -105,6 +130,10 @@ export const Search = () => {
       );
 
       const newCheckboxFacets = newKeywordFacets;
+
+      console.log(newCheckboxFacets);
+
+      console.log(_.at(dummyIndex, ["attendants", "entities"]));
 
       const newSearchQuery: SearchQuery = {
         ...searchQuery,

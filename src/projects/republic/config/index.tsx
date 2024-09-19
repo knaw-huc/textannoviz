@@ -72,6 +72,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "entityName",
   ],
   showFacetFilter: true,
+  nestedFacets: ["entities", "attendants"],
   components: {
     EntitySummaryDetails,
     MetadataPanel,

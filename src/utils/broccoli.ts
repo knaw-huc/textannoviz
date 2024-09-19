@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { ProjectConfig } from "../model/ProjectConfig";
-import { SearchQueryRequestBody, SearchResult } from "../model/Search";
+import { Indices, SearchQueryRequestBody, SearchResult } from "../model/Search";
 import { SearchUrlParams } from "../stores/search/search-params-slice.ts";
 
 const headers = {
@@ -72,7 +72,7 @@ export const sendSearchQuery = async (
 export const getElasticIndices = async (
   projectConfig: ProjectConfig,
   signal?: AbortSignal,
-) => {
+): Promise<Indices | null> => {
   const response = await fetch(
     `${projectConfig.broccoliUrl}/brinta/${projectConfig.id}/indices`,
     { signal },

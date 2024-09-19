@@ -68,6 +68,7 @@ export const defaultConfig: Omit<
   showFacetFilter: true,
   showPrevNextScanButtons: false,
   pageAnnotation: "",
+  nestedFacets: [],
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,

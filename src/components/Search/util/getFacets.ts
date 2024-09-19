@@ -1,4 +1,5 @@
 import { ProjectConfig } from "../../../model/ProjectConfig";
+import { Aggregations } from "../../../model/Search";
 import {
   SearchQuery,
   toRequestBody,
@@ -7,11 +8,7 @@ import { sendSearchQuery } from "../../../utils/broccoli";
 
 export async function getFacets(
   projectConfig: ProjectConfig,
-  aggregations: {
-    facetName: string;
-    order: string;
-    size: number;
-  }[],
+  aggregations: Aggregations,
   searchQuery: SearchQuery,
   signal: AbortSignal,
 ) {

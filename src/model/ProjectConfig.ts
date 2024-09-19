@@ -80,6 +80,7 @@ export interface ProjectConfig {
   showFacetFilter: boolean;
   pageAnnotation: string;
   showPrevNextScanButtons: boolean;
+  nestedFacets: string[];
   mirador: {
     showWindowSideBar: boolean;
     showTopMenuButton: boolean;

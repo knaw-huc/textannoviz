@@ -1,9 +1,10 @@
 import { StateCreator } from "zustand";
 import {
+  Aggregations,
   Facet,
   FacetName,
-  FacetTypes,
   FacetType,
+  FacetTypes,
   Facets,
   SearchQueryRequestBody,
   Terms,
@@ -15,11 +16,7 @@ import {
 export type SearchQuery = {
   dateFacet?: FacetName;
   rangeFacet?: FacetName;
-  aggs?: {
-    facetName: string;
-    order: string;
-    size: number;
-  }[];
+  aggs?: Aggregations;
   dateFrom: string;
   dateTo: string;
   rangeFrom: string;
@@ -107,9 +104,7 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
   }
 
   if (query.aggs) {
-    searchQuery.aggs = query.aggs.map(
-      (agg) => `${agg.facetName}:${agg.order},${agg.size}`,
-    );
+    searchQuery.aggs = query.aggs;
   }
 
   return searchQuery;
