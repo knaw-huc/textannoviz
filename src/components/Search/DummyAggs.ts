@@ -1,10 +1,6 @@
-type DummyAggsType = {
-  [key: string]:
-    | Record<string, number>
-    | Record<string, Record<string, number>>;
-};
+import { Facets } from "../../model/Search";
 
-export const dummyAggs: DummyAggsType = {
+export const dummyAggs: Facets = {
   propositionType: {
     missive: 222570,
     onbekend: 178581,

@@ -115,12 +115,14 @@ export type FacetOptionName = string;
 /**
  * Facets and all facet options
  */
-export type Facets = Record<FacetName, Facet>;
+export type Facets = Record<FacetName, Facet | NestedFacet>;
 
 /**
  * Document count per facet option
  */
 export type Facet = Record<FacetOptionName, number>;
+
+export type NestedFacet = Record<string, Record<string, number>>;
 
 /**
  * Selected facet options per facet
