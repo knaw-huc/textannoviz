@@ -34,6 +34,7 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   return (
     <span className="segmented-line">
       {grouped.map((group, i) => (
+        // TODO: why an empty segment with insert marker?
         <SegmentGroup
           key={i}
           group={group}

@@ -255,6 +255,7 @@ export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
   }
   return toTest.type === "tei:Note";
 }
+
 // TODO: move to project config
 export type MarkerBody = AnnoRepoBodyBase & {
   type: "tei:Ptr";
