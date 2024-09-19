@@ -263,6 +263,11 @@
       text-decoration: underline;
     }
   }
+
+  /*TODO: add styling*/
+  .inserted-text {
+    background: pink;
+  }
 }
 
 @layer utilities {

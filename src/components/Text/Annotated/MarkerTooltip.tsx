@@ -2,7 +2,10 @@ import { PropsWithChildren } from "react";
 import { MarkerSegment } from "./AnnotationModel.ts";
 import { Optional } from "../../../utils/Optional.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { isNoteBody } from "../../../model/AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  isNoteBody,
+} from "../../../model/AnnoRepoAnnotation.ts";
 import { useTextStore } from "../../../stores/text.ts";
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { OverlayArrow, Tooltip } from "react-aria-components";
@@ -14,7 +17,7 @@ export const NOTES_VIEW = "notes";
 /**
  * Marker annotation links footnote annotation to a location in the text
  */
-export function FootnoteTooltipMarkerButton(
+export function TooltipMarkerButton(
   props: Optional<FootnoteModalProps, "clickedMarker">,
 ) {
   return (
@@ -22,7 +25,7 @@ export function FootnoteTooltipMarkerButton(
       label={props.children}
       tooltip={
         props.clickedMarker && (
-          <FootnoteTooltip {...props} clickedMarker={props.clickedMarker} />
+          <MarkerTooltip {...props} clickedMarker={props.clickedMarker} />
         )
       }
       delay={100}
@@ -34,9 +37,32 @@ type FootnoteModalProps = PropsWithChildren<{
   clickedMarker: MarkerSegment;
 }>;
 
-export function FootnoteTooltip(props: FootnoteModalProps) {
+export function MarkerTooltip(props: FootnoteModalProps) {
   const annotations = useAnnotationStore().annotations;
   const textPanels = useTextStore((state) => state.views);
+  const tooltipBody = getTooltipBody(textPanels, props, annotations);
+  return (
+    <Tooltip {...props}>
+      <OverlayArrow>
+        <svg width={8} height={8} viewBox="0 0 8 8">
+          <path d="M0 0 L4 4 L8 0" />
+        </svg>
+      </OverlayArrow>
+      <div>{tooltipBody}</div>
+    </Tooltip>
+  );
+}
+
+// TODO: move to project config
+function getTooltipBody(
+  textPanels: Record<string, BroccoliTextGeneric> | undefined,
+  props: {
+    clickedMarker: MarkerSegment;
+  } & {
+    children?: React.ReactNode | undefined;
+  },
+  annotations: AnnoRepoAnnotation[],
+) {
   if (!textPanels) {
     throw new Error(`No text panels found`);
   }
@@ -53,17 +79,8 @@ export function FootnoteTooltip(props: FootnoteModalProps) {
   }
   const noteBodyId = note.body.id;
   const lines = createNoteLines(notesView, noteBodyId);
-
-  return (
-    <Tooltip {...props}>
-      <OverlayArrow>
-        <svg width={8} height={8} viewBox="0 0 8 8">
-          <path d="M0 0 L4 4 L8 0" />
-        </svg>
-      </OverlayArrow>
-      <div>{lines.join("")}</div>
-    </Tooltip>
-  );
+  const noteBody = lines.join("");
+  return noteBody;
 }
 
 function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {

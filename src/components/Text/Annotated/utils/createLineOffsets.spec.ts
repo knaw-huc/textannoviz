@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  createFootnoteMarkLineOffsets,
+  createMarkerLineOffsets,
   createNestedLineOffsets,
 } from "./createLineOffsets.ts";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
@@ -84,10 +84,7 @@ describe("createLineOffsets", () => {
         },
       } as BroccoliViewPosition,
     ];
-    const result = createFootnoteMarkLineOffsets(
-      annotation,
-      positionsRelativeToView,
-    );
+    const result = createMarkerLineOffsets(annotation, positionsRelativeToView);
     expect(result.body.id).toEqual("urn:foo:ptr:1978932");
     expect(result.type).toEqual("marker");
     expect(result.startChar).toEqual(5);

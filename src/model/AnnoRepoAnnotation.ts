@@ -238,6 +238,7 @@ export type AnnoRepoBodyBase = {
 
 export type EntityDetail = { label: string; value: string };
 
+// TODO: move to project config
 export type NoteBody = AnnoRepoBodyBase & {
   type: "tei:Note";
   "tf:textfabricNode": string;
@@ -254,14 +255,14 @@ export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
   }
   return toTest.type === "tei:Note";
 }
-
+// TODO: move to project config
 export type MarkerBody = AnnoRepoBodyBase & {
   type: "tei:Ptr";
   "tf:textfabricNode": string;
   metadata: {
-    n: string;
+    facs?: string;
+    n?: string;
     target: string;
-    type: "tt:PtrMetadata";
   };
 };
 

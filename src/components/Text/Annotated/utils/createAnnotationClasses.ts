@@ -39,7 +39,7 @@ export function createSearchHighlightClasses(
   return classes.join(" ");
 }
 
-export function createFootnoteMarkerClasses(marker: MarkerSegment) {
+export function createTooltipMarkerClasses(marker: MarkerSegment) {
   const classes = [];
   classes.push("marker", "cursor-help", marker.body.id);
   return classes.join(" ");

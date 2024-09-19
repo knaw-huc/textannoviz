@@ -42,15 +42,19 @@ export interface ProjectConfig {
    */
   annotationTypesToHighlight: string[];
   /**
-   * All annotations that are potentially highlightable
+   * All annotations that can be displayed
    */
   allowedAnnotationTypesToHighlight: string[];
   /**
-   * Footnote markers, showing a tooltip with the note
+   * Show tooltip with note
    */
-  footnoteMarkerAnnotationTypes: string[];
+  tooltipMarkerAnnotationTypes: string[];
   /**
-   * Annotations marking the start or end of a page
+   * Insert additional text into main text
+   */
+  insertTextMarkerAnnotationTypes: string[];
+  /**
+   * Mark the start of a page
    */
   pageMarkerAnnotationTypes: string[];
   /**

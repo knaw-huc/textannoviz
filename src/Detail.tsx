@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Annotation } from "./components/Annotations/annotation";
 import { Footer } from "./components/Footer/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
-import { NOTES_VIEW } from "./components/Text/Annotated/FootnoteTooltip.tsx";
+import { NOTES_VIEW } from "./components/Text/Annotated/MarkerTooltip.tsx";
 import { TextComponent } from "./components/Text/TextComponent";
 import { Broccoli } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";

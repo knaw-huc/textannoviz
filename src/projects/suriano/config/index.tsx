@@ -12,7 +12,8 @@ import {
   getEntityCategory,
   isEntity,
   projectEntityTypes,
-  projectFootnoteMarkerAnnotationTypes,
+  projectTooltipMarkerAnnotationTypes,
+  projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 
@@ -64,6 +65,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tf:Folder",
     "tf:Page",
     "LetterBody",
+    "tei:Metamark",
   ],
   allPossibleTextPanels: [
     "original",
@@ -78,8 +80,9 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   annotationTypesToHighlight: projectEntityTypes,
   allowedAnnotationTypesToHighlight: projectEntityTypes,
   entityAnnotationTypes: projectEntityTypes,
-  footnoteMarkerAnnotationTypes: projectFootnoteMarkerAnnotationTypes,
+  tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
 
   getEntityCategory: getEntityCategory,
   isEntity: isEntity,

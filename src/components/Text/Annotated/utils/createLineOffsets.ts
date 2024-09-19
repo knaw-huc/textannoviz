@@ -30,30 +30,9 @@ export function createNestedLineOffsets(
 }
 
 /**
- * Mark footnote using start offset
- */
-export function createFootnoteMarkLineOffsets(
-  annotation: AnnoRepoAnnotation,
-  allRelativePositions: BroccoliViewPosition[],
-): LineOffsets {
-  const relativePosition = getPositionRelativeToView(
-    allRelativePositions,
-    annotation,
-  );
-  const startChar: number = relativePosition.start.offset ?? 0;
-  return {
-    type: "marker",
-    body: annotation.body,
-    lineIndex: relativePosition.start.line,
-    startChar,
-    endChar: startChar,
-  };
-}
-
-/**
  * Mark start of page using end offset
  */
-export function createPageMarkLineOffsets(
+export function createMarkerLineOffsets(
   annotation: AnnoRepoAnnotation,
   allRelativePositions: BroccoliViewPosition[],
 ): LineOffsets {

@@ -14,9 +14,8 @@ import {
   isLogicalTextAnchorTarget,
 } from "../../../model/AnnoRepoAnnotation.ts";
 import {
-  createFootnoteMarkLineOffsets,
   createNestedLineOffsets,
-  createPageMarkLineOffsets,
+  createMarkerLineOffsets,
 } from "./utils/createLineOffsets.ts";
 import { LineOffsets } from "./AnnotationModel.ts";
 
@@ -38,8 +37,11 @@ type TextHighlightingProps = {
  * - Segment: piece of line or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const { footnoteMarkerAnnotationTypes, pageMarkerAnnotationTypes } =
-    useProjectStore(projectConfigSelector);
+  const {
+    tooltipMarkerAnnotationTypes,
+    pageMarkerAnnotationTypes,
+    insertTextMarkerAnnotationTypes,
+  } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
@@ -65,18 +67,17 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   const searchRegex = createSearchRegex(searchTerms, tier2);
   offsets.push(...createSearchOffsets(lines, searchRegex));
+
+  const markerAnnotations = [
+    ...tooltipMarkerAnnotationTypes,
+    ...insertTextMarkerAnnotationTypes,
+    ...pageMarkerAnnotationTypes,
+  ];
   offsets.push(
     ...singleLineAnnotations
-      .filter((a) => footnoteMarkerAnnotationTypes.includes(a.body.type))
+      .filter((a) => markerAnnotations.includes(a.body.type))
       .map((annotation) =>
-        createFootnoteMarkLineOffsets(annotation, relativeAnnotations),
-      ),
-  );
-  offsets.push(
-    ...annotations
-      .filter((a) => pageMarkerAnnotationTypes.includes(a.body.type))
-      .map((annotation) =>
-        createPageMarkLineOffsets(annotation, relativeAnnotations),
+        createMarkerLineOffsets(annotation, relativeAnnotations),
       ),
   );
 
