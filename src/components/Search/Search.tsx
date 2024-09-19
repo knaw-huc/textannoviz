@@ -19,34 +19,14 @@ import { useSearchStore } from "../../stores/search/search-store.ts";
 import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
+import { dummyIndex } from "./DummyIndex.ts";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
-import { getFacets } from "./util/getFacets.ts";
+// import { getFacets } from "./util/getFacets.ts";
+import { dummyAggs } from "./DummyAggs.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
-
-const dummyIndex: Record<string, string | Record<string, string>> = {
-  bodyType: "keyword",
-  propositionType: "keyword",
-  resolutionType: "keyword",
-  textType: "keyword",
-  sessionDate: "date",
-  sessionDay: "byte",
-  sessionMonth: "byte",
-  sessionYear: "short",
-  attendants: {
-    id: "keyword",
-    name: "keyword",
-  },
-  entities: {
-    category: "keyword",
-    id: "keyword",
-    labels: "keyword",
-    name: "keyword",
-  },
-  sessionWeekday: "keyword",
-};
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -110,12 +90,13 @@ export const Search = () => {
       const aggregations = createAggs(newFacetTypes, projectConfig);
       console.log(aggregations);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      const newFacets = await getFacets(
-        projectConfig,
-        aggregations,
-        searchQuery,
-        signal,
-      );
+      // const newFacets = await getFacets(
+      //   projectConfig,
+      //   aggregations,
+      //   searchQuery,
+      //   signal,
+      // );
+      const newFacets = dummyAggs;
 
       const newDateFacets = filterFacetsByType(
         newFacetTypes,
