@@ -807,12 +807,77 @@ describe("AnnotationSegmenter", () => {
             charIndex: 1,
             mark: "end",
             type: "marker",
-            body: { id: "anno1" } as AnnotationBody,
+            body: { id: "marker1" } as AnnotationBody,
           },
         ],
       },
     ]).segment();
     expect(segments.length).toEqual(2);
     expect(segments[1].annotations[0].body.id).toEqual("marker1");
+  });
+
+  it("creates one line segment when empty line contains marker", () => {
+    // [marker1]
+    const segments = new AnnotationSegmenter("", [
+      {
+        charIndex: 0,
+        offsets: [
+          {
+            charIndex: 0,
+            mark: "start",
+            type: "marker",
+            body: { id: "marker1" } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 0,
+        offsets: [
+          {
+            charIndex: 0,
+            mark: "end",
+            type: "marker",
+            body: { id: "marker1" } as AnnotationBody,
+          },
+        ],
+      },
+    ]).segment();
+    expect(segments.length).toEqual(1);
+    expect(segments[0].annotations.length).toEqual(1);
+    expect(segments[0].annotations[0].body.id).toEqual("marker1");
+  });
+
+  it("creates two line segments when single space contains marker at char 0", () => {
+    // [marker1]<space>
+    const segments = new AnnotationSegmenter(" ", [
+      {
+        charIndex: 0,
+        offsets: [
+          {
+            charIndex: 0,
+            mark: "start",
+            type: "marker",
+            body: { id: "marker1" } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 0,
+        offsets: [
+          {
+            charIndex: 0,
+            mark: "end",
+            type: "marker",
+            body: { id: "marker1" } as AnnotationBody,
+          },
+        ],
+      },
+    ]).segment();
+    expect(segments.length).toEqual(2);
+    expect(segments[0].body).toBe("");
+    expect(segments[0].annotations.length).toEqual(1);
+    expect(segments[0].annotations[0].body.id).toEqual("marker1");
+    expect(segments[1].body).toBe(" ");
+    expect(segments[1].annotations.length).toEqual(0);
   });
 });
