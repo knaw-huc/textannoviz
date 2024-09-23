@@ -66,6 +66,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tf:Page",
     "LetterBody",
     "tei:Metamark",
+    "tei:Hi",
   ],
   allPossibleTextPanels: [
     "original",

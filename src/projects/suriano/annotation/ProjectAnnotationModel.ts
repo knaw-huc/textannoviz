@@ -6,9 +6,21 @@ import {
 import _ from "lodash";
 
 export const projectEntityTypes = ["tf:Ent"];
-export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
+export const projectTooltipMarkerAnnotationTypes = [
+  /**
+   * Pointer pointing to a tei:Note
+   * see {@link MarkerTooltip}
+   * TODO: move to project config
+   */
+  "tei:Ptr",
+];
 export const projectPageMarkerAnnotationTypes = ["tf:Page"];
-export const projectInsertTextMarkerAnnotationTypes = ["tei:Metamark"];
+export const projectInsertTextMarkerAnnotationTypes = [
+  /**
+   * Notes from the editor about what he encountered on the facsimile
+   */
+  "tei:Metamark",
+];
 
 export type ProjectEntityBody = AnnoRepoBodyBase & {
   type: "tf:Ent";
