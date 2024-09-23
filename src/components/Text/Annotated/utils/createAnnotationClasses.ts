@@ -34,14 +34,14 @@ export function createAnnotationClasses(
 export function createHighlightClasses(
   annotationSegment: HighlightSegment,
   segment: Segment,
-  getAnnotationHighlightCategory: CategoryGetter,
+  getHighlightCategory: CategoryGetter,
 ): string[] {
   const classes: string[] = [];
   const body = annotationSegment.body;
   if (isSearchHighlightBody(body)) {
     classes.push("bg-yellow-200", "rounded");
   } else if (isAnnotationHighlightBody(body)) {
-    classes.push(`highlight-${getAnnotationHighlightCategory(body)}`);
+    classes.push(`highlight-${getHighlightCategory(body)}`);
   }
   classes.push(...createStartEndClasses(segment, annotationSegment));
   return classes.map(normalizeClassname);

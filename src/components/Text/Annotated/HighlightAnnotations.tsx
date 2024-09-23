@@ -18,14 +18,14 @@ export function HighlightAnnotations(
   if (!highlights.length) {
     return <MarkerAnnotation segment={props.segment} />;
   }
-  const allHighlightClasses = [];
+  const allHighlightsClasses = [];
   for (const highlight of highlights) {
     // TODO: should every highlight have its own component?
-    allHighlightClasses.push(
+    allHighlightsClasses.push(
       ...createHighlightClasses(highlight, props.segment, getHighlightCategory),
     );
   }
-  classNames.push(..._.uniq(allHighlightClasses));
+  classNames.push(..._.uniq(allHighlightsClasses));
   return (
     <span className={classNames.join(" ")}>
       <MarkerAnnotation segment={props.segment} />

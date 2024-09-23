@@ -63,12 +63,12 @@ export interface ProjectConfig {
    */
   pageMarkerAnnotationTypes: string[];
   /**
-   * Annotation types that are marked in the text
+   * Annotation types that are highlighted in the text
    * and that can be clicked on and opened in the annotation detail viewer
    */
   entityAnnotationTypes: string[];
   /**
-   * Annotation types that are marked in the text
+   * Annotation types that are highlighted in the text
    * but that cannot be clicked on
    */
   highlightedAnnotationTypes: string[];
