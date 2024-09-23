@@ -32,7 +32,6 @@ export const defaultConfig: Omit<
   showAnnotations: false,
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
-  allowedAnnotationTypesToHighlight: [],
   tooltipMarkerAnnotationTypes: [],
   insertTextMarkerAnnotationTypes: [],
   pageMarkerAnnotationTypes: [],

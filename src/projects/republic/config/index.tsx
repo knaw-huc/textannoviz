@@ -40,7 +40,6 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   showAnnotations: true,
 
   annotationTypesToHighlight: projectEntityTypes,
-  allowedAnnotationTypesToHighlight: projectEntityTypes,
   entityAnnotationTypes: projectEntityTypes,
   getEntityCategory: getEntityCategory,
   isEntity: isEntity,

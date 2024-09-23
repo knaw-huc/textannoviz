@@ -42,10 +42,6 @@ export interface ProjectConfig {
    */
   annotationTypesToHighlight: string[];
   /**
-   * All annotations that can be displayed
-   */
-  allowedAnnotationTypesToHighlight: string[];
-  /**
    * Show tooltip with note
    */
   tooltipMarkerAnnotationTypes: string[];

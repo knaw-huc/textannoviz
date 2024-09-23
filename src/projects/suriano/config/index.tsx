@@ -79,7 +79,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showAnnotations: true,
 
   annotationTypesToHighlight: projectAnnotationTypes,
-  allowedAnnotationTypesToHighlight: projectAnnotationTypes,
   entityAnnotationTypes: projectEntityTypes,
   tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
