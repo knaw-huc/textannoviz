@@ -11,11 +11,12 @@ import { englishSurianoLabels } from "./englishSurianoLabels";
 import {
   getEntityCategory,
   isEntity,
-  projectEntityTypes,
   projectTooltipMarkerAnnotationTypes,
   projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
+  projectAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { projectEntityTypes } from "../../republic/annotation/ProjectAnnotationModel.ts";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -35,7 +36,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:Editor",
     // "tei:FileDesc",
     // "tei:Head",
-    // "tei:Hi",
     // "tei:Idno",
     // "tei:Institution",
     // "tei:MsDesc",
@@ -78,8 +78,8 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   defaultTextPanels: ["self"],
   showAnnotations: true,
 
-  annotationTypesToHighlight: projectEntityTypes,
-  allowedAnnotationTypesToHighlight: projectEntityTypes,
+  annotationTypesToHighlight: projectAnnotationTypes,
+  allowedAnnotationTypesToHighlight: projectAnnotationTypes,
   entityAnnotationTypes: projectEntityTypes,
   tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,

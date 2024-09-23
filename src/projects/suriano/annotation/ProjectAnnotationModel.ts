@@ -5,7 +5,13 @@ import {
 } from "../../../model/AnnoRepoAnnotation.ts";
 import _ from "lodash";
 
-export const projectEntityTypes = ["tf:Ent"];
+/**
+ * Highlighted element
+ */
+const teiHi = "tei:Hi";
+const tfEnt = "tf:Ent";
+export const projectEntityTypes = [teiHi];
+export const projectAnnotationTypes = [...projectEntityTypes, teiHi];
 export const projectTooltipMarkerAnnotationTypes = [
   /**
    * Pointer pointing to a tei:Note
@@ -22,13 +28,15 @@ export const projectInsertTextMarkerAnnotationTypes = [
   "tei:Metamark",
 ];
 
-export type ProjectEntityBody = AnnoRepoBodyBase & {
+type EntBody = {
   type: "tf:Ent";
   metadata: {
     details: EntityDetail[];
     n: string;
   };
 };
+
+export type ProjectEntityBody = AnnoRepoBodyBase & EntBody;
 
 export function isEntity(
   toTest: AnnoRepoBodyBase,
@@ -37,5 +45,12 @@ export function isEntity(
 }
 
 export function getEntityCategory(annoRepoBody: AnnoRepoBody) {
-  return _.get(annoRepoBody, "metadata.kind") ?? "unknown";
+  if (annoRepoBody.type === tfEnt) {
+    return _.get(annoRepoBody, "metadata.kind") ?? "unknown";
+  }
+  if (annoRepoBody.type === teiHi) {
+    const category = _.get(annoRepoBody, "metadata.rend");
+    console.log("hi as ", category);
+    return category;
+  }
 }
