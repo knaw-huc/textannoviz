@@ -4,7 +4,7 @@ import {
   Segment,
 } from "./AnnotationModel.ts";
 import { createAnnotationClasses } from "./utils/createAnnotationClasses.ts";
-import { HighlightAnnotation } from "./HighlightAnnotation.tsx";
+import { HighlightAnnotations } from "./HighlightAnnotations.tsx";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -28,7 +28,7 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
 
   const toNest = nestedAnnotations.slice(1);
   if (!nestedAnnotations.length) {
-    return <HighlightAnnotation segment={props.segment} />;
+    return <HighlightAnnotations segment={props.segment} />;
   }
   return (
     <span
@@ -37,12 +37,12 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
         toRender,
         nestedAnnotationTypes,
         projectConfig.getAnnotationCategory,
-      )}
+      ).join(" ")}
     >
       {toNest.length ? (
         <NestedAnnotation {...props} toNest={toNest} />
       ) : (
-        <HighlightAnnotation segment={props.segment} />
+        <HighlightAnnotations segment={props.segment} />
       )}
     </span>
   );

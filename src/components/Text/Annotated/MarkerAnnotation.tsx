@@ -73,7 +73,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { marker } = props;
   const classNames: string[] = [];
-  classNames.push(createTooltipMarkerClasses(marker));
+  classNames.push(...createTooltipMarkerClasses(marker));
   return (
     <span className={classNames.join(" ")}>
       <TooltipMarkerButton clickedMarker={marker}>

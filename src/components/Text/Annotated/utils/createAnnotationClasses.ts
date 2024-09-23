@@ -15,7 +15,7 @@ export function createAnnotationClasses(
   annotation: NestedAnnotationSegment,
   entityTypes: string[],
   getEntityCategory: CategoryGetter,
-) {
+): string[] {
   const classes = [];
   classes.push(
     "nested-annotation",
@@ -28,14 +28,14 @@ export function createAnnotationClasses(
     classes.push(toEntityClassname(category));
   }
   classes.push(...createStartEndClasses(segment, annotation));
-  return classes.join(" ").toLowerCase();
+  return classes.map(normalizeClassname);
 }
 
 export function createHighlightClasses(
   annotationSegment: HighlightSegment,
   segment: Segment,
   getAnnotationHighlightCategory: CategoryGetter,
-) {
+): string[] {
   const classes: string[] = [];
   const body = annotationSegment.body;
   if (isSearchHighlightBody(body)) {
@@ -44,13 +44,13 @@ export function createHighlightClasses(
     classes.push(`highlight-${getAnnotationHighlightCategory(body)}`);
   }
   classes.push(...createStartEndClasses(segment, annotationSegment));
-  return classes.join(" ");
+  return classes.map(normalizeClassname);
 }
 
-export function createTooltipMarkerClasses(marker: MarkerSegment) {
+export function createTooltipMarkerClasses(marker: MarkerSegment): string[] {
   const classes = [];
   classes.push("marker", "cursor-help", marker.body.id);
-  return classes.join(" ");
+  return classes.map(normalizeClassname);
 }
 
 function createStartEndClasses(
@@ -64,7 +64,7 @@ function createStartEndClasses(
   if (segment.index === annotationSegment.endSegment - 1) {
     classes.push("end-annotation");
   }
-  return classes;
+  return classes.map(normalizeClassname);
 }
 
 const dataToEntityCategory = {
@@ -84,9 +84,7 @@ const dataToEntityCategory = {
 const unknownCategory = "UNKNOWN";
 
 export function toEntityClassname(annotationCategory?: string) {
-  return `annotated-${normalizeEntityCategory(
-    annotationCategory,
-  ).toLowerCase()}`;
+  return `annotated-${normalizeEntityCategory(annotationCategory)}`;
 }
 
 export function normalizeEntityCategory(annotationCategory?: string) {

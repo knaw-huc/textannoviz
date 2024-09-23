@@ -6,21 +6,26 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import _ from "lodash";
 
-export function HighlightAnnotation(
+export function HighlightAnnotations(
   props: Pick<NestedAnnotationProps, "segment">,
 ) {
   const { getHighlightCategory } = useProjectStore(projectConfigSelector);
   const classNames: string[] = [];
-  const highlight = props.segment.annotations.find(isHighlightSegment);
+  const highlights = props.segment.annotations.filter(isHighlightSegment);
 
-  if (!highlight) {
+  if (!highlights.length) {
     return <MarkerAnnotation segment={props.segment} />;
   }
-
-  classNames.push(
-    createHighlightClasses(highlight, props.segment, getHighlightCategory),
-  );
+  const allHighlightClasses = [];
+  for (const highlight of highlights) {
+    // TODO: should every highlight have its own component?
+    allHighlightClasses.push(
+      ...createHighlightClasses(highlight, props.segment, getHighlightCategory),
+    );
+  }
+  classNames.push(..._.uniq(allHighlightClasses));
   return (
     <span className={classNames.join(" ")}>
       <MarkerAnnotation segment={props.segment} />
