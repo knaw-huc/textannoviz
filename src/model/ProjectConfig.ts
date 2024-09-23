@@ -12,7 +12,9 @@ import {
   TranslatinSearchResultsBody,
 } from "./Search.ts";
 
-export type ProjectEntityBody = AnnoRepoBodyBase;
+export type ProjectEntityBody = AnnoRepoBodyBase & {
+  // Project specific entity type and properties
+};
 
 export type EntitySummaryDetailsProps = {
   body: ProjectEntityBody;
@@ -32,13 +34,20 @@ export interface ProjectConfig {
    */
   relativeTo: string;
 
-  showAnnotations: boolean;
   /**
    * Annotation types to load from the backend
    */
   annotationTypesToInclude: string[];
+
   /**
-   * Default annotation types that are highlighted in the text
+   * Should annotations be visualised using {@link AnnotatedText} component
+   * as opposed to the default, more basic {@link TextHighlighting} component
+   */
+  showAnnotations: boolean;
+
+  /**
+   * Highlighted annotation types when using the {@link TextHighlighting} component
+   * i.e. when `showAnnotations === false`
    */
   annotationTypesToHighlight: string[];
   /**
@@ -54,10 +63,17 @@ export interface ProjectConfig {
    */
   pageMarkerAnnotationTypes: string[];
   /**
-   * Annotations that can be clicked and opened in the detail viewer
+   * Annotation types that are marked in the text
+   * and that can be clicked on and opened in the annotation detail viewer
    */
   entityAnnotationTypes: string[];
-  getEntityCategory: EntityCategoryGetter;
+  /**
+   * Annotation types that are marked in the text
+   * but that cannot be clicked on
+   */
+  highlightedAnnotationTypes: string[];
+
+  getAnnotationCategory: EntityCategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   elasticIndexName: string;

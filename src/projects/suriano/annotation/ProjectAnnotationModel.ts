@@ -10,8 +10,8 @@ import _ from "lodash";
  */
 const teiHi = "tei:Hi";
 const tfEnt = "tf:Ent";
-export const projectEntityTypes = [teiHi];
-export const projectAnnotationTypes = [...projectEntityTypes, teiHi];
+export const projectEntityTypes = [tfEnt];
+export const projectHighlightedTypes = [teiHi];
 export const projectTooltipMarkerAnnotationTypes = [
   /**
    * Pointer pointing to a tei:Note
@@ -44,7 +44,7 @@ export function isEntity(
   return projectEntityTypes.includes(toTest.type);
 }
 
-export function getEntityCategory(annoRepoBody: AnnoRepoBody) {
+export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === tfEnt) {
     return _.get(annoRepoBody, "metadata.kind") ?? "unknown";
   }

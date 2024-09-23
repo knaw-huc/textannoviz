@@ -18,7 +18,10 @@ export type NestedAnnotationProps = {
 
 export function NestedAnnotation(props: NestedAnnotationProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const entityTypes = projectConfig.entityAnnotationTypes;
+  const nestedAnnotationTypes = [
+    ...projectConfig.entityAnnotationTypes,
+    ...projectConfig.highlightedAnnotationTypes,
+  ];
 
   const nestedAnnotations = props.toNest.filter(isNestedAnnotationSegment);
   const toRender = nestedAnnotations[0];
@@ -32,8 +35,8 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
       className={createAnnotationClasses(
         props.segment,
         toRender,
-        entityTypes,
-        projectConfig.getEntityCategory,
+        nestedAnnotationTypes,
+        projectConfig.getAnnotationCategory,
       )}
     >
       {toNest.length ? (

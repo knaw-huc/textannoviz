@@ -17,7 +17,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
 
   const entityCategory = normalizeEntityCategory(
-    projectConfig.getEntityCategory(body),
+    projectConfig.getAnnotationCategory(body),
   );
   const entityClassname = toEntityClassname(entityCategory);
   return (

@@ -16,40 +16,35 @@ import {
 } from "../../../stores/project.ts";
 import { ScrollableModal } from "./ScrollableModal.tsx";
 import { SpanModalButton } from "./SpanModalButton.tsx";
+import { ProjectEntityBody } from "../../../model/ProjectConfig.ts";
+import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
-type AnnotationModalProps = PropsWithChildren<{
+type EntityModalProps = PropsWithChildren<{
   clickedGroup: GroupedSegments;
 }>;
 
-export function AnnotationModalButton(
-  props: Optional<AnnotationModalProps, "clickedGroup">,
+export function EntityModalButton(
+  props: Optional<EntityModalProps, "clickedGroup">,
 ) {
   return (
     <SpanModalButton
       label={props.children}
       modal={
         props.clickedGroup && (
-          <AnnotationModal {...props} clickedGroup={props.clickedGroup} />
+          <EntityModal {...props} clickedGroup={props.clickedGroup} />
         )
       }
     />
   );
 }
 
-export function AnnotationModal(props: AnnotationModalProps) {
+export function EntityModal(props: EntityModalProps) {
   const translateProject = useProjectStore(translateProjectSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const { clickedGroup } = props;
   const entityBodies = clickedGroup
-    ? _.unionBy(
-        clickedGroup.segments
-          .flatMap((s) => s.annotations)
-          .filter(isNestedAnnotationSegment)
-          .map((a) => a.body)
-          .filter((a) => projectConfig.isEntity(a)),
-        "id",
-      )
+    ? getAllEntities(clickedGroup, projectConfig.isEntity)
     : [];
 
   return (
@@ -73,4 +68,17 @@ export function AnnotationModal(props: AnnotationModalProps) {
       </div>
     </ScrollableModal>
   );
+}
+
+function getAllEntities(
+  clickedGroup: GroupedSegments,
+  isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody,
+) {
+  const allEntitiesFromAllSegments = clickedGroup.segments
+    .flatMap((s) => s.annotations)
+    .filter(isNestedAnnotationSegment)
+    .map((a) => a.body)
+    .filter(isEntity);
+  const deduplicated = _.unionBy(allEntitiesFromAllSegments, "id");
+  return deduplicated;
 }

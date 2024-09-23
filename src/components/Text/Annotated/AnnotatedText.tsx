@@ -41,13 +41,12 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     tooltipMarkerAnnotationTypes,
     pageMarkerAnnotationTypes,
     insertTextMarkerAnnotationTypes,
+    entityAnnotationTypes,
   } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
   const { tier2, highlight } = useDetailUrlParams();
   const searchTerms = highlight;
-  const annotationTypesToHighlight =
-    useAnnotationStore().annotationTypesToHighlight;
   const lines = props.text.lines;
 
   const relativeAnnotations = props.text.locations.annotations;
@@ -56,9 +55,10 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   const singleLineAnnotations = annotations.filter(withTargetInSingleLine);
 
+  const nestedAnnotationTypes = [...entityAnnotationTypes];
   if (relativeAnnotations.length) {
     const nestedAnnotations = singleLineAnnotations
-      .filter((a) => annotationTypesToHighlight.includes(a.body.type))
+      .filter((a) => nestedAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
         createNestedLineOffsets(annotation, relativeAnnotations, lines),
       );

@@ -9,14 +9,14 @@ import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
 import {
-  getEntityCategory,
+  getAnnotationCategory,
   isEntity,
-  projectTooltipMarkerAnnotationTypes,
+  projectEntityTypes,
+  projectHighlightedTypes,
   projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
-  projectAnnotationTypes,
+  projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
-import { projectEntityTypes } from "../../republic/annotation/ProjectAnnotationModel.ts";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -76,15 +76,16 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "self",
   ],
   defaultTextPanels: ["self"],
-  showAnnotations: true,
 
-  annotationTypesToHighlight: projectAnnotationTypes,
+  showAnnotations: true,
+  annotationTypesToHighlight: [],
   entityAnnotationTypes: projectEntityTypes,
+  highlightedAnnotationTypes: projectHighlightedTypes,
   tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
 
-  getEntityCategory: getEntityCategory,
+  getAnnotationCategory: getAnnotationCategory,
   isEntity: isEntity,
 
   showPrevNextScanButtons: true,

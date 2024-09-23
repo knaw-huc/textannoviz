@@ -8,7 +8,7 @@ import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 import {
-  getEntityCategory,
+  getAnnotationCategory,
   isEntity,
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
@@ -37,11 +37,11 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Page",
     "DateOccurrence",
   ],
-  showAnnotations: true,
 
-  annotationTypesToHighlight: projectEntityTypes,
+  showAnnotations: true,
+  annotationTypesToHighlight: [],
   entityAnnotationTypes: projectEntityTypes,
-  getEntityCategory: getEntityCategory,
+  getAnnotationCategory: getAnnotationCategory,
   isEntity: isEntity,
 
   pageAnnotation: "Page",
