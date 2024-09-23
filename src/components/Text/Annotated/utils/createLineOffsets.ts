@@ -3,10 +3,11 @@ import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { LineOffsets } from "../AnnotationModel.ts";
 
-export function createNestedLineOffsets(
+export function createAnnotationLineOffsets(
   annotation: AnnoRepoAnnotation,
   allRelativePositions: BroccoliViewPosition[],
   lines: string[],
+  type: "annotation" | "highlight",
 ): LineOffsets {
   const relativePosition = getPositionRelativeToView(
     allRelativePositions,
@@ -21,7 +22,7 @@ export function createNestedLineOffsets(
   }
 
   return {
-    type: "annotation",
+    type,
     body: annotation.body,
     lineIndex: relativePosition.start.line,
     startChar: relativePosition.start.offset ?? 0,

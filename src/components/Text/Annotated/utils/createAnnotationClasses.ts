@@ -1,18 +1,20 @@
 import {
   AnnotationSegment,
+  HighlightSegment,
+  isAnnotationHighlightBody,
+  isSearchHighlightBody,
   MarkerSegment,
   NestedAnnotationSegment,
-  HighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
 import { Any } from "../../../../utils/Any.ts";
-import { EntityCategoryGetter } from "../../../../model/ProjectConfig.ts";
+import { CategoryGetter } from "../../../../model/ProjectConfig.ts";
 
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
   entityTypes: string[],
-  getEntityCategory: EntityCategoryGetter,
+  getEntityCategory: CategoryGetter,
 ) {
   const classes = [];
   classes.push(
@@ -32,11 +34,14 @@ export function createAnnotationClasses(
 export function createHighlightClasses(
   annotationSegment: HighlightSegment,
   segment: Segment,
+  getAnnotationHighlightCategory: CategoryGetter,
 ) {
   const classes: string[] = [];
-  classes.push("highlight", `highlight-${annotationSegment.body.type}`);
-  if (annotationSegment.body.type === "search") {
+  const body = annotationSegment.body;
+  if (isSearchHighlightBody(body)) {
     classes.push("bg-yellow-200", "rounded");
+  } else if (isAnnotationHighlightBody(body)) {
+    classes.push(`highlight-${getAnnotationHighlightCategory(body)}`);
   }
   classes.push(...createStartEndClasses(segment, annotationSegment));
   return classes.join(" ");
@@ -88,5 +93,11 @@ export function normalizeEntityCategory(annotationCategory?: string) {
   if (!annotationCategory) {
     return unknownCategory;
   }
-  return dataToEntityCategory[annotationCategory] ?? unknownCategory;
+  const entityCategory =
+    dataToEntityCategory[annotationCategory] ?? unknownCategory;
+  return normalizeClassname(entityCategory);
+}
+
+export function normalizeClassname(annotationCategory: string) {
+  return annotationCategory.toLowerCase().replace(":", "-");
 }

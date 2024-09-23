@@ -249,6 +249,14 @@ export type NoteBody = AnnoRepoBodyBase & {
   };
 };
 
+// TODO: move to project config
+export type HiBody = AnnoRepoBodyBase & {
+  type: "tei:Hi";
+  metadata: {
+    rend: string;
+  };
+};
+
 export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
   if (!toTest) {
     return false;
@@ -284,16 +292,8 @@ export type AnnoRepoBody =
   | TeiRegBody
   | TfLetterBody
   | MarkerBody
-  | NoteBody;
-
-export type Body =
-  | AnnoRepoBody
-  | SessionBody
-  | ResolutionBody
-  | ReviewedBody
-  | AttendanceListBody
-  | AttendantBody
-  | TeiDivBody;
+  | NoteBody
+  | HiBody;
 
 export type ImageTarget = {
   type: "Image";

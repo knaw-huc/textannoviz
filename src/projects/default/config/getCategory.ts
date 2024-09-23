@@ -1,4 +1,4 @@
-export function getAnnotationCategory() {
+export function getCategory() {
   console.warn("Not implemented");
   return "unknown";
 }

@@ -16,7 +16,6 @@ export const projectTooltipMarkerAnnotationTypes = [
   /**
    * Pointer pointing to a tei:Note
    * see {@link MarkerTooltip}
-   * TODO: move to project config
    */
   "tei:Ptr",
 ];
@@ -53,4 +52,8 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
     console.log(`hi.rend=${category}`);
     return category;
   }
+}
+
+export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
+  return _.get(annoRepoBody, "metadata.rend") ?? "unknown";
 }

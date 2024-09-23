@@ -5,7 +5,7 @@ import { AnnotationItem } from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
-import { getAnnotationCategory } from "./getAnnotationCategory.ts";
+import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
 
 /**
@@ -39,7 +39,8 @@ export const defaultConfig: Omit<
   pageMarkerAnnotationTypes: [],
   entityAnnotationTypes: [],
   highlightedAnnotationTypes: [],
-  getAnnotationCategory: getAnnotationCategory,
+  getAnnotationCategory: getCategory,
+  getHighlightCategory: getCategory,
   isEntity: isEntity,
 
   allPossibleTextPanels: ["self"],

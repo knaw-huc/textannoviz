@@ -15,10 +15,23 @@ export type AnnotationType = "highlight" | "annotation" | "marker";
  */
 export type AnnotationBodyId = string;
 export type HighlightId = string;
-export type HighlightBody = {
+type SearchHighlightBody = {
   id: HighlightId;
-  type: "search" | string;
+  type: "search";
 };
+export function isSearchHighlightBody(
+  toTest: HighlightBody,
+): toTest is SearchHighlightBody {
+  return (toTest as SearchHighlightBody).type === "search";
+}
+
+export type HighlightBody = SearchHighlightBody | AnnoRepoBody;
+
+export function isAnnotationHighlightBody(
+  toTest: HighlightBody,
+): toTest is HighlightBody {
+  return !isSearchHighlightBody(toTest);
+}
 
 export type AnnotationBody =
   // Nested:

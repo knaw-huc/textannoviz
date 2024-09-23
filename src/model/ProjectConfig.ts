@@ -20,7 +20,7 @@ export type EntitySummaryDetailsProps = {
   body: ProjectEntityBody;
 };
 
-export type EntityCategoryGetter = (annoRepoBoby: AnnoRepoBody) => string;
+export type CategoryGetter = (annoRepoBody: AnnoRepoBody) => string;
 
 export interface ProjectConfig {
   id: string;
@@ -73,7 +73,8 @@ export interface ProjectConfig {
    */
   highlightedAnnotationTypes: string[];
 
-  getAnnotationCategory: EntityCategoryGetter;
+  getAnnotationCategory: CategoryGetter;
+  getHighlightCategory: CategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   elasticIndexName: string;

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   createMarkerLineOffsets,
-  createNestedLineOffsets,
+  createAnnotationLineOffsets,
 } from "./createLineOffsets.ts";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
@@ -53,10 +53,11 @@ describe("createLineOffsets", () => {
     const lines = [
       "Synde ter vergaderinge gelesen de requeste van weduwe van wylen den Capn. Willem Bouwensz keert de koe om te hebben betalinge van twee ordonnantien die sy aen t' Collegie ter admt. tot Rotterdam ten achteren staet.",
     ];
-    const result = createNestedLineOffsets(
+    const result = createAnnotationLineOffsets(
       annotation,
       positionsRelativeToView,
       lines,
+      "annotation",
     );
     expect(result.body.id).toEqual(
       "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",

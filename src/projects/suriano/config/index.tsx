@@ -7,9 +7,11 @@ import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
+import "../project.css";
 
 import {
   getAnnotationCategory,
+  getHighlightCategory,
   isEntity,
   projectEntityTypes,
   projectHighlightedTypes,
@@ -86,6 +88,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
 
   getAnnotationCategory: getAnnotationCategory,
+  getHighlightCategory: getHighlightCategory,
   isEntity: isEntity,
 
   showPrevNextScanButtons: true,

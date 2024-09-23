@@ -15,7 +15,7 @@ import {
 } from "../../../model/AnnoRepoAnnotation.ts";
 import {
   createMarkerLineOffsets,
-  createNestedLineOffsets,
+  createAnnotationLineOffsets,
 } from "./utils/createLineOffsets.ts";
 import { LineOffsets } from "./AnnotationModel.ts";
 
@@ -42,6 +42,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     pageMarkerAnnotationTypes,
     insertTextMarkerAnnotationTypes,
     entityAnnotationTypes,
+    highlightedAnnotationTypes,
   } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
@@ -60,9 +61,25 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     const nestedAnnotations = singleLineAnnotations
       .filter((a) => nestedAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
-        createNestedLineOffsets(annotation, relativeAnnotations, lines),
+        createAnnotationLineOffsets(
+          annotation,
+          relativeAnnotations,
+          lines,
+          "annotation",
+        ),
       );
     offsets.push(...nestedAnnotations);
+    const highlightedAnnotations = singleLineAnnotations
+      .filter((a) => highlightedAnnotationTypes.includes(a.body.type))
+      .map((annotation) =>
+        createAnnotationLineOffsets(
+          annotation,
+          relativeAnnotations,
+          lines,
+          "highlight",
+        ),
+      );
+    offsets.push(...highlightedAnnotations);
   }
 
   // const searchRegex = createSearchRegex(searchTerms, tier2);

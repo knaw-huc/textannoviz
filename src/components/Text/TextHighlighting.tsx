@@ -7,6 +7,7 @@ import { useProjectStore } from "../../stores/project";
 import { getAnnotationsByTypes } from "./Annotated/utils/getAnnotationsByTypes.ts";
 import { createSearchRegex } from "./createSearchRegex.tsx";
 import { useDetailUrlParams } from "./Annotated/utils/useDetailUrlParams.tsx";
+import { normalizeClassname } from "./Annotated/utils/createAnnotationClasses.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -67,9 +68,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
         annotationTypesToHighlight.map((annoTypeToHighlight) => {
           if (anno.body.type.includes(annoTypeToHighlight)) {
             collectedClasses.add(
-              `annotated-${annoTypeToHighlight
-                .toLowerCase()
-                .replace(":", "-")}`,
+              normalizeClassname(`annotated-${annoTypeToHighlight}`),
             );
           }
         });
