@@ -50,7 +50,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   }
   if (annoRepoBody.type === teiHi) {
     const category = _.get(annoRepoBody, "metadata.rend");
-    console.log("hi as ", category);
+    console.log(`hi.rend=${category}`);
     return category;
   }
 }

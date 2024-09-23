@@ -2,7 +2,7 @@ import {
   AnnotationSegment,
   MarkerSegment,
   NestedAnnotationSegment,
-  SearchHighlightSegment,
+  HighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
 import { Any } from "../../../../utils/Any.ts";
@@ -29,12 +29,15 @@ export function createAnnotationClasses(
   return classes.join(" ").toLowerCase();
 }
 
-export function createSearchHighlightClasses(
-  annotationSegment: SearchHighlightSegment,
+export function createHighlightClasses(
+  annotationSegment: HighlightSegment,
   segment: Segment,
 ) {
-  const classes = [];
-  classes.push("search-highlight", "bg-yellow-200 rounded");
+  const classes: string[] = [];
+  classes.push("highlight", `highlight-${annotationSegment.body.type}`);
+  if (annotationSegment.body.type === "search") {
+    classes.push("bg-yellow-200", "rounded");
+  }
   classes.push(...createStartEndClasses(segment, annotationSegment));
   return classes.join(" ");
 }

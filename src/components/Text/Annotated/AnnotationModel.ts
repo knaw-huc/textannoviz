@@ -2,11 +2,11 @@ import { AnnoRepoBody, MarkerBody } from "../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * Annotation types:
- * - search: search highlights
+ * - highlight: highlighted but unclickable
  * - annotation: entity annotations
- * - marker: footnote markers of zero length
+ * - marker: marking places of zero length
  */
-export type AnnotationType = "search" | "annotation" | "marker";
+export type AnnotationType = "highlight" | "annotation" | "marker";
 
 /**
  * IDs refer to:
@@ -14,19 +14,17 @@ export type AnnotationType = "search" | "annotation" | "marker";
  * - search highlight index
  */
 export type AnnotationBodyId = string;
-export type MarkerBodyId = string;
-export type FootnoteBodyId = string;
-export type SearchHighlightId = string;
-
-export type SearchHighlightBody = {
-  id: SearchHighlightId;
+export type HighlightId = string;
+export type HighlightBody = {
+  id: HighlightId;
+  type: "search" | string;
 };
 
 export type AnnotationBody =
   // Nested:
   | AnnoRepoBody
   // Highlight:
-  | SearchHighlightBody
+  | HighlightBody
   // Marker:
   | MarkerBody;
 
@@ -69,8 +67,8 @@ export function isNestedAnnotationOffset(
 
 export function isSearchHighlightAnnotationOffset(
   toTest: AnnotationOffset,
-): toTest is AnnotationOffset<SearchHighlightBody> {
-  return toTest.type === "search";
+): toTest is AnnotationOffset<HighlightBody> {
+  return toTest.type === "highlight";
 }
 
 export function isMarkerAnnotationOffset(
@@ -110,11 +108,11 @@ export type AnnotationSegmentWithBodyAndOffsets<
 > = WithTypeAndBody<T> & WithSegmentOffsets;
 
 /**
- * Marker and search highlight 'annotations' aren't part of nested annotations
- * but are nested inside the 'ordinary' nested annotations
+ * Marker and highlight 'annotations' aren't part of nested annotations
+ * but are nested inside the other nested annotations
  */
-export type SearchHighlightSegment =
-  AnnotationSegmentWithBodyAndOffsets<SearchHighlightBody>;
+export type HighlightSegment =
+  AnnotationSegmentWithBodyAndOffsets<HighlightBody>;
 export type MarkerSegment = AnnotationSegmentWithBodyAndOffsets<MarkerBody>;
 
 /**
@@ -131,7 +129,7 @@ export type NestedAnnotationSegment =
 
 export type AnnotationSegment =
   | NestedAnnotationSegment
-  | SearchHighlightSegment
+  | HighlightSegment
   | MarkerSegment;
 
 export function isNestedAnnotationSegment(
@@ -140,10 +138,10 @@ export function isNestedAnnotationSegment(
   return toTest.type === "annotation";
 }
 
-export function isSearchHighlightSegment(
+export function isHighlightSegment(
   toTest: AnnotationSegment,
-): toTest is SearchHighlightSegment {
-  return toTest.type === "search";
+): toTest is HighlightSegment {
+  return toTest.type === "highlight";
 }
 export function isMarkerSegment(
   toTest: AnnotationSegment,
