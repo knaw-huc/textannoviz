@@ -76,7 +76,7 @@ const dataToEntityCategory = {
 const unknownCategory = "UNKNOWN";
 
 export function toEntityClassname(annotationCategory?: string) {
-  return `underlined-${normalizeEntityCategory(
+  return `annotated-${normalizeEntityCategory(
     annotationCategory,
   ).toLowerCase()}`;
 }

@@ -67,7 +67,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
         annotationTypesToHighlight.map((annoTypeToHighlight) => {
           if (anno.body.type.includes(annoTypeToHighlight)) {
             collectedClasses.add(
-              `underlined-${annoTypeToHighlight
+              `annotated-${annoTypeToHighlight
                 .toLowerCase()
                 .replace(":", "-")}`,
             );
