@@ -67,7 +67,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
 
   showPrevNextScanButtons: true,
   pageAnnotation: "tf:Page",
-  elasticIndexName: "suriano-0.6.0e-025",
+  elasticIndexName: "suriano-0.7.0e-026",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
