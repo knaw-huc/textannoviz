@@ -222,10 +222,13 @@ export class AnnotationSegmenter {
     this.currentAnnotationDepth = _.maxBy(currentNested, "depth")?.depth || 0;
 
     // Create new annotation group when all annotations are closed:
-    const hasClosedAllAnnotations =
-      !this.currentAnnotationSegments.length &&
-      annotationIdsClosingAtCharIndex.length;
-    if (hasClosedAllAnnotations) {
+    const hasCurrentNestedAnnotations = this.currentAnnotationSegments.find(
+      (s) => s.type === "annotation",
+    );
+    const isClosingAtCurrentChar = annotationIdsClosingAtCharIndex.length;
+    const hasClosedAllAnnotationsAtCurrentChar =
+      !hasCurrentNestedAnnotations && isClosingAtCurrentChar;
+    if (hasClosedAllAnnotationsAtCurrentChar) {
       this.currentAnnotationDepth = 0;
       this.annotationGroup = {
         id: this.annotationGroup.id + 1,

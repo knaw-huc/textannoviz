@@ -305,7 +305,7 @@ describe("AnnotationSegmenter", () => {
   });
 
   it("creates new group after annotation-less part of line", () => {
-    // <aa>bb<cc>
+    // <a>aa</a>bb<c>cc</c>
     const segments = new AnnotationSegmenter("aabbcc", [
       {
         charIndex: 0,
@@ -413,6 +413,84 @@ describe("AnnotationSegmenter", () => {
     const segment2bb = segments[1].annotations![0] as NestedAnnotationSegment;
     expect(segment2bb.body.id).toEqual("bb");
     expect(segment2bb.group.id).toEqual(2);
+  });
+
+  it("creates two groups when a highlight connects two annotations", () => {
+    /**
+     * <highlight> --> does not belong to groups
+     *   <a>aa</a> --> group 1
+     *   bb
+     *   <c>cc</c> --> group 2
+     * </highlight>
+     */
+    const segments = new AnnotationSegmenter("aabbcc", [
+      {
+        charIndex: 0,
+        offsets: [
+          {
+            charIndex: 0,
+            mark: "start",
+            type: "annotation",
+            body: { id: "aa" } as AnnotationBody,
+          },
+          {
+            charIndex: 0,
+            mark: "start",
+            type: "highlight",
+            body: {
+              id: "high",
+            } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 2,
+        offsets: [
+          {
+            charIndex: 2,
+            mark: "end",
+            type: "annotation",
+            body: { id: "aa" } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 4,
+        offsets: [
+          {
+            charIndex: 4,
+            mark: "start",
+            type: "annotation",
+            body: { id: "cc" } as AnnotationBody,
+          },
+        ],
+      },
+      {
+        charIndex: 6,
+        offsets: [
+          {
+            charIndex: 6,
+            mark: "end",
+            type: "annotation",
+            body: { id: "cc" } as AnnotationBody,
+          },
+          {
+            charIndex: 6,
+            mark: "end",
+            type: "highlight",
+            body: {
+              id: "high",
+            } as AnnotationBody,
+          },
+        ],
+      },
+    ]).segment();
+
+    const segment1high = segments[0].annotations![1] as NestedAnnotationSegment;
+    expect(segment1high.group.id).toEqual(1);
+
+    const segment3cc = segments[2].annotations![1] as NestedAnnotationSegment;
+    expect(segment3cc.group.id).toEqual(2);
   });
 
   it("sorts annotations by length when starting at the same char index", () => {

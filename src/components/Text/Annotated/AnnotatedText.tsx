@@ -14,8 +14,8 @@ import {
   isLogicalTextAnchorTarget,
 } from "../../../model/AnnoRepoAnnotation.ts";
 import {
-  createMarkerLineOffsets,
   createAnnotationLineOffsets,
+  createMarkerLineOffsets,
 } from "./utils/createLineOffsets.ts";
 import { LineOffsets } from "./AnnotationModel.ts";
 
@@ -26,9 +26,15 @@ type TextHighlightingProps = {
 
 /**
  * Annotation definitions
+ * - Highlights are annotations that only have styling
+ * - Nested annotations can be nested into clicked and are grouped when overlapping
+ * // TODO: rename nested to clickable
+ * - Group: all annotations or segments that are connected to each other by nested annotations
+ *   - touching annotations are not grouped (e.g. <a>aa</a><b>bb</bb>)
+ *   - overlapping annotations are grouped (e.g. <ab>aa<bc>bb</bc>cc</bc>)
+ *   - grouped annotations share a group ID
  * - Depth: the number of levels that an annotation is nested in parent annotations or overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
- * - Group: all annotations or segments that are connected to each other by other overlapping/nested annotations
  * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
  * - Marker: annotation of zero length, useful for marking locations of footnotes, page endings, etc.
  * - Offset: start or end character index of an annotation in a line
