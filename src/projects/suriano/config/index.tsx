@@ -57,15 +57,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tf:Page",
     "LetterBody",
   ],
-  allPossibleTextPanels: [
-    "original",
-    "appendix",
-    "text",
-    "secretarial",
-    "self",
-  ],
-  defaultTextPanels: ["self"],
-
   showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
   allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
@@ -87,11 +78,10 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   headerTitle: "The Correspondence of Christofforo Suriano",
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
-  showToggleTextPanels: true,
+  showToggleTextPanels: false,
   showKeywordFacets: false,
   showFacetFilter: false,
   showMiradorNavigationButtons: false,
-  allowCloseTextPanel: true,
   components: {
     EntitySummaryDetails,
     SearchItem,
