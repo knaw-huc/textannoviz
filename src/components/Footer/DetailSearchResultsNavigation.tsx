@@ -10,6 +10,7 @@ import { toDetailPageUrl } from "../Text/Annotated/utils/toDetailPageUrl.tsx";
 import { useDetailUrlParams } from "../Text/Annotated/utils/useDetailUrlParams.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
+import { Any } from "../../utils/Any.ts";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
@@ -40,9 +41,7 @@ export function DetailSearchResultsNavigation() {
   );
 
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
-  console.log("DetailSearchResultsNavigation", { cleanQuery });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const urlSearchParams = new URLSearchParams(searchUrlParams as any);
+  const urlSearchParams = new URLSearchParams(searchUrlParams as Any);
 
   const isOnFirstOfPage = !prevResultPath;
   const isPrevDisabled = isOnFirstOfPage && !hasPrevPage();
