@@ -6,7 +6,7 @@ import _ from "lodash";
 
 export const projectEntityTypes = ["Entity", "DateOccurrence"];
 
-type ProjectDateEntityBody = AnnoRepoBodyBase & {
+export type DateEntityBody = AnnoRepoBodyBase & {
   type: "DateOccurrence";
   text: string;
   metadata: {
@@ -25,7 +25,7 @@ export type ProjectEntityBody =
         name: string;
       };
     })
-  | ProjectDateEntityBody;
+  | DateEntityBody;
 
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
@@ -35,7 +35,7 @@ export const isEntity = (
 
 export const isDateEntity = (
   toTest: AnnoRepoBodyBase,
-): toTest is ProjectDateEntityBody => {
+): toTest is DateEntityBody => {
   return toTest.type === "DateOccurrence";
 };
 

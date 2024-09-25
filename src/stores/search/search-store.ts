@@ -16,7 +16,7 @@ import {
   SearchFacetTypesSlice,
 } from "./search-facet-types-slice.ts";
 
-type SearchStore = SearchResultsSlice &
+export type SearchStore = SearchResultsSlice &
   SearchParamsSlice &
   SearchQuerySlice &
   SearchFacetTypesSlice;

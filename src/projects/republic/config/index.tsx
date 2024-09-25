@@ -12,6 +12,7 @@ import {
   isEntity,
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { toEntitySearchQuery } from "../annotation/toEntitySearchQuery.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -44,6 +45,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   entityAnnotationTypes: projectEntityTypes,
   getEntityCategory: getEntityCategory,
   isEntity: isEntity,
+  toEntitySearchQuery: toEntitySearchQuery,
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,

@@ -11,6 +11,7 @@ import {
   RepublicSearchResultBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
+import { SearchStore } from "../stores/search/search-store.ts";
 
 export type ProjectEntityBody = AnnoRepoBodyBase;
 
@@ -59,6 +60,14 @@ export interface ProjectConfig {
   entityAnnotationTypes: string[];
   getEntityCategory: EntityCategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
+
+  /**
+   * @returns false when not implemented
+   */
+  toEntitySearchQuery: (
+    annotation: AnnoRepoBodyBase,
+    searchStore: SearchStore,
+  ) => URLSearchParams | false;
 
   elasticIndexName: string;
   initialDateFrom: string;
