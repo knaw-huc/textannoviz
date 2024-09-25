@@ -47,7 +47,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
-  elasticIndexName: "republic-2024.09.14",
+  elasticIndexName: "republic-2024.09.19",
   initialDateFrom: "1576-01-01",
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",
