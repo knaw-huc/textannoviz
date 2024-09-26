@@ -18,6 +18,8 @@ import {
   createMarkerLineOffsets,
 } from "./utils/createLineOffsets.ts";
 import { LineOffsets } from "./AnnotationModel.ts";
+import { createSearchRegex } from "../createSearchRegex.tsx";
+import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -52,8 +54,8 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
-  // const { tier2, highlight } = useDetailUrlParams();
-  // const searchTerms = highlight;
+  const { tier2, highlight } = useDetailUrlParams();
+  const searchTerms = highlight;
   const lines = props.text.lines;
 
   const relativeAnnotations = props.text.locations.annotations;
@@ -88,16 +90,8 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     offsets.push(...highlightedAnnotations);
   }
 
-  // const searchRegex = createSearchRegex(searchTerms, tier2);
-  offsets.push(
-    ...createSearchHighlightOffsets(lines, new RegExp("ha scritto il Ro", "g")),
-  );
-  offsets.push(
-    ...createSearchHighlightOffsets(
-      lines,
-      new RegExp("del signor cavalier Wton a questo", "g"),
-    ),
-  );
+  const searchHighlight = createSearchRegex(searchTerms, tier2);
+  offsets.push(...createSearchHighlightOffsets(lines, searchHighlight));
 
   const markerAnnotations = [
     ...tooltipMarkerAnnotationTypes,
