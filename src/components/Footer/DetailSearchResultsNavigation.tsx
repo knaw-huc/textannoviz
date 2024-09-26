@@ -9,6 +9,8 @@ import { useSearchResults } from "../Search/useSearchResults.tsx";
 import { toDetailPageUrl } from "../Text/Annotated/utils/toDetailPageUrl.tsx";
 import { useDetailUrlParams } from "../Text/Annotated/utils/useDetailUrlParams.tsx";
 import { FooterLink } from "./FooterLink.tsx";
+import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
+import { Any } from "../../utils/Any.ts";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
@@ -39,9 +41,7 @@ export function DetailSearchResultsNavigation() {
   );
 
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const urlSearchParams = new URLSearchParams(searchUrlParams as any);
+  const urlSearchParams = new URLSearchParams(searchUrlParams as Any);
 
   const isOnFirstOfPage = !prevResultPath;
   const isPrevDisabled = isOnFirstOfPage && !hasPrevPage();
@@ -153,9 +153,4 @@ function createResultPath(
     return;
   }
   return toDetailPageUrl(newResultId, { highlight });
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function skipEmptyValues(_: string, v: any) {
-  return [null, ""].includes(v) ? undefined : v;
 }

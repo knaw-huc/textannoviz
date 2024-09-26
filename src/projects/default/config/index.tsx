@@ -80,7 +80,7 @@ export const defaultConfig: Omit<
     AnnotationItemContent: AnnotationItemContent,
     AnnotationLinks: Placeholder,
     AnnotationButtons: Empty,
-    EntitySummaryDetails: Placeholder,
+    EntitySummary: Placeholder,
     Help: Placeholder,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,

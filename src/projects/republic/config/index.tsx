@@ -2,7 +2,6 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
@@ -12,6 +11,7 @@ import {
   isEntity,
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { EntitySummary } from "../annotation/EntitySummary.tsx";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -46,8 +46,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
-  // elasticIndexName: "republic-2024.06.18",
-  elasticIndexName: "republic-2024.09.14",
+  elasticIndexName: "republic-2024.09.19",
   initialDateFrom: "1576-01-01",
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",
@@ -81,7 +80,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   showFacetFilter: true,
   components: {
-    EntitySummaryDetails,
+    EntitySummary,
     MetadataPanel,
     SearchItem,
   },

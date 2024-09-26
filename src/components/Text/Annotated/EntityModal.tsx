@@ -7,7 +7,6 @@ import {
   GroupedSegments,
   isNestedAnnotationSegment,
 } from "./AnnotationModel.ts";
-import { EntitySummary } from "./EntitySummary.tsx";
 import { Optional } from "../../../utils/Optional.ts";
 import {
   projectConfigSelector,
@@ -40,11 +39,11 @@ export function EntityModalButton(
 
 export function EntityModal(props: EntityModalProps) {
   const translateProject = useProjectStore(translateProjectSelector);
-  const projectConfig = useProjectStore(projectConfigSelector);
+  const { isEntity, components } = useProjectStore(projectConfigSelector);
 
   const { clickedGroup } = props;
   const entityBodies = clickedGroup
-    ? getAllEntities(clickedGroup, projectConfig.isEntity)
+    ? getAllEntities(clickedGroup, isEntity)
     : [];
 
   return (
@@ -62,7 +61,7 @@ export function EntityModal(props: EntityModalProps) {
         </div>
         <ul>
           {entityBodies.map((a, i) => (
-            <EntitySummary key={i} body={a} />
+            <components.EntitySummary key={i} body={a} />
           ))}
         </ul>
       </div>

@@ -11,6 +11,7 @@ import {
   RepublicSearchResultBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
+import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 
 export type ProjectEntityBody = AnnoRepoBodyBase & {
   // Project specific entity type and properties
@@ -135,7 +136,7 @@ export interface ProjectConfig {
       annotation: AnnoRepoAnnotation;
     }) => JSX.Element;
     AnnotationLinks: () => JSX.Element | null;
-    EntitySummaryDetails: (props: EntitySummaryDetailsProps) => JSX.Element;
+    EntitySummary: (props: EntitySummaryProps) => JSX.Element;
     Help: () => JSX.Element;
     MetadataPanel: (props: {
       annotations: AnnoRepoAnnotation[];
