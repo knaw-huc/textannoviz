@@ -111,10 +111,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
         createMarkerLineOffsets(annotation, relativeAnnotations),
       ),
   );
-  console.log(
-    "annotations",
-    annotations.filter((a) => a.body.type === "tf:Page"),
-  );
   return (
     <div>
       {props.text.lines.map((line, index) => (
