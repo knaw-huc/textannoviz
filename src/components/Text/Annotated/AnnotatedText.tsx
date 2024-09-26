@@ -105,7 +105,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     ...pageMarkerAnnotationTypes,
   ];
   offsets.push(
-    ...singleLineAnnotations
+    ...annotations
       .filter((a) => markerAnnotations.includes(a.body.type))
       .map((annotation) =>
         createMarkerLineOffsets(annotation, relativeAnnotations),
@@ -113,7 +113,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   );
   console.log(
     "annotations",
-    annotations.filter((a) => a.body.type === "tei:Hi"),
+    annotations.filter((a) => a.body.type === "tf:Page"),
   );
   return (
     <div>
