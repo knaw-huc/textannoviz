@@ -14,6 +14,7 @@ export function toEntitySearchQuery(
   if (isDateEntity(anno)) {
     return toDateSearchQuery(anno.metadata.date, searchStore);
   } else {
+    // TODO:
     return false;
   }
 }
