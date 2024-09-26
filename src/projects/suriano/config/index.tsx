@@ -3,7 +3,6 @@ import logo from "../../../assets/logo-republic-temp.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
-import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
@@ -15,6 +14,7 @@ import {
   projectFootnoteMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { EntitySummary } from "../annotation/EntitySummary.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -94,7 +94,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showFacetFilter: false,
   showMiradorNavigationButtons: false,
   components: {
-    EntitySummaryDetails,
+    EntitySummary,
     SearchItem,
     MetadataPanel,
     AnnotationButtons,

@@ -7,7 +7,6 @@ import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getEntityCategory } from "./getEntityCategory.ts";
 import { isEntity } from "./isEntity.ts";
-import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -39,7 +38,6 @@ export const defaultConfig: Omit<
   entityAnnotationTypes: ["Entity"],
   getEntityCategory: getEntityCategory,
   isEntity: isEntity,
-  toEntitySearchQuery: toEntitySearchQuery,
 
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
@@ -78,7 +76,7 @@ export const defaultConfig: Omit<
     AnnotationItemContent: AnnotationItemContent,
     AnnotationLinks: Placeholder,
     AnnotationButtons: Empty,
-    EntitySummaryDetails: Placeholder,
+    EntitySummary: Placeholder,
     Help: Placeholder,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,

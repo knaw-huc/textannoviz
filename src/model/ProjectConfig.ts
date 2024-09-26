@@ -11,7 +11,7 @@ import {
   RepublicSearchResultBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
-import { SearchStore } from "../stores/search/search-store.ts";
+import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 
 export type ProjectEntityBody = AnnoRepoBodyBase;
 
@@ -60,14 +60,6 @@ export interface ProjectConfig {
   entityAnnotationTypes: string[];
   getEntityCategory: EntityCategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
-
-  /**
-   * @returns false when not implemented
-   */
-  toEntitySearchQuery: (
-    annotation: AnnoRepoBodyBase,
-    searchStore: SearchStore,
-  ) => URLSearchParams | false;
 
   elasticIndexName: string;
   initialDateFrom: string;
@@ -127,7 +119,7 @@ export interface ProjectConfig {
       annotation: AnnoRepoAnnotation;
     }) => JSX.Element;
     AnnotationLinks: () => JSX.Element | null;
-    EntitySummaryDetails: (props: EntitySummaryDetailsProps) => JSX.Element;
+    EntitySummary: (props: EntitySummaryProps) => JSX.Element;
     Help: () => JSX.Element;
     MetadataPanel: (props: {
       annotations: AnnoRepoAnnotation[];

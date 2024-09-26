@@ -4,18 +4,19 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
-import {
-  normalizeEntityCategory,
-  toEntityClassname,
-} from "./utils/createAnnotationClasses.ts";
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { useNavigate } from "react-router-dom";
 import { useSearchStore } from "../../../stores/search/search-store.ts";
+import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
+import {
+  normalizeEntityCategory,
+  toEntityClassname,
+} from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
-  const { getEntityCategory, components, toEntitySearchQuery } =
-    useProjectStore(projectConfigSelector);
+  const { getEntityCategory } = useProjectStore(projectConfigSelector);
   const searchStore = useSearchStore();
   const navigate = useNavigate();
   const { body } = props;
@@ -28,7 +29,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         <div className={`${entityClassname} annotationMarker text-sm italic`}>
           {translateProject(entityCategory)}
         </div>
-        <components.EntitySummaryDetails body={props.body} />
+        <EntitySummaryDetails body={props.body} />
       </div>
       <div className="flex gap-4">
         <div>

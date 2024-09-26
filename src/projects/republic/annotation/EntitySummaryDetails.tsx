@@ -14,6 +14,7 @@ export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
   if (isEntity(body)) {
     return <div>{trimMiddle(body.text, 120)}</div>;
   }
+  return null;
 };
 
 function DateEntity(props: { body: DateEntityBody }) {

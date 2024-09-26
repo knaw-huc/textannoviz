@@ -4,6 +4,9 @@ import { Base64 } from "js-base64";
 import { SearchStore } from "../../../stores/search/search-store.ts";
 import { isDateEntity } from "./ProjectAnnotationModel.ts";
 
+/**
+ * @returns false when not implemented
+ */
 export function toEntitySearchQuery(
   anno: AnnoRepoBodyBase,
   searchStore: SearchStore,
