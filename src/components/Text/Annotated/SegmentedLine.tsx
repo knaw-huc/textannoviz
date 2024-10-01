@@ -28,28 +28,28 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
     setClickedSegment(clicked);
   }
 
-  const grouped = groupSegmentsByGroupId(segments);
+  const allSegmentGroups = groupSegmentsByGroupId(segments);
   const clickedAnnotationGroup = getAnnotationGroup(clickedSegment);
-  const clickedGroup = grouped.find(
+  const clickedSegmentGroup = allSegmentGroups.find(
     (g) => clickedAnnotationGroup && g.id === clickedAnnotationGroup?.id,
   );
 
   return (
     <span className="segmented-line">
-      {grouped.map((group, i) => (
+      {allSegmentGroups.map((group, i) => (
         <SegmentGroup
           key={i}
           group={group}
-          clickedGroup={clickedGroup}
+          clickedGroup={clickedSegmentGroup}
           clickedSegment={clickedSegment}
           onClickSegment={handleClickSegment}
         />
       ))}
-      {clickedGroup && (
+      {clickedSegmentGroup && (
         <EntityModal
-          isOpen={!!clickedGroup}
+          isOpen={!!clickedSegmentGroup}
           onClose={() => setClickedSegment(undefined)}
-          clickedGroup={clickedGroup}
+          clickedGroup={clickedSegmentGroup}
         />
       )}
     </span>
