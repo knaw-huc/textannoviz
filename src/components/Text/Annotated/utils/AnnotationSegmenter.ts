@@ -115,7 +115,7 @@ export class AnnotationSegmenter {
   private handleAnnotationlessEnd() {
     const lastOffsets = this.allOffsetsAtCharIndex.at(-1);
 
-    // No annotations, already sorted by annotationless start:
+    // Line without annotations is already handled by annotationless start
     if (!lastOffsets) {
       return;
     }

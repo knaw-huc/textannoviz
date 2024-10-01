@@ -65,6 +65,8 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const singleLineAnnotations = annotations.filter(withTargetInSingleLine);
 
   const nestedAnnotationTypes = [...entityAnnotationTypes];
+  console.log({ annotations });
+
   if (relativeAnnotations.length) {
     const nestedAnnotations = singleLineAnnotations
       .filter((a) => nestedAnnotationTypes.includes(a.body.type))
