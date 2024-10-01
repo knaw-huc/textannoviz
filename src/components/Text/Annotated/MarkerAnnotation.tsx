@@ -50,7 +50,8 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
     .filter((t) => t.type === "Canvas")
     .map((t) => t.source)[0];
 
-  function pageBreakClickHandler() {
+  function pageBreakClickHandler(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
     if (canvas.length > 0) {
       miradorStore.dispatch(mirador.actions.setCanvas(projectName, canvas));
     }
