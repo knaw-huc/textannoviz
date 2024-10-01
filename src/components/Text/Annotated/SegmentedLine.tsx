@@ -29,7 +29,9 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
 
   const grouped = groupSegmentsByGroupId(segments);
   const clickedAnnotationGroup = getAnnotationGroup(clickedSegment);
-  const clickedGroup = grouped.find((g) => g.id === clickedAnnotationGroup?.id);
+  const clickedGroup = grouped.find(
+    (g) => clickedAnnotationGroup && g.id === clickedAnnotationGroup?.id,
+  );
 
   return (
     <span className="segmented-line">
