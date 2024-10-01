@@ -57,7 +57,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   }
 
   return (
-    <div className="mb-3 mt-10">
+    <div className="page-marker mb-3 mt-10">
       <hr />
       <div
         className="mt-4 text-center text-sm text-gray-500 transition hover:cursor-pointer hover:text-gray-900 hover:underline"
