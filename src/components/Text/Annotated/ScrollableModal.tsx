@@ -6,6 +6,7 @@ export function ScrollableModal(
   props: PropsWithChildren<{
     isOpen: boolean;
     onClose: () => void;
+    ariaLabel: string;
   }>,
 ) {
   return (
@@ -13,14 +14,12 @@ export function ScrollableModal(
       isOpen={props.isOpen}
       className="h-fit w-full max-w-7xl rounded-lg bg-white shadow-xl"
     >
-      <Dialog>
+      <Dialog aria-label={props.ariaLabel}>
         <div className="scrollable-modal-content">
           <div className="my-4 flex w-full justify-end px-4">
             <Button
               className="rounded bg-neutral-200 p-2"
-              onPress={() => {
-                props.onClose();
-              }}
+              onPress={props.onClose}
             >
               <XMarkIcon className="h-6 fill-neutral-500 stroke-neutral-800" />
             </Button>

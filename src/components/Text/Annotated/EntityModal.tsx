@@ -32,7 +32,11 @@ export function EntityModal(props: EntityModalProps) {
     : [];
 
   return (
-    <ScrollableModal isOpen={props.isOpen} onClose={props.onClose}>
+    <ScrollableModal
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      ariaLabel={clickedGroup.segments.map((s) => s.body).join("")}
+    >
       <StyledText panel="text-modal">
         <LineSegmentsViewer
           segments={clickedGroup.segments}
