@@ -9,6 +9,7 @@ import { SegmentGroup } from "./SegmentGroup.tsx";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
+import { EntityModal } from "./EntityModal.tsx";
 
 export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   const { line, offsets } = props;
@@ -44,6 +45,13 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
           onClickSegment={handleClickSegment}
         />
       ))}
+      {clickedGroup && (
+        <EntityModal
+          isOpen={!!clickedGroup}
+          onClose={() => setClickedSegment(undefined)}
+          clickedGroup={clickedGroup}
+        />
+      )}
     </span>
   );
 }

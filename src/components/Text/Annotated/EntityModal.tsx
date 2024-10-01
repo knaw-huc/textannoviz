@@ -7,35 +7,20 @@ import {
   GroupedSegments,
   isNestedAnnotationSegment,
 } from "./AnnotationModel.ts";
-import { Optional } from "../../../utils/Optional.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
 import { ScrollableModal } from "./ScrollableModal.tsx";
-import { SpanModalButton } from "./SpanModalButton.tsx";
 import { ProjectEntityBody } from "../../../model/ProjectConfig.ts";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
 type EntityModalProps = PropsWithChildren<{
+  isOpen: boolean;
+  onClose: () => void;
   clickedGroup: GroupedSegments;
 }>;
-
-export function EntityModalButton(
-  props: Optional<EntityModalProps, "clickedGroup">,
-) {
-  return (
-    <SpanModalButton
-      label={props.children}
-      modal={
-        props.clickedGroup && (
-          <EntityModal {...props} clickedGroup={props.clickedGroup} />
-        )
-      }
-    />
-  );
-}
 
 export function EntityModal(props: EntityModalProps) {
   const translateProject = useProjectStore(translateProjectSelector);
@@ -47,7 +32,7 @@ export function EntityModal(props: EntityModalProps) {
     : [];
 
   return (
-    <ScrollableModal>
+    <ScrollableModal isOpen={props.isOpen} onClose={props.onClose}>
       <StyledText panel="text-modal">
         <LineSegmentsViewer
           segments={clickedGroup.segments}
