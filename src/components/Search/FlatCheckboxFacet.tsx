@@ -262,7 +262,7 @@ export function FlatCheckboxFacet(props: {
           onChange={(event) =>
             inputFilterOnChangeHandler(event.currentTarget.value)
           }
-          placeholder="Zoek in facet"
+          placeholder={translateProject("facetInputFilterPlaceholder")}
         />
         {Object.entries(filteredFacets).map(
           ([facetValueName, facetValueCount], index) => {

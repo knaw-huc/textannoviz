@@ -24,6 +24,15 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   sliderFacetLabel: "Aantal woorden in resoluties",
   resolutionType: "Resolutietype",
   textType: "Teksttype",
+  entitiesName: "Entiteit",
+  entitiesId: "Entiteit ID",
+  entitiesCategory: "Type entiteit",
+  entitiesLabels: "Categorie",
+  attendantsName: "Aanwezige gedeputeerde",
+  facetInputFilterPlaceholder: "Zoek in facet",
+
+  showMore: "Toon meer",
+  showLess: "Toon minder",
 
   // search results:
   results: "resoluties",
@@ -36,6 +45,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   LOC: "locatie",
   ORG: "organisatie",
   PER: "persoon",
+  PERS: "persoon",
 
   ENTITIES: "Entiteiten",
 });

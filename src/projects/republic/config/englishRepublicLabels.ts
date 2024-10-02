@@ -31,6 +31,15 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   sliderFacetLabel: "Min/max number of words",
   resolutionType: "Resolution type",
   textType: "Text type",
+  entitiesName: "Entity",
+  entitiesId: "Entity ID",
+  entitiesCategory: "Entity type",
+  entitiesLabels: "Category",
+  attendantsName: "Attending delegate",
+  facetInputFilterPlaceholder: "Search facet",
+
+  showMore: "Show more",
+  showLess: "Show less",
 
   // search results:
   results: "resolutions",
@@ -43,6 +52,7 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   LOC: "location",
   ORG: "organisation",
   PER: "person",
+  PERS: "person",
 
   ENTITIES: "Entities",
 });
