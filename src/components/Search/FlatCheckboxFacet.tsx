@@ -40,6 +40,7 @@ export function FlatCheckboxFacet(props: {
   const [filteredFacets, setFilteredFacets] = React.useState<FlatFacet>(
     props.facet,
   );
+  const [filterValue, setFilterValue] = React.useState<string>("");
   const facetLength = Object.keys(filteredFacets).length;
 
   React.useEffect(() => {
@@ -55,8 +56,16 @@ export function FlatCheckboxFacet(props: {
   }, [props.selectedFacets]);
 
   React.useEffect(() => {
-    setFilteredFacets(props.facet);
-  }, [props.facet]);
+    const filterFacets = (value: string) => {
+      return Object.fromEntries(
+        Object.entries(props.facet).filter(([facetValueName]) =>
+          facetValueName.toLowerCase().includes(value.toLowerCase()),
+        ),
+      );
+    };
+
+    setFilteredFacets(filterFacets(filterValue));
+  }, [props.facet, filterValue]);
 
   const sortOrder = getSortOrder(
     searchQuery.aggs!,
@@ -228,14 +237,9 @@ export function FlatCheckboxFacet(props: {
   const debouncedFilterFacets = React.useMemo(
     () =>
       debounce((value: string) => {
-        const filtered = Object.fromEntries(
-          Object.entries(props.facet).filter(([facetValueName]) =>
-            facetValueName.toLowerCase().includes(value),
-          ),
-        );
-        setFilteredFacets(filtered);
+        setFilterValue(value);
       }, 300),
-    [props.facet],
+    [],
   );
 
   function inputFilterOnChangeHandler(value: string) {
