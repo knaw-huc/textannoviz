@@ -2,6 +2,7 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
@@ -79,6 +80,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     EntitySummaryDetails,
     MetadataPanel,
     SearchItem,
+    AnnotationButtons,
   },
   selectedLanguage: "nl",
   languages: [

@@ -57,15 +57,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tf:Page",
     "LetterBody",
   ],
-  allPossibleTextPanels: [
-    "original",
-    "appendix",
-    "text",
-    "secretarial",
-    "self",
-  ],
-  defaultTextPanels: ["self"],
-
   showAnnotations: true,
   annotationTypesToHighlight: ["tf:Ent"],
   allowedAnnotationTypesToHighlight: ["tf:Ent", "tei:Ptr"],
@@ -76,7 +67,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
 
   showPrevNextScanButtons: true,
   pageAnnotation: "tf:Page",
-  elasticIndexName: "suriano-0.6.0e-025",
+  elasticIndexName: "suriano-0.7.0e-026",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
@@ -91,7 +82,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showCheckboxFacets: false,
   showFacetFilter: false,
   showMiradorNavigationButtons: false,
-  allowCloseTextPanel: true,
   components: {
     EntitySummaryDetails,
     SearchItem,
