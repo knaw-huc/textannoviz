@@ -16,6 +16,10 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
   const isPartOfAnnotationGroup = _.isNumber(props.groupId);
   if (isPartOfAnnotationGroup) {
     classes.push(
+      /**
+       * - `fullNestedAnnotation` indicates annotations should be shown in full detail, as rendered in the entity detail modal
+       * - `closedNestedAnnotation` indicates only the outer annotation should be highlighted, as rendered in the text viewer
+       */
       props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation",
     );
   }

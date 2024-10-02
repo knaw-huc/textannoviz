@@ -58,7 +58,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   }
 
   return (
-    <div className="page-marker mb-3 mt-10">
+    <div className="marker mb-3 mt-10">
       <hr />
       <div
         className="mt-4 text-center text-sm text-gray-500 transition hover:cursor-pointer hover:text-gray-900 hover:underline"
@@ -87,7 +87,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
 export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { marker } = props;
   return (
-    <span className="inserted-text">
+    <span className="marker inserted-text">
       {/*TODO: move to project config*/}
       {marker.body.metadata.facs ?? ""}
     </span>
