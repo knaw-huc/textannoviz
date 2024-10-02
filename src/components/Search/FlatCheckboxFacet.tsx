@@ -258,7 +258,7 @@ export function FlatCheckboxFacet(props: {
         sortOrder={sortOrder}
       >
         <input
-          className="ml-2 mr-2 h-8 rounded border border-gray-300 px-2 py-1.5 text-sm"
+          className="ml-2 mr-2 h-8 rounded-md border px-2 py-1.5 text-sm text-gray-800 outline outline-0 focus-within:border-black"
           onChange={(event) =>
             inputFilterOnChangeHandler(event.currentTarget.value)
           }
