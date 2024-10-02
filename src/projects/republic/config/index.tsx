@@ -39,7 +39,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
-  elasticIndexName: "republic-2024.09.14",
+  elasticIndexName: "republic-2024.09.19",
   initialDateFrom: "1576-01-01",
   initialDateTo: "1796-12-31",
   initialRangeFrom: "0",
@@ -57,6 +57,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
   showMiradorNavigationButtons: false,
+  //DEV, REMOVE IN PROD
+  showSelectedFilters: false,
   overrideDefaultAggs: [
     {
       facetName: "sessionYear",
@@ -68,8 +70,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "propositionType",
     "textType",
     "resolutionType",
-    "delegateName",
-    "entityName",
+    "entities",
+    "attendants",
   ],
   showFacetFilter: true,
   nestedFacets: ["entities", "attendants"],

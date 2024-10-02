@@ -8,7 +8,7 @@ import { sendSearchQuery } from "../../../utils/broccoli";
 
 export async function getFacets(
   projectConfig: ProjectConfig,
-  aggregations: Aggregations,
+  aggregations: Aggregations[],
   searchQuery: SearchQuery,
   signal: AbortSignal,
 ) {

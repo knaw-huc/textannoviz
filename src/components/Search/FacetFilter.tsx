@@ -27,6 +27,30 @@ export function FacetFilter(props: FacetFilterProps) {
   const translateProject = useProjectStore(translateProjectSelector);
   const translate = useProjectStore(translateSelector);
 
+  const possibleFacets = props.allPossibleCheckboxFacets.reduce(
+    (acc, facet) => {
+      if (facet.type === "flat") {
+        acc.push(facet.facetName);
+      }
+
+      if (facet.type === "nested") {
+        const topFacetKey = facet.facetName;
+        const nestedFacetKeys = Object.keys(facet.facetItems).map(
+          (nestedFacetKey) =>
+            topFacetKey +
+            nestedFacetKey.charAt(0).toUpperCase() +
+            nestedFacetKey.slice(1),
+        );
+        acc.push(...nestedFacetKeys);
+      }
+
+      return acc;
+    },
+    [] as string[],
+  );
+
+  // console.log(possibleFacets);
+
   React.useEffect(() => {
     if (props.filteredCheckboxFacets.length > 0) {
       setSelected(new Set(props.filteredCheckboxFacets));
@@ -56,8 +80,8 @@ export function FacetFilter(props: FacetFilterProps) {
           onSelectionChange={listBoxItemToggleHandler}
           className="border-brand1Grey-200 flex max-h-64 cursor-default flex-col gap-2 overflow-auto rounded border bg-white px-1 py-1 text-sm"
         >
-          {!isEmpty(props.allPossibleCheckboxFacets) &&
-            props.allPossibleCheckboxFacets.map(([facetLabel], index) => (
+          {!isEmpty(possibleFacets) &&
+            possibleFacets.map((facetLabel, index) => (
               <ListBoxItem
                 key={index}
                 id={facetLabel}

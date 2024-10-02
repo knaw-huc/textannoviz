@@ -3,6 +3,7 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import React from "react";
 import type { Key, Selection } from "react-aria-components";
+import { Terms } from "../../model/Search.ts";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -12,7 +13,7 @@ import {
   SearchQuery,
 } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import { CheckboxFacet } from "./CheckboxFacet.tsx";
+import { CheckboxFacets } from "./CheckboxFacets.tsx";
 import { DateFacet } from "./DateFacet.tsx";
 import { FacetFilter } from "./FacetFilter.tsx";
 import { FragmenterSelection } from "./FragmenterSelection.tsx";
@@ -20,8 +21,6 @@ import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
 import { InputFacet } from "./InputFacet.tsx";
 import { NewSearchButton } from "./NewSearchButton.tsx";
 import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
-import { ShowLessButton } from "./ShowLessButton.tsx";
-import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
@@ -30,8 +29,6 @@ interface SearchFormProps {
   checkboxFacets: FacetEntry[];
   updateAggs: (query: SearchQuery) => void;
 }
-
-type ShowMoreClickedState = Record<string, boolean>;
 
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
@@ -42,8 +39,6 @@ export function SearchForm(props: SearchFormProps) {
   const queryHistory = useSearchStore((state) => state.searchQueryHistory);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
-  const [showMoreClicked, setShowMoreClicked] =
-    React.useState<ShowMoreClickedState>({});
   const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
   const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
 
@@ -65,14 +60,38 @@ export function SearchForm(props: SearchFormProps) {
   React.useEffect(() => {
     if (defaultAggsIsInit) return;
     if (!isEmpty(props.checkboxFacets)) {
+      //TODO: update nestedFacets to use labelName instead of facetName/nesting? So: "entitiesName" instead of "entities"
       const initialFilteredAggs = props.checkboxFacets.reduce<string[]>(
-        (accumulator, checkboxFacet) => {
+        (acc, checkboxFacet) => {
           if (
-            projectConfig.defaultCheckboxAggsToRender.includes(checkboxFacet[0])
+            projectConfig.defaultCheckboxAggsToRender.includes(
+              checkboxFacet.facetName,
+            )
           ) {
-            accumulator.push(checkboxFacet[0]);
+            acc.push(checkboxFacet.facetName);
           }
-          return accumulator;
+          return acc;
+          // if (
+          //   projectConfig.defaultCheckboxAggsToRender.includes(
+          //     checkboxFacet.facetName,
+          //   )
+          // ) {
+          //   if (checkboxFacet.type === "flat") {
+          //     acc.push(checkboxFacet.facetName);
+          //   }
+
+          //   if (checkboxFacet.type === "nested") {
+          //     const topFacetKey = checkboxFacet.facetName;
+          //     const nestedFacetKeys = Object.keys(checkboxFacet.facetItems).map(
+          //       (nestedFacetKey) =>
+          //         topFacetKey +
+          //         nestedFacetKey.charAt(0).toUpperCase() +
+          //         nestedFacetKey.slice(1),
+          //     );
+          //     acc.push(...nestedFacetKeys);
+          //   }
+          // }
+          // return acc;
         },
         [],
       );
@@ -83,20 +102,67 @@ export function SearchForm(props: SearchFormProps) {
 
   function updateCheckboxFacet(
     facetName: string,
+    labelName: string,
     facetOptionName: string,
     selected: boolean,
   ) {
-    const newTerms = { ...searchQuery.terms };
-    if (!selected) {
-      removeTerm(newTerms, facetName, facetOptionName);
-    } else {
-      const facet = newTerms[facetName];
-      if (facet) {
-        facet.push(facetOptionName);
+    const newTerms: Terms = { ...searchQuery.terms };
+
+    console.log(selected);
+
+    const nestedTerms = projectConfig.nestedFacets
+      .filter((nestedFacet) => labelName.startsWith(nestedFacet))
+      .map((nestedFacet) => ({
+        nesting: nestedFacet,
+        facetName: facetName,
+        facetOptionName: facetOptionName,
+        selected: selected,
+      }));
+
+    nestedTerms.forEach((nestedTerm) => {
+      if (!nestedTerm.selected) {
+        removeTerm(
+          newTerms,
+          nestedTerm.facetName,
+          nestedTerm.facetOptionName,
+          nestedTerm.nesting,
+        );
       } else {
-        newTerms[facetName] = [facetOptionName];
+        const facet = newTerms[nestedTerm.nesting];
+        if (facet && typeof facet === "object" && !Array.isArray(facet)) {
+          if (facet[nestedTerm.facetName]) {
+            facet[nestedTerm.facetName].push(nestedTerm.facetOptionName);
+          } else {
+            facet[nestedTerm.facetName] = [nestedTerm.facetOptionName];
+          }
+        } else {
+          newTerms[nestedTerm.nesting] = {
+            [nestedTerm.facetName]: [nestedTerm.facetOptionName],
+          };
+        }
+      }
+    });
+
+    const isNested = nestedTerms.some(
+      (nestedTerm) => nestedTerm.facetName === facetName,
+    );
+
+    if (!isNested) {
+      if (!selected) {
+        removeTerm(newTerms, facetName, facetOptionName);
+      } else {
+        const facet = newTerms[facetName];
+        if (facet && Array.isArray(facet)) {
+          facet.push(facetOptionName);
+        } else {
+          {
+            newTerms[facetName] = [facetOptionName];
+          }
+        }
       }
     }
+
+    console.log(newTerms);
     setSearchQuery({ ...searchQuery, terms: newTerms });
     onSearch();
   }
@@ -204,37 +270,9 @@ export function SearchForm(props: SearchFormProps) {
     updateFullText(value);
   }
 
-  function showMoreButtonClickHandler(aggregation: string) {
-    const prevAggs = searchQuery.aggs;
-
-    const newAggs = prevAggs?.map((prevAgg) => {
-      if (!prevAgg.facetName.startsWith(aggregation)) return prevAgg;
-
-      const newAgg = {
-        ...prevAgg,
-        size: showMoreClicked[aggregation] ? 10 : 1000,
-      };
-
-      return newAgg;
-    });
-
-    const newQuery = {
-      ...searchQuery,
-      aggs: newAggs,
-    };
-
-    setSearchQuery(newQuery);
-
-    setShowMoreClicked({
-      ...showMoreClicked,
-      [aggregation]: !showMoreClicked[aggregation],
-    });
-
-    props.updateAggs(newQuery);
-  }
-
   function facetFilterChangeHandler(keys: Selection) {
     const updatedFilteredAggs = Array.from(keys) as string[];
+    console.log(updatedFilteredAggs);
     const orderedFilteredAggs = props.checkboxFacets
       .map((facet) => facet[0])
       .filter((facetName) => updatedFilteredAggs.includes(facetName));
@@ -319,49 +357,18 @@ export function SearchForm(props: SearchFormProps) {
           />
         </div>
       )}
-      {/* keyword facetten ombouwen in checkbox facetten? Dat is dan een combi van keyword en nested facetten. Daar dan overheen lopen */}
-      {projectConfig.showCheckboxFacets &&
-        !isEmpty(props.checkboxFacets) &&
-        filteredAggs.map((facetName, index) => {
-          const facetValue = props.checkboxFacets.find(
-            (facet) => facet[0] === facetName,
-          )?.[1];
 
-          return facetValue ? (
-            <>
-              <div
-                key={index}
-                className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
-              >
-                <CheckboxFacet
-                  facetName={facetName}
-                  facet={facetValue}
-                  selectedFacets={searchQuery.terms}
-                  onChangeCheckboxFacet={updateCheckboxFacet}
-                  onSearch={props.onSearch}
-                  updateAggs={props.updateAggs}
-                />
-              </div>
-              {Object.keys(facetValue).length < 10 ? null : (
-                <div key={`btn-${index}`}>
-                  {showMoreClicked[facetName] ? (
-                    <ShowLessButton
-                      showLessButtonClickHandler={() =>
-                        showMoreButtonClickHandler(facetName)
-                      }
-                      facetName={facetName}
-                    />
-                  ) : (
-                    <ShowMoreButton
-                      showMoreButtonClickHandler={showMoreButtonClickHandler}
-                      facetName={facetName}
-                    />
-                  )}
-                </div>
-              )}
-            </>
-          ) : null;
-        })}
+      {projectConfig.showCheckboxFacets && !isEmpty(props.checkboxFacets) && (
+        <>
+          <CheckboxFacets
+            filteredAggs={filteredAggs}
+            facets={props.checkboxFacets}
+            onChangeCheckboxFacet={updateCheckboxFacet}
+            onSearch={props.onSearch}
+            updateAggs={props.updateAggs}
+          />
+        </>
+      )}
     </div>
   );
 }

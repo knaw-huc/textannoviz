@@ -1,5 +1,4 @@
 import { Base64 } from "js-base64";
-import _ from "lodash";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -19,13 +18,12 @@ import { useSearchStore } from "../../stores/search/search-store.ts";
 import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
-import { dummyIndex } from "./DummyIndex.ts";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 // import { getFacets } from "./util/getFacets.ts";
-import { dummyAggs } from "./DummyAggs.ts";
+import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
 
 export const Search = () => {
@@ -85,18 +83,19 @@ export const Search = () => {
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
-      // const newFacetTypes = newIndices[projectConfig.elasticIndexName];
-      const newFacetTypes = dummyIndex;
+      const newFacetTypes = newIndices[projectConfig.elasticIndexName];
+      // const newFacetTypes = dummyIndex;
       const aggregations = createAggs(newFacetTypes, projectConfig);
       console.log(aggregations);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      // const newFacets = await getFacets(
-      //   projectConfig,
-      //   aggregations,
-      //   searchQuery,
-      //   signal,
-      // );
-      const newFacets = dummyAggs;
+      const newFacets = await getFacets(
+        projectConfig,
+        aggregations,
+        searchQuery,
+        signal,
+      );
+      console.log(newFacets);
+      // const newFacets = dummyAggs;
 
       const newDateFacets = filterFacetsByType(
         newFacetTypes,
@@ -110,11 +109,26 @@ export const Search = () => {
         "keyword",
       );
 
-      const newCheckboxFacets = newKeywordFacets;
+      const newNestedFacets: FacetEntry[] = Object.entries(newFacets)
+        .filter(([name]) => {
+          return projectConfig.nestedFacets.includes(name);
+        })
+        .map(([facetCategory, facetItems]) => {
+          return {
+            type: "nested",
+            facetName: facetCategory,
+            facetItems: facetItems,
+          };
+        });
+
+      console.log(newNestedFacets);
+      console.log(newKeywordFacets);
+
+      //keyword en nested van elkaar scheiden en apart opsturen
+
+      const newCheckboxFacets = [...newKeywordFacets, ...newNestedFacets];
 
       console.log(newCheckboxFacets);
-
-      console.log(_.at(dummyIndex, ["attendants", "entities"]));
 
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
@@ -127,7 +141,7 @@ export const Search = () => {
       };
 
       if (!isEmpty(newDateFacets)) {
-        newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
+        newSearchQuery.dateFacet = newDateFacets?.[0].facetName;
       }
       if (projectConfig.showSliderFacets) {
         newSearchQuery.rangeFacet = "text.tokenCount";
@@ -280,12 +294,31 @@ export const Search = () => {
       return;
     }
 
-    setCheckboxFacets(
-      filterFacetsByType(searchFacetTypes, searchResults.aggs, "keyword"),
+    const newKeywordFacets = filterFacetsByType(
+      searchFacetTypes,
+      searchResults.aggs,
+      "keyword",
     );
+
+    const newNestedFacets: FacetEntry[] = Object.entries(searchResults.aggs)
+      .filter(([name]) => {
+        return projectConfig.nestedFacets.includes(name);
+      })
+      .map(([facetCategory, facetItems]) => {
+        return {
+          type: "nested",
+          facetName: facetCategory,
+          facetItems: facetItems,
+        };
+      });
+
+    const newCheckboxFacets = [...newKeywordFacets, ...newNestedFacets];
+
+    setCheckboxFacets(newCheckboxFacets);
   }
 
   function handleNewSearch() {
+    //TODO: add 'spinner' when searching?
     toFirstPage();
     setDirty(true);
   }

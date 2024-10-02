@@ -1,4 +1,8 @@
 import { FacetTypes, SearchResult } from "../../model/Search.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
 import {
   FacetEntry,
@@ -7,10 +11,6 @@ import {
   toRequestBody,
 } from "../../stores/search/search-query-slice.ts";
 import { sendSearchQuery } from "../../utils/broccoli.ts";
-import {
-  projectConfigSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 
 type SearchResultsAndFacets = {
   results: SearchResult;
@@ -41,12 +41,27 @@ export function useSearchResults() {
     if (!searchResults) {
       return;
     }
-    const keywordFacets = filterFacetsByType(
+    const newKeywordFacets = filterFacetsByType(
       facetTypes,
       searchResults.aggs,
       "keyword",
     );
-    return { results: searchResults, facets: keywordFacets };
+
+    const newNestedFacets: FacetEntry[] = Object.entries(searchResults.aggs)
+      .filter(([name]) => {
+        return projectConfig.nestedFacets.includes(name);
+      })
+      .map(([facetCategory, facetItems]) => {
+        return {
+          type: "nested",
+          facetName: facetCategory,
+          facetItems: facetItems,
+        };
+      });
+
+    const newCheckboxFacets = [...newKeywordFacets, ...newNestedFacets];
+
+    return { results: searchResults, facets: newCheckboxFacets };
   }
   return {
     getSearchResults,

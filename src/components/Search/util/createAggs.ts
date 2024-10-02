@@ -35,6 +35,7 @@ export function createAggs(
       };
     }
 
+    //TODO: ondersteuning override nested facets
     if (aggs[key]) {
       const override = projectConfig.overrideDefaultAggs.find(
         (override) => override.facetName === key,
@@ -47,12 +48,9 @@ export function createAggs(
         });
       }
 
-      newAggs = {
-        ...newAggs,
-        ...aggs,
-      };
+      newAggs.push(aggs);
     }
 
     return newAggs;
-  }, {} as Aggregations);
+  }, [] as Aggregations[]);
 }

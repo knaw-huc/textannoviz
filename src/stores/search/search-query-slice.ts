@@ -1,11 +1,11 @@
 import { StateCreator } from "zustand";
 import {
   Aggregations,
-  Facet,
   FacetName,
-  FacetType,
   FacetTypes,
   Facets,
+  FlatFacet,
+  NestedFacet,
   SearchQueryRequestBody,
   Terms,
 } from "../../model/Search.ts";
@@ -16,7 +16,7 @@ import {
 export type SearchQuery = {
   dateFacet?: FacetName;
   rangeFacet?: FacetName;
-  aggs?: Aggregations;
+  aggs?: Aggregations[];
   dateFrom: string;
   dateTo: string;
   rangeFrom: string;
@@ -59,19 +59,31 @@ export const createSearchQuerySlice: StateCreator<
     })),
 });
 
-export type FacetEntry = [FacetName, Facet];
+export type FacetEntry = {
+  type: "flat" | "nested";
+  facetName: FacetName;
+  facetItems: FlatFacet | NestedFacet;
+};
 
 export function filterFacetsByType(
   facetTypes: FacetTypes,
   facets: Facets,
-  type: FacetType,
+  type: string,
 ): FacetEntry[] {
   if (!facets || !facetTypes) {
     return [];
   }
-  return Object.entries(facets).filter(([name]) => {
-    return facetTypes[name] === type;
-  });
+  return Object.entries(facets)
+    .filter(([name]) => {
+      return facetTypes[name] === type;
+    })
+    .map(([facetName, facetItems]) => {
+      return {
+        type: "flat",
+        facetName: facetName,
+        facetItems: facetItems,
+      };
+    });
 }
 
 export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
@@ -104,7 +116,9 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
   }
 
   if (query.aggs) {
-    searchQuery.aggs = query.aggs;
+    searchQuery.aggs = query.aggs?.reduce((acc, curr) => {
+      return { ...acc, ...curr };
+    }, {});
   }
 
   return searchQuery;

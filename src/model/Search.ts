@@ -115,19 +115,25 @@ export type FacetOptionName = string;
 /**
  * Facets and all facet options
  */
-export type Facets = Record<FacetName, Facet | NestedFacet>;
+export type Facets = Record<FacetName, FlatFacet | NestedFacet>;
 
 /**
  * Document count per facet option
  */
-export type Facet = Record<FacetOptionName, number>;
+export type FlatFacet = Record<FacetOptionName, number>;
 
 export type NestedFacet = Record<string, Record<string, number>>;
 
 /**
  * Selected facet options per facet
  */
-export type Terms = Record<FacetName, FacetOptionName[]>;
+export type Terms = {
+  [key: string]: FacetOptionName[] | Record<string, FacetOptionName[]>;
+};
+
+export type FlatTerms = FacetOptionName[];
+
+export type NestedTerms = Record<string, FacetOptionName[]>;
 
 export type Indices = {
   [key: string]: {
@@ -144,8 +150,10 @@ export type NestedAggregation = {
   [key: string]: SimpleAggregation;
 };
 
+export type Aggregation = SimpleAggregation | NestedAggregation;
+
 export type Aggregations = {
-  [key: string]: SimpleAggregation | NestedAggregation;
+  [key: string]: Aggregation;
 };
 
 export type SearchQueryRequestBody =

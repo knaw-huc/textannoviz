@@ -33,7 +33,7 @@ export function CheckboxGroupComponent({
   return (
     <CheckboxGroup
       {...props}
-      className="bg-brand2-50 flex flex-col gap-2 rounded pb-2"
+      className="bg-brand2-50 flex max-h-[550px] w-full max-w-[450px] flex-col gap-2 overflow-y-auto overflow-x-hidden rounded pb-2"
     >
       <>
         <div className="border-brand2-100 bg-brand2-100 flex h-12 flex-col items-start rounded-t border-b-2">
