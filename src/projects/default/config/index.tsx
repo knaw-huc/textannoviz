@@ -5,6 +5,8 @@ import { AnnotationItem } from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
+import { getEntityCategory } from "./getEntityCategory.ts";
+import { isEntity } from "./isEntity.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -34,7 +36,8 @@ export const defaultConfig: Omit<
   footnoteMarkerAnnotationTypes: [],
   pageMarkerAnnotationTypes: [],
   entityAnnotationTypes: ["Entity"],
-  entityCategoryPath: "metadata.category",
+  getEntityCategory: getEntityCategory,
+  isEntity: isEntity,
 
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
@@ -73,7 +76,7 @@ export const defaultConfig: Omit<
     AnnotationItemContent: AnnotationItemContent,
     AnnotationLinks: Placeholder,
     AnnotationButtons: Empty,
-    EntitySummaryDetails: Placeholder,
+    EntitySummary: Placeholder,
     Help: Placeholder,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,

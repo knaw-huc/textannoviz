@@ -19,7 +19,6 @@ export type NestedAnnotationProps = {
 export function NestedAnnotation(props: NestedAnnotationProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const entityTypes = projectConfig.entityAnnotationTypes;
-  const entityCategoryPath = projectConfig.entityCategoryPath;
 
   const nestedAnnotations = props.toNest.filter(isNestedAnnotationSegment);
   const toRender = nestedAnnotations[0];
@@ -34,7 +33,7 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
         props.segment,
         toRender,
         entityTypes,
-        entityCategoryPath,
+        projectConfig.getEntityCategory,
       )}
     >
       {toNest.length ? (

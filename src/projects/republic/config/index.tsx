@@ -2,8 +2,13 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { EntitySummary } from "../annotation/EntitySummary.tsx";
+import {
+  getEntityCategory,
+  isEntity,
+  projectEntityTypes,
+} from "../annotation/ProjectAnnotationModel.ts";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
-import { EntitySummaryDetails } from "../EntitySummaryDetails.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
@@ -31,12 +36,15 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Entity",
     // "TextRegion",
     "Page",
+    "DateOccurrence",
   ],
   showAnnotations: true,
-  annotationTypesToHighlight: ["Entity"],
-  allowedAnnotationTypesToHighlight: ["Entity"],
-  entityAnnotationTypes: ["Entity"],
-  entityCategoryPath: "metadata.category",
+
+  annotationTypesToHighlight: projectEntityTypes,
+  allowedAnnotationTypesToHighlight: projectEntityTypes,
+  entityAnnotationTypes: projectEntityTypes,
+  getEntityCategory: getEntityCategory,
+  isEntity: isEntity,
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
@@ -74,7 +82,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   showFacetFilter: true,
   components: {
-    EntitySummaryDetails,
+    EntitySummary,
     MetadataPanel,
     SearchItem,
     AnnotationButtons,

@@ -21,6 +21,8 @@ export default {
           hoe500: "#33AE75",
           org100: "#F0ECF7",
           org500: "#9D7FC6",
+          dat100: "#F0ECF7",
+          dat500: "#9D7FC6",
         },
       },
       entityColor: {

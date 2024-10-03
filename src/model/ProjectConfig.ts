@@ -1,5 +1,9 @@
 import { SearchQuery } from "../stores/search/search-query-slice.ts";
-import { AnnoRepoAnnotation, EntityBody } from "./AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  AnnoRepoBody,
+  AnnoRepoBodyBase,
+} from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import {
   GlobaliseSearchResultsBody,
@@ -7,10 +11,15 @@ import {
   RepublicSearchResultBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
+import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
+
+export type ProjectEntityBody = AnnoRepoBodyBase;
 
 export type EntitySummaryDetailsProps = {
-  body: EntityBody;
+  body: ProjectEntityBody;
 };
+
+export type EntityCategoryGetter = (annoRepoBoby: AnnoRepoBody) => string;
 
 export interface ProjectConfig {
   id: string;
@@ -25,13 +34,32 @@ export interface ProjectConfig {
   relativeTo: string;
 
   showAnnotations: boolean;
+  /**
+   * Annotation types to load from the backend
+   */
   annotationTypesToInclude: string[];
+  /**
+   * Default annotation types that are highlighted in the text
+   */
   annotationTypesToHighlight: string[];
+  /**
+   * All annotations that are potentially highlightable
+   */
   allowedAnnotationTypesToHighlight: string[];
+  /**
+   * Footnote markers, showing a tooltip with the note
+   */
   footnoteMarkerAnnotationTypes: string[];
+  /**
+   * Annotations marking the start or end of a page
+   */
   pageMarkerAnnotationTypes: string[];
+  /**
+   * Annotations that can be clicked and opened in the detail viewer
+   */
   entityAnnotationTypes: string[];
-  entityCategoryPath: string;
+  getEntityCategory: EntityCategoryGetter;
+  isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   elasticIndexName: string;
   initialDateFrom: string;
@@ -91,7 +119,7 @@ export interface ProjectConfig {
       annotation: AnnoRepoAnnotation;
     }) => JSX.Element;
     AnnotationLinks: () => JSX.Element | null;
-    EntitySummaryDetails: (props: EntitySummaryDetailsProps) => JSX.Element;
+    EntitySummary: (props: EntitySummaryProps) => JSX.Element;
     Help: () => JSX.Element;
     MetadataPanel: (props: {
       annotations: AnnoRepoAnnotation[];
