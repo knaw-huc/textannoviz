@@ -56,15 +56,23 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
     }
   }
 
+  const pageNumber = props.marker.body.metadata.n;
   return (
-    <div className="mb-3 mt-10">
-      <hr />
-      <div
-        className="mt-4 text-center text-sm text-gray-500 transition hover:cursor-pointer hover:text-gray-900 hover:underline"
-        onClick={pageBreakClickHandler}
-      >
-        {/*TODO: move to project config*/}(
-        {props.marker.body.metadata.n ?? "page break"})
+    <div className="-ml-7 mt-20 border-t border-neutral-100">
+      <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-600">
+        <button
+          className="inline-flex rounded border border-neutral-200 bg-white px-1 py-1  "
+          onClick={pageBreakClickHandler}
+          aria-label="Click to show the facsimile"
+        >
+          ←
+          <span className="hidden transition group-hover:inline-block ">
+            Show facsimile
+          </span>
+        </button>
+        <div className="border2 inline-flex rounded border-neutral-200 bg-white px-2 py-1  ">
+          {pageNumber ? `Page ${pageNumber}` : "page break"}
+        </div>
       </div>
     </div>
   );
