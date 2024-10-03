@@ -15,6 +15,7 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
+import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { monthNumberToString } from "../../utils/monthNumberToString";
 import {
@@ -170,12 +171,10 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
               <li className="mb-8">
                 <div className={gridOneColumn}>
                   <strong>Propositietype: </strong>
-                  {(resolution.body as ResolutionBody).metadata.propositionType
-                    .charAt(0)
-                    .toUpperCase() +
-                    (
-                      resolution.body as ResolutionBody
-                    ).metadata.propositionType.slice(1)}
+                  {firstLetterToUppercase(
+                    (resolution.body as ResolutionBody).metadata
+                      .propositionType,
+                  )}
                 </div>
               </li>
             ) : null}
@@ -183,12 +182,9 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
               <li className="mb-8">
                 <div className={gridOneColumn}>
                   <strong>Resolutietype: </strong>
-                  {(resolution.body as ResolutionBody).metadata.resolutionType
-                    .charAt(0)
-                    .toUpperCase() +
-                    (
-                      resolution.body as ResolutionBody
-                    ).metadata.resolutionType.slice(1)}
+                  {firstLetterToUppercase(
+                    (resolution.body as ResolutionBody).metadata.resolutionType,
+                  )}
                 </div>
               </li>
             ) : null}{" "}
