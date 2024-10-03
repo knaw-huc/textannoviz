@@ -4,7 +4,7 @@ import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
-  getEntityCategory,
+  getAnnotationCategory,
   isEntity,
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
@@ -38,12 +38,11 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "Page",
     "DateOccurrence",
   ],
-  showAnnotations: true,
 
-  annotationTypesToHighlight: projectEntityTypes,
-  allowedAnnotationTypesToHighlight: projectEntityTypes,
+  showAnnotations: true,
+  annotationTypesToHighlight: [],
   entityAnnotationTypes: projectEntityTypes,
-  getEntityCategory: getEntityCategory,
+  getAnnotationCategory: getAnnotationCategory,
   isEntity: isEntity,
 
   pageAnnotation: "Page",

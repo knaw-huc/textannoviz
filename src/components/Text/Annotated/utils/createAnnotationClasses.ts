@@ -1,19 +1,21 @@
 import {
   AnnotationSegment,
+  HighlightSegment,
+  isAnnotationHighlightBody,
+  isSearchHighlightBody,
   MarkerSegment,
   NestedAnnotationSegment,
-  SearchHighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
 import { Any } from "../../../../utils/Any.ts";
-import { EntityCategoryGetter } from "../../../../model/ProjectConfig.ts";
+import { CategoryGetter } from "../../../../model/ProjectConfig.ts";
 
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
   entityTypes: string[],
-  getEntityCategory: EntityCategoryGetter,
-) {
+  getEntityCategory: CategoryGetter,
+): string[] {
   const classes = [];
   classes.push(
     "nested-annotation",
@@ -26,23 +28,29 @@ export function createAnnotationClasses(
     classes.push(toEntityClassname(category));
   }
   classes.push(...createStartEndClasses(segment, annotation));
-  return classes.join(" ").toLowerCase();
+  return classes.map(normalizeClassname);
 }
 
-export function createSearchHighlightClasses(
-  annotationSegment: SearchHighlightSegment,
+export function createHighlightClasses(
+  annotationSegment: HighlightSegment,
   segment: Segment,
-) {
-  const classes = [];
-  classes.push("search-highlight", "bg-yellow-200 rounded");
+  getHighlightCategory: CategoryGetter,
+): string[] {
+  const classes: string[] = [];
+  const body = annotationSegment.body;
+  if (isSearchHighlightBody(body)) {
+    classes.push("bg-yellow-200", "rounded");
+  } else if (isAnnotationHighlightBody(body)) {
+    classes.push(`highlight-${getHighlightCategory(body)}`);
+  }
   classes.push(...createStartEndClasses(segment, annotationSegment));
-  return classes.join(" ");
+  return classes.map(normalizeClassname);
 }
 
-export function createFootnoteMarkerClasses(marker: MarkerSegment) {
+export function createTooltipMarkerClasses(marker: MarkerSegment): string[] {
   const classes = [];
   classes.push("marker", "cursor-help", marker.body.id);
-  return classes.join(" ");
+  return classes.map(normalizeClassname);
 }
 
 function createStartEndClasses(
@@ -56,7 +64,7 @@ function createStartEndClasses(
   if (segment.index === annotationSegment.endSegment - 1) {
     classes.push("end-annotation");
   }
-  return classes;
+  return classes.map(normalizeClassname);
 }
 
 const dataToEntityCategory = {
@@ -76,14 +84,18 @@ const dataToEntityCategory = {
 const unknownCategory = "UNKNOWN";
 
 export function toEntityClassname(annotationCategory?: string) {
-  return `underlined-${normalizeEntityCategory(
-    annotationCategory,
-  ).toLowerCase()}`;
+  return `annotated-${normalizeEntityCategory(annotationCategory)}`;
 }
 
 export function normalizeEntityCategory(annotationCategory?: string) {
   if (!annotationCategory) {
     return unknownCategory;
   }
-  return dataToEntityCategory[annotationCategory] ?? unknownCategory;
+  const entityCategory =
+    dataToEntityCategory[annotationCategory] ?? unknownCategory;
+  return normalizeClassname(entityCategory);
+}
+
+export function normalizeClassname(annotationCategory: string) {
+  return annotationCategory.toLowerCase().replace(":", "-");
 }

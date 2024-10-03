@@ -13,13 +13,15 @@ import {
 } from "./Search.ts";
 import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 
-export type ProjectEntityBody = AnnoRepoBodyBase;
+export type ProjectEntityBody = AnnoRepoBodyBase & {
+  // Project specific entity type and properties
+};
 
 export type EntitySummaryDetailsProps = {
   body: ProjectEntityBody;
 };
 
-export type EntityCategoryGetter = (annoRepoBoby: AnnoRepoBody) => string;
+export type CategoryGetter = (annoRepoBody: AnnoRepoBody) => string;
 
 export interface ProjectConfig {
   id: string;
@@ -33,32 +35,47 @@ export interface ProjectConfig {
    */
   relativeTo: string;
 
-  showAnnotations: boolean;
   /**
    * Annotation types to load from the backend
    */
   annotationTypesToInclude: string[];
+
   /**
-   * Default annotation types that are highlighted in the text
+   * Should annotations be visualised using {@link AnnotatedText} component
+   * as opposed to the default, more basic {@link TextHighlighting} component
+   */
+  showAnnotations: boolean;
+
+  /**
+   * Highlighted annotation types when using the {@link TextHighlighting} component
+   * i.e. when `showAnnotations === false`
    */
   annotationTypesToHighlight: string[];
   /**
-   * All annotations that are potentially highlightable
+   * Show tooltip with note
    */
-  allowedAnnotationTypesToHighlight: string[];
+  tooltipMarkerAnnotationTypes: string[];
   /**
-   * Footnote markers, showing a tooltip with the note
+   * Insert additional text into main text
    */
-  footnoteMarkerAnnotationTypes: string[];
+  insertTextMarkerAnnotationTypes: string[];
   /**
-   * Annotations marking the start or end of a page
+   * Mark the start of a page
    */
   pageMarkerAnnotationTypes: string[];
   /**
-   * Annotations that can be clicked and opened in the detail viewer
+   * Annotation types that are highlighted in the text
+   * and that can be clicked on and opened in the annotation detail viewer
    */
   entityAnnotationTypes: string[];
-  getEntityCategory: EntityCategoryGetter;
+  /**
+   * Annotation types that are highlighted in the text
+   * but that cannot be clicked on
+   */
+  highlightedAnnotationTypes: string[];
+
+  getAnnotationCategory: CategoryGetter;
+  getHighlightCategory: CategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   elasticIndexName: string;

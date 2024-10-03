@@ -5,11 +5,29 @@ import {
 } from "../../../model/AnnoRepoAnnotation.ts";
 import _ from "lodash";
 
-export const projectEntityTypes = ["tf:Ent"];
-export const projectFootnoteMarkerAnnotationTypes = ["tei:Ptr"];
+/**
+ * Highlighted element
+ */
+const teiHi = "tei:Hi";
+const tfEnt = "tf:Ent";
+export const projectEntityTypes = [tfEnt];
+export const projectHighlightedTypes = [teiHi];
+export const projectTooltipMarkerAnnotationTypes = [
+  /**
+   * Pointer pointing to a tei:Note
+   * see {@link MarkerTooltip}
+   */
+  "tei:Ptr",
+];
 export const projectPageMarkerAnnotationTypes = ["tf:Page"];
+export const projectInsertTextMarkerAnnotationTypes = [
+  /**
+   * Notes from the editor about what he encountered on the facsimile
+   */
+  "tei:Metamark",
+];
 
-export type ProjectEntityBody = AnnoRepoBodyBase & {
+type EntBody = {
   type: "tf:Ent";
   metadata: {
     details: EntityDetail[];
@@ -17,12 +35,25 @@ export type ProjectEntityBody = AnnoRepoBodyBase & {
   };
 };
 
+export type ProjectEntityBody = AnnoRepoBodyBase & EntBody;
+
 export function isEntity(
   toTest: AnnoRepoBodyBase,
 ): toTest is ProjectEntityBody {
   return projectEntityTypes.includes(toTest.type);
 }
 
-export function getEntityCategory(annoRepoBody: AnnoRepoBody) {
-  return _.get(annoRepoBody, "metadata.kind") ?? "unknown";
+export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
+  if (annoRepoBody.type === tfEnt) {
+    return _.get(annoRepoBody, "metadata.kind") ?? "unknown";
+  }
+  if (annoRepoBody.type === teiHi) {
+    const category = _.get(annoRepoBody, "metadata.rend");
+    console.log(`hi.rend=${category}`);
+    return category;
+  }
+}
+
+export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
+  return _.get(annoRepoBody, "metadata.rend") ?? "unknown";
 }

@@ -3,10 +3,11 @@ import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { LineOffsets } from "../AnnotationModel.ts";
 
-export function createNestedLineOffsets(
+export function createAnnotationLineOffsets(
   annotation: AnnoRepoAnnotation,
   allRelativePositions: BroccoliViewPosition[],
   lines: string[],
+  type: "annotation" | "highlight",
 ): LineOffsets {
   const relativePosition = getPositionRelativeToView(
     allRelativePositions,
@@ -21,7 +22,7 @@ export function createNestedLineOffsets(
   }
 
   return {
-    type: "annotation",
+    type,
     body: annotation.body,
     lineIndex: relativePosition.start.line,
     startChar: relativePosition.start.offset ?? 0,
@@ -30,30 +31,9 @@ export function createNestedLineOffsets(
 }
 
 /**
- * Mark footnote using start offset
- */
-export function createFootnoteMarkLineOffsets(
-  annotation: AnnoRepoAnnotation,
-  allRelativePositions: BroccoliViewPosition[],
-): LineOffsets {
-  const relativePosition = getPositionRelativeToView(
-    allRelativePositions,
-    annotation,
-  );
-  const startChar: number = relativePosition.start.offset ?? 0;
-  return {
-    type: "marker",
-    body: annotation.body,
-    lineIndex: relativePosition.start.line,
-    startChar,
-    endChar: startChar,
-  };
-}
-
-/**
  * Mark start of page using end offset
  */
-export function createPageMarkLineOffsets(
+export function createMarkerLineOffsets(
   annotation: AnnoRepoAnnotation,
   allRelativePositions: BroccoliViewPosition[],
 ): LineOffsets {

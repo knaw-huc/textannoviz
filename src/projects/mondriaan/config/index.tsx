@@ -96,7 +96,6 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   defaultTextPanels: ["textOrig", "textTrans"],
   annotationTypesToHighlight: ["tei:Rs"],
-  allowedAnnotationTypesToHighlight: ["tei:Rs"],
   showToggleTextPanels: true,
   logoImageUrl: logo,
   headerColor: "bg-brand1-100 text-brand1-700",

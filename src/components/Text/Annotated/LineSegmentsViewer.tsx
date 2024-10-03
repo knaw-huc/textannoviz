@@ -12,7 +12,7 @@ export type LineSegmentsViewerProps = {
 };
 
 export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
-  const classes = [];
+  const classes = ["line-segment"];
   const isPartOfAnnotationGroup = _.isNumber(props.groupId);
   if (isPartOfAnnotationGroup) {
     classes.push(
@@ -20,7 +20,7 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
     );
   }
   return (
-    <span className={classes.length ? classes.join(" ") : undefined}>
+    <span className={classes.join(" ")}>
       {props.segments.map((segment, i) => (
         <LineSegment
           key={i}
