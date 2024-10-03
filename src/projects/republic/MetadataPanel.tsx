@@ -141,21 +141,17 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
     (annotation) => annotation.body.type === "Resolution",
   );
 
-  const session = props.annotations.find(
-    (annotation) => annotation.body.type === "Session",
-  );
-
-  if (!resolution || !session) return null;
+  if (!resolution) return null;
 
   return (
     <>
       <ul className="m-0 list-none p-0">
-        {session && resolution ? (
+        {resolution ? (
           <li className="mb-8">
             <div className={gridOneColumn}>
               <strong>Datum: </strong>
               {translateProject(
-                (session.body as SessionBody)?.metadata.sessionWeekday,
+                (resolution.body as SessionBody)?.metadata.sessionWeekday,
               )}{" "}
               {(resolution.body as ResolutionBody).metadata.sessionDay}{" "}
               {
