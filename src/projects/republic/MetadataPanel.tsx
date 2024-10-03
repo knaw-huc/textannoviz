@@ -5,7 +5,6 @@ import { HOSTS } from "../../Config";
 import {
   AnnoRepoAnnotation,
   AttendanceListBody,
-  RepublicEntityBody,
   ResolutionBody,
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
@@ -18,6 +17,10 @@ import {
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { monthNumberToString } from "../../utils/monthNumberToString";
+import {
+  isEntity,
+  ProjectEntityBody,
+} from "./annotation/ProjectAnnotationModel";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -33,7 +36,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   function filterEntitiesByCategory(category: string) {
     return entities.filter(
       (entity) =>
-        (entity.body as RepublicEntityBody).metadata.category === category,
+        (entity.body as ProjectEntityBody).metadata.category === category,
     );
   }
 
@@ -213,13 +216,20 @@ function EntitiesMetadata(props: {
         <ul key={index}>
           <li className="mb-8">
             <div className={gridOneColumn}>
-              Name: {(entity.body as RepublicEntityBody).metadata.name}
+              Name:{" "}
+              {isEntity(entity.body)
+                ? entity.body.type === "Entity"
+                  ? entity.body.metadata.name
+                  : ""
+                : null}
             </div>
             <div className={gridOneColumn}>
               Labels:{" "}
-              {(entity.body as RepublicEntityBody).metadata.entityLabels.join(
-                ", ",
-              )}
+              {isEntity(entity.body)
+                ? entity.body.type === "Entity"
+                  ? entity.body.metadata.entityLabels.join(", ")
+                  : ""
+                : null}
             </div>
           </li>
         </ul>
