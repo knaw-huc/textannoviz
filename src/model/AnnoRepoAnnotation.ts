@@ -240,6 +240,7 @@ export type AnnoRepoBodyBase = {
 
 export type EntityDetail = { label: string; value: string };
 
+// TODO: move to project config
 export type NoteBody = AnnoRepoBodyBase & {
   type: "tei:Note";
   "tf:textfabricNode": string;
@@ -250,6 +251,14 @@ export type NoteBody = AnnoRepoBodyBase & {
   };
 };
 
+// TODO: move to project config
+export type HiBody = AnnoRepoBodyBase & {
+  type: "tei:Hi";
+  metadata: {
+    rend: string;
+  };
+};
+
 export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
   if (!toTest) {
     return false;
@@ -257,13 +266,14 @@ export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
   return toTest.type === "tei:Note";
 }
 
+// TODO: move to project config
 export type MarkerBody = AnnoRepoBodyBase & {
   type: "tei:Ptr";
   "tf:textfabricNode": string;
   metadata: {
-    n: string;
+    facs?: string;
+    n?: string;
     target: string;
-    type: "tt:PtrMetadata";
   };
 };
 
@@ -284,16 +294,8 @@ export type AnnoRepoBody =
   | TeiRegBody
   | TfLetterBody
   | MarkerBody
-  | NoteBody;
-
-export type Body =
-  | AnnoRepoBody
-  | SessionBody
-  | ResolutionBody
-  | ReviewedBody
-  | AttendanceListBody
-  | AttendantBody
-  | TeiDivBody;
+  | NoteBody
+  | HiBody;
 
 export type ImageTarget = {
   type: "Image";

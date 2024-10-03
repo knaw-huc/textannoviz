@@ -39,7 +39,7 @@ export const isDateEntity = (
   return toTest.type === "DateOccurrence";
 };
 
-export function getEntityCategory(annoRepoBody: AnnoRepoBody) {
+export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === "DateOccurrence") {
     return "DAT";
   }

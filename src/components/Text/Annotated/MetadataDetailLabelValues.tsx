@@ -11,11 +11,11 @@ export function MetadataDetailLabelValues(props: { details?: EntityDetail[] }) {
     return null;
   }
   return (
-    <div className="metadata-details">
+    <div className="metadata-details mb-4 flex flex-col gap-4">
       {props.details.map((detailEntry, i) => (
         <div key={i}>
           <span
-            className="block text-xs italic text-gray-500"
+            className="block italic text-gray-500"
             style={{
               marginBottom: "-0.25em",
               marginTop: "0.25em",
@@ -24,7 +24,7 @@ export function MetadataDetailLabelValues(props: { details?: EntityDetail[] }) {
             {translateProject(detailEntry.label)}
           </span>
           <span
-            className="text-xs"
+            className=""
             dangerouslySetInnerHTML={{ __html: detailEntry.value }}
           />
         </div>

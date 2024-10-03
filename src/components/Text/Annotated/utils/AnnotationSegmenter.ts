@@ -10,8 +10,8 @@ import {
   MarkerSegment,
   NestedAnnotationSegment,
   OffsetsByCharIndex,
-  SearchHighlightBody,
-  SearchHighlightSegment,
+  HighlightBody,
+  HighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
@@ -182,7 +182,7 @@ export class AnnotationSegmenter {
 
   private createAnnotationSegments(
     startOffsets: AnnotationOffset[],
-  ): (AnnotationSegment | SearchHighlightSegment)[] {
+  ): (AnnotationSegment | HighlightSegment)[] {
     return (
       startOffsets
         // Markers are handled seperately:
@@ -191,7 +191,7 @@ export class AnnotationSegmenter {
           if (isNestedAnnotationOffset(offset)) {
             return this.createNestedAnnotationSegment(offset);
           } else if (isSearchHighlightAnnotationOffset(offset)) {
-            return this.createSearchAnnotationSegment(offset);
+            return this.createHighlightAnnotationSegment(offset);
           } else {
             throw new Error(
               "Could could determine offset type of " + JSON.stringify(offset),
@@ -222,10 +222,13 @@ export class AnnotationSegmenter {
     this.currentAnnotationDepth = _.maxBy(currentNested, "depth")?.depth || 0;
 
     // Create new annotation group when all annotations are closed:
-    const hasClosedAllAnnotations =
-      !this.currentAnnotationSegments.length &&
-      annotationIdsClosingAtCharIndex.length;
-    if (hasClosedAllAnnotations) {
+    const hasCurrentNestedAnnotations = this.currentAnnotationSegments.find(
+      (s) => s.type === "annotation",
+    );
+    const isClosingAtCurrentChar = annotationIdsClosingAtCharIndex.length;
+    const hasClosedAllAnnotationsAtCurrentChar =
+      !hasCurrentNestedAnnotations && isClosingAtCurrentChar;
+    if (hasClosedAllAnnotationsAtCurrentChar) {
       this.currentAnnotationDepth = 0;
       this.annotationGroup = {
         id: this.annotationGroup.id + 1,
@@ -269,12 +272,12 @@ export class AnnotationSegmenter {
     } as NestedAnnotationSegment;
   }
 
-  private createSearchAnnotationSegment(
-    startOffset: AnnotationOffset<SearchHighlightBody>,
-  ): SearchHighlightSegment {
+  private createHighlightAnnotationSegment(
+    startOffset: AnnotationOffset<HighlightBody>,
+  ): HighlightSegment {
     return {
       ...this.createSegmentOffsets(),
-      type: "search",
+      type: "highlight",
       body: startOffset.body,
     };
   }

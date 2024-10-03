@@ -20,7 +20,6 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   relativeTo: "na:File",
   annotationTypesToInclude: ["px:Page"],
   // annotationTypesToHighlight: ["px:Page"],
-  // allowedAnnotationTypesToHighlight: ["px:Page"],
   elasticIndexName: "docs-2024-03-18",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",

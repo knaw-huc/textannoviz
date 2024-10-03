@@ -5,7 +5,7 @@ import { AnnotationItem } from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
-import { getEntityCategory } from "./getEntityCategory.ts";
+import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
 
 /**
@@ -30,13 +30,17 @@ export const defaultConfig: Omit<
   colours: {},
 
   showAnnotations: false,
+
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
-  allowedAnnotationTypesToHighlight: [],
-  footnoteMarkerAnnotationTypes: [],
+
+  tooltipMarkerAnnotationTypes: [],
+  insertTextMarkerAnnotationTypes: [],
   pageMarkerAnnotationTypes: [],
-  entityAnnotationTypes: ["Entity"],
-  getEntityCategory: getEntityCategory,
+  entityAnnotationTypes: [],
+  highlightedAnnotationTypes: [],
+  getAnnotationCategory: getCategory,
+  getHighlightCategory: getCategory,
   isEntity: isEntity,
 
   allPossibleTextPanels: ["self"],
