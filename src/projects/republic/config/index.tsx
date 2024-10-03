@@ -2,16 +2,17 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { MetadataPanel } from "../MetadataPanel.tsx";
-import { SearchItem } from "../SearchItem.tsx";
-import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
-import { englishRepublicLabels } from "./englishRepublicLabels.ts";
+import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
   getEntityCategory,
   isEntity,
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
-import { EntitySummary } from "../annotation/EntitySummary.tsx";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchItem } from "../SearchItem.tsx";
+import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
+import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -84,6 +85,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     EntitySummary,
     MetadataPanel,
     SearchItem,
+    AnnotationButtons,
   },
   selectedLanguage: "nl",
   languages: [
