@@ -68,7 +68,6 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tf:Page",
     "LetterBody",
     "tei:Hi",
-    "tei:Metamark",
   ],
   showAnnotations: true,
   annotationTypesToHighlight: [],
