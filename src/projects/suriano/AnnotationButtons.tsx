@@ -22,8 +22,8 @@ export function AnnotationButtons() {
     .prevLetterBody;
 
   React.useEffect(() => {
-    setIsNextButtonDisabled(nextLetter === params.tier2);
-    setIsPrevButtonDisabled(prevLetter === params.tier2);
+    setIsNextButtonDisabled(!nextLetter || nextLetter === params.tier2);
+    setIsPrevButtonDisabled(!prevLetter || prevLetter === params.tier2);
   }, [nextLetter, params.tier2, prevLetter]);
 
   function nextLetterButtonClickHandler() {
