@@ -28,17 +28,16 @@ type TextHighlightingProps = {
 
 /**
  * Annotation definitions
- * - Highlights are annotations that only have styling
- * - Nested annotations can be nested into clicked and are grouped when overlapping
- * // TODO: rename nested to clickable
+ * - Highlights: annotations that only have styling
+ * - Nested annotations: nestable and clickable. A group of nested entities can be clicked and inspected in the EntityModal
+ * - Marker: annotation of zero length, useful for marking locations of footnotes, page endings, etc.
  * - Group: all annotations or segments that are connected to each other by nested annotations
  *   - touching annotations are not grouped (e.g. <a>aa</a><b>bb</bb>)
  *   - overlapping annotations are grouped (e.g. <ab>aa<bc>bb</bc>cc</bc>)
- *   - grouped annotations share a group ID
+ *   - grouped annotations share a group with ID
  * - Depth: the number of levels that an annotation is nested in parent annotations or overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
  * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
- * - Marker: annotation of zero length, useful for marking locations of footnotes, page endings, etc.
  * - Offset: start or end character index of an annotation in a line
  *   - start index marks first character to include
  *   - stop index marks first character to exclude
