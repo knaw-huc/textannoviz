@@ -1,8 +1,7 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { Button } from "react-aria-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { SurianoLetterBody } from "../../model/AnnoRepoAnnotation";
+import { ResolutionBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 
 export function AnnotationButtons() {
@@ -13,44 +12,44 @@ export function AnnotationButtons() {
   const [isNextButtonDisabled, setIsNextButtonDisabled] = React.useState(false);
 
   const currentAnnotation = annotations.find(
-    (annotation) => annotation.body.id === params.tier2,
+    (anno) => anno.body.id === params.tier2,
   );
 
-  const nextLetter = (currentAnnotation?.body as SurianoLetterBody)?.metadata
-    .nextLetterBody;
-  const prevLetter = (currentAnnotation?.body as SurianoLetterBody)?.metadata
-    .prevLetterBody;
+  const prevResolution = (currentAnnotation?.body as ResolutionBody)?.metadata
+    .prevResolutionId;
+  const nextResolution = (currentAnnotation?.body as ResolutionBody)?.metadata
+    .nextResolutionId;
 
   React.useEffect(() => {
-    setIsNextButtonDisabled(!nextLetter || nextLetter === params.tier2);
-    setIsPrevButtonDisabled(!prevLetter || prevLetter === params.tier2);
-  }, [nextLetter, params.tier2, prevLetter]);
+    setIsPrevButtonDisabled(!prevResolution || prevResolution === params.tier2);
+    setIsNextButtonDisabled(!nextResolution || nextResolution === params.tier2);
+  }, [prevResolution, nextResolution, params.tier2]);
 
-  function nextLetterButtonClickHandler() {
-    navigate(`/detail/${nextLetter}`);
+  function prevResolutionButtonClickHandler() {
+    navigate(`/detail/${prevResolution}`);
   }
 
-  function prevLetterButtonClickHandler() {
-    navigate(`/detail/${prevLetter}`);
+  function nextResolutionButtonClickHandler() {
+    navigate(`/detail/${nextResolution}`);
   }
 
   return (
     <>
       <Button
         className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
-        onPress={prevLetterButtonClickHandler}
+        onPress={prevResolutionButtonClickHandler}
         isDisabled={isPrevButtonDisabled}
       >
-        <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" />
-        Prev letter
+        {/* <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" /> */}
+        Vorige resolutie
       </Button>
       <Button
         className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
-        onPress={nextLetterButtonClickHandler}
+        onPress={nextResolutionButtonClickHandler}
         isDisabled={isNextButtonDisabled}
       >
-        Next letter
-        <ChevronRightIcon className="h-4 w-4 fill-neutral-500" />
+        Volgende resolutie
+        {/* <ChevronRightIcon className="h-4 w-4 fill-neutral-500" /> */}
       </Button>
     </>
   );

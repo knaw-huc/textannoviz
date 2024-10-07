@@ -4,6 +4,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 
 export function KeywordFacetLabel(props: {
   option: FacetOptionName;
@@ -16,7 +17,7 @@ export function KeywordFacetLabel(props: {
     <div className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm">
       {translateProject(facet)}:{" "}
       {/^[a-z]/.test(option)
-        ? option.charAt(0).toUpperCase() + option.slice(1)
+        ? firstLetterToUppercase(option)
         : translateProject(option)}{" "}
       {
         <XMarkIcon

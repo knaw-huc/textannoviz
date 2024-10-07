@@ -1,6 +1,6 @@
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PropsWithChildren } from "react";
 import { Button, Dialog, Modal } from "react-aria-components";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export function ScrollableModal(
   props: PropsWithChildren<{
@@ -12,7 +12,7 @@ export function ScrollableModal(
   return (
     <Modal
       isOpen={props.isOpen}
-      className="h-fit w-full max-w-7xl rounded-lg bg-white shadow-xl"
+      className="h-fit w-full max-w-4xl rounded-lg bg-white shadow-xl"
     >
       <Dialog aria-label={props.ariaLabel}>
         <div className="scrollable-modal-content">

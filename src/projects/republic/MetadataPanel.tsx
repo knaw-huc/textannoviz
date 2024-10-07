@@ -6,7 +6,6 @@ import {
   AnnoRepoAnnotation,
   AttendanceListBody,
   ResolutionBody,
-  ScanBody,
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
 import { Broccoli } from "../../model/Broccoli";
@@ -16,6 +15,13 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
+import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
+import { gridOneColumn } from "../../utils/gridOneColumn";
+import { monthNumberToString } from "../../utils/monthNumberToString";
+import {
+  isEntity,
+  ProjectEntityBody,
+} from "./annotation/ProjectAnnotationModel";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -23,40 +29,45 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
+
+  const entities = props.annotations.filter(
+    (anno) => anno.body.type === "Entity",
+  );
+
+  function filterEntitiesByCategory(category: string) {
+    return entities.filter(
+      (entity) =>
+        (entity.body as ProjectEntityBody).metadata.category === category,
+    );
+  }
+
+  const hoeEntities = filterEntitiesByCategory("HOE");
+  const locEntities = filterEntitiesByCategory("LOC");
+  const comEntities = filterEntitiesByCategory("COM");
+  const orgEntities = filterEntitiesByCategory("ORG");
+  const perEntities = filterEntitiesByCategory("PERS");
+
+  return (
+    <>
+      {params.tier2?.includes("resolution") ? (
+        <ResolutionMetadata annotations={props.annotations} />
+      ) : (
+        <div>No panel defined for this annotation type.</div>
+      )}
+      <AttendantsMetadata annotations={props.annotations} />
+      <EntitiesMetadata title="Locaties" entities={locEntities} />
+      <EntitiesMetadata title="Hoedanigheden" entities={hoeEntities} />
+      <EntitiesMetadata title="Personen" entities={perEntities} />
+      <EntitiesMetadata title="Commissies" entities={comEntities} />
+      <EntitiesMetadata title="Organisaties" entities={orgEntities} />
+    </>
+  );
+};
+
+function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
   const [attendanceList, setAttendanceList] =
     React.useState<AnnoRepoAnnotation[]>();
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
-
-  const resolution = props.annotations.find(
-    (annotation) => annotation.body.type === "Resolution",
-  );
-
-  const scan = props.annotations.find(
-    (annotation) => annotation.body.type === "Scan",
-  );
-
-  const session = props.annotations.find(
-    (annotation) => annotation.body.type === "Session",
-  );
-
-  const gridOneColumn = "grid grid-cols-1";
-
-  // TODO: use label keys:
-  const monthNumberToString: Record<number, string> = {
-    1: "januari",
-    2: "februari",
-    3: "maart",
-    4: "april",
-    5: "mei",
-    6: "juni",
-    7: "juli",
-    8: "augustus",
-    9: "september",
-    10: "oktober",
-    11: "november",
-    12: "december",
-  };
 
   React.useEffect(() => {
     const controller = new AbortController();
@@ -89,57 +100,20 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     };
   }, [projectConfig, props.annotations]);
 
-  function renderAttendants() {
-    const broccoliAttendanceList = props.annotations.find(
-      (anno) => anno.body.type === "AttendanceList",
-    );
+  if (!attendanceList) return null;
 
-    if (attendanceList && attendanceList.length > 0) {
-      return (
-        <>
-          <strong>Aanwezigen: </strong>
-          <div className={gridOneColumn + "divide divide-y pb-8"}>
-            {(attendanceList[0].body as AttendanceListBody).attendanceSpans.map(
-              (attendant, index) =>
-                attendant.delegateName !== "" ? (
-                  <li
-                    key={index}
-                    className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
-                  >
-                    {<UserIcon className="inline h-3 w-3" />}
-                    <a
-                      title="Link"
-                      rel="noreferrer"
-                      target="_blank"
-                      href={
-                        attendant.delegateId > 0
-                          ? `${HOSTS.RAA}/${attendant.delegateId}`
-                          : undefined
-                      }
-                      className="hover:text-brand1-900 text-inherit no-underline hover:underline"
-                    >
-                      {attendant.delegateName}
-                    </a>
-                  </li>
-                ) : null,
-            )}
-          </div>
-        </>
-      );
-    }
-
-    if (broccoliAttendanceList) {
-      return (
-        <div className={gridOneColumn + "divide divide-y"}>
-          {(
-            broccoliAttendanceList.body as AttendanceListBody
-          ).attendanceSpans.map((attendant, index) =>
+  return (
+    <>
+      <strong>Aanwezigen: </strong>
+      <div className={gridOneColumn + "divide divide-y pb-8"}>
+        {(attendanceList[0].body as AttendanceListBody).attendanceSpans.map(
+          (attendant, index) =>
             attendant.delegateName !== "" ? (
               <li
                 key={index}
                 className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
               >
-                {<UserIcon className="inline h-3 w-3" />}
+                <UserIcon className="inline h-3 w-3" />
                 <a
                   title="Link"
                   rel="noreferrer"
@@ -155,164 +129,103 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 </a>
               </li>
             ) : null,
-          )}
-        </div>
-      );
-    }
-  }
+        )}
+      </div>
+    </>
+  );
+}
 
-  function renderResolutionView() {
-    return (
-      <>
-        <ul className="m-0 list-none p-0">
-          {session && resolution ? (
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <strong>Datum: </strong>
-                {translateProject(
-                  (session.body as SessionBody)?.metadata.sessionWeekday,
-                )}{" "}
-                {(resolution.body as ResolutionBody).metadata.sessionDay}{" "}
-                {
-                  monthNumberToString[
-                    (resolution.body as ResolutionBody).metadata.sessionMonth
-                  ]
-                }{" "}
-                {(resolution.body as ResolutionBody).metadata.sessionYear}
-              </div>
-            </li>
-          ) : null}
+function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
+  const translateProject = useProjectStore(translateProjectSelector);
 
-          {resolution ? (
-            <>
-              {(resolution.body as ResolutionBody).metadata.propositionType ? (
-                <li className="mb-8">
-                  <div className={gridOneColumn}>
-                    <strong>Propositietype: </strong>
-                    {(
-                      resolution.body as ResolutionBody
-                    ).metadata.propositionType
-                      .charAt(0)
-                      .toUpperCase() +
-                      (
-                        resolution.body as ResolutionBody
-                      ).metadata.propositionType.slice(1)}
-                  </div>
-                </li>
-              ) : null}
-              {(resolution.body as ResolutionBody).metadata.resolutionType ? (
-                <li className="mb-8">
-                  <div className={gridOneColumn}>
-                    <strong>Resolutietype: </strong>
-                    {(resolution.body as ResolutionBody).metadata.resolutionType
-                      .charAt(0)
-                      .toUpperCase() +
-                      (
-                        resolution.body as ResolutionBody
-                      ).metadata.resolutionType.slice(1)}
-                  </div>
-                </li>
-              ) : null}{" "}
-            </>
-          ) : null}
+  const resolution = props.annotations.find(
+    (annotation) => annotation.body.type === "Resolution",
+  );
 
-          {renderAttendants()}
-        </ul>
-      </>
-    );
-  }
-
-  function renderAttendanceListView() {
-    const broccoliAttendanceList = props.annotations.find(
-      (anno) => anno.body.type === "AttendanceList",
-    );
-
-    if (broccoliAttendanceList) {
-      return (
-        <ul className="m-0 list-none p-0">
-          <li className="mb-8">
-            <div className={gridOneColumn}>
-              <strong>Datum: </strong>
-              {
-                (broccoliAttendanceList.body as AttendanceListBody).metadata
-                  .sessionWeekday
-              }{" "}
-              {
-                (broccoliAttendanceList.body as AttendanceListBody).metadata
-                  .sessionDay
-              }{" "}
-              {
-                monthNumberToString[
-                  (broccoliAttendanceList.body as AttendanceListBody).metadata
-                    .sessionMonth
-                ]
-              }{" "}
-              {
-                (broccoliAttendanceList.body as AttendanceListBody).metadata
-                  .sessionYear
-              }
-            </div>
-          </li>
-          <strong>Attendants: </strong>
-          {renderAttendants()}
-        </ul>
-      );
-    }
-  }
-
-  function renderMetadataPanelScanView() {
-    if (!scan || !session) return;
-    return (
-      <ul className="m-0 list-none p-0">
-        <li className="mb-8">
-          <div className={gridOneColumn}>
-            <strong>Datum: </strong>
-            {translateProject(
-              (session.body as SessionBody).metadata.sessionWeekday,
-            )}{" "}
-            {(session.body as SessionBody).metadata.sessionDay}{" "}
-            {
-              monthNumberToString[
-                (session.body as SessionBody).metadata.sessionMonth
-              ]
-            }{" "}
-            {(session.body as SessionBody).metadata.sessionYear}
-          </div>
-        </li>
-        <li className="mb-8">
-          <div className={gridOneColumn}>
-            <strong>Volume: </strong>
-            {(scan.body as ScanBody).metadata.volume}
-          </div>
-        </li>
-        <li className="mb-8">
-          <div className={gridOneColumn}>
-            <strong>Opening: </strong>
-            {(scan.body as ScanBody).metadata.opening}
-          </div>
-        </li>
-        <strong>Aanwezigen: </strong>
-        {renderAttendants()}
-      </ul>
-    );
-  }
-
-  function renderMetadataPanelAnnotationView() {
-    if (params.tier2?.includes("resolution") && resolution) {
-      return renderResolutionView();
-    }
-
-    if (params.tier2?.includes("attendance_list")) {
-      return renderAttendanceListView();
-    }
-
-    return <div>No panel defined for this annotation type.</div>;
-  }
+  if (!resolution) return null;
 
   return (
     <>
-      {params.tier0 && params.tier1 ? renderMetadataPanelScanView() : null}
-      {params.tier2 ? renderMetadataPanelAnnotationView() : null}
+      <ul className="m-0 list-none p-0">
+        {resolution ? (
+          <li className="mb-8">
+            <div className={gridOneColumn}>
+              <strong>Datum: </strong>
+              {translateProject(
+                (resolution.body as SessionBody)?.metadata.sessionWeekday,
+              )}{" "}
+              {(resolution.body as ResolutionBody).metadata.sessionDay}{" "}
+              {
+                monthNumberToString[
+                  (resolution.body as ResolutionBody).metadata.sessionMonth
+                ]
+              }{" "}
+              {(resolution.body as ResolutionBody).metadata.sessionYear}
+            </div>
+          </li>
+        ) : null}
+
+        {resolution ? (
+          <>
+            {(resolution.body as ResolutionBody).metadata.propositionType ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <strong>Propositietype: </strong>
+                  {firstLetterToUppercase(
+                    (resolution.body as ResolutionBody).metadata
+                      .propositionType,
+                  )}
+                </div>
+              </li>
+            ) : null}
+            {(resolution.body as ResolutionBody).metadata.resolutionType ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <strong>Resolutietype: </strong>
+                  {firstLetterToUppercase(
+                    (resolution.body as ResolutionBody).metadata.resolutionType,
+                  )}
+                </div>
+              </li>
+            ) : null}{" "}
+          </>
+        ) : null}
+      </ul>
     </>
   );
-};
+}
+
+function EntitiesMetadata(props: {
+  title: string;
+  entities: AnnoRepoAnnotation[];
+}) {
+  if (!props.entities.length) return null;
+
+  return (
+    <>
+      <strong>{props.title}</strong>
+      {props.entities.map((entity, index) => (
+        <ul key={index}>
+          <li className="mb-8">
+            <div className={gridOneColumn}>
+              Name:{" "}
+              {isEntity(entity.body)
+                ? entity.body.type === "Entity"
+                  ? entity.body.metadata.name
+                  : ""
+                : null}
+            </div>
+            <div className={gridOneColumn}>
+              Labels:{" "}
+              {isEntity(entity.body)
+                ? entity.body.type === "Entity"
+                  ? entity.body.metadata.entityLabels.join(", ")
+                  : ""
+                : null}
+            </div>
+          </li>
+        </ul>
+      ))}
+    </>
+  );
+}

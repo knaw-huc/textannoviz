@@ -2,21 +2,22 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-goetgevonden.png";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { MetadataPanel } from "../MetadataPanel.tsx";
-import { SearchItem } from "../SearchItem.tsx";
-import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
-import { englishRepublicLabels } from "./englishRepublicLabels.ts";
+import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
   getAnnotationCategory,
   isEntity,
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
-import { EntitySummary } from "../annotation/EntitySummary.tsx";
+import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchItem } from "../SearchItem.tsx";
+import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
+import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
-  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
-  // broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
+  // broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
+  broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
   colours: {
     resolution: "yellow",
     attendant: "#DB4437",
@@ -47,8 +48,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
   elasticIndexName: "republic-2024.09.19",
-  initialDateFrom: "1576-01-01",
-  initialDateTo: "1796-12-31",
+  initialDateFrom: "1576-01-10",
+  initialDateTo: "1796-01-03",
   initialRangeFrom: "0",
   initialRangeTo: "66000",
   maxRange: 66000,
@@ -83,6 +84,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     EntitySummary,
     MetadataPanel,
     SearchItem,
+    AnnotationButtons,
   },
   selectedLanguage: "nl",
   languages: [
