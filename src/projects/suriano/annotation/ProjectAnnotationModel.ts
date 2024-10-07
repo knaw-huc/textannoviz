@@ -4,14 +4,16 @@ import {
   EntityDetail,
 } from "../../../model/AnnoRepoAnnotation.ts";
 import _ from "lodash";
+import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 
 /**
  * Highlighted element
  */
 const teiHi = "tei:Hi";
+const teiHead = "tei:Head";
 const tfEnt = "tf:Ent";
 export const projectEntityTypes = [tfEnt];
-export const projectHighlightedTypes = [teiHi];
+export const projectHighlightedTypes = [teiHi, teiHead];
 export const projectTooltipMarkerAnnotationTypes = [
   /**
    * Pointer pointing to a tei:Note
@@ -46,14 +48,23 @@ export function isEntity(
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === tfEnt) {
     return _.get(annoRepoBody, "metadata.kind") ?? "unknown";
-  }
-  if (annoRepoBody.type === teiHi) {
-    const category = _.get(annoRepoBody, "metadata.rend");
-    console.log(`hi.rend=${category}`);
-    return category;
+  } else if (annoRepoBody.type === teiHi) {
+    return _.get(annoRepoBody, "metadata.rend");
+  } else if (annoRepoBody.type === teiHead) {
+    return normalizeClassname(teiHead);
+  } else {
+    console.warn("Could not find annotation category", annoRepoBody);
+    return "unknown";
   }
 }
 
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
-  return _.get(annoRepoBody, "metadata.rend") ?? "unknown";
+  if (annoRepoBody.type === teiHi) {
+    return _.get(annoRepoBody, "metadata.rend");
+  } else if (annoRepoBody.type === teiHead) {
+    return normalizeClassname(teiHead);
+  } else {
+    console.warn("Could not find highlight category", annoRepoBody);
+    return "unknown";
+  }
 }
