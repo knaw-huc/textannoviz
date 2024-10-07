@@ -21,8 +21,8 @@ export function AnnotationButtons() {
     .nextResolutionId;
 
   React.useEffect(() => {
-    setIsPrevButtonDisabled(prevResolution === params.tier2);
-    setIsNextButtonDisabled(nextResolution === params.tier2);
+    setIsPrevButtonDisabled(!prevResolution || prevResolution === params.tier2);
+    setIsNextButtonDisabled(!nextResolution || nextResolution === params.tier2);
   }, [prevResolution, nextResolution, params.tier2]);
 
   function prevResolutionButtonClickHandler() {
