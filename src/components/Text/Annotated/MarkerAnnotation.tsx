@@ -85,7 +85,8 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   return (
     <span className={classNames.join(" ")}>
       <TooltipMarkerButton clickedMarker={marker}>
-        {/*TODO: move to project config*/}[{marker.body.metadata.n ?? "*"}]
+        {/*TODO: move to project config*/}
+        {marker.body.metadata.n ?? "*"}
       </TooltipMarkerButton>
     </span>
   );
