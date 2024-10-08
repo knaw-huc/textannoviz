@@ -26,6 +26,8 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
 
   PER: "person",
 
+  page: "f.",
+
   "PRIMARY NAME": "Primary name",
   "OCCUPATIONS, ROLES, and/or TITLES": "Occupations, roles, titles",
   "BIRTH YEAR": "Date of birth",
