@@ -273,9 +273,9 @@
     transform: translate(0px, -5px);
   }
 
-  /*TODO: add styling*/
   .inserted-text {
-    background: pink;
+    font-size: 0.9em;
+    color: #aaa;
   }
 }
 
