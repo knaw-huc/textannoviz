@@ -9,6 +9,7 @@ import { SegmentGroup } from "./SegmentGroup.tsx";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
+import { EntityModal } from "./EntityModal.tsx";
 
 export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   const { line, offsets } = props;
@@ -27,21 +28,30 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
     setClickedSegment(clicked);
   }
 
-  const grouped = groupSegmentsByGroupId(segments);
+  const allSegmentGroups = groupSegmentsByGroupId(segments);
   const clickedAnnotationGroup = getAnnotationGroup(clickedSegment);
-  const clickedGroup = grouped.find((g) => g.id === clickedAnnotationGroup?.id);
+  const clickedSegmentGroup = allSegmentGroups.find(
+    (g) => clickedAnnotationGroup && g.id === clickedAnnotationGroup?.id,
+  );
 
   return (
     <span className="segmented-line">
-      {grouped.map((group, i) => (
+      {allSegmentGroups.map((group, i) => (
         <SegmentGroup
           key={i}
           group={group}
-          clickedGroup={clickedGroup}
+          clickedGroup={clickedSegmentGroup}
           clickedSegment={clickedSegment}
           onClickSegment={handleClickSegment}
         />
       ))}
+      {clickedSegmentGroup && (
+        <EntityModal
+          isOpen={!!clickedSegmentGroup}
+          onClose={() => setClickedSegment(undefined)}
+          clickedGroup={clickedSegmentGroup}
+        />
+      )}
     </span>
   );
 }

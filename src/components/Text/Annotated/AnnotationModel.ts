@@ -171,6 +171,9 @@ export type Segment = {
   body: string;
 };
 
+/**
+ * All segments belonging to a group
+ */
 export type GroupedSegments = {
   id?: number;
   segments: Segment[];
