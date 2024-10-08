@@ -2,3 +2,13 @@
 .highlight-displaced {
   font-style: italic;
 }
+
+.highlight-tei-head {
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #aaa;
+  text-align: center;
+  display: block;
+  line-height: 5em;
+  text-transform: uppercase;
+}
