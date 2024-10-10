@@ -5,6 +5,7 @@ import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { useMiradorStore } from "../../../stores/mirador.ts";
 import {
   projectConfigSelector,
+  translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
 import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
@@ -41,6 +42,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   const annotations = useAnnotationStore().annotations;
   const miradorStore = useMiradorStore().miradorStore;
   const projectName = useProjectStore().projectName;
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const pageAnno = annotations.find(
     (anno) => props.marker.body.id === anno.body.id,
@@ -71,7 +73,9 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
           </span>
         </button>
         <div className="border2 inline-flex rounded border-neutral-200 bg-white px-2 py-1  ">
-          {pageNumber ? `Page ${pageNumber}` : "page break"}
+          {pageNumber
+            ? `${translateProject("page")} ${pageNumber}`
+            : "page break"}
         </div>
       </div>
     </div>

@@ -38,5 +38,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   ORG: "organisatie",
   PER: "persoon",
 
+  page: "Pagina",
+
   ENTITIES: "Entiteiten",
 });
