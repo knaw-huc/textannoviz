@@ -45,5 +45,7 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   ORG: "organisation",
   PER: "person",
 
+  page: "Page",
+
   ENTITIES: "Entities",
 });
