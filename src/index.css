@@ -382,3 +382,9 @@ input:valid + span::after {
     }
   }
 }
+
+/* Prevent footer from hiding tabpanel or textpanel content */
+div[role="tabpanel"] > *:last-child,
+div[role="textpanel"] > *:last-child {
+  padding-bottom: 5em;
+}
