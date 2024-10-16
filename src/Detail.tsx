@@ -1,7 +1,7 @@
 import { Skeleton } from "primereact/skeleton";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Annotation } from "./components/Annotations/annotation";
+import { Annotation } from "./components/Annotations/Annotation.tsx";
 import { Footer } from "./components/Footer/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
 import { NOTES_VIEW } from "./components/Text/Annotated/MarkerTooltip.tsx";
