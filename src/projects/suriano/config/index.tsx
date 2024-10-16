@@ -19,6 +19,7 @@ import {
   projectPageMarkerAnnotationTypes,
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -105,6 +106,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchItem,
     MetadataPanel,
     AnnotationButtons,
+    SearchInfoPage,
   },
 
   selectedLanguage: "en",
