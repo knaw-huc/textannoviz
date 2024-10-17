@@ -100,6 +100,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showKeywordFacets: false,
   showFacetFilter: false,
   showMiradorNavigationButtons: false,
+  showHelpLink: false,
   components: {
     EntitySummary,
     SearchItem,

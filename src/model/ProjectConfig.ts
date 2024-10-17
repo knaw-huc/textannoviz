@@ -129,6 +129,7 @@ export interface ProjectConfig {
     showWindowSideBar: boolean;
     showTopMenuButton: boolean;
   };
+  showHelpLink: boolean;
   components: {
     AnnotationButtons: () => JSX.Element;
     AnnotationItem: (props: AnnotationItemProps) => JSX.Element;
