@@ -85,7 +85,6 @@ export const defaultConfig: Omit<
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,
     SearchItem: SearchItem,
-    EntityMetadata: Empty,
     BrowseScanButtons: Empty,
   },
   selectedLanguage: "en",
