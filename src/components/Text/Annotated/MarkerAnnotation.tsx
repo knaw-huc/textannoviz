@@ -52,7 +52,8 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
     .filter((t) => t.type === "Canvas")
     .map((t) => t.source)[0];
 
-  function pageBreakClickHandler() {
+  function pageBreakClickHandler(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     if (canvas.length > 0) {
       miradorStore.dispatch(mirador.actions.setCanvas(projectName, canvas));
     }
@@ -60,7 +61,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 
   const pageNumber = props.marker.body.metadata.n;
   return (
-    <div className="-ml-7 mt-20 border-t border-neutral-100">
+    <div className="marker -ml-7 mt-20 border-t border-neutral-100">
       <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-600">
         <button
           className="inline-flex rounded border border-neutral-200 bg-white px-1 py-1  "
@@ -99,7 +100,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
 export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { marker } = props;
   return (
-    <span className="inserted-text">
+    <span className="marker inserted-text">
       {/*TODO: move to project config*/}
       {marker.body.metadata.facs ?? ""}
     </span>
