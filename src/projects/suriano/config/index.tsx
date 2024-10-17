@@ -24,6 +24,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
   broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
   relativeTo: "tf:File",
+  showWebAnnoTab: false,
   annotationTypesToInclude: [
     // "EntityMetadata",
     // "tei:Author",
