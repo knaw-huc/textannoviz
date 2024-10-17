@@ -13,6 +13,7 @@ import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
 import { useTextStore } from "./stores/text";
 import { fetchBroccoliScanWithOverlap } from "./utils/broccoli";
+import { handleAbort } from "./utils/handleAbort.tsx";
 
 interface DetailProps {
   project: string;
@@ -37,9 +38,13 @@ export const Detail = (props: DetailProps) => {
   const params = useParams();
 
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+    const aborter = new AbortController();
     setIsLoading(true);
+
+    if (params.tier2) {
+      const bodyId = params.tier2;
+      fetchBroccoli(bodyId).catch(handleAbort);
+    }
 
     async function fetchBroccoli(bodyId: string) {
       const includeResults = ["anno", "iiif", "text"];
@@ -56,8 +61,8 @@ export const Detail = (props: DetailProps) => {
         viewNames,
         relativeTo,
         props.config,
-        signal,
-      ).catch(handleAbort);
+        aborter.signal,
+      );
 
       if (!result) {
         return;
@@ -76,7 +81,7 @@ export const Detail = (props: DetailProps) => {
           "self",
           relativeTo,
           props.config,
-          signal,
+          aborter.signal,
         );
         annotations.push(...withNotes.anno);
         views[NOTES_VIEW] = withNotes.views.self;
@@ -90,11 +95,7 @@ export const Detail = (props: DetailProps) => {
 
       setIsLoading(false);
     }
-    if (params.tier2) {
-      const bodyId = params.tier2;
-      fetchBroccoli(bodyId);
-    }
-    return () => controller.abort();
+    return () => aborter.abort();
   }, [annotationTypesToInclude, params.tier2, props.config]);
 
   function showIiifViewerHandler() {
@@ -144,11 +145,3 @@ export const Detail = (props: DetailProps) => {
     </>
   );
 };
-
-function handleAbort(e: Error) {
-  if (e instanceof DOMException && e.name == "AbortError") {
-    console.debug("fetchBroccoliScanWithOverlap aborted by useEffect callback");
-  } else {
-    throw e;
-  }
-}

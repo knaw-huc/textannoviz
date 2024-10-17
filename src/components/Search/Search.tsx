@@ -17,13 +17,13 @@ import {
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
-import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
+import { handleAbort } from "../../utils/handleAbort.tsx";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -57,11 +57,8 @@ export const Search = () => {
   const skipUrlSyncRef = useRef(false);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    initSearch().catch(() => {
-      handleAbortControllerAbort(signal);
-    });
+    const aborter = new AbortController();
+    initSearch().catch(handleAbort);
 
     /**
      * Initialize search page:
@@ -78,7 +75,7 @@ export const Search = () => {
       }
       const queryDecoded = getUrlQuery(urlParams);
 
-      const newIndices = await getElasticIndices(projectConfig, signal);
+      const newIndices = await getElasticIndices(projectConfig, aborter.signal);
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
@@ -89,7 +86,7 @@ export const Search = () => {
         projectConfig,
         aggregations,
         searchQuery,
-        signal,
+        aborter.signal,
       );
 
       const newDateFacets = filterFacetsByType(
@@ -132,7 +129,7 @@ export const Search = () => {
           newFacetTypes,
           newSearchParams,
           newSearchQuery,
-          signal,
+          aborter.signal,
         );
         if (searchResults) {
           setSearchResults(searchResults.results);
@@ -146,7 +143,7 @@ export const Search = () => {
 
     return () => {
       setInit(false);
-      controller.abort("useEffect cleanup cycle");
+      aborter.abort();
     };
   }, []);
 
@@ -209,10 +206,9 @@ export const Search = () => {
   }, [searchUrlParams, searchQuery, isInit]);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+    const aborter = new AbortController();
     if (isDirty) {
-      searchWhenDirty();
+      searchWhenDirty().catch(handleAbort);
     }
 
     async function searchWhenDirty() {
@@ -237,7 +233,7 @@ export const Search = () => {
         searchFacetTypes,
         searchUrlParams,
         searchQuery,
-        signal,
+        aborter.signal,
       );
       if (searchResults) {
         setSearchResults(searchResults.results);
@@ -246,9 +242,7 @@ export const Search = () => {
       setDirty(false);
     }
 
-    return () => {
-      controller.abort("useEffect cleanup cycle");
-    };
+    return () => aborter.abort();
   }, [isDirty]);
 
   async function updateAggs(query: SearchQuery) {
