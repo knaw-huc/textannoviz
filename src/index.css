@@ -386,5 +386,5 @@ input:valid + span::after {
 /* Prevent footer from hiding TabPanel or TextPanel content */
 div[role="tabpanel"] > *:last-child,
 div[role="textpanel"] > *:last-child {
-  margin-bottom: 5em;
+  padding-bottom: 5em;
 }
