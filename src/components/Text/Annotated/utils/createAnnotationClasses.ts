@@ -49,7 +49,7 @@ export function createHighlightClasses(
 
 export function createTooltipMarkerClasses(marker: MarkerSegment): string[] {
   const classes = [];
-  classes.push("marker", "cursor-help", marker.body.id);
+  classes.push("marker", "tooltip-marker", "cursor-help", marker.body.id);
   return classes.map(normalizeClassname);
 }
 
