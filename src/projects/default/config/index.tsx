@@ -29,6 +29,8 @@ export const defaultConfig: Omit<
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
 
+  showHelpLink: true,
+
   showAnnotations: false,
 
   annotationTypesToInclude: [],
