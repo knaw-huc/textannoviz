@@ -108,37 +108,24 @@ async function createRouter() {
   ]);
 }
 
+const projectToConfig = {
+  vangogh: vangoghConfig,
+  hooft: hooftConfig,
+  suriano: surianoConfig,
+  translatin: translatinConfig,
+  mondriaan: mondriaanConfig,
+  globalise: globaliseConfig,
+  republic: republicConfig,
+};
+
 function createProjectConfig() {
   const projectEnvVar = "VITE_PROJECT";
-  const project: string = import.meta.env[projectEnvVar];
-  let config: ProjectConfig;
-
-  switch (project) {
-    case "republic":
-      config = republicConfig;
-      break;
-    case "globalise":
-      config = globaliseConfig;
-      break;
-    case "mondriaan":
-      config = mondriaanConfig;
-      break;
-    case "translatin":
-      config = translatinConfig;
-      break;
-    case "suriano":
-      config = surianoConfig;
-      break;
-    case "hooft":
-      config = hooftConfig;
-      break;
-    case "vangogh":
-      config = vangoghConfig;
-      break;
-    default:
-      throw new Error(
-        `No project config defined for ${projectEnvVar}=${project}`,
-      );
+  const project: keyof typeof projectToConfig = import.meta.env[projectEnvVar];
+  const config: ProjectConfig = projectToConfig[project];
+  if (!config) {
+    throw new Error(
+      `No project config defined for ${projectEnvVar}=${project}`,
+    );
   }
   return { project, config };
 }
