@@ -9,7 +9,6 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import {
-  FacetEntry,
   filterFacetsByType,
   SearchQuery,
   toRequestBody,
@@ -30,7 +29,6 @@ export const Search = () => {
   const [isInit, setInit] = useState(false);
   const [isDirty, setDirty] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
-  const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
   const [urlParams, setUrlParams] = useSearchParams();
   const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
     dateFrom: "",
@@ -51,6 +49,8 @@ export const Search = () => {
     toFirstPage,
     searchFacetTypes,
     setSearchFacetTypes,
+    setKeywordFacets,
+    keywordFacets,
   } = useSearchStore();
 
   const { getSearchResults } = useSearchResults();
