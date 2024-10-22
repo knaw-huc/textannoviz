@@ -12,7 +12,7 @@ import { useAnnotationStore } from "./stores/annotation";
 import { setProjectConfigSelector, useProjectStore } from "./stores/project";
 import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
 
-const { project, config } = createProjectConfig();
+const { project, config } = selectProjectConfig();
 const router = await createRouter();
 
 async function fetchExternalConfig(): Promise<ExternalConfig | null> {
@@ -102,7 +102,7 @@ async function createRouter() {
   ]);
 }
 
-function createProjectConfig() {
+function selectProjectConfig() {
   const projectEnvVar = "VITE_PROJECT";
   const project: ProjectName = import.meta.env[projectEnvVar];
   const config: ProjectConfig = projectConfigs[project];
