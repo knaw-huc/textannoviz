@@ -8,15 +8,9 @@ import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";
-import { globaliseConfig } from "./projects/globalise/config";
-import { hooftConfig } from "./projects/hooft/config";
-import { mondriaanConfig } from "./projects/mondriaan/config";
-import { republicConfig } from "./projects/republic/config";
-import { surianoConfig } from "./projects/suriano/config";
-import { translatinConfig } from "./projects/translatin/config";
-import { vangoghConfig } from "./projects/vangogh/config";
 import { useAnnotationStore } from "./stores/annotation";
 import { setProjectConfigSelector, useProjectStore } from "./stores/project";
+import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
 
 const { project, config } = createProjectConfig();
 const router = await createRouter();
@@ -108,20 +102,10 @@ async function createRouter() {
   ]);
 }
 
-const projectToConfig = {
-  vangogh: vangoghConfig,
-  hooft: hooftConfig,
-  suriano: surianoConfig,
-  translatin: translatinConfig,
-  mondriaan: mondriaanConfig,
-  globalise: globaliseConfig,
-  republic: republicConfig,
-};
-
 function createProjectConfig() {
   const projectEnvVar = "VITE_PROJECT";
-  const project: keyof typeof projectToConfig = import.meta.env[projectEnvVar];
-  const config: ProjectConfig = projectToConfig[project];
+  const project: ProjectName = import.meta.env[projectEnvVar];
+  const config: ProjectConfig = projectConfigs[project];
   if (!config) {
     throw new Error(
       `No project config defined for ${projectEnvVar}=${project}`,
