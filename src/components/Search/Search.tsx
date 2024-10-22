@@ -30,14 +30,7 @@ export const Search = () => {
   const [isDirty, setDirty] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
   const [urlParams, setUrlParams] = useSearchParams();
-  const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
-    dateFrom: "",
-    dateTo: "",
-    rangeFrom: "",
-    rangeTo: "",
-    fullText: "",
-    terms: {},
-  });
+
   const translate = useProjectStore(translateSelector);
   const {
     searchUrlParams,
@@ -122,7 +115,6 @@ export const Search = () => {
       setSearchFacetTypes(newFacetTypes);
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
-      setSelectedFacets(newSearchQuery);
 
       if (queryDecoded?.fullText) {
         const searchResults = await getSearchResults(
@@ -174,7 +166,6 @@ export const Search = () => {
     skipUrlSyncRef.current = true;
 
     setSearchQuery(newSearchQuery);
-    setSelectedFacets(newSearchQuery);
 
     if (
       queryDecoded?.fullText &&
@@ -227,7 +218,6 @@ export const Search = () => {
       setShowingResults(true);
 
       updateSearchQueryHistory(searchQuery);
-      setSelectedFacets(searchQuery);
 
       const searchResults = await getSearchResults(
         searchFacetTypes,
@@ -296,7 +286,6 @@ export const Search = () => {
             onSearch={handleNewSearch}
             onPageChange={handlePageChange}
             query={searchQuery}
-            selectedFacets={selectedFacets}
           />
         )}
       </SearchResultsColumn>

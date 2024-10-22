@@ -24,7 +24,6 @@ type SearchResultsProps = {
   query: SearchQuery;
   onSearch: () => void;
   onPageChange: () => void;
-  selectedFacets: SearchQuery;
 };
 
 export function SearchResults(props: SearchResultsProps) {
