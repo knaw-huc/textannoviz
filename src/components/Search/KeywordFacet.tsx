@@ -1,15 +1,14 @@
 import React from "react";
-import { Facet, Terms } from "../../model/Search.ts";
+import { Facet, SearchQuery, Terms } from "../../model/Search.ts";
 import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchQuery } from "../../stores/search/search-query-slice.ts";
-import { useSearchStore } from "../../stores/search/search-store.ts";
 import {
   CheckboxComponent,
   CheckboxGroupComponent,
 } from "../common/CheckboxGroupComponent.tsx";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 
 export function KeywordFacet(props: {
   facetName: string;
@@ -23,8 +22,8 @@ export function KeywordFacet(props: {
   onSearch: (stayOnPage?: boolean) => void;
   updateAggs: (query: SearchQuery) => void;
 }) {
+  const { searchQuery, updateSearchQuery } = useSearchUrlParams();
   const facetLength = Object.keys(props.facet).length;
-  const { searchQuery, setSearchQuery } = useSearchStore();
   const translateProject = useProjectStore(translateProjectSelector);
   const [selected, setSelected] = React.useState<string[]>(
     props.selectedFacets[props.facetName] ?? [],
@@ -57,7 +56,7 @@ export function KeywordFacet(props: {
       aggs: newAggs,
     };
 
-    setSearchQuery(newQuery);
+    updateSearchQuery(newQuery);
 
     props.updateAggs(newQuery);
   }

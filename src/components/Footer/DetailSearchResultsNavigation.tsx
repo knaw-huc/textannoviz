@@ -11,18 +11,15 @@ import { useDetailUrlParams } from "../Text/Annotated/utils/useDetailUrlParams.t
 import { FooterLink } from "./FooterLink.tsx";
 import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
 import { Any } from "../../utils/Any.ts";
+import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
   const translate = useProjectStore(translateSelector);
   const detailParams = useDetailUrlParams();
-  const {
-    searchQuery,
-    searchUrlParams,
-    searchResults,
-    searchFacetTypes,
-    setSearchResults,
-  } = useSearchStore();
+  const { searchQuery, searchParams } = useSearchUrlParams();
+  const { searchResults, searchFacetTypes, setSearchResults } =
+    useSearchStore();
   const { hasNextPage, selectNextPage, hasPrevPage, selectPrevPage } =
     usePagination();
   const { getSearchResults } = useSearchResults();
@@ -41,7 +38,7 @@ export function DetailSearchResultsNavigation() {
   );
 
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
-  const urlSearchParams = new URLSearchParams(searchUrlParams as Any);
+  const urlSearchParams = new URLSearchParams(searchParams as Any);
 
   const isOnFirstOfPage = !prevResultPath;
   const isPrevDisabled = isOnFirstOfPage && !hasPrevPage();
@@ -80,7 +77,7 @@ export function DetailSearchResultsNavigation() {
   async function loadNewSearchResultPage(newFrom: number) {
     const newSearchResults = await getSearchResults(
       searchFacetTypes,
-      { ...searchUrlParams, from: newFrom },
+      { ...searchParams, from: newFrom },
       searchQuery,
     );
 
@@ -89,7 +86,7 @@ export function DetailSearchResultsNavigation() {
     }
 
     const resultIndexUpdater =
-      newFrom > searchUrlParams.from
+      newFrom > searchParams.from
         ? // Start with first result of next page:
           () => 0
         : // Start with last result of previous page:

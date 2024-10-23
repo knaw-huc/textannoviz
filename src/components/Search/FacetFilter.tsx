@@ -11,9 +11,9 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
-import { FacetEntry } from "../../stores/search/search-query-slice";
 import { ChevronDown } from "../common/icons/ChevronDown";
 import { ChevronRight } from "../common/icons/ChevronRight";
+import { FacetEntry } from "../../model/Search.ts";
 
 type FacetFilterProps = {
   allPossibleKeywordFacets: FacetEntry[];

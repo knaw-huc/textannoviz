@@ -1,45 +1,36 @@
-import { Base64 } from "js-base64";
-import isEmpty from "lodash/isEmpty";
-import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import {
-  filterFacetsByType,
-  SearchQuery,
-  toRequestBody,
-} from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
-import { getUrlQuery } from "./util/getUrlQuery.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { toRequestBody } from "../../stores/search/toRequestBody.ts";
+import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
+import { SearchQuery } from "../../model/Search.ts";
+import _ from "lodash";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isInit, setInit] = useState(false);
   const [isDirty, setDirty] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
-  const [urlParams, setUrlParams] = useSearchParams();
+  const { searchQuery, updateSearchQuery, searchParams, toFirstPage } =
+    useSearchUrlParams();
 
   const translate = useProjectStore(translateSelector);
   const {
-    searchUrlParams,
-    setSearchUrlParams,
-    searchQuery,
-    setSearchQuery,
     setSearchResults,
     updateSearchQueryHistory,
-    toFirstPage,
     searchFacetTypes,
     setSearchFacetTypes,
     setKeywordFacets,
@@ -47,7 +38,6 @@ export const Search = () => {
   } = useSearchStore();
 
   const { getSearchResults } = useSearchResults();
-  const skipUrlSyncRef = useRef(false);
 
   useEffect(() => {
     const aborter = new AbortController();
@@ -66,7 +56,6 @@ export const Search = () => {
       if (isInit) {
         return;
       }
-      const queryDecoded = getUrlQuery(urlParams);
 
       const newIndices = await getElasticIndices(projectConfig, aborter.signal);
       if (!newIndices) {
@@ -74,7 +63,6 @@ export const Search = () => {
       }
       const newFacetTypes = newIndices[projectConfig.elasticIndexName];
       const aggregations = createAggs(newFacetTypes, projectConfig);
-      const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
       const newFacets = await getFacets(
         projectConfig,
         aggregations,
@@ -101,10 +89,9 @@ export const Search = () => {
         dateTo: projectConfig.initialDateTo,
         rangeFrom: projectConfig.initialRangeFrom,
         rangeTo: projectConfig.initialRangeTo,
-        ...queryDecoded,
       };
 
-      if (!isEmpty(newDateFacets)) {
+      if (!_.isEmpty(newDateFacets)) {
         newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
       }
       if (projectConfig.showSliderFacets) {
@@ -113,13 +100,12 @@ export const Search = () => {
 
       setKeywordFacets(newKeywordFacets);
       setSearchFacetTypes(newFacetTypes);
-      setSearchUrlParams(newSearchParams);
-      setSearchQuery(newSearchQuery);
+      updateSearchQuery(newSearchQuery);
 
-      if (queryDecoded?.fullText) {
+      if (newSearchQuery?.fullText) {
         const searchResults = await getSearchResults(
           newFacetTypes,
-          newSearchParams,
+          searchParams,
           newSearchQuery,
           aborter.signal,
         );
@@ -144,17 +130,12 @@ export const Search = () => {
       return;
     }
 
-    const queryDecoded = getUrlQuery(urlParams);
-    const newSearchQuery = {
-      ...searchQuery,
-      ...queryDecoded,
-    };
-
     async function doSearch() {
+      console.log("doSearch", searchQuery.fullText);
       const searchResults = await getSearchResults(
         searchFacetTypes,
-        searchUrlParams,
-        newSearchQuery,
+        searchParams,
+        searchQuery,
       );
       if (searchResults) {
         setSearchResults(searchResults.results);
@@ -163,38 +144,10 @@ export const Search = () => {
       setShowingResults(true);
     }
 
-    skipUrlSyncRef.current = true;
-
-    setSearchQuery(newSearchQuery);
-
-    if (
-      queryDecoded?.fullText &&
-      JSON.stringify(searchQuery) !== JSON.stringify(queryDecoded)
-    ) {
+    if (searchQuery?.fullText) {
       doSearch();
     }
-  }, [urlParams, isInit]);
-
-  //THIS ONE IS RUN MULTIPLE TIMES
-  useEffect(() => {
-    syncUrlWithSearchParams();
-
-    function syncUrlWithSearchParams() {
-      if (!isInit || skipUrlSyncRef.current) {
-        skipUrlSyncRef.current = false;
-        return;
-      }
-
-      const query = JSON.stringify(searchQuery);
-
-      const newUrlParams = addToUrlParams(urlParams, {
-        ...searchUrlParams,
-        query: Base64.toBase64(query),
-        indexName: projectConfig.elasticIndexName,
-      });
-      setUrlParams(newUrlParams);
-    }
-  }, [searchUrlParams, searchQuery, isInit]);
+  }, [searchParams, searchQuery, isInit]);
 
   useEffect(() => {
     const aborter = new AbortController();
@@ -216,12 +169,11 @@ export const Search = () => {
       }
 
       setShowingResults(true);
-
       updateSearchQueryHistory(searchQuery);
 
       const searchResults = await getSearchResults(
         searchFacetTypes,
-        searchUrlParams,
+        searchParams,
         searchQuery,
         aborter.signal,
       );
@@ -237,7 +189,7 @@ export const Search = () => {
 
   async function updateAggs(query: SearchQuery) {
     const newParams = {
-      ...searchUrlParams,
+      ...searchParams,
       indexName: projectConfig.elasticIndexName,
       size: 0,
     };

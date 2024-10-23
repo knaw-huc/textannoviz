@@ -6,7 +6,7 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchQuery } from "../../stores/search/search-query-slice.ts";
+import { SearchQuery } from "../../model/Search.ts";
 
 type SearchQueryHistoryProps = {
   queryHistory: SearchQuery[];

@@ -4,13 +4,9 @@ import {
   SearchResultsSlice,
 } from "./search-results-slice.ts";
 import {
-  createSearchParamsSlice,
-  SearchParamsSlice,
-} from "./search-params-slice.ts";
-import {
-  createSearchQuerySlice,
-  SearchQuerySlice,
-} from "./search-query-slice.ts";
+  createSearchHistorySlice,
+  SearchHistorySlice,
+} from "./search-history-slice.ts";
 import {
   createSearchFacetTypesSlice,
   SearchFacetTypesSlice,
@@ -21,8 +17,7 @@ import {
 } from "./keyword-facets-slice.ts";
 
 export type SearchStore = SearchResultsSlice &
-  SearchParamsSlice &
-  SearchQuerySlice &
+  SearchHistorySlice &
   SearchFacetTypesSlice &
   KeywordFacetsSlice;
 
@@ -30,6 +25,5 @@ export const useSearchStore = create<SearchStore>()((...a) => ({
   ...createKeywordFacetsSlice(...a),
   ...createSearchFacetTypesSlice(...a),
   ...createSearchResultsSlice(...a),
-  ...createSearchParamsSlice(...a),
-  ...createSearchQuerySlice(...a),
+  ...createSearchHistorySlice(...a),
 }));

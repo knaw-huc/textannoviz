@@ -10,14 +10,14 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
-import { useSearchStore } from "../../../stores/search/search-store.ts";
 import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
+import { useSearchUrlParams } from "../../../components/Search/useSearchUrlParams.tsx";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
   const { getAnnotationCategory } = useProjectStore(projectConfigSelector);
-  const searchStore = useSearchStore();
+  const { searchQuery, searchParams } = useSearchUrlParams();
   const navigate = useNavigate();
   const { body } = props;
 
@@ -36,7 +36,11 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
           <button
             className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
             onClick={() => {
-              const query = toEntitySearchQuery(props.body, searchStore);
+              const query = toEntitySearchQuery(
+                props.body,
+                searchQuery,
+                searchParams,
+              );
               if (query) {
                 navigate(`/?${query.toString()}`);
               } else {

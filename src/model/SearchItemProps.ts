@@ -1,4 +1,4 @@
-import { SearchQuery } from "../stores/search/search-query-slice.ts";
+import { SearchQuery } from "./Search.ts";
 
 export type SearchItemProps<T> = {
   query: SearchQuery;

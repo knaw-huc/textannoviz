@@ -1,4 +1,3 @@
-import { SearchQuery } from "../stores/search/search-query-slice.ts";
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,
@@ -9,6 +8,7 @@ import {
   GlobaliseSearchResultsBody,
   MondriaanSearchResultsBody,
   RepublicSearchResultBody,
+  SearchQuery,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
 import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";

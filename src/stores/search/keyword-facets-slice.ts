@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { FacetEntry } from "./search-query-slice.ts";
+import { FacetEntry } from "../../model/Search.ts";
 
 export type KeywordFacetsSlice = {
   keywordFacets: FacetEntry[];

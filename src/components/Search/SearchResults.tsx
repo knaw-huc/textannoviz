@@ -2,14 +2,13 @@ import isEmpty from "lodash/isEmpty";
 import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
-import { FacetName, FacetOptionName } from "../../model/Search.ts";
+import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
@@ -19,6 +18,7 @@ import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 
 type SearchResultsProps = {
   query: SearchQuery;
@@ -28,13 +28,9 @@ type SearchResultsProps = {
 
 export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const {
-    searchUrlParams,
-    setSearchUrlParams,
-    searchQuery,
-    setSearchQuery,
-    searchResults,
-  } = useSearchStore();
+  const { searchResults } = useSearchStore();
+  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
+    useSearchUrlParams();
   const {
     hasPrevPage,
     selectPrevPage,
@@ -44,9 +40,9 @@ export function SearchResults(props: SearchResultsProps) {
     fromToPage,
   } = usePagination();
 
-  const resultsStart = searchUrlParams.from + 1;
-  const pageSize = searchUrlParams.size;
-  const pageNumber = fromToPage(searchUrlParams.from);
+  const resultsStart = searchParams.from + 1;
+  const pageSize = searchParams.size;
+  const pageNumber = fromToPage(searchParams.from);
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
@@ -60,8 +56,7 @@ export function SearchResults(props: SearchResultsProps) {
   const [histogramZoomed, setHistogramZoomed] = React.useState(false);
 
   function updateSorting(sorting: Sorting) {
-    setSearchUrlParams({
-      ...searchUrlParams,
+    updateSearchParams({
       sortBy: sorting.field,
       sortOrder: sorting.order,
     });
@@ -93,8 +88,7 @@ export function SearchResults(props: SearchResultsProps) {
     if (!key) {
       return;
     }
-    setSearchUrlParams({
-      ...searchUrlParams,
+    updateSearchParams({
       size: key as number,
     });
     props.onSearch();
@@ -103,8 +97,7 @@ export function SearchResults(props: SearchResultsProps) {
   function removeFacet(facet: FacetName, option: FacetOptionName) {
     const newTerms = structuredClone(searchQuery.terms);
     removeTerm(newTerms, facet, option);
-    setSearchQuery({ ...searchQuery, terms: newTerms });
-    setSearchUrlParams({ ...searchUrlParams });
+    updateSearchQuery({ terms: newTerms });
     props.onSearch();
   }
 
@@ -131,8 +124,7 @@ export function SearchResults(props: SearchResultsProps) {
     setHistogramZoomed(true);
     const newYear = event.activeLabel;
 
-    setSearchQuery({
-      ...searchQuery,
+    updateSearchQuery({
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
     });
@@ -145,8 +137,7 @@ export function SearchResults(props: SearchResultsProps) {
 
     setHistogramZoomed(false);
 
-    setSearchQuery({
-      ...searchQuery,
+    updateSearchQuery({
       dateFrom: prevQuery.dateFrom,
       dateTo: prevQuery.dateTo,
     });
@@ -171,8 +162,8 @@ export function SearchResults(props: SearchResultsProps) {
                 dateFacet={searchQuery.dateFacet}
                 onSort={updateSorting}
                 selected={{
-                  field: searchUrlParams.sortBy,
-                  order: searchUrlParams.sortOrder,
+                  field: searchParams.sortBy,
+                  order: searchParams.sortOrder,
                 }}
               />
             )}

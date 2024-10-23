@@ -1,18 +1,20 @@
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 import { skipEmptyValues } from "../../../utils/skipEmptyValues.ts";
 import { Base64 } from "js-base64";
-import { SearchStore } from "../../../stores/search/search-store.ts";
 import { isDateEntity } from "./ProjectAnnotationModel.ts";
+import { QUERY } from "../../../components/Search/SearchUrlParams.ts";
+import { SearchParams, SearchQuery } from "../../../model/Search.ts";
 
 /**
  * @returns false when not implemented
  */
 export function toEntitySearchQuery(
   anno: AnnoRepoBodyBase,
-  searchStore: SearchStore,
+  searchQuery: SearchQuery,
+  searchParams: SearchParams,
 ): URLSearchParams | false {
   if (isDateEntity(anno)) {
-    return toDateSearchQuery(anno.metadata.date, searchStore);
+    return toDateSearchQuery(anno.metadata.date, searchQuery, searchParams);
   } else {
     // TODO:
     return false;
@@ -21,18 +23,18 @@ export function toEntitySearchQuery(
 
 function toDateSearchQuery(
   date: string,
-  searchStore: SearchStore,
+  searchQuery: SearchQuery,
+  searchParams: SearchParams,
 ): URLSearchParams {
-  const { searchQuery, searchUrlParams } = searchStore;
   const params = new URLSearchParams();
-  Object.entries(searchUrlParams).forEach(([k, v]) => {
+  Object.entries(searchParams).forEach(([k, v]) => {
     params.set(k, `${v}`);
   });
   const queryWithDate = structuredClone(searchQuery);
   queryWithDate.dateFrom = date;
   queryWithDate.dateTo = date;
   params.set(
-    "query",
+    QUERY,
     Base64.encode(JSON.stringify(queryWithDate, skipEmptyValues)),
   );
   return params;
