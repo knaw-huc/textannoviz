@@ -48,7 +48,7 @@ export function addParamsToUrl<T extends object>(
   };
 }
 
-export function updateUrlParams(
+export function createUrlParams(
   urlParams: URLSearchParams,
   searchParams: SearchParams,
   searchQuery: SearchQuery,

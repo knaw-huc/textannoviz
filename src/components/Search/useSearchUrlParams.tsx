@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
-  updateUrlParams,
+  createUrlParams,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 
@@ -53,7 +53,7 @@ export function useSearchUrlParams() {
   }
 
   function updateUrl(update: UpdatedUrlProps) {
-    const updatedUrlParams = updateUrlParams(
+    const updatedUrlParams = createUrlParams(
       urlParams,
       update.searchParams || searchParams,
       update.searchQuery || searchQuery,
