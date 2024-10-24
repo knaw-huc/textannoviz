@@ -24,6 +24,7 @@ export const defaultSearchParams: SearchParams = {
   sortBy: "_score",
   sortOrder: "desc",
 };
+
 export type UpdatedUrlProps = Partial<{
   searchQuery: SearchQuery;
   searchParams: SearchParams;
