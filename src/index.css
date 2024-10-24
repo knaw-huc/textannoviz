@@ -388,3 +388,8 @@ div[role="tabpanel"] > *:last-child,
 div[role="textpanel"] > *:last-child {
   padding-bottom: 5em;
 }
+
+.query-date {
+  font-size: small;
+  color: #ccc;
+}

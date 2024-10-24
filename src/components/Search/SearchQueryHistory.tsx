@@ -38,7 +38,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         {translate("SEARCH_HISTORY")}
       </Button>
       {isOpen && (
-        <ol className="ml-6 mt-4 list-decimal">
+        <ul className="list ml-6 mt-4">
           {lastQueries.length ? (
             lastQueries.map((entry, index) => {
               const query = entry.query;
@@ -48,6 +48,9 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                   onClick={() => props.goToQuery(query)}
                   className="mb-4 cursor-pointer hover:underline"
                 >
+                  <span className="query-date">
+                    {formatQueryDate(entry.date)}
+                  </span>
                   {query.fullText && (
                     <div>
                       <strong>{translate("TEXT")}: </strong> {query.fullText}
@@ -87,8 +90,29 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
           ) : (
             <div>{translate("NO_SEARCH_HISTORY")}.</div>
           )}
-        </ol>
+        </ul>
       )}
     </>
   );
 };
+
+/**
+ * TODO: Wait for temporal, or introduce moment?
+ */
+function formatQueryDate(timestamp: number): string {
+  const date = new Date(timestamp);
+  const time = `${date.getHours()}:${date.getMinutes()}`;
+  if (isToday(date)) {
+    return time;
+  }
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${time}`;
+
+  function isToday(toTest: Date) {
+    const today = new Date();
+    return (
+      toTest.getDate() === today.getDate() &&
+      toTest.getMonth() === today.getMonth() &&
+      toTest.getFullYear() === today.getFullYear()
+    );
+  }
+}
