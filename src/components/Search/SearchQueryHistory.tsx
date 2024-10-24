@@ -7,9 +7,10 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import { SearchQuery } from "../../model/Search.ts";
+import { DatedSearchQuery } from "../../stores/search/search-history-slice.ts";
 
 type SearchQueryHistoryProps = {
-  queryHistory: SearchQuery[];
+  queryHistory: DatedSearchQuery[];
   goToQuery: (query: SearchQuery) => void;
   projectConfig: ProjectConfig;
   disabled: boolean;
@@ -39,45 +40,50 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
       {isOpen && (
         <ul className="ml-6 mt-4 list-disc">
           {lastQueries.length ? (
-            lastQueries.map((query, index) => (
-              <li
-                key={index}
-                onClick={() => props.goToQuery(query)}
-                className="mb-4 cursor-pointer hover:underline"
-              >
-                {query.fullText && (
-                  <div>
-                    <strong>{translate("TEXT")}: </strong> {query.fullText}
-                  </div>
-                )}
-                {query.dateFacet && (
-                  <>
+            lastQueries.map((entry, index) => {
+              const query = entry.query;
+              return (
+                <li
+                  key={index}
+                  onClick={() => props.goToQuery(query)}
+                  className="mb-4 cursor-pointer hover:underline"
+                >
+                  {query.fullText && (
                     <div>
-                      <strong>{translate("DATE_FROM")}: </strong>{" "}
-                      {query.dateFrom}
-                    </div>{" "}
-                    <div>
-                      <strong>{translate("UP_TO_AND_INCLUDING")}: </strong>{" "}
-                      {query.dateTo}
+                      <strong>{translate("TEXT")}: </strong> {query.fullText}
                     </div>
-                  </>
-                )}
-                {query.terms && (
-                  <div>
-                    {Object.keys(query.terms).length > 0 ? (
-                      <strong>{translate("SELECTED_FACETS")}:</strong>
-                    ) : null}
-                    {Object.entries(query.terms).map(([key, value], index) => (
-                      <div key={index}>
-                        {`${translateProject(key)}: ${translateProject(
-                          value[0],
-                        )}`}
+                  )}
+                  {query.dateFacet && (
+                    <>
+                      <div>
+                        <strong>{translate("DATE_FROM")}: </strong>{" "}
+                        {query.dateFrom}
+                      </div>{" "}
+                      <div>
+                        <strong>{translate("UP_TO_AND_INCLUDING")}: </strong>{" "}
+                        {query.dateTo}
                       </div>
-                    ))}
-                  </div>
-                )}
-              </li>
-            ))
+                    </>
+                  )}
+                  {query.terms && (
+                    <div>
+                      {Object.keys(query.terms).length > 0 ? (
+                        <strong>{translate("SELECTED_FACETS")}:</strong>
+                      ) : null}
+                      {Object.entries(query.terms).map(
+                        ([key, value], index) => (
+                          <div key={index}>
+                            {`${translateProject(key)}: ${translateProject(
+                              value[0],
+                            )}`}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
+                </li>
+              );
+            })
           ) : (
             <div>{translate("NO_SEARCH_HISTORY")}.</div>
           )}

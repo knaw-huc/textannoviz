@@ -137,13 +137,13 @@ export function SearchResults(props: SearchResultsProps) {
 
   function returnToPrevDateRange() {
     if (searchQueryHistory.length < 2) return;
-    const prevQuery = searchQueryHistory[searchQueryHistory.length - 2];
+    const prevEntry = searchQueryHistory[searchQueryHistory.length - 2];
 
     setHistogramZoomed(false);
 
     updateSearchQuery({
-      dateFrom: prevQuery.dateFrom,
-      dateTo: prevQuery.dateTo,
+      dateFrom: prevEntry.query.dateFrom,
+      dateTo: prevEntry.query.dateTo,
     });
 
     props.onSearch();
