@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
@@ -52,8 +52,12 @@ export function SearchResults(props: SearchResultsProps) {
   );
   const [graphTo] = React.useState(projectConfig.initialDateTo.split("-")[0]);
   const [showHistogram, setShowHistogram] = React.useState(true);
-  const queryHistory = useSearchStore((state) => state.searchQueryHistory);
+  const { searchQueryHistory } = useSearchStore();
   const [histogramZoomed, setHistogramZoomed] = React.useState(false);
+
+  useEffect(() => {
+    console.log("SearchResults", { searchQueryHistory });
+  }, [searchQueryHistory]);
 
   function updateSorting(sorting: Sorting) {
     updateSearchParams({
@@ -132,8 +136,8 @@ export function SearchResults(props: SearchResultsProps) {
   }
 
   function returnToPrevDateRange() {
-    if (queryHistory.length < 2) return;
-    const prevQuery = queryHistory[queryHistory.length - 2];
+    if (searchQueryHistory.length < 2) return;
+    const prevQuery = searchQueryHistory[searchQueryHistory.length - 2];
 
     setHistogramZoomed(false);
 

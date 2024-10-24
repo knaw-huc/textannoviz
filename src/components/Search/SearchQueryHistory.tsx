@@ -37,7 +37,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         {translate("SEARCH_HISTORY")}
       </Button>
       {isOpen && (
-        <ol className="ml-6 mt-4 list-decimal">
+        <ul className="ml-6 mt-4 list-disc">
           {lastQueries.length ? (
             lastQueries.map((query, index) => (
               <li
@@ -81,7 +81,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
           ) : (
             <div>{translate("NO_SEARCH_HISTORY")}.</div>
           )}
-        </ol>
+        </ul>
       )}
     </>
   );
