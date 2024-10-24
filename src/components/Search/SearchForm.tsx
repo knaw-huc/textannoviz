@@ -22,6 +22,7 @@ import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { FacetEntry, SearchQuery } from "../../model/Search.ts";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
 
 interface SearchFormProps {
   onSearch: () => void;
@@ -182,8 +183,7 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function fullTextSearchBarSubmitHandler(value: string) {
-    const sanitisedValue = value.trim();
-    updateFullText(sanitisedValue);
+    updateFullText(sanitizeFullText(value));
     onSearch();
   }
 

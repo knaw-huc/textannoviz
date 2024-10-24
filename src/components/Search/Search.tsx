@@ -40,9 +40,6 @@ export const Search = () => {
   const { getSearchResults } = useSearchResults();
 
   useEffect(() => {
-    const aborter = new AbortController();
-    initSearch().catch(handleAbort);
-
     /**
      * Initialize search page:
      * - set default config values
@@ -52,11 +49,13 @@ export const Search = () => {
      * - when url contains full text query:
      *   - fetch search results
      */
-    async function initSearch() {
-      if (isInit) {
-        return;
-      }
+    const aborter = new AbortController();
 
+    if (!isInit) {
+      initSearch().catch(handleAbort);
+    }
+
+    async function initSearch() {
       const newIndices = await getElasticIndices(projectConfig, aborter.signal);
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
@@ -126,30 +125,6 @@ export const Search = () => {
   }, []);
 
   useEffect(() => {
-    if (!isInit) {
-      return;
-    }
-
-    async function doSearch() {
-      console.log("doSearch", searchQuery.fullText);
-      const searchResults = await getSearchResults(
-        searchFacetTypes,
-        searchParams,
-        searchQuery,
-      );
-      if (searchResults) {
-        setSearchResults(searchResults.results);
-        setKeywordFacets(searchResults.facets);
-      }
-      setShowingResults(true);
-    }
-
-    if (searchQuery?.fullText) {
-      doSearch();
-    }
-  }, [searchParams, searchQuery, isInit]);
-
-  useEffect(() => {
     const aborter = new AbortController();
     if (isDirty) {
       searchWhenDirty().catch(handleAbort);
@@ -168,9 +143,6 @@ export const Search = () => {
         return;
       }
 
-      setShowingResults(true);
-      updateSearchQueryHistory(searchQuery);
-
       const searchResults = await getSearchResults(
         searchFacetTypes,
         searchParams,
@@ -181,11 +153,14 @@ export const Search = () => {
         setSearchResults(searchResults.results);
         setKeywordFacets(searchResults.facets);
       }
+
+      updateSearchQueryHistory(searchQuery);
+      setShowingResults(true);
       setDirty(false);
     }
 
     return () => aborter.abort();
-  }, [isDirty]);
+  }, [isDirty, searchQuery, searchParams]);
 
   async function updateAggs(query: SearchQuery) {
     const newParams = {

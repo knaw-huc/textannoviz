@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
@@ -54,10 +54,6 @@ export function SearchResults(props: SearchResultsProps) {
   const [showHistogram, setShowHistogram] = React.useState(true);
   const { searchQueryHistory } = useSearchStore();
   const [histogramZoomed, setHistogramZoomed] = React.useState(false);
-
-  useEffect(() => {
-    console.log("SearchResults", { searchQueryHistory });
-  }, [searchQueryHistory]);
 
   function updateSorting(sorting: Sorting) {
     updateSearchParams({
