@@ -30,7 +30,7 @@ export const Search = () => {
   const translate = useProjectStore(translateSelector);
   const {
     setSearchResults,
-    updateSearchQueryHistory,
+    addSearchQuery,
     searchFacetTypes,
     setSearchFacetTypes,
     setKeywordFacets,
@@ -154,7 +154,7 @@ export const Search = () => {
         setKeywordFacets(searchResults.facets);
       }
 
-      updateSearchQueryHistory(searchQuery);
+      addSearchQuery(searchQuery);
       setShowingResults(true);
       setDirty(false);
     }

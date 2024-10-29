@@ -390,6 +390,15 @@ div[role="textpanel"] > *:last-child {
 }
 
 .query-date {
-  font-size: small;
   color: #ccc;
+}
+
+.query-delete {
+  color: #ccc;
+  float: right;
+  &:hover {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+  }
 }

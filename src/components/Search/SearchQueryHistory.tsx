@@ -7,24 +7,23 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import { SearchQuery } from "../../model/Search.ts";
-import { DatedSearchQuery } from "../../stores/search/search-history-slice.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
 
 type SearchQueryHistoryProps = {
-  queryHistory: DatedSearchQuery[];
   goToQuery: (query: SearchQuery) => void;
   projectConfig: ProjectConfig;
-  disabled: boolean;
 };
 
 const MAX_DISPLAY = 10;
 
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
+  const { searchQueryHistory, removeSearchQuery } = useSearchStore();
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const [isOpen, setOpen] = useState(false);
 
-  const moreThanDisplayable = props.queryHistory.length >= MAX_DISPLAY;
-  const lastQueries = props.queryHistory
+  const moreThanDisplayable = searchQueryHistory.length >= MAX_DISPLAY;
+  const lastQueries = searchQueryHistory
     .slice(moreThanDisplayable ? -MAX_DISPLAY : 0)
     .reverse();
 
@@ -33,7 +32,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
       <Button
         onPress={() => setOpen(!isOpen)}
         className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
-        isDisabled={props.disabled}
+        isDisabled={!searchQueryHistory.length}
       >
         {translate("SEARCH_HISTORY")}
       </Button>
@@ -43,47 +42,54 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
             lastQueries.map((entry, index) => {
               const query = entry.query;
               return (
-                <li
-                  key={index}
-                  onClick={() => props.goToQuery(query)}
-                  className="mb-4 cursor-pointer hover:underline"
-                >
+                <li key={index} className="mb-4">
                   <span className="query-date">
                     {formatQueryDate(entry.date)}
                   </span>
-                  {query.fullText && (
-                    <div>
-                      <strong>{translate("TEXT")}: </strong> {query.fullText}
-                    </div>
-                  )}
-                  {query.dateFacet && (
-                    <>
+                  <span
+                    className="query-delete"
+                    onClick={() => removeSearchQuery(entry.date)}
+                  >
+                    [x]
+                  </span>
+                  <div
+                    onClick={() => props.goToQuery(query)}
+                    className="search-query cursor-pointer hover:underline"
+                  >
+                    {query.fullText && (
                       <div>
-                        <strong>{translate("DATE_FROM")}: </strong>{" "}
-                        {query.dateFrom}
-                      </div>{" "}
-                      <div>
-                        <strong>{translate("UP_TO_AND_INCLUDING")}: </strong>{" "}
-                        {query.dateTo}
+                        <strong>{translate("TEXT")}: </strong> {query.fullText}
                       </div>
-                    </>
-                  )}
-                  {query.terms && (
-                    <div>
-                      {Object.keys(query.terms).length > 0 ? (
-                        <strong>{translate("SELECTED_FACETS")}:</strong>
-                      ) : null}
-                      {Object.entries(query.terms).map(
-                        ([key, value], index) => (
-                          <div key={index}>
-                            {`${translateProject(key)}: ${translateProject(
-                              value[0],
-                            )}`}
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  )}
+                    )}
+                    {query.dateFacet && (
+                      <>
+                        <div>
+                          <strong>{translate("DATE_FROM")}: </strong>{" "}
+                          {query.dateFrom}
+                        </div>{" "}
+                        <div>
+                          <strong>{translate("UP_TO_AND_INCLUDING")}: </strong>{" "}
+                          {query.dateTo}
+                        </div>
+                      </>
+                    )}
+                    {query.terms && (
+                      <div>
+                        {Object.keys(query.terms).length > 0 ? (
+                          <strong>{translate("SELECTED_FACETS")}:</strong>
+                        ) : null}
+                        {Object.entries(query.terms).map(
+                          ([key, value], index) => (
+                            <div key={index}>
+                              {`${translateProject(key)}: ${translateProject(
+                                value[0],
+                              )}`}
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </li>
               );
             })
