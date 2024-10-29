@@ -31,6 +31,6 @@ export const createSearchHistorySlice: StateCreator<
   }),
   {
     name: "search-history",
-    storage: createJSONStorage(() => sessionStorage),
+    storage: createJSONStorage(() => localStorage),
   },
 );
