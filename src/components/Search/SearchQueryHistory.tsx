@@ -101,11 +101,19 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
  */
 function formatQueryDate(timestamp: number): string {
   const date = new Date(timestamp);
-  const time = `${date.getHours()}:${date.getMinutes()}`;
+
+  const time = `${doubleDigit(date.getHours())}:${doubleDigit(
+    date.getMinutes(),
+  )}`;
+
   if (isToday(date)) {
     return time;
   }
   return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${time}`;
+
+  function doubleDigit(n: number) {
+    return n.toString().padStart(2, "0");
+  }
 
   function isToday(toTest: Date) {
     const today = new Date();
