@@ -28,6 +28,7 @@ import { removeTerm } from "./util/removeTerm.ts";
 interface SearchFormProps {
   onSearch: () => void;
   keywordFacets: FacetEntry[];
+  searchQuery: SearchQuery;
   updateAggs: (query: SearchQuery) => void;
 }
 
@@ -65,11 +66,13 @@ export function SearchForm(props: SearchFormProps) {
   React.useEffect(() => {
     if (defaultAggsIsInit) return;
     if (!isEmpty(props.keywordFacets)) {
+      const searchQueryTerms = Object.keys(props.searchQuery.terms);
+      const defaultKeywordAggs = projectConfig.defaultKeywordAggsToRender;
+      const relevantFacetNames = [...defaultKeywordAggs, ...searchQueryTerms];
+
       const initialFilteredAggs = props.keywordFacets.reduce<string[]>(
         (accumulator, keywordFacet) => {
-          if (
-            projectConfig.defaultKeywordAggsToRender.includes(keywordFacet[0])
-          ) {
+          if (relevantFacetNames.includes(keywordFacet[0])) {
             accumulator.push(keywordFacet[0]);
           }
           return accumulator;
