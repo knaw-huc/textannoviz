@@ -331,11 +331,8 @@ export function SearchForm(props: SearchFormProps) {
           )?.[1];
 
           return facetValue ? (
-            <>
-              <div
-                key={index}
-                className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
-              >
+            <div key={`${index}-${facetName}`}>
+              <div className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden">
                 <KeywordFacet
                   facetName={facetName}
                   facet={facetValue}
@@ -362,7 +359,7 @@ export function SearchForm(props: SearchFormProps) {
                   )}
                 </div>
               )}
-            </>
+            </div>
           ) : null;
         })}
     </div>
