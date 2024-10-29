@@ -26,11 +26,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
 
   const handleEntitySearchClick = () => {
     const query = toEntitySearchQuery(props.body);
-    if (query) {
-      window.open(`/?${query.toString()}`, "_blank");
-    } else {
-      toast("Not implemented", { type: "info" });
-    }
+    window.open(`/?${query.toString()}`, "_blank");
   };
 
   return (

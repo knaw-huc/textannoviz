@@ -8,9 +8,6 @@ import {
 } from "./ProjectAnnotationModel.ts";
 import { SearchQuery } from "../../../stores/search/search-query-slice.ts";
 
-/**
- * @returns false when not implemented
- */
 export function toEntitySearchQuery(anno: AnnoRepoBodyBase): URLSearchParams {
   if (isDateEntity(anno)) {
     return createSearchQueryParam(toDateEntityQueryParams(anno.metadata.date));
