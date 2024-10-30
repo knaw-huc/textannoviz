@@ -1,6 +1,7 @@
 import { StateCreator } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { SearchQuery } from "./search-query-slice.ts";
+import _ from "lodash";
 
 export type Timestamp = number;
 export type DatedSearchQuery = {
@@ -23,11 +24,27 @@ export const createSearchHistorySlice: StateCreator<
   (set) => ({
     searchQueryHistory: [],
     addSearchQuery: (update: SearchQuery) => {
-      const datedQuery: DatedSearchQuery = { date: Date.now(), query: update };
-      return set((prev) => ({
-        ...prev,
-        searchQueryHistory: [...prev.searchQueryHistory, datedQuery],
-      }));
+      return set((prev) => {
+        if (
+          prev.searchQueryHistory.find((entry) =>
+            _.isEqual(entry.query, update),
+          )
+        ) {
+          console.debug("query already exists in history", {
+            query: update,
+            history: prev.searchQueryHistory,
+          });
+          return prev;
+        }
+        const datedQuery: DatedSearchQuery = {
+          date: Date.now(),
+          query: update,
+        };
+        return {
+          ...prev,
+          searchQueryHistory: [...prev.searchQueryHistory, datedQuery],
+        };
+      });
     },
     removeSearchQuery: (toRemove: Timestamp) => {
       return set((prev) => {
