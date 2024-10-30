@@ -2,7 +2,7 @@ import { StateCreator } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { SearchQuery } from "./search-query-slice.ts";
 
-type Timestamp = number;
+export type Timestamp = number;
 export type DatedSearchQuery = {
   date: Timestamp;
   query: SearchQuery;
@@ -10,7 +10,8 @@ export type DatedSearchQuery = {
 
 export type SearchHistorySlice = {
   searchQueryHistory: DatedSearchQuery[];
-  updateSearchQueryHistory: (update: SearchQuery) => void;
+  addSearchQuery: (update: SearchQuery) => void;
+  removeSearchQuery: (toDelete: Timestamp) => void;
 };
 
 export const createSearchHistorySlice: StateCreator<
@@ -21,12 +22,23 @@ export const createSearchHistorySlice: StateCreator<
 > = persist(
   (set) => ({
     searchQueryHistory: [],
-    updateSearchQueryHistory: (update: SearchQuery) => {
+    addSearchQuery: (update: SearchQuery) => {
       const datedQuery: DatedSearchQuery = { date: Date.now(), query: update };
       return set((prev) => ({
         ...prev,
         searchQueryHistory: [...prev.searchQueryHistory, datedQuery],
       }));
+    },
+    removeSearchQuery: (toRemove: Timestamp) => {
+      return set((prev) => {
+        const update = prev.searchQueryHistory.filter(
+          (entry) => entry.date !== toRemove,
+        );
+        return {
+          ...prev,
+          searchQueryHistory: update,
+        };
+      });
     },
   }),
   {

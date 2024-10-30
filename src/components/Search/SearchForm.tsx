@@ -39,7 +39,6 @@ const searchFormClasses =
 export function SearchForm(props: SearchFormProps) {
   const { onSearch } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
-  const queryHistory = useSearchStore((state) => state.searchQueryHistory);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
   const [showMoreClicked, setShowMoreClicked] =
@@ -273,10 +272,8 @@ export function SearchForm(props: SearchFormProps) {
       {projectConfig.showSearchQueryHistory && (
         <div className="w-full max-w-[450px]">
           <SearchQueryHistory
-            queryHistory={queryHistory}
             goToQuery={goToQuery}
             projectConfig={projectConfig}
-            disabled={!queryHistory.length}
           />
         </div>
       )}

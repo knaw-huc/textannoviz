@@ -47,7 +47,7 @@ export const Search = () => {
     searchQuery,
     setSearchQuery,
     setSearchResults,
-    updateSearchQueryHistory,
+    addSearchQuery,
     toFirstPage,
     searchFacetTypes,
     setSearchFacetTypes,
@@ -230,7 +230,7 @@ export const Search = () => {
 
       setShowingResults(true);
 
-      updateSearchQueryHistory(searchQuery);
+      addSearchQuery(searchQuery);
       setSelectedFacets(searchQuery);
 
       const searchResults = await getSearchResults(
