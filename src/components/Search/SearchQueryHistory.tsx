@@ -108,16 +108,17 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
 function formatQueryDate(timestamp: number): string {
   const date = new Date(timestamp);
 
-  const time = `${doubleDigit(date.getHours())}:${doubleDigit(
-    date.getMinutes(),
-  )}`;
+  const HH = doubleDigit(date.getHours());
+  const mm = doubleDigit(date.getMinutes());
+  const time = `${HH}:${mm}`;
 
   if (isToday(date)) {
     return time;
   }
-  return `${date.getFullYear()}-${
-    date.getMonth() + 1
-  }-${date.getDate()} ${time}`;
+  const YYYY = date.getFullYear();
+  const MM = date.getMonth() + 1;
+  const DD = date.getDate();
+  return `${YYYY}-${MM}-${DD} ${time}`;
 
   function isToday(toTest: Date) {
     const today = new Date();

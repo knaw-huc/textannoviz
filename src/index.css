@@ -389,13 +389,13 @@ div[role="textpanel"] > *:last-child {
   padding-bottom: 5em;
 }
 
+.query-delete,
 .query-date {
   font-size: 0.9em;
   color: #ccc;
 }
 
 .query-delete {
-  color: #ccc;
   float: right;
   &:hover {
     text-decoration: underline;
