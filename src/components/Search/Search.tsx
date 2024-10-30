@@ -178,9 +178,8 @@ export const Search = () => {
 
     setSearchQuery(newSearchQuery);
     setSelectedFacets(newSearchQuery);
-
     if (
-      queryDecoded?.fullText &&
+      isSearchableQuery(queryDecoded) &&
       JSON.stringify(searchQuery) !== JSON.stringify(queryDecoded)
     ) {
       doSearch();
@@ -310,3 +309,12 @@ export const Search = () => {
     </div>
   );
 };
+
+function isSearchableQuery(query: Partial<SearchQuery>) {
+  return (
+    query?.fullText ||
+    query.dateFrom ||
+    query.dateTo ||
+    (query.terms && Object.keys(query.terms).length)
+  );
+}
