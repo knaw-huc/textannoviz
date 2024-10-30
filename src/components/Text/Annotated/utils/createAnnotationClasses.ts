@@ -67,6 +67,7 @@ function createStartEndClasses(
   return classes.map(normalizeClassname);
 }
 
+// TODO: move to project config
 const dataToEntityCategory = {
   COM: "COM",
   DAT: "DAT",
@@ -84,16 +85,16 @@ const dataToEntityCategory = {
 const unknownCategory = "UNKNOWN";
 
 export function toEntityClassname(annotationCategory?: string) {
-  return `annotated-${normalizeEntityCategory(annotationCategory)}`;
+  return normalizeClassname(
+    `annotated-${toEntityCategory(annotationCategory)}`,
+  );
 }
 
-export function normalizeEntityCategory(annotationCategory?: string) {
+export function toEntityCategory(annotationCategory?: string) {
   if (!annotationCategory) {
     return unknownCategory;
   }
-  const entityCategory =
-    dataToEntityCategory[annotationCategory] ?? unknownCategory;
-  return normalizeClassname(entityCategory);
+  return dataToEntityCategory[annotationCategory] ?? unknownCategory;
 }
 
 export function normalizeClassname(annotationCategory: string) {
