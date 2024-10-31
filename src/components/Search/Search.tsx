@@ -127,7 +127,7 @@ export const Search = () => {
       setSearchQuery(newSearchQuery);
       setSelectedFacets(newSearchQuery);
 
-      if (queryDecoded?.fullText) {
+      if (isSearchableQuery(newSearchQuery)) {
         const searchResults = await getSearchResults(
           newFacetTypes,
           newSearchParams,
