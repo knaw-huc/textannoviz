@@ -31,9 +31,7 @@ export type SearchQuery = {
 
 export type SearchQuerySlice = {
   searchQuery: SearchQuery;
-  searchQueryHistory: SearchQuery[];
   setSearchQuery: (update: SearchQuery) => void;
-  updateSearchQueryHistory: (update: SearchQuery) => void;
 };
 
 export const createSearchQuerySlice: StateCreator<
@@ -50,16 +48,10 @@ export const createSearchQuerySlice: StateCreator<
     fullText: "",
     terms: {},
   },
-  searchQueryHistory: [],
   setSearchQuery: (update) =>
     set((prev) => ({
       ...prev,
       searchQuery: update,
-    })),
-  updateSearchQueryHistory: (update: SearchQuery) =>
-    set((prev) => ({
-      ...prev,
-      searchQueryHistory: [...prev.searchQueryHistory, update],
     })),
 });
 
