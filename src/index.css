@@ -388,3 +388,18 @@ div[role="tabpanel"] > *:last-child,
 div[role="textpanel"] > *:last-child {
   padding-bottom: 5em;
 }
+
+.query-delete,
+.query-date {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.query-delete {
+  float: right;
+  &:hover {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+  }
+}
