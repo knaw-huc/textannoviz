@@ -47,7 +47,7 @@ export const Search = () => {
     searchQuery,
     setSearchQuery,
     setSearchResults,
-    addSearchQuery,
+    addToHistory,
     toFirstPage,
     searchFacetTypes,
     setSearchFacetTypes,
@@ -103,7 +103,6 @@ export const Search = () => {
         newFacets,
         "keyword",
       );
-
       const newSearchQuery: SearchQuery = {
         ...searchQuery,
         aggs: aggregations,
@@ -229,7 +228,7 @@ export const Search = () => {
 
       setShowingResults(true);
 
-      addSearchQuery(searchQuery);
+      addToHistory(searchQuery);
       setSelectedFacets(searchQuery);
 
       const searchResults = await getSearchResults(

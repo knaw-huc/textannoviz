@@ -11,8 +11,8 @@ export type DatedSearchQuery = {
 
 export type SearchHistorySlice = {
   searchQueryHistory: DatedSearchQuery[];
-  addSearchQuery: (update: SearchQuery) => void;
-  removeSearchQuery: (toDelete: Timestamp) => void;
+  addToHistory: (update: SearchQuery) => void;
+  removeFromHistory: (toDelete: Timestamp) => void;
 };
 
 export const createSearchHistorySlice: StateCreator<
@@ -23,7 +23,7 @@ export const createSearchHistorySlice: StateCreator<
 > = persist(
   (set) => ({
     searchQueryHistory: [],
-    addSearchQuery: (update: SearchQuery) => {
+    addToHistory: (update: SearchQuery) => {
       return set((prev) => {
         if (
           prev.searchQueryHistory.find((entry) =>
@@ -46,7 +46,7 @@ export const createSearchHistorySlice: StateCreator<
         };
       });
     },
-    removeSearchQuery: (toRemove: Timestamp) => {
+    removeFromHistory: (toRemove: Timestamp) => {
       return set((prev) => {
         const update = prev.searchQueryHistory.filter(
           (entry) => entry.date !== toRemove,

@@ -17,7 +17,7 @@ type SearchQueryHistoryProps = {
 const MAX_DISPLAY = 10;
 
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
-  const { searchQueryHistory, removeSearchQuery } = useSearchStore();
+  const { searchQueryHistory, removeFromHistory } = useSearchStore();
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const [isOpen, setOpen] = useState(false);
@@ -48,7 +48,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                   </span>
                   <span
                     className="query-delete"
-                    onClick={() => removeSearchQuery(entry.date)}
+                    onClick={() => removeFromHistory(entry.date)}
                   >
                     [x]
                   </span>

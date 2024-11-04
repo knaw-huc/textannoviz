@@ -57,7 +57,7 @@ export function SearchResults(props: SearchResultsProps) {
   );
   const [graphTo] = React.useState(projectConfig.initialDateTo.split("-")[0]);
   const [showHistogram, setShowHistogram] = React.useState(true);
-  const queryHistory = useSearchStore((state) => state.searchQueryHistory);
+  const { searchQueryHistory } = useSearchStore();
   const [histogramZoomed, setHistogramZoomed] = React.useState(false);
 
   function updateSorting(sorting: Sorting) {
@@ -141,8 +141,8 @@ export function SearchResults(props: SearchResultsProps) {
   }
 
   function returnToPrevDateRange() {
-    if (queryHistory.length < 2) return;
-    const prevQuery = queryHistory[queryHistory.length - 2].query;
+    if (searchQueryHistory.length < 2) return;
+    const prevQuery = searchQueryHistory[searchQueryHistory.length - 2].query;
 
     setHistogramZoomed(false);
 
