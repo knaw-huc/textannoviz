@@ -142,7 +142,7 @@ export function SearchResults(props: SearchResultsProps) {
 
   function returnToPrevDateRange() {
     if (queryHistory.length < 2) return;
-    const prevQuery = queryHistory[queryHistory.length - 2];
+    const prevQuery = queryHistory[queryHistory.length - 2].query;
 
     setHistogramZoomed(false);
 
