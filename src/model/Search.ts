@@ -127,11 +127,16 @@ export type Facet = Record<FacetOptionName, number>;
  */
 export type Terms = Record<FacetName, FacetOptionName[]>;
 
+type FacetAgg = {
+  order: "countDesc" | "countAsc" | string;
+  size: number;
+};
+type Aggs = Record<FacetName, FacetAgg>;
 export type SearchQueryRequestBody =
   | {
       text?: string;
       terms: Terms;
-      aggs?: string[];
+      aggs?: Aggs;
       date?: {
         from: string;
         to: string;
