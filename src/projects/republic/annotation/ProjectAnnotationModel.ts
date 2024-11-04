@@ -35,7 +35,7 @@ export const isEntity = (
 };
 
 /**
- * Entity of type entity :)
+ * Entity of type Entity :)
  * (See also {@link isDateEntity})
  */
 export const isEntityEntity = (

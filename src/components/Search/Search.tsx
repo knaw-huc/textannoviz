@@ -127,7 +127,7 @@ export const Search = () => {
       setSearchQuery(newSearchQuery);
       setSelectedFacets(newSearchQuery);
 
-      if (queryDecoded?.fullText) {
+      if (isSearchableQuery(newSearchQuery)) {
         const searchResults = await getSearchResults(
           newFacetTypes,
           newSearchParams,
@@ -312,9 +312,10 @@ export const Search = () => {
 
 function isSearchableQuery(query: Partial<SearchQuery>) {
   return (
-    query?.fullText ||
-    query.dateFrom ||
-    query.dateTo ||
-    (query.terms && Object.keys(query.terms).length)
+    query &&
+    (query.fullText ||
+      query.dateFrom ||
+      query.dateTo ||
+      (query.terms && Object.keys(query.terms).length))
   );
 }
