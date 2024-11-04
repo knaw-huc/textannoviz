@@ -28,6 +28,7 @@ import { removeTerm } from "./util/removeTerm.ts";
 interface SearchFormProps {
   onSearch: () => void;
   keywordFacets: FacetEntry[];
+  searchQuery: SearchQuery;
   updateAggs: (query: SearchQuery) => void;
 }
 
@@ -64,11 +65,13 @@ export function SearchForm(props: SearchFormProps) {
   React.useEffect(() => {
     if (defaultAggsIsInit) return;
     if (!isEmpty(props.keywordFacets)) {
+      const searchQueryTerms = Object.keys(props.searchQuery.terms);
+      const defaultKeywordAggs = projectConfig.defaultKeywordAggsToRender;
+      const relevantFacetNames = [...defaultKeywordAggs, ...searchQueryTerms];
+
       const initialFilteredAggs = props.keywordFacets.reduce<string[]>(
         (accumulator, keywordFacet) => {
-          if (
-            projectConfig.defaultKeywordAggsToRender.includes(keywordFacet[0])
-          ) {
+          if (relevantFacetNames.includes(keywordFacet[0])) {
             accumulator.push(keywordFacet[0]);
           }
           return accumulator;
@@ -325,11 +328,8 @@ export function SearchForm(props: SearchFormProps) {
           )?.[1];
 
           return facetValue ? (
-            <>
-              <div
-                key={index}
-                className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
-              >
+            <div key={`${index}-${facetName}`}>
+              <div className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden">
                 <KeywordFacet
                   facetName={facetName}
                   facet={facetValue}
@@ -356,7 +356,7 @@ export function SearchForm(props: SearchFormProps) {
                   )}
                 </div>
               )}
-            </>
+            </div>
           ) : null;
         })}
     </div>

@@ -290,6 +290,7 @@ export const Search = () => {
       <SearchForm
         onSearch={handleNewSearch}
         keywordFacets={keywordFacets}
+        searchQuery={searchQuery}
         updateAggs={updateAggs}
       />
       <SearchResultsColumn>
