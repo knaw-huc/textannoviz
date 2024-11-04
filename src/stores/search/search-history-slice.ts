@@ -61,5 +61,6 @@ export const createSearchHistorySlice: StateCreator<
   {
     name: "search-history",
     storage: createJSONStorage(() => localStorage),
+    partialize: (state) => ({ searchQueryHistory: state.searchQueryHistory }),
   },
 );
