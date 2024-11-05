@@ -32,6 +32,24 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   resolutionType: "Resolution type",
   textType: "Text type",
 
+  attendantId: "Attendant ID",
+  attendantName: "Attendant name",
+  commissionId: "Commission ID",
+  commissionName: "Commission name",
+  commissionLabels: "Commission label",
+  locationId: "Location ID",
+  locationName: "Location name",
+  locationLabels: "Location label",
+  organisationId: "Organisation ID",
+  organisationName: "Organisation name",
+  organisationLabels: "Organisation name",
+  personId: "Person ID",
+  personName: "Person name",
+  personLabels: "Person label",
+  roleId: "Role ID",
+  roleName: "Role name",
+  roleLabels: "Role label",
+
   // search results:
   results: "resolutions",
 

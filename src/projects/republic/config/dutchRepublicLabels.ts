@@ -25,6 +25,24 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   resolutionType: "Resolutietype",
   textType: "Teksttype",
 
+  attendantId: "Attendant-ID",
+  attendantName: "Attendantnaam",
+  commissionId: "Commissie-ID",
+  commissionName: "Commissienaam",
+  commissionLabels: "Commissielabel",
+  locationId: "Locatie-ID",
+  locationName: "Locatienaam",
+  locationLabels: "Locatielabel",
+  organisationId: "Organisatie-ID",
+  organisationName: "Organisatienaam",
+  organisationLabels: "Organisatielabel",
+  personId: "Persoons-ID",
+  personName: "Persoonsnaam",
+  personLabels: "Persoonlabel",
+  roleId: "Hoedanigheids-ID",
+  roleName: "Hoedanigheidsnaam",
+  roleLabels: "Hoedanigheidslabel",
+
   // search results:
   results: "resoluties",
 
