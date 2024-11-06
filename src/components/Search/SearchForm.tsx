@@ -328,7 +328,7 @@ export function SearchForm(props: SearchFormProps) {
           )?.[1];
 
           return facetValue ? (
-            <div key={`${index}-${facetName}`}>
+            <React.Fragment key={index}>
               <div className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden">
                 <KeywordFacet
                   facetName={facetName}
@@ -356,7 +356,7 @@ export function SearchForm(props: SearchFormProps) {
                   )}
                 </div>
               )}
-            </div>
+            </React.Fragment>
           ) : null;
         })}
     </div>
