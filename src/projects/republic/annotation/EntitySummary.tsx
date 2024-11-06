@@ -11,6 +11,7 @@ import {
 } from "../../../stores/project.ts";
 import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
+import { isDateEntity } from "./ProjectAnnotationModel.ts";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
@@ -50,17 +51,18 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
             {translateProject("WARNING_NEW_SEARCH")}
           </div>
         </div>
-
-        <div>
-          <button
-            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-            // TODO:
-            onClick={handleEntityBrowseClick}
-          >
-            {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
-            {translateProject(entityCategory)}
-          </button>
-        </div>
+        {!isDateEntity(body) && (
+          <div>
+            <button
+              className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
+              // TODO:
+              onClick={handleEntityBrowseClick}
+            >
+              {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
+              {translateProject(entityCategory)}
+            </button>
+          </div>
+        )}
       </div>
     </li>
   );
