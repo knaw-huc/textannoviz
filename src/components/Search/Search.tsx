@@ -125,21 +125,6 @@ export const Search = () => {
       setSearchUrlParams(newSearchParams);
       setSearchQuery(newSearchQuery);
       setSelectedFacets(newSearchQuery);
-
-      if (isSearchableQuery(newSearchQuery)) {
-        const searchResults = await getSearchResults(
-          newFacetTypes,
-          newSearchParams,
-          newSearchQuery,
-          signal,
-        );
-        if (searchResults) {
-          setSearchResults(searchResults.results);
-          setKeywordFacets(searchResults.facets);
-        }
-        setShowingResults(true);
-      }
-
       setInit(true);
     }
 
@@ -154,11 +139,20 @@ export const Search = () => {
       return;
     }
 
+    skipUrlSyncRef.current = true;
+
     const queryDecoded = getUrlQuery(urlParams);
     const newSearchQuery = {
       ...searchQuery,
       ...queryDecoded,
     };
+
+    setSearchQuery(newSearchQuery);
+    setSelectedFacets(newSearchQuery);
+
+    if (isSearchableQuery(queryDecoded)) {
+      doSearch();
+    }
 
     async function doSearch() {
       const searchResults = await getSearchResults(
@@ -171,17 +165,6 @@ export const Search = () => {
         setKeywordFacets(searchResults.facets);
       }
       setShowingResults(true);
-    }
-
-    skipUrlSyncRef.current = true;
-
-    setSearchQuery(newSearchQuery);
-    setSelectedFacets(newSearchQuery);
-    if (
-      isSearchableQuery(queryDecoded) &&
-      JSON.stringify(searchQuery) !== JSON.stringify(queryDecoded)
-    ) {
-      doSearch();
     }
   }, [urlParams, isInit]);
 
