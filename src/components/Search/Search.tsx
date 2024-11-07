@@ -24,6 +24,7 @@ import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
+import _ from "lodash";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -32,6 +33,9 @@ export const Search = () => {
   const [isShowingResults, setShowingResults] = useState(false);
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
   const [urlParams, setUrlParams] = useSearchParams();
+  const [defaultSearchQuery, setDefaultSearchQyery] = useState<
+    Partial<SearchQuery>
+  >({});
   const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
     dateFrom: "",
     dateTo: "",
@@ -103,13 +107,16 @@ export const Search = () => {
         newFacets,
         "keyword",
       );
-      const newSearchQuery: SearchQuery = {
+      const defaultSearchQuery = {
         ...searchQuery,
         aggs: aggregations,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
         rangeFrom: projectConfig.initialRangeFrom,
         rangeTo: projectConfig.initialRangeTo,
+      };
+      const newSearchQuery: SearchQuery = {
+        ...defaultSearchQuery,
         ...queryDecoded,
       };
 
@@ -119,10 +126,10 @@ export const Search = () => {
       if (projectConfig.showSliderFacets) {
         newSearchQuery.rangeFacet = "text.tokenCount";
       }
-
       setKeywordFacets(newKeywordFacets);
       setSearchFacetTypes(newFacetTypes);
       setSearchUrlParams(newSearchParams);
+      setDefaultSearchQyery(defaultSearchQuery);
       setSearchQuery(newSearchQuery);
       setSelectedFacets(newSearchQuery);
       setInit(true);
@@ -150,7 +157,7 @@ export const Search = () => {
     setSearchQuery(newSearchQuery);
     setSelectedFacets(newSearchQuery);
 
-    if (isSearchableQuery(queryDecoded)) {
+    if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
       doSearch();
     }
 
@@ -292,12 +299,26 @@ export const Search = () => {
   );
 };
 
-function isSearchableQuery(query: Partial<SearchQuery>) {
-  return (
-    query &&
-    (query.fullText ||
-      query.dateFrom ||
-      query.dateTo ||
-      (query.terms && Object.keys(query.terms).length))
-  );
+/**
+ * Search when query differs from default query
+ */
+function isSearchableQuery(
+  query: Partial<SearchQuery>,
+  defaultQuery: Partial<SearchQuery>,
+) {
+  if (!query) {
+    return false;
+  }
+  const keysToDiffer: (keyof SearchQuery)[] = [
+    "fullText",
+    "dateFrom",
+    "dateTo",
+    "terms",
+  ];
+  for (const key of keysToDiffer) {
+    if (!_.isEqual(query[key], defaultQuery[key])) {
+      return true;
+    }
+  }
+  return false;
 }
