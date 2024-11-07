@@ -84,31 +84,27 @@ export function CheckboxGroupComponent({
 }
 
 interface CheckboxComponentProps extends Omit<CheckboxProps, "children"> {
+  onChange: () => void;
   children?: React.ReactNode;
 }
 
-export function CheckboxComponent({
-  children,
-  ...props
-}: CheckboxComponentProps) {
+export function CheckboxComponent(props: CheckboxComponentProps) {
+  const { children, isSelected } = props;
   return (
     <Checkbox
-      {...props}
+      isSelected={isSelected}
       className="group flex items-center gap-2 pb-1 pl-2 pt-1 transition"
+      onChange={props.onChange}
     >
-      {({ isSelected }) => (
-        <>
-          <div
-            aria-label="filter on "
-            className={`${
-              isSelected ? "bg-brand2-600 border-brand2-600" : ""
-            } flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition`}
-          >
-            {isSelected ? <CheckIcon className="h-5 w-5 text-white" /> : null}
-          </div>
-          {children}
-        </>
-      )}
+      <div
+        aria-label="filter on "
+        className={`${
+          isSelected ? "bg-brand2-600 border-brand2-600" : ""
+        } flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition`}
+      >
+        {isSelected && <CheckIcon className="h-5 w-5 text-white" />}
+      </div>
+      {children}
     </Checkbox>
   );
 }
