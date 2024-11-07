@@ -13,12 +13,15 @@ export function KeywordFacetLabel(props: {
 }) {
   const { option, facet, onRemove } = props;
   const translateProject = useProjectStore(translateProjectSelector);
+  const optionClean = /^[a-z]/.test(option)
+    ? firstLetterToUppercase(option)
+    : translateProject(option);
   return (
-    <div className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm">
-      {translateProject(facet)}:{" "}
-      {/^[a-z]/.test(option)
-        ? firstLetterToUppercase(option)
-        : translateProject(option)}{" "}
+    <div
+      className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row overflow-hidden rounded px-1 py-1 text-sm"
+      title={optionClean}
+    >
+      {translateProject(facet)}: {optionClean}{" "}
       {
         <XMarkIcon
           className="h-5 w-5"
