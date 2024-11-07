@@ -230,7 +230,7 @@ export const Search = () => {
     return () => {
       controller.abort("useEffect cleanup cycle");
     };
-  }, [isDirty]);
+  }, [isDirty, searchQuery]);
 
   async function updateAggs(query: SearchQuery) {
     const newParams = {
