@@ -16,18 +16,14 @@ export function KeywordFacetLabel(props: {
   const optionClean = /^[a-z]/.test(option)
     ? firstLetterToUppercase(option)
     : translateProject(option);
+  const label = `${translateProject(facet)}: ${optionClean} `;
   return (
     <div
-      className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row overflow-hidden rounded px-1 py-1 text-sm"
-      title={optionClean}
+      className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 active:bg-brand2-200 flex cursor-pointer flex-row rounded px-1 py-1 text-sm"
+      title={label}
     >
-      {translateProject(facet)}: {optionClean}{" "}
-      {
-        <XMarkIcon
-          className="h-5 w-5"
-          onClick={() => onRemove(facet, option)}
-        />
-      }
+      <span className="overflow-hidden">{label}</span>
+      <XMarkIcon className="h-5 w-5" onClick={() => onRemove(facet, option)} />
     </div>
   );
 }
