@@ -1,4 +1,5 @@
 import { Base64 } from "js-base64";
+import _ from "lodash";
 import isEmpty from "lodash/isEmpty";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -24,7 +25,6 @@ import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { getUrlQuery } from "./util/getUrlQuery.ts";
-import _ from "lodash";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
