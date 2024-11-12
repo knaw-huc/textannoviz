@@ -45,6 +45,7 @@ export function SearchForm(props: SearchFormProps) {
   const [showMoreClicked, setShowMoreClicked] =
     React.useState<ShowMoreClickedState>({});
   const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
+  const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
 
   const {
     searchUrlParams,
@@ -62,6 +63,8 @@ export function SearchForm(props: SearchFormProps) {
   );
 
   React.useEffect(() => {
+    if (defaultAggsIsInit) return;
+
     if (!isEmpty(props.keywordFacets)) {
       const searchQueryTerms = Object.keys(props.searchQuery.terms);
       const defaultKeywordAggs = projectConfig.defaultKeywordAggsToRender;
@@ -77,6 +80,7 @@ export function SearchForm(props: SearchFormProps) {
         [],
       );
       setFilteredAggs(initialFilteredAggs);
+      setDefaultAggsIsInit(true);
     }
   }, [props.keywordFacets, projectConfig.defaultKeywordAggsToRender]);
 
