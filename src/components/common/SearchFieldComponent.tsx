@@ -25,9 +25,9 @@ export function SearchFieldComponent({
     <SearchField {...props} className="group flex min-w-[40px] flex-col gap-1">
       {(label || helpLabel) && (
         <Label className="font-semibold">
-          {label ? label : ""}
-          {label && helpLabel ? " " : ""}
-          {helpLabel ? <HelpTooltip help={helpLabel} /> : ""}
+          {label && label}
+          {label && helpLabel && " "}
+          {helpLabel && <HelpTooltip label={helpLabel} />}
         </Label>
       )}
       <Group className="group flex h-10 items-center overflow-hidden rounded-md border focus-within:border-black">
