@@ -69,5 +69,9 @@ export const dutchLabels: Labels = {
   MORE_INFO_ON_CATEGORY: "Meer informatie over",
 
   // Help labels
-  FULL_TEXT_SEARCH_HELP: "FULL_TEXT_SEARCH_HELP",
+  FULL_TEXT_SEARCH_HELP: "",
+  SEARCH_HISTORY_HELP: "",
+  SHOW_CONTEXT_HELP: "",
+  SLIDER_FACET_HELP: "",
+  FILTER_FACETS_HELP: "",
 };

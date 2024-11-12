@@ -66,4 +66,9 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   page: "Page",
 
   ENTITIES: "Entities",
+
+  FULL_TEXT_SEARCH_HELP: "",
+  SHOW_CONTEXT_HELP: "",
+  SLIDER_FACET_HELP: "",
+  FILTER_FACETS_HELP: "",
 });

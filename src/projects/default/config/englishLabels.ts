@@ -69,4 +69,8 @@ export const englishLabels: Labels = {
   MORE_INFO_ON_CATEGORY: "More info on",
 
   FULL_TEXT_SEARCH_HELP: "FULL_TEXT_SEARCH_HELP",
+  SEARCH_HISTORY_HELP: "",
+  SHOW_CONTEXT_HELP: "",
+  SLIDER_FACET_HELP: "",
+  FILTER_FACETS_HELP: "",
 };

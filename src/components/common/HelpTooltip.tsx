@@ -6,14 +6,18 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 
-export function HelpTooltip(props: { label: string }) {
+export function HelpTooltip(props: { label?: string; iconColor?: string }) {
   const translateProject = useProjectStore(translateProjectSelector);
+
+  if (!props.label) {
+    return null;
+  }
 
   return (
     <SpanTooltipButton
       label={
-        <span className="p-1">
-          <HelpIcon />
+        <span className="p-1" style={{ color: "green" }}>
+          <HelpIcon color={props.iconColor} />
         </span>
       }
       tooltip={

@@ -67,4 +67,8 @@ export type Labels = {
 
   // Help labels:
   FULL_TEXT_SEARCH_HELP: string;
+  FILTER_FACETS_HELP: string;
+  SLIDER_FACET_HELP: string;
+  SHOW_CONTEXT_HELP: string;
+  SEARCH_HISTORY_HELP: string;
 };

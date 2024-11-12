@@ -59,8 +59,13 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   page: "Pagina",
 
   ENTITIES: "Entiteiten",
+
   FULL_TEXT_SEARCH_HELP:
     "Zoek naar termen of namen die voorkomen in de resoluties. \n" +
     "-maak gebruik van wildcards (‘*’ voor meer, ‘?’ voor één karakter) om varianten te vinden.\n" +
-    "-plaats ‘~1’ of een groter getal achter de term als het resultaat 1 of meer karakters mag afwijken. ",
+    "-plaats ‘~1’ of een groter getal achter de term als het resultaat 1 of meer karakters mag afwijken.",
+  SEARCH_HISTORY_HELP: "Geeft een overzicht van de zoekacties in deze sessie.",
+  SHOW_CONTEXT_HELP: "",
+  SLIDER_FACET_HELP: "",
+  FILTER_FACETS_HELP: "",
 });
