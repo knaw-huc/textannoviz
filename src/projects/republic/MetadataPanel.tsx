@@ -1,7 +1,6 @@
 import { UserIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { HOSTS } from "../../Config";
 import {
   AnnoRepoAnnotation,
   AttendanceListBody,
@@ -114,19 +113,7 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
                 className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
               >
                 <UserIcon className="inline h-3 w-3" />
-                <a
-                  title="Link"
-                  rel="noreferrer"
-                  target="_blank"
-                  href={
-                    attendant.delegateId > 0
-                      ? `${HOSTS.RAA}/${attendant.delegateId}`
-                      : undefined
-                  }
-                  className="hover:text-brand1-900 text-inherit no-underline hover:underline"
-                >
-                  {attendant.delegateName}
-                </a>
+                {attendant.delegateName}
               </li>
             ) : null,
         )}
