@@ -142,6 +142,9 @@ export const Search = () => {
   }, []);
 
   useEffect(() => {
+    // TODO: merge PR https://github.com/knaw-huc/textannoviz/pull/225
+    const aborter = new AbortController();
+
     if (!isInit) {
       return;
     }
@@ -166,6 +169,7 @@ export const Search = () => {
         searchFacetTypes,
         searchUrlParams,
         newSearchQuery,
+        aborter.signal,
       );
       if (searchResults) {
         setSearchResults(searchResults.results);
@@ -173,6 +177,8 @@ export const Search = () => {
       }
       setShowingResults(true);
     }
+
+    return () => aborter.abort();
   }, [urlParams, isInit]);
 
   //THIS ONE IS RUN MULTIPLE TIMES
