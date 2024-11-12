@@ -67,4 +67,6 @@ export const englishLabels: Labels = {
   SEARCH_CATEGORY: "Search for",
   WARNING_NEW_SEARCH: "Note: this will start a new search session",
   MORE_INFO_ON_CATEGORY: "More info on",
+
+  FULL_TEXT_SEARCH_HELP: "FULL_TEXT_SEARCH_HELP",
 };

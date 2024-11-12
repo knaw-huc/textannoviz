@@ -64,4 +64,7 @@ export type Labels = {
   SEARCH_CATEGORY: string;
   WARNING_NEW_SEARCH: string;
   MORE_INFO_ON_CATEGORY: string;
+
+  // Help labels:
+  FULL_TEXT_SEARCH_HELP: string;
 };

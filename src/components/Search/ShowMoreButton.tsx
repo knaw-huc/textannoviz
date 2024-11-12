@@ -1,5 +1,5 @@
 import { Button } from "react-aria-components";
-import { PlusIcon } from "../common/icons/PlusIcon";
+import { HelpIcon } from "../common/icons/HelpIcon.tsx";
 
 type ShowMoreButtonProps = {
   showMoreButtonClickHandler: (aggregation: string) => void;
@@ -14,7 +14,7 @@ export function ShowMoreButton(props: ShowMoreButtonProps) {
     >
       Show more{" "}
       <span className="pl-1">
-        <PlusIcon />
+        <HelpIcon />
       </span>
     </Button>
   );

@@ -67,4 +67,7 @@ export const dutchLabels: Labels = {
   SEARCH_CATEGORY: "Zoek naar",
   WARNING_NEW_SEARCH: "Let op: dit start een nieuwe zoekactie",
   MORE_INFO_ON_CATEGORY: "Meer informatie over",
+
+  // Help labels
+  FULL_TEXT_SEARCH_HELP: "FULL_TEXT_SEARCH_HELP",
 };

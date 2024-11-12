@@ -403,3 +403,8 @@ div[role="textpanel"] > *:last-child {
     cursor: pointer;
   }
 }
+
+.icon {
+  width: 1em;
+  display: inline;
+}
