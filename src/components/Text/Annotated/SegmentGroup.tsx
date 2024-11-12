@@ -1,7 +1,6 @@
 import { GroupedSegments, Segment } from "./AnnotationModel.ts";
 import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
 import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
-import { EntityModalButton } from "./EntityModal.tsx";
 
 export function SegmentGroup(props: {
   group: GroupedSegments;
@@ -9,7 +8,7 @@ export function SegmentGroup(props: {
   clickedSegment?: Segment | undefined;
   onClickSegment?: OnClickSegment;
 }) {
-  const { group, clickedGroup, clickedSegment } = props;
+  const { group, clickedSegment } = props;
 
   if (!group?.id) {
     return (
@@ -21,14 +20,12 @@ export function SegmentGroup(props: {
     );
   }
   return (
-    <EntityModalButton clickedGroup={clickedGroup}>
-      <LineSegmentsViewer
-        groupId={group.id}
-        segments={group.segments}
-        showDetails={false}
-        clickedSegment={clickedSegment}
-        onClickSegment={props.onClickSegment}
-      />
-    </EntityModalButton>
+    <LineSegmentsViewer
+      groupId={group.id}
+      segments={group.segments}
+      showDetails={false}
+      clickedSegment={clickedSegment}
+      onClickSegment={props.onClickSegment}
+    />
   );
 }
