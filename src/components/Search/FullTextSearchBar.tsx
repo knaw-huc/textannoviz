@@ -51,7 +51,7 @@ export function FullTextSearchBar(props: {
   return (
     <SearchFieldComponent
       label={translate("FULL_TEXT_SEARCH")}
-      helpLabelKey={translateProject("FULL_TEXT_SEARCH_HELP")}
+      helpLabel={translateProject("FULL_TEXT_SEARCH_HELP")}
       value={fullText}
       onChange={(newValue) => setFullText(newValue)}
       onClear={() => setFullText("")}
