@@ -73,4 +73,8 @@ export const englishLabels: Labels = {
   SHOW_CONTEXT_HELP: "",
   SLIDER_FACET_HELP: "",
   FILTER_FACETS_HELP: "",
+  BODY_TYPE_HELP: "",
+  PROPOSITION_TYPE_HELP: "",
+  RESOLUTION_TYPE_HELP: "",
+  TEXT_TYPE_HELP: "",
 };

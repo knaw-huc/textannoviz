@@ -5,11 +5,13 @@ import { Button, Checkbox, CheckboxGroup, Label } from "react-aria-components";
 import { SortAlphaAscIcon } from "./icons/SortAlphaAscIcon";
 import { SortAlphaDescIcon } from "./icons/SortAlphaDescIcon";
 import { SortNumDescIcon } from "./icons/SortNumDescIcon";
+import { HelpTooltip } from "./HelpTooltip.tsx";
 
 interface CheckboxGroupComponentProps
   extends Omit<CheckboxGroupProps, "children"> {
   children?: React.ReactNode;
   translatedLabel?: string;
+  helpLabel?: string;
   dataLabel: string;
   sortIconClickHandler: (agg: string, order: string) => void;
   facetLength: number;
@@ -17,9 +19,9 @@ interface CheckboxGroupComponentProps
 }
 
 type SortOrder = "countDesc" | "keyAsc" | "keyDesc";
-
 export function CheckboxGroupComponent({
   translatedLabel,
+  helpLabel,
   dataLabel,
   children,
   ...props
@@ -40,6 +42,7 @@ export function CheckboxGroupComponent({
           <div className="flex h-12 w-full flex-row items-center pr-2">
             <Label className="w-full pl-3 font-semibold">
               {translatedLabel}
+              <HelpTooltip label={helpLabel} />
             </Label>
             <div className="flex flex-row gap-1">
               <Button
