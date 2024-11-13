@@ -202,13 +202,16 @@ export const Search = () => {
     }
   }, [searchUrlParams, searchQuery, isInit]);
 
+  // Track previous query to prevent duplicate search calls:
+  const [prevQuery, setPrevQuery] = useState<SearchQuery>();
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    if (isDirty) {
+    if (isDirty && !_.isEqual(prevQuery, searchQuery)) {
       searchWhenDirty();
     }
-
+    setPrevQuery(searchQuery);
     async function searchWhenDirty() {
       const isEmptySearch =
         searchQuery.fullText.length === 0 &&
