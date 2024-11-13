@@ -3,6 +3,7 @@ import { OverlayArrow, Tooltip } from "react-aria-components";
 import { HelpIcon } from "./icons/HelpIcon.tsx";
 
 export function HelpTooltip(props: { label?: string; iconColor?: string }) {
+  // Hide tooltip when project does not provide a label:
   if (!props.label) {
     return null;
   }
