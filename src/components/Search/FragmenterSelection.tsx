@@ -1,6 +1,10 @@
 import React from "react";
 import type { Key } from "react-aria-components";
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import {
+  translateProjectSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import {
   SelectComponent,
   SelectItemComponent,
@@ -13,6 +17,7 @@ interface FragmenterProps {
 
 export const FragmenterSelection = (props: FragmenterProps) => {
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
   const [selectedKey, setSelectedKey] = React.useState<Key>(100);
 
   const options = [
@@ -29,6 +34,7 @@ export const FragmenterSelection = (props: FragmenterProps) => {
   return (
     <SelectComponent
       label={translate("DISPLAY_CONTEXT")}
+      helpLabel={translateProject("SHOW_CONTEXT_HELP")}
       items={options}
       selectedKey={selectedKey}
       onSelectionChange={selectChangeHandler}

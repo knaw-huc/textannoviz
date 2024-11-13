@@ -9,7 +9,7 @@ import {
 import { useTextStore } from "../../../stores/text.ts";
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { OverlayArrow, Tooltip } from "react-aria-components";
-import { SpanTooltipButton } from "./SpanTooltipButton.tsx";
+import { SpanTooltipButton } from "../../common/SpanTooltipButton.tsx";
 
 // Detail.tsx performs an additional broccoli call to retrieve notes:
 export const NOTES_VIEW = "notes";

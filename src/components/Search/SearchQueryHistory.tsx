@@ -8,6 +8,7 @@ import {
 } from "../../stores/project.ts";
 import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { HelpTooltip } from "../common/HelpTooltip.tsx";
 
 type SearchQueryHistoryProps = {
   goToQuery: (query: SearchQuery) => void;
@@ -34,7 +35,8 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
         isDisabled={!searchQueryHistory.length}
       >
-        {translate("SEARCH_HISTORY")}
+        {translate("SEARCH_HISTORY")}{" "}
+        <HelpTooltip label={translateProject("SEARCH_HISTORY_HELP")} />
       </Button>
       {isOpen && (
         <ul className="list ml-6 mt-4">

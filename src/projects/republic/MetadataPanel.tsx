@@ -21,6 +21,7 @@ import {
   isEntity,
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
+import { HelpTooltip } from "../../components/common/HelpTooltip.tsx";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -28,7 +29,6 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
-
   const entities = props.annotations.filter(
     (anno) => anno.body.type === "Entity",
   );
@@ -64,6 +64,8 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 };
 
 function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
+  const translateProject = useProjectStore(translateProjectSelector);
+
   const [attendanceList, setAttendanceList] =
     React.useState<AnnoRepoAnnotation[]>();
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -103,7 +105,10 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
 
   return (
     <>
-      <strong>Aanwezigen: </strong>
+      <strong>
+        Aanwezigen:{" "}
+        <HelpTooltip label={translateProject("ATTENDANTS_LIST_HELP")} />
+      </strong>
       <div className={gridOneColumn + "divide divide-y pb-8"}>
         {(attendanceList[0].body as AttendanceListBody).attendanceSpans.map(
           (attendant, index) =>
