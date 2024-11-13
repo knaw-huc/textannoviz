@@ -10,7 +10,7 @@ export function HelpTooltip(props: { label?: string; iconColor?: string }) {
   return (
     <SpanTooltipButton
       label={
-        <span className="p-1">
+        <span className="cursor-help p-1">
           <HelpIcon color={props.iconColor ?? "rgba(0,0,0,0.5)"} />
         </span>
       }

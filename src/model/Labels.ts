@@ -71,8 +71,10 @@ export type Labels = {
   SLIDER_FACET_HELP: string;
   SHOW_CONTEXT_HELP: string;
   SEARCH_HISTORY_HELP: string;
-  BODY_TYPE_HELP: "";
-  PROPOSITION_TYPE_HELP: "";
-  RESOLUTION_TYPE_HELP: "";
-  TEXT_TYPE_HELP: "";
+  BODY_TYPE_HELP: string;
+  PROPOSITION_TYPE_HELP: string;
+  RESOLUTION_TYPE_HELP: string;
+  TEXT_TYPE_HELP: string;
+  SORT_BY_HELP: string;
+  TOGGLE_INFO_HELP: string;
 };

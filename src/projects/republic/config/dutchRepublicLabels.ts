@@ -106,4 +106,8 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
     "Het bestand omvat handgeschreven ordinaris (1576-1702), secrete (1576-1796) en speciale resoluties (1576-1796), en gedrukte ordinaris resoluties (1703-1796).",
   SESSION_WEEKDAY_HELP:
     "Filter op dag van de week waarop resoluties werden genomen.",
+  SORT_BY_HELP: "Pas de sorteervolgorde van de resultaten aan.",
+  ATTENDANTS_LIST_HELP:
+    "Toont de gedeputeerden die aanwezig waren bij deze vergadering (aanklikbaar).",
+  TOGGLE_INFO_HELP: "Verberg of toon het rechterpaneel.",
 });

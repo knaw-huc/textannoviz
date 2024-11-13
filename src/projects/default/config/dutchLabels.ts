@@ -78,4 +78,6 @@ export const dutchLabels: Labels = {
   PROPOSITION_TYPE_HELP: "",
   RESOLUTION_TYPE_HELP: "",
   TEXT_TYPE_HELP: "",
+  SORT_BY_HELP: "",
+  TOGGLE_INFO_HELP: "",
 };

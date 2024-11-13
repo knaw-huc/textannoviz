@@ -1,7 +1,4 @@
-import {
-  Cog6ToothIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/24/solid";
+import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import {
   Dialog,
@@ -13,11 +10,13 @@ import {
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
+  translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
 import { AnnotationButtons } from "../Annotations/AnnotationButtons";
 import { DetailSearchResultsNavigation } from "./DetailSearchResultsNavigation.tsx";
+import { HelpTooltip } from "../common/HelpTooltip.tsx";
 
 type FooterProps = {
   showIiifViewerHandler: () => void;
@@ -34,6 +33,7 @@ export const Footer = (props: FooterProps) => {
   const trifferRef = React.useRef(null);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
   const showSvgsAnnosMirador = useAnnotationStore(
     (state) => state.showSvgsAnnosMirador,
   );
@@ -129,7 +129,7 @@ export const Footer = (props: FooterProps) => {
             {props.panelShowState
               ? translate("HIDE_INFO")
               : translate("SHOW_INFO")}{" "}
-            <InformationCircleIcon className="inline h-5 w-5 fill-neutral-500" />
+            <HelpTooltip label={translateProject("TOGGLE_INFO_HELP")} />
           </button>
         </div>
       </div>
