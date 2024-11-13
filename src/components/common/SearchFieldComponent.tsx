@@ -11,23 +11,23 @@ import { HelpTooltip } from "./HelpTooltip.tsx";
 
 interface SearchFieldComponentProps extends SearchFieldProps {
   label?: string;
-  helpLabel?: string;
+  helpLabelKey?: string;
   placeholder?: string;
 }
 
 export function SearchFieldComponent({
   label,
-  helpLabel,
+  helpLabelKey,
   placeholder,
   ...props
 }: SearchFieldComponentProps) {
   return (
     <SearchField {...props} className="group flex min-w-[40px] flex-col gap-1">
-      {(label || helpLabel) && (
+      {(label || helpLabelKey) && (
         <Label className="font-semibold">
           {label && label}
-          {label && helpLabel && " "}
-          {helpLabel && <HelpTooltip label={helpLabel} />}
+          {label && helpLabelKey && " "}
+          {helpLabelKey && <HelpTooltip label={helpLabelKey} />}
         </Label>
       )}
       <Group className="group flex h-10 items-center overflow-hidden rounded-md border focus-within:border-black">

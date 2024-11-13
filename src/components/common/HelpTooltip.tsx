@@ -1,14 +1,8 @@
 import { SpanTooltipButton } from "./SpanTooltipButton.tsx";
 import { OverlayArrow, Tooltip } from "react-aria-components";
 import { HelpIcon } from "./icons/HelpIcon.tsx";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 
 export function HelpTooltip(props: { label?: string; iconColor?: string }) {
-  const translateProject = useProjectStore(translateProjectSelector);
-
   if (!props.label) {
     return null;
   }
@@ -16,8 +10,8 @@ export function HelpTooltip(props: { label?: string; iconColor?: string }) {
   return (
     <SpanTooltipButton
       label={
-        <span className="p-1" style={{ color: "green" }}>
-          <HelpIcon color={props.iconColor} />
+        <span className="p-1">
+          <HelpIcon color={props.iconColor ?? "rgba(0,0,0,0.5)"} />
         </span>
       }
       tooltip={
@@ -27,7 +21,7 @@ export function HelpTooltip(props: { label?: string; iconColor?: string }) {
               <path d="M0 0 L4 4 L8 0" />
             </svg>
           </OverlayArrow>
-          <div className="help-tooltip">{translateProject(props.label)}</div>
+          <div className="help-tooltip">{props.label}</div>
         </Tooltip>
       }
       delay={100}

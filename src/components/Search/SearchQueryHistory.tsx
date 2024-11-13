@@ -36,7 +36,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         isDisabled={!searchQueryHistory.length}
       >
         {translate("SEARCH_HISTORY")}{" "}
-        <HelpTooltip label="SEARCH_HISTORY_HELP" iconColor="rgba(0,0,0,0.5)" />
+        <HelpTooltip label={translateProject("SEARCH_HISTORY_HELP")} />
       </Button>
       {isOpen && (
         <ul className="list ml-6 mt-4">

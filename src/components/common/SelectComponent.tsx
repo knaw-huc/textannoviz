@@ -10,10 +10,12 @@ import {
   Select,
   SelectValue,
 } from "react-aria-components";
+import { HelpTooltip } from "./HelpTooltip.tsx";
 
 interface SelectComponentProps<T extends object>
   extends Omit<SelectProps<T>, "children"> {
   label?: string;
+  helpLabel?: string;
   items?: Iterable<T>;
   buttonWidth?: string;
   labelStyling?: string;
@@ -22,6 +24,7 @@ interface SelectComponentProps<T extends object>
 
 export function SelectComponent<T extends object>({
   label,
+  helpLabel,
   children,
   items,
   buttonWidth,
@@ -34,6 +37,7 @@ export function SelectComponent<T extends object>({
         className={`${labelStyling ? labelStyling : "mr-1 font-semibold"}`}
       >
         {label}
+        <HelpTooltip label={helpLabel} />
       </Label>
       <Button
         className={`${

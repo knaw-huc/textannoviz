@@ -14,6 +14,7 @@ import {
 import { FacetEntry } from "../../stores/search/search-query-slice";
 import { ChevronDown } from "../common/icons/ChevronDown";
 import { ChevronRight } from "../common/icons/ChevronRight";
+import { HelpTooltip } from "../common/HelpTooltip.tsx";
 
 type FacetFilterProps = {
   allPossibleKeywordFacets: FacetEntry[];
@@ -45,6 +46,7 @@ export function FacetFilter(props: FacetFilterProps) {
         onPress={() => setIsOpen(!isOpen)}
       >
         {translate("FILTER_FACETS")}{" "}
+        <HelpTooltip label={translateProject("FILTER_FACETS_HELP")} />
         {!isOpen ? <ChevronRight /> : <ChevronDown />}
       </Button>
       {isOpen ? (
