@@ -2,6 +2,10 @@ import { LineSegment } from "./LineSegment.tsx";
 import { Segment } from "./AnnotationModel.ts";
 import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
 import _ from "lodash";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 export type LineSegmentsViewerProps = {
   segments: Segment[];
@@ -12,11 +16,15 @@ export type LineSegmentsViewerProps = {
 };
 
 export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
+  const projectConfig = useProjectStore(projectConfigSelector);
+
   const classes = ["line-segment"];
   const isPartOfAnnotationGroup = _.isNumber(props.groupId);
   if (isPartOfAnnotationGroup) {
     classes.push(
-      props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation NL",
+      props.showDetails
+        ? "fullNestedAnnotation"
+        : `closedNestedAnnotation ${projectConfig.selectedLanguage}`,
     );
   }
   return (
