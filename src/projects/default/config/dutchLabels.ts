@@ -25,6 +25,14 @@ export const dutchLabels: Labels = {
   RESULTS: "Resultaten",
   FILTERS: "Filters",
   FILTER_FACETS: "Filter facetten",
+  SHOW_MORE: "Meer",
+  SHOW_LESS: "Minder",
+
+  RESET_DATE: "Reset datum",
+  LINE_CHART: "Lijndiagram",
+  BAR_CHART: "Staafdiagram",
+  HIDE_HISTOGRAM: "Verberg histogram",
+  SHOW_HISTOGRAM: "Toon histogram",
 
   JANUARY: "januari",
   FEBRUARY: "februari",
@@ -55,6 +63,8 @@ export const dutchLabels: Labels = {
   PREV_PAGE: "Vorige pagina",
   INFO_FIRST_PAGE: "U heeft de eerste pagina bereikt",
   INFO_LAST_PAGE: "U heeft de laatste pagina bereikt",
+  NEXT_SCAN: "Volgende scan",
+  PREV_SCAN: "Vorige scan",
 
   NO_FACETS_FOUND: "Geen search facets gevonden",
   NO_INDICES_FOUND: "Geen zoek indices gevonden",

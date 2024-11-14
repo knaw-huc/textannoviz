@@ -53,6 +53,11 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   // search results:
   results: "resolutions",
 
+  //Metadata panel:
+  name: "Name",
+  category: "Category",
+  delegates: "Delegates",
+
   // text panel titles:
   self: "Text",
 

@@ -26,6 +26,15 @@ export const englishLabels: Labels = {
   FILTERS: "Filters",
   FILTER_FACETS: "Filter facets",
 
+  SHOW_MORE: "More",
+  SHOW_LESS: "Less",
+
+  RESET_DATE: "Reset date",
+  LINE_CHART: "Line chart",
+  BAR_CHART: "Bar chart",
+  HIDE_HISTOGRAM: "Hide histogram",
+  SHOW_HISTOGRAM: "Show histogram",
+
   JANUARY: "January",
   FEBRUARY: "February",
   MARCH: "March",
@@ -55,6 +64,8 @@ export const englishLabels: Labels = {
   PREV_PAGE: "Previous page",
   INFO_FIRST_PAGE: "You have reached the first page",
   INFO_LAST_PAGE: "You have reached the last page",
+  NEXT_SCAN: "Next scan",
+  PREV_SCAN: "Prev scan",
 
   NO_FACETS_FOUND: "No search facets found",
   NO_INDICES_FOUND: "No search indices found",

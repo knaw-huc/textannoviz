@@ -4,10 +4,15 @@ import { Button } from "react-aria-components";
 import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useMiradorStore } from "../../stores/mirador";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import {
+  projectConfigSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 
 export function BrowseScanButtons() {
+  const translate = useProjectStore(translateSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
   const miradorStore = useMiradorStore().miradorStore;
@@ -71,14 +76,14 @@ export function BrowseScanButtons() {
         className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
         onPress={prevCanvas}
       >
-        Prev scan
+        {translate("PREV_SCAN")}
       </Button>
       <Button
         isDisabled={currentCanvas === lastCanvas}
         className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
         onPress={nextCanvas}
       >
-        Next scan
+        {translate("NEXT_SCAN")}
       </Button>
     </>
   );

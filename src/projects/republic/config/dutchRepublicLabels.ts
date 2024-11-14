@@ -46,6 +46,11 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   // search results:
   results: "resoluties",
 
+  //Metadata panel:
+  name: "Naam",
+  category: "Categorie",
+  delegates: "Gedeputeerden",
+
   // text panel titles:
   self: "Tekst",
 
