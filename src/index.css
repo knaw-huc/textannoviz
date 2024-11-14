@@ -411,6 +411,7 @@ div[role="textpanel"] > *:last-child {
 
 /* Loading spinner */
 .spinner-border {
+  /* TODO: use colour colors.brand2.400 from Republic Tailwind config */
   border-color: rgb(251, 171, 72);
   border-top-color: transparent;
   border-radius: 50%;
