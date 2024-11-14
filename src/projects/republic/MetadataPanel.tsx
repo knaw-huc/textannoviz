@@ -106,7 +106,7 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
   return (
     <>
       <strong>
-        Gedeputeerden:{" "}
+        {translateProject("delegates")}:{" "}
         <HelpTooltip label={translateProject("ATTENDANTS_LIST_HELP")} />
       </strong>
       <div className={gridOneColumn + "divide divide-y pb-8"}>

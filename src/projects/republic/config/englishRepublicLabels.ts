@@ -54,8 +54,9 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   results: "resolutions",
 
   //Metadata panel:
-  name: "",
-  category: "",
+  name: "Name",
+  category: "Category",
+  delegates: "Delegates",
 
   // text panel titles:
   self: "Text",
