@@ -145,7 +145,8 @@ export const Search = () => {
   const [isUrlParamsAndSearchResultsInit, setUrlParamsAndSearchResultsInit] =
     useState(false);
 
-  // Run when init finished and search results should be shown:
+  // Run when init has finished and search results should be shown:
+  // TODO: remove useEffect, split work between init and isDirty useEffect
   useEffect(() => {
     const aborter = new AbortController();
 
@@ -155,7 +156,6 @@ export const Search = () => {
     if (isUrlParamsAndSearchResultsInit) {
       return;
     }
-    console.log("!isUrlParamsAndSearchResultsInit");
     skipUrlSyncRef.current = true;
 
     const queryDecoded = getUrlQuery(urlParams);
