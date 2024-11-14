@@ -171,6 +171,7 @@ export const Search = () => {
 
     if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
       doSearch();
+      setIsLoading(true);
     } else {
       setUrlParamsAndSearchResultsInit(true);
     }
@@ -188,6 +189,7 @@ export const Search = () => {
       }
       setShowingResults(true);
       setUrlParamsAndSearchResultsInit(true);
+      setIsLoading(false);
     }
 
     return () => aborter.abort();
