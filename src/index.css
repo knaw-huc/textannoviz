@@ -408,3 +408,10 @@ div[role="textpanel"] > *:last-child {
   width: 1em;
   display: inline;
 }
+
+/* Loading spinner */
+.spinner-border {
+  @apply border-brand2-400;
+  border-top-color: transparent;
+  border-radius: 50%;
+}

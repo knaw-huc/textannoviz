@@ -20,6 +20,7 @@ import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
 import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
 import { SearchForm } from "./SearchForm.tsx";
+import { SearchLoadingSpinner } from "./SearchLoadingSpinner.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
@@ -30,6 +31,7 @@ export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isInit, setInit] = useState(false);
   const [isDirty, setDirty] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
   const [urlParams, setUrlParams] = useSearchParams();
@@ -169,6 +171,7 @@ export const Search = () => {
 
     if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
       doSearch();
+      setIsLoading(true);
     } else {
       setUrlParamsAndSearchResultsInit(true);
     }
@@ -186,6 +189,7 @@ export const Search = () => {
       }
       setShowingResults(true);
       setUrlParamsAndSearchResultsInit(true);
+      setIsLoading(false);
     }
 
     return () => aborter.abort();
@@ -216,6 +220,7 @@ export const Search = () => {
   useEffect(() => {
     const aborter = new AbortController();
     if (isDirty) {
+      setIsLoading(true);
       searchWhenDirty();
     }
 
@@ -248,12 +253,14 @@ export const Search = () => {
         setKeywordFacets(searchResults.facets);
       }
       setDirty(false);
+      setIsLoading(false);
     }
 
     return () => aborter.abort();
   }, [isDirty, searchQuery]);
 
   async function updateAggs(query: SearchQuery) {
+    setIsLoading(true);
     const newParams = {
       ...searchUrlParams,
       indexName: projectConfig.elasticIndexName,
@@ -270,6 +277,8 @@ export const Search = () => {
       return;
     }
 
+    setIsLoading(false);
+
     setKeywordFacets(
       filterFacetsByType(searchFacetTypes, searchResults.aggs, "keyword"),
     );
@@ -285,30 +294,34 @@ export const Search = () => {
   }
 
   return (
-    <div
-      id="searchContainer"
-      className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
-    >
-      <SearchForm
-        onSearch={handleNewSearch}
-        keywordFacets={keywordFacets}
-        searchQuery={searchQuery}
-        updateAggs={updateAggs}
-      />
-      <SearchResultsColumn>
-        {/* Wait for init, to prevent a flicker of info page before results are shown: */}
-        {!isShowingResults && isInit && (
-          <projectConfig.components.SearchInfoPage />
-        )}
-        {isShowingResults && (
-          <SearchResults
-            onSearch={handleNewSearch}
-            onPageChange={handlePageChange}
-            query={searchQuery}
-            selectedFacets={selectedFacets}
-          />
-        )}
-      </SearchResultsColumn>
+    <div>
+      {isLoading && <SearchLoadingSpinner />}
+
+      <div
+        id="searchContainer"
+        className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
+      >
+        <SearchForm
+          onSearch={handleNewSearch}
+          keywordFacets={keywordFacets}
+          searchQuery={searchQuery}
+          updateAggs={updateAggs}
+        />
+        <SearchResultsColumn>
+          {/* Wait for init, to prevent a flicker of info page before results are shown: */}
+          {!isShowingResults && isInit && (
+            <projectConfig.components.SearchInfoPage />
+          )}
+          {isShowingResults && (
+            <SearchResults
+              onSearch={handleNewSearch}
+              onPageChange={handlePageChange}
+              query={searchQuery}
+              selectedFacets={selectedFacets}
+            />
+          )}
+        </SearchResultsColumn>
+      </div>
     </div>
   );
 };
