@@ -141,14 +141,21 @@ export const Search = () => {
     };
   }, []);
 
+  // TODO: continue refactor work https://github.com/knaw-huc/textannoviz/pull/225
+  const [isUrlParamsAndSearchResultsInit, setUrlParamsAndSearchResultsInit] =
+    useState(false);
+
+  // Run when init finished and search results should be shown:
   useEffect(() => {
-    // TODO: merge PR https://github.com/knaw-huc/textannoviz/pull/225
     const aborter = new AbortController();
 
     if (!isInit) {
       return;
     }
-
+    if (isUrlParamsAndSearchResultsInit) {
+      return;
+    }
+    console.log("!isUrlParamsAndSearchResultsInit");
     skipUrlSyncRef.current = true;
 
     const queryDecoded = getUrlQuery(urlParams);
@@ -162,6 +169,8 @@ export const Search = () => {
 
     if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
       doSearch();
+    } else {
+      setUrlParamsAndSearchResultsInit(true);
     }
 
     async function doSearch() {
@@ -176,10 +185,11 @@ export const Search = () => {
         setKeywordFacets(searchResults.facets);
       }
       setShowingResults(true);
+      setUrlParamsAndSearchResultsInit(true);
     }
 
     return () => aborter.abort();
-  }, [urlParams, isInit]);
+  }, [urlParams, isInit, isUrlParamsAndSearchResultsInit]);
 
   //THIS ONE IS RUN MULTIPLE TIMES
   useEffect(() => {
@@ -202,16 +212,13 @@ export const Search = () => {
     }
   }, [searchUrlParams, searchQuery, isInit]);
 
-  // To prevent duplicate calls:
-  const [isSearching, setSearching] = useState(false);
-
+  // Run when user modifies search query or params:
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    if (isDirty && !isSearching) {
-      setSearching(true);
+    const aborter = new AbortController();
+    if (isDirty) {
       searchWhenDirty();
     }
+
     async function searchWhenDirty() {
       const isEmptySearch =
         searchQuery.fullText.length === 0 &&
@@ -234,19 +241,16 @@ export const Search = () => {
         searchFacetTypes,
         searchUrlParams,
         searchQuery,
-        signal,
+        aborter.signal,
       );
       if (searchResults) {
         setSearchResults(searchResults.results);
         setKeywordFacets(searchResults.facets);
       }
       setDirty(false);
-      setSearching(false);
     }
 
-    return () => {
-      controller.abort("useEffect cleanup cycle");
-    };
+    return () => aborter.abort();
   }, [isDirty, searchQuery]);
 
   async function updateAggs(query: SearchQuery) {
