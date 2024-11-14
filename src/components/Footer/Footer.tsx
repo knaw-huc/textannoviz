@@ -44,7 +44,7 @@ export const Footer = (props: FooterProps) => {
   return (
     <footer className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
       <div className="mx-auto flex w-full flex-col justify-between lg:flex-row">
-        <div className="flex w-full flex-row justify-start gap-8 lg:w-2/5">
+        <div className="flex w-full flex-row justify-start gap-8 lg:w-max">
           <DetailSearchResultsNavigation />
           {projectConfig.showSearchResultsButtonFooter ? (
             <button
@@ -118,10 +118,10 @@ export const Footer = (props: FooterProps) => {
             </Popover>
           ) : null}
         </div>
-        <div className="flex w-full flex-row justify-between lg:w-2/5">
+        <div className="flex w-full flex-row justify-between lg:w-max">
           <AnnotationButtons />
         </div>
-        <div className="flex w-full flex-row justify-end lg:w-1/5">
+        <div className="flex w-full flex-row justify-end lg:w-max">
           <button
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
             onClick={props.showAnnotationPanelHandler}

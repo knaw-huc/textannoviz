@@ -68,14 +68,14 @@ export function BrowseScanButtons() {
     <>
       <Button
         isDisabled={currentCanvas === firstCanvas}
-        className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
+        className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pl-14 outline-none disabled:text-gray-300"
         onPress={prevCanvas}
       >
         Prev scan
       </Button>
       <Button
         isDisabled={currentCanvas === lastCanvas}
-        className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
+        className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pl-14 outline-none disabled:text-gray-300"
         onPress={nextCanvas}
       >
         Next scan
