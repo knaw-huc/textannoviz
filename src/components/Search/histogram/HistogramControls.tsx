@@ -1,5 +1,9 @@
 import React from "react";
 import { Button } from "react-aria-components";
+import {
+  translateProjectSelector,
+  useProjectStore,
+} from "../../../stores/project";
 
 type HistogramControlsProps = {
   graphTypeButtonClickHandler: (newGraphType: string) => void;
@@ -10,6 +14,7 @@ type HistogramControlsProps = {
 
 export const HistogramControls = (props: HistogramControlsProps) => {
   const [showHistogram, setShowHistogram] = React.useState(true);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   function showHistogramButtonClickHandler() {
     setShowHistogram(!showHistogram);
@@ -25,7 +30,7 @@ export const HistogramControls = (props: HistogramControlsProps) => {
             onPress={props.returnToPrevDateRange}
             isDisabled={!props.histogramZoomed}
           >
-            Reset date
+            {translateProject("resetDate")}
           </Button>
         </div>
       </div>
@@ -35,20 +40,22 @@ export const HistogramControls = (props: HistogramControlsProps) => {
             className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
             onPress={() => props.graphTypeButtonClickHandler("line")}
           >
-            Line chart
+            {translateProject("lineChart")}
           </Button>
 
           <Button
             className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
             onPress={() => props.graphTypeButtonClickHandler("bar")}
           >
-            Bar chart
+            {translateProject("barChart")}
           </Button>
           <Button
             className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
             onPress={showHistogramButtonClickHandler}
           >
-            {showHistogram ? "Hide histogram" : "Show histogram"}
+            {showHistogram
+              ? translateProject("hideHistogram")
+              : translateProject("showHistogram")}
           </Button>
         </div>
       </div>

@@ -55,6 +55,8 @@ export const dutchLabels: Labels = {
   PREV_PAGE: "Vorige pagina",
   INFO_FIRST_PAGE: "U heeft de eerste pagina bereikt",
   INFO_LAST_PAGE: "U heeft de laatste pagina bereikt",
+  NEXT_SCAN: "Volgende scan",
+  PREV_SCAN: "Vorige scan",
 
   NO_FACETS_FOUND: "Geen search facets gevonden",
   NO_INDICES_FOUND: "Geen zoek indices gevonden",

@@ -53,6 +53,8 @@ export type Labels = {
   PREV_PAGE: string;
   INFO_FIRST_PAGE: string;
   INFO_LAST_PAGE: string;
+  NEXT_SCAN: string;
+  PREV_SCAN: string;
 
   NO_FACETS_FOUND: string;
   NO_INDICES_FOUND: string;

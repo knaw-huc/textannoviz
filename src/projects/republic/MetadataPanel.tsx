@@ -1,6 +1,7 @@
 import { UserIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useParams } from "react-router-dom";
+import { HelpTooltip } from "../../components/common/HelpTooltip.tsx";
 import {
   AnnoRepoAnnotation,
   AttendanceListBody,
@@ -21,7 +22,6 @@ import {
   isEntity,
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
-import { HelpTooltip } from "../../components/common/HelpTooltip.tsx";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -106,7 +106,7 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
   return (
     <>
       <strong>
-        Aanwezigen:{" "}
+        Gedeputeerden:{" "}
         <HelpTooltip label={translateProject("ATTENDANTS_LIST_HELP")} />
       </strong>
       <div className={gridOneColumn + "divide divide-y pb-8"}>
@@ -191,6 +191,8 @@ function EntitiesMetadata(props: {
   title: string;
   entities: AnnoRepoAnnotation[];
 }) {
+  const translateProject = useProjectStore(translateProjectSelector);
+
   if (!props.entities.length) return null;
 
   return (
@@ -200,7 +202,7 @@ function EntitiesMetadata(props: {
         <ul key={index}>
           <li className="mb-8">
             <div className={gridOneColumn}>
-              Name:{" "}
+              {translateProject("name")}:{" "}
               {isEntity(entity.body)
                 ? entity.body.type === "Entity"
                   ? entity.body.metadata.name
@@ -208,7 +210,7 @@ function EntitiesMetadata(props: {
                 : null}
             </div>
             <div className={gridOneColumn}>
-              Labels:{" "}
+              {translateProject("category")}:{" "}
               {isEntity(entity.body)
                 ? entity.body.type === "Entity"
                   ? entity.body.metadata.entityLabels.join(", ")

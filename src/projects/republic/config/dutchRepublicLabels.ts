@@ -46,6 +46,21 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   // search results:
   results: "resoluties",
 
+  // search facet buttons:
+  showMore: "Meer",
+  showLess: "Minder",
+
+  //histogram:
+  resetDate: "Reset datum",
+  lineChart: "Lijndiagram",
+  barChart: "Staafdiagram",
+  hideHistogram: "Verberg histogram",
+  showHistogram: "Toon histogram",
+
+  //Metadata panel:
+  name: "Naam",
+  category: "Categorie",
+
   // text panel titles:
   self: "Tekst",
 
