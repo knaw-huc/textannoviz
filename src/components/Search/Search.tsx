@@ -141,11 +141,21 @@ export const Search = () => {
     };
   }, []);
 
+  // TODO: continue refactor work https://github.com/knaw-huc/textannoviz/pull/225
+  const [isUrlParamsAndSearchResultsInit, setUrlParamsAndSearchResultsInit] =
+    useState(false);
+
+  // Run when init has finished and search results should be shown:
+  // TODO: remove useEffect, split work between init and isDirty useEffect
   useEffect(() => {
+    const aborter = new AbortController();
+
     if (!isInit) {
       return;
     }
-
+    if (isUrlParamsAndSearchResultsInit) {
+      return;
+    }
     skipUrlSyncRef.current = true;
 
     const queryDecoded = getUrlQuery(urlParams);
@@ -159,6 +169,8 @@ export const Search = () => {
 
     if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
       doSearch();
+    } else {
+      setUrlParamsAndSearchResultsInit(true);
     }
 
     async function doSearch() {
@@ -166,14 +178,18 @@ export const Search = () => {
         searchFacetTypes,
         searchUrlParams,
         newSearchQuery,
+        aborter.signal,
       );
       if (searchResults) {
         setSearchResults(searchResults.results);
         setKeywordFacets(searchResults.facets);
       }
       setShowingResults(true);
+      setUrlParamsAndSearchResultsInit(true);
     }
-  }, [urlParams, isInit]);
+
+    return () => aborter.abort();
+  }, [urlParams, isInit, isUrlParamsAndSearchResultsInit]);
 
   //THIS ONE IS RUN MULTIPLE TIMES
   useEffect(() => {
@@ -196,9 +212,9 @@ export const Search = () => {
     }
   }, [searchUrlParams, searchQuery, isInit]);
 
+  // Run when user modifies search query or params:
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+    const aborter = new AbortController();
     if (isDirty) {
       searchWhenDirty();
     }
@@ -225,7 +241,7 @@ export const Search = () => {
         searchFacetTypes,
         searchUrlParams,
         searchQuery,
-        signal,
+        aborter.signal,
       );
       if (searchResults) {
         setSearchResults(searchResults.results);
@@ -234,9 +250,7 @@ export const Search = () => {
       setDirty(false);
     }
 
-    return () => {
-      controller.abort("useEffect cleanup cycle");
-    };
+    return () => aborter.abort();
   }, [isDirty, searchQuery]);
 
   async function updateAggs(query: SearchQuery) {
