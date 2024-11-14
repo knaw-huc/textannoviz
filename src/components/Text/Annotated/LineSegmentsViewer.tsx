@@ -16,7 +16,7 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
   const isPartOfAnnotationGroup = _.isNumber(props.groupId);
   if (isPartOfAnnotationGroup) {
     classes.push(
-      props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation",
+      props.showDetails ? "fullNestedAnnotation" : "closedNestedAnnotation NL",
     );
   }
   return (
