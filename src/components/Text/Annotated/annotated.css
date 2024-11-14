@@ -241,6 +241,9 @@
         transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 before:font-sans
         before:text-sm before:text-white hover:shadow hover:before:w-[160px] hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_detailed_view"];
   }
+  .closedNestedAnnotation.nl {
+    @apply hover:before:content-["Meer_info"];
+  }
 
   /* remove nested start icon */
   .closedNestedAnnotation .depth-2.start-annotation {
