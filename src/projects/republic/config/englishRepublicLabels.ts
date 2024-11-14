@@ -53,17 +53,6 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   // search results:
   results: "resolutions",
 
-  // search facet buttons:
-  showMore: "",
-  showLess: "",
-
-  //histogram:
-  resetDate: "",
-  lineChart: "",
-  barChart: "",
-  hideHistogram: "",
-  showHistogram: "",
-
   //Metadata panel:
   name: "",
   category: "",
