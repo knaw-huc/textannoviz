@@ -25,6 +25,14 @@ export const dutchLabels: Labels = {
   RESULTS: "Resultaten",
   FILTERS: "Filters",
   FILTER_FACETS: "Filter facetten",
+  SHOW_MORE: "Meer",
+  SHOW_LESS: "Minder",
+
+  RESET_DATE: "Reset datum",
+  LINE_CHART: "Lijndiagram",
+  BAR_CHART: "Staafdiagram",
+  HIDE_HISTOGRAM: "Verberg histogram",
+  SHOW_HISTOGRAM: "Toon histogram",
 
   JANUARY: "januari",
   FEBRUARY: "februari",

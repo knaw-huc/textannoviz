@@ -26,6 +26,15 @@ export const englishLabels: Labels = {
   FILTERS: "Filters",
   FILTER_FACETS: "Filter facets",
 
+  SHOW_MORE: "More",
+  SHOW_LESS: "Less",
+
+  RESET_DATE: "Reset date",
+  LINE_CHART: "Line chart",
+  BAR_CHART: "Bar chart",
+  HIDE_HISTOGRAM: "Hide histogram",
+  SHOW_HISTOGRAM: "Show histogram",
+
   JANUARY: "January",
   FEBRUARY: "February",
   MARCH: "March",

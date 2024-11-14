@@ -23,6 +23,14 @@ export type Labels = {
   RESULTS: string;
   FILTERS: string;
   FILTER_FACETS: string;
+  SHOW_MORE: string;
+  SHOW_LESS: string;
+
+  RESET_DATE: string;
+  LINE_CHART: string;
+  BAR_CHART: string;
+  HIDE_HISTOGRAM: string;
+  SHOW_HISTOGRAM: string;
 
   JANUARY: string;
   FEBRUARY: string;
