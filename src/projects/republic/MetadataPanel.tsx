@@ -89,7 +89,6 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
         projectConfig,
         signal,
       );
-      console.log(result);
       setAttendanceList(result.anno);
     }
 
