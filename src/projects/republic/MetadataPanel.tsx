@@ -89,6 +89,7 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
         projectConfig,
         signal,
       );
+      console.log(result);
       setAttendanceList(result.anno);
     }
 
@@ -101,7 +102,11 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
     };
   }, [projectConfig, props.annotations]);
 
-  if (!attendanceList) return null;
+  if (
+    !attendanceList ||
+    !(attendanceList[0].body as AttendanceListBody).attendanceSpans
+  )
+    return null;
 
   return (
     <>
