@@ -163,10 +163,20 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
 
         {resolution ? (
           <>
+            {(resolution.body as ResolutionBody).metadata.resolutionType ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <strong>{translateProject("resolutionType")}: </strong>
+                  {firstLetterToUppercase(
+                    (resolution.body as ResolutionBody).metadata.resolutionType,
+                  )}
+                </div>
+              </li>
+            ) : null}{" "}
             {(resolution.body as ResolutionBody).metadata.propositionType ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
-                  <strong>Propositietype: </strong>
+                  <strong>{translateProject("propositionType")}: </strong>
                   {firstLetterToUppercase(
                     (resolution.body as ResolutionBody).metadata
                       .propositionType,
@@ -174,16 +184,6 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
                 </div>
               </li>
             ) : null}
-            {(resolution.body as ResolutionBody).metadata.resolutionType ? (
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <strong>Resolutietype: </strong>
-                  {firstLetterToUppercase(
-                    (resolution.body as ResolutionBody).metadata.resolutionType,
-                  )}
-                </div>
-              </li>
-            ) : null}{" "}
           </>
         ) : null}
       </ul>
