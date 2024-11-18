@@ -170,26 +170,26 @@ export const Search = () => {
     setSelectedFacets(newSearchQuery);
 
     if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
-      setIsLoading(true);
       doSearch();
     } else {
       setUrlParamsAndSearchResultsInit(true);
     }
 
     async function doSearch() {
+      setIsLoading(true);
       const searchResults = await getSearchResults(
         searchFacetTypes,
         searchUrlParams,
         newSearchQuery,
         aborter.signal,
       );
+      setIsLoading(false);
       if (searchResults) {
         setSearchResults(searchResults.results);
         setKeywordFacets(searchResults.facets);
       }
       setShowingResults(true);
       setUrlParamsAndSearchResultsInit(true);
-      setIsLoading(false);
     }
 
     return () => aborter.abort();
@@ -220,7 +220,6 @@ export const Search = () => {
   useEffect(() => {
     const aborter = new AbortController();
     if (isDirty) {
-      setIsLoading(true);
       searchWhenDirty();
     }
 
@@ -242,46 +241,44 @@ export const Search = () => {
       addToHistory(searchQuery);
       setSelectedFacets(searchQuery);
 
+      setIsLoading(true);
       const searchResults = await getSearchResults(
         searchFacetTypes,
         searchUrlParams,
         searchQuery,
         aborter.signal,
       );
+      setIsLoading(false);
       if (searchResults) {
         setSearchResults(searchResults.results);
         setKeywordFacets(searchResults.facets);
       }
       setDirty(false);
-      setIsLoading(false);
     }
 
     return () => aborter.abort();
   }, [isDirty, searchQuery]);
 
   async function updateAggs(query: SearchQuery) {
-    setIsLoading(true);
     const newParams = {
       ...searchUrlParams,
       indexName: projectConfig.elasticIndexName,
       size: 0,
     };
 
+    setIsLoading(true);
     const searchResults = await sendSearchQuery(
       projectConfig,
       newParams,
       toRequestBody(query),
     );
-
-    if (!searchResults) {
-      return;
-    }
-
     setIsLoading(false);
 
-    setKeywordFacets(
-      filterFacetsByType(searchFacetTypes, searchResults.aggs, "keyword"),
-    );
+    if (searchResults) {
+      setKeywordFacets(
+        filterFacetsByType(searchFacetTypes, searchResults.aggs, "keyword"),
+      );
+    }
   }
 
   function handleNewSearch() {
