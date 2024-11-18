@@ -170,8 +170,8 @@ export const Search = () => {
     setSelectedFacets(newSearchQuery);
 
     if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
-      doSearch();
       setIsLoading(true);
+      doSearch();
     } else {
       setUrlParamsAndSearchResultsInit(true);
     }
