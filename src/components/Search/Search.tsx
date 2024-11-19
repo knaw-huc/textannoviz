@@ -192,7 +192,10 @@ export const Search = () => {
       setUrlParamsAndSearchResultsInit(true);
     }
 
-    return () => aborter.abort();
+    return () => {
+      setIsLoading(false);
+      aborter.abort();
+    };
   }, [urlParams, isInit, isUrlParamsAndSearchResultsInit]);
 
   //THIS ONE IS RUN MULTIPLE TIMES
@@ -256,7 +259,10 @@ export const Search = () => {
       setDirty(false);
     }
 
-    return () => aborter.abort();
+    return () => {
+      setIsLoading(false);
+      aborter.abort();
+    };
   }, [isDirty, searchQuery]);
 
   async function updateAggs(query: SearchQuery) {
