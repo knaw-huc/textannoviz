@@ -6,8 +6,10 @@ import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
-import { toDetailPageUrl } from "../Text/Annotated/utils/toDetailPageUrl.tsx";
-import { useDetailUrlParams } from "../Text/Annotated/utils/useDetailUrlParams.tsx";
+import {
+  GetDetailUrl,
+  useDetailUrl,
+} from "../Text/Annotated/utils/useDetailUrl.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
 import { Any } from "../../utils/Any.ts";
@@ -16,7 +18,8 @@ import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
   const translate = useProjectStore(translateSelector);
-  const detailParams = useDetailUrlParams();
+  const { getDetailUrlParams, getDetailUrl } = useDetailUrl();
+  const { tier2, highlight } = getDetailUrlParams();
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
@@ -26,15 +29,17 @@ export function DetailSearchResultsNavigation() {
 
   const prevResultPath = createResultPath(
     searchResults,
-    detailParams.tier2,
-    detailParams.highlight,
+    tier2,
+    highlight,
     (resultIndex) => resultIndex - 1,
+    getDetailUrl,
   );
   const nextResultPath = createResultPath(
     searchResults,
-    detailParams.tier2,
-    detailParams.highlight,
+    tier2,
+    highlight,
     (resultIndex) => resultIndex + 1,
+    getDetailUrl,
   );
 
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
@@ -95,8 +100,9 @@ export function DetailSearchResultsNavigation() {
     const nextUrl = createResultPath(
       newSearchResults.results,
       newSearchResults.results.results[0]._id,
-      detailParams.highlight,
+      highlight,
       resultIndexUpdater,
+      getDetailUrl,
     );
     if (!nextUrl) {
       throw new Error("No results found");
@@ -134,6 +140,7 @@ function createResultPath(
   resultId: string,
   highlight: string | undefined,
   resultIndexUpdater: (oldIndex: number) => number,
+  getDetailUrl: GetDetailUrl,
 ) {
   if (!searchResults) {
     return;
@@ -149,5 +156,5 @@ function createResultPath(
   if (!newResultId) {
     return;
   }
-  return toDetailPageUrl(newResultId, { highlight });
+  return getDetailUrl(newResultId, highlight);
 }

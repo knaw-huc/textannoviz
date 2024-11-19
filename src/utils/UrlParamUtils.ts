@@ -39,7 +39,7 @@ export function getSearchParamsFromUrl<T extends object>(
  * or overwrite existing values
  */
 export function addParamsToUrl<T extends object>(
-  urlParams: URLSearchParams,
+  urlParams: object,
   update: T,
 ): Record<string, string> {
   return {
@@ -49,7 +49,7 @@ export function addParamsToUrl<T extends object>(
 }
 
 export function createUrlParams(
-  urlParams: URLSearchParams,
+  urlParams: object,
   searchParams: SearchParams,
   searchQuery: SearchQuery,
 ): Record<string, string> {

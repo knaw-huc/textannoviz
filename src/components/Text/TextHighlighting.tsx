@@ -1,12 +1,11 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { getAnnotationsByTypes } from "./Annotated/utils/getAnnotationsByTypes.ts";
 import { createSearchRegex } from "./createSearchRegex.tsx";
-import { useDetailUrlParams } from "./Annotated/utils/useDetailUrlParams.tsx";
+import { useDetailUrl } from "./Annotated/utils/useDetailUrl.tsx";
 import { normalizeClassname } from "./Annotated/utils/createAnnotationClasses.ts";
 
 type TextHighlightingProps = {
@@ -17,8 +16,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();
-  const textToHighlight = useDetailUrlParams().highlight;
-  const params = useParams();
+  const { highlight, tier2 } = useDetailUrl().getDetailUrlParams();
   const [annotationsToHighlight, setAnnotationsToHighlight] = React.useState<
     AnnoRepoAnnotation[]
   >([]);
@@ -89,8 +87,8 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       <span className={collectClasses(index) + "w-fit"}>{line}</span>
     );
 
-    if (textToHighlight?.length && params.tier2) {
-      const regex = createSearchRegex(textToHighlight, params.tier2)!;
+    if (highlight && tier2) {
+      const regex = createSearchRegex(highlight, tier2)!;
 
       projectName === "republic" || projectName === "globalise"
         ? (result = (
