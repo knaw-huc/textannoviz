@@ -6,6 +6,11 @@ import {
   createUrlParams,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
+import { ProjectConfig } from "../../model/ProjectConfig.ts";
 
 export const blankSearchQuery: SearchQuery = {
   dateFrom: "",
@@ -38,9 +43,10 @@ export type UpdatedUrlProps = Partial<{
  */
 export function useSearchUrlParams() {
   const [urlParams, setUrlParams] = useSearchParams();
+  const projectConfig = useProjectStore(projectConfigSelector);
 
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(blankSearchQuery, urlParams),
+    getSearchQueryFromUrl(getDefaultQuery(projectConfig), urlParams),
   );
   const [searchParams, setSearchParams] = useState<SearchParams>(
     getSearchParamsFromUrl(defaultSearchParams, urlParams),
@@ -84,4 +90,18 @@ export function useSearchUrlParams() {
     updateSearchParams,
     toFirstPage,
   };
+}
+
+export function getDefaultQuery(projectConfig: ProjectConfig) {
+  const configuredSearchQuery = {
+    ...blankSearchQuery,
+    dateFrom: projectConfig.initialDateFrom,
+    dateTo: projectConfig.initialDateTo,
+    rangeFrom: projectConfig.initialRangeFrom,
+    rangeTo: projectConfig.initialRangeTo,
+  };
+  if (projectConfig.showSliderFacets) {
+    configuredSearchQuery.rangeFacet = "text.tokenCount";
+  }
+  return configuredSearchQuery;
 }

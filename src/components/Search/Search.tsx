@@ -15,7 +15,7 @@ import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
-import { blankSearchQuery, useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { getDefaultQuery, useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { toRequestBody } from "../../stores/search/toRequestBody.ts";
 import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import { SearchQuery } from "../../model/Search.ts";
@@ -83,28 +83,20 @@ export const Search = () => {
         "keyword",
       );
 
-      const defaultSearchQuery = {
-        ...blankSearchQuery,
-        dateFrom: projectConfig.initialDateFrom,
-        dateTo: projectConfig.initialDateTo,
-        rangeFrom: projectConfig.initialRangeFrom,
-        rangeTo: projectConfig.initialRangeTo,
-      };
       const newSearchQuery: SearchQuery = {
-        ...defaultSearchQuery,
+        ...searchQuery,
         aggs: aggregations,
       };
 
       if (!_.isEmpty(newDateFacets)) {
         newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
       }
-      if (projectConfig.showSliderFacets) {
-        newSearchQuery.rangeFacet = "text.tokenCount";
-      }
+
       setKeywordFacets(newKeywordFacets);
       setSearchFacetTypes(newFacetTypes);
       updateSearchQuery(newSearchQuery);
-      if (isSearchableQuery(newSearchQuery, defaultSearchQuery)) {
+
+      if (isSearchableQuery(newSearchQuery, getDefaultQuery(projectConfig))) {
         const searchResults = await getSearchResults(
           newFacetTypes,
           searchParams,
