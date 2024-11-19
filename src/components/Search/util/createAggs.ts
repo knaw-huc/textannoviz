@@ -5,6 +5,9 @@ export function createAggs(
   facetTypes: FacetTypes,
   projectConfig: ProjectConfig,
 ) {
+  const defaultOrder = "countDesc";
+  const defaultSize = 10;
+
   return Object.keys(facetTypes).map((agg) => {
     const newAgg = {
       facetName: agg,
@@ -18,8 +21,8 @@ export function createAggs(
 
     if (override) {
       Object.assign(newAgg, {
-        order: override.order ?? "countDesc",
-        size: override.size ?? 10,
+        order: override.order ?? defaultOrder,
+        size: override.size ?? defaultSize,
       });
     }
 
