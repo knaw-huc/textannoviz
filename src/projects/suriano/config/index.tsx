@@ -19,11 +19,13 @@ import {
   projectPageMarkerAnnotationTypes,
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
   broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
   relativeTo: "tf:File",
+  showWebAnnoTab: false,
   annotationTypesToInclude: [
     // "EntityMetadata",
     // "tei:Author",
@@ -100,11 +102,13 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showKeywordFacets: false,
   showFacetFilter: false,
   showMiradorNavigationButtons: false,
+  showHelpLink: false,
   components: {
     EntitySummary,
     SearchItem,
     MetadataPanel,
     AnnotationButtons,
+    SearchInfoPage,
   },
 
   selectedLanguage: "en",

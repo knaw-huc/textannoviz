@@ -1,41 +1,53 @@
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 import { skipEmptyValues } from "../../../utils/skipEmptyValues.ts";
 import { Base64 } from "js-base64";
-import { isDateEntity } from "./ProjectAnnotationModel.ts";
+import {
+  entityCategoryToFacetName,
+  isDateEntity,
+  isEntityEntity,
+} from "./ProjectAnnotationModel.ts";
 import { QUERY } from "../../../components/Search/SearchUrlParams.ts";
-import { SearchParams, SearchQuery } from "../../../model/Search.ts";
+import { SearchQuery } from "../../../model/Search.ts";
 
-/**
- * @returns false when not implemented
- */
-export function toEntitySearchQuery(
-  anno: AnnoRepoBodyBase,
-  searchQuery: SearchQuery,
-  searchParams: SearchParams,
-): URLSearchParams | false {
+export function toEntitySearchQuery(anno: AnnoRepoBodyBase): URLSearchParams {
   if (isDateEntity(anno)) {
-    return toDateSearchQuery(anno.metadata.date, searchQuery, searchParams);
+    return createSearchQueryParam(toDateEntityQueryParams(anno.metadata.date));
+  } else if (isEntityEntity(anno)) {
+    return createSearchQueryParam(
+      toEntityQueryParam(anno.metadata.category, anno.metadata.entityID),
+    );
   } else {
-    // TODO:
-    return false;
+    throw new Error("Unknown entity " + JSON.stringify(anno));
   }
 }
 
-function toDateSearchQuery(
-  date: string,
-  searchQuery: SearchQuery,
-  searchParams: SearchParams,
-): URLSearchParams {
-  const params = new URLSearchParams();
-  Object.entries(searchParams).forEach(([k, v]) => {
-    params.set(k, `${v}`);
-  });
-  const queryWithDate = structuredClone(searchQuery);
+function toDateEntityQueryParams(date: string): Partial<SearchQuery> {
+  const queryWithDate = {} as Partial<SearchQuery>;
   queryWithDate.dateFrom = date;
   queryWithDate.dateTo = date;
+  return queryWithDate;
+}
+
+function toEntityQueryParam(
+  entityCategory: string,
+  entityId: string,
+): Partial<SearchQuery> {
+  const entityIdFacetName = entityCategoryToFacetName[entityCategory];
+  if (!entityCategory) {
+    throw new Error("Unknown entity category " + entityCategory);
+  }
+  return {
+    terms: {
+      [entityIdFacetName]: [entityId],
+    },
+  };
+}
+
+function createSearchQueryParam(queryWithEntity: Partial<SearchQuery>) {
+  const params = new URLSearchParams();
   params.set(
     QUERY,
-    Base64.encode(JSON.stringify(queryWithDate, skipEmptyValues)),
+    Base64.encode(JSON.stringify(queryWithEntity, skipEmptyValues)),
   );
   return params;
 }

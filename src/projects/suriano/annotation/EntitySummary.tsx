@@ -1,5 +1,5 @@
 import {
-  normalizeEntityCategory,
+  toEntityCategory,
   toEntityClassname,
 } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
@@ -15,7 +15,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { getAnnotationCategory } = useProjectStore(projectConfigSelector);
   const { body } = props;
 
-  const entityCategory = normalizeEntityCategory(getAnnotationCategory(body));
+  const entityCategory = toEntityCategory(getAnnotationCategory(body));
   const entityClassname = toEntityClassname(entityCategory);
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">

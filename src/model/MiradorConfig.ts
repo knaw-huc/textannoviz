@@ -12,6 +12,10 @@ export type MiradorConfig = {
       };
     };
   };
+
+  language: string;
+  availableLanguages: Record<string, string>;
+
   window: {
     allowClose: boolean;
     allowWindowSideBar: boolean;

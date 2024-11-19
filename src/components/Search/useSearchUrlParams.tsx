@@ -7,7 +7,7 @@ import {
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 
-export const defaultSearchQuery: SearchQuery = {
+export const blankSearchQuery: SearchQuery = {
   dateFrom: "",
   dateTo: "",
   rangeFrom: "",
@@ -30,11 +30,17 @@ export type UpdatedUrlProps = Partial<{
   searchParams: SearchParams;
 }>;
 
+/**
+ * The url is our single source of truth.
+ * To keep the search params and query in sync with the url:
+ * 1. update url with {@link updateSearchQuery}
+ * 2. update search query and params with a useEffect
+ */
 export function useSearchUrlParams() {
   const [urlParams, setUrlParams] = useSearchParams();
 
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(defaultSearchQuery, urlParams),
+    getSearchQueryFromUrl(blankSearchQuery, urlParams),
   );
   const [searchParams, setSearchParams] = useState<SearchParams>(
     getSearchParamsFromUrl(defaultSearchParams, urlParams),

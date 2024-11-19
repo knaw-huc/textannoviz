@@ -23,6 +23,11 @@ export const defaultMiradorConfig: MiradorConfig = {
       },
     },
   },
+  language: "nl",
+  availableLanguages: {
+    en: "English",
+    nl: "Nederlands",
+  },
   window: {
     allowClose: false,
     allowWindowSideBar: true,

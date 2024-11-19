@@ -1,4 +1,5 @@
 import { SearchQuery, SearchQueryRequestBody } from "../../model/Search.ts";
+import _ from "lodash";
 
 export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
   if (!query?.terms) {
@@ -30,9 +31,11 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
   }
 
   if (query.aggs) {
-    searchQuery.aggs = query.aggs
-      .filter((agg) => agg.order && agg.size)
-      .map((agg) => `${agg.facetName}:${agg.order},${agg.size}`);
+    const aggsObject = _.keyBy(query.aggs, "facetName");
+    searchQuery.aggs = _.mapValues(aggsObject, (agg) => ({
+      order: agg.order,
+      size: agg.size,
+    }));
   }
 
   return searchQuery;

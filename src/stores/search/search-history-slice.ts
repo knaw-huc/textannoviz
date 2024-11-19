@@ -1,6 +1,7 @@
 import { StateCreator } from "zustand";
 import { SearchQuery } from "../../model/Search.ts";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+import _ from "lodash";
 
 export type Timestamp = number;
 export type DatedSearchQuery = {
@@ -10,8 +11,8 @@ export type DatedSearchQuery = {
 
 export type SearchHistorySlice = {
   searchQueryHistory: DatedSearchQuery[];
-  addSearchQuery: (update: SearchQuery) => void;
-  removeSearchQuery: (toDelete: Timestamp) => void;
+  addToHistory: (update: SearchQuery) => void;
+  removeFromHistory: (toDelete: Timestamp) => void;
 };
 
 export const createSearchHistorySlice: StateCreator<
@@ -22,14 +23,30 @@ export const createSearchHistorySlice: StateCreator<
 > = persist(
   (set) => ({
     searchQueryHistory: [],
-    addSearchQuery: (update: SearchQuery) => {
-      const datedQuery: DatedSearchQuery = { date: Date.now(), query: update };
-      return set((prev) => ({
-        ...prev,
-        searchQueryHistory: [...prev.searchQueryHistory, datedQuery],
-      }));
+    addToHistory: (update: SearchQuery) => {
+      return set((prev) => {
+        if (
+          prev.searchQueryHistory.find((entry) =>
+            _.isEqual(entry.query, update),
+          )
+        ) {
+          console.debug("query already exists in history", {
+            query: update,
+            history: prev.searchQueryHistory,
+          });
+          return prev;
+        }
+        const datedQuery: DatedSearchQuery = {
+          date: Date.now(),
+          query: update,
+        };
+        return {
+          ...prev,
+          searchQueryHistory: [...prev.searchQueryHistory, datedQuery],
+        };
+      });
     },
-    removeSearchQuery: (toRemove: Timestamp) => {
+    removeFromHistory: (toRemove: Timestamp) => {
       return set((prev) => {
         const update = prev.searchQueryHistory.filter(
           (entry) => entry.date !== toRemove,
@@ -44,5 +61,6 @@ export const createSearchHistorySlice: StateCreator<
   {
     name: "search-history",
     storage: createJSONStorage(() => localStorage),
+    partialize: (state) => ({ searchQueryHistory: state.searchQueryHistory }),
   },
 );

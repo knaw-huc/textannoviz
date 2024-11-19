@@ -1,7 +1,4 @@
-import {
-  Cog6ToothIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/24/solid";
+import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import {
   Dialog,
@@ -13,10 +10,12 @@ import {
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
+  translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
 import { AnnotationButtons } from "../Annotations/AnnotationButtons";
+import { HelpTooltip } from "../common/HelpTooltip.tsx";
 import { DetailSearchResultsNavigation } from "./DetailSearchResultsNavigation.tsx";
 
 type FooterProps = {
@@ -34,6 +33,7 @@ export const Footer = (props: FooterProps) => {
   const trifferRef = React.useRef(null);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
   const showSvgsAnnosMirador = useAnnotationStore(
     (state) => state.showSvgsAnnosMirador,
   );
@@ -44,7 +44,7 @@ export const Footer = (props: FooterProps) => {
   return (
     <footer className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
       <div className="mx-auto flex w-full flex-col justify-between lg:flex-row">
-        <div className="flex w-full flex-row justify-start gap-8 lg:w-2/5">
+        <div className="flex w-full flex-row justify-start gap-8 lg:w-max">
           <DetailSearchResultsNavigation />
           {projectConfig.showSearchResultsButtonFooter ? (
             <button
@@ -118,10 +118,10 @@ export const Footer = (props: FooterProps) => {
             </Popover>
           ) : null}
         </div>
-        <div className="flex w-full flex-row justify-between lg:w-2/5">
+        <div className="flex w-full flex-row justify-between lg:w-max">
           <AnnotationButtons />
         </div>
-        <div className="flex w-full flex-row justify-end lg:w-1/5">
+        <div className="flex w-full flex-row justify-end lg:w-max">
           <button
             className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-6 text-neutral-500"
             onClick={props.showAnnotationPanelHandler}
@@ -129,7 +129,7 @@ export const Footer = (props: FooterProps) => {
             {props.panelShowState
               ? translate("HIDE_INFO")
               : translate("SHOW_INFO")}{" "}
-            <InformationCircleIcon className="inline h-5 w-5 fill-neutral-500" />
+            <HelpTooltip label={translateProject("TOGGLE_INFO_HELP")} />
           </button>
         </div>
       </div>

@@ -6,8 +6,9 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchQuery } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { HelpTooltip } from "../common/HelpTooltip.tsx";
+import { SearchQuery } from "../../model/Search.ts";
 
 type SearchQueryHistoryProps = {
   goToQuery: (query: SearchQuery) => void;
@@ -17,7 +18,7 @@ type SearchQueryHistoryProps = {
 const MAX_DISPLAY = 10;
 
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
-  const { searchQueryHistory, removeSearchQuery } = useSearchStore();
+  const { searchQueryHistory, removeFromHistory } = useSearchStore();
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const [isOpen, setOpen] = useState(false);
@@ -34,7 +35,8 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
         className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
         isDisabled={!searchQueryHistory.length}
       >
-        {translate("SEARCH_HISTORY")}
+        {translate("SEARCH_HISTORY")}{" "}
+        <HelpTooltip label={translateProject("SEARCH_HISTORY_HELP")} />
       </Button>
       {isOpen && (
         <ul className="list ml-6 mt-4">
@@ -48,7 +50,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                   </span>
                   <span
                     className="query-delete"
-                    onClick={() => removeSearchQuery(entry.date)}
+                    onClick={() => removeFromHistory(entry.date)}
                   >
                     [x]
                   </span>
@@ -108,18 +110,17 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
 function formatQueryDate(timestamp: number): string {
   const date = new Date(timestamp);
 
-  const time = `${doubleDigit(date.getHours())}:${doubleDigit(
-    date.getMinutes(),
-  )}`;
+  const HH = doubleDigit(date.getHours());
+  const mm = doubleDigit(date.getMinutes());
+  const time = `${HH}:${mm}`;
 
   if (isToday(date)) {
     return time;
   }
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${time}`;
-
-  function doubleDigit(n: number) {
-    return n.toString().padStart(2, "0");
-  }
+  const YYYY = date.getFullYear();
+  const MM = date.getMonth() + 1;
+  const DD = date.getDate();
+  return `${YYYY}-${MM}-${DD} ${time}`;
 
   function isToday(toTest: Date) {
     const today = new Date();
@@ -128,5 +129,9 @@ function formatQueryDate(timestamp: number): string {
       toTest.getMonth() === today.getMonth() &&
       toTest.getFullYear() === today.getFullYear()
     );
+  }
+
+  function doubleDigit(n: number) {
+    return n.toString().padStart(2, "0");
   }
 }

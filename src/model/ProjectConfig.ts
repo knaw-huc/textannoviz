@@ -28,6 +28,7 @@ export type ProjectConfig = SearchConfig &
     languages: Language[];
     useExternalConfig: boolean;
     showWebAnnoTab: boolean;
+    showHelpLink: boolean;
 
     components: ComponentsConfig;
   };

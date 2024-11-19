@@ -2,7 +2,11 @@ import React from "react";
 import type { Key } from "react-aria-components";
 import { toast } from "react-toastify";
 import { ASC, DESC, FacetName, SortOrder } from "../../model/Search.ts";
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import {
+  translateProjectSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import {
   SelectComponent,
   SelectItemComponent,
@@ -31,6 +35,7 @@ const BY_SCORE = "_score";
 export const SearchSorting = (props: SearchSortByProps) => {
   const BY_DATE = props.dateFacet;
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
   const options = [
     { name: translate("RELEVANCE"), value: `${BY_SCORE}-${DESC}` },
     { name: translate("DATE_ASC"), value: `${BY_DATE}-${ASC}` },
@@ -72,6 +77,7 @@ export const SearchSorting = (props: SearchSortByProps) => {
   return (
     <SelectComponent
       label={translate("SORT_BY")}
+      helpLabel={translateProject("SORT_BY_HELP")}
       labelStyling="mr-1 text-sm"
       buttonWidth="w-[150px]"
       items={options}

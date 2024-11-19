@@ -39,13 +39,13 @@ export function Annotation(props: AnnotationProps) {
             </Tab>
           )}
         </TabList>
-        <TabPanel id="metadata" className="text-brand1-800 h-full">
+        <TabPanel id="metadata" className="text-brand1-800 h-full p-5">
           {annotations.length > 0 && !props.isLoading ? (
             <projectConfig.components.MetadataPanel annotations={annotations} />
           ) : null}
         </TabPanel>
         {projectConfig.showWebAnnoTab && (
-          <TabPanel id="webannos" className="text-brand1-800">
+          <TabPanel id="webannos" className="text-brand1-800 p-5">
             <>
               <div className="flex">
                 <AnnotationFilter />

@@ -6,6 +6,8 @@ import _ from "lodash";
 
 export const projectEntityTypes = ["Entity", "DateOccurrence"];
 
+export type ProjectEntityBody = EntityBody | DateEntityBody;
+
 export type DateEntityBody = AnnoRepoBodyBase & {
   type: "DateOccurrence";
   text: string;
@@ -14,23 +16,32 @@ export type DateEntityBody = AnnoRepoBodyBase & {
   };
 };
 
-export type ProjectEntityBody =
-  | (AnnoRepoBodyBase & {
-      type: "Entity";
-      text: string;
-      metadata: {
-        entityId: string;
-        entityLabels: string[];
-        inventoryNum: string;
-        name: string;
-      };
-    })
-  | DateEntityBody;
+type EntityBody = AnnoRepoBodyBase & {
+  type: "Entity";
+  text: string;
+  metadata: {
+    category: string;
+    entityID: string;
+    entityLabels: string[];
+    inventoryNum: string;
+    name: string;
+  };
+};
 
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
 ): toTest is ProjectEntityBody => {
   return projectEntityTypes.includes(toTest.type);
+};
+
+/**
+ * Entity of type Entity :)
+ * (See also {@link isDateEntity})
+ */
+export const isEntityEntity = (
+  toTest: AnnoRepoBodyBase,
+): toTest is EntityBody => {
+  return toTest.type === "Entity";
 };
 
 export const isDateEntity = (
@@ -45,3 +56,14 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   }
   return _.get(annoRepoBody, "metadata.category") ?? "unknown";
 }
+
+/**
+ * Date has its own annotation and facet conversion
+ */
+export const entityCategoryToFacetName: Record<string, string> = {
+  COM: "commissionId",
+  HOE: "roleId",
+  LOC: "locationId",
+  ORG: "organisationId",
+  PER: "personId",
+};

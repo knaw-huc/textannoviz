@@ -26,6 +26,15 @@ export const englishLabels: Labels = {
   FILTERS: "Filters",
   FILTER_FACETS: "Filter facets",
 
+  SHOW_MORE: "More",
+  SHOW_LESS: "Less",
+
+  RESET_DATE: "Reset date",
+  LINE_CHART: "Line chart",
+  BAR_CHART: "Bar chart",
+  HIDE_HISTOGRAM: "Hide histogram",
+  SHOW_HISTOGRAM: "Show histogram",
+
   JANUARY: "January",
   FEBRUARY: "February",
   MARCH: "March",
@@ -55,6 +64,8 @@ export const englishLabels: Labels = {
   PREV_PAGE: "Previous page",
   INFO_FIRST_PAGE: "You have reached the first page",
   INFO_LAST_PAGE: "You have reached the last page",
+  NEXT_SCAN: "Next scan",
+  PREV_SCAN: "Prev scan",
 
   NO_FACETS_FOUND: "No search facets found",
   NO_INDICES_FOUND: "No search indices found",
@@ -67,4 +78,13 @@ export const englishLabels: Labels = {
   SEARCH_CATEGORY: "Search for",
   WARNING_NEW_SEARCH: "Note: this will start a new search session",
   MORE_INFO_ON_CATEGORY: "More info on",
+
+  // Help labels
+  FULL_TEXT_SEARCH_HELP: "",
+  SEARCH_HISTORY_HELP: "",
+  SHOW_CONTEXT_HELP: "",
+  SLIDER_FACET_HELP: "",
+  FILTER_FACETS_HELP: "",
+  SORT_BY_HELP: "",
+  TOGGLE_INFO_HELP: "",
 };

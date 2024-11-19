@@ -23,6 +23,14 @@ export type Labels = {
   RESULTS: string;
   FILTERS: string;
   FILTER_FACETS: string;
+  SHOW_MORE: string;
+  SHOW_LESS: string;
+
+  RESET_DATE: string;
+  LINE_CHART: string;
+  BAR_CHART: string;
+  HIDE_HISTOGRAM: string;
+  SHOW_HISTOGRAM: string;
 
   JANUARY: string;
   FEBRUARY: string;
@@ -53,6 +61,8 @@ export type Labels = {
   PREV_PAGE: string;
   INFO_FIRST_PAGE: string;
   INFO_LAST_PAGE: string;
+  NEXT_SCAN: string;
+  PREV_SCAN: string;
 
   NO_FACETS_FOUND: string;
   NO_INDICES_FOUND: string;
@@ -64,4 +74,13 @@ export type Labels = {
   SEARCH_CATEGORY: string;
   WARNING_NEW_SEARCH: string;
   MORE_INFO_ON_CATEGORY: string;
+
+  // Help labels:
+  FULL_TEXT_SEARCH_HELP: string;
+  FILTER_FACETS_HELP: string;
+  SLIDER_FACET_HELP: string;
+  SHOW_CONTEXT_HELP: string;
+  SEARCH_HISTORY_HELP: string;
+  SORT_BY_HELP: string;
+  TOGGLE_INFO_HELP: string;
 };

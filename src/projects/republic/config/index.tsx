@@ -12,12 +12,11 @@ import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
-import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
-  // broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
-  broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
+  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
+  // broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
   colours: {
     resolution: "yellow",
     attendant: "#DB4437",
@@ -76,10 +75,15 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "propositionType",
     "textType",
     "resolutionType",
-    "delegateName",
-    "entityName",
+    "attendantName",
+    "commissionName",
+    "locationName",
+    "organisationName",
+    "personName",
+    "roleName",
   ],
   showFacetFilter: true,
+  showWebAnnoTab: false,
   components: {
     EntitySummary,
     MetadataPanel,
@@ -89,7 +93,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   selectedLanguage: "nl",
   languages: [
     { code: "nl", labels: dutchRepublicLabels },
-    { code: "en", labels: englishRepublicLabels },
+    // { code: "en", labels: englishRepublicLabels },
   ],
   mirador: {
     showTopMenuButton: true,

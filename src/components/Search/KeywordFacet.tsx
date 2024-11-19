@@ -9,6 +9,7 @@ import {
   CheckboxGroupComponent,
 } from "../common/CheckboxGroupComponent.tsx";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import _ from "lodash";
 
 export function KeywordFacet(props: {
   facetName: string;
@@ -60,11 +61,11 @@ export function KeywordFacet(props: {
 
     props.updateAggs(newQuery);
   }
-
   return (
     <>
       <CheckboxGroupComponent
         translatedLabel={translateProject(props.facetName)}
+        helpLabel={translateProject(toFacetHelpLabelKey(props.facetName))}
         dataLabel={props.facetName}
         value={selected}
         onChange={checkboxChangeHandler}
@@ -107,4 +108,8 @@ export function KeywordFacet(props: {
       </CheckboxGroupComponent>
     </>
   );
+}
+
+function toFacetHelpLabelKey(name: string) {
+  return `${_.snakeCase(name).toUpperCase()}_HELP`;
 }

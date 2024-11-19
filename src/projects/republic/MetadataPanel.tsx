@@ -1,7 +1,7 @@
 import { UserIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { HOSTS } from "../../Config";
+import { HelpTooltip } from "../../components/common/HelpTooltip.tsx";
 import {
   AnnoRepoAnnotation,
   AttendanceListBody,
@@ -29,7 +29,6 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const params = useParams();
-
   const entities = props.annotations.filter(
     (anno) => anno.body.type === "Entity",
   );
@@ -65,6 +64,8 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 };
 
 function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
+  const translateProject = useProjectStore(translateProjectSelector);
+
   const [attendanceList, setAttendanceList] =
     React.useState<AnnoRepoAnnotation[]>();
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -100,11 +101,18 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
     };
   }, [projectConfig, props.annotations]);
 
-  if (!attendanceList) return null;
+  if (
+    !attendanceList ||
+    !(attendanceList[0].body as AttendanceListBody).attendanceSpans
+  )
+    return null;
 
   return (
     <>
-      <strong>Aanwezigen: </strong>
+      <strong>
+        {translateProject("delegates")}:{" "}
+        <HelpTooltip label={translateProject("ATTENDANTS_LIST_HELP")} />
+      </strong>
       <div className={gridOneColumn + "divide divide-y pb-8"}>
         {(attendanceList[0].body as AttendanceListBody).attendanceSpans.map(
           (attendant, index) =>
@@ -114,19 +122,7 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
                 className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
               >
                 <UserIcon className="inline h-3 w-3" />
-                <a
-                  title="Link"
-                  rel="noreferrer"
-                  target="_blank"
-                  href={
-                    attendant.delegateId > 0
-                      ? `${HOSTS.RAA}/${attendant.delegateId}`
-                      : undefined
-                  }
-                  className="hover:text-brand1-900 text-inherit no-underline hover:underline"
-                >
-                  {attendant.delegateName}
-                </a>
+                {attendant.delegateName}
               </li>
             ) : null,
         )}
@@ -167,10 +163,20 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
 
         {resolution ? (
           <>
+            {(resolution.body as ResolutionBody).metadata.resolutionType ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <strong>{translateProject("resolutionType")}: </strong>
+                  {firstLetterToUppercase(
+                    (resolution.body as ResolutionBody).metadata.resolutionType,
+                  )}
+                </div>
+              </li>
+            ) : null}{" "}
             {(resolution.body as ResolutionBody).metadata.propositionType ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
-                  <strong>Propositietype: </strong>
+                  <strong>{translateProject("propositionType")}: </strong>
                   {firstLetterToUppercase(
                     (resolution.body as ResolutionBody).metadata
                       .propositionType,
@@ -178,16 +184,6 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
                 </div>
               </li>
             ) : null}
-            {(resolution.body as ResolutionBody).metadata.resolutionType ? (
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <strong>Resolutietype: </strong>
-                  {firstLetterToUppercase(
-                    (resolution.body as ResolutionBody).metadata.resolutionType,
-                  )}
-                </div>
-              </li>
-            ) : null}{" "}
           </>
         ) : null}
       </ul>
@@ -199,6 +195,8 @@ function EntitiesMetadata(props: {
   title: string;
   entities: AnnoRepoAnnotation[];
 }) {
+  const translateProject = useProjectStore(translateProjectSelector);
+
   if (!props.entities.length) return null;
 
   return (
@@ -208,7 +206,7 @@ function EntitiesMetadata(props: {
         <ul key={index}>
           <li className="mb-8">
             <div className={gridOneColumn}>
-              Name:{" "}
+              {translateProject("name")}:{" "}
               {isEntity(entity.body)
                 ? entity.body.type === "Entity"
                   ? entity.body.metadata.name
@@ -216,10 +214,10 @@ function EntitiesMetadata(props: {
                 : null}
             </div>
             <div className={gridOneColumn}>
-              Labels:{" "}
+              {translateProject("category")}:{" "}
               {isEntity(entity.body)
                 ? entity.body.type === "Entity"
-                  ? entity.body.metadata.entityLabels.join(", ")
+                  ? entity.body.metadata.entityLabels.join("; ")
                   : ""
                 : null}
             </div>

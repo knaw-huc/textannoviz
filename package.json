@@ -1,6 +1,6 @@
 {
   "name": "textannoviz",
-  "version": "0.15.19",
+  "version": "0.15.28",
   "description": "",
   "private": true,
   "type": "module",
@@ -17,6 +17,7 @@
     "docker:build-push:mondriaan": "./scripts/docker-mondriaan-all.sh",
     "docker:build-push:republic": "./scripts/docker-republic-all.sh",
     "docker:build-push:republic-test": "./scripts/docker-republic-test-all.sh",
+    "docker:build-push:republic-prod": "./scripts/docker-republic-prod-all.sh",
     "docker:build-push:suriano": "./scripts/docker-suriano-all.sh",
     "docker:build-push:translatin": "./scripts/docker-translatin-all.sh",
     "docker:build-push:vangogh": "./scripts/docker-vangogh-all.sht"

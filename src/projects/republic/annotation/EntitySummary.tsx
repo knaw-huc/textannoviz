@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  normalizeEntityCategory,
+  toEntityCategory,
   toEntityClassname,
 } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
@@ -12,17 +11,25 @@ import {
 } from "../../../stores/project.ts";
 import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
-import { useSearchUrlParams } from "../../../components/Search/useSearchUrlParams.tsx";
+import { isDateEntity } from "./ProjectAnnotationModel.ts";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
   const { getAnnotationCategory } = useProjectStore(projectConfigSelector);
-  const { searchQuery, searchParams } = useSearchUrlParams();
-  const navigate = useNavigate();
   const { body } = props;
 
-  const entityCategory = normalizeEntityCategory(getAnnotationCategory(body));
+  const entityCategory = toEntityCategory(getAnnotationCategory(body));
   const entityClassname = toEntityClassname(entityCategory);
+
+  const handleEntityBrowseClick = () => {
+    return toast("Not implemented", { type: "info" });
+  };
+
+  const handleEntitySearchClick = () => {
+    const query = toEntitySearchQuery(props.body);
+    window.open(`/?${query.toString()}`, "_blank");
+  };
+
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
       <div>
@@ -35,18 +42,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         <div>
           <button
             className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-            onClick={() => {
-              const query = toEntitySearchQuery(
-                props.body,
-                searchQuery,
-                searchParams,
-              );
-              if (query) {
-                navigate(`/?${query.toString()}`);
-              } else {
-                toast("Not implemented", { type: "info" });
-              }
-            }}
+            onClick={handleEntitySearchClick}
           >
             {translateProject("SEARCH_CATEGORY")}{" "}
             {translateProject(entityCategory)}
@@ -55,17 +51,18 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
             {translateProject("WARNING_NEW_SEARCH")}
           </div>
         </div>
-
-        <div>
-          <button
-            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-            // TODO:
-            onClick={() => toast("Not implemented", { type: "info" })}
-          >
-            {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
-            {translateProject(entityCategory)}
-          </button>
-        </div>
+        {!isDateEntity(body) && (
+          <div>
+            <button
+              className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
+              // TODO:
+              onClick={handleEntityBrowseClick}
+            >
+              {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
+              {translateProject(entityCategory)}
+            </button>
+          </div>
+        )}
       </div>
     </li>
   );
