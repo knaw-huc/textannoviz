@@ -217,7 +217,7 @@ function EntitiesMetadata(props: {
               {translateProject("category")}:{" "}
               {isEntity(entity.body)
                 ? entity.body.type === "Entity"
-                  ? entity.body.metadata.entityLabels.join(", ")
+                  ? entity.body.metadata.entityLabels.join("; ")
                   : ""
                 : null}
             </div>
