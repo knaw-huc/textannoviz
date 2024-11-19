@@ -18,8 +18,8 @@ export function createAggs(
 
     if (override) {
       Object.assign(newAgg, {
-        order: override.order,
-        size: override.size,
+        order: override.order ?? "countDesc",
+        size: override.size ?? 10,
       });
     }
 
