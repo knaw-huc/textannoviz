@@ -61,9 +61,9 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
  * Date has its own annotation and facet conversion
  */
 export const entityCategoryToFacetName: Record<string, string> = {
-  COM: "commissionId",
-  HOE: "roleId",
-  LOC: "locationId",
-  ORG: "organisationId",
-  PER: "personId",
+  COM: "commissionName",
+  HOE: "roleName",
+  LOC: "locationName",
+  ORG: "organisationName",
+  PER: "personName",
 };
