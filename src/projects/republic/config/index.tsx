@@ -70,6 +70,30 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
       order: "countDesc",
       size: 250,
     },
+    {
+      facetName: "attendantName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "commissionName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "locationName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "organisationName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "personName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "roleName",
+      order: "keyAsc",
+    },
   ],
   defaultKeywordAggsToRender: [
     "propositionType",

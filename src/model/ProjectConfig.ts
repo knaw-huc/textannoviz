@@ -1,3 +1,4 @@
+import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 import { SearchQuery } from "../stores/search/search-query-slice.ts";
 import {
   AnnoRepoAnnotation,
@@ -11,7 +12,6 @@ import {
   RepublicSearchResultBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
-import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 
 export type ProjectEntityBody = AnnoRepoBodyBase & {
   // Project specific entity type and properties
@@ -118,8 +118,8 @@ export interface ProjectConfig {
   languages: Language[];
   overrideDefaultAggs: {
     facetName: string;
-    order: string;
-    size: number;
+    order?: string;
+    size?: number;
   }[];
   defaultKeywordAggsToRender: string[];
   showFacetFilter: boolean;
