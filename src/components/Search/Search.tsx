@@ -10,6 +10,7 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import {
+  blankSearchQuery,
   FacetEntry,
   filterFacetsByType,
   SearchQuery,
@@ -110,8 +111,7 @@ export const Search = () => {
         "keyword",
       );
       const defaultSearchQuery = {
-        ...searchQuery,
-        aggs: aggregations,
+        ...blankSearchQuery,
         dateFrom: projectConfig.initialDateFrom,
         dateTo: projectConfig.initialDateTo,
         rangeFrom: projectConfig.initialRangeFrom,
@@ -119,6 +119,7 @@ export const Search = () => {
       };
       const newSearchQuery: SearchQuery = {
         ...defaultSearchQuery,
+        aggs: aggregations,
         ...queryDecoded,
       };
 

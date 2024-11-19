@@ -34,20 +34,22 @@ export type SearchQuerySlice = {
   setSearchQuery: (update: SearchQuery) => void;
 };
 
+export const blankSearchQuery = {
+  dateFrom: "",
+  dateTo: "",
+  rangeFrom: "",
+  rangeTo: "",
+  fullText: "",
+  terms: {},
+};
+
 export const createSearchQuerySlice: StateCreator<
   SearchQuerySlice,
   [],
   [],
   SearchQuerySlice
 > = (set) => ({
-  searchQuery: {
-    dateFrom: "",
-    dateTo: "",
-    rangeFrom: "",
-    rangeTo: "",
-    fullText: "",
-    terms: {},
-  },
+  searchQuery: blankSearchQuery,
   setSearchQuery: (update) =>
     set((prev) => ({
       ...prev,
