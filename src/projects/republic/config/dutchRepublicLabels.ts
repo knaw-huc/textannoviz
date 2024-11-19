@@ -77,9 +77,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   SLIDER_FACET_HELP: "Filter op resoluties van een bepaalde woordomvang.",
   FILTER_FACETS_HELP: "Hiermee kunt u facetten tonen of verbergen.",
   ATTENDANT_ID_HELP: "Filter op identificatienummer aanwezige gedeputeerden.",
-  ATTENDANT_NAME_HELP:
-    "Filter op achternaam van aanwezige gedeputeerden.\n" +
-    "[n.b. mogelijk verwijzing via hyperlink naar meer uitleg; geldt ook voor andere entiteiten]",
+  ATTENDANT_NAME_HELP: "Filter op achternaam van aanwezige gedeputeerden.",
   COMMISSION_ID_HELP:
     "Filter op identificatienummer van een commissie uit de Staten-Generaal.",
   COMMISSION_NAME_HELP:
