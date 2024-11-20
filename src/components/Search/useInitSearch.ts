@@ -25,10 +25,9 @@ export function useInitSearch() {
     useSearchStore();
   const { searchParams } = useSearchUrlParams();
   const { getSearchResults } = useSearchResults();
+  const { searchQuery, updateSearchQuery } = useSearchUrlParams();
 
   const [isInit, setInit] = useState(false);
-
-  const { searchQuery, updateSearchQuery } = useSearchUrlParams();
 
   useEffect(() => {
     const aborter = new AbortController();
