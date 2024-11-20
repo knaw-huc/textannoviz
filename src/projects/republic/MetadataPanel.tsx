@@ -22,6 +22,8 @@ import {
   isEntity,
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
+import { ProvenanceButton } from "./annotation/ProvenanceButton.tsx";
+import { toast } from "react-toastify";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -142,6 +144,11 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
 
   return (
     <>
+      <ProvenanceButton
+        className="d-block absolute right-5"
+        // TODO
+        onClick={() => toast("Not implemented", { type: "info" })}
+      />
       <ul className="m-0 list-none p-0">
         {resolution ? (
           <li className="mb-8">

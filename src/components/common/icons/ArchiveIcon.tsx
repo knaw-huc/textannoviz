@@ -1,10 +1,10 @@
-export function ArchiveIcon(props: { color?: string }) {
+export function ArchiveIcon(props: { color?: string; className?: string }) {
   /**
    * Source: Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
    */
   return (
     <svg
-      className="icon h-5 w-5"
+      className={["icon h-5 w-5", props.className].join(" ")}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
     >
