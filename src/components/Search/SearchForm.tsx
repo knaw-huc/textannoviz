@@ -5,6 +5,7 @@ import React from "react";
 import type { Key, Selection } from "react-aria-components";
 import {
   projectConfigSelector,
+  translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -23,6 +24,7 @@ import { removeTerm } from "./util/removeTerm.ts";
 import { FacetEntry, SearchQuery } from "../../model/Search.ts";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
+import { toast } from "react-toastify";
 
 interface SearchFormProps {
   onSearch: () => void;
@@ -45,6 +47,7 @@ export function SearchForm(props: SearchFormProps) {
     React.useState<ShowMoreClickedState>({});
   const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
   const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
+  const translate = useProjectStore(translateSelector);
 
   const { searchResults } = useSearchStore();
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
@@ -186,7 +189,16 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function fullTextSearchBarSubmitHandler(value: string) {
-    updateFullText(sanitizeFullText(value));
+    const sanitized = sanitizeFullText(value);
+    const isEmptySearch =
+      !sanitized.length && !projectConfig.allowEmptyStringSearch;
+
+    if (isEmptySearch) {
+      return toast(translate("NO_SEARCH_STRING"), {
+        type: "warning",
+      });
+    }
+    updateFullText(sanitized);
     onSearch();
   }
 
