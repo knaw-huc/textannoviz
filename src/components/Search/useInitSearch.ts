@@ -42,7 +42,7 @@ export function useInitSearch() {
   }, [isInit]);
 
   /**
-   * Initialize search page:
+   * Initialize search query, facets and (optional) results
    * - set default config values
    * - fetch keyword and date facets
    * - fetch results when {@link isSearchableQuery}
