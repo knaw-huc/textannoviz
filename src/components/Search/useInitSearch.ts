@@ -28,6 +28,7 @@ export function useInitSearch() {
   const { searchQuery, updateSearchQuery } = useSearchUrlParams();
 
   const [isInit, setInit] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const aborter = new AbortController();
@@ -38,6 +39,7 @@ export function useInitSearch() {
 
     return () => {
       aborter.abort();
+      setLoading(false);
     };
   }, [isInit]);
 
@@ -48,6 +50,8 @@ export function useInitSearch() {
    * - fetch results when {@link isSearchableQuery}
    */
   async function initSearch(aborter: AbortController) {
+    setLoading(true);
+
     const newIndices = await getElasticIndices(projectConfig, aborter.signal);
     if (!newIndices) {
       return toast(translate("NO_INDICES_FOUND"), { type: "error" });
@@ -96,10 +100,12 @@ export function useInitSearch() {
       }
     }
 
+    setLoading(false);
     setInit(true);
   }
 
   return {
     isInit,
+    isInitLoading: isLoading,
   };
 }
