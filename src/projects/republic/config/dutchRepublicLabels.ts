@@ -112,4 +112,6 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   ATTENDANTS_LIST_HELP:
     "Toont de gedeputeerden die aanwezig waren bij deze vergadering (aanklikbaar).",
   TOGGLE_INFO_HELP: "Verberg of toon het rechterpaneel.",
+
+  PROVENANCE: "View provenance 🔗",
 });
