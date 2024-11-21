@@ -68,8 +68,8 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   FULL_TEXT_SEARCH_HELP:
     "Zoek naar termen of namen die voorkomen in de resoluties. \n" +
     "- Maak gebruik van wildcards (‘*’ voor meer, ‘?’ voor één karakter) om varianten te vinden.\n" +
-    "- Plaats ‘~1’ of een groter getal achter de term als het resultaat 1 of meer karakters mag afwijken. \n" +
-    "- Gebruik Booleaanse operatoren voor termen die samen in één resolutie moeten voorkomen (OR (standaard), AND, NOT). \n" +
+    "- Plaats ‘~1’ of ‘~2’ achter de term als het resultaat 1 of 2 tekens mag afwijken.\n" +
+    "- Gebruik Booleaanse operatoren voor termen die samen in één resolutie moeten voorkomen (OR (standaard), AND, NOT).\n" +
     "- Zet meerdere termen die naast elkaar moeten voorkomen tussen dubbele aanhalingstekens.",
   SEARCH_HISTORY_HELP: "Geeft een overzicht van de zoekacties in deze sessie.",
   SHOW_CONTEXT_HELP:
