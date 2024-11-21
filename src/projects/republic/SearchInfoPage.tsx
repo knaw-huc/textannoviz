@@ -5,7 +5,9 @@ export const SearchInfoPage = () => {
       <p className="mb-4 mt-4 block">
         Met deze webapplicatie kun je zoeken in de resoluties van de
         Staten-Generaal van de Republiek der Zeven Verenigde Nederlanden
-        (1576-1796).
+        (1576-1796). Bekijk onze{" "}
+        <a href="https://goetgevonden.nl/index.php/home">homepage</a> voor meer
+        informatie over Goetgevonden.
       </p>
       <p className="mb-4 mt-4 block">
         De resoluties zijn geschreven in historisch Nederlands. Het taalgebruik
