@@ -1,4 +1,6 @@
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { Base64 } from "js-base64";
 import { useParams } from "react-router-dom";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { HammerIcon } from "../../components/common/icons/HammerIcon";
@@ -11,9 +13,11 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
+import { SearchQuery } from "../../stores/search/search-query-slice";
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { monthNumberToString } from "../../utils/monthNumberToString";
+import { skipEmptyValues } from "../../utils/skipEmptyValues";
 import {
   isEntity,
   ProjectEntityBody,
@@ -80,28 +84,41 @@ function DelegatesMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
         {delegates.length ? (
           delegates.map((delegate, index) =>
             delegate.name !== "" ? (
-              <li
-                key={index}
-                className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
-              >
-                <UserIcon className="inline h-3 w-3 flex-shrink-0" />
-                <a
-                  title="Delegate link"
-                  className="hover:text-brand1-900 text-inherit no-underline hover:underline"
-                  href={delegate.detailsUrl ? delegate.detailsUrl : undefined}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {delegate.name}{" "}
-                  {delegate.province.length > 0 &&
-                    !delegate.province.startsWith("-") &&
-                    "(" + delegate.province + ")"}
-                </a>
-                {delegate.president ? (
-                  <div title={translateProject("president")}>
-                    <HammerIcon className="ml-1 h-3 w-3 flex-shrink-0" />
-                  </div>
-                ) : null}
+              <li key={index} className="flex flex-row gap-1 py-1 text-sm">
+                <div className="flex flex-grow flex-row items-center justify-start gap-1">
+                  <UserIcon className="h-3 w-3 flex-shrink-0" />
+                  <a
+                    title="Delegate link"
+                    className="hover:text-brand1-900 text-inherit no-underline hover:underline"
+                    href={delegate.detailsUrl ? delegate.detailsUrl : undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {delegate.name}{" "}
+                    {delegate.province.length > 0 &&
+                      !delegate.province.startsWith("-") &&
+                      "(" + delegate.province + ")"}
+                  </a>
+                  {delegate.president ? (
+                    <div title={translateProject("president")}>
+                      <HammerIcon className="ml-1 h-3 w-3 flex-shrink-0" />
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="flex flex-row items-center justify-end gap-1">
+                  {
+                    <MagnifyingGlassIcon
+                      onClick={() =>
+                        handleDelegateSearchClick(
+                          delegate.delegateID,
+                          delegate.name,
+                        )
+                      }
+                      className="h-3 w-3 flex-shrink-0 cursor-pointer"
+                    />
+                  }
+                </div>
               </li>
             ) : null,
           )
@@ -111,6 +128,18 @@ function DelegatesMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
       </div>
     </>
   );
+}
+
+function handleDelegateSearchClick(delegateID: string, delegateName: string) {
+  const params = new URLSearchParams();
+  const newQuery = {} as Partial<SearchQuery>;
+  newQuery.terms = {
+    ["delegateId"]: [delegateID],
+    ["delegateName"]: [delegateName],
+  };
+  params.set("query", Base64.encode(JSON.stringify(newQuery, skipEmptyValues)));
+
+  window.open(`/?${params.toString()}`, "_blank");
 }
 
 function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
