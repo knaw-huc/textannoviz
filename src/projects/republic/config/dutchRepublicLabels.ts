@@ -114,4 +114,10 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   TOGGLE_INFO_HELP: "Verberg of toon het rechterpaneel.",
 
   FILTER_FACETS: "Filter instellen",
+
+  NEXT: "Volgend resultaat",
+  PREV: "Vorig resultaat",
+  BACK_TO_SEARCH: "Terug naar resultaten",
+  
+  OCCURRENCES_PER_YEAR: "Resoluties per jaar",
 });
