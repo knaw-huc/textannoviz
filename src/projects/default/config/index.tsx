@@ -7,6 +7,7 @@ import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
+import { HelpLink } from "../HelpLink.tsx";
 
 /**
  * Default configuration file with some sensible defaults
@@ -28,8 +29,6 @@ export const defaultConfig: Omit<
 > = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
-
-  showHelpLink: true,
 
   showAnnotations: false,
 
@@ -84,6 +83,7 @@ export const defaultConfig: Omit<
     AnnotationButtons: Empty,
     EntitySummary: Placeholder,
     Help: Placeholder,
+    HelpLink: HelpLink,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,
     SearchItem: SearchItem,

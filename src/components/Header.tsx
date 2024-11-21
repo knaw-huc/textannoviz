@@ -1,6 +1,5 @@
 import { ProjectConfig } from "../model/ProjectConfig";
 import { LanguageMenu } from "./LanguageMenu.tsx";
-import { HelpLink } from "./HelpLink.tsx";
 
 type HeaderProps = {
   projectConfig: ProjectConfig;
@@ -40,7 +39,7 @@ export const Header = (props: HeaderProps) => {
             </span>
           </div>
         </div>
-        {projectConfig.showHelpLink && <HelpLink />}
+        <projectConfig.components.HelpLink />
         <LanguageMenu />
       </div>
     </header>
