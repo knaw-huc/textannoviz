@@ -59,7 +59,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   HOE: "hoedanigheid",
   LOC: "locatie",
   ORG: "organisatie",
-  PER: "persoon",
+  PER: "persoonsnaam",
 
   page: "Pagina",
 
