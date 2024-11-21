@@ -75,7 +75,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   SHOW_CONTEXT_HELP:
     "Toont naar keuze meer of minder omliggende tekst bij een zoekterm in een resolutie.",
   SLIDER_FACET_HELP: "Filter op resoluties van een bepaalde woordomvang.",
-  FILTER_FACETS_HELP: "Hiermee kunt u facetten tonen of verbergen.",
+  FILTER_FACETS_HELP: "Hiermee kunt u filters tonen of verbergen.",
   ATTENDANT_ID_HELP: "Filter op identificatienummer aanwezige gedeputeerden.",
   ATTENDANT_NAME_HELP: "Filter op achternaam van aanwezige gedeputeerden.",
   COMMISSION_ID_HELP:
@@ -112,4 +112,6 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   ATTENDANTS_LIST_HELP:
     "Toont de gedeputeerden die aanwezig waren bij deze vergadering (aanklikbaar).",
   TOGGLE_INFO_HELP: "Verberg of toon het rechterpaneel.",
+
+  FILTER_FACETS: "Filter instellen",
 });
