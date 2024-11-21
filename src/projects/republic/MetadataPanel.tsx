@@ -22,12 +22,15 @@ import {
   isEntity,
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
+import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
+  const translateProject = useProjectStore(translateProjectSelector);
+
   const params = useParams();
   const entities = props.annotations.filter(
     (anno) => anno.body.type === "Entity",
@@ -36,7 +39,9 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   function filterEntitiesByCategory(category: string) {
     return entities.filter(
       (entity) =>
-        (entity.body as ProjectEntityBody).metadata.category === category,
+        toEntityCategory(
+          (entity.body as ProjectEntityBody).metadata.category,
+        ) === category,
     );
   }
 
@@ -44,7 +49,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const locEntities = filterEntitiesByCategory("LOC");
   const comEntities = filterEntitiesByCategory("COM");
   const orgEntities = filterEntitiesByCategory("ORG");
-  const perEntities = filterEntitiesByCategory("PERS");
+  const perEntities = filterEntitiesByCategory("PER");
 
   return (
     <>
@@ -54,11 +59,26 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
         <div>No panel defined for this annotation type.</div>
       )}
       <AttendantsMetadata annotations={props.annotations} />
-      <EntitiesMetadata title="Locaties" entities={locEntities} />
-      <EntitiesMetadata title="Hoedanigheden" entities={hoeEntities} />
-      <EntitiesMetadata title="Personen" entities={perEntities} />
-      <EntitiesMetadata title="Commissies" entities={comEntities} />
-      <EntitiesMetadata title="Organisaties" entities={orgEntities} />
+      <EntitiesMetadata
+        title={translateProject("LOC")}
+        entities={locEntities}
+      />
+      <EntitiesMetadata
+        title={translateProject("HOE")}
+        entities={hoeEntities}
+      />
+      <EntitiesMetadata
+        title={translateProject("PER")}
+        entities={perEntities}
+      />
+      <EntitiesMetadata
+        title={translateProject("COM")}
+        entities={comEntities}
+      />
+      <EntitiesMetadata
+        title={translateProject("ORG")}
+        entities={orgEntities}
+      />
     </>
   );
 };
@@ -201,7 +221,7 @@ function EntitiesMetadata(props: {
 
   return (
     <>
-      <strong>{props.title}</strong>
+      <strong className="capitalize">{props.title}</strong>
       {props.entities.map((entity, index) => (
         <ul key={index}>
           <li className="mb-8">
