@@ -86,4 +86,6 @@ export const dutchLabels: Labels = {
   FILTER_FACETS_HELP: "",
   SORT_BY_HELP: "",
   TOGGLE_INFO_HELP: "",
+
+  OCCURRENCES_PER_YEAR: "Voorkomens per jaar",
 };
