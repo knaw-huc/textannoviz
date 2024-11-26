@@ -30,12 +30,19 @@ export function useInitSearch() {
   const [isInit, setInit] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
+  /**
+   * Initialize search query, facets and (optional) results
+   * - set default config values
+   * - fetch keyword and date facets
+   * - fetch results when {@link isSearchableQuery}
+   */
   useEffect(() => {
-    const aborter = new AbortController();
-
-    if (!isInit) {
-      initSearch(aborter).catch(handleAbort);
+    if (isInit || isLoading) {
+      return;
     }
+
+    const aborter = new AbortController();
+    initSearch(aborter).catch(handleAbort);
 
     return () => {
       aborter.abort();
@@ -43,15 +50,8 @@ export function useInitSearch() {
     };
   }, [isInit]);
 
-  /**
-   * Initialize search query, facets and (optional) results
-   * - set default config values
-   * - fetch keyword and date facets
-   * - fetch results when {@link isSearchableQuery}
-   */
   async function initSearch(aborter: AbortController) {
     setLoading(true);
-
     const newIndices = await getElasticIndices(projectConfig, aborter.signal);
     if (!newIndices) {
       return toast(translate("NO_INDICES_FOUND"), { type: "error" });
@@ -106,6 +106,6 @@ export function useInitSearch() {
 
   return {
     isInit,
-    isInitLoading: isLoading,
+    isSearchLoading: isLoading,
   };
 }

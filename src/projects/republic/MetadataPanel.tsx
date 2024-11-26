@@ -8,7 +8,6 @@ import {
   ResolutionBody,
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
-import { Broccoli } from "../../model/Broccoli";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -80,7 +79,7 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
     setAttendanceList(undefined);
     async function fetchData() {
       if (!session) return;
-      const result: Broccoli = await fetchBroccoliScanWithOverlap(
+      const result = await fetchBroccoliScanWithOverlap(
         session.body.id,
         ["AttendanceList"],
         ["anno"],
@@ -89,7 +88,9 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
         projectConfig,
         signal,
       );
-      setAttendanceList(result.anno);
+      if (result) {
+        setAttendanceList(result.anno);
+      }
     }
 
     if (!bodyTypes.includes("AttendanceList")) {

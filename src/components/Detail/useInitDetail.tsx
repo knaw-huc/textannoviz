@@ -1,0 +1,109 @@
+import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli.ts";
+import { useEffect, useState } from "react";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
+import { handleAbort } from "../../utils/handleAbort.tsx";
+import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
+import { useDetailUrl } from "../Text/Annotated/utils/useDetailUrl.tsx";
+import { useAnnotationStore } from "../../stores/annotation.ts";
+import { useTextStore } from "../../stores/text.ts";
+import { useMiradorStore } from "../../stores/mirador.ts";
+
+export function useInitDetail() {
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const { projectName } = useProjectStore();
+  const { getDetailUrlParams } = useDetailUrl();
+
+  const [isInit, setInit] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
+  const { setStore } = useMiradorStore();
+  const { setAnnotations } = useAnnotationStore();
+  const { setViews } = useTextStore();
+
+  /**
+   * Initialize views, annotations and iiif
+   */
+  useEffect(() => {
+    if (isInit || isLoading) {
+      return;
+    }
+
+    setLoading(true);
+    const aborter = new AbortController();
+    initDetail(aborter).catch(handleAbort);
+
+    return () => {
+      aborter.abort();
+      setLoading(false);
+    };
+
+    async function initDetail(aborter: AbortController) {
+      console.log("initDetail");
+      const { tier2 } = getDetailUrlParams();
+      if (!tier2) {
+        return;
+      }
+      const bodyId = tier2;
+      const includeResults = ["anno", "iiif", "text"];
+
+      const viewNames = projectConfig.allPossibleTextPanels.toString();
+
+      const overlapTypes = projectConfig.annotationTypesToInclude;
+      const relativeTo = "Origin";
+
+      const result = await fetchBroccoliScanWithOverlap(
+        bodyId,
+        overlapTypes,
+        includeResults,
+        viewNames,
+        relativeTo,
+        projectConfig,
+        aborter.signal,
+      );
+
+      if (!result) {
+        return;
+      }
+
+      const annotations = result.anno;
+      const views = result.views;
+
+      if (projectName === "suriano") {
+        const tfFileId = bodyId.replace("letter_body", "file");
+        console.warn("Add suriano notes panel by " + tfFileId);
+        const withNotes = await fetchBroccoliScanWithOverlap(
+          tfFileId,
+          ["tei:Note"],
+          ["anno", "text"],
+          "self",
+          relativeTo,
+          projectConfig,
+          aborter.signal,
+        );
+        if (!withNotes) {
+          return;
+        }
+        annotations.push(...withNotes.anno);
+        views[NOTES_VIEW] = withNotes.views.self;
+      }
+
+      setStore({
+        bodyId: result.request.bodyId,
+        iiif: result.iiif,
+      });
+      setAnnotations(annotations);
+      setViews(views);
+
+      setLoading(false);
+      setInit(true);
+    }
+  }, [isInit]);
+
+  return {
+    isInit,
+    isLoadingDetail: isLoading,
+  };
+}

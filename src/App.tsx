@@ -9,7 +9,11 @@ import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useAnnotationStore } from "./stores/annotation";
-import { setProjectConfigSelector, useProjectStore } from "./stores/project";
+import {
+  setProjectConfigSelector,
+  setProjectNameSelector,
+  useProjectStore,
+} from "./stores/project";
 import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
 
 const { project, config } = selectProjectConfig();
@@ -59,9 +63,12 @@ export default function App() {
     (state) => state.setAnnotationTypesToHighlight,
   );
   const setProjectConfig = useProjectStore(setProjectConfigSelector);
+  const setProjectName = useProjectStore(setProjectNameSelector);
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
   setAnnotationTypesToHighlight(config.annotationTypesToHighlight);
+
   setProjectConfig(config);
+  setProjectName(project);
 
   return <RouterProvider router={router} />;
 }

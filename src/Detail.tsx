@@ -1,19 +1,12 @@
 import { Skeleton } from "primereact/skeleton";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { Annotation } from "./components/Annotations/Annotation.tsx";
 import { Footer } from "./components/Footer/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
-import { NOTES_VIEW } from "./components/Text/Annotated/MarkerTooltip.tsx";
 import { TextComponent } from "./components/Text/TextComponent";
-import { Broccoli } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
-import { useAnnotationStore } from "./stores/annotation";
-import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
-import { useTextStore } from "./stores/text";
-import { fetchBroccoliScanWithOverlap } from "./utils/broccoli";
-import { handleAbort } from "./utils/handleAbort.tsx";
+import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 
 interface DetailProps {
   project: string;
@@ -21,82 +14,15 @@ interface DetailProps {
 }
 
 export const Detail = (props: DetailProps) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showIiifViewer, setShowIiifViewer] = useState(true);
   const [showAnnotationPanel, setShowAnnotationPanel] = useState(
     props.config.defaultShowMetadataPanel,
   );
-  const [broccoliResult, setBroccoliResult] = useState<Broccoli>();
-  const setProjectName = useProjectStore((state) => state.setProjectName);
-  const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
-  const setViews = useTextStore((state) => state.setViews);
-  const annotationTypesToInclude = useAnnotationStore(
-    (state) => state.annotationTypesToInclude,
-  );
+  const isInitDetail = useInitDetail().isInit;
+  const isLoadingDetail = useInitDetail().isLoadingDetail;
+
   const globalSearchResults = useSearchStore((state) => state.searchResults);
-  const params = useParams();
-
-  useEffect(() => {
-    const aborter = new AbortController();
-    setIsLoading(true);
-
-    if (params.tier2) {
-      const bodyId = params.tier2;
-      fetchBroccoli(bodyId).catch(handleAbort);
-    }
-
-    async function fetchBroccoli(bodyId: string) {
-      const includeResults = ["anno", "iiif", "text"];
-
-      const viewNames = props.config.allPossibleTextPanels.toString();
-
-      const overlapTypes = annotationTypesToInclude;
-      const relativeTo = "Origin";
-
-      const result = await fetchBroccoliScanWithOverlap(
-        bodyId,
-        overlapTypes,
-        includeResults,
-        viewNames,
-        relativeTo,
-        props.config,
-        aborter.signal,
-      );
-
-      if (!result) {
-        return;
-      }
-
-      const annotations = result.anno;
-      const views = result.views;
-
-      if (props.project === "suriano") {
-        const tfFileId = bodyId.replace("letter_body", "file");
-        console.warn("Add suriano notes panel by " + tfFileId);
-        const withNotes = await fetchBroccoliScanWithOverlap(
-          tfFileId,
-          ["tei:Note"],
-          ["anno", "text"],
-          "self",
-          relativeTo,
-          props.config,
-          aborter.signal,
-        );
-        annotations.push(...withNotes.anno);
-        views[NOTES_VIEW] = withNotes.views.self;
-      }
-
-      setBroccoliResult(result);
-
-      setProjectName(props.project);
-      setAnnotations(annotations);
-      setViews(views);
-
-      setIsLoading(false);
-    }
-    return () => aborter.abort();
-  }, [annotationTypesToInclude, params.tier2, props.config]);
 
   function showIiifViewerHandler() {
     setShowIiifViewer(!showIiifViewer);
@@ -112,18 +38,18 @@ export const Detail = (props: DetailProps) => {
 
   return (
     <>
-      {broccoliResult ? (
+      {isInitDetail ? (
         <>
           <main className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
-            {showIiifViewer && props.config.showMirador ? (
-              <Mirador broccoliResult={broccoliResult} />
-            ) : null}
+            {showIiifViewer && props.config.showMirador ? <Mirador /> : null}
             <TextComponent
               panelsToRender={props.config.defaultTextPanels}
               allPossiblePanels={props.config.allPossibleTextPanels}
-              isLoading={isLoading}
+              isLoading={isLoadingDetail}
             />
-            {showAnnotationPanel ? <Annotation isLoading={isLoading} /> : null}
+            {showAnnotationPanel ? (
+              <Annotation isLoading={isLoadingDetail} />
+            ) : null}
           </main>
           <Footer
             showIiifViewerHandler={showIiifViewerHandler}

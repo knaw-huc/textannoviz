@@ -5,6 +5,7 @@ import {
   SearchQueryRequestBody,
   SearchResult,
 } from "../model/Search";
+import { Broccoli } from "../model/Broccoli.ts";
 
 const headers = {
   "Content-Type": "application/json",
@@ -18,7 +19,7 @@ export const fetchBroccoliScanWithOverlap = async (
   relativeTo: string,
   config: ProjectConfig,
   signal: AbortSignal,
-) => {
+): Promise<Broccoli | null> => {
   const url = `${config.broccoliUrl}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`;
   const response = await fetch(url, { signal });
   if (!response.ok) {
