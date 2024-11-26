@@ -4,6 +4,7 @@ import { Base64 } from "js-base64";
 import { useParams } from "react-router-dom";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { HammerIcon } from "../../components/common/icons/HammerIcon";
+import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoAnnotation,
   ResolutionBody,
@@ -22,7 +23,6 @@ import {
   isEntity,
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
-import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -58,7 +58,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
       ) : (
         <div>No panel defined for this annotation type.</div>
       )}
-      <AttendantsMetadata annotations={props.annotations} />
+      <DelegatesMetadata annotations={props.annotations} />
       <EntitiesMetadata
         title={translateProject("LOC")}
         entities={locEntities}
