@@ -32,7 +32,7 @@ export const Search = () => {
     searchResults,
   } = useSearchStore();
 
-  const { isInit, isSearchLoading } = useInitSearch();
+  const { isInit, isLoadingSearch } = useInitSearch();
 
   const { getSearchResults } = useSearchResults();
 
@@ -43,8 +43,8 @@ export const Search = () => {
   }, [isInit, searchResults]);
 
   useEffect(() => {
-    setIsLoading(isSearchLoading);
-  }, [isSearchLoading]);
+    setIsLoading(isLoadingSearch);
+  }, [isLoadingSearch]);
 
   useEffect(() => {
     const aborter = new AbortController();

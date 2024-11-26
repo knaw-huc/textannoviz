@@ -106,6 +106,6 @@ export function useInitSearch() {
 
   return {
     isInit,
-    isSearchLoading: isLoading,
+    isLoadingSearch: isLoading,
   };
 }
