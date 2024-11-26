@@ -21,7 +21,6 @@ const createProjectSlice: StateCreator<ProjectStore, [], [], ProjectSlice> = (
   projectName: "",
   setProjectName: (newProjectName) =>
     set(() => {
-      console.log("Set name");
       return { projectName: newProjectName };
     }),
 });
