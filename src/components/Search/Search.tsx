@@ -172,6 +172,10 @@ export const Search = () => {
 
     if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
       doSearch();
+      return () => {
+        setIsLoading(false);
+        aborter.abort();
+      };
     } else {
       setUrlParamsAndSearchResultsInit(true);
     }
@@ -192,11 +196,6 @@ export const Search = () => {
       setShowingResults(true);
       setUrlParamsAndSearchResultsInit(true);
     }
-
-    return () => {
-      setIsLoading(false);
-      aborter.abort();
-    };
   }, [urlParams, isInit, isUrlParamsAndSearchResultsInit]);
 
   //THIS ONE IS RUN MULTIPLE TIMES
@@ -222,10 +221,16 @@ export const Search = () => {
 
   // Run when user modifies search query or params:
   useEffect(() => {
-    const aborter = new AbortController();
-    if (isDirty) {
-      searchWhenDirty();
+    if (!isDirty) {
+      return;
     }
+
+    const aborter = new AbortController();
+    searchWhenDirty();
+    return () => {
+      setIsLoading(false);
+      aborter.abort();
+    };
 
     async function searchWhenDirty() {
       const isEmptySearch =
@@ -259,11 +264,6 @@ export const Search = () => {
       }
       setDirty(false);
     }
-
-    return () => {
-      setIsLoading(false);
-      aborter.abort();
-    };
   }, [isDirty, searchQuery]);
 
   async function updateAggs(query: SearchQuery) {
