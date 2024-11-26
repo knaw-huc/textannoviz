@@ -88,7 +88,7 @@ function DelegatesMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
                 <div className="flex flex-grow flex-row items-center justify-start gap-1">
                   <UserIcon className="h-3 w-3 flex-shrink-0" />
                   <a
-                    title="Delegate link"
+                    title={translateProject("DELEGATE_LINK")}
                     className="hover:text-brand1-900 text-inherit no-underline hover:underline"
                     href={delegate.detailsUrl ? delegate.detailsUrl : undefined}
                     target="_blank"
