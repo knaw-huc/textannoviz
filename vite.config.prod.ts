@@ -6,6 +6,7 @@ import { defineConfig, loadEnv } from "vite";
 import checker from "vite-plugin-checker";
 import { htmlInjectionPlugin } from "vite-plugin-html-injection";
 import globaliseHtmlInjectionPluginConfig from "./src/projects/globalise/config/htmlInjectionPluginConfig.json";
+import republicHtmlInjectionPluginConfig from "./src/projects/republic/config/htmlInjectionPluginConfig.json";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -17,6 +18,7 @@ export default defineConfig(({ mode }) => {
   switch (env.VITE_PROJECT) {
     case "republic":
       tailwindConfig = "tailwind.config.republic.js";
+      htmlInjectionPluginConfig = republicHtmlInjectionPluginConfig;
       break;
     case "mondriaan":
       tailwindConfig = "tailwind.config.mondriaan.js";
