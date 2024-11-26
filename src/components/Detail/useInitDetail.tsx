@@ -23,6 +23,17 @@ export function useInitDetail() {
   const { setAnnotations } = useAnnotationStore();
   const { setViews } = useTextStore();
 
+  const { tier2 } = useDetailUrl().getDetailUrlParams();
+  const [prevTier2, setPrevTier2] = useState(tier2);
+
+  useEffect(() => {
+    if (tier2 === prevTier2) {
+      return;
+    }
+    setInit(false);
+    setPrevTier2(tier2);
+  }, [tier2]);
+
   /**
    * Initialize views, annotations and iiif
    */
@@ -31,7 +42,6 @@ export function useInitDetail() {
       return;
     }
 
-    setLoading(true);
     const aborter = new AbortController();
     initDetail(aborter).catch(handleAbort);
 
@@ -41,7 +51,7 @@ export function useInitDetail() {
     };
 
     async function initDetail(aborter: AbortController) {
-      console.log("initDetail");
+      setLoading(true);
       const { tier2 } = getDetailUrlParams();
       if (!tier2) {
         return;
