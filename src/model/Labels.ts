@@ -83,4 +83,6 @@ export type Labels = {
   SEARCH_HISTORY_HELP: string;
   SORT_BY_HELP: string;
   TOGGLE_INFO_HELP: string;
+
+  OCCURRENCES_PER_YEAR: string;
 };

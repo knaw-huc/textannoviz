@@ -3,6 +3,7 @@ import { Button } from "react-aria-components";
 import { SearchResult } from "../../model/Search";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { TextFieldComponent } from "../common/TextFieldComponent.tsx";
+import { usePagination } from "../../utils/usePagination.tsx";
 
 interface SearchPaginationProps {
   onPrevPageClick: () => void;
@@ -15,6 +16,7 @@ interface SearchPaginationProps {
 
 export const SearchPagination = (props: SearchPaginationProps) => {
   const translate = useProjectStore(translateSelector);
+  const { hasNextPage, hasPrevPage } = usePagination();
   const [pageNumber, setPageNumber] = React.useState<string>(
     props.pageNumber.toString(),
   );
@@ -53,7 +55,9 @@ export const SearchPagination = (props: SearchPaginationProps) => {
   }
 
   function prevButtonClickedHandler() {
-    if (props.pageNumber === 1) return;
+    if (!hasPrevPage()) {
+      return;
+    }
     setPageNumber((prev) => {
       const prevPageNumber = parseInt(prev, 10);
       return (prevPageNumber - 1).toString();
@@ -62,6 +66,9 @@ export const SearchPagination = (props: SearchPaginationProps) => {
   }
 
   function nextButtonClickHandler() {
+    if (!hasNextPage()) {
+      return;
+    }
     setPageNumber((prev) => {
       const prevPageNumber = parseInt(prev, 10);
       return (prevPageNumber + 1).toString();
@@ -77,9 +84,10 @@ export const SearchPagination = (props: SearchPaginationProps) => {
             className={({ isPressed }) =>
               isPressed
                 ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 flex items-center rounded px-3 py-1.5 outline-none"
-                : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 flex items-center rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
+                : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 flex items-center rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300 disabled:opacity-25"
             }
             onPress={prevButtonClickedHandler}
+            isDisabled={!hasPrevPage()}
           >
             {translate("PREV")}
           </Button>
@@ -97,8 +105,9 @@ export const SearchPagination = (props: SearchPaginationProps) => {
             className={({ isPressed }) =>
               isPressed
                 ? "bg-brand1Grey-300 text-brand1Grey-800 dark:text-brand1Grey-400 relative block rounded px-3 py-1.5 outline-none"
-                : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300"
+                : "text-brand1Grey-800 dark:text-brand1Grey-400 hover:bg-brand1Grey-100 relative block rounded bg-transparent px-3 py-1.5 outline-none transition-all duration-300  disabled:opacity-25"
             }
+            isDisabled={!hasNextPage()}
             onPress={nextButtonClickHandler}
           >
             {translate("NEXT")}
