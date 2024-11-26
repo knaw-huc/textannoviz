@@ -17,6 +17,12 @@ import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
 
+/**
+ * Initialize search query, facets and (optional) results
+ * - set default config values
+ * - fetch keyword and date facets
+ * - fetch results when {@link isSearchableQuery}
+ */
 export function useInitSearch() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
@@ -30,12 +36,6 @@ export function useInitSearch() {
   const [isInit, setInit] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
-  /**
-   * Initialize search query, facets and (optional) results
-   * - set default config values
-   * - fetch keyword and date facets
-   * - fetch results when {@link isSearchableQuery}
-   */
   useEffect(() => {
     if (isInit || isLoading) {
       return;

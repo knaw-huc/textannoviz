@@ -11,6 +11,10 @@ import { useAnnotationStore } from "../../stores/annotation.ts";
 import { useTextStore } from "../../stores/text.ts";
 import { useMiradorStore } from "../../stores/mirador.ts";
 
+/**
+ * Initialize views, annotations and iiif
+ * 'Re-initialize' when tier2 changes
+ */
 export function useInitDetail() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { projectName } = useProjectStore();
@@ -34,9 +38,6 @@ export function useInitDetail() {
     setPrevTier2(tier2);
   }, [tier2]);
 
-  /**
-   * Initialize views, annotations and iiif
-   */
   useEffect(() => {
     if (isInit || isLoading) {
       return;
