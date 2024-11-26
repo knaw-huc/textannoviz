@@ -50,6 +50,9 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   name: "Entiteit",
   category: "Categorie",
   delegates: "Gedeputeerden",
+  president: "Voorzitter",
+  NO_DATA: "Geen gegevens beschikbaar",
+  DELEGATE_LINK: "Link naar entiteitenbrowser",
 
   // text panel titles:
   self: "Tekst",
