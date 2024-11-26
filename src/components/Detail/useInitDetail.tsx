@@ -20,7 +20,7 @@ export function useInitDetail() {
   const { projectName } = useProjectStore();
   const { getDetailUrlParams } = useDetailUrl();
 
-  const [isInit, setInit] = useState(false);
+  const [isInitDetail, setInitDetail] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
   const { setStore } = useMiradorStore();
@@ -34,12 +34,12 @@ export function useInitDetail() {
     if (tier2 === prevTier2) {
       return;
     }
-    setInit(false);
+    setInitDetail(false);
     setPrevTier2(tier2);
   }, [tier2]);
 
   useEffect(() => {
-    if (isInit || isLoading) {
+    if (isInitDetail || isLoading) {
       return;
     }
 
@@ -109,12 +109,12 @@ export function useInitDetail() {
       setViews(views);
 
       setLoading(false);
-      setInit(true);
+      setInitDetail(true);
     }
-  }, [isInit]);
+  }, [isInitDetail]);
 
   return {
-    isInit,
+    isInitDetail: isInitDetail,
     isLoadingDetail: isLoading,
   };
 }

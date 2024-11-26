@@ -61,8 +61,9 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
-    const { from } = selectNextPage();
-    await loadNewSearchResultPage(from);
+    selectNextPage();
+    // TODO: update result page in query from url
+    // await loadNewSearchResultPage(from);
   }
 
   async function handlePrevResultClick() {

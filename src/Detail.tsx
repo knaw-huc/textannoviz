@@ -19,8 +19,8 @@ export const Detail = (props: DetailProps) => {
   const [showAnnotationPanel, setShowAnnotationPanel] = useState(
     props.config.defaultShowMetadataPanel,
   );
-  const isInitDetail = useInitDetail().isInit;
-  const isLoadingDetail = useInitDetail().isLoadingDetail;
+  const { isInitDetail } = useInitDetail();
+  const { isLoadingDetail } = useInitDetail();
 
   const globalSearchResults = useSearchStore((state) => state.searchResults);
 

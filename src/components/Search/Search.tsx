@@ -32,15 +32,15 @@ export const Search = () => {
     searchResults,
   } = useSearchStore();
 
-  const { isInit, isLoadingSearch } = useInitSearch();
+  const { isInitSearch, isLoadingSearch } = useInitSearch();
 
   const { getSearchResults } = useSearchResults();
 
   useEffect(() => {
-    if (isInit && searchResults) {
+    if (isInitSearch && searchResults) {
       setShowingResults(true);
     }
-  }, [isInit, searchResults]);
+  }, [isInitSearch, searchResults]);
 
   useEffect(() => {
     setIsLoading(isLoadingSearch);
@@ -125,7 +125,7 @@ export const Search = () => {
         />
         <SearchResultsColumn>
           {/* Wait for init, to prevent a flicker of info page before results are shown: */}
-          {!isShowingResults && isInit && (
+          {!isShowingResults && isInitSearch && (
             <projectConfig.components.SearchInfoPage />
           )}
           {isShowingResults && (
