@@ -40,15 +40,17 @@ export function createUrlParams(
   searchQuery: SearchQuery,
   overwriteParams?: object,
 ): Record<string, string> {
-  return _({
+  const merged = {
     ...allParams,
     ...searchParams,
     query: encodeSearchQuery(searchQuery),
     ...overwriteParams,
-  })
+  };
+  const cleaned = _(merged)
     .pickBy((v) => !_.isNil(v))
     .mapValues((v) => `${v}`)
     .value();
+  return cleaned;
 }
 
 export function encodeSearchQuery(query: SearchQuery): string {

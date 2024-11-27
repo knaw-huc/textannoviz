@@ -1,5 +1,5 @@
 import { useParams, useSearchParams } from "react-router-dom";
-import { createUrlSearchParams, getDetailPath } from "./getFullDetailUrl.tsx";
+import { createUrlSearchParams } from "./getFullDetailUrl.tsx";
 import { useSearchUrlParams } from "../../../Search/useSearchUrlParams.tsx";
 
 export type DetailQueryParams = {
@@ -32,15 +32,12 @@ export function useDetailUrl() {
     };
   }
 
-  function getDetailUrl(newResultId: string, overwriteParams?: object) {
-    return `${getDetailPath(newResultId)}?${createUrlSearchParams(
-      searchParams,
-      searchQuery,
-      {
-        ...getDetailUrlSearchParams(),
-        ...overwriteParams,
-      },
-    )}`;
+  function getDetailUrl(resultId: string, overwriteParams?: object) {
+    const urlSearchParams = createUrlSearchParams(searchParams, searchQuery, {
+      ...getDetailUrlSearchParams(),
+      ...overwriteParams,
+    });
+    return `/detail/${resultId}?${urlSearchParams}`;
   }
 
   return {

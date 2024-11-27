@@ -2,7 +2,6 @@ import { useSearchStore } from "../stores/search/search-store.ts";
 import _ from "lodash";
 import { SearchParams } from "../model/Search.ts";
 import { useSearchUrlParams } from "../components/Search/useSearchUrlParams.tsx";
-import { useEffect } from "react";
 
 export type PageParams = Pick<SearchParams, "from" | "size">;
 
@@ -14,10 +13,6 @@ export function usePagination() {
   const { searchParams, updateSearchParams } = useSearchUrlParams();
 
   const { searchResults } = useSearchStore();
-
-  useEffect(() => {
-    console.log("usePagination", searchParams, searchResults);
-  }, [searchParams, searchResults]);
 
   function getPrevFrom(): number {
     return searchParams.from - searchParams.size;

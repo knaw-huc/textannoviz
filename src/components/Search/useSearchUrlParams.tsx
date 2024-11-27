@@ -42,10 +42,9 @@ export function useSearchUrlParams() {
     console.log("updateSearchParams", update);
     updateUrl({ searchParams: { ...searchParams, ...update } });
   }
-
   function updateUrl(update: UpdatedUrlProps) {
     const updatedUrlParams = createUrlParams(
-      urlParams,
+      Object.fromEntries(urlParams.entries()),
       update.searchParams || searchParams,
       update.searchQuery || searchQuery,
     );
@@ -54,7 +53,6 @@ export function useSearchUrlParams() {
     ) {
       return;
     }
-    console.log("setUrlParams", updatedUrlParams);
     setUrlParams(updatedUrlParams);
   }
 

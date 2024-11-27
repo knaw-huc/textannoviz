@@ -10,7 +10,3 @@ export function createUrlSearchParams(
     createUrlParams({}, searchParams, searchQuery, overwriteParams),
   );
 }
-
-export function getDetailPath(tier2: string) {
-  return `/detail/${tier2}`;
-}
