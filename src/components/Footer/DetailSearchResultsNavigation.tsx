@@ -24,15 +24,13 @@ export function DetailSearchResultsNavigation() {
     usePagination();
   const { getSearchResults } = useSearchResults();
 
-  if (!searchResults) {
-    return null;
-  }
-
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
   const urlSearchParams = new URLSearchParams(searchParams as Any);
 
+  if (!searchResults) {
+    return null;
+  }
   const resultIndex = findResultIndex(searchResults, tier2);
-
   async function handleNextResultClick() {
     if (!searchResults) {
       return null;
