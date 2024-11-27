@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
-import { SearchParams, SearchResult } from "../../model/Search.ts";
+import { SearchParams } from "../../model/Search.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
@@ -31,7 +31,12 @@ export function DetailSearchResultsNavigation() {
     return null;
   }
 
-  const resultIndex = findResultIndex(searchResults, tier2);
+  const resultIndex = searchResults.results.findIndex((r) => r._id === tier2);
+
+  // Result is not found when results are already updated but the route is not:
+  if (resultIndex === -1) {
+    return null;
+  }
 
   async function handleNextResultClick() {
     if (!searchResults) {
@@ -121,15 +126,4 @@ function hasNextResult(resultIndex: number, searchParams: SearchParams) {
 
 function hasPrevResult(resultIndex: number): boolean {
   return !!resultIndex;
-}
-
-function findResultIndex(
-  searchResults: SearchResult,
-  resultId: string,
-): number {
-  const found = searchResults.results.findIndex((r) => r._id === resultId);
-  if (found === -1) {
-    throw new Error(`Id ${resultId} not found in results`);
-  }
-  return found;
 }
