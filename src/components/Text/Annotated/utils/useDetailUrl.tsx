@@ -1,5 +1,5 @@
 import { useParams, useSearchParams } from "react-router-dom";
-import { getFullDetailUrl } from "./getFullDetailUrl.tsx";
+import { createUrlSearchParams, getDetailPath } from "./getFullDetailUrl.tsx";
 import { useSearchUrlParams } from "../../../Search/useSearchUrlParams.tsx";
 
 export type DetailQueryParams = {
@@ -10,10 +10,7 @@ export type DetailParams = DetailQueryParams & {
   tier2: string;
 };
 
-export function useDetailUrl(): {
-  getDetailUrlParams: () => DetailParams;
-  getDetailUrl: GetDetailUrl;
-} {
+export function useDetailUrl() {
   const params = useParams();
   const [urlParams] = useSearchParams();
   const { searchParams, searchQuery } = useSearchUrlParams();
@@ -25,17 +22,25 @@ export function useDetailUrl(): {
     }
     return {
       tier2,
+      ...getDetailUrlSearchParams(),
+    };
+  }
+
+  function getDetailUrlSearchParams(): { highlight?: string } {
+    return {
       highlight: urlParams.get("highlight") || undefined,
     };
   }
 
-  function getDetailUrl(newResultId: string, overwriteParams: object) {
-    return getFullDetailUrl(
-      newResultId,
+  function getDetailUrl(newResultId: string, overwriteParams?: object) {
+    return `${getDetailPath(newResultId)}?${createUrlSearchParams(
       searchParams,
       searchQuery,
-      overwriteParams,
-    );
+      {
+        ...getDetailUrlSearchParams(),
+        ...overwriteParams,
+      },
+    )}`;
   }
 
   return {
@@ -43,8 +48,3 @@ export function useDetailUrl(): {
     getDetailUrl,
   };
 }
-
-export type GetDetailUrl = (
-  newResultId: string,
-  overwriteParams: object,
-) => string;

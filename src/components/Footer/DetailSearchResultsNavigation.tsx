@@ -16,7 +16,7 @@ export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
   const translate = useProjectStore(translateSelector);
   const { getDetailUrlParams, getDetailUrl } = useDetailUrl();
-  const { tier2, highlight } = getDetailUrlParams();
+  const { tier2 } = getDetailUrlParams();
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
@@ -30,15 +30,16 @@ export function DetailSearchResultsNavigation() {
   if (!searchResults) {
     return null;
   }
+
   const resultIndex = findResultIndex(searchResults, tier2);
+
   async function handleNextResultClick() {
     if (!searchResults) {
       return null;
     }
     if (hasNextResult(resultIndex, searchParams)) {
-      navigate(
-        getDetailUrl(searchResults.results[resultIndex + 1]._id, { highlight }),
-      );
+      const newResultId = searchResults.results[resultIndex + 1]._id;
+      navigate(getDetailUrl(newResultId));
       return;
     }
     if (hasNextPage()) {
@@ -52,9 +53,8 @@ export function DetailSearchResultsNavigation() {
     }
 
     if (hasPrevResult(resultIndex)) {
-      navigate(
-        getDetailUrl(searchResults.results[resultIndex - 1]._id, { highlight }),
-      );
+      const newResultId = searchResults.results[resultIndex - 1]._id;
+      navigate(getDetailUrl(newResultId));
       return;
     }
     if (hasPrevPage()) {
@@ -73,10 +73,13 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
-    const newIndex = newFrom > searchParams.from ? 0 : searchParams.size - 1;
+    const indexOnNewPage =
+      newFrom > searchParams.from ? 0 : searchParams.size - 1;
+    const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
     const nextUrl = getDetailUrl(
-      newSearchResults.results.results[newIndex]._id,
-      { highlight, from: newFrom },
+      newResultId,
+      // Pass new from to prevent resetting with old from:
+      { from: newFrom },
     );
     if (!nextUrl) {
       throw new Error("No results found");
