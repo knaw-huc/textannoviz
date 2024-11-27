@@ -10,7 +10,10 @@ export type DetailParams = DetailQueryParams & {
   tier2: string;
 };
 
-export function useDetailUrl() {
+export function useDetailUrl(): {
+  getDetailUrlParams: () => DetailParams;
+  getDetailUrl: GetDetailUrl;
+} {
   const params = useParams();
   const [urlParams] = useSearchParams();
   const { searchParams, searchQuery } = useSearchUrlParams();
@@ -41,4 +44,7 @@ export function useDetailUrl() {
   };
 }
 
-export type GetDetailUrl = (newResultId: string, params: object) => string;
+export type GetDetailUrl = (
+  newResultId: string,
+  overwriteParams: object,
+) => string;

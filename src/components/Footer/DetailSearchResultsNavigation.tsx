@@ -1,15 +1,12 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
-import { SearchResult } from "../../model/Search.ts";
+import { SearchParams, SearchResult } from "../../model/Search.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
-import {
-  GetDetailUrl,
-  useDetailUrl,
-} from "../Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailUrl } from "../Text/Annotated/utils/useDetailUrl.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
 import { Any } from "../../utils/Any.ts";
@@ -27,22 +24,18 @@ export function DetailSearchResultsNavigation() {
     usePagination();
   const { getSearchResults } = useSearchResults();
 
-  const prevResultPath = createResultPath(
-    searchResults,
-    tier2,
-    { highlight },
-    (resultIndex) => resultIndex - 1,
-    getDetailUrl,
-  );
-  const nextResultPath = createResultPath(
-    searchResults,
-    tier2,
-    { highlight },
-    (resultIndex) => resultIndex + 1,
-    getDetailUrl,
-  );
+  if (!searchResults) {
+    return null;
+  }
 
-  // const [urlParams] = useSearchParams();
+  const resultIndex = findResultIndex(searchResults, tier2);
+
+  const prevResultPath =
+    hasPrevResult(resultIndex) &&
+    getDetailUrl(searchResults.results[resultIndex - 1]._id, { highlight });
+  const nextResultPath =
+    hasNextResult(resultIndex, searchParams) &&
+    getDetailUrl(searchResults.results[resultIndex + 1]._id, { highlight });
 
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
   const urlSearchParams = new URLSearchParams(searchParams as Any);
@@ -93,18 +86,11 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
-    const resultIndexUpdater =
-      newFrom > searchParams.from
-        ? // Start with first result of next page:
-          () => 0
-        : // Start with last result of previous page:
-          () => newSearchResults.results.results.length - 1;
-    const nextUrl = createResultPath(
-      newSearchResults.results,
-      newSearchResults.results.results[0]._id,
+    const nextUrl = getDetailUrl(
+      newSearchResults.results.results[
+        newFrom > searchParams.from ? 0 : searchParams.size - 1
+      ]._id,
       { highlight, from: newFrom },
-      resultIndexUpdater,
-      getDetailUrl,
     );
     if (!nextUrl) {
       throw new Error("No results found");
@@ -137,27 +123,21 @@ export function DetailSearchResultsNavigation() {
   );
 }
 
-// TODO: clean up this mess (what did I do?!)
-function createResultPath(
-  searchResults: SearchResult | undefined,
+function hasNextResult(resultIndex: number, searchParams: SearchParams) {
+  return resultIndex < searchParams.size - 1;
+}
+
+function hasPrevResult(resultIndex: number): boolean {
+  return !!resultIndex;
+}
+
+function findResultIndex(
+  searchResults: SearchResult,
   resultId: string,
-  params: object,
-  resultIndexUpdater: (oldIndex: number) => number,
-  getDetailUrl: GetDetailUrl,
-) {
-  if (!searchResults) {
-    return;
+): number {
+  const found = searchResults.results.findIndex((r) => r._id === resultId);
+  if (found === -1) {
+    throw new Error(`Id ${resultId} not found in results`);
   }
-  const resultIndex = searchResults.results.findIndex(
-    (r) => r._id === resultId,
-  );
-  if (resultIndex === -1) {
-    return;
-  }
-  const newResultId =
-    searchResults.results[resultIndexUpdater(resultIndex)]?._id;
-  if (!newResultId) {
-    return;
-  }
-  return getDetailUrl(newResultId, params);
+  return found;
 }
