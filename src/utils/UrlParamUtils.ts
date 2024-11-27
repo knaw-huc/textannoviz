@@ -1,10 +1,10 @@
 import isBoolean from "lodash/isBoolean";
 import isNumber from "lodash/isNumber";
-import mapValues from "lodash/mapValues";
 import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
 import { SearchParams, SearchQuery } from "../model/Search.ts";
+import _ from "lodash";
 
 /**
  * Merge the properties in {@link toPopulate} with
@@ -34,29 +34,21 @@ export function getSearchParamsFromUrl<T extends object>(
   ) as T;
 }
 
-/**
- * Add properties of ${@link update} to {@link urlParams}
- * or overwrite existing values
- */
-export function addParamsToUrl<T extends object>(
-  urlParams: object,
-  update: T,
-): Record<string, string> {
-  return {
-    ...urlParams,
-    ...mapValues(update, (v) => `${v}`),
-  };
-}
-
 export function createUrlParams(
-  urlParams: object,
+  allParams: object,
   searchParams: SearchParams,
   searchQuery: SearchQuery,
+  overwriteParams?: object,
 ): Record<string, string> {
-  return addParamsToUrl(urlParams, {
+  return _({
+    ...allParams,
     ...searchParams,
     query: encodeSearchQuery(searchQuery),
-  });
+    ...overwriteParams,
+  })
+    .pickBy((v) => !_.isNil(v))
+    .mapValues((v) => `${v}`)
+    .value();
 }
 
 export function encodeSearchQuery(query: SearchQuery): string {
@@ -76,4 +68,5 @@ export function getSearchQueryFromUrl(
   );
   return { ...baseSearchQuery, ...parsed };
 }
+
 Object.assign(window, { Base64 });

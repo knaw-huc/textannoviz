@@ -26,12 +26,12 @@ export function useDetailUrl() {
     };
   }
 
-  function getDetailUrl(newResultId: string, highlight?: string) {
+  function getDetailUrl(newResultId: string, overwriteParams: object) {
     return getFullDetailUrl(
       newResultId,
-      { highlight },
       searchParams,
       searchQuery,
+      overwriteParams,
     );
   }
 
@@ -41,4 +41,4 @@ export function useDetailUrl() {
   };
 }
 
-export type GetDetailUrl = (newResultId: string, highlight?: string) => string;
+export type GetDetailUrl = (newResultId: string, params: object) => string;

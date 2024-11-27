@@ -67,7 +67,7 @@ export const defaultConfig: Omit<
   useExternalConfig: false,
   visualizeAnnosMirador: false,
   allowEmptyStringSearch: true,
-  showMirador: true,
+  showMirador: false,
   showMiradorNavigationButtons: false,
   showInputFacet: false,
   histogramFacet: "",

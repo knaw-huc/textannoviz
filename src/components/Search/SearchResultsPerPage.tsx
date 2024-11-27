@@ -21,6 +21,7 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   const { searchParams } = useSearchUrlParams();
   const [selectedKey, setSelectedKey] = React.useState<Key>(searchParams.size);
   const options: PageSizeOption[] = [
+    { name: 3 },
     { name: 10 },
     { name: 20 },
     { name: 50 },

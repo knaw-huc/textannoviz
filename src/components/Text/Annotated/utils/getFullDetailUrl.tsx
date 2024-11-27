@@ -3,11 +3,15 @@ import { createUrlParams } from "../../../../utils/UrlParamUtils.ts";
 
 export function getFullDetailUrl(
   tier2: string,
-  detailParams: { highlight?: string },
   searchParams: SearchParams,
   searchQuery: SearchQuery,
+  overwriteParams: object,
 ): string {
-  return `/detail/${tier2}?${new URLSearchParams(
-    createUrlParams(detailParams, searchParams, searchQuery),
+  return `${getDetailPath(tier2)}?${new URLSearchParams(
+    createUrlParams({}, searchParams, searchQuery, overwriteParams),
   )}`;
+}
+
+export function getDetailPath(tier2: string) {
+  return `/detail/${tier2}`;
 }

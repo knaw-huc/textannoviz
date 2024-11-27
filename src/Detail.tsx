@@ -7,6 +7,7 @@ import { TextComponent } from "./components/Text/TextComponent";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
+import { useInitSearch } from "./components/Search/useInitSearch.ts";
 
 interface DetailProps {
   project: string;
@@ -19,8 +20,8 @@ export const Detail = (props: DetailProps) => {
   const [showAnnotationPanel, setShowAnnotationPanel] = useState(
     props.config.defaultShowMetadataPanel,
   );
-  const { isInitDetail } = useInitDetail();
-  const { isLoadingDetail } = useInitDetail();
+  const { isInitDetail, isLoadingDetail } = useInitDetail();
+  const { isInitSearch } = useInitSearch();
 
   const globalSearchResults = useSearchStore((state) => state.searchResults);
 
@@ -38,7 +39,7 @@ export const Detail = (props: DetailProps) => {
 
   return (
     <>
-      {isInitDetail ? (
+      {isInitDetail && isInitSearch ? (
         <>
           <main className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
             {showIiifViewer && props.config.showMirador ? <Mirador /> : null}

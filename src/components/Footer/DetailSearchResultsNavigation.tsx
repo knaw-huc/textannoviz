@@ -23,24 +23,26 @@ export function DetailSearchResultsNavigation() {
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
-  const { hasNextPage, selectNextPage, hasPrevPage, selectPrevPage } =
+  const { hasNextPage, getNextFrom, hasPrevPage, selectPrevPage } =
     usePagination();
   const { getSearchResults } = useSearchResults();
 
   const prevResultPath = createResultPath(
     searchResults,
     tier2,
-    highlight,
+    { highlight },
     (resultIndex) => resultIndex - 1,
     getDetailUrl,
   );
   const nextResultPath = createResultPath(
     searchResults,
     tier2,
-    highlight,
+    { highlight },
     (resultIndex) => resultIndex + 1,
     getDetailUrl,
   );
+
+  // const [urlParams] = useSearchParams();
 
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
   const urlSearchParams = new URLSearchParams(searchParams as Any);
@@ -61,9 +63,9 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
-    selectNextPage();
+    const nextFrom = getNextFrom();
     // TODO: update result page in query from url
-    // await loadNewSearchResultPage(from);
+    await loadNewSearchResultPage(nextFrom);
   }
 
   async function handlePrevResultClick() {
@@ -97,11 +99,10 @@ export function DetailSearchResultsNavigation() {
           () => 0
         : // Start with last result of previous page:
           () => newSearchResults.results.results.length - 1;
-
     const nextUrl = createResultPath(
       newSearchResults.results,
       newSearchResults.results.results[0]._id,
-      highlight,
+      { highlight, from: newFrom },
       resultIndexUpdater,
       getDetailUrl,
     );
@@ -136,10 +137,11 @@ export function DetailSearchResultsNavigation() {
   );
 }
 
+// TODO: clean up this mess (what did I do?!)
 function createResultPath(
   searchResults: SearchResult | undefined,
   resultId: string,
-  highlight: string | undefined,
+  params: object,
   resultIndexUpdater: (oldIndex: number) => number,
   getDetailUrl: GetDetailUrl,
 ) {
@@ -157,5 +159,5 @@ function createResultPath(
   if (!newResultId) {
     return;
   }
-  return getDetailUrl(newResultId, highlight);
+  return getDetailUrl(newResultId, params);
 }

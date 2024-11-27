@@ -12,29 +12,6 @@ import {
 } from "../../stores/project.ts";
 import { ProjectConfig } from "../../model/ProjectConfig.ts";
 
-export const blankSearchQuery: SearchQuery = {
-  dateFrom: "",
-  dateTo: "",
-  rangeFrom: "",
-  rangeTo: "",
-  fullText: "",
-  terms: {},
-};
-
-export const defaultSearchParams: SearchParams = {
-  indexName: "",
-  fragmentSize: 100,
-  from: 0,
-  size: 10,
-  sortBy: "_score",
-  sortOrder: "desc",
-};
-
-export type UpdatedUrlProps = Partial<{
-  searchQuery: SearchQuery;
-  searchParams: SearchParams;
-}>;
-
 /**
  * The url is our single source of truth.
  * To keep the search params and query in sync with the url:
@@ -62,6 +39,7 @@ export function useSearchUrlParams() {
   }
 
   function updateSearchParams(update: Partial<SearchParams>): void {
+    console.log("updateSearchParams", update);
     updateUrl({ searchParams: { ...searchParams, ...update } });
   }
 
@@ -76,6 +54,7 @@ export function useSearchUrlParams() {
     ) {
       return;
     }
+    console.log("setUrlParams", updatedUrlParams);
     setUrlParams(updatedUrlParams);
   }
 
@@ -105,3 +84,26 @@ export function getDefaultQuery(projectConfig: ProjectConfig) {
   }
   return configuredSearchQuery;
 }
+
+export const blankSearchQuery: SearchQuery = {
+  dateFrom: "",
+  dateTo: "",
+  rangeFrom: "",
+  rangeTo: "",
+  fullText: "",
+  terms: {},
+};
+
+export const defaultSearchParams: SearchParams = {
+  indexName: "",
+  fragmentSize: 100,
+  from: 0,
+  size: 3,
+  sortBy: "_score",
+  sortOrder: "desc",
+};
+
+export type UpdatedUrlProps = Partial<{
+  searchQuery: SearchQuery;
+  searchParams: SearchParams;
+}>;
