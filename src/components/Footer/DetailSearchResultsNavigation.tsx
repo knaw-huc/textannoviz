@@ -20,7 +20,7 @@ export function DetailSearchResultsNavigation() {
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
-  const { hasNextPage, getNextFrom, hasPrevPage, selectPrevPage } =
+  const { hasNextPage, getNextFrom, hasPrevPage, getPrevFrom } =
     usePagination();
   const { getSearchResults } = useSearchResults();
 
@@ -28,51 +28,40 @@ export function DetailSearchResultsNavigation() {
     return null;
   }
 
-  const resultIndex = findResultIndex(searchResults, tier2);
-
-  const prevResultPath =
-    hasPrevResult(resultIndex) &&
-    getDetailUrl(searchResults.results[resultIndex - 1]._id, { highlight });
-  const nextResultPath =
-    hasNextResult(resultIndex, searchParams) &&
-    getDetailUrl(searchResults.results[resultIndex + 1]._id, { highlight });
-
   const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
   const urlSearchParams = new URLSearchParams(searchParams as Any);
 
-  const isOnFirstOfPage = !prevResultPath;
-  const isPrevDisabled = isOnFirstOfPage && !hasPrevPage();
-
-  const isOnEndOfPage = !nextResultPath;
-  const isNextDisabled = isOnEndOfPage && !hasNextPage();
+  const resultIndex = findResultIndex(searchResults, tier2);
 
   async function handleNextResultClick() {
-    if (!nextResultPath && !hasNextPage()) {
+    if (!searchResults) {
+      return null;
+    }
+    if (hasNextResult(resultIndex, searchParams)) {
+      navigate(
+        getDetailUrl(searchResults.results[resultIndex + 1]._id, { highlight }),
+      );
       return;
     }
-
-    if (nextResultPath) {
-      navigate(nextResultPath);
-      return;
+    if (hasNextPage()) {
+      await loadNewSearchResultPage(getNextFrom());
     }
-
-    const nextFrom = getNextFrom();
-    // TODO: update result page in query from url
-    await loadNewSearchResultPage(nextFrom);
   }
 
   async function handlePrevResultClick() {
-    if (!prevResultPath && !hasPrevPage()) {
-      return;
+    if (!searchResults) {
+      return null;
     }
 
-    if (prevResultPath) {
-      navigate(prevResultPath);
+    if (hasPrevResult(resultIndex)) {
+      navigate(
+        getDetailUrl(searchResults.results[resultIndex - 1]._id, { highlight }),
+      );
       return;
     }
-
-    const { from } = selectPrevPage();
-    await loadNewSearchResultPage(from);
+    if (hasPrevPage()) {
+      await loadNewSearchResultPage(getPrevFrom());
+    }
   }
 
   async function loadNewSearchResultPage(newFrom: number) {
@@ -86,10 +75,9 @@ export function DetailSearchResultsNavigation() {
       return;
     }
 
+    const newIndex = newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const nextUrl = getDetailUrl(
-      newSearchResults.results.results[
-        newFrom > searchParams.from ? 0 : searchParams.size - 1
-      ]._id,
+      newSearchResults.results.results[newIndex]._id,
       { highlight, from: newFrom },
     );
     if (!nextUrl) {
@@ -104,7 +92,7 @@ export function DetailSearchResultsNavigation() {
       <FooterLink
         classes={["pl-10"]}
         onClick={handlePrevResultClick}
-        disabled={isPrevDisabled}
+        disabled={!hasPrevResult(resultIndex) && !hasPrevPage()}
       >
         &lt; {translate("PREV")}
       </FooterLink>
@@ -116,7 +104,10 @@ export function DetailSearchResultsNavigation() {
         <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
         {translate("BACK_TO_SEARCH")}
       </FooterLink>
-      <FooterLink onClick={handleNextResultClick} disabled={isNextDisabled}>
+      <FooterLink
+        onClick={handleNextResultClick}
+        disabled={!hasNextResult(resultIndex, searchParams) && !hasNextPage()}
+      >
         {translate("NEXT")} &gt;
       </FooterLink>
     </>

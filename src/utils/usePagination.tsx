@@ -86,6 +86,7 @@ export function usePagination() {
     hasNextPage,
     selectNextPage,
     fromToPage,
+    getPrevFrom,
     getNextFrom,
   };
 }
