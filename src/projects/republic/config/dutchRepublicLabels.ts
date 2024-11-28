@@ -24,6 +24,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   sliderFacetLabel: "Aantal woorden in resoluties",
   resolutionType: "Resolutietype",
   textType: "Teksttype",
+  facetInputFilterPlaceholder: "Zoek in facet",
 
   attendantId: "Aanwezige gedeputeerde (ID)",
   attendantName: "Aanwezige gedeputeerde (entiteit)",
@@ -121,6 +122,6 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   NEXT: "Volgend resultaat",
   PREV: "Vorig resultaat",
   BACK_TO_SEARCH: "Terug naar resultaten",
-  
+
   OCCURRENCES_PER_YEAR: "Resoluties per jaar",
 });
