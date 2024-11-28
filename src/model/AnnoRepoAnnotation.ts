@@ -23,6 +23,7 @@ export type SessionBody = AnnoRepoBodyBase & {
 
 export type ResolutionBody = AnnoRepoBodyBase & {
   metadata: {
+    type: "ResolutionMetadata";
     inventoryNum: number;
     sourceId: string;
     sessionDate: string;
@@ -45,10 +46,17 @@ export type ResolutionBody = AnnoRepoBodyBase & {
     };
     propositionOrganisation: string;
     proposerRole: string;
+    provUrl: string;
     prevResolutionId: string;
     nextResolutionId: string;
   };
 };
+
+export function isResolution(
+  toTest: AnnoRepoBodyBase,
+): toTest is ResolutionBody {
+  return toTest.type === "Resolution";
+}
 
 export type ReviewedBody = AnnoRepoBodyBase & {
   metadata: {

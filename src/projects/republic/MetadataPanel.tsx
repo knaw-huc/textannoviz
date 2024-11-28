@@ -7,6 +7,7 @@ import { HammerIcon } from "../../components/common/icons/HammerIcon";
 import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoAnnotation,
+  isResolution,
   ResolutionBody,
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
@@ -177,8 +178,15 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
     <>
       <ProvenanceButton
         className="d-block absolute right-5"
-        // TODO
-        onClick={() => toast("Not implemented", { type: "info" })}
+        onClick={() => {
+          if (isResolution(resolution?.body)) {
+            window.open(resolution.body.metadata.provUrl);
+          } else {
+            const msg = "Annotation is not a resolution";
+            console.warn(`${msg}:`, resolution);
+            return toast(msg, { type: "warning" });
+          }
+        }}
       />
       <ul className="m-0 list-none p-0">
         {resolution ? (
