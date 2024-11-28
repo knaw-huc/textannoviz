@@ -1,3 +1,4 @@
+import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,
@@ -11,7 +12,6 @@ import {
   SearchQuery,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
-import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
@@ -100,8 +100,8 @@ type SearchConfig = {
   defaultKeywordAggsToRender: string[];
   overrideDefaultAggs: {
     facetName: string;
-    order: string;
-    size: number;
+    order?: string;
+    size?: number;
   }[];
   allowEmptyStringSearch: boolean;
   showFacetFilter: boolean;

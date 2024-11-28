@@ -57,6 +57,7 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
   name: "Name",
   category: "Category",
   delegates: "Delegates",
+  DELEGATE_LINK: "Link to entity browser",
 
   // text panel titles:
   self: "Text",

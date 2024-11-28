@@ -47,10 +47,16 @@ export const Search = () => {
   }, [isLoadingSearch]);
 
   useEffect(() => {
-    const aborter = new AbortController();
-    if (isDirty) {
-      searchWhenDirty().catch(handleAbort);
+    if (!isDirty) {
+      return;
     }
+
+    const aborter = new AbortController();
+    searchWhenDirty().catch(handleAbort);
+    return () => {
+      setIsLoading(false);
+      aborter.abort();
+    };
 
     async function searchWhenDirty() {
       setIsLoading(true);
@@ -71,26 +77,22 @@ export const Search = () => {
       setShowingResults(true);
       setDirty(false);
     }
-
-    return () => {
-      setIsLoading(false);
-      aborter.abort();
-    };
   }, [isDirty, searchQuery, searchParams]);
 
   async function updateAggs(query: SearchQuery) {
+    setIsLoading(true);
     const newParams = {
       ...searchParams,
       indexName: projectConfig.elasticIndexName,
       size: 0,
     };
 
-    setIsLoading(true);
     const searchResults = await sendSearchQuery(
       projectConfig,
       newParams,
       toRequestBody(query),
     );
+
     setIsLoading(false);
 
     if (searchResults) {

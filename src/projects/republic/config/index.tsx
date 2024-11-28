@@ -15,7 +15,8 @@ import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
-  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
+  broccoliUrl: "https://api.goetgevonden.nl",
+  // broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   // broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
   colours: {
     resolution: "yellow",
@@ -26,14 +27,10 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   },
   relativeTo: "Page",
   annotationTypesToInclude: [
-    "AttendanceList",
-    "RepublicParagraph",
-    "Attendant",
+    // "Paragraph",
     "Resolution",
-    "Reviewed",
     "Session",
     "Entity",
-    // "TextRegion",
     "Page",
     "DateOccurrence",
   ],
@@ -46,7 +43,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
-  elasticIndexName: "republic-2024.09.19",
+  elasticIndexName: "republic-2024.11.18",
   initialDateFrom: "1576-01-10",
   initialDateTo: "1796-01-03",
   initialRangeFrom: "0",
@@ -69,6 +66,30 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
       facetName: "sessionYear",
       order: "countDesc",
       size: 250,
+    },
+    {
+      facetName: "attendantName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "commissionName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "locationName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "organisationName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "personName",
+      order: "keyAsc",
+    },
+    {
+      facetName: "roleName",
+      order: "keyAsc",
     },
   ],
   defaultKeywordAggsToRender: [

@@ -51,7 +51,7 @@ export function FacetFilter(props: FacetFilterProps) {
       </Button>
       {isOpen ? (
         <ListBox
-          aria-label="Filter facets"
+          aria-label={translate("FILTER_FACETS")}
           selectionMode="multiple"
           selectionBehavior="toggle"
           selectedKeys={selected}
