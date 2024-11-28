@@ -215,7 +215,7 @@ export function SearchForm(props: SearchFormProps) {
 
       const newAgg = {
         ...prevAgg,
-        size: showMoreClicked[aggregation] ? 10 : 1000,
+        size: showMoreClicked[aggregation] ? 10 : 9999,
       };
 
       return newAgg;
@@ -342,7 +342,7 @@ export function SearchForm(props: SearchFormProps) {
               </div>
               {Object.keys(facetValue).length < 10 ? null : (
                 <div key={`btn-${index}`}>
-                  {showMoreClicked[facetName] ? (
+                  {Object.keys(facetValue).length > 10 ? (
                     <ShowLessButton
                       showLessButtonClickHandler={() =>
                         showMoreButtonClickHandler(facetName)
