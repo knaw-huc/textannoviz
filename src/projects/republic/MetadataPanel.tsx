@@ -1,23 +1,24 @@
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { UserIcon } from "@heroicons/react/24/solid";
-import React from "react";
+import { Base64 } from "js-base64";
 import { useParams } from "react-router-dom";
-import { HelpTooltip } from "../../components/common/HelpTooltip.tsx";
+import { HelpTooltip } from "../../components/common/HelpTooltip";
+import { HammerIcon } from "../../components/common/icons/HammerIcon";
+import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoAnnotation,
-  AttendanceListBody,
   ResolutionBody,
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
-import { Broccoli } from "../../model/Broccoli";
 import {
-  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli";
+import { SearchQuery } from "../../stores/search/search-query-slice";
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { monthNumberToString } from "../../utils/monthNumberToString";
+import { skipEmptyValues } from "../../utils/skipEmptyValues";
 import {
   isEntity,
   ProjectEntityBody,
@@ -30,6 +31,8 @@ type RenderMetadataPanelProps = {
 };
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
+  const translateProject = useProjectStore(translateProjectSelector);
+
   const params = useParams();
   const entities = props.annotations.filter(
     (anno) => anno.body.type === "Entity",
@@ -38,7 +41,9 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   function filterEntitiesByCategory(category: string) {
     return entities.filter(
       (entity) =>
-        (entity.body as ProjectEntityBody).metadata.category === category,
+        toEntityCategory(
+          (entity.body as ProjectEntityBody).metadata.category,
+        ) === category,
     );
   }
 
@@ -46,7 +51,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const locEntities = filterEntitiesByCategory("LOC");
   const comEntities = filterEntitiesByCategory("COM");
   const orgEntities = filterEntitiesByCategory("ORG");
-  const perEntities = filterEntitiesByCategory("PERS");
+  const perEntities = filterEntitiesByCategory("PER");
 
   return (
     <>
@@ -55,59 +60,41 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
       ) : (
         <div>No panel defined for this annotation type.</div>
       )}
-      <AttendantsMetadata annotations={props.annotations} />
-      <EntitiesMetadata title="Locaties" entities={locEntities} />
-      <EntitiesMetadata title="Hoedanigheden" entities={hoeEntities} />
-      <EntitiesMetadata title="Personen" entities={perEntities} />
-      <EntitiesMetadata title="Commissies" entities={comEntities} />
-      <EntitiesMetadata title="Organisaties" entities={orgEntities} />
+      <DelegatesMetadata annotations={props.annotations} />
+      <EntitiesMetadata
+        title={translateProject("LOC")}
+        entities={locEntities}
+      />
+      <EntitiesMetadata
+        title={translateProject("HOE")}
+        entities={hoeEntities}
+      />
+      <EntitiesMetadata
+        title={translateProject("PER")}
+        entities={perEntities}
+      />
+      <EntitiesMetadata
+        title={translateProject("COM")}
+        entities={comEntities}
+      />
+      <EntitiesMetadata
+        title={translateProject("ORG")}
+        entities={orgEntities}
+      />
     </>
   );
 };
 
-function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
+function DelegatesMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const [attendanceList, setAttendanceList] =
-    React.useState<AnnoRepoAnnotation[]>();
-  const projectConfig = useProjectStore(projectConfigSelector);
+  const session = props.annotations.find(
+    (annotation) => annotation.body.type === "Session",
+  );
 
-  React.useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const bodyTypes = props.annotations.map((anno) => anno.body.type);
-    const session = props.annotations.find(
-      (annotation) => annotation.body.type === "Session",
-    );
-    setAttendanceList(undefined);
-    async function fetchData() {
-      if (!session) return;
-      const result: Broccoli = await fetchBroccoliScanWithOverlap(
-        session.body.id,
-        ["AttendanceList"],
-        ["anno"],
-        "self",
-        "Scan",
-        projectConfig,
-        signal,
-      );
-      setAttendanceList(result.anno);
-    }
-
-    if (!bodyTypes.includes("AttendanceList")) {
-      fetchData();
-    }
-
-    return () => {
-      controller.abort();
-    };
-  }, [projectConfig, props.annotations]);
-
-  if (
-    !attendanceList ||
-    !(attendanceList[0].body as AttendanceListBody).attendanceSpans
-  )
-    return null;
+  const delegates = (session?.body as SessionBody).metadata.delegates.map(
+    (delegate) => delegate,
+  );
 
   return (
     <>
@@ -116,21 +103,65 @@ function AttendantsMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
         <HelpTooltip label={translateProject("ATTENDANTS_LIST_HELP")} />
       </strong>
       <div className={gridOneColumn + "divide divide-y pb-8"}>
-        {(attendanceList[0].body as AttendanceListBody).attendanceSpans.map(
-          (attendant, index) =>
-            attendant.delegateName !== "" ? (
-              <li
-                key={index}
-                className="flex flex-row items-center justify-start gap-1 py-1 text-sm"
-              >
-                <UserIcon className="inline h-3 w-3" />
-                {attendant.delegateName}
+        {delegates.length ? (
+          delegates.map((delegate, index) =>
+            delegate.name !== "" ? (
+              <li key={index} className="flex flex-row gap-1 py-1 text-sm">
+                <div className="flex flex-grow flex-row items-center justify-start gap-1">
+                  <UserIcon className="h-3 w-3 flex-shrink-0" />
+                  <a
+                    title={translateProject("DELEGATE_LINK")}
+                    className="hover:text-brand1-900 text-inherit no-underline hover:underline"
+                    href={delegate.detailsUrl ? delegate.detailsUrl : undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {delegate.name}{" "}
+                    {delegate.province.length > 0 &&
+                      !delegate.province.startsWith("-") &&
+                      "(" + delegate.province + ")"}
+                  </a>
+                  {delegate.president ? (
+                    <div title={translateProject("president")}>
+                      <HammerIcon className="ml-1 h-3 w-3 flex-shrink-0" />
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="flex flex-row items-center justify-end gap-1">
+                  {
+                    <MagnifyingGlassIcon
+                      onClick={() =>
+                        handleDelegateSearchClick(
+                          delegate.delegateID,
+                          delegate.name,
+                        )
+                      }
+                      className="h-3 w-3 flex-shrink-0 cursor-pointer"
+                    />
+                  }
+                </div>
               </li>
             ) : null,
+          )
+        ) : (
+          <div>{translateProject("NO_DATA")}</div>
         )}
       </div>
     </>
   );
+}
+
+function handleDelegateSearchClick(delegateID: string, delegateName: string) {
+  const params = new URLSearchParams();
+  const newQuery = {} as Partial<SearchQuery>;
+  newQuery.terms = {
+    ["delegateId"]: [delegateID],
+    ["delegateName"]: [delegateName],
+  };
+  params.set("query", Base64.encode(JSON.stringify(newQuery, skipEmptyValues)));
+
+  window.open(`/?${params.toString()}`, "_blank");
 }
 
 function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
@@ -208,7 +239,7 @@ function EntitiesMetadata(props: {
 
   return (
     <>
-      <strong>{props.title}</strong>
+      <strong className="capitalize">{props.title}</strong>
       {props.entities.map((entity, index) => (
         <ul key={index}>
           <li className="mb-8">

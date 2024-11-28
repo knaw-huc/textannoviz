@@ -1,7 +1,5 @@
 export type SessionBody = AnnoRepoBodyBase & {
   metadata: {
-    dateShiftStatus: string;
-    hasSessionDateElement: boolean;
     inventoryNum: number;
     isWorkday: boolean;
     linesIncludeRestDay: boolean;
@@ -13,6 +11,13 @@ export type SessionBody = AnnoRepoBodyBase & {
     sessionWeekday: string;
     sessionYear: number;
     textPageNum: number[];
+    delegates: {
+      delegateID: string;
+      name: string;
+      province: string;
+      president: boolean;
+      detailsUrl: string;
+    }[];
   };
 };
 
