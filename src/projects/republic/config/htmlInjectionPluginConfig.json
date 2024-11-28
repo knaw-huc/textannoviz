@@ -1,0 +1,11 @@
+{
+  "injections": [
+    {
+      "name": "Republic HTML injection",
+      "path": "./src/projects/republic/config/republic-html-injection.html",
+      "type": "raw",
+      "injectTo": "head",
+      "buildModes": "both"
+    }
+  ]
+}
