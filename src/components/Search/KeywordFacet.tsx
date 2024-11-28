@@ -49,7 +49,7 @@ export function KeywordFacet(props: {
     const filterFacetItems = (value: string) => {
       return Object.fromEntries(
         Object.entries(props.facet).filter(([facetValueName]) =>
-          facetValueName.toLowerCase().includes(value.toLowerCase()),
+          facetValueName.toLowerCase().startsWith(value.toLowerCase()),
         ),
       );
     };
