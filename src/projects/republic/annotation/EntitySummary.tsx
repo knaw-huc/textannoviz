@@ -11,7 +11,7 @@ import {
 } from "../../../stores/project.ts";
 import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
-import { isDateEntity } from "./ProjectAnnotationModel.ts";
+import { isDateEntity, isEntity } from "./ProjectAnnotationModel.ts";
 import { ProvenanceButton } from "./ProvenanceButton.tsx";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
@@ -27,7 +27,12 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   };
 
   const handleProvenanceBrowseClick = () => {
-    return toast("Not implemented", { type: "info" });
+    if (!isEntity(props.body)) {
+      const msg = "Annotation is not an entity";
+      console.warn(`${msg}:`, props.body);
+      return toast(msg, { type: "warning" });
+    }
+    window.open(props.body.metadata.provenance);
   };
 
   const handleEntitySearchClick = () => {
