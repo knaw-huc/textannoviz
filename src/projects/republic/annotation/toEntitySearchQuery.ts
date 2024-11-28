@@ -2,7 +2,7 @@ import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 import { skipEmptyValues } from "../../../utils/skipEmptyValues.ts";
 import { Base64 } from "js-base64";
 import {
-  entityCategoryToFacetName,
+  entityCategoryToAgg,
   isDateEntity,
   isEntityEntity,
 } from "./ProjectAnnotationModel.ts";
@@ -14,7 +14,11 @@ export function toEntitySearchQuery(anno: AnnoRepoBodyBase): URLSearchParams {
     return createSearchQueryParam(toDateEntityQueryParams(anno.metadata.date));
   } else if (isEntityEntity(anno)) {
     return createSearchQueryParam(
-      toEntityQueryParam(anno.metadata.category, anno.metadata.name),
+      toEntityTerms(
+        anno.metadata.category,
+        anno.metadata.name,
+        anno.metadata.entityID,
+      ),
     );
   } else {
     throw new Error("Unknown entity " + JSON.stringify(anno));
@@ -28,18 +32,21 @@ function toDateEntityQueryParams(date: string): Partial<SearchQuery> {
   return queryWithDate;
 }
 
-function toEntityQueryParam(
+function toEntityTerms(
   annoCategory: string,
-  entityName: string,
+  name: string,
+  id: string,
 ): Partial<SearchQuery> {
-  const entityIdFacetName =
-    entityCategoryToFacetName[toEntityCategory(annoCategory)];
+  const entityAgg = entityCategoryToAgg[toEntityCategory(annoCategory)];
+
   if (!annoCategory) {
     throw new Error("Unknown entity category " + annoCategory);
   }
+
   return {
     terms: {
-      [entityIdFacetName]: [entityName],
+      [`${entityAgg}Name`]: [name],
+      [`${entityAgg}Id`]: [id],
     },
   };
 }
