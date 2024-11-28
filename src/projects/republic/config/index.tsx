@@ -52,7 +52,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   logoImageUrl: logo,
   headerColor: "bg-brand1-950 text-brand1-400",
   headerTitle: "",
-  logoHref: "https://republic.huygens.knaw.nl/",
+  logoHref: "https://goetgevonden.nl",
   histogramFacet: "sessionYear",
   showHistogram: true,
   showSliderFacets: true,
