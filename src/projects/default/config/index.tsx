@@ -7,7 +7,6 @@ import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
-import { HelpLink } from "../HelpLink.tsx";
 
 /**
  * Default configuration file with some sensible defaults
@@ -83,7 +82,7 @@ export const defaultConfig: Omit<
     AnnotationButtons: Empty,
     EntitySummary: Placeholder,
     Help: Placeholder,
-    HelpLink: HelpLink,
+    HelpLink: Empty,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,
     SearchItem: SearchItem,
