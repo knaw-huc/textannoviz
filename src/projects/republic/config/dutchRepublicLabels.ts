@@ -25,8 +25,8 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   resolutionType: "Resolutietype",
   textType: "Teksttype",
 
-  attendantId: "Aanwezige gedeputeerde (ID)",
-  attendantName: "Aanwezige gedeputeerde (entiteit)",
+  attendantId: "Gedeputeerde (ID)",
+  attendantName: "Gedeputeerde (entiteit)",
   commissionId: "Commissie (ID)",
   commissionName: "Commissie (entiteit)",
   commissionLabels: "Commissie (categorie)",
