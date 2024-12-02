@@ -5,7 +5,7 @@ export function HelpLink() {
         title="Help"
         rel="noreferrer"
         href={window.location.pathname === "/help" ? "/" : "/help"}
-        className="hover:text-brand1-100 text-inherit no-underline hover:underline"
+        className="text-inherit no-underline hover:underline"
       >
         {window.location.pathname === "/help" ? "Search" : "Help"}
       </a>
