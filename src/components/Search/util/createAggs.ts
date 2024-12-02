@@ -9,5 +9,5 @@ export function createAggs(
   urlAggs?: NamedFacetAgg[],
 ): NamedFacetAgg[] {
   const defaultAggs = createDefaultAggs(newFacetTypes, projectConfig);
-  return _.merge([], defaultAggs, urlAggs ?? []);
+  return _.merge([], defaultAggs, urlAggs);
 }
