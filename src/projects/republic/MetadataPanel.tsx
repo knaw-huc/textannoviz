@@ -177,7 +177,7 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
   return (
     <>
       <ProvenanceButton
-        className="d-block absolute right-5"
+        className="d-block float-right"
         onClick={() => {
           if (isResolution(resolution?.body)) {
             const provUrl = resolution.body.metadata.provUrl.at(-1);
