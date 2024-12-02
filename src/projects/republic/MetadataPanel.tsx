@@ -180,7 +180,8 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
         className="d-block absolute right-5"
         onClick={() => {
           if (isResolution(resolution?.body)) {
-            window.open(resolution.body.metadata.provUrl);
+            const provUrl = resolution.body.metadata.provUrl.at(-1);
+            window.open(provUrl, "_blank");
           } else {
             const msg = "Annotation is not a resolution";
             console.warn(`${msg}:`, resolution);
