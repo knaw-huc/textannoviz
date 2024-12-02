@@ -127,9 +127,13 @@ export type Facet = Record<FacetOptionName, number>;
  */
 export type Terms = Record<FacetName, FacetOptionName[]>;
 
-type FacetAgg = {
+export type FacetAgg = {
   order: "countDesc" | "countAsc" | string;
   size: number;
+};
+
+export type NamedFacetAgg = FacetAgg & {
+  facetName: FacetName;
 };
 type Aggs = Record<FacetName, FacetAgg>;
 export type SearchQueryRequestBody =
@@ -168,11 +172,7 @@ export type SearchParams = {
 export type SearchQuery = {
   dateFacet?: FacetName;
   rangeFacet?: FacetName;
-  aggs?: {
-    facetName: string;
-    order: string;
-    size: number;
-  }[];
+  aggs?: NamedFacetAgg[];
   dateFrom: string;
   dateTo: string;
   rangeFrom: string;
@@ -182,3 +182,5 @@ export type SearchQuery = {
 };
 
 export type FacetEntry = [FacetName, Facet];
+export type IndexName = string;
+export type ElasticIndices = Record<IndexName, FacetTypes>;

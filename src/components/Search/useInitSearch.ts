@@ -1,6 +1,5 @@
 import { getElasticIndices } from "../../utils/broccoli.ts";
 import { toast } from "react-toastify";
-import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import { SearchQuery } from "../../model/Search.ts";
@@ -16,6 +15,7 @@ import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
+import { createAggs } from "./util/createAggs.ts";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -58,7 +58,11 @@ export function useInitSearch() {
     }
 
     const newFacetTypes = newIndices[projectConfig.elasticIndexName];
-    const aggregations = createAggs(newFacetTypes, projectConfig);
+    const aggregations = createAggs(
+      newFacetTypes,
+      projectConfig,
+      searchQuery.aggs,
+    );
     const newFacets = await getFacets(
       projectConfig,
       aggregations,
