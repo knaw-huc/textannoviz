@@ -22,7 +22,8 @@ export const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
   const { searchQuery, searchParams, toFirstPage } = useSearchUrlParams();
-
+  const { isInitSearch, isLoadingSearch } = useInitSearch();
+  const { getSearchResults } = useSearchResults();
   const {
     setSearchResults,
     searchFacetTypes,
@@ -31,10 +32,6 @@ export const Search = () => {
     addToHistory,
     searchResults,
   } = useSearchStore();
-
-  const { isInitSearch, isLoadingSearch } = useInitSearch();
-
-  const { getSearchResults } = useSearchResults();
 
   useEffect(() => {
     if (isInitSearch && searchResults) {
