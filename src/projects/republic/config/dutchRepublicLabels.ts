@@ -124,5 +124,5 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
 
   OCCURRENCES_PER_YEAR: "Resoluties per jaar",
 
-  PROVENANCE: "View provenance",
+  PROVENANCE: "Bekijk provenance",
 });
