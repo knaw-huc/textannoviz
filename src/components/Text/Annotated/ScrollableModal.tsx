@@ -4,7 +4,10 @@ import { Button, Dialog, Modal } from "react-aria-components";
 
 export function ScrollableModal(props: PropsWithChildren<unknown>) {
   return (
-    <Modal className="h-fit w-full max-w-4xl rounded-lg bg-white shadow-xl">
+    <Modal
+      isDismissable
+      className="h-fit w-full max-w-4xl rounded-lg bg-white shadow-xl"
+    >
       <Dialog>
         {({ close }) => (
           <div className="scrollable-modal-content">
