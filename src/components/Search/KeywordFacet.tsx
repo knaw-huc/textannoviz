@@ -159,7 +159,7 @@ export function KeywordFacet(props: {
                 >
                   Entiteitenbrowser
                 </a>{" "}
-                kunt u alle entiteiten vinden.
+                kun je alle entiteiten vinden.
               </>
             ) : null}
           </span>
