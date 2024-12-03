@@ -95,7 +95,6 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   defaultKeywordAggsToRender: [
     "propositionType",
-    "textType",
     "resolutionType",
     "attendantName",
     "commissionName",
