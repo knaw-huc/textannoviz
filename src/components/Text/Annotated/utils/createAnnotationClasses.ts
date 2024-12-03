@@ -68,7 +68,7 @@ function createStartEndClasses(
 }
 
 // TODO: move to project config
-const dataToEntityCategory = {
+const annoToEntityCategory = {
   COM: "COM",
   DAT: "DAT",
   HOE: "HOE",
@@ -94,7 +94,7 @@ export function toEntityCategory(annotationCategory?: string) {
   if (!annotationCategory) {
     return unknownCategory;
   }
-  return dataToEntityCategory[annotationCategory] ?? unknownCategory;
+  return annoToEntityCategory[annotationCategory] ?? unknownCategory;
 }
 
 export function normalizeClassname(annotationCategory: string) {
