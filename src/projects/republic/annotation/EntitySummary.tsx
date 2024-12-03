@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
   toEntityCategory,
   toEntityClassname,
@@ -9,9 +10,13 @@ import {
   useProjectStore,
 } from "../../../stores/project.ts";
 import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
-import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
-import { isDateEntity, isEntityEntity } from "./ProjectAnnotationModel.ts";
+import {
+  isDateEntity,
+  isEntity,
+  isEntityEntity,
+} from "./ProjectAnnotationModel.ts";
 import { ProvenanceButton } from "./ProvenanceButton.tsx";
+import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
