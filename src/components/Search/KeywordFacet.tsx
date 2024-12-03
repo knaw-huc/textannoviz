@@ -2,6 +2,7 @@ import _, { debounce } from "lodash";
 import React from "react";
 import { Facet, Terms } from "../../model/Search.ts";
 import {
+  projectNameSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
@@ -27,6 +28,7 @@ export function KeywordFacet(props: {
 }) {
   const { searchQuery, setSearchQuery } = useSearchStore();
   const translateProject = useProjectStore(translateProjectSelector);
+  const projectName = useProjectStore(projectNameSelector);
   const [selected, setSelected] = React.useState<string[]>(
     props.selectedFacets[props.facetName] ?? [],
   );
@@ -143,7 +145,7 @@ export function KeywordFacet(props: {
             </div>
           );
         })}
-        {facetLength > 10 ? (
+        {projectName === "republic" && facetLength > 10 ? (
           //TODO: make generic
           <span className="pl-2 text-sm text-neutral-500">
             {Math.min(maxFacetItemsVisible, facetLength)} van {facetLength}{" "}
