@@ -43,6 +43,15 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   roleName: "Hoedanigheid (entiteit)",
   roleLabels: "Hoedanigheid (categorie)",
 
+  delegateName: "Gedeputeerde (entiteit)",
+  roleCategories: "Hoedanigheid (categorie)",
+  locationCategories: "Locatie (categorie)",
+  organisationCategories: "Organisatie (categorie)",
+  commissionCategories: "Commissie (categorie)",
+  delegateId: "Gedeputeerde (ID)",
+  delegateProvince: "Gedeputeerde (provincie)",
+  delegateIsPresident: "Gedeputeerde (voorzitter)",
+
   // search results:
   results: "resoluties",
 
