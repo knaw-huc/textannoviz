@@ -24,6 +24,7 @@ type EntityBody = AnnoRepoBodyBase & {
     category: string;
     entityID: string;
     entityLabels: string[];
+    entityDetails: string;
     inventoryNum: string;
     name: string;
     provenance: string;

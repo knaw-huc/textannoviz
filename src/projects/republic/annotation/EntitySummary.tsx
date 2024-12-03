@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import {
   toEntityCategory,
   toEntityClassname,
@@ -11,7 +10,7 @@ import {
 } from "../../../stores/project.ts";
 import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
-import { isDateEntity, isEntity } from "./ProjectAnnotationModel.ts";
+import { isDateEntity, isEntityEntity } from "./ProjectAnnotationModel.ts";
 import { ProvenanceButton } from "./ProvenanceButton.tsx";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
@@ -23,7 +22,9 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const entityClassname = toEntityClassname(entityCategory);
 
   const handleEntityBrowseClick = () => {
-    return toast("Not implemented", { type: "info" });
+    if (isEntityEntity(props.body)) {
+      window.open(props.body.metadata.entityDetails, "_blank");
+    }
   };
 
   const handleProvenanceBrowseClick = () => {
@@ -65,7 +66,6 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
           <div>
             <button
               className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-              // TODO:
               onClick={handleEntityBrowseClick}
             >
               {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
