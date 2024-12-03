@@ -157,7 +157,7 @@ export function KeywordFacet(props: {
                   rel="noreferrer"
                   href="https://entiteiten.goetgevonden.nl"
                 >
-                  Entiteitenbrowser
+                  entiteitenbrowser
                 </a>{" "}
                 kun je alle entiteiten vinden.
               </>
