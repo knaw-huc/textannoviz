@@ -24,6 +24,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   sliderFacetLabel: "Aantal woorden in resoluties",
   resolutionType: "Resolutietype",
   textType: "Teksttype",
+  facetInputFilterPlaceholder: "Zoek in facet",
 
   attendantId: "Gedeputeerde (ID)",
   attendantName: "Gedeputeerde (entiteit)",

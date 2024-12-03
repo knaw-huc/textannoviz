@@ -1,6 +1,8 @@
+import _, { debounce } from "lodash";
 import React from "react";
 import { Facet, Terms } from "../../model/Search.ts";
 import {
+  projectNameSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
@@ -10,7 +12,7 @@ import {
   CheckboxComponent,
   CheckboxGroupComponent,
 } from "../common/CheckboxGroupComponent.tsx";
-import _ from "lodash";
+import { FacetItemsFilter } from "./FacetItemsFilter.tsx";
 
 export function KeywordFacet(props: {
   facetName: string;
@@ -24,16 +26,39 @@ export function KeywordFacet(props: {
   onSearch: (stayOnPage?: boolean) => void;
   updateAggs: (query: SearchQuery) => void;
 }) {
-  const facetLength = Object.keys(props.facet).length;
   const { searchQuery, setSearchQuery } = useSearchStore();
   const translateProject = useProjectStore(translateProjectSelector);
+  const projectName = useProjectStore(projectNameSelector);
   const [selected, setSelected] = React.useState<string[]>(
     props.selectedFacets[props.facetName] ?? [],
   );
+  const [filteredFacets, setFilteredFacets] = React.useState<Facet>(
+    props.facet,
+  );
+  const [filterValue, setFilterValue] = React.useState<string>("");
+  const facetLength = Object.keys(filteredFacets).length;
 
   const sortOrder = searchQuery.aggs?.find(
     (agg) => agg.facetName === props.facetName,
   )?.order;
+
+  const maxFacetItemsVisible = 100;
+  const slicedFacetItems =
+    facetLength > maxFacetItemsVisible
+      ? Object.entries(filteredFacets).slice(0, maxFacetItemsVisible)
+      : Object.entries(filteredFacets);
+
+  React.useEffect(() => {
+    const filterFacetItems = (value: string) => {
+      return Object.fromEntries(
+        Object.entries(props.facet).filter(([facetValueName]) =>
+          facetValueName.toLowerCase().includes(value.toLowerCase()),
+        ),
+      );
+    };
+
+    setFilteredFacets(filterFacetItems(filterValue));
+  }, [props.facet, filterValue]);
 
   function checkboxChangeHandler(newSelected: string[]) {
     setSelected(newSelected);
@@ -62,6 +87,19 @@ export function KeywordFacet(props: {
 
     props.updateAggs(newQuery);
   }
+
+  const debouncedFilterFacets = React.useMemo(
+    () =>
+      debounce((value: string) => {
+        setFilterValue(value);
+      }, 300),
+    [],
+  );
+
+  function inputFilterOnChangeHandler(value: string) {
+    debouncedFilterFacets(value);
+  }
+
   return (
     <>
       <CheckboxGroupComponent
@@ -74,38 +112,60 @@ export function KeywordFacet(props: {
         facetLength={facetLength}
         sortOrder={sortOrder}
       >
-        {Object.entries(props.facet).map(
-          ([facetValueName, facetValueCount], index) => {
-            const isSelected =
-              !!props.selectedFacets[props.facetName]?.includes(facetValueName);
-            const facetOptionKey = `${props.facetName}-${facetValueName}`;
-            return (
-              <div
+        <FacetItemsFilter
+          inputFilterOnChangeHandler={inputFilterOnChangeHandler}
+        />
+        {slicedFacetItems.map(([facetValueName, facetValueCount], index) => {
+          const isSelected =
+            !!props.selectedFacets[props.facetName]?.includes(facetValueName);
+          const facetOptionKey = `${props.facetName}-${facetValueName}`;
+          return (
+            <div
+              key={index}
+              className="flex w-full flex-row items-center justify-between"
+            >
+              <CheckboxComponent
+                id={facetOptionKey}
                 key={index}
-                className="flex w-full flex-row items-center justify-between"
+                value={facetValueName}
+                onChange={() =>
+                  props.onChangeKeywordFacet(
+                    props.facetName,
+                    facetValueName,
+                    !isSelected,
+                  )
+                }
+                isSelected={isSelected}
               >
-                <CheckboxComponent
-                  id={facetOptionKey}
-                  key={index}
-                  value={facetValueName}
-                  onChange={() =>
-                    props.onChangeKeywordFacet(
-                      props.facetName,
-                      facetValueName,
-                      !isSelected,
-                    )
-                  }
-                  isSelected={isSelected}
-                >
-                  {translateProject(facetValueName)}
-                </CheckboxComponent>
-                <div className="pr-2 text-sm text-neutral-500">
-                  {facetValueCount}
-                </div>
+                {translateProject(facetValueName)}
+              </CheckboxComponent>
+              <div className="pr-2 text-sm text-neutral-500">
+                {facetValueCount}
               </div>
-            );
-          },
-        )}
+            </div>
+          );
+        })}
+        {projectName === "republic" && facetLength > 10 ? (
+          //TODO: make generic
+          <span className="pl-2 text-sm text-neutral-500">
+            {Math.min(maxFacetItemsVisible, facetLength)} van {facetLength}{" "}
+            items.{" "}
+            {maxFacetItemsVisible < facetLength ? (
+              <>
+                Gebruik de zoekbalk om door alle {facetLength} items te zoeken.
+                In de{" "}
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://entiteiten.goetgevonden.nl"
+                >
+                  entiteitenbrowser
+                </a>{" "}
+                kun je alle entiteiten vinden.
+              </>
+            ) : null}
+          </span>
+        ) : null}
       </CheckboxGroupComponent>
     </>
   );
