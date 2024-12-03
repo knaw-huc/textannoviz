@@ -8,6 +8,7 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishGlobaliseLabels } from "./englishGlobaliseLabels.ts";
+import { HelpLink } from "../HelpLink.tsx";
 
 export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "globalise",
@@ -48,6 +49,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   components: {
     AnnotationButtons,
     Help,
+    HelpLink,
     MetadataPanel,
     SearchInfoPage,
     SearchItem,

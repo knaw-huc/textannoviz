@@ -20,6 +20,7 @@ import {
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { Empty } from "../../../components/Empty.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -102,13 +103,13 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showKeywordFacets: false,
   showFacetFilter: false,
   showMiradorNavigationButtons: false,
-  showHelpLink: false,
   components: {
     EntitySummary,
     SearchItem,
     MetadataPanel,
     AnnotationButtons,
     SearchInfoPage,
+    HelpLink: Empty,
   },
 
   selectedLanguage: "en",
