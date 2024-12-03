@@ -13,6 +13,7 @@ export type DateEntityBody = AnnoRepoBodyBase & {
   text: string;
   metadata: {
     date: string;
+    provenance: string;
   };
 };
 
@@ -25,6 +26,7 @@ type EntityBody = AnnoRepoBodyBase & {
     entityLabels: string[];
     inventoryNum: string;
     name: string;
+    provenance: string;
   };
 };
 
