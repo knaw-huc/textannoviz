@@ -5,12 +5,9 @@ import React from "react";
 import type { Key, Selection } from "react-aria-components";
 import {
   projectConfigSelector,
+  translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import {
-  FacetEntry,
-  SearchQuery,
-} from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { DateFacet } from "./DateFacet.tsx";
 import { FacetFilter } from "./FacetFilter.tsx";
@@ -24,6 +21,10 @@ import { ShowLessButton } from "./ShowLessButton.tsx";
 import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
+import { FacetEntry, SearchQuery } from "../../model/Search.ts";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
+import { toast } from "react-toastify";
 
 interface SearchFormProps {
   onSearch: () => void;
@@ -46,14 +47,11 @@ export function SearchForm(props: SearchFormProps) {
     React.useState<ShowMoreClickedState>({});
   const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
   const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
+  const translate = useProjectStore(translateSelector);
 
-  const {
-    searchUrlParams,
-    setSearchUrlParams,
-    searchQuery,
-    setSearchQuery,
-    searchResults,
-  } = useSearchStore();
+  const { searchResults } = useSearchStore();
+  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
+    useSearchUrlParams();
 
   const debouncedOnSearch = React.useCallback(
     debounce(() => {
@@ -100,13 +98,13 @@ export function SearchForm(props: SearchFormProps) {
         newTerms[facetName] = [facetOptionName];
       }
     }
-    setSearchQuery({ ...searchQuery, terms: newTerms });
+    updateSearchQuery({ terms: newTerms });
     onSearch();
   }
 
   function updateSliderFacet(newValue: number | number[]) {
     if (Array.isArray(newValue)) {
-      setSearchQuery({
+      updateSearchQuery({
         ...searchQuery,
         rangeFrom: newValue[0].toString(),
         rangeTo: newValue[1].toString(),
@@ -116,7 +114,7 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function goToQuery(query: SearchQuery) {
-    setSearchQuery(query);
+    updateSearchQuery(query);
     onSearch();
   }
 
@@ -124,8 +122,7 @@ export function SearchForm(props: SearchFormProps) {
     if (!key) {
       return;
     }
-    setSearchUrlParams({
-      ...searchUrlParams,
+    updateSearchParams({
       fragmentSize: key as number,
     });
     if (searchResults) {
@@ -134,11 +131,11 @@ export function SearchForm(props: SearchFormProps) {
   };
 
   function updateFullText(value: string) {
-    setSearchQuery({ ...searchQuery, fullText: value });
+    updateSearchQuery({ fullText: value });
   }
 
   function resetDates(update: { dateFrom: string; dateTo: string }) {
-    setSearchQuery({
+    updateSearchQuery({
       ...searchQuery,
       dateFrom: update.dateFrom,
       dateTo: update.dateTo,
@@ -148,7 +145,7 @@ export function SearchForm(props: SearchFormProps) {
 
   function fromDateChangeHandler(newFromDate: string, isValid: boolean) {
     setIsFromDateValid(isValid);
-    setSearchQuery({
+    updateSearchQuery({
       ...searchQuery,
       dateFrom: newFromDate,
     });
@@ -160,7 +157,7 @@ export function SearchForm(props: SearchFormProps) {
 
   function toDateChangeHandler(newToDate: string, isValid: boolean) {
     setIsToDateValid(isValid);
-    setSearchQuery({
+    updateSearchQuery({
       ...searchQuery,
       dateTo: newToDate,
     });
@@ -177,10 +174,7 @@ export function SearchForm(props: SearchFormProps) {
       [projectConfig.inputFacetOptions]: uniqValues,
     };
 
-    setSearchQuery({
-      ...searchQuery,
-      terms: newTerms,
-    });
+    updateSearchQuery({ terms: newTerms });
     onSearch();
   }
 
@@ -191,15 +185,20 @@ export function SearchForm(props: SearchFormProps) {
       [projectConfig.inputFacetOptions]: uniqValues,
     };
 
-    setSearchQuery({
-      ...searchQuery,
-      terms: newTerms,
-    });
+    updateSearchQuery({ terms: newTerms });
   }
 
   function fullTextSearchBarSubmitHandler(value: string) {
-    const sanitisedValue = value.trim();
-    updateFullText(sanitisedValue);
+    const sanitized = sanitizeFullText(value);
+    const isEmptySearch =
+      !sanitized.length && !projectConfig.allowEmptyStringSearch;
+
+    if (isEmptySearch) {
+      return toast(translate("NO_SEARCH_STRING"), {
+        type: "warning",
+      });
+    }
+    updateFullText(sanitized);
     onSearch();
   }
 
@@ -226,7 +225,7 @@ export function SearchForm(props: SearchFormProps) {
       aggs: newAggs,
     };
 
-    setSearchQuery(newQuery);
+    updateSearchQuery(newQuery);
 
     setShowMoreClicked({
       ...showMoreClicked,
@@ -285,7 +284,7 @@ export function SearchForm(props: SearchFormProps) {
       <div className="w-full max-w-[450px]">
         <FragmenterSelection
           onChange={updateFragmenter}
-          value={searchUrlParams.fragmentSize}
+          value={searchParams.fragmentSize}
         />
       </div>
 

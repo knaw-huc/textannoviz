@@ -14,7 +14,6 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { SearchQuery } from "../../stores/search/search-query-slice";
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { monthNumberToString } from "../../utils/monthNumberToString";
@@ -23,6 +22,7 @@ import {
   isEntity,
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
+import { SearchQuery } from "../../model/Search.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
