@@ -32,8 +32,6 @@ interface SearchFormProps {
   updateAggs: (query: SearchQuery) => void;
 }
 
-type ShowMoreClickedState = Record<string, boolean>;
-
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
 
@@ -42,8 +40,7 @@ export function SearchForm(props: SearchFormProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
-  const [showMoreClicked, setShowMoreClicked] =
-    React.useState<ShowMoreClickedState>({});
+
   const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
   const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
 
@@ -207,15 +204,23 @@ export function SearchForm(props: SearchFormProps) {
     updateFullText(value);
   }
 
-  function showMoreButtonClickHandler(aggregation: string) {
+  function showLessMoreButtonClickHandler(
+    aggregation: string,
+    facetLength: number,
+  ) {
     const prevAggs = searchQuery.aggs;
+    const defaultFacetLength = 10;
+    const maxFacetLength = 9999;
 
     const newAggs = prevAggs?.map((prevAgg) => {
       if (!prevAgg.facetName.startsWith(aggregation)) return prevAgg;
 
       const newAgg = {
         ...prevAgg,
-        size: showMoreClicked[aggregation] ? 10 : 9999,
+        size:
+          facetLength > defaultFacetLength
+            ? defaultFacetLength
+            : maxFacetLength,
       };
 
       return newAgg;
@@ -227,11 +232,6 @@ export function SearchForm(props: SearchFormProps) {
     };
 
     setSearchQuery(newQuery);
-
-    setShowMoreClicked({
-      ...showMoreClicked,
-      [aggregation]: !showMoreClicked[aggregation],
-    });
 
     props.updateAggs(newQuery);
   }
@@ -345,13 +345,21 @@ export function SearchForm(props: SearchFormProps) {
                   {Object.keys(facetValue).length > 10 ? (
                     <ShowLessButton
                       showLessButtonClickHandler={() =>
-                        showMoreButtonClickHandler(facetName)
+                        showLessMoreButtonClickHandler(
+                          facetName,
+                          Object.keys(facetValue).length,
+                        )
                       }
                       facetName={facetName}
                     />
                   ) : (
                     <ShowMoreButton
-                      showMoreButtonClickHandler={showMoreButtonClickHandler}
+                      showMoreButtonClickHandler={() =>
+                        showLessMoreButtonClickHandler(
+                          facetName,
+                          Object.keys(facetValue).length,
+                        )
+                      }
                       facetName={facetName}
                     />
                   )}

@@ -11,6 +11,7 @@ import {
   CheckboxComponent,
   CheckboxGroupComponent,
 } from "../common/CheckboxGroupComponent.tsx";
+import { FacetItemsFilter } from "./FacetItemsFilter.tsx";
 
 export function KeywordFacet(props: {
   facetName: string;
@@ -109,12 +110,8 @@ export function KeywordFacet(props: {
         facetLength={facetLength}
         sortOrder={sortOrder}
       >
-        <input
-          className="ml-2 mr-2 h-8 rounded-md border px-2 py-1.5 text-sm text-gray-800 outline outline-0 focus-within:border-black"
-          onChange={(event) =>
-            inputFilterOnChangeHandler(event.currentTarget.value)
-          }
-          placeholder={translateProject("facetInputFilterPlaceholder")}
+        <FacetItemsFilter
+          inputFilterOnChangeHandler={inputFilterOnChangeHandler}
         />
         {slicedFacetItems.map(([facetValueName, facetValueCount], index) => {
           const isSelected =
@@ -147,12 +144,24 @@ export function KeywordFacet(props: {
           );
         })}
         {facetLength > 10 ? (
+          //TODO: make generic
           <span className="pl-2 text-sm text-neutral-500">
             {Math.min(maxFacetItemsVisible, facetLength)} van {facetLength}{" "}
             items.{" "}
-            {maxFacetItemsVisible < facetLength
-              ? "Gebruik zoekbalk om door de rest te zoeken."
-              : null}
+            {maxFacetItemsVisible < facetLength ? (
+              <>
+                Gebruik de zoekbalk om door alle {facetLength} items te zoeken.
+                In de{" "}
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://entiteiten.goetgevonden.nl"
+                >
+                  Entiteitenbrowser
+                </a>{" "}
+                kunt u alle entiteiten vinden.
+              </>
+            ) : null}
           </span>
         ) : null}
       </CheckboxGroupComponent>
