@@ -104,7 +104,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
     "Filter op categorie van de hoedanigheden. Hoedanigheden zijn de rollen of functies waarin personen in de resoluties voorkomen.",
   BODY_TYPE_HELP: "",
   PROPOSITION_TYPE_HELP:
-    "De ‘propositie’ was het voorstel dat leidde tot een besluit (resolutie), meestal schriftelijk (missive, requeste etc.), maar soms mondeling ingediend.",
+    "De ‘propositie’ was het voorstel dat leidde tot een besluit (resolutie), meestal schriftelijk (missive, rekest etc.), maar soms mondeling ingediend.",
   RESOLUTION_TYPE_HELP:
     "Het bestand omvat gewone (ordinaris), geheime (secreet) en speciale resoluties (over bijzondere onderwerpen).",
   TEXT_TYPE_HELP:
