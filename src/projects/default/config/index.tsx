@@ -29,8 +29,6 @@ export const defaultConfig: Omit<
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
 
-  showHelpLink: true,
-
   showAnnotations: false,
 
   annotationTypesToInclude: [],
@@ -84,6 +82,7 @@ export const defaultConfig: Omit<
     AnnotationButtons: Empty,
     EntitySummary: Placeholder,
     Help: Placeholder,
+    HelpLink: Empty,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,
     SearchItem: SearchItem,
