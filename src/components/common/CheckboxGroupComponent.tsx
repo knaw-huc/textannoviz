@@ -47,6 +47,7 @@ export function CheckboxGroupComponent({
             <div className="flex flex-row gap-1">
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyAsc")}
+                aria-label={"Order facetitems from A to Z"}
                 className={`${
                   props.sortOrder === "keyAsc"
                     ? "fill-black"
@@ -58,6 +59,7 @@ export function CheckboxGroupComponent({
               <span className="text-brand2-400 text-2xl"> | </span>
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyDesc")}
+                aria-label={"Order facetitems from Z to A"}
                 className={`${
                   props.sortOrder === "keyDesc"
                     ? "fill-black"
@@ -69,6 +71,7 @@ export function CheckboxGroupComponent({
               <span className="text-brand2-400 text-2xl"> | </span>
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "countDesc")}
+                aria-label={"Order facetitems by amount"}
                 className={`${
                   props.sortOrder === "countDesc"
                     ? "fill-black"

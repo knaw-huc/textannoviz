@@ -51,7 +51,7 @@ export const SearchItem = (
             <div className="font-semibold">
               {translateProject(props.result.bodyType)}
             </div>
-            <div className="text-brand1Grey-500 italic">
+            <div className="text-brand1Grey-700 italic">
               {props.result.resolutionType}, {props.result.textType}
             </div>
           </div>
