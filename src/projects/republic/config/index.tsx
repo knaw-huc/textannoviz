@@ -9,10 +9,10 @@ import {
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { HelpLink } from "../HelpLink.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
-import { HelpLink } from "../HelpLink.tsx";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -69,7 +69,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
       size: 250,
     },
     {
-      facetName: "attendantName",
+      facetName: "delegateName",
       order: "keyAsc",
     },
     {
@@ -96,7 +96,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   defaultKeywordAggsToRender: [
     "propositionType",
     "resolutionType",
-    "attendantName",
+    "delegateName",
     "commissionName",
     "locationName",
     "organisationName",
