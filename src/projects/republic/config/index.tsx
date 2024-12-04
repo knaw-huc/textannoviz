@@ -9,6 +9,7 @@ import {
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { HelpLink } from "../HelpLink.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
@@ -45,15 +46,15 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
   elasticIndexName: "republic-2024.11.18",
-  initialDateFrom: "1576-01-10",
-  initialDateTo: "1796-01-03",
+  initialDateFrom: "1576-08-04",
+  initialDateTo: "1796-03-01",
   initialRangeFrom: "0",
   initialRangeTo: "66000",
   maxRange: 66000,
   logoImageUrl: logo,
   headerColor: "bg-brand1-950 text-brand1-400",
   headerTitle: "",
-  logoHref: "https://republic.huygens.knaw.nl/",
+  logoHref: "https://goetgevonden.nl",
   histogramFacet: "sessionYear",
   showHistogram: true,
   showSliderFacets: true,
@@ -69,35 +70,40 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
       size: 250,
     },
     {
-      facetName: "attendantName",
+      facetName: "delegateName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "commissionName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "locationName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "organisationName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "personName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "roleName",
       order: "keyAsc",
+      size: 9999,
     },
   ],
   defaultKeywordAggsToRender: [
     "propositionType",
-    "textType",
     "resolutionType",
-    "attendantName",
+    "delegateName",
     "commissionName",
     "locationName",
     "organisationName",
@@ -111,6 +117,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     MetadataPanel,
     SearchItem,
     AnnotationButtons,
+    HelpLink,
     SearchInfoPage,
   },
   selectedLanguage: "nl",

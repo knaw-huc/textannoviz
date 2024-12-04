@@ -24,9 +24,10 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   sliderFacetLabel: "Aantal woorden in resoluties",
   resolutionType: "Resolutietype",
   textType: "Teksttype",
+  facetInputFilterPlaceholder: "Zoek in facet",
 
-  attendantId: "Aanwezige gedeputeerde (ID)",
-  attendantName: "Aanwezige gedeputeerde (entiteit)",
+  attendantId: "Gedeputeerde (ID)",
+  attendantName: "Gedeputeerde (entiteit)",
   commissionId: "Commissie (ID)",
   commissionName: "Commissie (entiteit)",
   commissionLabels: "Commissie (categorie)",
@@ -43,6 +44,15 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   roleName: "Hoedanigheid (entiteit)",
   roleLabels: "Hoedanigheid (categorie)",
 
+  delegateName: "Gedeputeerde (entiteit)",
+  roleCategories: "Hoedanigheid (categorie)",
+  locationCategories: "Locatie (categorie)",
+  organisationCategories: "Organisatie (categorie)",
+  commissionCategories: "Commissie (categorie)",
+  delegateId: "Gedeputeerde (ID)",
+  delegateProvince: "Gedeputeerde (provincie)",
+  delegateIsPresident: "Gedeputeerde (voorzitter)",
+
   // search results:
   results: "resoluties",
 
@@ -50,6 +60,9 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   name: "Entiteit",
   category: "Categorie",
   delegates: "Gedeputeerden",
+  president: "Voorzitter",
+  NO_DATA: "Geen gegevens beschikbaar",
+  DELEGATE_LINK: "Link naar entiteitenbrowser",
 
   // text panel titles:
   self: "Tekst",
@@ -59,7 +72,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   HOE: "hoedanigheid",
   LOC: "locatie",
   ORG: "organisatie",
-  PER: "persoon",
+  PER: "persoonsnaam",
 
   page: "Pagina",
 
@@ -68,14 +81,14 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   FULL_TEXT_SEARCH_HELP:
     "Zoek naar termen of namen die voorkomen in de resoluties. \n" +
     "- Maak gebruik van wildcards (‘*’ voor meer, ‘?’ voor één karakter) om varianten te vinden.\n" +
-    "- Plaats ‘~1’ of een groter getal achter de term als het resultaat 1 of meer karakters mag afwijken. \n" +
-    "- Gebruik Booleaanse operatoren voor termen die samen in één resolutie moeten voorkomen (OR (standaard), AND, NOT). \n" +
+    "- Plaats ‘~1’ of ‘~2’ achter de term als het resultaat 1 of 2 tekens mag afwijken.\n" +
+    "- Gebruik Booleaanse operatoren voor termen die samen in één resolutie moeten voorkomen (OR (standaard), AND, NOT).\n" +
     "- Zet meerdere termen die naast elkaar moeten voorkomen tussen dubbele aanhalingstekens.",
   SEARCH_HISTORY_HELP: "Geeft een overzicht van de zoekacties in deze sessie.",
   SHOW_CONTEXT_HELP:
     "Toont naar keuze meer of minder omliggende tekst bij een zoekterm in een resolutie.",
   SLIDER_FACET_HELP: "Filter op resoluties van een bepaalde woordomvang.",
-  FILTER_FACETS_HELP: "Hiermee kunt u facetten tonen of verbergen.",
+  FILTER_FACETS_HELP: "Hiermee kunt u filters tonen of verbergen.",
   ATTENDANT_ID_HELP: "Filter op identificatienummer aanwezige gedeputeerden.",
   ATTENDANT_NAME_HELP: "Filter op achternaam van aanwezige gedeputeerden.",
   COMMISSION_ID_HELP:
@@ -101,7 +114,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
     "Filter op categorie van de hoedanigheden. Hoedanigheden zijn de rollen of functies waarin personen in de resoluties voorkomen.",
   BODY_TYPE_HELP: "",
   PROPOSITION_TYPE_HELP:
-    "De ‘propositie’ was het voorstel dat leidde tot een besluit (resolutie), meestal schriftelijk (missive, requeste etc.), maar soms mondeling ingediend.",
+    "De ‘propositie’ was het voorstel dat leidde tot een besluit (resolutie), meestal schriftelijk (missive, rekest, etc.), maar soms mondeling ingediend.",
   RESOLUTION_TYPE_HELP:
     "Het bestand omvat gewone (ordinaris), geheime (secreet) en speciale resoluties (over bijzondere onderwerpen).",
   TEXT_TYPE_HELP:
@@ -112,4 +125,14 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   ATTENDANTS_LIST_HELP:
     "Toont de gedeputeerden die aanwezig waren bij deze vergadering (aanklikbaar).",
   TOGGLE_INFO_HELP: "Verberg of toon het rechterpaneel.",
+
+  FILTER_FACETS: "Filters instellen",
+
+  NEXT: "Volgend resultaat",
+  PREV: "Vorig resultaat",
+  BACK_TO_SEARCH: "Terug naar resultaten",
+
+  OCCURRENCES_PER_YEAR: "Resoluties per jaar",
+
+  PROVENANCE: "Bekijk provenance",
 });

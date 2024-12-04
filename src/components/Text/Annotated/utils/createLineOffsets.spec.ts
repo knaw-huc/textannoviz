@@ -51,7 +51,7 @@ describe("createLineOffsets", () => {
       },
     ];
     const lines = [
-      "Synde ter vergaderinge gelesen de requeste van weduwe van wylen den Capn. Willem Bouwensz keert de koe om te hebben betalinge van twee ordonnantien die sy aen t' Collegie ter admt. tot Rotterdam ten achteren staet.",
+      "Synde ter vergaderinge gelesen de rekest van weduwe van wylen den Capn. Willem Bouwensz keert de koe om te hebben betalinge van twee ordonnantien die sy aen t' Collegie ter admt. tot Rotterdam ten achteren staet.",
     ];
     const result = createAnnotationLineOffsets(
       annotation,

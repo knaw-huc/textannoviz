@@ -1,7 +1,5 @@
 export type SessionBody = AnnoRepoBodyBase & {
   metadata: {
-    dateShiftStatus: string;
-    hasSessionDateElement: boolean;
     inventoryNum: number;
     isWorkday: boolean;
     linesIncludeRestDay: boolean;
@@ -13,11 +11,19 @@ export type SessionBody = AnnoRepoBodyBase & {
     sessionWeekday: string;
     sessionYear: number;
     textPageNum: number[];
+    delegates: {
+      delegateID: string;
+      name: string;
+      province: string;
+      president: boolean;
+      detailsUrl: string;
+    }[];
   };
 };
 
 export type ResolutionBody = AnnoRepoBodyBase & {
   metadata: {
+    type: "ResolutionMetadata";
     inventoryNum: number;
     sourceId: string;
     sessionDate: string;
@@ -40,10 +46,17 @@ export type ResolutionBody = AnnoRepoBodyBase & {
     };
     propositionOrganisation: string;
     proposerRole: string;
+    provUrl: string[];
     prevResolutionId: string;
     nextResolutionId: string;
   };
 };
+
+export function isResolution(
+  toTest: AnnoRepoBodyBase,
+): toTest is ResolutionBody {
+  return toTest.type === "Resolution";
+}
 
 export type ReviewedBody = AnnoRepoBodyBase & {
   metadata: {

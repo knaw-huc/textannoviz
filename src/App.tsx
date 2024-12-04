@@ -16,7 +16,11 @@ import { surianoConfig } from "./projects/suriano/config";
 import { translatinConfig } from "./projects/translatin/config";
 import { vangoghConfig } from "./projects/vangogh/config";
 import { useAnnotationStore } from "./stores/annotation";
-import { setProjectConfigSelector, useProjectStore } from "./stores/project";
+import {
+  setProjectConfigSelector,
+  setProjectNameSelector,
+  useProjectStore,
+} from "./stores/project";
 
 const { project, config } = createProjectConfig();
 const router = await createRouter();
@@ -65,9 +69,11 @@ export default function App() {
     (state) => state.setAnnotationTypesToHighlight,
   );
   const setProjectConfig = useProjectStore(setProjectConfigSelector);
+  const setProjectName = useProjectStore(setProjectNameSelector);
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
   setAnnotationTypesToHighlight(config.annotationTypesToHighlight);
   setProjectConfig(config);
+  setProjectName(project);
 
   return <RouterProvider router={router} />;
 }
