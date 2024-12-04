@@ -2,6 +2,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { HammerIcon } from "../../components/common/icons/HammerIcon";
 import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
@@ -25,7 +26,6 @@ import {
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
 import { ProvenanceButton } from "./annotation/ProvenanceButton.tsx";
-import { toast } from "react-toastify";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -180,7 +180,7 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
         className="d-block float-right"
         onClick={() => {
           if (isResolution(resolution?.body)) {
-            const provUrl = resolution.body.metadata.provUrl.at(-1);
+            const provUrl = resolution.body.metadata.provenance.at(-1);
             window.open(provUrl, "_blank");
           } else {
             const msg = "Annotation is not a resolution";

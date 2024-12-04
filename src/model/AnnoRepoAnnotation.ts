@@ -46,7 +46,7 @@ export type ResolutionBody = AnnoRepoBodyBase & {
     };
     propositionOrganisation: string;
     proposerRole: string;
-    provUrl: string[];
+    provenance: string[];
     prevResolutionId: string;
     nextResolutionId: string;
   };
