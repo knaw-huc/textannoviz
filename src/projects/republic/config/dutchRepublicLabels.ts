@@ -89,20 +89,20 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
     "Toont naar keuze meer of minder omliggende tekst bij een zoekterm in een resolutie.",
   SLIDER_FACET_HELP: "Filter op resoluties van een bepaalde woordomvang.",
   FILTER_FACETS_HELP: "Hiermee kunt u filters tonen of verbergen.",
-  ATTENDANT_ID_HELP: "Filter op identificatienummer aanwezige gedeputeerden.",
-  ATTENDANT_NAME_HELP: "Filter op achternaam van aanwezige gedeputeerden.",
+  DELEGATE_ID_HELP: "Filter op identificatienummer aanwezige gedeputeerden.",
+  DELEGATE_NAME_HELP: "Filter op achternaam van aanwezige gedeputeerden.",
   COMMISSION_ID_HELP:
     "Filter op identificatienummer van een commissie uit de Staten-Generaal.",
   COMMISSION_NAME_HELP:
     "Filter op naam van een commissie uit de Staten-Generaal.",
-  COMMISSION_LABELS_HELP:
+  COMMISSION_CATEGORIES_HELP:
     "Filter op categorie van de commissies uit de Staten-Generaal.",
   LOCATION_ID_HELP: "Filter op identificatienummer van een locatie.",
   LOCATION_NAME_HELP: "Filter op naam van een locatie.",
-  LOCATION_LABELS_HELP: "Filter op categorie van de locaties.",
+  LOCATION_CATEGORIES_HELP: "Filter op categorie van de locaties.",
   ORGANISATION_ID_HELP: "Filter op identificatienummer van een organisatie.",
   ORGANISATION_NAME_HELP: "Filter op naam van een organisatie.",
-  ORGANISATION_LABELS_HELP: "Filter op categorie van de organisaties.",
+  ORGANISATION_CATEGORIES_HELP: "Filter op categorie van de organisaties.",
   PERSON_ID_HELP: "Filter op identificatienummer van een persoonsnaam.",
   PERSON_NAME_HELP: "Filter op achternaam van een persoon.",
   // PERSON_LABELS_HELP: "",
@@ -110,7 +110,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
     "Filter op identificatienummer van een hoedanigheid. Hoedanigheden zijn de rollen of functies waarin personen in de resoluties voorkomen.",
   ROLE_NAME_HELP:
     "Filter op naam van een hoedanigheid. Hoedanigheden zijn de rollen of functies waarin personen in de resoluties voorkomen.",
-  ROLE_LABELS_HELP:
+  ROLE_CATEGORIES_HELP:
     "Filter op categorie van de hoedanigheden. Hoedanigheden zijn de rollen of functies waarin personen in de resoluties voorkomen.",
   BODY_TYPE_HELP: "",
   PROPOSITION_TYPE_HELP:
