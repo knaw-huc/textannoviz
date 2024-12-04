@@ -1,13 +1,15 @@
 export const SearchInfoPage = () => {
   return (
-    <div className="text-justify">
+    <div className="max-w-[900px] text-justify">
       <p className="mb-4 mt-4 block font-bold">Welkom bij Goetgevonden!</p>
       <p className="mb-4 mt-4 block">
         Met deze webapplicatie kun je zoeken in de resoluties van de
         Staten-Generaal van de Republiek der Zeven Verenigde Nederlanden
         (1576-1796). Bekijk onze{" "}
-        <a href="https://goetgevonden.nl/index.php/home">homepage</a> voor meer
-        informatie over Goetgevonden.
+        <a target="_blank" href="https://goetgevonden.nl" rel="noreferrer">
+          homepage
+        </a>{" "}
+        voor meer informatie over Goetgevonden.
       </p>
       <p className="mb-4 mt-4 block">
         De resoluties zijn geschreven in historisch Nederlands. Het taalgebruik
@@ -16,7 +18,11 @@ export const SearchInfoPage = () => {
       </p>
       <p className="mb-4 mt-4 block">
         Maak daarom in het ‘vrij zoeken’-veld gebruik van{" "}
-        <a href="https://goetgevonden.nl/index.php/help/gebruik-van-de-applicatie/vrij-zoeken-in-de-tekst">
+        <a
+          target="_blank"
+          href="https://goetgevonden.nl/help/gebruik-van-de-applicatie/vrij-zoeken-in-de-tekst"
+          rel="noreferrer"
+        >
           wildcards
         </a>
         . Op deze manier krijg je zo veel mogelijk zoekresultaten.
@@ -24,7 +30,11 @@ export const SearchInfoPage = () => {
       <p className="mb-4 mt-4 block">
         Je kunt de zoekresultaten verfijnen met verschillende filteropties. Meer
         informatie over deze filters vind je achter de infoknoppen en in{" "}
-        <a href="https://goetgevonden.nl/index.php/help/gebruik-van-de-applicatie">
+        <a
+          target="_blank"
+          href="https://goetgevonden.nl/help/gebruik-van-de-applicatie"
+          rel="noreferrer"
+        >
           deze toelichting
         </a>
         .
