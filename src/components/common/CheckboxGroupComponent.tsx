@@ -6,6 +6,10 @@ import { HelpTooltip } from "./HelpTooltip.tsx";
 import { SortAlphaAscIcon } from "./icons/SortAlphaAscIcon";
 import { SortAlphaDescIcon } from "./icons/SortAlphaDescIcon";
 import { SortNumDescIcon } from "./icons/SortNumDescIcon";
+import {
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 
 interface CheckboxGroupComponentProps
   extends Omit<CheckboxGroupProps, "children"> {
@@ -26,6 +30,7 @@ export function CheckboxGroupComponent({
   children,
   ...props
 }: CheckboxGroupComponentProps) {
+  const translateProject = useProjectStore(translateProjectSelector);
   function sortIconClickHandler(agg: string, order: SortOrder) {
     if (props.sortOrder === order) return;
 
@@ -47,7 +52,7 @@ export function CheckboxGroupComponent({
             <div className="flex flex-row gap-1">
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyAsc")}
-                aria-label={"Order facetitems from A to Z"}
+                aria-label={translateProject("SORT_FACET_ITEMS_AZ")}
                 className={`${
                   props.sortOrder === "keyAsc"
                     ? "fill-black"
@@ -59,7 +64,7 @@ export function CheckboxGroupComponent({
               <span className="text-brand2-400 text-2xl"> | </span>
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyDesc")}
-                aria-label={"Order facetitems from Z to A"}
+                aria-label={translateProject("SORT_FACET_ITEMS_ZA")}
                 className={`${
                   props.sortOrder === "keyDesc"
                     ? "fill-black"
@@ -71,7 +76,7 @@ export function CheckboxGroupComponent({
               <span className="text-brand2-400 text-2xl"> | </span>
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "countDesc")}
-                aria-label={"Order facetitems by amount"}
+                aria-label={translateProject("SORT_FACET_ITEMS_COUNT")}
                 className={`${
                   props.sortOrder === "countDesc"
                     ? "fill-black"
