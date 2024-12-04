@@ -11,6 +11,7 @@ import {
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import { HelpLink } from "../HelpLink.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 
@@ -117,6 +118,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchItem,
     AnnotationButtons,
     HelpLink,
+    SearchInfoPage,
   },
   selectedLanguage: "nl",
   languages: [
