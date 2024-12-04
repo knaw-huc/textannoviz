@@ -58,7 +58,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   histogramFacet: "sessionYear",
   showHistogram: true,
   showSliderFacets: true,
-  showSettingsMenuFooter: true,
+  showSettingsMenuFooter: false,
   useExternalConfig: true,
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
