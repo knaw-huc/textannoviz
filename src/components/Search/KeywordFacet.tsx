@@ -139,7 +139,7 @@ export function KeywordFacet(props: {
               >
                 {translateProject(facetValueName)}
               </CheckboxComponent>
-              <div className="pr-2 text-sm text-neutral-500">
+              <div className="pr-2 text-sm text-neutral-700">
                 {facetValueCount}
               </div>
             </div>
@@ -147,7 +147,7 @@ export function KeywordFacet(props: {
         })}
         {projectName === "republic" && facetLength > 10 ? (
           //TODO: make generic
-          <span className="pl-2 text-sm text-neutral-500">
+          <span className="pl-2 text-sm text-neutral-700">
             {Math.min(maxFacetItemsVisible, facetLength)} van {facetLength}{" "}
             items.{" "}
             {maxFacetItemsVisible < facetLength ? (

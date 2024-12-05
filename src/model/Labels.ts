@@ -85,4 +85,9 @@ export type Labels = {
   TOGGLE_INFO_HELP: string;
 
   OCCURRENCES_PER_YEAR: string;
+
+  APPLY_DATE_RANGE: string;
+  SORT_FACET_ITEMS_AZ: string;
+  SORT_FACET_ITEMS_ZA: string;
+  SORT_FACET_ITEMS_COUNT: string;
 };

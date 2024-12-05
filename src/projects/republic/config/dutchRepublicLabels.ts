@@ -135,4 +135,9 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   OCCURRENCES_PER_YEAR: "Resoluties per jaar",
 
   PROVENANCE: "Bekijk provenance",
+
+  APPLY_DATE_RANGE: "Datumselectie toepassen",
+  SORT_FACET_ITEMS_AZ: "Sorteer filter van A naar Z",
+  SORT_FACET_ITEMS_ZA: "Sorteer filter van Z naar A",
+  SORT_FACET_ITEMS_COUNT: "Sorteer filter op aantal treffers",
 });

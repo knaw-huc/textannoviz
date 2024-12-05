@@ -88,4 +88,9 @@ export const dutchLabels: Labels = {
   TOGGLE_INFO_HELP: "",
 
   OCCURRENCES_PER_YEAR: "Voorkomens per jaar",
+
+  APPLY_DATE_RANGE: "Datumselectie toepassen",
+  SORT_FACET_ITEMS_AZ: "Sorteer facet van A naar Z",
+  SORT_FACET_ITEMS_ZA: "Sorteer facet van Z naar A",
+  SORT_FACET_ITEMS_COUNT: "Sorteer facet op aantal treffers",
 };
