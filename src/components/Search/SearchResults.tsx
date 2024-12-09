@@ -129,8 +129,11 @@ export function SearchResults(props: SearchResultsProps) {
   }
 
   function filterDateQuery(event: CategoricalChartState) {
-    setHistogramZoomed(true);
     const newYear = event.activeLabel;
+
+    if (!newYear) return;
+
+    setHistogramZoomed(true);
 
     setSearchQuery({
       ...searchQuery,
