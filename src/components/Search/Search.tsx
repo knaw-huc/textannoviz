@@ -13,8 +13,9 @@ import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { toRequestBody } from "../../stores/search/toRequestBody.ts";
 import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
-import { SearchQuery } from "../../model/Search.ts";
+import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import { useInitSearch } from "./useInitSearch.ts";
+import _ from "lodash";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -43,10 +44,17 @@ export const Search = () => {
     setIsLoading(isLoadingSearch);
   }, [isLoadingSearch]);
 
+  const [prevRequest, setPrevRequest] = useState<SearchQuery & SearchParams>();
+
   useEffect(() => {
     if (!isDirty) {
       return;
     }
+    const nextRequest = { ...searchQuery, ...searchParams };
+    if (_.isEqual(prevRequest, nextRequest)) {
+      return;
+    }
+    setPrevRequest(nextRequest);
 
     const aborter = new AbortController();
     searchWhenDirty().catch(handleAbort);
