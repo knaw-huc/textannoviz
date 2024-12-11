@@ -121,10 +121,14 @@ export function SearchResults(props: SearchResultsProps) {
   }
 
   function filterDateQuery(event: CategoricalChartState) {
-    setHistogramZoomed(true);
     const newYear = event.activeLabel;
 
+    if (!newYear) return;
+
+    setHistogramZoomed(true);
+
     updateSearchQuery({
+      ...searchQuery,
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
     });

@@ -9,7 +9,9 @@ import {
   projectEntityTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
+import { HelpLink } from "../HelpLink.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 
@@ -43,7 +45,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
-  elasticIndexName: "republic-2024.11.18",
+  elasticIndexName: "republic-2024.11.30",
   initialDateFrom: "1576-08-04",
   initialDateTo: "1796-03-01",
   initialRangeFrom: "0",
@@ -56,7 +58,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   histogramFacet: "sessionYear",
   showHistogram: true,
   showSliderFacets: true,
-  showSettingsMenuFooter: true,
+  showSettingsMenuFooter: false,
   useExternalConfig: true,
   visualizeAnnosMirador: true,
   zoomAnnoMirador: true,
@@ -68,35 +70,40 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
       size: 250,
     },
     {
-      facetName: "attendantName",
+      facetName: "delegateName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "commissionName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "locationName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "organisationName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "personName",
       order: "keyAsc",
+      size: 9999,
     },
     {
       facetName: "roleName",
       order: "keyAsc",
+      size: 9999,
     },
   ],
   defaultKeywordAggsToRender: [
     "propositionType",
-    "textType",
     "resolutionType",
-    "attendantName",
+    "delegateName",
     "commissionName",
     "locationName",
     "organisationName",
@@ -110,6 +117,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     MetadataPanel,
     SearchItem,
     AnnotationButtons,
+    HelpLink,
+    SearchInfoPage,
   },
   selectedLanguage: "nl",
   languages: [

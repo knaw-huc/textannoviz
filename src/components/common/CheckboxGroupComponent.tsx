@@ -2,10 +2,10 @@ import { CheckIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import type { CheckboxGroupProps, CheckboxProps } from "react-aria-components";
 import { Button, Checkbox, CheckboxGroup, Label } from "react-aria-components";
+import { HelpTooltip } from "./HelpTooltip.tsx";
 import { SortAlphaAscIcon } from "./icons/SortAlphaAscIcon";
 import { SortAlphaDescIcon } from "./icons/SortAlphaDescIcon";
 import { SortNumDescIcon } from "./icons/SortNumDescIcon";
-import { HelpTooltip } from "./HelpTooltip.tsx";
 
 interface CheckboxGroupComponentProps
   extends Omit<CheckboxGroupProps, "children"> {
@@ -35,10 +35,10 @@ export function CheckboxGroupComponent({
   return (
     <CheckboxGroup
       {...props}
-      className="bg-brand2-50 flex flex-col gap-2 rounded pb-2"
+      className="bg-brand2-50 relative flex flex-col gap-2 rounded pb-2"
     >
       <>
-        <div className="border-brand2-100 bg-brand2-100 flex h-12 flex-col items-start rounded-t border-b-2">
+        <div className="border-brand2-100 bg-brand2-100 sticky top-0 z-10 flex h-12 flex-col items-start rounded-t border-b-2">
           <div className="flex h-12 w-full flex-row items-center pr-2">
             <Label className="w-full pl-3 font-semibold">
               {translatedLabel}

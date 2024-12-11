@@ -27,8 +27,8 @@ export type ProjectConfig = SearchConfig &
     selectedLanguage: LanguageCode;
     languages: Language[];
     useExternalConfig: boolean;
+    visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
-    showHelpLink: boolean;
 
     components: ComponentsConfig;
   };
@@ -46,7 +46,6 @@ type FacsimileConfig = {
     showWindowSideBar: boolean;
     showTopMenuButton: boolean;
   };
-  visualizeAnnosMirador: boolean;
 };
 
 type ComponentsConfig = {
@@ -58,6 +57,7 @@ type ComponentsConfig = {
   AnnotationLinks: () => JSX.Element | null;
   EntitySummary: (props: EntitySummaryProps) => JSX.Element;
   Help: () => JSX.Element;
+  HelpLink: () => JSX.Element;
   MetadataPanel: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
   SearchInfoPage: () => JSX.Element;
   SearchItem: (props: {

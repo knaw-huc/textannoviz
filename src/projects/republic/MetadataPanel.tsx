@@ -7,6 +7,7 @@ import { HammerIcon } from "../../components/common/icons/HammerIcon";
 import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoAnnotation,
+  isResolution,
   ResolutionBody,
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
@@ -23,6 +24,8 @@ import {
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
 import { SearchQuery } from "../../model/Search.ts";
+import { ProvenanceButton } from "./annotation/ProvenanceButton.tsx";
+import { toast } from "react-toastify";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -173,6 +176,19 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
 
   return (
     <>
+      <ProvenanceButton
+        className="d-block float-right"
+        onClick={() => {
+          if (isResolution(resolution?.body)) {
+            const provUrl = resolution.body.metadata.provenance.at(-1);
+            window.open(provUrl, "_blank");
+          } else {
+            const msg = "Annotation is not a resolution";
+            console.warn(`${msg}:`, resolution);
+            return toast(msg, { type: "warning" });
+          }
+        }}
+      />
       <ul className="m-0 list-none p-0">
         {resolution ? (
           <li className="mb-8">

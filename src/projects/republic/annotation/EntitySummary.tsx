@@ -10,8 +10,13 @@ import {
   useProjectStore,
 } from "../../../stores/project.ts";
 import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
+import {
+  isDateEntity,
+  isEntity,
+  isEntityEntity,
+} from "./ProjectAnnotationModel.ts";
+import { ProvenanceButton } from "./ProvenanceButton.tsx";
 import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
-import { isDateEntity } from "./ProjectAnnotationModel.ts";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
@@ -22,7 +27,18 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const entityClassname = toEntityClassname(entityCategory);
 
   const handleEntityBrowseClick = () => {
-    return toast("Not implemented", { type: "info" });
+    if (isEntityEntity(props.body)) {
+      window.open(props.body.metadata.entityDetails, "_blank");
+    }
+  };
+
+  const handleProvenanceBrowseClick = () => {
+    if (!isEntity(props.body)) {
+      const msg = "Annotation is not an entity";
+      console.warn(`${msg}:`, props.body);
+      return toast(msg, { type: "warning" });
+    }
+    window.open(props.body.metadata.provenance);
   };
 
   const handleEntitySearchClick = () => {
@@ -55,7 +71,6 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
           <div>
             <button
               className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-              // TODO:
               onClick={handleEntityBrowseClick}
             >
               {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
@@ -63,6 +78,9 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
             </button>
           </div>
         )}
+        <div>
+          <ProvenanceButton onClick={handleProvenanceBrowseClick} />
+        </div>
       </div>
     </li>
   );

@@ -83,3 +83,7 @@ export function setProjectConfigSelector(state: ProjectStore) {
 export function setProjectNameSelector(state: ProjectStore) {
   return state.setProjectName;
 }
+
+export function projectNameSelector(state: ProjectSlice): string {
+  return state.projectName;
+}
