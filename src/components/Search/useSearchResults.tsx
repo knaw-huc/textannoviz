@@ -1,16 +1,17 @@
-import { FacetTypes, SearchResult } from "../../model/Search.ts";
-import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
 import {
   FacetEntry,
-  filterFacetsByType,
+  FacetTypes,
+  SearchParams,
   SearchQuery,
-  toRequestBody,
-} from "../../stores/search/search-query-slice.ts";
+  SearchResult,
+} from "../../model/Search.ts";
 import { sendSearchQuery } from "../../utils/broccoli.ts";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { toRequestBody } from "../../stores/search/toRequestBody.ts";
+import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 
 type SearchResultsAndFacets = {
   results: SearchResult;
@@ -22,7 +23,7 @@ export function useSearchResults() {
 
   async function getSearchResults(
     facetTypes: FacetTypes,
-    params: SearchUrlParams,
+    params: SearchParams,
     query: SearchQuery,
     signal?: AbortSignal,
   ): Promise<SearchResultsAndFacets | undefined> {

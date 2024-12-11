@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import { SearchQuery } from "./search-query-slice.ts";
+import { SearchQuery } from "../../model/Search.ts";
+import { createJSONStorage, persist } from "zustand/middleware";
 import _ from "lodash";
 
 export type Timestamp = number;

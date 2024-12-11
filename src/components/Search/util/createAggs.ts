@@ -1,31 +1,13 @@
-import { ProjectConfig } from "../../../model/ProjectConfig";
-import { FacetTypes } from "../../../model/Search";
+import { ProjectConfig } from "../../../model/ProjectConfig.ts";
+import { FacetTypes, NamedFacetAgg } from "../../../model/Search.ts";
+import { createDefaultAggs } from "./createDefaultAggs.ts";
+import _ from "lodash";
 
 export function createAggs(
-  facetTypes: FacetTypes,
+  newFacetTypes: FacetTypes,
   projectConfig: ProjectConfig,
-) {
-  const defaultOrder = "countDesc";
-  const defaultSize = 10;
-
-  return Object.keys(facetTypes).map((agg) => {
-    const newAgg = {
-      facetName: agg,
-      order: "countDesc",
-      size: 10,
-    };
-
-    const override = projectConfig.overrideDefaultAggs.find(
-      (override) => override.facetName === agg,
-    );
-
-    if (override) {
-      Object.assign(newAgg, {
-        order: override.order ?? defaultOrder,
-        size: override.size ?? defaultSize,
-      });
-    }
-
-    return newAgg;
-  });
+  urlAggs?: NamedFacetAgg[],
+): NamedFacetAgg[] {
+  const defaultAggs = createDefaultAggs(newFacetTypes, projectConfig);
+  return _.merge([], defaultAggs, urlAggs);
 }

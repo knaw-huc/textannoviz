@@ -1,5 +1,10 @@
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
+export type Iiif = {
+  manifest: string;
+  canvasIds: string[];
+};
+
 export interface Broccoli {
   request: {
     projectId: string;
@@ -8,10 +13,7 @@ export interface Broccoli {
     overlapTypes?: string[];
     relativeTo: string;
   };
-  iiif: {
-    manifest: string;
-    canvasIds: string[];
-  };
+  iiif: Iiif;
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
   views: Record<string, BroccoliTextGeneric>;

@@ -2,7 +2,6 @@ import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { HammerIcon } from "../../components/common/icons/HammerIcon";
 import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
@@ -16,7 +15,6 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { SearchQuery } from "../../stores/search/search-query-slice";
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { monthNumberToString } from "../../utils/monthNumberToString";
@@ -25,7 +23,9 @@ import {
   isEntity,
   ProjectEntityBody,
 } from "./annotation/ProjectAnnotationModel";
+import { SearchQuery } from "../../model/Search.ts";
 import { ProvenanceButton } from "./annotation/ProvenanceButton.tsx";
+import { toast } from "react-toastify";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];

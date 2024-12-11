@@ -6,8 +6,8 @@ import {
   setProjectConfigSelector,
   useProjectStore,
 } from "../stores/project.ts";
+import { LANGUAGE } from "./Search/SearchUrlParams.ts";
 
-const LANGUAGE_PARAM = "language";
 export function LanguageMenu() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const languages = projectConfig.languages;
@@ -17,7 +17,7 @@ export function LanguageMenu() {
   useEffect(() => {
     initLanguageFromUrl();
     function initLanguageFromUrl() {
-      const urlLanguage = searchParams.get(LANGUAGE_PARAM);
+      const urlLanguage = searchParams.get(LANGUAGE);
       if (!urlLanguage || urlLanguage === projectConfig.selectedLanguage) {
         return;
       }
@@ -43,7 +43,7 @@ export function LanguageMenu() {
               code={l.code}
               selected={projectConfig.selectedLanguage === l.code}
               onClick={(code) => {
-                searchParams.set(LANGUAGE_PARAM, code);
+                searchParams.set(LANGUAGE, code);
                 setSearchParams(searchParams);
                 const newConfig = { ...projectConfig };
                 newConfig.selectedLanguage = code;
