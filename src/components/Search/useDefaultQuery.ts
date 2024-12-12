@@ -16,6 +16,11 @@ import {
 } from "../../stores/search/search-store.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 
+/**
+ * The default query used when pressing enter in the full text input field
+ * This includes facets that first need to be fetched from ES
+ * and related properties (see {@link createSearchQuery}
+ */
 export function useDefaultQuery() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
@@ -49,12 +54,12 @@ export function useDefaultQuery() {
 
       const newAggs = createAggs(newFacetTypes, projectConfig);
 
-      const blankQuery = createSearchQuery({ projectConfig });
+      const projectConfigQuery = createSearchQuery({ projectConfig });
 
       const newFacets = await getFacets(
         projectConfig,
         newAggs,
-        blankQuery,
+        projectConfigQuery,
         aborter.signal,
       );
 
