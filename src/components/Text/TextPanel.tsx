@@ -39,7 +39,7 @@ export const TextPanel = (props: TextPanelProps) => {
         </button>
       </div>
 
-      <div className="flex max-w-3xl flex-col" role="textpanel">
+      <div className="flex max-w-3xl" role="textpanel">
         {projectConfig.showAnnotations ? (
           <AnnotatedText text={props.text} showDetail={false} />
         ) : (
