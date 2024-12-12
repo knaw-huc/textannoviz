@@ -49,7 +49,7 @@ export const AnnotationButtons = () => {
             {translate("PREV_PAGE")}
           </button>
           <button
-            className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pr-10"
+            className="hover:text-brand1-600 active:text-brand1-700 flex flex-row items-center gap-1 py-1 pl-16"
             onClick={nextCanvasClickHandler}
           >
             {translate("NEXT_PAGE")}{" "}
