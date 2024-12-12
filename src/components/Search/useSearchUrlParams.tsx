@@ -1,16 +1,16 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
+  createUrlParams,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
-  createUrlParams,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { ProjectConfig } from "../../model/ProjectConfig.ts";
+import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * The url is our single source of truth.
@@ -23,7 +23,7 @@ export function useSearchUrlParams() {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(getDefaultQuery(projectConfig), urlParams),
+    getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
   const [searchParams, setSearchParams] = useState<SearchParams>(
     getSearchParamsFromUrl(defaultSearchParams, urlParams),
@@ -67,20 +67,6 @@ export function useSearchUrlParams() {
     updateSearchParams,
     toFirstPage,
   };
-}
-
-export function getDefaultQuery(projectConfig: ProjectConfig) {
-  const configuredSearchQuery = {
-    ...blankSearchQuery,
-    dateFrom: projectConfig.initialDateFrom,
-    dateTo: projectConfig.initialDateTo,
-    rangeFrom: projectConfig.initialRangeFrom,
-    rangeTo: projectConfig.initialRangeTo,
-  };
-  if (projectConfig.showSliderFacets) {
-    configuredSearchQuery.rangeFacet = "text.tokenCount";
-  }
-  return configuredSearchQuery;
 }
 
 export const blankSearchQuery: SearchQuery = {

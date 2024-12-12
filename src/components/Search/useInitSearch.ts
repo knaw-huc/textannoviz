@@ -3,8 +3,7 @@ import { toast } from "react-toastify";
 import { getFacets } from "./util/getFacets.ts";
 import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import { SearchQuery } from "../../model/Search.ts";
-import _ from "lodash";
-import { getDefaultQuery, useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { useEffect, useState } from "react";
 import {
   projectConfigSelector,
@@ -16,6 +15,7 @@ import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { createAggs } from "./util/createAggs.ts";
+import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -35,6 +35,7 @@ export function useInitSearch() {
 
   const [isInitSearch, setIsInitSearch] = useState(false);
   const [isLoadingSearch, setLoading] = useState(false);
+  const [defaultQuery, setDefaultQuery] = useState<Partial<SearchQuery>>();
 
   useEffect(() => {
     if (isInitSearch || isLoadingSearch) {
@@ -58,19 +59,15 @@ export function useInitSearch() {
     }
 
     const newFacetTypes = newIndices[projectConfig.elasticIndexName];
-    const aggregations = createAggs(
-      newFacetTypes,
-      projectConfig,
-      searchQuery.aggs,
-    );
+
+    const newAggs = createAggs(newFacetTypes, projectConfig, searchQuery.aggs);
+
     const newFacets = await getFacets(
       projectConfig,
-      aggregations,
+      newAggs,
       searchQuery,
       aborter.signal,
     );
-
-    const newDateFacets = filterFacetsByType(newFacetTypes, newFacets, "date");
 
     const newKeywordFacets = filterFacetsByType(
       newFacetTypes,
@@ -78,20 +75,26 @@ export function useInitSearch() {
       "keyword",
     );
 
+    const newDateFacets = filterFacetsByType(newFacetTypes, newFacets, "date");
+
+    const newDefaultQuery = createSearchQuery({
+      projectConfig,
+      aggs: newAggs,
+      dateFacets: newDateFacets,
+    });
+
     const newSearchQuery: SearchQuery = {
+      ...newDefaultQuery,
       ...searchQuery,
-      aggs: aggregations,
+      aggs: newAggs,
     };
 
-    if (!_.isEmpty(newDateFacets)) {
-      newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
-    }
-
+    setDefaultQuery(newDefaultQuery);
     setKeywordFacets(newKeywordFacets);
     setSearchFacetTypes(newFacetTypes);
     updateSearchQuery(newSearchQuery);
 
-    if (isSearchableQuery(newSearchQuery, getDefaultQuery(projectConfig))) {
+    if (isSearchableQuery(newSearchQuery, newDefaultQuery)) {
       const searchResults = await getSearchResults(
         newFacetTypes,
         searchParams,
@@ -109,6 +112,7 @@ export function useInitSearch() {
   }
 
   return {
+    defaultQuery,
     isInitSearch,
     isLoadingSearch,
   };

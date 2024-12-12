@@ -23,7 +23,7 @@ export const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
   const { searchQuery, searchParams, toFirstPage } = useSearchUrlParams();
-  const { isInitSearch, isLoadingSearch } = useInitSearch();
+  const { isInitSearch, isLoadingSearch, defaultQuery } = useInitSearch();
   const { getSearchResults } = useSearchResults();
   const {
     setSearchResults,
@@ -116,8 +116,17 @@ export const Search = () => {
     setDirty(true);
   }
 
+  const [isDefaultQuery, setIsDefaultQuery] = useState(false);
+  useEffect(() => {
+    const result = _.isEqual(defaultQuery, searchQuery);
+    console.log("isDefaultQuery?", { result, defaultQuery, searchQuery });
+    setIsDefaultQuery(result);
+  }, [defaultQuery, searchQuery, searchResults]);
+
   return (
     <div>
+      <p>Is default? {`${isDefaultQuery}`}</p>
+
       {isLoading && <SearchLoadingSpinner />}
 
       <div
