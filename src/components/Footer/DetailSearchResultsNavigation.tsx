@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { SearchResult } from "../../model/Search.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { Any } from "../../utils/Any.ts";
+import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
 import { toDetailPageUrl } from "../Text/Annotated/utils/toDetailPageUrl.tsx";
 import { useDetailUrlParams } from "../Text/Annotated/utils/useDetailUrlParams.tsx";
 import { FooterLink } from "./FooterLink.tsx";
-import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
-import { Any } from "../../utils/Any.ts";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ export function DetailSearchResultsNavigation() {
         onClick={handlePrevResultClick}
         disabled={isPrevDisabled}
       >
-        &lt; {translate("PREV")}
+        &lt; {translate("PREV_RESULT")}
       </FooterLink>
       <FooterLink
         onClick={() =>
@@ -126,7 +126,7 @@ export function DetailSearchResultsNavigation() {
         {translate("BACK_TO_SEARCH")}
       </FooterLink>
       <FooterLink onClick={handleNextResultClick} disabled={isNextDisabled}>
-        {translate("NEXT")} &gt;
+        {translate("NEXT_RESULT")} &gt;
       </FooterLink>
     </>
   );

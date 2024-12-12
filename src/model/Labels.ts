@@ -56,6 +56,8 @@ export type Labels = {
   HIDE_SEARCH_RESULTS: string;
   NEW_SEARCH: string;
   BACK_TO_SEARCH: string;
+  PREV_RESULT: string;
+  NEXT_RESULT: string;
 
   NEXT_PAGE: string;
   PREV_PAGE: string;

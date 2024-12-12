@@ -58,6 +58,8 @@ export const dutchLabels: Labels = {
   HIDE_SEARCH_RESULTS: "Verberg zoekresultaten",
   NEW_SEARCH: "Nieuwe zoekopdracht",
   BACK_TO_SEARCH: "Terug naar zoekresultaten",
+  PREV_RESULT: "Vorige resultaat",
+  NEXT_RESULT: "Volgende resultaat",
 
   NEXT_PAGE: "Volgende pagina",
   PREV_PAGE: "Vorige pagina",
