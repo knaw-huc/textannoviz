@@ -6,6 +6,7 @@ import {
   SearchQueryRequestBody,
   SearchResult,
 } from "../model/Search";
+import { Any } from "./Any.ts";
 import { Broccoli } from "../model/Broccoli.ts";
 
 const headers = {
@@ -55,12 +56,17 @@ export const sendSearchQuery = async (
 ): Promise<SearchResult | null> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const urlSearchParams = new URLSearchParams(params as any);
+  // TODO: update broccoli to use new format:
+  const deprecatedSearchQuery = structuredClone(query);
+  deprecatedSearchQuery.aggs = Object.entries(query.aggs || {}).map(
+    (e) => `${e[0]}:${e[1].order},${e[1].size}`,
+  ) as Any;
   const response = await fetch(
     `${projectConfig.broccoliUrl}/projects/${projectConfig.id}/search?${urlSearchParams}`,
     {
       method: "POST",
       headers: headers,
-      body: JSON.stringify(query),
+      body: JSON.stringify(deprecatedSearchQuery),
       signal,
     },
   );
