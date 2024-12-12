@@ -1,7 +1,7 @@
 import { ProjectConfig } from "../../model/ProjectConfig.ts";
 import { FacetEntry, NamedFacetAgg } from "../../model/Search.ts";
-import { blankSearchQuery } from "./useSearchUrlParams.tsx";
 import _ from "lodash";
+import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
 
 export function createSearchQuery(props: {
   projectConfig: ProjectConfig;

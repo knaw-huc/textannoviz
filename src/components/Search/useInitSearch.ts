@@ -1,21 +1,12 @@
-import { getElasticIndices } from "../../utils/broccoli.ts";
-import { toast } from "react-toastify";
-import { getFacets } from "./util/getFacets.ts";
-import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import { SearchQuery } from "../../model/Search.ts";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { useEffect, useState } from "react";
-import {
-  projectConfigSelector,
-  translateSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
-import { createAggs } from "./util/createAggs.ts";
-import { createSearchQuery } from "./createSearchQuery.tsx";
+import { useDefaultQuery } from "./useDefaultQuery.ts";
+import _ from "lodash";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -24,10 +15,7 @@ import { createSearchQuery } from "./createSearchQuery.tsx";
  * - fetch results when {@link isSearchableQuery}
  */
 export function useInitSearch() {
-  const projectConfig = useProjectStore(projectConfigSelector);
-  const translate = useProjectStore(translateSelector);
-
-  const { setSearchResults, setKeywordFacets, setSearchFacetTypes } =
+  const { setSearchResults, setKeywordFacets, searchFacetTypes, defaultQuery } =
     useSearchStore();
   const { searchParams } = useSearchUrlParams();
   const { getSearchResults } = useSearchResults();
@@ -35,10 +23,10 @@ export function useInitSearch() {
 
   const [isInitSearch, setIsInitSearch] = useState(false);
   const [isLoadingSearch, setLoading] = useState(false);
-  const [defaultQuery, setDefaultQuery] = useState<Partial<SearchQuery>>();
+  const { isInitDefaultQuery } = useDefaultQuery();
 
   useEffect(() => {
-    if (isInitSearch || isLoadingSearch) {
+    if (isInitSearch || isLoadingSearch || !isInitDefaultQuery) {
       return;
     }
 
@@ -49,54 +37,22 @@ export function useInitSearch() {
       aborter.abort();
       setLoading(false);
     };
-  }, [isInitSearch]);
+  }, [isInitSearch, isInitDefaultQuery]);
 
   async function initSearch(aborter: AbortController) {
     setLoading(true);
-    const newIndices = await getElasticIndices(projectConfig, aborter.signal);
-    if (!newIndices) {
-      return toast(translate("NO_INDICES_FOUND"), { type: "error" });
-    }
 
-    const newFacetTypes = newIndices[projectConfig.elasticIndexName];
-
-    const newAggs = createAggs(newFacetTypes, projectConfig, searchQuery.aggs);
-
-    const newFacets = await getFacets(
-      projectConfig,
-      newAggs,
+    const newSearchQuery: SearchQuery = _.merge({}, defaultQuery, searchQuery);
+    console.log("new SearchQuery", {
+      defaultQuery,
       searchQuery,
-      aborter.signal,
-    );
-
-    const newKeywordFacets = filterFacetsByType(
-      newFacetTypes,
-      newFacets,
-      "keyword",
-    );
-
-    const newDateFacets = filterFacetsByType(newFacetTypes, newFacets, "date");
-
-    const newDefaultQuery = createSearchQuery({
-      projectConfig,
-      aggs: newAggs,
-      dateFacets: newDateFacets,
+      newSearchQuery,
     });
-
-    const newSearchQuery: SearchQuery = {
-      ...newDefaultQuery,
-      ...searchQuery,
-      aggs: newAggs,
-    };
-
-    setDefaultQuery(newDefaultQuery);
-    setKeywordFacets(newKeywordFacets);
-    setSearchFacetTypes(newFacetTypes);
     updateSearchQuery(newSearchQuery);
 
-    if (isSearchableQuery(newSearchQuery, newDefaultQuery)) {
+    if (isSearchableQuery(newSearchQuery, defaultQuery)) {
       const searchResults = await getSearchResults(
-        newFacetTypes,
+        searchFacetTypes,
         searchParams,
         newSearchQuery,
         aborter.signal,
@@ -112,7 +68,6 @@ export function useInitSearch() {
   }
 
   return {
-    defaultQuery,
     isInitSearch,
     isLoadingSearch,
   };

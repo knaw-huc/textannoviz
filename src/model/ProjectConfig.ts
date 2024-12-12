@@ -98,6 +98,8 @@ type SearchConfig = {
   showSelectedFilters: boolean;
   showNewSearchButton: boolean;
   defaultKeywordAggsToRender: string[];
+  // TODO: config if project should show intro text
+  // TODO: overrideDefaultSearchParams: dateAsc for date
   overrideDefaultAggs: {
     facetName: string;
     order?: string;

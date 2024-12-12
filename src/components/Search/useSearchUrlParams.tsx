@@ -6,11 +6,12 @@ import {
   getSearchQueryFromUrl,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { createSearchQuery } from "./createSearchQuery.tsx";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * The url is our single source of truth.
@@ -20,11 +21,17 @@ import { createSearchQuery } from "./createSearchQuery.tsx";
  */
 export function useSearchUrlParams() {
   const [urlParams, setUrlParams] = useSearchParams();
+  const { defaultQuery } = useSearchStore();
   const projectConfig = useProjectStore(projectConfigSelector);
-
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
     getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
+
+  useEffect(() => {
+    // Include all defaults once initialized:
+    getSearchQueryFromUrl(defaultQuery, urlParams);
+  }, [defaultQuery]);
+
   const [searchParams, setSearchParams] = useState<SearchParams>(
     getSearchParamsFromUrl(defaultSearchParams, urlParams),
   );
@@ -39,9 +46,9 @@ export function useSearchUrlParams() {
   }
 
   function updateSearchParams(update: Partial<SearchParams>): void {
-    console.log("updateSearchParams", update);
     updateUrl({ searchParams: { ...searchParams, ...update } });
   }
+
   function updateUrl(update: UpdatedUrlProps) {
     const updatedUrlParams = createUrlParams(
       Object.fromEntries(urlParams.entries()),
@@ -68,15 +75,6 @@ export function useSearchUrlParams() {
     toFirstPage,
   };
 }
-
-export const blankSearchQuery: SearchQuery = {
-  dateFrom: "",
-  dateTo: "",
-  rangeFrom: "",
-  rangeTo: "",
-  fullText: "",
-  terms: {},
-};
 
 export const defaultSearchParams: SearchParams = {
   indexName: "",
