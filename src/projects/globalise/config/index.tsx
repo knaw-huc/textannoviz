@@ -4,15 +4,16 @@ import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import { Help } from "../Help.tsx";
+import { HelpLink } from "../HelpLink.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishGlobaliseLabels } from "./englishGlobaliseLabels.ts";
-import { HelpLink } from "../HelpLink.tsx";
 
 export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "globalise",
-  broccoliUrl: "https://gloccoli.tt.di.huc.knaw.nl",
+  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
+  // broccoliUrl: "https://gloccoli.tt.di.huc.knaw.nl",
   colours: {
     textregion: "white",
     textline: "#DB4437",
@@ -21,7 +22,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   relativeTo: "na:File",
   annotationTypesToInclude: ["px:Page"],
   // annotationTypesToHighlight: ["px:Page"],
-  elasticIndexName: "docs-2024-03-18",
+  elasticIndexName: "globalise-2024.03.18",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
   initialRangeFrom: "0",
