@@ -89,4 +89,9 @@ export const englishLabels: Labels = {
   TOGGLE_INFO_HELP: "",
 
   OCCURRENCES_PER_YEAR: "Voorkomens per year",
+
+  APPLY_DATE_RANGE: "Apply date range",
+  SORT_FACET_ITEMS_AZ: "Order facet items from A to Z",
+  SORT_FACET_ITEMS_ZA: "Order facet items from Z to A",
+  SORT_FACET_ITEMS_COUNT: "Order facet items by result count",
 };
