@@ -78,6 +78,10 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
 
   ENTITIES: "Entiteiten",
 
+  //Footer
+  prevResolution: "Vorige resolutie",
+  nextResolution: "Volgende resolutie",
+
   FULL_TEXT_SEARCH_HELP:
     "Zoek naar termen of namen die voorkomen in de resoluties. \n" +
     "- Maak gebruik van wildcards (‘*’ voor meer, ‘?’ voor één karakter) om varianten te vinden.\n" +
