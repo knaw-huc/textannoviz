@@ -6,7 +6,8 @@ import {
   isDateEntity,
   isEntityEntity,
 } from "./ProjectAnnotationModel.ts";
-import { SearchQuery } from "../../../stores/search/search-query-slice.ts";
+import { QUERY } from "../../../components/Search/SearchUrlParams.ts";
+import { SearchQuery } from "../../../model/Search.ts";
 import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 
 export function toEntitySearchQuery(anno: AnnoRepoBodyBase): URLSearchParams {
@@ -54,7 +55,7 @@ function toEntityTerms(
 function createSearchQueryParam(queryWithEntity: Partial<SearchQuery>) {
   const params = new URLSearchParams();
   params.set(
-    "query",
+    QUERY,
     Base64.encode(JSON.stringify(queryWithEntity, skipEmptyValues)),
   );
   return params;

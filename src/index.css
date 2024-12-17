@@ -415,3 +415,17 @@ div[role="textpanel"] > *:last-child {
   border-top-color: transparent;
   border-radius: 50%;
 }
+
+.query-date {
+  color: #ccc;
+}
+
+.query-delete {
+  color: #ccc;
+  float: right;
+  &:hover {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+  }
+}

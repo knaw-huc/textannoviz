@@ -1,8 +1,10 @@
 import isBoolean from "lodash/isBoolean";
 import isNumber from "lodash/isNumber";
-import mapValues from "lodash/mapValues";
 import toNumber from "lodash/toNumber";
-import { URLSearchParamsInit } from "react-router-dom";
+import { QUERY } from "../components/Search/SearchUrlParams.ts";
+import { Base64 } from "js-base64";
+import { SearchParams, SearchQuery } from "../model/Search.ts";
+import _ from "lodash";
 
 /**
  * Merge the properties in {@link toPopulate} with
@@ -11,7 +13,7 @@ import { URLSearchParamsInit } from "react-router-dom";
  * Url param are comverted to number or boolean
  * to match original type in {@link toPopulate}
  */
-export function getFromUrlParams<T extends object>(
+export function getSearchParamsFromUrl<T extends object>(
   toPopulate: T,
   urlParams: URLSearchParams,
 ): T {
@@ -32,16 +34,41 @@ export function getFromUrlParams<T extends object>(
   ) as T;
 }
 
-/**
- * Add properties of ${@link toAdd} to {@link urlParams}
- * or overwrite existing values
- */
-export function addToUrlParams<T extends object>(
-  urlParams: URLSearchParams,
-  toAdd: T,
-): URLSearchParamsInit {
-  return {
-    ...urlParams,
-    ...mapValues(toAdd, (v) => `${v}`),
+export function createUrlParams(
+  allParams: object,
+  searchParams: SearchParams,
+  searchQuery: SearchQuery,
+  overwriteParams?: object,
+): Record<string, string> {
+  const merged = {
+    ...allParams,
+    ...searchParams,
+    query: encodeSearchQuery(searchQuery),
+    ...overwriteParams,
   };
+  const cleaned = _(merged)
+    .pickBy((v) => !_.isNil(v))
+    .mapValues((v) => `${v}`)
+    .value();
+  return cleaned;
 }
+
+export function encodeSearchQuery(query: SearchQuery): string {
+  return Base64.toBase64(JSON.stringify(query));
+}
+
+export function getSearchQueryFromUrl(
+  baseSearchQuery: SearchQuery,
+  urlParams: URLSearchParams,
+): SearchQuery {
+  const queryEncoded = urlParams.get(QUERY);
+  if (!queryEncoded) {
+    return baseSearchQuery;
+  }
+  const parsed: Partial<SearchQuery> = JSON.parse(
+    Base64.fromBase64(queryEncoded),
+  );
+  return { ...baseSearchQuery, ...parsed };
+}
+
+Object.assign(window, { Base64 });
