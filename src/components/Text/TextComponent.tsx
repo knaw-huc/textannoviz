@@ -1,5 +1,5 @@
-import { Skeleton } from "@nextui-org/react";
 import { CheckboxChangeEvent } from "primereact/checkbox";
+import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
@@ -38,14 +38,24 @@ export const TextComponent = (props: TextComponentProps) => {
   }
 
   return (
-    <div className="relative w-6/12 grow self-stretch">
+    <div className="flex h-full w-6/12 grow flex-col self-stretch">
+      <div className="sr-only">
+        <h1>Resolutie</h1>
+      </div>
+
       {projectConfig.showToggleTextPanels ? (
         <ToggleTextPanels
           textPanelsCheckboxHandler={textPanelsCheckboxHandler}
           panels={panelsToRender}
         />
       ) : null}
-      <div className="flex h-[calc(100vh-79px)] flex-row overflow-auto">
+      <div
+        className={`${
+          projectConfig.showToggleTextPanels
+            ? "h-[calc(100vh-150px)]"
+            : "h-[calc(100vh-100px)]"
+        } flex flex-row overflow-auto`}
+      >
         {textPanels && !props.isLoading ? (
           <TextPanels
             panels={panelsToRender}
@@ -53,10 +63,10 @@ export const TextComponent = (props: TextComponentProps) => {
             closePanelHandler={closePanelHandler}
           />
         ) : (
-          <div className="flex flex-col gap-2">
-            <Skeleton className="h-4 w-64 rounded-lg" />
-            <Skeleton className="h-4 w-96 rounded-lg" />
-            <Skeleton className="h-4 w-48 rounded-lg" />
+          <div className="flex flex-col gap-2 pl-2 pt-2">
+            <Skeleton width="16rem" borderRadius="8px" className="h-4" />
+            <Skeleton width="24rem" borderRadius="8px" className="h-4" />
+            <Skeleton width="12rem" borderRadius="8px" className="h-4" />
           </div>
         )}
       </div>

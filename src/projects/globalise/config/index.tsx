@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import merge from "lodash/merge";
 import logo from "../../../assets/G-1.png";
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { defaultConfig } from "../../default/config";
@@ -8,8 +8,9 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishGlobaliseLabels } from "./englishGlobaliseLabels.ts";
+import { HelpLink } from "../HelpLink.tsx";
 
-export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
+export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "globalise",
   broccoliUrl: "https://gloccoli.tt.di.huc.knaw.nl",
   colours: {
@@ -20,27 +21,35 @@ export const globaliseConfig: ProjectConfig = _.merge({}, defaultConfig, {
   relativeTo: "na:File",
   annotationTypesToInclude: ["px:Page"],
   // annotationTypesToHighlight: ["px:Page"],
-  // allowedAnnotationTypesToHighlight: ["px:Page"],
-  elasticIndexName: "docs",
+  elasticIndexName: "docs-2024-03-18",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
+  maxRange: 30000,
   showSearchSortBy: false,
   showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,
   defaultShowMetadataPanel: false,
   logoImageUrl: logo,
+  headerColor: "bg-brand1-100 text-brand1-800",
   headerTitle: "GLOBALISE Transcriptions Viewer",
   logoHref: "https://globalise.huygens.knaw.nl",
   showSearchQueryHistory: false,
   showDateFacets: false,
   showKeywordFacets: false,
-  showSelectedFilters: false,
+  showSelectedFilters: true,
   showNewSearchButton: false,
   allowCloseTextPanel: false,
   allowEmptyStringSearch: false,
+  showMiradorNavigationButtons: true,
+  showInputFacet: true,
+  inputFacetOptions: "invNr",
+  showFacetFilter: false,
   components: {
     AnnotationButtons,
     Help,
+    HelpLink,
     MetadataPanel,
     SearchInfoPage,
     SearchItem,

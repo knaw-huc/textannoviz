@@ -23,6 +23,8 @@ export interface RepublicSearchResultBody {
   sessionYear: number;
   sessionWeekday: string;
   propositionType: string;
+  resolutionType: string;
+  textType: string;
   _hits: {
     text: string[];
   };
@@ -49,7 +51,23 @@ export type TranslatinSearchResultsBody = {
 export type MondriaanSearchResultsBody = {
   _id: string;
   bodyType: string;
+  correspondent: string;
+  sender: string;
+  period: string;
   type: string;
+  _hits: {
+    text: string[];
+  };
+};
+
+export type VanGoghSearchResultsBody = {
+  _id: string;
+  correspondent: string;
+  sender: string;
+  institution: string;
+  location: string;
+  msid: string;
+  period: string;
   _hits: {
     text: string[];
   };
@@ -58,6 +76,7 @@ export type MondriaanSearchResultsBody = {
 export type GlobaliseSearchResultsBody = {
   _id: string;
   document: string;
+  invNr: string;
   _hits: {
     text: string[];
   };
@@ -78,11 +97,15 @@ export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
   sender: string;
   senderLoc: string;
   shelfmark: string;
+  summary: string;
+  _hits: {
+    summary: string[];
+  };
 };
 
-export type FacetType = "date" | "keyword";
+export type FacetType = "date" | "keyword" | "short";
 
-export type FacetNamesByType = {
+export type FacetTypes = {
   [key: FacetName]: FacetType;
 };
 
@@ -104,12 +127,22 @@ export type Facet = Record<FacetOptionName, number>;
  */
 export type Terms = Record<FacetName, FacetOptionName[]>;
 
+type FacetAgg = {
+  order: "countDesc" | "countAsc" | string;
+  size: number;
+};
+type Aggs = Record<FacetName, FacetAgg>;
 export type SearchQueryRequestBody =
   | {
       text?: string;
       terms: Terms;
-      aggs?: string[];
+      aggs?: Aggs;
       date?: {
+        from: string;
+        to: string;
+        name: string;
+      };
+      range?: {
         from: string;
         to: string;
         name: string;

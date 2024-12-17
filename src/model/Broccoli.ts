@@ -17,6 +17,18 @@ export interface Broccoli {
   views: Record<string, BroccoliTextGeneric>;
 }
 
+export type BroccoliRelativeAnno = {
+  bodyId: string;
+  start: {
+    line: number;
+    offset?: number;
+  };
+  end: {
+    line: number;
+    offset?: number;
+  };
+};
+
 export interface BroccoliTextGeneric {
   lines: string[];
   locations: {
@@ -24,17 +36,7 @@ export interface BroccoliTextGeneric {
       bodyType: string;
       bodyId: string;
     };
-    annotations: {
-      bodyId: string;
-      start: {
-        line: number;
-        offset?: number;
-      };
-      end: {
-        line: number;
-        offset?: number;
-      };
-    }[];
+    annotations: BroccoliRelativeAnno[];
   };
 }
 

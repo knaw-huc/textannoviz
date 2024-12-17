@@ -1,26 +1,49 @@
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import React from "react";
+import type { Key } from "react-aria-components";
+import {
+  translateProjectSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
+import {
+  SelectComponent,
+  SelectItemComponent,
+} from "../common/SelectComponent.tsx";
 
 interface FragmenterProps {
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (key: Key) => void;
   value: number;
 }
 
 export const FragmenterSelection = (props: FragmenterProps) => {
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
+  const [selectedKey, setSelectedKey] = React.useState<Key>(100);
+
+  const options = [
+    { name: translate("SMALL"), value: 50 },
+    { name: translate("MEDIUM"), value: 100 },
+    { name: translate("LARGE"), value: 500 },
+  ];
+
+  function selectChangeHandler(key: Key) {
+    setSelectedKey(key);
+    props.onChange(key);
+  }
 
   return (
-    <div className="flex items-center justify-between">
-      <label className="mr-1 font-semibold">
-        {translate("DISPLAY_CONTEXT")}{" "}
-      </label>
-      <select
-        value={props.value}
-        onChange={props.onChange}
-        className="border-brand1Grey-700 rounded border bg-white px-2 py-1 text-sm"
-      >
-        <option value={100}>{translate("SNIPPET")}</option>
-        <option value={1000}>{translate("PAGE_VIEW")}</option>
-      </select>
-    </div>
+    <SelectComponent
+      label={translate("DISPLAY_CONTEXT")}
+      helpLabel={translateProject("SHOW_CONTEXT_HELP")}
+      items={options}
+      selectedKey={selectedKey}
+      onSelectionChange={selectChangeHandler}
+    >
+      {(item) => (
+        <SelectItemComponent id={item.value} textValue={item.name}>
+          {item.name}
+        </SelectItemComponent>
+      )}
+    </SelectComponent>
   );
 };

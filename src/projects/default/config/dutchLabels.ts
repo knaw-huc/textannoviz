@@ -9,13 +9,14 @@ export const dutchLabels: Labels = {
   NEW_SEARCH_QUERY: "Nieuwe zoekopdracht",
   NEXT: "Volgende",
   NO_SEARCH_HISTORY: "Geen zoekgeschiedenis",
-  PAGE_VIEW: "Page view",
   PREV: "Vorige",
   RELEVANCE: "Relevantie",
   RESULTS_PER_PAGE: "Resultaten per pagina",
   SEARCH_HISTORY: "Zoekgeschiedenis",
   SELECTED_FACETS: "Geselecteerde facetten",
-  SNIPPET: "Snippet",
+  SMALL: "Klein",
+  MEDIUM: "Medium",
+  LARGE: "Groot",
   SORT_BY: "Sorteer op",
   TEXT: "Tekst",
   UP_TO_AND_INCLUDING: "Tot en met",
@@ -23,6 +24,15 @@ export const dutchLabels: Labels = {
   PRESS_ENTER_TO_SEARCH: "Druk op ENTER om te zoeken",
   RESULTS: "Resultaten",
   FILTERS: "Filters",
+  FILTER_FACETS: "Filter facetten",
+  SHOW_MORE: "Meer",
+  SHOW_LESS: "Minder",
+
+  RESET_DATE: "Reset datum",
+  LINE_CHART: "Lijndiagram",
+  BAR_CHART: "Staafdiagram",
+  HIDE_HISTOGRAM: "Verberg histogram",
+  SHOW_HISTOGRAM: "Toon histogram",
 
   JANUARY: "januari",
   FEBRUARY: "februari",
@@ -47,16 +57,35 @@ export const dutchLabels: Labels = {
   SHOW_SEARCH_RESULTS: "Toon zoekresultaten",
   HIDE_SEARCH_RESULTS: "Verberg zoekresultaten",
   NEW_SEARCH: "Nieuwe zoekopdracht",
+  BACK_TO_SEARCH: "Terug naar zoekresultaten",
 
   NEXT_PAGE: "Volgende pagina",
   PREV_PAGE: "Vorige pagina",
   INFO_FIRST_PAGE: "U heeft de eerste pagina bereikt",
   INFO_LAST_PAGE: "U heeft de laatste pagina bereikt",
+  NEXT_SCAN: "Volgende scan",
+  PREV_SCAN: "Vorige scan",
 
   NO_FACETS_FOUND: "Geen search facets gevonden",
   NO_INDICES_FOUND: "Geen zoek indices gevonden",
   NO_SEARCH_RESULTS:
     "Geen zoekresultaten. Probeer een andere combinatie van facetten.",
+  NO_SEARCH_STRING: "Geen zoekterm opgegeven. Geef een zoekterm op.",
 
   DATE: "Datum",
+
+  SEARCH_CATEGORY: "Zoek naar",
+  WARNING_NEW_SEARCH: "Let op: dit start een nieuwe zoekactie",
+  MORE_INFO_ON_CATEGORY: "Meer informatie over",
+
+  // Help labels
+  FULL_TEXT_SEARCH_HELP: "",
+  SEARCH_HISTORY_HELP: "",
+  SHOW_CONTEXT_HELP: "",
+  SLIDER_FACET_HELP: "",
+  FILTER_FACETS_HELP: "",
+  SORT_BY_HELP: "",
+  TOGGLE_INFO_HELP: "",
+
+  OCCURRENCES_PER_YEAR: "Voorkomens per jaar",
 };

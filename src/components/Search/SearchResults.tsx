@@ -1,14 +1,17 @@
-import * as _ from "lodash";
-import React, { ChangeEvent, ReactNode } from "react";
+import isEmpty from "lodash/isEmpty";
+import React, { ReactNode } from "react";
+import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   projectConfigSelector,
+  translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { FacetEntry } from "../../stores/search/search-query-slice.ts";
+import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { usePagination } from "../../utils/usePagination.tsx";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
 import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
@@ -16,13 +19,15 @@ import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
-import { toPageNumber } from "./util/toPageNumber.ts";
 
-export function SearchResults(props: {
-  keywordFacets: FacetEntry[];
-  onSearch: (stayOnPage?: boolean) => void;
-}) {
-  const { keywordFacets, onSearch } = props;
+type SearchResultsProps = {
+  query: SearchQuery;
+  onSearch: () => void;
+  onPageChange: () => void;
+  selectedFacets: SearchQuery;
+};
+
+export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const {
     searchUrlParams,
@@ -31,11 +36,20 @@ export function SearchResults(props: {
     setSearchQuery,
     searchResults,
   } = useSearchStore();
+  const {
+    hasPrevPage,
+    selectPrevPage,
+    hasNextPage,
+    selectNextPage,
+    jumpToPage,
+    fromToPage,
+  } = usePagination();
 
   const resultsStart = searchUrlParams.from + 1;
   const pageSize = searchUrlParams.size;
-  const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
+  const pageNumber = fromToPage(searchUrlParams.from);
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const [graphType, setGraphType] = React.useState("bar");
   const [graphFrom] = React.useState(
@@ -43,6 +57,8 @@ export function SearchResults(props: {
   );
   const [graphTo] = React.useState(projectConfig.initialDateTo.split("-")[0]);
   const [showHistogram, setShowHistogram] = React.useState(true);
+  const { searchQueryHistory } = useSearchStore();
+  const [histogramZoomed, setHistogramZoomed] = React.useState(false);
 
   function updateSorting(sorting: Sorting) {
     setSearchUrlParams({
@@ -50,42 +66,39 @@ export function SearchResults(props: {
       sortBy: sorting.field,
       sortOrder: sorting.order,
     });
-    onSearch();
+    props.onSearch();
   }
 
-  async function selectPrevPage() {
-    const newFrom = searchUrlParams.from - searchUrlParams.size;
-    if (!searchResults || newFrom < 0) {
+  function handleSelectPrevPageClick() {
+    if (!hasPrevPage()) {
       return;
     }
-    await selectPage(newFrom);
+    selectPrevPage();
+    props.onPageChange();
   }
 
-  async function selectNextPage() {
-    const newFrom = searchUrlParams.from + searchUrlParams.size;
-    if (!searchResults || newFrom >= searchResults.total.value) {
+  function handleSelectNextPageClick() {
+    if (!hasNextPage()) {
       return;
     }
-    await selectPage(newFrom);
+    selectNextPage();
+    props.onPageChange();
   }
 
-  async function selectPage(newFrom: number) {
-    setSearchUrlParams({
-      ...searchUrlParams,
-      from: newFrom,
-    });
-    onSearch(true);
+  function handleJumpToPage(page: number) {
+    jumpToPage(page);
+    props.onPageChange();
   }
 
-  const changePageSize = (event: ChangeEvent<HTMLSelectElement>) => {
-    if (!event.currentTarget.value) {
+  const changePageSize = (key: Key) => {
+    if (!key) {
       return;
     }
     setSearchUrlParams({
       ...searchUrlParams,
-      size: parseInt(event.currentTarget.value),
+      size: key as number,
     });
-    onSearch();
+    props.onSearch();
   };
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
@@ -93,7 +106,7 @@ export function SearchResults(props: {
     removeTerm(newTerms, facet, option);
     setSearchQuery({ ...searchQuery, terms: newTerms });
     setSearchUrlParams({ ...searchUrlParams });
-    onSearch();
+    props.onSearch();
   }
 
   if (!searchResults) {
@@ -118,12 +131,31 @@ export function SearchResults(props: {
   function filterDateQuery(event: CategoricalChartState) {
     const newYear = event.activeLabel;
 
+    if (!newYear) return;
+
+    setHistogramZoomed(true);
+
     setSearchQuery({
       ...searchQuery,
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
     });
-    onSearch();
+    props.onSearch();
+  }
+
+  function returnToPrevDateRange() {
+    if (searchQueryHistory.length < 2) return;
+    const prevQuery = searchQueryHistory[searchQueryHistory.length - 2].query;
+
+    setHistogramZoomed(false);
+
+    setSearchQuery({
+      ...searchQuery,
+      dateFrom: prevQuery.dateFrom,
+      dateTo: prevQuery.dateTo,
+    });
+
+    props.onSearch();
   }
 
   return (
@@ -131,9 +163,9 @@ export function SearchResults(props: {
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
         <span className="font-semibold">
           {resultStartEnd
-            ? `${resultStartEnd} ${searchResults.total.value} ${translate(
-                "RESULTS",
-              ).toLowerCase()}`
+            ? `${resultStartEnd} ${
+                searchResults.total.value
+              } ${translateProject("results").toLowerCase()}`
             : translate("NO_SEARCH_RESULTS")}
         </span>
         <div className="flex items-center justify-between gap-10">
@@ -154,42 +186,50 @@ export function SearchResults(props: {
           )}
         </div>
       </div>
-      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row flex-wrap items-center justify-end gap-2 border-b px-10 pb-8">
-        {projectConfig.showSelectedFilters && !_.isEmpty(keywordFacets) && (
-          <>
-            <span className="text-brand1Grey-600 text-sm">
-              {translate("FILTERS")}:{" "}
-            </span>
-            {keywordFacets.map(([facet, facetOptions]) =>
-              _.keys(facetOptions)
-                .filter((option) => searchQuery.terms[facet]?.includes(option))
-                .map((option, i) => (
-                  <KeywordFacetLabel
-                    key={i}
-                    option={option}
-                    facet={facet}
-                    onRemove={removeFacet}
-                  />
-                )),
-            )}
-          </>
+      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-8">
+        {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
+          <div className="flex w-full flex-row items-center justify-start">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <span className="text-brand1Grey-600 text-sm">
+                {translate("FILTERS")}:{" "}
+              </span>
+              {Object.entries(searchQuery.terms).map(
+                ([facetOptionName, facetOptions]) =>
+                  facetOptions.map((facetOption, index) => {
+                    return (
+                      <KeywordFacetLabel
+                        key={index}
+                        option={facetOption}
+                        facet={facetOptionName}
+                        onRemove={removeFacet}
+                      />
+                    );
+                  }),
+              )}
+            </div>
+          </div>
         )}
 
         {searchResults.results.length >= 1 && (
-          <SearchPagination
-            prevPageClickHandler={selectPrevPage}
-            nextPageClickHandler={selectNextPage}
-            pageNumber={pageNumber}
-            searchResult={searchResults}
-            elasticSize={pageSize}
-          />
+          <div className="flex w-full flex-row justify-end">
+            <SearchPagination
+              onPrevPageClick={handleSelectPrevPageClick}
+              onNextPageClick={handleSelectNextPageClick}
+              pageNumber={pageNumber}
+              searchResult={searchResults}
+              elasticSize={pageSize}
+              onJumpToPage={handleJumpToPage}
+            />
+          </div>
         )}
       </div>
-      {projectConfig.showHistogram ? (
+      {projectConfig.showHistogram && searchResults.results.length >= 1 ? (
         <>
           <HistogramControls
             graphTypeButtonClickHandler={graphTypeButtonClickHandler}
             showHistogramButtonClickHandler={showHistogramButtonClickHandler}
+            returnToPrevDateRange={returnToPrevDateRange}
+            histogramZoomed={histogramZoomed}
           />
           <Histogram
             searchResults={searchResults}
@@ -202,28 +242,34 @@ export function SearchResults(props: {
           />
         </>
       ) : null}
-
-      {searchResults.results.length >= 1 &&
-        searchResults.results.map((result, index) => (
-          <projectConfig.components.SearchItem key={index} result={result} />
-        ))}
-      {searchResults.results.length >= 1 && (
-        <SearchPagination
-          prevPageClickHandler={selectPrevPage}
-          nextPageClickHandler={selectNextPage}
-          pageNumber={pageNumber}
-          searchResult={searchResults}
-          elasticSize={pageSize}
-        />
-      )}
+      <div id="resultsList">
+        {searchResults.results.length >= 1 &&
+          searchResults.results.map((result, index) => (
+            <projectConfig.components.SearchItem
+              key={index}
+              result={result}
+              query={props.query}
+            />
+          ))}
+        {searchResults.results.length >= 1 && (
+          <SearchPagination
+            onPrevPageClick={handleSelectPrevPageClick}
+            onNextPageClick={handleSelectNextPageClick}
+            pageNumber={pageNumber}
+            searchResult={searchResults}
+            elasticSize={pageSize}
+            onJumpToPage={handleJumpToPage}
+          />
+        )}
+      </div>
     </>
   );
 }
 
 export function SearchResultsColumn(props: { children?: ReactNode }) {
   return (
-    <div className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
+    <main className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
       {props.children}
-    </div>
+    </main>
   );
 }

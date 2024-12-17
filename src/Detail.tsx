@@ -1,19 +1,13 @@
-import { Skeleton } from "@nextui-org/react";
-import React from "react";
+import { Skeleton } from "primereact/skeleton";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Annotation } from "./components/Annotations/annotation";
-import { Footer } from "./components/Footer";
+import { Annotation } from "./components/Annotations/Annotation.tsx";
+import { Footer } from "./components/Footer/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
-import { SearchItem } from "./components/Search/SearchItem";
+import { NOTES_VIEW } from "./components/Text/Annotated/MarkerTooltip.tsx";
 import { TextComponent } from "./components/Text/TextComponent";
 import { Broccoli } from "./model/Broccoli";
 import { ProjectConfig } from "./model/ProjectConfig";
-import {
-  GlobaliseSearchResultsBody,
-  MondriaanSearchResultsBody,
-  RepublicSearchResultBody,
-  TranslatinSearchResultsBody,
-} from "./model/Search";
 import { useAnnotationStore } from "./stores/annotation";
 import { useProjectStore } from "./stores/project";
 import { useSearchStore } from "./stores/search/search-store";
@@ -26,13 +20,13 @@ interface DetailProps {
 }
 
 export const Detail = (props: DetailProps) => {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [showSearchResults, setShowSearchResults] = React.useState(false);
-  const [showIiifViewer, setShowIiifViewer] = React.useState(true);
-  const [showAnnotationPanel, setShowAnnotationPanel] = React.useState(
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showIiifViewer, setShowIiifViewer] = useState(true);
+  const [showAnnotationPanel, setShowAnnotationPanel] = useState(
     props.config.defaultShowMetadataPanel,
   );
-  const [broccoliResult, setBroccoliResult] = React.useState<Broccoli>();
+  const [broccoliResult, setBroccoliResult] = useState<Broccoli>();
   const setProjectName = useProjectStore((state) => state.setProjectName);
   const setAnnotations = useAnnotationStore((state) => state.setAnnotations);
   const setViews = useTextStore((state) => state.setViews);
@@ -42,7 +36,7 @@ export const Detail = (props: DetailProps) => {
   const globalSearchResults = useSearchStore((state) => state.searchResults);
   const params = useParams();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     setIsLoading(true);
@@ -50,7 +44,7 @@ export const Detail = (props: DetailProps) => {
     async function fetchBroccoli(bodyId: string) {
       const includeResults = ["anno", "iiif", "text"];
 
-      const views = props.config.allPossibleTextPanels.toString();
+      const viewNames = props.config.allPossibleTextPanels.toString();
 
       const overlapTypes = annotationTypesToInclude;
       const relativeTo = "Origin";
@@ -59,28 +53,48 @@ export const Detail = (props: DetailProps) => {
         bodyId,
         overlapTypes,
         includeResults,
-        views,
+        viewNames,
         relativeTo,
         props.config,
         signal,
-      );
+      ).catch(handleAbort);
+
+      if (!result) {
+        return;
+      }
+
+      const annotations = result.anno;
+      const views = result.views;
+
+      if (props.project === "suriano") {
+        const tfFileId = bodyId.replace("letter_body", "file");
+        console.warn("Add suriano notes panel by " + tfFileId);
+        const withNotes = await fetchBroccoliScanWithOverlap(
+          tfFileId,
+          ["tei:Note"],
+          ["anno", "text"],
+          "self",
+          relativeTo,
+          props.config,
+          signal,
+        );
+        annotations.push(...withNotes.anno);
+        views[NOTES_VIEW] = withNotes.views.self;
+      }
 
       setBroccoliResult(result);
 
       setProjectName(props.project);
-      setAnnotations(result.anno);
-      setViews(result.views);
+      setAnnotations(annotations);
+      setViews(views);
 
       setIsLoading(false);
     }
-
     if (params.tier2) {
       const bodyId = params.tier2;
       fetchBroccoli(bodyId);
     }
-    return () => {
-      controller.abort();
-    };
+    return () => controller.abort();
   }, [annotationTypesToInclude, params.tier2, props.config]);
 
   function showIiifViewerHandler() {
@@ -99,25 +113,8 @@ export const Detail = (props: DetailProps) => {
     <>
       {broccoliResult ? (
         <>
-          <div className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
-            <div className="h-full overflow-auto">
-              {showSearchResults
-                ? globalSearchResults && globalSearchResults.results.length >= 1
-                  ? globalSearchResults.results.map(
-                      (
-                        result:
-                          | RepublicSearchResultBody
-                          | TranslatinSearchResultsBody
-                          | MondriaanSearchResultsBody
-                          | GlobaliseSearchResultsBody,
-                        index: number,
-                      ) => <SearchItem key={index} result={result} />,
-                    )
-                  : null
-                : null}
-            </div>
-
-            {showIiifViewer ? (
+          <main className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
+            {showIiifViewer && props.config.showMirador ? (
               <Mirador broccoliResult={broccoliResult} />
             ) : null}
             <TextComponent
@@ -126,26 +123,32 @@ export const Detail = (props: DetailProps) => {
               isLoading={isLoading}
             />
             {showAnnotationPanel ? <Annotation isLoading={isLoading} /> : null}
-          </div>
-          <div>
-            <Footer
-              showIiifViewerHandler={showIiifViewerHandler}
-              showAnnotationPanelHandler={showAnnotationPanelHandler}
-              showSearchResultsHandler={showSearchResultsHandler}
-              showSearchResultsDisabled={globalSearchResults === undefined}
-              facsimileShowState={showIiifViewer}
-              panelShowState={showAnnotationPanel}
-              searchResultsShowState={showSearchResults}
-            />
-          </div>
+          </main>
+          <Footer
+            showIiifViewerHandler={showIiifViewerHandler}
+            showAnnotationPanelHandler={showAnnotationPanelHandler}
+            showSearchResultsHandler={showSearchResultsHandler}
+            showSearchResultsDisabled={globalSearchResults === undefined}
+            facsimileShowState={showIiifViewer}
+            panelShowState={showAnnotationPanel}
+            searchResultsShowState={showSearchResults}
+          />
         </>
       ) : (
         <div className="flex flex-col gap-2 pl-2 pt-2">
-          <Skeleton className="h-4 w-64 rounded-lg" />
-          <Skeleton className="h-4 w-96 rounded-lg" />
-          <Skeleton className="h-4 w-48 rounded-lg" />
+          <Skeleton width="16rem" borderRadius="8px" className="h-4" />
+          <Skeleton width="24rem" borderRadius="8px" className="h-4" />
+          <Skeleton width="12rem" borderRadius="8px" className="h-4" />
         </div>
       )}
     </>
   );
 };
+
+function handleAbort(e: Error) {
+  if (e instanceof DOMException && e.name == "AbortError") {
+    console.debug("fetchBroccoliScanWithOverlap aborted by useEffect callback");
+  } else {
+    throw e;
+  }
+}

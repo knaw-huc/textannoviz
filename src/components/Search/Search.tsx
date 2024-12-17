@@ -1,41 +1,52 @@
 import { Base64 } from "js-base64";
-import * as _ from "lodash";
-import { useEffect, useState } from "react";
+import _ from "lodash";
+import isEmpty from "lodash/isEmpty";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ProjectConfig } from "../../model/ProjectConfig.ts";
-import { FacetNamesByType } from "../../model/Search";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchUrlParams } from "../../stores/search/search-params-slice.ts";
 import {
+  blankSearchQuery,
   FacetEntry,
-  SearchQuery,
   filterFacetsByType,
+  SearchQuery,
   toRequestBody,
 } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import {
-  addToUrlParams,
-  getFromUrlParams,
-} from "../../utils/UrlParamUtils.tsx";
+import { addToUrlParams, getFromUrlParams } from "../../utils/UrlParamUtils.ts";
 import { getElasticIndices, sendSearchQuery } from "../../utils/broccoli";
+import { handleAbortControllerAbort } from "../../utils/handleAbortControllerAbort.ts";
 import { SearchForm } from "./SearchForm.tsx";
+import { SearchLoadingSpinner } from "./SearchLoadingSpinner.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
-import { QUERY } from "./SearchUrlParams.ts";
-import { createHighlights } from "./util/createHighlights.ts";
+import { useSearchResults } from "./useSearchResults.tsx";
+import { createAggs } from "./util/createAggs.ts";
+import { getFacets } from "./util/getFacets.ts";
+import { getUrlQuery } from "./util/getUrlQuery.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isInit, setInit] = useState(false);
   const [isDirty, setDirty] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isShowingResults, setShowingResults] = useState(false);
   const [keywordFacets, setKeywordFacets] = useState<FacetEntry[]>([]);
-  const [index, setIndex] = useState<FacetNamesByType>({});
   const [urlParams, setUrlParams] = useSearchParams();
+  const [defaultSearchQuery, setDefaultSearchQyery] = useState<
+    Partial<SearchQuery>
+  >({});
+  const [selectedFacets, setSelectedFacets] = useState<SearchQuery>({
+    dateFrom: "",
+    dateTo: "",
+    rangeFrom: "",
+    rangeTo: "",
+    fullText: "",
+    terms: {},
+  });
   const translate = useProjectStore(translateSelector);
   const {
     searchUrlParams,
@@ -43,16 +54,21 @@ export const Search = () => {
     searchQuery,
     setSearchQuery,
     setSearchResults,
-    setTextToHighlight,
-    searchQueryHistory,
-    updateSearchQueryHistory,
-    resetPage,
+    addToHistory,
+    toFirstPage,
+    searchFacetTypes,
+    setSearchFacetTypes,
   } = useSearchStore();
+
+  const { getSearchResults } = useSearchResults();
+  const skipUrlSyncRef = useRef(false);
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    initSearch();
+    initSearch().catch(() => {
+      handleAbortControllerAbort(signal);
+    });
 
     /**
      * Initialize search page:
@@ -69,179 +85,271 @@ export const Search = () => {
       }
       const queryDecoded = getUrlQuery(urlParams);
 
-      const newSearchQuery: SearchQuery = {
-        ...searchQuery,
-        dateFrom: projectConfig.initialDateFrom,
-        dateTo: projectConfig.initialDateTo,
-        ...queryDecoded,
-      };
       const newIndices = await getElasticIndices(projectConfig, signal);
       if (!newIndices) {
         return toast(translate("NO_INDICES_FOUND"), { type: "error" });
       }
+      const newFacetTypes = newIndices[projectConfig.elasticIndexName];
+      const aggregations = createAggs(newFacetTypes, projectConfig);
       const newSearchParams = getFromUrlParams(searchUrlParams, urlParams);
-      const newFacets = await getFacets(projectConfig, signal);
-      const newIndex = newIndices[projectConfig.elasticIndexName];
-      const newDateFacets = filterFacetsByType(newIndex, newFacets, "date");
-      if (!_.isEmpty(newDateFacets)) {
-        newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
-      }
+      const newFacets = await getFacets(
+        projectConfig,
+        aggregations,
+        searchQuery,
+        signal,
+      );
+
+      const newDateFacets = filterFacetsByType(
+        newFacetTypes,
+        newFacets,
+        "date",
+      );
+
       const newKeywordFacets = filterFacetsByType(
-        newIndex,
+        newFacetTypes,
         newFacets,
         "keyword",
       );
+      const defaultSearchQuery = {
+        ...blankSearchQuery,
+        dateFrom: projectConfig.initialDateFrom,
+        dateTo: projectConfig.initialDateTo,
+        rangeFrom: projectConfig.initialRangeFrom,
+        rangeTo: projectConfig.initialRangeTo,
+      };
+      const newSearchQuery: SearchQuery = {
+        ...defaultSearchQuery,
+        aggs: aggregations,
+        ...queryDecoded,
+      };
 
-      setKeywordFacets(newKeywordFacets);
-      setIndex(newIndex);
-      setSearchUrlParams(newSearchParams);
-      setSearchQuery(newSearchQuery);
-
-      if (queryDecoded?.fullText) {
-        await getSearchResults(
-          newIndex,
-          newSearchParams,
-          newSearchQuery,
-          signal,
-        );
-        setShowingResults(true);
+      if (!isEmpty(newDateFacets)) {
+        newSearchQuery.dateFacet = newDateFacets?.[0]?.[0];
       }
-
+      if (projectConfig.showSliderFacets) {
+        newSearchQuery.rangeFacet = "text.tokenCount";
+      }
+      setKeywordFacets(newKeywordFacets);
+      setSearchFacetTypes(newFacetTypes);
+      setSearchUrlParams(newSearchParams);
+      setDefaultSearchQyery(defaultSearchQuery);
+      setSearchQuery(newSearchQuery);
+      setSelectedFacets(newSearchQuery);
       setInit(true);
     }
+
     return () => {
-      controller.abort();
+      setInit(false);
+      controller.abort("useEffect cleanup cycle");
     };
   }, []);
 
+  // TODO: continue refactor work https://github.com/knaw-huc/textannoviz/pull/225
+  const [isUrlParamsAndSearchResultsInit, setUrlParamsAndSearchResultsInit] =
+    useState(false);
+
+  // Run when init has finished and search results should be shown:
+  // TODO: remove useEffect, split work between init and isDirty useEffect
+  useEffect(() => {
+    const aborter = new AbortController();
+
+    if (!isInit) {
+      return;
+    }
+    if (isUrlParamsAndSearchResultsInit) {
+      return;
+    }
+    skipUrlSyncRef.current = true;
+
+    const queryDecoded = getUrlQuery(urlParams);
+    const newSearchQuery = {
+      ...searchQuery,
+      ...queryDecoded,
+    };
+
+    setSearchQuery(newSearchQuery);
+    setSelectedFacets(newSearchQuery);
+
+    if (isSearchableQuery(queryDecoded, defaultSearchQuery)) {
+      doSearch();
+      return () => {
+        setIsLoading(false);
+        aborter.abort();
+      };
+    } else {
+      setUrlParamsAndSearchResultsInit(true);
+    }
+
+    async function doSearch() {
+      setIsLoading(true);
+      const searchResults = await getSearchResults(
+        searchFacetTypes,
+        searchUrlParams,
+        newSearchQuery,
+        aborter.signal,
+      );
+      setIsLoading(false);
+      if (searchResults) {
+        setSearchResults(searchResults.results);
+        setKeywordFacets(searchResults.facets);
+      }
+      setShowingResults(true);
+      setUrlParamsAndSearchResultsInit(true);
+    }
+  }, [urlParams, isInit, isUrlParamsAndSearchResultsInit]);
+
+  //THIS ONE IS RUN MULTIPLE TIMES
   useEffect(() => {
     syncUrlWithSearchParams();
 
     function syncUrlWithSearchParams() {
-      if (!isInit) {
+      if (!isInit || skipUrlSyncRef.current) {
+        skipUrlSyncRef.current = false;
         return;
       }
-      const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      function skipEmptyValues(_: string, v: any) {
-        return [null, ""].includes(v) ? undefined : v;
-      }
+      const query = JSON.stringify(searchQuery);
 
       const newUrlParams = addToUrlParams(urlParams, {
         ...searchUrlParams,
-        query: Base64.toBase64(cleanQuery),
+        query: Base64.toBase64(query),
         indexName: projectConfig.elasticIndexName,
       });
       setUrlParams(newUrlParams);
     }
   }, [searchUrlParams, searchQuery, isInit]);
 
+  // Run when user modifies search query or params:
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    if (isDirty) {
-      searchWhenDirty();
-    }
-
-    async function searchWhenDirty() {
-      const inHistory = searchQueryHistory.some((q) =>
-        _.isEqual(q, searchQuery),
-      );
-      if (!inHistory) {
-        updateSearchQueryHistory(searchQuery);
-      }
-      await getSearchResults(index, searchUrlParams, searchQuery, signal);
-      setDirty(false);
-    }
-
-    return () => {
-      controller.abort();
-    };
-  }, [isDirty]);
-
-  async function getSearchResults(
-    facetsByType: FacetNamesByType,
-    params: SearchUrlParams,
-    query: SearchQuery,
-    signal: AbortSignal,
-  ) {
-    if (!searchQuery.terms) {
+    if (!isDirty) {
       return;
     }
 
-    const newParams = { ...params, indexName: projectConfig.elasticIndexName };
+    const aborter = new AbortController();
+    searchWhenDirty();
+    return () => {
+      setIsLoading(false);
+      aborter.abort();
+    };
 
-    let exactSearch = false;
+    async function searchWhenDirty() {
+      const isEmptySearch =
+        searchQuery.fullText.length === 0 &&
+        !projectConfig.allowEmptyStringSearch;
 
-    if (query.fullText.startsWith('"')) {
-      exactSearch = true;
+      if (isEmptySearch) {
+        toast(translate("NO_SEARCH_STRING"), {
+          type: "warning",
+        });
+        setDirty(false);
+        return;
+      }
+
+      setShowingResults(true);
+
+      addToHistory(searchQuery);
+      setSelectedFacets(searchQuery);
+
+      setIsLoading(true);
+      const searchResults = await getSearchResults(
+        searchFacetTypes,
+        searchUrlParams,
+        searchQuery,
+        aborter.signal,
+      );
+      setIsLoading(false);
+      if (searchResults) {
+        setSearchResults(searchResults.results);
+        setKeywordFacets(searchResults.facets);
+      }
+      setDirty(false);
     }
+  }, [isDirty, searchQuery]);
 
+  async function updateAggs(query: SearchQuery) {
+    const newParams = {
+      ...searchUrlParams,
+      indexName: projectConfig.elasticIndexName,
+      size: 0,
+    };
+
+    setIsLoading(true);
     const searchResults = await sendSearchQuery(
       projectConfig,
       newParams,
       toRequestBody(query),
-      signal,
     );
-    if (!searchResults) {
-      return;
-    }
-    setSearchResults(searchResults);
-    setKeywordFacets(
-      filterFacetsByType(facetsByType, searchResults.aggs, "keyword"),
-    );
-    setTextToHighlight(createHighlights(searchResults, exactSearch));
-    const target = document.getElementById("searchContainer");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+    setIsLoading(false);
+
+    if (searchResults) {
+      setKeywordFacets(
+        filterFacetsByType(searchFacetTypes, searchResults.aggs, "keyword"),
+      );
     }
   }
 
-  function getUrlQuery(urlParams: URLSearchParams): Partial<SearchQuery> {
-    const queryEncoded = urlParams.get(QUERY);
-    return queryEncoded && JSON.parse(Base64.fromBase64(queryEncoded));
-  }
-
-  function handleNewSearch(stayOnPage?: boolean) {
-    if (!stayOnPage) {
-      resetPage();
-    }
+  function handleNewSearch() {
+    toFirstPage();
     setDirty(true);
-    setShowingResults(true);
   }
 
-  async function getFacets(projectConfig: ProjectConfig, signal: AbortSignal) {
-    const searchResults = await sendSearchQuery(
-      projectConfig,
-      { size: 0, indexName: projectConfig.elasticIndexName },
-      {},
-      signal,
-    );
-    if (!searchResults?.aggs) {
-      throw new Error("No facet request result");
-    }
-    return searchResults.aggs;
+  function handlePageChange() {
+    setDirty(true);
   }
 
   return (
-    <div
-      id="searchContainer"
-      className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
-    >
-      <SearchForm onSearch={handleNewSearch} keywordFacets={keywordFacets} />
-      <SearchResultsColumn>
-        {/* Wait for init, to prevent a flicker of info page before results are shown: */}
-        {!isShowingResults && isInit && (
-          <projectConfig.components.SearchInfoPage />
-        )}
-        {isShowingResults && (
-          <SearchResults
-            onSearch={handleNewSearch}
-            keywordFacets={keywordFacets}
-          />
-        )}
-      </SearchResultsColumn>
+    <div>
+      {isLoading && <SearchLoadingSpinner />}
+
+      <div
+        id="searchContainer"
+        className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
+      >
+        <SearchForm
+          onSearch={handleNewSearch}
+          keywordFacets={keywordFacets}
+          searchQuery={searchQuery}
+          updateAggs={updateAggs}
+        />
+        <SearchResultsColumn>
+          {/* Wait for init, to prevent a flicker of info page before results are shown: */}
+          {!isShowingResults && isInit && (
+            <projectConfig.components.SearchInfoPage />
+          )}
+          {isShowingResults && (
+            <SearchResults
+              onSearch={handleNewSearch}
+              onPageChange={handlePageChange}
+              query={searchQuery}
+              selectedFacets={selectedFacets}
+            />
+          )}
+        </SearchResultsColumn>
+      </div>
     </div>
   );
 };
+
+/**
+ * Search when query differs from default query
+ */
+function isSearchableQuery(
+  query: Partial<SearchQuery>,
+  defaultQuery: Partial<SearchQuery>,
+) {
+  if (!query) {
+    return false;
+  }
+  const keysToDiffer: (keyof SearchQuery)[] = [
+    "fullText",
+    "dateFrom",
+    "dateTo",
+    "terms",
+  ];
+  for (const key of keysToDiffer) {
+    if (!_.isEqual(query[key], defaultQuery[key])) {
+      return true;
+    }
+  }
+  return false;
+}

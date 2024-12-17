@@ -74,14 +74,55 @@ export function Mirador(props: MiradorProps) {
     const viewer = mirador.viewer(miradorConfig);
     setMiradorStore(viewer.store);
 
-    if (projectConfig.zoomAnnoMirador) {
-      zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
+    const INIT_CHECK_INTERVAL_MS = 250;
+    const MAX_INIT_ATTEMPTS = 80;
+    let intervalCount = 0;
+
+    /* 
+    Hack to make sure that Mirador is actually initialised.
+    Only after Mirador is initialised, TAV should interact with it.
+    */
+    function checkViewerInitialisation() {
+      const state = viewer.store.getState();
+      const isViewerInitialised: boolean | undefined =
+        state.viewers[projectConfig.id]?.x &&
+        typeof state.viewers[projectConfig.id].x === "number";
+
+      if (isViewerInitialised) {
+        performPostInitialisationActions();
+        clearInterval(initialisationCheckInterval);
+      } else if (intervalCount > MAX_INIT_ATTEMPTS) {
+        clearInterval(initialisationCheckInterval);
+      }
+      intervalCount += 1;
     }
 
-    if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
-      renderAnnosMirador(viewer.store);
+    function performPostInitialisationActions() {
+      if (projectConfig.zoomAnnoMirador) {
+        zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
+      }
+
+      if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
+        renderAnnosMirador(viewer.store);
+      }
+
+      //Remove Mirador navigation buttons based on project config
+      if (!projectConfig.showMiradorNavigationButtons) {
+        const target = document.getElementsByClassName(
+          "mirador-osd-navigation",
+        );
+        target[0]?.remove();
+      }
     }
-  }, [miradorConfig]);
+
+    const initialisationCheckInterval = setInterval(() => {
+      checkViewerInitialisation();
+    }, INIT_CHECK_INTERVAL_MS);
+
+    return () => {
+      clearInterval(initialisationCheckInterval);
+    };
+  }, [miradorConfig, projectConfig, props.broccoliResult]);
 
   React.useEffect(() => {
     if (!showSvgsAnnosMirador && miradorStore) {
@@ -96,7 +137,7 @@ export function Mirador(props: MiradorProps) {
   return (
     <div
       id="mirador"
-      className="bg-brand1Grey-50 sticky top-0 hidden h-[calc(100vh-79px)] w-7/12 grow self-stretch overflow-auto lg:flex"
-    ></div>
+      className="bg-brand1Grey-50 sticky top-0 hidden h-[calc(100vh-100px)] w-7/12 grow self-stretch overflow-auto lg:flex"
+    />
   );
 }

@@ -6,20 +6,26 @@ import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
+import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";
-import { ServerConfig } from "./model/ServerConfig";
 import { globaliseConfig } from "./projects/globalise/config";
+import { hooftConfig } from "./projects/hooft/config";
 import { mondriaanConfig } from "./projects/mondriaan/config";
 import { republicConfig } from "./projects/republic/config";
 import { surianoConfig } from "./projects/suriano/config";
 import { translatinConfig } from "./projects/translatin/config";
+import { vangoghConfig } from "./projects/vangogh/config";
 import { useAnnotationStore } from "./stores/annotation";
-import { setProjectConfigSelector, useProjectStore } from "./stores/project";
+import {
+  setProjectConfigSelector,
+  setProjectNameSelector,
+  useProjectStore,
+} from "./stores/project";
 
 const { project, config } = createProjectConfig();
 const router = await createRouter();
 
-async function fetchServerConfig(): Promise<ServerConfig | null> {
+async function fetchExternalConfig(): Promise<ExternalConfig | null> {
   const response = await fetch("/config");
   if (!response.ok) {
     return null;
@@ -29,12 +35,29 @@ async function fetchServerConfig(): Promise<ServerConfig | null> {
 }
 
 if (import.meta.env.PROD && config.useExternalConfig === true) {
-  const serverConfig = await fetchServerConfig();
+  const externalConfig = await fetchExternalConfig();
 
-  if (serverConfig) {
-    config.elasticIndexName = serverConfig.indexName;
-    config.initialDateFrom = serverConfig.initialDateFrom;
-    config.initialDateTo = serverConfig.initialDateTo;
+  if (externalConfig) {
+    const {
+      indexName,
+      initialDateFrom,
+      initialDateTo,
+      initialRangeFrom,
+      initialRangeTo,
+      maxRange,
+      broccoliUrl,
+      annotationTypesToInclude,
+    } = externalConfig;
+
+    config.elasticIndexName = indexName;
+    if (initialDateFrom) config.initialDateFrom = initialDateFrom;
+    if (initialDateTo) config.initialDateTo = initialDateTo;
+    if (initialRangeFrom) config.initialRangeFrom = initialRangeFrom;
+    if (initialRangeTo) config.initialRangeTo = initialRangeTo;
+    if (maxRange) config.maxRange = maxRange;
+    if (broccoliUrl) config.broccoliUrl = broccoliUrl;
+    if (annotationTypesToInclude)
+      config.annotationTypesToInclude = annotationTypesToInclude;
   }
 }
 
@@ -46,9 +69,11 @@ export default function App() {
     (state) => state.setAnnotationTypesToHighlight,
   );
   const setProjectConfig = useProjectStore(setProjectConfigSelector);
+  const setProjectName = useProjectStore(setProjectNameSelector);
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
   setAnnotationTypesToHighlight(config.annotationTypesToHighlight);
   setProjectConfig(config);
+  setProjectName(project);
 
   return <RouterProvider router={router} />;
 }
@@ -109,6 +134,12 @@ function createProjectConfig() {
       break;
     case "suriano":
       config = surianoConfig;
+      break;
+    case "hooft":
+      config = hooftConfig;
+      break;
+    case "vangogh":
+      config = vangoghConfig;
       break;
     default:
       throw new Error(

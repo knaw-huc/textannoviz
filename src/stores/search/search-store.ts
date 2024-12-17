@@ -4,10 +4,6 @@ import {
   SearchResultsSlice,
 } from "./search-results-slice.ts";
 import {
-  createTextToHighlightSlice,
-  TextToHighlightSlice,
-} from "./text-to-highlight-slice.ts";
-import {
   createSearchParamsSlice,
   SearchParamsSlice,
 } from "./search-params-slice.ts";
@@ -15,15 +11,25 @@ import {
   createSearchQuerySlice,
   SearchQuerySlice,
 } from "./search-query-slice.ts";
+import {
+  createSearchFacetTypesSlice,
+  SearchFacetTypesSlice,
+} from "./search-facet-types-slice.ts";
+import {
+  createSearchHistorySlice,
+  SearchHistorySlice,
+} from "./search-history-slice.ts";
 
-type SearchStore = SearchResultsSlice &
-  TextToHighlightSlice &
+export type SearchStore = SearchResultsSlice &
   SearchParamsSlice &
-  SearchQuerySlice;
+  SearchQuerySlice &
+  SearchFacetTypesSlice &
+  SearchHistorySlice;
 
 export const useSearchStore = create<SearchStore>()((...a) => ({
+  ...createSearchFacetTypesSlice(...a),
   ...createSearchResultsSlice(...a),
-  ...createTextToHighlightSlice(...a),
   ...createSearchParamsSlice(...a),
   ...createSearchQuerySlice(...a),
+  ...createSearchHistorySlice(...a),
 }));

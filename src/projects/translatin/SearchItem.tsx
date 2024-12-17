@@ -1,18 +1,21 @@
 import { Link } from "react-router-dom";
-import { TranslatinSearchResultsBody } from "../../model/Search";
+import { TranslatinSearchResultsBody } from "../../model/Search.ts";
 
-type SearchItemProps = {
-  result: TranslatinSearchResultsBody;
-};
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
+import { toDetailPageUrl } from "../../components/Text/Annotated/utils/toDetailPageUrl.tsx";
 
-export const SearchItem = (props: SearchItemProps) => {
+export const SearchItem = (
+  props: SearchItemProps<TranslatinSearchResultsBody>,
+) => {
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
         <strong>{`${props.result.earliest} - ${props.result.latest}`}</strong>
       </li>
       <Link
-        to={`/detail/${props.result._id}`}
+        to={toDetailPageUrl(props.result._id, {
+          highlight: props.query.fullText,
+        })}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">

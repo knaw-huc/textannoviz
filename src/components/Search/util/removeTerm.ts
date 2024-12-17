@@ -1,5 +1,5 @@
+import pull from "lodash/pull";
 import { Terms } from "../../../model/Search.ts";
-import * as _ from "lodash";
 
 export function removeTerm(
   update: Terms,
@@ -8,7 +8,7 @@ export function removeTerm(
 ) {
   const facetToUpdate = update[facetName];
   if (facetToUpdate.length > 1) {
-    _.pull(facetToUpdate, facetOptionName);
+    pull(facetToUpdate, facetOptionName);
   } else {
     delete update[facetName];
   }

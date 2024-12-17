@@ -47,13 +47,13 @@ export const MetadataPanel = (props: MetadataPanelProps) => {
         <li className="mb-8">
           <strong>{translateProject("senderLoc")}</strong>
           <div className={gridOneColumn}>
-            {(fileAnno?.body as SurianoTfFileBody).metadata.senderloc}
+            {(fileAnno?.body as SurianoTfFileBody).metadata.senderLoc}
           </div>
         </li>
         <li className="mb-8">
           <strong>{translateProject("recipientLoc")}</strong>
           <div className={gridOneColumn}>
-            {(fileAnno?.body as SurianoTfFileBody).metadata.recipientloc}
+            {(fileAnno?.body as SurianoTfFileBody).metadata.recipientLoc}
           </div>
         </li>
         <li className="mb-8">

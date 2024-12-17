@@ -5,6 +5,8 @@ import { AnnotationItem } from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishLabels } from "./englishLabels.ts";
+import { getCategory } from "./getCategory.ts";
+import { isEntity } from "./isEntity.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -17,14 +19,30 @@ export const defaultConfig: Omit<
   | "headerTitle"
   | "initialDateFrom"
   | "initialDateTo"
+  | "initialRangeFrom"
+  | "initialRangeTo"
+  | "maxRange"
   | "logoImageUrl"
   | "relativeTo"
+  | "headerColor"
 > = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
+
+  showAnnotations: false,
+
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
-  allowedAnnotationTypesToHighlight: [],
+
+  tooltipMarkerAnnotationTypes: [],
+  insertTextMarkerAnnotationTypes: [],
+  pageMarkerAnnotationTypes: [],
+  entityAnnotationTypes: [],
+  highlightedAnnotationTypes: [],
+  getAnnotationCategory: getCategory,
+  getHighlightCategory: getCategory,
+  isEntity: isEntity,
+
   allPossibleTextPanels: ["self"],
   defaultTextPanels: ["self"],
   showSearchSortBy: true,
@@ -38,24 +56,38 @@ export const defaultConfig: Omit<
   showSearchQueryHistory: true,
   showDateFacets: true,
   showKeywordFacets: true,
+  showSliderFacets: false,
   showSelectedFilters: true,
   showNewSearchButton: true,
-  allowCloseTextPanel: true,
+  allowCloseTextPanel: false,
   showWebAnnoTab: true,
   showHistogram: false,
   useExternalConfig: false,
   visualizeAnnosMirador: false,
   allowEmptyStringSearch: true,
+  showMirador: true,
+  showMiradorNavigationButtons: false,
+  showInputFacet: false,
   histogramFacet: "",
+  inputFacetOptions: "",
+  overrideDefaultAggs: [],
+  defaultKeywordAggsToRender: [],
+  showFacetFilter: true,
+  showPrevNextScanButtons: false,
+  pageAnnotation: "",
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,
     AnnotationLinks: Placeholder,
     AnnotationButtons: Empty,
+    EntitySummary: Placeholder,
     Help: Placeholder,
+    HelpLink: Empty,
     MetadataPanel: Placeholder,
     SearchInfoPage: Placeholder,
     SearchItem: SearchItem,
+    EntityMetadata: Empty,
+    BrowseScanButtons: Empty,
   },
   selectedLanguage: "en",
   languages: [

@@ -1,19 +1,23 @@
 import { Link } from "react-router-dom";
-import { DefaultSearchResultsBody } from "../../model/Search";
+import { DefaultSearchResultsBody } from "../../model/Search.ts";
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
+import { toDetailPageUrl } from "../../components/Text/Annotated/utils/toDetailPageUrl.tsx";
 
-type SearchItemProps = {
-  result: DefaultSearchResultsBody;
-};
-
-export const SearchItem = (props: SearchItemProps) => {
+export const SearchItem = (
+  props: SearchItemProps<DefaultSearchResultsBody>,
+) => {
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
-        to={`/detail/${props.result._id}`}
+        to={toDetailPageUrl(props.result._id, {
+          highlight: props.query.fullText,
+        })}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
-          <div className="p-4 font-semibold">{props.result._id}</div>
+          <div className="p-4 font-semibold" tabIndex={0}>
+            {props.result._id}
+          </div>
           {props.result._hits?.text.map((hit, index) => (
             <div key={index} className="hover:bg-brand1Grey-50 w-full p-4">
               <div
