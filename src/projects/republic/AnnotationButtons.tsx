@@ -3,6 +3,10 @@ import { Button } from "react-aria-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { ResolutionBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
+import {
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;
@@ -10,6 +14,7 @@ export function AnnotationButtons() {
   const navigate = useNavigate();
   const [isPrevButtonDisabled, setIsPrevButtonDisabled] = React.useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = React.useState(false);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const currentAnnotation = annotations.find(
     (anno) => anno.body.id === params.tier2,
@@ -41,14 +46,14 @@ export function AnnotationButtons() {
         isDisabled={isPrevButtonDisabled}
       >
         {/* <ChevronLeftIcon className="h-4 w-4 fill-neutral-500" /> */}
-        Vorige resolutie
+        {translateProject("prevResolution")}
       </Button>
       <Button
         className="hover:text-brand1-600 active:text-brand1-700 disabled:text-brand1-200 flex flex-row items-center gap-1 py-1 pl-16 outline-none"
         onPress={nextResolutionButtonClickHandler}
         isDisabled={isNextButtonDisabled}
       >
-        Volgende resolutie
+        {translateProject("nextResolution")}
         {/* <ChevronRightIcon className="h-4 w-4 fill-neutral-500" /> */}
       </Button>
     </>
