@@ -1,7 +1,7 @@
 import { Base64 } from "js-base64";
 import _ from "lodash";
 import isEmpty from "lodash/isEmpty";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -298,7 +298,7 @@ export const Search = () => {
   }
 
   return (
-    <div>
+    <React.Fragment>
       {isLoading && <SearchLoadingSpinner />}
 
       <div
@@ -326,7 +326,7 @@ export const Search = () => {
           )}
         </SearchResultsColumn>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
