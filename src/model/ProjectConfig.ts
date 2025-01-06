@@ -11,6 +11,7 @@ import {
   RepublicSearchResultBody,
   SearchParams,
   SearchQuery,
+  SurianoSearchResultsBody,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
 
@@ -49,7 +50,7 @@ type FacsimileConfig = {
   };
 };
 
-type ComponentsConfig = {
+export type ComponentsConfig = {
   AnnotationButtons: () => JSX.Element;
   AnnotationItem: (props: AnnotationItemProps) => JSX.Element;
   AnnotationItemContent: (props: {
@@ -67,7 +68,8 @@ type ComponentsConfig = {
       | RepublicSearchResultBody
       | TranslatinSearchResultsBody
       | MondriaanSearchResultsBody
-      | GlobaliseSearchResultsBody;
+      | GlobaliseSearchResultsBody
+      | SurianoSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
 };
@@ -105,7 +107,6 @@ type SearchConfig = {
     order?: string;
     size?: number;
   }[];
-  // TODO: overrideDefaultSearchParams: dateAsc for date
   overrideDefaultSearchParams: Partial<SearchParams>;
   allowEmptyStringSearch: boolean;
   showFacetFilter: boolean;
@@ -176,3 +177,42 @@ export type EntitySummaryDetailsProps = {
 };
 
 export type CategoryGetter = (annoRepoBody: AnnoRepoBody) => string;
+
+/**
+ * Omitted fields mirror {@link ProjectSpecificConfig}
+ */
+export type DefaultConfig = Omit<
+  ProjectConfig,
+  | "id"
+  | "elasticIndexName"
+  | "headerTitle"
+  | "initialDateFrom"
+  | "initialDateTo"
+  | "initialRangeFrom"
+  | "initialRangeTo"
+  | "maxRange"
+  | "logoImageUrl"
+  | "relativeTo"
+  | "headerColor"
+>;
+
+/**
+ * Required fields mirror {@link DefaultConfig}
+ */
+export type ProjectSpecificConfig = Pick<
+  ProjectConfig,
+  | "id"
+  | "elasticIndexName"
+  | "headerTitle"
+  | "initialDateFrom"
+  | "initialDateTo"
+  | "initialRangeFrom"
+  | "initialRangeTo"
+  | "maxRange"
+  | "logoImageUrl"
+  | "relativeTo"
+  | "headerColor"
+> &
+  Omit<Partial<ProjectConfig>, "components"> & {
+    components?: Partial<ComponentsConfig>;
+  };
