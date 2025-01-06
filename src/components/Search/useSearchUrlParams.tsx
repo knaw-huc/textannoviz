@@ -12,6 +12,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { createSearchParams } from "./createSearchParams.tsx";
 
 /**
  * The url is our single source of truth.
@@ -21,10 +22,16 @@ import {
  */
 export function useSearchUrlParams() {
   const [urlParams, setUrlParams] = useSearchParams();
+
   const { defaultQuery } = useSearchStore();
   const projectConfig = useProjectStore(projectConfigSelector);
+
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
     getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
+  );
+
+  const [searchParams, setSearchParams] = useState<SearchParams>(
+    getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
   );
 
   useEffect(() => {
@@ -32,15 +39,17 @@ export function useSearchUrlParams() {
     getSearchQueryFromUrl(defaultQuery, urlParams);
   }, [defaultQuery]);
 
-  const [searchParams, setSearchParams] = useState<SearchParams>(
-    getSearchParamsFromUrl(defaultSearchParams, urlParams),
-  );
-
+  /**
+   * Update search params and query when url changes
+   */
   useEffect(() => {
     setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
     setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
   }, [urlParams]);
 
+  /**
+   * Update search params and query by updating the url
+   */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
     updateUrl({ searchQuery: { ...searchQuery, ...update } });
   }
@@ -49,7 +58,12 @@ export function useSearchUrlParams() {
     updateUrl({ searchParams: { ...searchParams, ...update } });
   }
 
-  function updateUrl(update: UpdatedUrlProps) {
+  function updateUrl(
+    update: Partial<{
+      searchQuery: SearchQuery;
+      searchParams: SearchParams;
+    }>,
+  ) {
     const updatedUrlParams = createUrlParams(
       Object.fromEntries(urlParams.entries()),
       update.searchParams || searchParams,
@@ -75,17 +89,3 @@ export function useSearchUrlParams() {
     toFirstPage,
   };
 }
-
-export const defaultSearchParams: SearchParams = {
-  indexName: "",
-  fragmentSize: 100,
-  from: 0,
-  size: 3,
-  sortBy: "_score",
-  sortOrder: "desc",
-};
-
-export type UpdatedUrlProps = Partial<{
-  searchQuery: SearchQuery;
-  searchParams: SearchParams;
-}>;

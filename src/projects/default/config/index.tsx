@@ -71,6 +71,7 @@ export const defaultConfig: Omit<
   histogramFacet: "",
   inputFacetOptions: "",
   overrideDefaultAggs: [],
+  overrideDefaultSearchParams: {},
   defaultKeywordAggsToRender: [],
   showFacetFilter: true,
   showPrevNextScanButtons: false,

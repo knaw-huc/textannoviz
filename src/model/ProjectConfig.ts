@@ -9,6 +9,7 @@ import {
   GlobaliseSearchResultsBody,
   MondriaanSearchResultsBody,
   RepublicSearchResultBody,
+  SearchParams,
   SearchQuery,
   TranslatinSearchResultsBody,
 } from "./Search.ts";
@@ -98,13 +99,14 @@ type SearchConfig = {
   showSelectedFilters: boolean;
   showNewSearchButton: boolean;
   defaultKeywordAggsToRender: string[];
-  // TODO: overrideDefaultSearchParams: dateAsc for date
   showSearchResultsOnInfoPage: boolean;
   overrideDefaultAggs: {
     facetName: string;
     order?: string;
     size?: number;
   }[];
+  // TODO: overrideDefaultSearchParams: dateAsc for date
+  overrideDefaultSearchParams: Partial<SearchParams>;
   allowEmptyStringSearch: boolean;
   showFacetFilter: boolean;
 };
