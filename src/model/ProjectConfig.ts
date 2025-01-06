@@ -13,7 +13,9 @@ import {
   SearchQuery,
   SurianoSearchResultsBody,
   TranslatinSearchResultsBody,
+  VanGoghSearchResultsBody,
 } from "./Search.ts";
+import { MiradorConfig } from "./MiradorConfig.ts";
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
@@ -69,7 +71,8 @@ export type ComponentsConfig = {
       | TranslatinSearchResultsBody
       | MondriaanSearchResultsBody
       | GlobaliseSearchResultsBody
-      | SurianoSearchResultsBody;
+      | SurianoSearchResultsBody
+      | VanGoghSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
 };
@@ -200,7 +203,8 @@ export type ProjectSpecificConfig = Pick<
   ProjectConfig,
   ProjectSpecificProperties
 > &
-  // Make nested properties of components optional:
-  Omit<Partial<ProjectConfig>, "components"> & {
+  // Make nested config properties optional:
+  Omit<Partial<ProjectConfig>, "components" | "mirador"> & {
     components?: Partial<ComponentsConfig>;
+    mirador?: Partial<MiradorConfig>;
   };

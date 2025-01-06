@@ -1,6 +1,9 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-mondrian-papers.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import AnnotationItem from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
@@ -135,4 +138,4 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   mirador: {
     showTopMenuButton: true,
   },
-});
+} as ProjectSpecificConfig);
