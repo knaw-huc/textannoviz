@@ -118,4 +118,8 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   selectedLanguage: "en",
   languages: [{ code: "en", labels: englishSurianoLabels }],
   showSearchResultsOnInfoPage: true,
+  overrideDefaultSearchParams: {
+    sortBy: "date",
+    sortOrder: "asc",
+  },
 } as ProjectSpecificConfig);
