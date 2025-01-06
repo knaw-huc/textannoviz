@@ -1,6 +1,6 @@
 import { Empty } from "../../../components/Empty.tsx";
 import { Placeholder } from "../../../components/Placeholder.tsx";
-import { DefaultConfig } from "../../../model/ProjectConfig.ts";
+import { DefaultProjectConfig } from "../../../model/ProjectConfig.ts";
 import { AnnotationItem } from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
 import { SearchItem } from "../SearchItem.tsx";
@@ -12,7 +12,7 @@ import { isEntity } from "./isEntity.ts";
  * Default configuration file with some sensible defaults
  * which can be extended and overwritten by projects
  */
-export const defaultConfig: DefaultConfig = {
+export const defaultConfig: DefaultProjectConfig = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
 

@@ -178,11 +178,7 @@ export type EntitySummaryDetailsProps = {
 
 export type CategoryGetter = (annoRepoBody: AnnoRepoBody) => string;
 
-/**
- * Omitted fields mirror {@link ProjectSpecificConfig}
- */
-export type DefaultConfig = Omit<
-  ProjectConfig,
+export type ProjectSpecificProperties =
   | "id"
   | "elasticIndexName"
   | "headerTitle"
@@ -193,26 +189,18 @@ export type DefaultConfig = Omit<
   | "maxRange"
   | "logoImageUrl"
   | "relativeTo"
-  | "headerColor"
+  | "headerColor";
+
+export type DefaultProjectConfig = Omit<
+  ProjectConfig,
+  ProjectSpecificProperties
 >;
 
-/**
- * Required fields mirror {@link DefaultConfig}
- */
 export type ProjectSpecificConfig = Pick<
   ProjectConfig,
-  | "id"
-  | "elasticIndexName"
-  | "headerTitle"
-  | "initialDateFrom"
-  | "initialDateTo"
-  | "initialRangeFrom"
-  | "initialRangeTo"
-  | "maxRange"
-  | "logoImageUrl"
-  | "relativeTo"
-  | "headerColor"
+  ProjectSpecificProperties
 > &
+  // Make nested properties of components optional:
   Omit<Partial<ProjectConfig>, "components"> & {
     components?: Partial<ComponentsConfig>;
   };
