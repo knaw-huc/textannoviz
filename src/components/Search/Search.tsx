@@ -32,6 +32,7 @@ export const Search = () => {
     keywordFacets,
     addToHistory,
     searchResults,
+    defaultQuery,
   } = useSearchStore();
 
   useEffect(() => {
@@ -116,8 +117,17 @@ export const Search = () => {
     setDirty(true);
   }
 
+  const [isDefaultQuery, setIsDefaultQuery] = useState(false);
+  useEffect(() => {
+    const result = _.isEqual(defaultQuery, searchQuery);
+    console.log("isDefaultQuery?", { result, defaultQuery, searchQuery });
+    setIsDefaultQuery(result);
+  }, [defaultQuery, searchQuery, searchResults]);
+
   return (
     <div>
+      <p>Is default? {`${isDefaultQuery}`}</p>
+
       {isLoading && <SearchLoadingSpinner />}
 
       <div
