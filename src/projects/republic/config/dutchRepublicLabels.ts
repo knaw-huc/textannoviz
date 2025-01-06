@@ -78,6 +78,10 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
 
   ENTITIES: "Entiteiten",
 
+  //Footer
+  prevResolution: "Vorige resolutie",
+  nextResolution: "Volgende resolutie",
+
   FULL_TEXT_SEARCH_HELP:
     "Zoek naar termen of namen die voorkomen in de resoluties. \n" +
     "- Maak gebruik van wildcards (‘*’ voor meer, ‘?’ voor één karakter) om varianten te vinden.\n" +
@@ -88,7 +92,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   SHOW_CONTEXT_HELP:
     "Toont naar keuze meer of minder omliggende tekst bij een zoekterm in een resolutie.",
   SLIDER_FACET_HELP: "Filter op resoluties van een bepaalde woordomvang.",
-  FILTER_FACETS_HELP: "Hiermee kunt u filters tonen of verbergen.",
+  FILTER_FACETS_HELP: "Hiermee kun je filters tonen of verbergen.",
   DELEGATE_ID_HELP: "Filter op identificatienummer aanwezige gedeputeerden.",
   DELEGATE_NAME_HELP: "Filter op achternaam van aanwezige gedeputeerden.",
   COMMISSION_ID_HELP:

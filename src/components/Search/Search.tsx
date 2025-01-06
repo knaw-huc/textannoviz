@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -15,7 +16,6 @@ import { toRequestBody } from "../../stores/search/toRequestBody.ts";
 import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import { useInitSearch } from "./useInitSearch.ts";
-import _ from "lodash";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -117,7 +117,7 @@ export const Search = () => {
   }
 
   return (
-    <div>
+    <React.Fragment>
       {isLoading && <SearchLoadingSpinner />}
 
       <div
@@ -144,6 +144,6 @@ export const Search = () => {
           )}
         </SearchResultsColumn>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
