@@ -100,14 +100,16 @@ type SearchConfig = {
   defaultKeywordAggsToRender: string[];
   // TODO: config if project should show intro text
   // TODO: overrideDefaultSearchParams: dateAsc for date
-
+  showSearchResultsOnInfoPage: boolean;
   /**
    * TODO
    *  - twee config-opties
    *    - intro-text-pagina
-   *      - renders no results but SearchInfoPage when defaultQuery
+   *      - renders SearchInfoPage when defaultQuery
+   *      - does not load search results when defaultQuery
    *    - intro-search-pagina
    *      - renders SearchInfoPage + results when defaultQuery
+   *      - also loads search results when defaultQuery
    */
 
   overrideDefaultAggs: {

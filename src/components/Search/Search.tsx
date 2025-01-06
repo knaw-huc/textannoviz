@@ -126,10 +126,7 @@ export const Search = () => {
 
   return (
     <div>
-      <p>Is default? {`${isDefaultQuery}`}</p>
-
       {isLoading && <SearchLoadingSpinner />}
-
       <div
         id="searchContainer"
         className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
@@ -142,7 +139,7 @@ export const Search = () => {
         />
         <SearchResultsColumn>
           {/* Wait for init, to prevent a flicker of info page before results are shown: */}
-          {!isShowingResults && isInitSearch && (
+          {isInitSearch && isDefaultQuery && (
             <projectConfig.components.SearchInfoPage />
           )}
           {isShowingResults && (

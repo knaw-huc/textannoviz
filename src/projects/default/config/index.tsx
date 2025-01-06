@@ -99,4 +99,5 @@ export const defaultConfig: Omit<
     showWindowSideBar: false,
     showTopMenuButton: false,
   },
+  showSearchResultsOnInfoPage: false,
 };

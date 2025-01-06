@@ -7,6 +7,10 @@ import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { useDefaultQuery } from "./useDefaultQuery.ts";
 import _ from "lodash";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -15,6 +19,8 @@ import _ from "lodash";
  * - fetch results when {@link isSearchableQuery}
  */
 export function useInitSearch() {
+  const projectConfig = useProjectStore(projectConfigSelector);
+
   const { setSearchResults, setKeywordFacets, searchFacetTypes, defaultQuery } =
     useSearchStore();
   const { searchParams } = useSearchUrlParams();
@@ -43,14 +49,12 @@ export function useInitSearch() {
     setLoading(true);
 
     const newSearchQuery: SearchQuery = _.merge({}, defaultQuery, searchQuery);
-    console.log("new SearchQuery", {
-      defaultQuery,
-      searchQuery,
-      newSearchQuery,
-    });
     updateSearchQuery(newSearchQuery);
 
-    if (isSearchableQuery(newSearchQuery, defaultQuery)) {
+    if (
+      projectConfig.showSearchResultsOnInfoPage ||
+      isSearchableQuery(newSearchQuery, defaultQuery)
+    ) {
       const searchResults = await getSearchResults(
         searchFacetTypes,
         searchParams,
