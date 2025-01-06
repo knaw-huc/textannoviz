@@ -96,7 +96,7 @@ export const defaultSearchParams: SearchParams = {
   indexName: "",
   fragmentSize: 100,
   from: 0,
-  size: 3,
+  size: 10,
   sortBy: "_score",
   sortOrder: "desc",
 };
