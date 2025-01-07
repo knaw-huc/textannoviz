@@ -1,7 +1,7 @@
 export const SearchInfoPage = () => {
   return (
     <>
-      <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
+      <p className="mb-4 mt-4 block font-bold" style={{ maxWidth: "50em" }}>
         Welcome to the{" "}
         <span className="italic">
           Correspondence of Christofforo Suriano (1616-1623)
