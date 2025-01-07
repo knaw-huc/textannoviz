@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "react-aria-components";
 import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useMiradorStore } from "../../stores/mirador";
+import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
 import {
   projectConfigSelector,
   translateSelector,
@@ -15,7 +15,7 @@ export function BrowseScanButtons() {
   const translate = useProjectStore(translateSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
-  const miradorStore = useMiradorStore().miradorStore;
+  const miradorStore = useInternalMiradorStore().miradorStore;
   const projectName = useProjectStore().projectName;
   const [currentCanvas, setCurrentCanvas] = React.useState("");
   const pageAnnoType = projectConfig.pageAnnotation;

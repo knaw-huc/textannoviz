@@ -1,19 +1,21 @@
 import { useSearchStore } from "../stores/search/search-store.ts";
-import { SearchUrlParams } from "../stores/search/search-params-slice.ts";
 import _ from "lodash";
+import { SearchParams } from "../model/Search.ts";
+import { useSearchUrlParams } from "../components/Search/useSearchUrlParams.tsx";
 
-export type PageParams = Pick<SearchUrlParams, "from" | "size">;
+export type PageParams = Pick<SearchParams, "from" | "size">;
 
-function toPageParams(searchUrlParams: SearchUrlParams) {
-  return _.pick(searchUrlParams, ["from", "size"]);
+function toPageParams(searchParams: SearchParams) {
+  return _.pick(searchParams, ["from", "size"]);
 }
 
 export function usePagination() {
-  const { searchResults, searchUrlParams, setSearchUrlParams } =
-    useSearchStore();
+  const { searchParams, updateSearchParams } = useSearchUrlParams();
+
+  const { searchResults } = useSearchStore();
 
   function getPrevFrom(): number {
-    return searchUrlParams.from - searchUrlParams.size;
+    return searchParams.from - searchParams.size;
   }
 
   function hasPrevPage(): boolean {
@@ -22,13 +24,13 @@ export function usePagination() {
 
   function selectPrevPage(): PageParams {
     if (!hasPrevPage()) {
-      return toPageParams(searchUrlParams);
+      return toPageParams(searchParams);
     }
     return selectPage(getPrevFrom());
   }
 
   function getNextFrom(): number {
-    return searchUrlParams.from + searchUrlParams.size;
+    return searchParams.from + searchParams.size;
   }
 
   function isValidFrom(from: number): boolean {
@@ -41,32 +43,33 @@ export function usePagination() {
 
   function selectNextPage(): PageParams {
     if (!hasNextPage()) {
-      return toPageParams(searchUrlParams);
+      return toPageParams(searchParams);
     }
     return selectPage(getNextFrom());
   }
 
   function selectPage(newFrom: number): PageParams {
     const update = {
-      ...searchUrlParams,
+      ...searchParams,
       from: newFrom,
     };
-    setSearchUrlParams(update);
+    console.log("selectPage", selectPage);
+    updateSearchParams(update);
     return toPageParams(update);
   }
 
   function fromToPage(from: number): number {
-    return Math.floor(from / searchUrlParams.size) + 1;
+    return Math.floor(from / searchParams.size) + 1;
   }
 
   function pageToFrom(page: number): number {
-    return (page - 1) * searchUrlParams.size;
+    return (page - 1) * searchParams.size;
   }
 
   function jumpToPage(page: number): PageParams {
     const newFrom = pageToFrom(page);
     if (!isValidFrom(newFrom)) {
-      return toPageParams(searchUrlParams);
+      return toPageParams(searchParams);
     }
     return selectPage(newFrom);
   }
@@ -78,5 +81,7 @@ export function usePagination() {
     hasNextPage,
     selectNextPage,
     fromToPage,
+    getPrevFrom,
+    getNextFrom,
   };
 }

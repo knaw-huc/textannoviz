@@ -20,7 +20,9 @@ const createProjectSlice: StateCreator<ProjectStore, [], [], ProjectSlice> = (
 ) => ({
   projectName: "",
   setProjectName: (newProjectName) =>
-    set(() => ({ projectName: newProjectName })),
+    set(() => {
+      return { projectName: newProjectName };
+    }),
 });
 
 const createProjectConfigSlice: StateCreator<
@@ -78,7 +80,6 @@ export function projectConfigSelector(
 export function setProjectConfigSelector(state: ProjectStore) {
   return state.setProjectConfig;
 }
-
 export function setProjectNameSelector(state: ProjectStore) {
   return state.setProjectName;
 }

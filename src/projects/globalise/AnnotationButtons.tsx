@@ -4,11 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { PxPageBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useMiradorStore } from "../../stores/mirador";
+import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 
 export const AnnotationButtons = () => {
-  const miradorStore = useMiradorStore((state) => state.miradorStore);
+  const miradorStore = useInternalMiradorStore((state) => state.miradorStore);
   const annotations = useAnnotationStore((state) => state.annotations);
   const params = useParams();
   const navigate = useNavigate();

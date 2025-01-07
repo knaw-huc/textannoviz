@@ -8,21 +8,15 @@ import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";
-import { globaliseConfig } from "./projects/globalise/config";
-import { hooftConfig } from "./projects/hooft/config";
-import { mondriaanConfig } from "./projects/mondriaan/config";
-import { republicConfig } from "./projects/republic/config";
-import { surianoConfig } from "./projects/suriano/config";
-import { translatinConfig } from "./projects/translatin/config";
-import { vangoghConfig } from "./projects/vangogh/config";
 import { useAnnotationStore } from "./stores/annotation";
 import {
   setProjectConfigSelector,
   setProjectNameSelector,
   useProjectStore,
 } from "./stores/project";
+import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
 
-const { project, config } = createProjectConfig();
+const { project, config } = selectProjectConfig();
 const router = await createRouter();
 
 async function fetchExternalConfig(): Promise<ExternalConfig | null> {
@@ -72,6 +66,7 @@ export default function App() {
   const setProjectName = useProjectStore(setProjectNameSelector);
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
   setAnnotationTypesToHighlight(config.annotationTypesToHighlight);
+
   setProjectConfig(config);
   setProjectName(project);
 
@@ -114,37 +109,14 @@ async function createRouter() {
   ]);
 }
 
-function createProjectConfig() {
+function selectProjectConfig() {
   const projectEnvVar = "VITE_PROJECT";
-  const project: string = import.meta.env[projectEnvVar];
-  let config: ProjectConfig;
-
-  switch (project) {
-    case "republic":
-      config = republicConfig;
-      break;
-    case "globalise":
-      config = globaliseConfig;
-      break;
-    case "mondriaan":
-      config = mondriaanConfig;
-      break;
-    case "translatin":
-      config = translatinConfig;
-      break;
-    case "suriano":
-      config = surianoConfig;
-      break;
-    case "hooft":
-      config = hooftConfig;
-      break;
-    case "vangogh":
-      config = vangoghConfig;
-      break;
-    default:
-      throw new Error(
-        `No project config defined for ${projectEnvVar}=${project}`,
-      );
+  const project: ProjectName = import.meta.env[projectEnvVar];
+  const config: ProjectConfig = projectConfigs[project];
+  if (!config) {
+    throw new Error(
+      `No project config defined for ${projectEnvVar}=${project}`,
+    );
   }
   return { project, config };
 }
