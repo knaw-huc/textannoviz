@@ -123,4 +123,3 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     sortOrder: "asc",
   },
 } as ProjectSpecificConfig);
-// TODO: Add search params to check if search results should be shown?
