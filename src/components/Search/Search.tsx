@@ -119,9 +119,7 @@ export const Search = () => {
 
   const [isDefaultQuery, setIsDefaultQuery] = useState(false);
   useEffect(() => {
-    const result = _.isEqual(defaultQuery, searchQuery);
-    console.log("isDefaultQuery?", { result, defaultQuery, searchQuery });
-    setIsDefaultQuery(result);
+    setIsDefaultQuery(_.isEqual(defaultQuery, searchQuery));
   }, [defaultQuery, searchQuery, searchResults]);
 
   return (
