@@ -52,7 +52,7 @@ export const defaultConfig: DefaultProjectConfig = {
   useExternalConfig: false,
   visualizeAnnosMirador: false,
   allowEmptyStringSearch: true,
-  showMirador: false,
+  showMirador: true,
   showMiradorNavigationButtons: false,
   showInputFacet: false,
   histogramFacet: "",

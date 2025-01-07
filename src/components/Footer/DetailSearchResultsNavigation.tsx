@@ -33,10 +33,7 @@ export function DetailSearchResultsNavigation() {
 
   const resultIndex = searchResults.results.findIndex((r) => r._id === tier2);
 
-  // Result is not found when results are already updated but the route is not:
-  if (resultIndex === -1) {
-    return null;
-  }
+  const isCurrentInResults = resultIndex !== -1;
 
   async function handleNextResultClick() {
     if (!searchResults) {
@@ -98,7 +95,9 @@ export function DetailSearchResultsNavigation() {
       <FooterLink
         classes={["pl-10"]}
         onClick={handlePrevResultClick}
-        disabled={!hasPrevResult(resultIndex) && !hasPrevPage()}
+        disabled={
+          !isCurrentInResults || (!hasPrevResult(resultIndex) && !hasPrevPage())
+        }
       >
         &lt; {translate("PREV")}
       </FooterLink>
@@ -112,7 +111,10 @@ export function DetailSearchResultsNavigation() {
       </FooterLink>
       <FooterLink
         onClick={handleNextResultClick}
-        disabled={!hasNextResult(resultIndex, searchParams) && !hasNextPage()}
+        disabled={
+          !isCurrentInResults ||
+          (!hasNextResult(resultIndex, searchParams) && !hasNextPage())
+        }
       >
         {translate("NEXT")} &gt;
       </FooterLink>
