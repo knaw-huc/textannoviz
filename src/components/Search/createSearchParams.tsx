@@ -2,7 +2,6 @@ import { ProjectConfig } from "../../model/ProjectConfig.ts";
 import { SearchParams } from "../../model/Search.ts";
 
 export const defaultSearchParams: SearchParams = {
-  indexName: "",
   fragmentSize: 100,
   from: 0,
   size: 10,

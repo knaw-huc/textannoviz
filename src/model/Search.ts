@@ -158,7 +158,7 @@ export const DESC = "desc";
 export type SortOrder = "desc" | "asc";
 
 export type SearchParams = {
-  indexName: string;
+  indexName?: string;
   fragmentSize: number;
   from: number;
   size: number;
