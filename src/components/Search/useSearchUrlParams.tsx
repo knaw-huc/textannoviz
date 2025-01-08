@@ -34,8 +34,10 @@ export function useSearchUrlParams() {
     getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
   );
 
+  /**
+   * Add params to url when default query has been initialized
+   */
   useEffect(() => {
-    // Include all defaults once initialized:
     getSearchQueryFromUrl(defaultQuery, urlParams);
   }, [defaultQuery]);
 
