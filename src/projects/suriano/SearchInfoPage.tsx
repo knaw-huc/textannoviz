@@ -1,6 +1,6 @@
 export const SearchInfoPage = () => {
   return (
-    <>
+    <div className="border-brand1Grey-100 -mx-10 mb-20 border-b px-10 pb-8">
       <p className="mb-4 mt-4 block font-bold" style={{ maxWidth: "50em" }}>
         Welcome to the{" "}
         <span className="italic">
@@ -54,6 +54,6 @@ export const SearchInfoPage = () => {
         Correspondence of Christofforo Suriano (1616-1623),
         https://edition.suriano.huygens.knaw.nl. Last accessed [Date].
       </p>
-    </>
+    </div>
   );
 };

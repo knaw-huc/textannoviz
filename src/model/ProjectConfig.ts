@@ -9,9 +9,13 @@ import {
   GlobaliseSearchResultsBody,
   MondriaanSearchResultsBody,
   RepublicSearchResultBody,
+  SearchParams,
   SearchQuery,
+  SurianoSearchResultsBody,
   TranslatinSearchResultsBody,
+  VanGoghSearchResultsBody,
 } from "./Search.ts";
+import { MiradorConfig } from "./MiradorConfig.ts";
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
@@ -48,7 +52,7 @@ type FacsimileConfig = {
   };
 };
 
-type ComponentsConfig = {
+export type ComponentsConfig = {
   AnnotationButtons: () => JSX.Element;
   AnnotationItem: (props: AnnotationItemProps) => JSX.Element;
   AnnotationItemContent: (props: {
@@ -66,7 +70,9 @@ type ComponentsConfig = {
       | RepublicSearchResultBody
       | TranslatinSearchResultsBody
       | MondriaanSearchResultsBody
-      | GlobaliseSearchResultsBody;
+      | GlobaliseSearchResultsBody
+      | SurianoSearchResultsBody
+      | VanGoghSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
 };
@@ -98,11 +104,13 @@ type SearchConfig = {
   showSelectedFilters: boolean;
   showNewSearchButton: boolean;
   defaultKeywordAggsToRender: string[];
+  showSearchResultsOnInfoPage: boolean;
   overrideDefaultAggs: {
     facetName: string;
     order?: string;
     size?: number;
   }[];
+  overrideDefaultSearchParams: Partial<SearchParams>;
   allowEmptyStringSearch: boolean;
   showFacetFilter: boolean;
 };
@@ -172,3 +180,31 @@ export type EntitySummaryDetailsProps = {
 };
 
 export type CategoryGetter = (annoRepoBody: AnnoRepoBody) => string;
+
+export type ProjectSpecificProperties =
+  | "id"
+  | "elasticIndexName"
+  | "headerTitle"
+  | "initialDateFrom"
+  | "initialDateTo"
+  | "initialRangeFrom"
+  | "initialRangeTo"
+  | "maxRange"
+  | "logoImageUrl"
+  | "relativeTo"
+  | "headerColor";
+
+export type DefaultProjectConfig = Omit<
+  ProjectConfig,
+  ProjectSpecificProperties
+>;
+
+export type ProjectSpecificConfig = Pick<
+  ProjectConfig,
+  ProjectSpecificProperties
+> &
+  // Make nested config properties optional:
+  Omit<Partial<ProjectConfig>, "components" | "mirador"> & {
+    components?: Partial<ComponentsConfig>;
+    mirador?: Partial<MiradorConfig>;
+  };

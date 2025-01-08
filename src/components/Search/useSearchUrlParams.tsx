@@ -1,16 +1,18 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
+  createUrlParams,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
-  createUrlParams,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { createSearchQuery } from "./createSearchQuery.tsx";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { ProjectConfig } from "../../model/ProjectConfig.ts";
+import { createSearchParams } from "./createSearchParams.tsx";
 
 /**
  * The url is our single source of truth.
@@ -20,29 +22,48 @@ import { ProjectConfig } from "../../model/ProjectConfig.ts";
  */
 export function useSearchUrlParams() {
   const [urlParams, setUrlParams] = useSearchParams();
+
+  const { defaultQuery } = useSearchStore();
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(getDefaultQuery(projectConfig), urlParams),
-  );
-  const [searchParams, setSearchParams] = useState<SearchParams>(
-    getSearchParamsFromUrl(defaultSearchParams, urlParams),
+    getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
 
+  const [searchParams, setSearchParams] = useState<SearchParams>(
+    getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
+  );
+
+  useEffect(() => {
+    // Include all defaults once initialized:
+    getSearchQueryFromUrl(defaultQuery, urlParams);
+  }, [defaultQuery]);
+
+  /**
+   * Update search params and query when url changes
+   */
   useEffect(() => {
     setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
     setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
   }, [urlParams]);
 
+  /**
+   * Update search params and query by updating the url
+   */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
     updateUrl({ searchQuery: { ...searchQuery, ...update } });
   }
 
   function updateSearchParams(update: Partial<SearchParams>): void {
-    console.log("updateSearchParams", update);
     updateUrl({ searchParams: { ...searchParams, ...update } });
   }
-  function updateUrl(update: UpdatedUrlProps) {
+
+  function updateUrl(
+    update: Partial<{
+      searchQuery: SearchQuery;
+      searchParams: SearchParams;
+    }>,
+  ) {
     const updatedUrlParams = createUrlParams(
       Object.fromEntries(urlParams.entries()),
       update.searchParams || searchParams,
@@ -68,40 +89,3 @@ export function useSearchUrlParams() {
     toFirstPage,
   };
 }
-
-export function getDefaultQuery(projectConfig: ProjectConfig) {
-  const configuredSearchQuery = {
-    ...blankSearchQuery,
-    dateFrom: projectConfig.initialDateFrom,
-    dateTo: projectConfig.initialDateTo,
-    rangeFrom: projectConfig.initialRangeFrom,
-    rangeTo: projectConfig.initialRangeTo,
-  };
-  if (projectConfig.showSliderFacets) {
-    configuredSearchQuery.rangeFacet = "text.tokenCount";
-  }
-  return configuredSearchQuery;
-}
-
-export const blankSearchQuery: SearchQuery = {
-  dateFrom: "",
-  dateTo: "",
-  rangeFrom: "",
-  rangeTo: "",
-  fullText: "",
-  terms: {},
-};
-
-export const defaultSearchParams: SearchParams = {
-  indexName: "",
-  fragmentSize: 100,
-  from: 0,
-  size: 10,
-  sortBy: "_score",
-  sortOrder: "desc",
-};
-
-export type UpdatedUrlProps = Partial<{
-  searchQuery: SearchQuery;
-  searchParams: SearchParams;
-}>;

@@ -1,6 +1,9 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 
 export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
@@ -22,4 +25,4 @@ export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
   showMirador: false,
   useExternalConfig: true,
   defaultKeywordAggsToRender: ["bodyType"],
-});
+} as ProjectSpecificConfig);

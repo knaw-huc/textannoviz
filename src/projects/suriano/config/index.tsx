@@ -1,6 +1,9 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-correspondense-of-Suriano.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
@@ -114,4 +117,9 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
 
   selectedLanguage: "en",
   languages: [{ code: "en", labels: englishSurianoLabels }],
-});
+  showSearchResultsOnInfoPage: true,
+  overrideDefaultSearchParams: {
+    sortBy: "date",
+    sortOrder: "asc",
+  },
+} as ProjectSpecificConfig);

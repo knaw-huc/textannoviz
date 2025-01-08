@@ -32,6 +32,7 @@ export const Search = () => {
     keywordFacets,
     addToHistory,
     searchResults,
+    defaultQuery,
   } = useSearchStore();
 
   useEffect(() => {
@@ -116,10 +117,14 @@ export const Search = () => {
     setDirty(true);
   }
 
+  const [isDefaultQuery, setIsDefaultQuery] = useState(false);
+  useEffect(() => {
+    setIsDefaultQuery(_.isEqual(defaultQuery, searchQuery));
+  }, [defaultQuery, searchQuery, searchResults]);
+
   return (
     <React.Fragment>
       {isLoading && <SearchLoadingSpinner />}
-
       <div
         id="searchContainer"
         className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
@@ -132,7 +137,7 @@ export const Search = () => {
         />
         <SearchResultsColumn>
           {/* Wait for init, to prevent a flicker of info page before results are shown: */}
-          {!isShowingResults && isInitSearch && (
+          {isInitSearch && isDefaultQuery && (
             <projectConfig.components.SearchInfoPage />
           )}
           {isShowingResults && (
