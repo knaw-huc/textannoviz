@@ -46,17 +46,20 @@ export function useSearchUrlParams() {
    */
   useEffect(() => {
     setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
-    setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
+    const searchQueryFromUrl = getSearchQueryFromUrl(searchQuery, urlParams);
+    console.log("useEffect fullText:", searchQueryFromUrl.fullText);
+    setSearchQuery(searchQueryFromUrl);
   }, [urlParams]);
 
   /**
    * Update search params and query by updating the url
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
+    console.log("updateSearchQuery fullText:", update.fullText);
     updateUrl({ searchQuery: { ...searchQuery, ...update } });
   }
-
   function updateSearchParams(update: Partial<SearchParams>): void {
+    console.log("updateSearchParams fullText:", searchQuery.fullText);
     updateUrl({ searchParams: { ...searchParams, ...update } });
   }
 

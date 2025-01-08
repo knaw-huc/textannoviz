@@ -53,6 +53,7 @@ export const sendSearchQuery = async (
   query: SearchQueryRequestBody,
   signal?: AbortSignal,
 ): Promise<SearchResult | null> => {
+  console.log("sendSearchQuery", query.text);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const urlSearchParams = new URLSearchParams(params as any);
   const response = await fetch(
