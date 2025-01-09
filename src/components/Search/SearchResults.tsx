@@ -160,8 +160,9 @@ export function SearchResults(props: SearchResultsProps) {
             : translate("NO_SEARCH_RESULTS")}
         </span>
         <div className="flex items-center justify-between gap-10">
-          {searchResults.results.length >= 1 &&
-            projectConfig.showSearchSortBy && (
+          {searchResults.results.length &&
+            projectConfig.showSearchSortBy &&
+            searchQuery.dateFacet && (
               <SearchSorting
                 dateFacet={searchQuery.dateFacet}
                 onSort={updateSorting}

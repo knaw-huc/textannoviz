@@ -34,6 +34,13 @@ export function getSearchParamsFromUrl<T extends object>(
   ) as T;
 }
 
+export function cleanUrlParams(merged: object): Record<string, string> {
+  return _(merged)
+    .pickBy((v) => !_.isNil(v))
+    .mapValues((v) => `${v}`)
+    .value() as Record<string, string>;
+}
+
 export function createUrlParams(
   allParams: object,
   searchParams: SearchParams,
@@ -46,10 +53,7 @@ export function createUrlParams(
     query: encodeSearchQuery(searchQuery),
     ...overwriteParams,
   };
-  const cleaned = _(merged)
-    .pickBy((v) => !_.isNil(v))
-    .mapValues((v) => `${v}`)
-    .value();
+  const cleaned = cleanUrlParams(merged);
   return cleaned;
 }
 

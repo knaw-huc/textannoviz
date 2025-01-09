@@ -1,4 +1,4 @@
-import { SearchQuery } from "../../model/Search.ts";
+import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { useEffect, useState } from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
@@ -11,6 +11,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { defaultSearchParams } from "./createSearchParams.tsx";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -23,9 +24,9 @@ export function useInitSearch() {
 
   const { setSearchResults, setKeywordFacets, searchFacetTypes, defaultQuery } =
     useSearchStore();
-  const { searchParams } = useSearchUrlParams();
   const { getSearchResults } = useSearchResults();
-  const { searchQuery, updateSearchQuery } = useSearchUrlParams();
+  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
+    useSearchUrlParams();
 
   const [isInitSearch, setIsInitSearch] = useState(false);
   const [isLoadingSearch, setLoading] = useState(false);
@@ -47,6 +48,13 @@ export function useInitSearch() {
 
   async function initSearch(aborter: AbortController) {
     setLoading(true);
+
+    const newSearchParams: SearchParams = _.merge(
+      {},
+      defaultSearchParams,
+      searchParams,
+    );
+    updateSearchParams(newSearchParams);
 
     const newSearchQuery: SearchQuery = _.merge({}, defaultQuery, searchQuery);
     updateSearchQuery(newSearchQuery);

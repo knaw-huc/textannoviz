@@ -1,7 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
-  createUrlParams,
+  cleanUrlParams,
+  encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
 } from "../../utils/UrlParamUtils.ts";
@@ -56,30 +57,16 @@ export function useSearchUrlParams() {
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
     console.log("updateSearchQuery fullText:", update.fullText);
-    updateUrl({ searchQuery: { ...searchQuery, ...update } });
+    setUrlParams((prev) => ({
+      ...prev,
+      query: encodeSearchQuery(searchQuery),
+    }));
   }
   function updateSearchParams(update: Partial<SearchParams>): void {
     console.log("updateSearchParams fullText:", searchQuery.fullText);
-    updateUrl({ searchParams: { ...searchParams, ...update } });
-  }
-
-  function updateUrl(
-    update: Partial<{
-      searchQuery: SearchQuery;
-      searchParams: SearchParams;
-    }>,
-  ) {
-    const updatedUrlParams = createUrlParams(
-      Object.fromEntries(urlParams.entries()),
-      update.searchParams || searchParams,
-      update.searchQuery || searchQuery,
-    );
-    if (
-      new URLSearchParams(updatedUrlParams).toString() === urlParams.toString()
-    ) {
-      return;
-    }
-    setUrlParams(updatedUrlParams);
+    setUrlParams((prev) => {
+      return { ...prev, ...cleanUrlParams({ ...searchParams, ...update }) };
+    });
   }
 
   function toFirstPage() {
