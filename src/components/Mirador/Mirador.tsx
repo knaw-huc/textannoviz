@@ -6,11 +6,11 @@ import { MiradorConfig } from "../../model/MiradorConfig";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
+import { miradorSelector, useMiradorStore } from "../../stores/mirador.ts";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { defaultMiradorConfig } from "./defaultMiradorConfig";
 import { zoomAnnoMirador } from "./zoomAnnoMirador";
-import { miradorSelector, useMiradorStore } from "../../stores/mirador.ts";
 
 export function Mirador() {
   const { annotations } = useAnnotationStore();
