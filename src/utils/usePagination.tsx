@@ -53,7 +53,6 @@ export function usePagination() {
       ...searchParams,
       from: newFrom,
     };
-    console.log("selectPage", selectPage);
     updateSearchParams(update);
     return toPageParams(update);
   }
