@@ -1,4 +1,3 @@
-import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   cleanUrlParams,
@@ -22,51 +21,55 @@ import { createSearchParams } from "./createSearchParams.tsx";
  * 2. update search query and params with a useEffect
  */
 export function useSearchUrlParams() {
-  const [urlParams, setUrlParams] = useSearchParams();
-
   const { defaultQuery } = useSearchStore();
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
+    getSearchQueryFromUrl(
+      createSearchQuery({ projectConfig }),
+      getUrlSearchParams(),
+    ),
   );
 
   const [searchParams, setSearchParams] = useState<SearchParams>(
-    getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
+    getSearchParamsFromUrl(
+      createSearchParams({ projectConfig }),
+      getUrlSearchParams(),
+    ),
   );
 
   /**
    * Add params to url when default query has been initialized
    */
   useEffect(() => {
-    getSearchQueryFromUrl(defaultQuery, urlParams);
+    getSearchQueryFromUrl(defaultQuery, getUrlSearchParams());
   }, [defaultQuery]);
 
   /**
    * Update search params and query when url changes
    */
   useEffect(() => {
-    setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
-    const searchQueryFromUrl = getSearchQueryFromUrl(searchQuery, urlParams);
+    setSearchParams(getSearchParamsFromUrl(searchParams, getUrlSearchParams()));
+    const searchQueryFromUrl = getSearchQueryFromUrl(
+      searchQuery,
+      getUrlSearchParams(),
+    );
     console.log("useEffect fullText:", searchQueryFromUrl.fullText);
     setSearchQuery(searchQueryFromUrl);
-  }, [urlParams]);
+  }, [window.location.search]);
 
   /**
    * Update search params and query by updating the url
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
     console.log("updateSearchQuery fullText:", update.fullText);
-    setUrlParams((prev) => ({
-      ...prev,
-      query: encodeSearchQuery(searchQuery),
-    }));
+    setUrlParams({
+      query: encodeSearchQuery({ ...searchQuery, ...update }),
+    });
   }
   function updateSearchParams(update: Partial<SearchParams>): void {
     console.log("updateSearchParams fullText:", searchQuery.fullText);
-    setUrlParams((prev) => {
-      return { ...prev, ...cleanUrlParams({ ...searchParams, ...update }) };
-    });
+    setUrlParams(cleanUrlParams({ ...searchParams, ...update }));
   }
 
   function toFirstPage() {
@@ -80,4 +83,23 @@ export function useSearchUrlParams() {
     updateSearchParams,
     toFirstPage,
   };
+}
+
+function getUrlSearchParams() {
+  return new URLSearchParams(window.location.search);
+}
+
+function setUrlParams(toUpdate: Record<string, string>) {
+  const updatedUrl = new URL(window.location.toString());
+  console.log("setUrlParams, update", toUpdate);
+  console.log("setUrlParams, prev", updatedUrl.search.toString());
+  for (const key in toUpdate) {
+    updatedUrl.searchParams.set(key, toUpdate[key]);
+  }
+  console.log("setUrlParams, next", updatedUrl.search.toString());
+  history.pushState(null, "", updatedUrl);
+  console.log(
+    "setUrlParams, test",
+    new URL(window.location.toString()).search.toString(),
+  );
 }
