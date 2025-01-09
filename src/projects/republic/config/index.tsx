@@ -1,6 +1,9 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-goetgevonden.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
@@ -129,4 +132,4 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     showTopMenuButton: true,
     showWindowSideBar: true,
   },
-});
+} as ProjectSpecificConfig);

@@ -1,52 +1,37 @@
 import mirador from "mirador";
 import React from "react";
 import { iiifAnn } from "../../model/AnnoRepoAnnotation";
-import { Broccoli } from "../../model/Broccoli";
+import { Iiif } from "../../model/Broccoli";
 import { MiradorConfig } from "../../model/MiradorConfig";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useMiradorStore } from "../../stores/mirador";
+import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { defaultMiradorConfig } from "./defaultMiradorConfig";
 import { zoomAnnoMirador } from "./zoomAnnoMirador";
+import { miradorSelector, useMiradorStore } from "../../stores/mirador.ts";
 
-type MiradorProps = {
-  broccoliResult: Broccoli;
-};
+export function Mirador() {
+  const { annotations } = useAnnotationStore();
+  const { iiif, bodyId } = useMiradorStore(miradorSelector);
 
-const createMiradorConfig = (
-  broccoli: Broccoli,
-  project: ProjectConfig,
-  config: MiradorConfig = defaultMiradorConfig,
-) => {
-  const newConfig = config;
-  newConfig.windows[0].manifestId = broccoli.iiif.manifest;
-  newConfig.windows[0].canvasId = broccoli.iiif.canvasIds[0];
-  newConfig.windows[0].id = project.id;
-  newConfig.window.allowWindowSideBar = project.mirador.showWindowSideBar;
-  newConfig.window.allowTopMenuButton = project.mirador.showTopMenuButton;
-  return newConfig;
-};
-
-export function Mirador(props: MiradorProps) {
-  const setMiradorStore = useMiradorStore((state) => state.setStore);
-  const miradorStore = useMiradorStore((state) => state.miradorStore);
+  const setInternalMiradorStore = useInternalMiradorStore(
+    (state) => state.setStore,
+  );
+  const miradorStore = useInternalMiradorStore((state) => state.miradorStore);
   const projectConfig = useProjectStore(projectConfigSelector);
   const showSvgsAnnosMirador = useAnnotationStore(
     (state) => state.showSvgsAnnosMirador,
   );
-  const miradorConfig = createMiradorConfig(
-    props.broccoliResult,
-    projectConfig,
-  );
+  const miradorConfig = createMiradorConfig(iiif, projectConfig);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function renderAnnosMirador(mirStore: any) {
     visualizeAnnosMirador(
-      props.broccoliResult.anno,
+      annotations,
       mirStore,
-      props.broccoliResult.iiif.canvasIds[0],
+      iiif.canvasIds[0],
       projectConfig,
     );
   }
@@ -62,7 +47,7 @@ export function Mirador(props: MiradorProps) {
 
     mirStore.dispatch(
       mirador.actions.receiveAnnotation(
-        props.broccoliResult.iiif.canvasIds[0],
+        iiif.canvasIds[0],
         "annotation",
         iiifAnn,
       ),
@@ -72,13 +57,13 @@ export function Mirador(props: MiradorProps) {
   React.useEffect(() => {
     console.log("MIRADOR EFFECT");
     const viewer = mirador.viewer(miradorConfig);
-    setMiradorStore(viewer.store);
+    setInternalMiradorStore(viewer.store);
 
     const INIT_CHECK_INTERVAL_MS = 250;
     const MAX_INIT_ATTEMPTS = 80;
     let intervalCount = 0;
 
-    /* 
+    /*
     Hack to make sure that Mirador is actually initialised.
     Only after Mirador is initialised, TAV should interact with it.
     */
@@ -99,7 +84,7 @@ export function Mirador(props: MiradorProps) {
 
     function performPostInitialisationActions() {
       if (projectConfig.zoomAnnoMirador) {
-        zoomAnnoMirador(props.broccoliResult, viewer.store, projectConfig);
+        zoomAnnoMirador(bodyId, annotations, iiif, viewer.store, projectConfig);
       }
 
       if (showSvgsAnnosMirador && projectConfig.visualizeAnnosMirador) {
@@ -122,7 +107,7 @@ export function Mirador(props: MiradorProps) {
     return () => {
       clearInterval(initialisationCheckInterval);
     };
-  }, [miradorConfig, projectConfig, props.broccoliResult]);
+  }, [miradorConfig, projectConfig, bodyId]);
 
   React.useEffect(() => {
     if (!showSvgsAnnosMirador && miradorStore) {
@@ -141,3 +126,17 @@ export function Mirador(props: MiradorProps) {
     />
   );
 }
+
+const createMiradorConfig = (
+  iiif: Iiif,
+  project: ProjectConfig,
+  config: MiradorConfig = defaultMiradorConfig,
+) => {
+  const newConfig = config;
+  newConfig.windows[0].manifestId = iiif.manifest;
+  newConfig.windows[0].canvasId = iiif.canvasIds[0];
+  newConfig.windows[0].id = project.id;
+  newConfig.window.allowWindowSideBar = project.mirador.showWindowSideBar;
+  newConfig.window.allowTopMenuButton = project.mirador.showTopMenuButton;
+  return newConfig;
+};

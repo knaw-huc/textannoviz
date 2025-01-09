@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { SurianoSearchResultsBody } from "../../model/Search.ts";
 import { Summary } from "./Summary";
-
-import { toDetailPageUrl } from "../../components/Text/Annotated/utils/toDetailPageUrl.tsx";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
+import { useDetailUrl } from "../../components/Text/Annotated/utils/useDetailUrl.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<SurianoSearchResultsBody>,
@@ -20,13 +19,12 @@ export const SearchItem = (
   );
 
   const searchItemTitle = `${props.result.sender} to ${props.result.recipient}, ${formattedDate}`;
+  const { getDetailUrl } = useDetailUrl();
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
-        to={toDetailPageUrl(props.result._id, {
-          highlight: props.query.fullText,
-        })}
+        to={getDetailUrl(props.result._id, { highlight: props.query.fullText })}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">

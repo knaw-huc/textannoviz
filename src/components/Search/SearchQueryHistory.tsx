@@ -6,9 +6,9 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { HelpTooltip } from "../common/HelpTooltip.tsx";
+import { SearchQuery } from "../../model/Search.ts";
 
 type SearchQueryHistoryProps = {
   goToQuery: (query: SearchQuery) => void;

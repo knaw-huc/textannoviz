@@ -1,17 +1,18 @@
 import mirador from "mirador";
-import { Broccoli } from "../../model/Broccoli";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
+import { Iiif } from "../../model/Broccoli";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { zoomCoordsMirador } from "../../utils/zoomCoordsMirador";
 
 export function zoomAnnoMirador(
-  broccoli: Broccoli,
+  bodyId: string,
+  anno: AnnoRepoAnnotation[],
+  iiif: Iiif,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   miradorStore: any,
   projectConfig: ProjectConfig,
 ) {
-  const annoToZoom = broccoli.anno.find(
-    (anno) => anno.body.id === broccoli.request.bodyId,
-  );
+  const annoToZoom = anno.find((anno) => anno.body.id === bodyId);
 
   if (annoToZoom) {
     miradorStore.dispatch(
@@ -21,8 +22,8 @@ export function zoomAnnoMirador(
       ),
     );
     const zoomCoords = zoomCoordsMirador(
-      annoToZoom ? annoToZoom : broccoli.anno[0],
-      broccoli.iiif.canvasIds[0],
+      annoToZoom ? annoToZoom : anno[0],
+      iiif.canvasIds[0],
     );
 
     /* 

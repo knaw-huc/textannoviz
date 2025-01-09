@@ -1,6 +1,9 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
@@ -49,4 +52,4 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
 
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
-});
+} as ProjectSpecificConfig);

@@ -2,7 +2,7 @@ import mirador from "mirador";
 import { toast } from "react-toastify";
 import { CanvasTarget } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { useMiradorStore } from "../../../stores/mirador.ts";
+import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -40,7 +40,7 @@ export function MarkerAnnotation(
 
 export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   const annotations = useAnnotationStore().annotations;
-  const miradorStore = useMiradorStore().miradorStore;
+  const miradorStore = useInternalMiradorStore().miradorStore;
   const projectName = useProjectStore().projectName;
   const translateProject = useProjectStore(translateProjectSelector);
 

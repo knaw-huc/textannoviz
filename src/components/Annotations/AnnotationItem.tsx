@@ -1,7 +1,7 @@
 import mirador from "mirador";
 import React from "react";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
-import { useMiradorStore } from "../../stores/mirador";
+import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { AnnotationItemContent } from "./AnnotationItemContent";
 
@@ -12,7 +12,7 @@ type AnnotationSnippetProps = {
 export function AnnotationItem(props: AnnotationSnippetProps) {
   const [isOpen, setOpen] = React.useState(false);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const miradorStore = useMiradorStore((state) => state.miradorStore);
+  const miradorStore = useInternalMiradorStore((state) => state.miradorStore);
 
   /**
    * The next two functions might be performance intensive, especially for mobile users.

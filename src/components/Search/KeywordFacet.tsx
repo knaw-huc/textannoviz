@@ -1,17 +1,16 @@
 import _, { debounce } from "lodash";
 import React from "react";
-import { Facet, Terms } from "../../model/Search.ts";
+import { Facet, SearchQuery, Terms } from "../../model/Search.ts";
 import {
-  projectNameSelector,
   translateProjectSelector,
   useProjectStore,
+  projectNameSelector,
 } from "../../stores/project.ts";
-import { SearchQuery } from "../../stores/search/search-query-slice.ts";
-import { useSearchStore } from "../../stores/search/search-store.ts";
 import {
   CheckboxComponent,
   CheckboxGroupComponent,
 } from "../common/CheckboxGroupComponent.tsx";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { FacetItemsFilter } from "./FacetItemsFilter.tsx";
 
 export function KeywordFacet(props: {
@@ -26,7 +25,8 @@ export function KeywordFacet(props: {
   onSearch: (stayOnPage?: boolean) => void;
   updateAggs: (query: SearchQuery) => void;
 }) {
-  const { searchQuery, setSearchQuery } = useSearchStore();
+  const { searchQuery, updateSearchQuery } = useSearchUrlParams();
+  const facetLength = Object.keys(props.facet).length;
   const translateProject = useProjectStore(translateProjectSelector);
   const projectName = useProjectStore(projectNameSelector);
   const [selected, setSelected] = React.useState<string[]>(
@@ -36,7 +36,6 @@ export function KeywordFacet(props: {
     props.facet,
   );
   const [filterValue, setFilterValue] = React.useState<string>("");
-  const facetLength = Object.keys(filteredFacets).length;
 
   const sortOrder = searchQuery.aggs?.find(
     (agg) => agg.facetName === props.facetName,
@@ -83,7 +82,7 @@ export function KeywordFacet(props: {
       aggs: newAggs,
     };
 
-    setSearchQuery(newQuery);
+    updateSearchQuery(newQuery);
 
     props.updateAggs(newQuery);
   }

@@ -1,6 +1,9 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/G-1.png";
-import { ProjectConfig } from "../../../model/ProjectConfig.ts";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig.ts";
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import { Help } from "../Help.tsx";
@@ -64,4 +67,4 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   mirador: {
     showWindowSideBar: true,
   },
-});
+} as ProjectSpecificConfig);
