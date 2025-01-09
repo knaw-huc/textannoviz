@@ -4,7 +4,7 @@ import {
   encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
-  getUrlSearchParams,
+  getUrlParams,
   setUrlParams,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
@@ -24,7 +24,7 @@ import { createSearchParams } from "./createSearchParams.tsx";
 export function useSearchUrlParams() {
   const projectConfig = useProjectStore(projectConfigSelector);
 
-  const urlParams = getUrlSearchParams();
+  const urlParams = getUrlParams();
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
     getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
@@ -37,7 +37,7 @@ export function useSearchUrlParams() {
    * Update search params and query when url changes
    */
   useEffect(() => {
-    const urlParams = getUrlSearchParams();
+    const urlParams = getUrlParams();
     setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
     setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
   }, [window.location.search]);

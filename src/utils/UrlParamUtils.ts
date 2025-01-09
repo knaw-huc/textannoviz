@@ -75,7 +75,7 @@ export function getSearchQueryFromUrl(
   return { ...baseSearchQuery, ...parsed };
 }
 
-export function getUrlSearchParams() {
+export function getUrlParams() {
   return new URLSearchParams(window.location.search);
 }
 
