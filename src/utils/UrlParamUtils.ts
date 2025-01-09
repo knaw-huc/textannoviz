@@ -75,4 +75,14 @@ export function getSearchQueryFromUrl(
   return { ...baseSearchQuery, ...parsed };
 }
 
-Object.assign(window, { Base64 });
+export function getUrlSearchParams() {
+  return new URLSearchParams(window.location.search);
+}
+
+export function setUrlParams(toUpdate: Record<string, string>) {
+  const updatedUrl = new URL(window.location.toString());
+  for (const key in toUpdate) {
+    updatedUrl.searchParams.set(key, toUpdate[key]);
+  }
+  history.pushState(null, "", updatedUrl);
+}

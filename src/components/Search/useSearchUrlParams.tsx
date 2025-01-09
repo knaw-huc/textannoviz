@@ -4,6 +4,8 @@ import {
   encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
+  getUrlSearchParams,
+  setUrlParams,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import { createSearchQuery } from "./createSearchQuery.tsx";
@@ -65,16 +67,4 @@ export function useSearchUrlParams() {
     updateSearchParams,
     toFirstPage,
   };
-}
-
-function getUrlSearchParams() {
-  return new URLSearchParams(window.location.search);
-}
-
-function setUrlParams(toUpdate: Record<string, string>) {
-  const updatedUrl = new URL(window.location.toString());
-  for (const key in toUpdate) {
-    updatedUrl.searchParams.set(key, toUpdate[key]);
-  }
-  history.pushState(null, "", updatedUrl);
 }
