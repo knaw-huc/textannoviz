@@ -24,18 +24,13 @@ export function useSearchUrlParams() {
   const { defaultQuery } = useSearchStore();
   const projectConfig = useProjectStore(projectConfigSelector);
 
+  const urlParams = getUrlSearchParams();
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(
-      createSearchQuery({ projectConfig }),
-      getUrlSearchParams(),
-    ),
+    getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
 
   const [searchParams, setSearchParams] = useState<SearchParams>(
-    getSearchParamsFromUrl(
-      createSearchParams({ projectConfig }),
-      getUrlSearchParams(),
-    ),
+    getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
   );
 
   /**
@@ -49,12 +44,9 @@ export function useSearchUrlParams() {
    * Update search params and query when url changes
    */
   useEffect(() => {
-    setSearchParams(getSearchParamsFromUrl(searchParams, getUrlSearchParams()));
-    const searchQueryFromUrl = getSearchQueryFromUrl(
-      searchQuery,
-      getUrlSearchParams(),
-    );
-    setSearchQuery(searchQueryFromUrl);
+    const urlParams = getUrlSearchParams();
+    setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
+    setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
   }, [window.location.search]);
 
   /**
