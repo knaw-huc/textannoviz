@@ -1,12 +1,13 @@
-import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
-  createUrlParams,
+  cleanUrlParams,
+  encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
+  getUrlParams,
+  setUrlParams,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
-import { useSearchStore } from "../../stores/search/search-store.ts";
 import { createSearchQuery } from "./createSearchQuery.tsx";
 import {
   projectConfigSelector,
@@ -21,11 +22,9 @@ import { createSearchParams } from "./createSearchParams.tsx";
  * 2. update search query and params with a useEffect
  */
 export function useSearchUrlParams() {
-  const [urlParams, setUrlParams] = useSearchParams();
-
-  const { defaultQuery } = useSearchStore();
   const projectConfig = useProjectStore(projectConfigSelector);
 
+  const urlParams = getUrlParams();
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
     getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
@@ -34,47 +33,27 @@ export function useSearchUrlParams() {
     getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
   );
 
-  useEffect(() => {
-    // Include all defaults once initialized:
-    getSearchQueryFromUrl(defaultQuery, urlParams);
-  }, [defaultQuery]);
-
   /**
    * Update search params and query when url changes
    */
   useEffect(() => {
+    const urlParams = getUrlParams();
     setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
     setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
-  }, [urlParams]);
+  }, [window.location.search]);
 
   /**
-   * Update search params and query by updating the url
+   * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
-    updateUrl({ searchQuery: { ...searchQuery, ...update } });
+    setUrlParams({ query: encodeSearchQuery({ ...searchQuery, ...update }) });
   }
 
+  /**
+   * Update search params by updating the url, see useEffect
+   */
   function updateSearchParams(update: Partial<SearchParams>): void {
-    updateUrl({ searchParams: { ...searchParams, ...update } });
-  }
-
-  function updateUrl(
-    update: Partial<{
-      searchQuery: SearchQuery;
-      searchParams: SearchParams;
-    }>,
-  ) {
-    const updatedUrlParams = createUrlParams(
-      Object.fromEntries(urlParams.entries()),
-      update.searchParams || searchParams,
-      update.searchQuery || searchQuery,
-    );
-    if (
-      new URLSearchParams(updatedUrlParams).toString() === urlParams.toString()
-    ) {
-      return;
-    }
-    setUrlParams(updatedUrlParams);
+    setUrlParams(cleanUrlParams({ ...searchParams, ...update }));
   }
 
   function toFirstPage() {
