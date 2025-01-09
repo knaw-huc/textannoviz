@@ -6,7 +6,6 @@ import {
   getSearchQueryFromUrl,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
-import { useSearchStore } from "../../stores/search/search-store.ts";
 import { createSearchQuery } from "./createSearchQuery.tsx";
 import {
   projectConfigSelector,
@@ -21,7 +20,6 @@ import { createSearchParams } from "./createSearchParams.tsx";
  * 2. update search query and params with a useEffect
  */
 export function useSearchUrlParams() {
-  const { defaultQuery } = useSearchStore();
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const urlParams = getUrlSearchParams();
@@ -34,13 +32,6 @@ export function useSearchUrlParams() {
   );
 
   /**
-   * Add params to url when default query has been initialized
-   */
-  useEffect(() => {
-    getSearchQueryFromUrl(defaultQuery, getUrlSearchParams());
-  }, [defaultQuery]);
-
-  /**
    * Update search params and query when url changes
    */
   useEffect(() => {
@@ -50,12 +41,15 @@ export function useSearchUrlParams() {
   }, [window.location.search]);
 
   /**
-   * Update search params and query by updating the url
+   * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
     setUrlParams({ query: encodeSearchQuery({ ...searchQuery, ...update }) });
   }
 
+  /**
+   * Update search params by updating the url, see useEffect
+   */
   function updateSearchParams(update: Partial<SearchParams>): void {
     setUrlParams(cleanUrlParams({ ...searchParams, ...update }));
   }
