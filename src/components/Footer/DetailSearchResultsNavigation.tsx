@@ -79,10 +79,7 @@ export function DetailSearchResultsNavigation() {
       newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
     const nextUrl = getDetailUrl(newResultId, { from: newFrom });
-    // TODO: this check never results in an error, can be removed? or bug?
-    if (!nextUrl) {
-      throw new Error("No results found");
-    }
+
     setSearchResults(newSearchResults.results);
     navigate(nextUrl);
   }
