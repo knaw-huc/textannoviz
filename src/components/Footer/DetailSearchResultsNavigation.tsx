@@ -15,7 +15,7 @@ import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
   const translate = useProjectStore(translateSelector);
-  const { getDetailUrlParams, getDetailUrl } = useDetailUrl();
+  const { getDetailUrlParams, createDetailUrl } = useDetailUrl();
   const { tier2 } = getDetailUrlParams();
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
@@ -41,7 +41,7 @@ export function DetailSearchResultsNavigation() {
     }
     if (hasNextResult(resultIndex, searchParams)) {
       const newResultId = searchResults.results[resultIndex + 1]._id;
-      navigate(getDetailUrl(newResultId));
+      navigate(createDetailUrl(newResultId));
       return;
     }
     if (hasNextPage()) {
@@ -56,7 +56,7 @@ export function DetailSearchResultsNavigation() {
 
     if (hasPrevResult(resultIndex)) {
       const newResultId = searchResults.results[resultIndex - 1]._id;
-      navigate(getDetailUrl(newResultId));
+      navigate(createDetailUrl(newResultId));
       return;
     }
     if (hasPrevPage()) {
@@ -78,7 +78,7 @@ export function DetailSearchResultsNavigation() {
     const indexOnNewPage =
       newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
-    const nextUrl = getDetailUrl(
+    const nextUrl = createDetailUrl(
       newResultId,
       // Pass new from to prevent resetting with old from:
       { from: newFrom },

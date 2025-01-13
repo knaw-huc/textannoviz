@@ -2,11 +2,11 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { createUrlSearchParams } from "./getFullDetailUrl.tsx";
 import { useSearchUrlParams } from "../../../Search/useSearchUrlParams.tsx";
 
-export type DetailQueryParams = {
+export type DetailUrlSearchParams = {
   highlight?: string;
 };
 
-export type DetailParams = DetailQueryParams & {
+export type DetailParams = DetailUrlSearchParams & {
   tier2: string;
 };
 
@@ -26,13 +26,13 @@ export function useDetailUrl() {
     };
   }
 
-  function getDetailUrlSearchParams(): { highlight?: string } {
+  function getDetailUrlSearchParams(): DetailUrlSearchParams {
     return {
       highlight: urlParams.get("highlight") || undefined,
     };
   }
 
-  function getDetailUrl(resultId: string, overwriteParams?: object) {
+  function createDetailUrl(resultId: string, overwriteParams?: object) {
     const urlSearchParams = createUrlSearchParams(searchParams, searchQuery, {
       ...getDetailUrlSearchParams(),
       ...overwriteParams,
@@ -42,6 +42,6 @@ export function useDetailUrl() {
 
   return {
     getDetailUrlParams,
-    getDetailUrl,
+    createDetailUrl,
   };
 }
