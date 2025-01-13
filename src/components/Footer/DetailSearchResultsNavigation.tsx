@@ -103,6 +103,7 @@ export function DetailSearchResultsNavigation() {
       </FooterLink>
       <FooterLink
         onClick={() =>
+          // TODO: simplify, detail page does not need to know about all query and search params:
           navigate(`/?${urlSearchParams}&query=${Base64.toBase64(cleanQuery)}`)
         }
       >
