@@ -3,7 +3,7 @@ import isNumber from "lodash/isNumber";
 import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
-import { SearchParams, SearchQuery } from "../model/Search.ts";
+import { SearchQuery } from "../model/Search.ts";
 import _ from "lodash";
 
 /**
@@ -41,22 +41,6 @@ export function cleanUrlParams(merged: object): Record<string, string> {
     .value() as Record<string, string>;
 }
 
-export function createUrlParams(
-  allParams: object,
-  searchParams: SearchParams,
-  searchQuery: SearchQuery,
-  overwriteParams?: object,
-): Record<string, string> {
-  const merged = {
-    ...allParams,
-    ...searchParams,
-    query: encodeSearchQuery(searchQuery),
-    ...overwriteParams,
-  };
-  const cleaned = cleanUrlParams(merged);
-  return cleaned;
-}
-
 export function encodeSearchQuery(query: SearchQuery): string {
   return Base64.toBase64(JSON.stringify(query));
 }
@@ -75,14 +59,25 @@ export function getSearchQueryFromUrl(
   return { ...baseSearchQuery, ...parsed };
 }
 
-export function getUrlParams() {
+export function getUrlParams(): URLSearchParams {
   return new URLSearchParams(window.location.search);
 }
 
-export function setUrlParams(toUpdate: Record<string, string>) {
-  const updatedUrl = new URL(window.location.toString());
-  for (const key in toUpdate) {
-    updatedUrl.searchParams.set(key, toUpdate[key]);
+export function setUrlParams(
+  base: URLSearchParams,
+  toSet: Record<string, string>,
+): void {
+  for (const key in toSet) {
+    base.set(key, toSet[key]);
   }
+}
+
+export function pushUrlParamsToHistory(
+  toSet: Record<string, string> | URLSearchParams,
+): void {
+  const stringRecord =
+    toSet instanceof URLSearchParams ? Object.fromEntries(toSet) : toSet;
+  const updatedUrl = new URL(window.location.toString());
+  setUrlParams(updatedUrl.searchParams, stringRecord);
   history.pushState(null, "", updatedUrl);
 }
