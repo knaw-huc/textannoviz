@@ -15,6 +15,7 @@ import {
   useProjectStore,
 } from "./stores/project";
 import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
+import { detailPrefix } from "./components/Text/Annotated/utils/useDetailUrl.tsx";
 
 const { project, config } = selectProjectConfig();
 const router = await createRouter();
@@ -93,11 +94,11 @@ async function createRouter() {
           element: <Search />,
         },
         {
-          path: "detail/:tier0/:tier1",
+          path: `${detailPrefix}:tier0/:tier1`,
           element: <Detail project={project} config={config} />,
         },
         {
-          path: "detail/:tier2",
+          path: `${detailPrefix}:tier2`,
           element: <Detail project={project} config={config} />,
         },
         {

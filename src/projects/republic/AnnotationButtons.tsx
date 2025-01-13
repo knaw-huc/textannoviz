@@ -7,6 +7,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
+import { useDetailUrl } from "../../components/Text/Annotated/utils/useDetailUrl.tsx";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;
@@ -15,7 +16,7 @@ export function AnnotationButtons() {
   const [isPrevButtonDisabled, setIsPrevButtonDisabled] = React.useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = React.useState(false);
   const translateProject = useProjectStore(translateProjectSelector);
-
+  const { createDetailUrl } = useDetailUrl();
   const currentAnnotation = annotations.find(
     (anno) => anno.body.id === params.tier2,
   );
@@ -31,11 +32,11 @@ export function AnnotationButtons() {
   }, [prevResolution, nextResolution, params.tier2]);
 
   function prevResolutionButtonClickHandler() {
-    navigate(`/detail/${prevResolution}`);
+    navigate(createDetailUrl(prevResolution));
   }
 
   function nextResolutionButtonClickHandler() {
-    navigate(`/detail/${nextResolution}`);
+    navigate(createDetailUrl(nextResolution));
   }
 
   return (

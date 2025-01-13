@@ -81,6 +81,16 @@ export function getUrlParams() {
   return new URLSearchParams(window.location.search);
 }
 
+// TODO: remove when merging with remove-create-url-search-params
+export function setUrlParamsDuplicate(
+  base: URLSearchParams,
+  toSet: Record<string, string>,
+): void {
+  for (const key in toSet) {
+    base.set(key, toSet[key]);
+  }
+}
+
 export function setUrlParams(toUpdate: Record<string, string>) {
   const updatedUrl = new URL(window.location.toString());
   for (const key in toUpdate) {
