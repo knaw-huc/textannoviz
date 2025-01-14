@@ -1,17 +1,18 @@
 import { Params, useParams, useSearchParams } from "react-router-dom";
-import { SearchResult } from "../../../../model/Search.ts";
-import { useSearchStore } from "../../../../stores/search/search-store.ts";
-import { LAST_SEARCH_RESULT } from "../../../Search/SearchUrlParams.ts";
 import {
   cleanUrlParams,
   getUrlParams,
-  setUrlParamsDuplicate,
+  setUrlParams,
 } from "../../../../utils/UrlParamUtils.ts";
+import { SearchResult } from "../../../../model/Search.ts";
+import { useSearchStore } from "../../../../stores/search/search-store.ts";
+import { LAST_SEARCH_RESULT } from "../../../Search/SearchUrlParams.ts";
 
 export const detailPrefix = `detail/`;
 
 export type DetailUrlSearchParams = {
   highlight?: string;
+  from?: number;
 
   /**
    * Reference to the last result when a user navigated away from a search result on the detail page
@@ -42,10 +43,13 @@ export function useDetailUrl() {
     };
   }
 
-  function createDetailUrl(resultId: string, overwriteParams?: object) {
+  function createDetailUrl(
+    resultId: string,
+    detailParams?: DetailUrlSearchParams,
+  ) {
     const nextUrlSearchParams = getUrlParams();
-    if (overwriteParams) {
-      setUrlParamsDuplicate(getUrlParams(), cleanUrlParams(overwriteParams));
+    if (detailParams) {
+      setUrlParams(nextUrlSearchParams, cleanUrlParams(detailParams));
     }
 
     updateLastSearchResultParam({

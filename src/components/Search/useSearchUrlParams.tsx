@@ -5,7 +5,7 @@ import {
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
   getUrlParams,
-  setUrlParams,
+  pushUrlParamsToHistory,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import { createSearchQuery } from "./createSearchQuery.tsx";
@@ -47,14 +47,16 @@ export function useSearchUrlParams() {
    * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
-    setUrlParams({ query: encodeSearchQuery({ ...searchQuery, ...update }) });
+    pushUrlParamsToHistory({
+      query: encodeSearchQuery({ ...searchQuery, ...update }),
+    });
   }
 
   /**
    * Update search params by updating the url, see useEffect
    */
   function updateSearchParams(update: Partial<SearchParams>): void {
-    setUrlParams(cleanUrlParams({ ...searchParams, ...update }));
+    pushUrlParamsToHistory(cleanUrlParams({ ...searchParams, ...update }));
   }
 
   function toFirstPage() {
