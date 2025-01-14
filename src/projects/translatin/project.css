@@ -1,0 +1,26 @@
+.highlight-bold {
+  font-weight: bold;
+}
+.highlight-italic {
+  font-style: italic;
+}
+.highlight-footnote {
+  /* formatering van het nummertje in de footnote zelf */
+}
+.highlight-superscript {
+  vertical-align: super;
+  font-size: 0.7em;
+}
+.highlight-underline {
+  text-decoration: underline;
+}
+
+.highlight-tei-head {
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #aaa;
+  text-align: center;
+  display: block;
+  line-height: 5em;
+  text-transform: uppercase;
+}

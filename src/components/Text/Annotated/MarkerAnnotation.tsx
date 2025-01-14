@@ -101,6 +101,7 @@ export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
   return (
     <span className="inserted-text">
       {/*TODO: move to project config*/}
+      {/*TODO: translation, is this also facs, or something else? */}
       {marker.body.metadata.facs ?? ""}
     </span>
   );

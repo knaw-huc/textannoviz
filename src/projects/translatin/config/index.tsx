@@ -6,8 +6,20 @@ import {
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { MetadataPanel } from "../MetadataPanel";
+import "../project.css";
 import { SearchItem } from "../SearchItem";
 import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
+
+import {
+  getAnnotationCategory,
+  getHighlightCategory,
+  isEntity,
+  projectEntityTypes,
+  projectHighlightedTypes,
+  projectInsertTextMarkerAnnotationTypes,
+  projectPageMarkerAnnotationTypes,
+  projectTooltipMarkerAnnotationTypes,
+} from "../annotation/ProjectAnnotationModel.ts";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
@@ -17,7 +29,24 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     // "pagexml:Page",
     // "pagexml:Region",
     "tl:Manifestation",
+    "tei:Hi",
+    "tei:Head",
+    "tei:Metamark",
+    "tei:Milestone",
   ],
+
+  showAnnotations: true,
+  annotationTypesToHighlight: [],
+  entityAnnotationTypes: projectEntityTypes,
+  highlightedAnnotationTypes: projectHighlightedTypes,
+  tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
+  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
+
+  getAnnotationCategory: getAnnotationCategory,
+  getHighlightCategory: getHighlightCategory,
+  isEntity: isEntity,
+
   elasticIndexName: "manifestations",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
