@@ -15,7 +15,8 @@ export type DetailUrlSearchParams = {
   from?: number;
 
   /**
-   * Reference to the last result when a user navigated away from a search result on the detail page
+   * Remember last search result when navigating away from a search result
+   * on the detail page, to be able to navigate to next/prev search result
    */
   lastSearchResult?: string;
 };
@@ -55,8 +56,8 @@ export function useDetailUrl() {
     updateLastSearchResultParam({
       nextUrlSearchParams,
       nextResultId: resultId,
-      currentSearchResults: searchResults,
-      currentPathParams: params,
+      searchResults,
+      pathParams: params,
     });
 
     return `/detail/${resultId}?${nextUrlSearchParams}`;
@@ -79,49 +80,31 @@ function getTier2Validated(params: Params) {
 function updateLastSearchResultParam(props: {
   nextResultId: string;
   nextUrlSearchParams: URLSearchParams;
-  currentSearchResults?: SearchResult;
-  currentPathParams: Params;
+  searchResults?: SearchResult;
+  pathParams: Params;
 }) {
-  const {
-    nextResultId,
-    nextUrlSearchParams,
-    currentSearchResults,
-    currentPathParams,
-  } = props;
+  const { nextResultId, nextUrlSearchParams, searchResults, pathParams } =
+    props;
 
-  if (!isOnDetailPage()) {
-    // Last search result is irrelevant:
+  const isOnDetailPage = location.pathname.includes(detailPrefix);
+  if (!isOnDetailPage) {
     nextUrlSearchParams.delete(LAST_SEARCH_RESULT);
-  } else {
-    if (!currentSearchResults) {
-      throw new Error("No search results on detail page");
-    }
-    const currentTier2 = getTier2Validated(currentPathParams);
-
-    if (isIdInResults(currentSearchResults, nextResultId)) {
-      // Pointing to search result: param is not needed
-      nextUrlSearchParams.delete(LAST_SEARCH_RESULT);
-    } else {
-      if (isIdInResults(currentSearchResults, currentTier2)) {
-        /**
-         * The user is navigating away from a result, so the last search
-         * result is stored in {@link LAST_SEARCH_RESULT} to be able
-         * to navigate to the next and prev search result:
-         */
-        nextUrlSearchParams.set(LAST_SEARCH_RESULT, currentTier2);
-      } else {
-        /**
-         * Current and next detail page are not displaying a search result:
-         * lastSearchResult can stay the same
-         */
-        console.log("lastSearchResult can stay the same");
-      }
-    }
+    return;
   }
-}
+  if (!searchResults) {
+    throw new Error("No search results on detail page");
+  }
+  const isNavigatingToSearchResult = isIdInResults(searchResults, nextResultId);
+  if (isNavigatingToSearchResult) {
+    nextUrlSearchParams.delete(LAST_SEARCH_RESULT);
+    return;
+  }
 
-function isOnDetailPage(): boolean {
-  return window.location.pathname.includes(detailPrefix);
+  const currentTier2 = getTier2Validated(pathParams);
+  const isViewingSearchResult = isIdInResults(searchResults, currentTier2);
+  if (isViewingSearchResult && !isNavigatingToSearchResult) {
+    nextUrlSearchParams.set(LAST_SEARCH_RESULT, currentTier2);
+  }
 }
 
 function isIdInResults(results: SearchResult, tier2: string) {
