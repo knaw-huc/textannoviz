@@ -1,5 +1,4 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
 import { SearchParams } from "../../model/Search.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
@@ -8,9 +7,8 @@ import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
 import { useDetailUrl } from "../Text/Annotated/utils/useDetailUrl.tsx";
 import { FooterLink } from "./FooterLink.tsx";
-import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
-import { Any } from "../../utils/Any.ts";
 import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
+import { getUrlParams } from "../../utils/UrlParamUtils.ts";
 
 export function DetailSearchResultsNavigation() {
   const navigate = useNavigate();
@@ -23,9 +21,6 @@ export function DetailSearchResultsNavigation() {
   const { hasNextPage, getNextFrom, hasPrevPage, getPrevFrom } =
     usePagination();
   const { getSearchResults } = useSearchResults();
-
-  const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
-  const urlSearchParams = new URLSearchParams(searchParams as Any);
 
   if (!searchResults) {
     return null;
@@ -95,12 +90,7 @@ export function DetailSearchResultsNavigation() {
       >
         &lt; {translate("PREV")}
       </FooterLink>
-      <FooterLink
-        onClick={() =>
-          // TODO: simplify, detail page does not need to know about all query and search params:
-          navigate(`/?${urlSearchParams}&query=${Base64.toBase64(cleanQuery)}`)
-        }
-      >
+      <FooterLink onClick={() => navigate(`/?${getUrlParams()}}`)}>
         <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
         {translate("BACK_TO_SEARCH")}
       </FooterLink>
