@@ -73,6 +73,7 @@ function getTooltipBody(
   if (!note) {
     throw new Error(`No note found for marker ${noteTargetId}`);
   }
+  // TODO: How should this work with translatin?
   const notesView = textPanels[NOTES_VIEW];
   if (!notesView) {
     throw new Error("No `notes` text panel found");

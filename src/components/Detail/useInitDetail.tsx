@@ -98,6 +98,7 @@ export function useInitDetail() {
           return;
         }
         annotations.push(...withNotes.anno);
+        // TODO: How should this work with translatin?
         views[NOTES_VIEW] = withNotes.views.self;
       }
 
