@@ -11,8 +11,7 @@ import { getUrlParams } from "../../utils/UrlParamUtils.ts";
 
 export function DetailSearchResultsNavigation() {
   const translate = useProjectStore(translateSelector);
-  const { getDetailParams, navigateDetail } = useDetailNavigation();
-  const { tier2 } = getDetailParams();
+  const { getResultId, navigateDetail } = useDetailNavigation();
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
@@ -24,9 +23,9 @@ export function DetailSearchResultsNavigation() {
     return null;
   }
 
-  const resultIndex = searchResults.results.findIndex((r) => r._id === tier2);
-
-  const isCurrentInResults = resultIndex !== -1;
+  const resultIndex = searchResults.results.findIndex(
+    (r) => r._id === getResultId(),
+  );
 
   async function handleNextResultClick() {
     if (!searchResults) {
@@ -83,9 +82,7 @@ export function DetailSearchResultsNavigation() {
       <FooterLink
         classes={["pl-10"]}
         onClick={handlePrevResultClick}
-        disabled={
-          !isCurrentInResults || (!hasPrevResult(resultIndex) && !hasPrevPage())
-        }
+        disabled={!hasPrevResult(resultIndex) && !hasPrevPage()}
       >
         &lt; {translate("PREV")}
       </FooterLink>
@@ -95,10 +92,7 @@ export function DetailSearchResultsNavigation() {
       </FooterLink>
       <FooterLink
         onClick={handleNextResultClick}
-        disabled={
-          !isCurrentInResults ||
-          (!hasNextResult(resultIndex, searchParams) && !hasNextPage())
-        }
+        disabled={!hasNextResult(resultIndex, searchParams) && !hasNextPage()}
       >
         {translate("NEXT")} &gt;
       </FooterLink>

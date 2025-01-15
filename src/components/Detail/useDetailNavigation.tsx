@@ -1,10 +1,4 @@
-import {
-  matchPath,
-  Params,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
 import {
   cleanUrlParams,
   getUrlParams,
@@ -41,7 +35,6 @@ export type NavigateDetailProps =
 
 export function useDetailNavigation() {
   const params = useParams();
-  const [urlParams] = useSearchParams();
   const { searchResults } = useSearchStore();
   const navigate = useNavigate();
 
@@ -78,7 +71,7 @@ export function useDetailNavigation() {
     const tier2 = getTier2Validated(params);
     return {
       tier2,
-      highlight: urlParams.get("highlight") || undefined,
+      highlight: getUrlParams().get("highlight") || undefined,
     };
   }
 
@@ -94,10 +87,26 @@ export function useDetailNavigation() {
     return `${path}?${nextUrlSearchParams}`;
   }
 
+  function getResultId(): string {
+    if (
+      params.tier2 &&
+      searchResults &&
+      isIdInResults(searchResults, params.tier2)
+    ) {
+      return params.tier2;
+    }
+    const lastSearchResultParam = getUrlParams().get(LAST_SEARCH_RESULT);
+    if (!lastSearchResultParam) {
+      throw new Error(`No tier2 or ${LAST_SEARCH_RESULT}`);
+    }
+    return lastSearchResultParam;
+  }
+
   return {
     getDetailParams,
     createDetailUrl,
     navigateDetail,
+    getResultId,
   };
 }
 
