@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { SurianoSearchResultsBody } from "../../model/Search.ts";
 import { Summary } from "./Summary";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import { useDetailUrl } from "../../components/Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigate } from "../../components/Text/Annotated/utils/useDetailNavigate.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<SurianoSearchResultsBody>,
@@ -19,7 +19,7 @@ export const SearchItem = (
   );
 
   const searchItemTitle = `${props.result.sender} to ${props.result.recipient}, ${formattedDate}`;
-  const { createDetailUrl } = useDetailUrl();
+  const { createDetailUrl } = useDetailNavigate();
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">

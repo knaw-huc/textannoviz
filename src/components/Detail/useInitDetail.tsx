@@ -6,7 +6,7 @@ import {
 } from "../../stores/project.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
-import { useDetailUrl } from "../Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigate } from "../Text/Annotated/utils/useDetailNavigate.tsx";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { useTextStore } from "../../stores/text.ts";
 import { useMiradorStore } from "../../stores/mirador.ts";
@@ -18,7 +18,7 @@ import { useMiradorStore } from "../../stores/mirador.ts";
 export function useInitDetail() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { projectName } = useProjectStore();
-  const { getDetailUrlParams } = useDetailUrl();
+  const { getDetailUrlParams } = useDetailNavigate();
 
   const [isInitDetail, setInitDetail] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ export function useInitDetail() {
   const { setAnnotations } = useAnnotationStore();
   const { setViews } = useTextStore();
 
-  const { tier2 } = useDetailUrl().getDetailUrlParams();
+  const { tier2 } = useDetailNavigate().getDetailUrlParams();
   const [prevTier2, setPrevTier2] = useState(tier2);
 
   useEffect(() => {

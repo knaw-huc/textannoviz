@@ -1,14 +1,15 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { Button } from "react-aria-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { SurianoLetterBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
+import { useDetailNavigate } from "../../components/Text/Annotated/utils/useDetailNavigate.tsx";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
-  const navigate = useNavigate();
+  const { navigate } = useDetailNavigate();
   const [isPrevButtonDisabled, setIsPrevButtonDisabled] = React.useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = React.useState(false);
 

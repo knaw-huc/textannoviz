@@ -66,11 +66,11 @@ export function getUrlParams(): URLSearchParams {
 }
 
 export function setUrlParams(
-  base: URLSearchParams,
-  toSet: Record<string, string>,
+  toMutate: URLSearchParams,
+  mutateWith: Record<string, string>,
 ): void {
-  for (const key in toSet) {
-    base.set(key, toSet[key]);
+  for (const key in mutateWith) {
+    toMutate.set(key, mutateWith[key]);
   }
 }
 

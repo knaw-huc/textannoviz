@@ -1,19 +1,17 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { useNavigate } from "react-router-dom";
 import { SearchParams } from "../../model/Search.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
-import { useDetailUrl } from "../Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigate } from "../Text/Annotated/utils/useDetailNavigate.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
 import { getUrlParams } from "../../utils/UrlParamUtils.ts";
 
 export function DetailSearchResultsNavigation() {
-  const navigate = useNavigate();
   const translate = useProjectStore(translateSelector);
-  const { getDetailUrlParams, createDetailUrl } = useDetailUrl();
+  const { getDetailUrlParams, navigate } = useDetailNavigate();
   const { tier2 } = getDetailUrlParams();
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
@@ -36,7 +34,7 @@ export function DetailSearchResultsNavigation() {
     }
     if (hasNextResult(resultIndex, searchParams)) {
       const newResultId = searchResults.results[resultIndex + 1]._id;
-      navigate(createDetailUrl(newResultId));
+      navigate(`/detail/${newResultId}`);
       return;
     }
     if (hasNextPage()) {
@@ -51,7 +49,7 @@ export function DetailSearchResultsNavigation() {
 
     if (hasPrevResult(resultIndex)) {
       const newResultId = searchResults.results[resultIndex - 1]._id;
-      navigate(createDetailUrl(newResultId));
+      navigate(`/detail/${newResultId}`);
       return;
     }
     if (hasPrevPage()) {
@@ -73,10 +71,8 @@ export function DetailSearchResultsNavigation() {
     const indexOnNewPage =
       newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
-    const nextUrl = createDetailUrl(newResultId, { from: newFrom });
-
     setSearchResults(newSearchResults.results);
-    navigate(nextUrl);
+    navigate({ path: `/detail/${newResultId}`, params: { from: newFrom } });
   }
 
   return (

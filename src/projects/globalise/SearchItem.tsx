@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { GlobaliseSearchResultsBody } from "../../model/Search.ts";
 
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import { useDetailUrl } from "../../components/Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigate } from "../../components/Text/Annotated/utils/useDetailNavigate.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<GlobaliseSearchResultsBody>,
 ) => {
-  const { createDetailUrl } = useDetailUrl();
+  const { createDetailUrl } = useDetailNavigate();
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">

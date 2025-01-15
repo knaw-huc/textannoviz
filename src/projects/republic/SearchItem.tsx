@@ -7,14 +7,14 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
-import { useDetailUrl } from "../../components/Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigate } from "../../components/Text/Annotated/utils/useDetailNavigate.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<RepublicSearchResultBody>,
 ) => {
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
-  const { createDetailUrl } = useDetailUrl();
+  const { createDetailUrl } = useDetailNavigate();
 
   const monthNumberToString: Record<number, keyof Labels> = {
     1: "JANUARY",
