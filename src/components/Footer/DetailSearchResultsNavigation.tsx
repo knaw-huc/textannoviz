@@ -4,15 +4,15 @@ import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
-import { useDetailNavigate } from "../Text/Annotated/utils/useDetailNavigate.tsx";
+import { useDetailNavigation } from "../Text/Annotated/utils/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
 import { getUrlParams } from "../../utils/UrlParamUtils.ts";
 
 export function DetailSearchResultsNavigation() {
   const translate = useProjectStore(translateSelector);
-  const { getDetailUrlParams, navigate } = useDetailNavigate();
-  const { tier2 } = getDetailUrlParams();
+  const { getDetailParams, navigateDetail } = useDetailNavigation();
+  const { tier2 } = getDetailParams();
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
@@ -34,7 +34,7 @@ export function DetailSearchResultsNavigation() {
     }
     if (hasNextResult(resultIndex, searchParams)) {
       const newResultId = searchResults.results[resultIndex + 1]._id;
-      navigate(`/detail/${newResultId}`);
+      navigateDetail(`/detail/${newResultId}`);
       return;
     }
     if (hasNextPage()) {
@@ -49,7 +49,7 @@ export function DetailSearchResultsNavigation() {
 
     if (hasPrevResult(resultIndex)) {
       const newResultId = searchResults.results[resultIndex - 1]._id;
-      navigate(`/detail/${newResultId}`);
+      navigateDetail(`/detail/${newResultId}`);
       return;
     }
     if (hasPrevPage()) {
@@ -72,7 +72,10 @@ export function DetailSearchResultsNavigation() {
       newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
     setSearchResults(newSearchResults.results);
-    navigate({ path: `/detail/${newResultId}`, params: { from: newFrom } });
+    navigateDetail({
+      path: `/detail/${newResultId}`,
+      params: { from: newFrom },
+    });
   }
 
   return (
@@ -86,7 +89,7 @@ export function DetailSearchResultsNavigation() {
       >
         &lt; {translate("PREV")}
       </FooterLink>
-      <FooterLink onClick={() => navigate(`/?${getUrlParams()}}`)}>
+      <FooterLink onClick={() => navigateDetail(`/?${getUrlParams()}}`)}>
         <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
         {translate("BACK_TO_SEARCH")}
       </FooterLink>

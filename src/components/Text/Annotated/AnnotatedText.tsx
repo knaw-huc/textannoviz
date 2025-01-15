@@ -19,7 +19,7 @@ import {
 } from "./utils/createLineOffsets.ts";
 import { LineOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
-import { useDetailNavigate } from "./utils/useDetailNavigate.tsx";
+import { useDetailNavigation } from "./utils/useDetailNavigation.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -53,7 +53,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
 
-  const { tier2, highlight } = useDetailNavigate().getDetailUrlParams();
+  const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
   const lines = props.text.lines;
 

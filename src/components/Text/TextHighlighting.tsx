@@ -5,7 +5,7 @@ import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
 import { getAnnotationsByTypes } from "./Annotated/utils/getAnnotationsByTypes.ts";
 import { createSearchRegex } from "./createSearchRegex.tsx";
-import { useDetailNavigate } from "./Annotated/utils/useDetailNavigate.tsx";
+import { useDetailNavigation } from "./Annotated/utils/useDetailNavigation.tsx";
 import { normalizeClassname } from "./Annotated/utils/createAnnotationClasses.ts";
 
 type TextHighlightingProps = {
@@ -16,7 +16,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
   const classes = new Map<number, string[]>();
-  const { highlight, tier2 } = useDetailNavigate().getDetailUrlParams();
+  const { highlight, tier2 } = useDetailNavigation().getDetailParams();
   const [annotationsToHighlight, setAnnotationsToHighlight] = React.useState<
     AnnoRepoAnnotation[]
   >([]);

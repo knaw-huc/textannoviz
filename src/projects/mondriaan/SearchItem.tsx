@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { MondriaanSearchResultsBody } from "../../model/Search";
 
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import { useDetailNavigate } from "../../components/Text/Annotated/utils/useDetailNavigate.tsx";
+import { useDetailNavigation } from "../../components/Text/Annotated/utils/useDetailNavigation.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<MondriaanSearchResultsBody>,
@@ -19,7 +19,7 @@ export const SearchItem = (
   );
 
   const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}, ${formattedDate}`;
-  const { createDetailUrl } = useDetailNavigate();
+  const { createDetailUrl } = useDetailNavigation();
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">

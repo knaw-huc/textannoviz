@@ -4,12 +4,12 @@ import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import { SurianoLetterBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useDetailNavigate } from "../../components/Text/Annotated/utils/useDetailNavigate.tsx";
+import { useDetailNavigation } from "../../components/Text/Annotated/utils/useDetailNavigation.tsx";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
-  const { navigate } = useDetailNavigate();
+  const { navigateDetail } = useDetailNavigation();
   const [isPrevButtonDisabled, setIsPrevButtonDisabled] = React.useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = React.useState(false);
 
@@ -28,11 +28,11 @@ export function AnnotationButtons() {
   }, [nextLetter, params.tier2, prevLetter]);
 
   function nextLetterButtonClickHandler() {
-    navigate(`/detail/${nextLetter}`);
+    navigateDetail(`/detail/${nextLetter}`);
   }
 
   function prevLetterButtonClickHandler() {
-    navigate(`/detail/${prevLetter}`);
+    navigateDetail(`/detail/${prevLetter}`);
   }
 
   return (

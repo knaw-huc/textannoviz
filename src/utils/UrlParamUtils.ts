@@ -31,12 +31,16 @@ export function getSearchParamsFromUrl<T extends object>(
   ) as T;
 }
 
+type ParamValueType = string | boolean | number;
+
 /**
  * Clean up record:
  * - remove params that are null or undefined
  * - convert param values to string
  */
-export function cleanUrlParams(merged: object): Record<string, string> {
+export function cleanUrlParams(
+  merged: Record<string, ParamValueType>,
+): Record<string, string> {
   return _(merged)
     .pickBy((v) => !_.isNil(v))
     .mapValues((v) => `${v}`)

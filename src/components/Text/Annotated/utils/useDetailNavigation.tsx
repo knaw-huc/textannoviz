@@ -51,25 +51,28 @@ export type NavigateOnDetailPageProps =
 /**
  * Hook to navigate on detail pages
  */
-export function useDetailNavigate() {
+export function useDetailNavigation() {
   const params = useParams();
   const [urlParams] = useSearchParams();
   const { searchResults } = useSearchStore();
   const navigate = useNavigate();
 
   /**
-   * if path points to a detail page:
-   *  - extract ID, update url search params, incl. lastSearchResult, and navigate
-   * if path does not point to a detail page:
-   *  - update lastSearchResult, and navigate
+   * Wrapper of useNavigate hook to be used on detail pages
+   * Sets and updates detail state as persisted in url params.
    */
-  function navigateOnDetailPage(props: NavigateOnDetailPageProps) {
+  function navigateDetail(props: NavigateOnDetailPageProps) {
     let path: string;
     const nextUrlSearchParams: URLSearchParams = getUrlParams();
     if (_.isString(props)) {
-      const url = new URL(props);
+      const url = new URL(props, location.toString());
+      console.log("url", {
+        props,
+        location: location.toString(),
+        locObj: location,
+        url,
+      });
       path = url.pathname;
-      setUrlParams(nextUrlSearchParams, cleanUrlParams(url.searchParams));
     } else {
       path = props.path;
       setUrlParams(nextUrlSearchParams, cleanUrlParams(props.params));
@@ -91,7 +94,7 @@ export function useDetailNavigate() {
     navigate(`${path}?${nextUrlSearchParams}`);
   }
 
-  function getDetailUrlParams(): DetailParams {
+  function getDetailParams(): DetailParams {
     const tier2 = getTier2Validated(params);
     return {
       tier2,
@@ -114,23 +117,13 @@ export function useDetailNavigate() {
     if (detailParams) {
       setUrlParams(nextUrlSearchParams, cleanUrlParams(detailParams));
     }
-
-    const currentTier2 = matchPath(detailTier2Path, location.pathname)?.params
-      .tier2;
-    updateLastSearchResultParam({
-      nextUrlSearchParams,
-      nextTier2: resultId,
-      searchResults,
-      currentTier2,
-    });
-
     return `${path}?${nextUrlSearchParams}`;
   }
 
   return {
-    getDetailUrlParams,
+    getDetailParams,
     createDetailUrl,
-    navigate: navigateOnDetailPage,
+    navigateDetail,
   };
 }
 
