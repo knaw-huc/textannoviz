@@ -10,7 +10,7 @@ import _ from "lodash";
  * Merge the properties in {@link toPopulate} with params of the same name in ${@link urlParams}.
  * Url param are converted to number or boolean to match the type in {@link toPopulate}.
  */
-export function getSearchParamsFromUrl<T extends object>(
+export function getSearchParamsFromUrl<T extends UrlSearchParamRecord>(
   toPopulate: T,
   urlParams: URLSearchParams,
 ): T {
@@ -32,6 +32,7 @@ export function getSearchParamsFromUrl<T extends object>(
 }
 
 type ParamValueType = string | boolean | number;
+type UrlSearchParamRecord = Record<string, ParamValueType>;
 
 /**
  * Clean up record:
@@ -39,7 +40,7 @@ type ParamValueType = string | boolean | number;
  * - convert param values to string
  */
 export function cleanUrlParams(
-  merged: Record<string, ParamValueType>,
+  merged: UrlSearchParamRecord,
 ): Record<string, string> {
   return _(merged)
     .pickBy((v) => !_.isNil(v))
