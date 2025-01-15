@@ -1,9 +1,9 @@
 import mirador from "mirador-knaw-huc-mui5";
-import React from "react";
 import { Button } from "react-aria-components";
 import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
+import { useMiradorStore } from "../../stores/mirador.ts";
 import {
   projectConfigSelector,
   translateSelector,
@@ -17,8 +17,8 @@ export function BrowseScanButtons() {
   const annotations = useAnnotationStore().annotations;
   const miradorStore = useInternalMiradorStore().miradorStore;
   const projectName = useProjectStore().projectName;
-  const [currentCanvas, setCurrentCanvas] = React.useState("");
   const pageAnnoType = projectConfig.pageAnnotation;
+  const { currentCanvas } = useMiradorStore();
 
   const pageAnnotations = annotations.filter(
     (anno) => anno.body.type === pageAnnoType,
@@ -32,19 +32,13 @@ export function BrowseScanButtons() {
 
   const firstCanvas = canvases[0];
   const lastCanvas = canvases[canvases.length - 1];
-  const miradorCanvas = miradorStore?.getState().windows[projectName]
-    .canvasId as string;
-
-  React.useEffect(() => {
-    setCurrentCanvas(miradorCanvas);
-  }, [miradorCanvas]);
 
   function prevCanvas() {
     miradorStore.dispatch(mirador.actions.setPreviousCanvas(projectName));
-    const newCanvas = miradorStore?.getState().windows[projectName]
-      .canvasId as string;
-    setCurrentCanvas(newCanvas);
     if (projectConfig.visualizeAnnosMirador) {
+      const newCanvas = miradorStore?.getState().windows[projectName]
+        .canvasId as string;
+
       visualizeAnnosMirador(
         annotations,
         miradorStore,
@@ -56,10 +50,10 @@ export function BrowseScanButtons() {
 
   function nextCanvas() {
     miradorStore.dispatch(mirador.actions.setNextCanvas(projectName));
-    const newCanvas = miradorStore?.getState().windows[projectName]
-      .canvasId as string;
-    setCurrentCanvas(newCanvas);
     if (projectConfig.visualizeAnnosMirador) {
+      const newCanvas = miradorStore?.getState().windows[projectName]
+        .canvasId as string;
+
       visualizeAnnosMirador(
         annotations,
         miradorStore,

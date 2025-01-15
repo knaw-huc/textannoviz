@@ -6,11 +6,12 @@ import { MiradorConfig } from "../../model/MiradorConfig";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
+import { miradorSelector, useMiradorStore } from "../../stores/mirador.ts";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { defaultMiradorConfig } from "./defaultMiradorConfig";
+import { observeMiradorStore } from "./utils/observeMiradorStore.ts";
 import { zoomAnnoMirador } from "./zoomAnnoMirador";
-import { miradorSelector, useMiradorStore } from "../../stores/mirador.ts";
 
 export function Mirador() {
   const { annotations } = useAnnotationStore();
@@ -19,6 +20,9 @@ export function Mirador() {
   const setInternalMiradorStore = useInternalMiradorStore(
     (state) => state.setStore,
   );
+
+  const { setCurrentCanvas } = useMiradorStore();
+
   const miradorStore = useInternalMiradorStore((state) => state.miradorStore);
   const projectConfig = useProjectStore(projectConfigSelector);
   const showSvgsAnnosMirador = useAnnotationStore(
@@ -54,6 +58,10 @@ export function Mirador() {
     );
   }
 
+  function onCanvasChange(canvasId: string) {
+    setCurrentCanvas(canvasId);
+  }
+
   React.useEffect(() => {
     const viewer = mirador.viewer(miradorConfig);
     setInternalMiradorStore(viewer.store);
@@ -82,6 +90,8 @@ export function Mirador() {
     }
 
     function performPostInitialisationActions() {
+      observeMiradorStore(viewer.store, projectConfig.id, onCanvasChange);
+
       if (projectConfig.zoomAnnoMirador) {
         zoomAnnoMirador(bodyId, annotations, iiif, viewer.store, projectConfig);
       }
