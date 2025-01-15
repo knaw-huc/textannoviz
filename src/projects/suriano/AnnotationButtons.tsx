@@ -4,7 +4,7 @@ import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import { SurianoLetterBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useDetailNavigation } from "../../components/Text/Annotated/utils/useDetailNavigation.tsx";
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;

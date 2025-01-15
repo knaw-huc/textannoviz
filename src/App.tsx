@@ -15,7 +15,10 @@ import {
   useProjectStore,
 } from "./stores/project";
 import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
-import { detailPrefix, detailTier2Path } from "./detailTier2Path.tsx";
+import {
+  detailPrefix,
+  detailTier2Path,
+} from "./components/Text/Annotated/utils/detailPath.ts";
 
 const { project, config } = selectProjectConfig();
 const router = await createRouter();

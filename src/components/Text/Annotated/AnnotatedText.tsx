@@ -19,7 +19,7 @@ import {
 } from "./utils/createLineOffsets.ts";
 import { LineOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
-import { useDetailNavigation } from "./utils/useDetailNavigation.tsx";
+import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;

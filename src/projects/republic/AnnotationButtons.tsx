@@ -7,7 +7,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { useDetailNavigation } from "../../components/Text/Annotated/utils/useDetailNavigation.tsx";
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;

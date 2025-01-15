@@ -6,7 +6,7 @@ import {
 } from "../../stores/project.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
-import { useDetailNavigation } from "../Text/Annotated/utils/useDetailNavigation.tsx";
+import { useDetailNavigation } from "./useDetailNavigation.tsx";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { useTextStore } from "../../stores/text.ts";
 import { useMiradorStore } from "../../stores/mirador.ts";

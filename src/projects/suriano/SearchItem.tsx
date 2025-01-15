@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { SurianoSearchResultsBody } from "../../model/Search.ts";
 import { Summary } from "./Summary";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import { useDetailNavigation } from "../../components/Text/Annotated/utils/useDetailNavigation.tsx";
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<SurianoSearchResultsBody>,

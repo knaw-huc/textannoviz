@@ -4,7 +4,7 @@ import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
-import { useDetailNavigation } from "../Text/Annotated/utils/useDetailNavigation.tsx";
+import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
 import { getUrlParams } from "../../utils/UrlParamUtils.ts";

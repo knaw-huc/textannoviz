@@ -9,19 +9,12 @@ import {
   cleanUrlParams,
   getUrlParams,
   setUrlParams,
-} from "../../../../utils/UrlParamUtils.ts";
-import { SearchResult } from "../../../../model/Search.ts";
-import { useSearchStore } from "../../../../stores/search/search-store.ts";
-import { LAST_SEARCH_RESULT } from "../../../Search/SearchUrlParams.ts";
+} from "../../utils/UrlParamUtils.ts";
+import { SearchResult } from "../../model/Search.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
 import _ from "lodash";
-
-import { detailTier2Path, detailPath } from "../../../../detailTier2Path.tsx";
-
-/**
- * TODO:
- * - use lastSearchResult in prev/next search result buttons
- * - use createDetailUrl in all buttons/links
- */
+import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
 
 export type DetailUrlSearchParams = {
   highlight?: string;
@@ -38,19 +31,14 @@ export type DetailParams = DetailUrlSearchParams & {
   tier2: string;
 };
 
-export const detailPathRegex = new RegExp("");
-
 type PathName = string;
-export type NavigateOnDetailPageProps =
+export type NavigateDetailProps =
   | PathName
   | {
       path: string;
       params: DetailUrlSearchParams;
     };
 
-/**
- * Hook to navigate on detail pages
- */
 export function useDetailNavigation() {
   const params = useParams();
   const [urlParams] = useSearchParams();
@@ -58,20 +46,14 @@ export function useDetailNavigation() {
   const navigate = useNavigate();
 
   /**
-   * Wrapper of useNavigate hook to be used on detail pages
-   * Sets and updates detail state as persisted in url params.
+   * Wrapper of useNavigate hook that sets and updates url search params
+   * Note: to be used on detail pages
    */
-  function navigateDetail(props: NavigateOnDetailPageProps) {
+  function navigateDetail(props: NavigateDetailProps) {
     let path: string;
     const nextUrlSearchParams: URLSearchParams = getUrlParams();
     if (_.isString(props)) {
       const url = new URL(props, location.toString());
-      console.log("url", {
-        props,
-        location: location.toString(),
-        locObj: location,
-        url,
-      });
       path = url.pathname;
     } else {
       path = props.path;
@@ -82,14 +64,12 @@ export function useDetailNavigation() {
     const currentTier2 = matchPath(detailTier2Path, location.pathname)?.params
       .tier2;
 
-    const lastSearchParamProps = {
+    updateLastSearchResultParam({
       nextUrlSearchParams,
       nextTier2,
       searchResults,
       currentTier2,
-    };
-    console.log("navigateOnDetailPage", lastSearchParamProps);
-    updateLastSearchResultParam(lastSearchParamProps);
+    });
 
     navigate(`${path}?${nextUrlSearchParams}`);
   }
@@ -98,12 +78,6 @@ export function useDetailNavigation() {
     const tier2 = getTier2Validated(params);
     return {
       tier2,
-      ...getDetailUrlSearchParams(),
-    };
-  }
-
-  function getDetailUrlSearchParams(): DetailUrlSearchParams {
-    return {
       highlight: urlParams.get("highlight") || undefined,
     };
   }
@@ -112,7 +86,7 @@ export function useDetailNavigation() {
     resultId: string,
     detailParams?: DetailUrlSearchParams,
   ) {
-    const path = detailPath(resultId);
+    const path = `/detail/${resultId}`;
     const nextUrlSearchParams = getUrlParams();
     if (detailParams) {
       setUrlParams(nextUrlSearchParams, cleanUrlParams(detailParams));
@@ -135,12 +109,6 @@ function getTier2Validated(params: Params) {
   return tier2;
 }
 
-function isDetailPage(path: string): boolean {
-  const matched = matchPath(detailTier2Path, path);
-  console.log("isDetailPage", { path, matched });
-  return !!matched;
-}
-
 function updateLastSearchResultParam(props: {
   nextTier2?: string;
   nextUrlSearchParams: URLSearchParams;
@@ -155,7 +123,7 @@ function updateLastSearchResultParam(props: {
     return;
   }
 
-  const isOnDetailPage = isDetailPage(location.pathname);
+  const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
   if (!isOnDetailPage) {
     nextUrlSearchParams.delete(LAST_SEARCH_RESULT);
     return;

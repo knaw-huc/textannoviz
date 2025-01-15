@@ -7,7 +7,7 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
-import { useDetailNavigation } from "../../components/Text/Annotated/utils/useDetailNavigation.tsx";
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<RepublicSearchResultBody>,
