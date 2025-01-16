@@ -7,14 +7,14 @@ import {
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
-import { useDetailUrl } from "../../components/Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<RepublicSearchResultBody>,
 ) => {
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
-  const { getDetailUrl } = useDetailUrl();
+  const { createDetailUrl } = useDetailNavigation();
 
   const monthNumberToString: Record<number, keyof Labels> = {
     1: "JANUARY",
@@ -43,7 +43,7 @@ export const SearchItem = (
       </li>
       <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
         <Link
-          to={getDetailUrl(props.result._id, {
+          to={createDetailUrl(props.result._id, {
             highlight: props.query.fullText,
           })}
           className="hover:text-brand1-700 cursor-pointer text-inherit no-underline transition"

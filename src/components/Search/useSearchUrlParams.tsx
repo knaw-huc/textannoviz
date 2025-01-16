@@ -25,6 +25,7 @@ export function useSearchUrlParams() {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const urlParams = getUrlParams();
+
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
     getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { MondriaanSearchResultsBody } from "../../model/Search";
 
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import { useDetailUrl } from "../../components/Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<MondriaanSearchResultsBody>,
@@ -19,12 +19,14 @@ export const SearchItem = (
   );
 
   const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}, ${formattedDate}`;
-  const { getDetailUrl } = useDetailUrl();
+  const { createDetailUrl } = useDetailNavigation();
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
-        to={getDetailUrl(props.result._id, { highlight: props.query.fullText })}
+        to={createDetailUrl(props.result._id, {
+          highlight: props.query.fullText,
+        })}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">

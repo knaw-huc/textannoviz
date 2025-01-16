@@ -7,13 +7,10 @@ import { SearchQuery } from "../model/Search.ts";
 import _ from "lodash";
 
 /**
- * Merge the properties in {@link toPopulate} with
- * params of the same name in ${@link urlParams}.
- * When not found, keep value of {@link toPopulate}.
- * Url param are comverted to number or boolean
- * to match original type in {@link toPopulate}
+ * Merge the properties in {@link toPopulate} with params of the same name in ${@link urlParams}.
+ * Url param are converted to number or boolean to match the type in {@link toPopulate}.
  */
-export function getSearchParamsFromUrl<T extends object>(
+export function getSearchParamsFromUrl<T extends UrlSearchParamRecord>(
   toPopulate: T,
   urlParams: URLSearchParams,
 ): T {
@@ -34,7 +31,17 @@ export function getSearchParamsFromUrl<T extends object>(
   ) as T;
 }
 
-export function cleanUrlParams(merged: object): Record<string, string> {
+type ParamValueType = string | boolean | number;
+type UrlSearchParamRecord = Record<string, ParamValueType>;
+
+/**
+ * Clean up record:
+ * - remove params that are null or undefined
+ * - convert param values to string
+ */
+export function cleanUrlParams(
+  merged: UrlSearchParamRecord,
+): Record<string, string> {
   return _(merged)
     .pickBy((v) => !_.isNil(v))
     .mapValues((v) => `${v}`)
@@ -64,11 +71,11 @@ export function getUrlParams(): URLSearchParams {
 }
 
 export function setUrlParams(
-  base: URLSearchParams,
-  toSet: Record<string, string>,
+  toMutate: URLSearchParams,
+  mutateWith: Record<string, string>,
 ): void {
-  for (const key in toSet) {
-    base.set(key, toSet[key]);
+  for (const key in mutateWith) {
+    toMutate.set(key, mutateWith[key]);
   }
 }
 

@@ -1,22 +1,17 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { Base64 } from "js-base64";
-import { useNavigate } from "react-router-dom";
 import { SearchParams } from "../../model/Search.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
-import { useDetailUrl } from "../Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
-import { skipEmptyValues } from "../../utils/skipEmptyValues.ts";
-import { Any } from "../../utils/Any.ts";
 import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
+import { getUrlParams } from "../../utils/UrlParamUtils.ts";
 
 export function DetailSearchResultsNavigation() {
-  const navigate = useNavigate();
   const translate = useProjectStore(translateSelector);
-  const { getDetailUrlParams, getDetailUrl } = useDetailUrl();
-  const { tier2 } = getDetailUrlParams();
+  const { getResultId, navigateDetail } = useDetailNavigation();
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
@@ -24,16 +19,13 @@ export function DetailSearchResultsNavigation() {
     usePagination();
   const { getSearchResults } = useSearchResults();
 
-  const cleanQuery = JSON.stringify(searchQuery, skipEmptyValues);
-  const urlSearchParams = new URLSearchParams(searchParams as Any);
-
   if (!searchResults) {
     return null;
   }
 
-  const resultIndex = searchResults.results.findIndex((r) => r._id === tier2);
-
-  const isCurrentInResults = resultIndex !== -1;
+  const resultIndex = searchResults.results.findIndex(
+    (r) => r._id === getResultId(),
+  );
 
   async function handleNextResultClick() {
     if (!searchResults) {
@@ -41,7 +33,7 @@ export function DetailSearchResultsNavigation() {
     }
     if (hasNextResult(resultIndex, searchParams)) {
       const newResultId = searchResults.results[resultIndex + 1]._id;
-      navigate(getDetailUrl(newResultId));
+      navigateDetail(`/detail/${newResultId}`);
       return;
     }
     if (hasNextPage()) {
@@ -56,7 +48,7 @@ export function DetailSearchResultsNavigation() {
 
     if (hasPrevResult(resultIndex)) {
       const newResultId = searchResults.results[resultIndex - 1]._id;
-      navigate(getDetailUrl(newResultId));
+      navigateDetail(`/detail/${newResultId}`);
       return;
     }
     if (hasPrevPage()) {
@@ -78,10 +70,11 @@ export function DetailSearchResultsNavigation() {
     const indexOnNewPage =
       newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
-    const nextUrl = getDetailUrl(newResultId, { from: newFrom });
-
     setSearchResults(newSearchResults.results);
-    navigate(nextUrl);
+    navigateDetail({
+      path: `/detail/${newResultId}`,
+      params: { from: newFrom },
+    });
   }
 
   return (
@@ -89,26 +82,17 @@ export function DetailSearchResultsNavigation() {
       <FooterLink
         classes={["pl-10"]}
         onClick={handlePrevResultClick}
-        disabled={
-          !isCurrentInResults || (!hasPrevResult(resultIndex) && !hasPrevPage())
-        }
+        disabled={!hasPrevResult(resultIndex) && !hasPrevPage()}
       >
         &lt; {translate("PREV")}
       </FooterLink>
-      <FooterLink
-        onClick={() =>
-          navigate(`/?${urlSearchParams}&query=${Base64.toBase64(cleanQuery)}`)
-        }
-      >
+      <FooterLink onClick={() => navigateDetail(`/?${getUrlParams()}}`)}>
         <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-500" />{" "}
         {translate("BACK_TO_SEARCH")}
       </FooterLink>
       <FooterLink
         onClick={handleNextResultClick}
-        disabled={
-          !isCurrentInResults ||
-          (!hasNextResult(resultIndex, searchParams) && !hasNextPage())
-        }
+        disabled={!hasNextResult(resultIndex, searchParams) && !hasNextPage()}
       >
         {translate("NEXT")} &gt;
       </FooterLink>
