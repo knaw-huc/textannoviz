@@ -28,9 +28,6 @@ const BY_SCORE = "_score";
 
 /**
  * Sort by _score or by date
- * TODO:
- *  - add keyword facet types
- *  - handle multiple date facets
  */
 export const SearchSorting = (props: SearchSortByProps) => {
   const BY_DATE = props.dateFacet;
