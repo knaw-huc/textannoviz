@@ -29,14 +29,14 @@ export const TextPanel = (props: TextPanelProps) => {
           {translateProject(`${props.panel}`)}
         </span>
 
-        <button
-          onClick={() => props.closePanelHandler(props.panel)}
-          className="rounded p-2"
-        >
-          {projectConfig.allowCloseTextPanel && (
+        {projectConfig.allowCloseTextPanel && (
+          <button
+            onClick={() => props.closePanelHandler(props.panel)}
+            className="rounded p-2"
+          >
             <XMarkIcon className="h-6 fill-neutral-500 stroke-neutral-800" />
-          )}
-        </button>
+          </button>
+        )}
       </div>
 
       <div className="mx-auto flex max-w-3xl" role="textpanel">
