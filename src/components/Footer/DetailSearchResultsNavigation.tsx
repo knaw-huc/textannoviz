@@ -78,14 +78,8 @@ export function DetailSearchResultsNavigation() {
     const indexOnNewPage =
       newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
-    const nextUrl = getDetailUrl(
-      newResultId,
-      // Pass new from to prevent resetting with old from:
-      { from: newFrom },
-    );
-    if (!nextUrl) {
-      throw new Error("No results found");
-    }
+    const nextUrl = getDetailUrl(newResultId, { from: newFrom });
+
     setSearchResults(newSearchResults.results);
     navigate(nextUrl);
   }

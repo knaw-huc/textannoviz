@@ -1,19 +1,22 @@
 import { useParams, useSearchParams } from "react-router-dom";
-import { createUrlSearchParams } from "./getFullDetailUrl.tsx";
-import { useSearchUrlParams } from "../../../Search/useSearchUrlParams.tsx";
+import {
+  cleanUrlParams,
+  getUrlParams,
+  setUrlParams,
+} from "../../../../utils/UrlParamUtils.ts";
 
-export type DetailQueryParams = {
+export type DetailUrlSearchParams = {
+  from?: number;
   highlight?: string;
 };
 
-export type DetailParams = DetailQueryParams & {
+export type DetailParams = DetailUrlSearchParams & {
   tier2: string;
 };
 
 export function useDetailUrl() {
   const params = useParams();
   const [urlParams] = useSearchParams();
-  const { searchParams, searchQuery } = useSearchUrlParams();
 
   function getDetailUrlParams(): DetailParams {
     const tier2 = params.tier2;
@@ -32,12 +35,15 @@ export function useDetailUrl() {
     };
   }
 
-  function getDetailUrl(resultId: string, overwriteParams?: object) {
-    const urlSearchParams = createUrlSearchParams(searchParams, searchQuery, {
-      ...getDetailUrlSearchParams(),
-      ...overwriteParams,
-    });
-    return `/detail/${resultId}?${urlSearchParams}`;
+  function getDetailUrl(
+    resultId: string,
+    detailParams?: DetailUrlSearchParams,
+  ) {
+    const nextUrlSearchParams = getUrlParams();
+    if (detailParams) {
+      setUrlParams(nextUrlSearchParams, cleanUrlParams(detailParams));
+    }
+    return `/detail/${resultId}?${nextUrlSearchParams}`;
   }
 
   return {
