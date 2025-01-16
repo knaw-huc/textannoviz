@@ -65,6 +65,7 @@ export function Mirador() {
   React.useEffect(() => {
     const viewer = mirador.viewer(miradorConfig);
     setInternalMiradorStore(viewer.store);
+    let unsubscribe: () => void;
 
     const INIT_CHECK_INTERVAL_MS = 250;
     const MAX_INIT_ATTEMPTS = 80;
@@ -90,7 +91,11 @@ export function Mirador() {
     }
 
     function performPostInitialisationActions() {
-      observeMiradorStore(viewer.store, projectConfig.id, onCanvasChange);
+      unsubscribe = observeMiradorStore(
+        viewer.store,
+        projectConfig.id,
+        onCanvasChange,
+      );
 
       if (projectConfig.zoomAnnoMirador) {
         zoomAnnoMirador(bodyId, annotations, iiif, viewer.store, projectConfig);
@@ -115,6 +120,9 @@ export function Mirador() {
 
     return () => {
       clearInterval(initialisationCheckInterval);
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
   }, [miradorConfig, projectConfig, bodyId]);
 
