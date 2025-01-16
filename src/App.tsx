@@ -4,21 +4,18 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
+import { detailTier2Path } from "./components/Text/Annotated/utils/detailPath.ts";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";
+import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
 import { useAnnotationStore } from "./stores/annotation";
 import {
   setProjectConfigSelector,
   setProjectNameSelector,
   useProjectStore,
 } from "./stores/project";
-import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
-import {
-  detailPrefix,
-  detailTier2Path,
-} from "./components/Text/Annotated/utils/detailPath.ts";
 
 const { project, config } = selectProjectConfig();
 const router = await createRouter();
@@ -95,10 +92,6 @@ async function createRouter() {
         {
           path: "/",
           element: <Search />,
-        },
-        {
-          path: `${detailPrefix}:tier0/:tier1`,
-          element: <Detail project={project} config={config} />,
         },
         {
           path: detailTier2Path,
