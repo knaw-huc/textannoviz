@@ -12,8 +12,7 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
 
   searchQuery.terms = query.terms;
 
-  // TODO: revert!
-  if (query.dateFacet && query.dateFrom && query.dateTo) {
+  if (query.dateFacet) {
     searchQuery.date = {
       name: query.dateFacet,
       from: query.dateFrom,
@@ -21,8 +20,7 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
     };
   }
 
-  // TODO: revert!
-  if (query.rangeFacet && query.rangeFrom && query.rangeTo) {
+  if (query.rangeFacet) {
     searchQuery.range = {
       name: query.rangeFacet,
       from: query.rangeFrom,
