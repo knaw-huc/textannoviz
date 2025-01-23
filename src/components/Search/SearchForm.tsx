@@ -3,11 +3,14 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import React from "react";
 import type { Key, Selection } from "react-aria-components";
+import { toast } from "react-toastify";
+import { FacetEntry, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { filterFacetTypesByType } from "../../stores/search/filterFacetTypesByType.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { DateFacet } from "./DateFacet.tsx";
 import { FacetFilter } from "./FacetFilter.tsx";
@@ -20,11 +23,9 @@ import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
 import { ShowLessButton } from "./ShowLessButton.tsx";
 import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
-import { removeTerm } from "./util/removeTerm.ts";
-import { FacetEntry, SearchQuery } from "../../model/Search.ts";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { removeTerm } from "./util/removeTerm.ts";
 import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
-import { toast } from "react-toastify";
 
 interface SearchFormProps {
   onSearch: () => void;
@@ -46,7 +47,7 @@ export function SearchForm(props: SearchFormProps) {
   const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
   const translate = useProjectStore(translateSelector);
 
-  const { searchResults } = useSearchStore();
+  const { searchResults, searchFacetTypes } = useSearchStore();
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
     useSearchUrlParams();
 
@@ -59,6 +60,10 @@ export function SearchForm(props: SearchFormProps) {
 
   React.useEffect(() => {
     if (defaultAggsIsInit) return;
+
+    console.log(searchFacetTypes);
+
+    console.log(filterFacetTypesByType(searchFacetTypes, "keyword"));
 
     if (!isEmpty(props.keywordFacets)) {
       const searchQueryTerms = Object.keys(props.searchQuery.terms);

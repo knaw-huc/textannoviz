@@ -11,8 +11,8 @@ export function createDefaultAggs(
   return Object.keys(facetTypes).map((agg) => {
     const newAgg = {
       facetName: agg,
-      order: "countDesc",
-      size: 10,
+      order: defaultOrder,
+      size: defaultSize,
     };
 
     const override = projectConfig.overrideDefaultAggs.find(

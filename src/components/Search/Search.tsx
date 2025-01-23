@@ -1,21 +1,21 @@
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
+import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { toRequestBody } from "../../stores/search/toRequestBody.ts";
 import { sendSearchQuery } from "../../utils/broccoli";
+import { handleAbort } from "../../utils/handleAbort.tsx";
 import { SearchForm } from "./SearchForm.tsx";
 import { SearchLoadingSpinner } from "./SearchLoadingSpinner.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
-import { useSearchResults } from "./useSearchResults.tsx";
-import { handleAbort } from "../../utils/handleAbort.tsx";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
-import { toRequestBody } from "../../stores/search/toRequestBody.ts";
-import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
-import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import { useInitSearch } from "./useInitSearch.ts";
+import { useSearchResults } from "./useSearchResults.tsx";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);

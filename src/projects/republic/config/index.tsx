@@ -112,6 +112,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "organisationName",
     "personName",
     "roleName",
+    "sessionDate",
+    "sessionYear",
   ],
   showFacetFilter: true,
   showWebAnnoTab: false,
