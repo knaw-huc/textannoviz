@@ -52,11 +52,7 @@ export function useDefaultQuery() {
       }
 
       const newFacetTypes = newIndices[projectConfig.elasticIndexName];
-
-      //deze moet dan nog apart opgeslagen worden en gebruikt worden in de facetfilter in SearchForm.tsx. De 'allPossibleKeywordFacets' moet dan ook nog aangepast worden bij de FacetFilter.
       const newAggs = createAggs(newFacetTypes, projectConfig);
-
-      console.log(projectConfig.defaultKeywordAggsToRender);
 
       const filteredAggs = newAggs
         .map((agg) => {
@@ -68,8 +64,6 @@ export function useDefaultQuery() {
           return undefined;
         })
         .filter((agg): agg is NamedFacetAgg => agg !== undefined);
-
-      console.log(filteredAggs);
 
       const projectConfigQuery = createSearchQuery({ projectConfig });
 

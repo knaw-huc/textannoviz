@@ -2,7 +2,7 @@ import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import React from "react";
-import type { Key, Selection } from "react-aria-components";
+import type { Key } from "react-aria-components";
 import { toast } from "react-toastify";
 import { FacetEntry, SearchQuery } from "../../model/Search.ts";
 import {
@@ -60,10 +60,6 @@ export function SearchForm(props: SearchFormProps) {
 
   React.useEffect(() => {
     if (defaultAggsIsInit) return;
-
-    console.log(searchFacetTypes);
-
-    console.log(filterFacetTypesByType(searchFacetTypes, "keyword"));
 
     if (!isEmpty(props.keywordFacets)) {
       const searchQueryTerms = Object.keys(props.searchQuery.terms);
@@ -240,14 +236,6 @@ export function SearchForm(props: SearchFormProps) {
     props.updateAggs(newQuery);
   }
 
-  function facetFilterChangeHandler(keys: Selection) {
-    const updatedFilteredAggs = Array.from(keys) as string[];
-    const orderedFilteredAggs = props.keywordFacets
-      .map((facet) => facet[0])
-      .filter((facetName) => updatedFilteredAggs.includes(facetName));
-    setFilteredAggs(orderedFilteredAggs);
-  }
-
   return (
     <div className={searchFormClasses}>
       <div className="w-full max-w-[450px]">
@@ -318,9 +306,14 @@ export function SearchForm(props: SearchFormProps) {
       {projectConfig.showFacetFilter && props.keywordFacets.length !== 0 && (
         <div className="flex w-full max-w-[450px] flex-col gap-4">
           <FacetFilter
-            allPossibleKeywordFacets={props.keywordFacets}
+            allPossibleKeywordFacets={filterFacetTypesByType(
+              searchFacetTypes,
+              "keyword",
+            )}
             filteredKeywordFacets={filteredAggs}
-            facetFilterChangeHandler={facetFilterChangeHandler}
+            searchFacetTypes={searchFacetTypes}
+            keywordFacets={props.keywordFacets}
+            setFilteredAggs={setFilteredAggs}
           />
         </div>
       )}

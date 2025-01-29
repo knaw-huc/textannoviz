@@ -1,7 +1,7 @@
 import { ProjectConfig } from "../../../model/ProjectConfig";
-import { sendSearchQuery } from "../../../utils/broccoli";
+import { SearchQuery, Terms } from "../../../model/Search.ts";
 import { toRequestBody } from "../../../stores/search/toRequestBody.ts";
-import { SearchQuery } from "../../../model/Search.ts";
+import { sendSearchQuery } from "../../../utils/broccoli";
 
 export async function getFacets(
   projectConfig: ProjectConfig,
@@ -12,11 +12,12 @@ export async function getFacets(
   }[],
   searchQuery: SearchQuery,
   signal: AbortSignal,
+  terms?: Terms,
 ) {
   const query = {
     ...searchQuery,
     aggs: aggregations,
-    terms: {},
+    terms: terms || {},
   };
 
   const searchResults = await sendSearchQuery(

@@ -6,20 +6,27 @@ import {
   ListBoxItem,
   type Selection,
 } from "react-aria-components";
+import { FacetEntry, FacetTypes } from "../../model/Search.ts";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project";
+import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { HelpTooltip } from "../common/HelpTooltip.tsx";
 import { ChevronDown } from "../common/icons/ChevronDown";
 import { ChevronRight } from "../common/icons/ChevronRight";
-import { HelpTooltip } from "../common/HelpTooltip.tsx";
-import { FacetEntry } from "../../model/Search.ts";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { getFacets } from "./util/getFacets.ts";
 
 type FacetFilterProps = {
-  allPossibleKeywordFacets: FacetEntry[];
+  allPossibleKeywordFacets: string[];
   filteredKeywordFacets: string[];
-  facetFilterChangeHandler: (keys: Selection) => void;
+  searchFacetTypes: FacetTypes;
+  keywordFacets: FacetEntry[];
+  setFilteredAggs: (value: React.SetStateAction<string[]>) => void;
 };
 
 export function FacetFilter(props: FacetFilterProps) {
@@ -27,6 +34,9 @@ export function FacetFilter(props: FacetFilterProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const translateProject = useProjectStore(translateProjectSelector);
   const translate = useProjectStore(translateSelector);
+  const { searchQuery, updateSearchQuery } = useSearchUrlParams();
+  const { setKeywordFacets } = useSearchStore();
+  const projectConfig = useProjectStore(projectConfigSelector);
 
   React.useEffect(() => {
     if (props.filteredKeywordFacets.length > 0) {
@@ -34,9 +44,72 @@ export function FacetFilter(props: FacetFilterProps) {
     }
   }, [props.filteredKeywordFacets]);
 
-  function listBoxItemToggleHandler(keys: Selection) {
+  async function listBoxItemToggleHandler(keys: Selection) {
     setSelected(new Set(keys));
-    props.facetFilterChangeHandler(keys);
+
+    const prevFilteredAggs = props.filteredKeywordFacets;
+    const updatedFilteredAggs = Array.from(keys) as string[];
+    const selectedNewFacet = getSelectedNewFacet(
+      updatedFilteredAggs,
+      prevFilteredAggs,
+    );
+    const removedFacet = getRemovedFacet(updatedFilteredAggs, prevFilteredAggs);
+    const orderedFilteredAggs = getOrderedFilteredAggs(
+      updatedFilteredAggs,
+      props.searchFacetTypes,
+    );
+
+    //Only fetch new facets if the user has selected a new facet
+    if (selectedNewFacet) {
+      await handleNewFacetSelection(selectedNewFacet);
+    }
+
+    if (removedFacet) {
+      handleFacetRemoval(removedFacet);
+    }
+
+    props.setFilteredAggs(orderedFilteredAggs);
+
+    async function handleNewFacetSelection(selectedNewFacet: string) {
+      const aborter = new AbortController();
+      const newAgg = [
+        {
+          facetName: selectedNewFacet,
+          order: "countDesc",
+          size: 10,
+        },
+      ];
+
+      const newAggs = [...searchQuery.aggs!, ...newAgg];
+
+      const newFacets = await getFacets(
+        projectConfig,
+        newAgg,
+        searchQuery,
+        aborter.signal,
+        searchQuery.terms,
+      );
+
+      const newKeywordFacets = filterFacetsByType(
+        props.searchFacetTypes,
+        newFacets,
+        "keyword",
+      );
+
+      setKeywordFacets([...props.keywordFacets, ...newKeywordFacets]);
+      updateSearchQuery({ aggs: newAggs });
+    }
+
+    function handleFacetRemoval(removedFacet: string) {
+      const newAggs = searchQuery.aggs?.filter(
+        (agg) => agg.facetName !== removedFacet,
+      );
+      const newKeywordFacets = props.keywordFacets.filter(
+        (facet) => facet[0] !== removedFacet,
+      );
+      setKeywordFacets(newKeywordFacets);
+      updateSearchQuery({ aggs: newAggs });
+    }
   }
 
   return (
@@ -59,7 +132,7 @@ export function FacetFilter(props: FacetFilterProps) {
           className="border-brand1Grey-200 flex max-h-64 cursor-default flex-col gap-2 overflow-auto rounded border bg-white px-1 py-1 text-sm"
         >
           {!isEmpty(props.allPossibleKeywordFacets) &&
-            props.allPossibleKeywordFacets.map(([facetLabel], index) => (
+            props.allPossibleKeywordFacets.map((facetLabel, index) => (
               <ListBoxItem
                 key={index}
                 id={facetLabel}
@@ -72,4 +145,35 @@ export function FacetFilter(props: FacetFilterProps) {
       ) : null}
     </>
   );
+}
+
+function getOrderedFilteredAggs(
+  updatedFilteredAggs: string[],
+  searchFacetTypes: FacetTypes,
+): string[] {
+  return Object.entries(searchFacetTypes)
+    .map(([name]) => name)
+    .filter((name) => updatedFilteredAggs.includes(name));
+}
+
+function getRemovedFacet(
+  updatedFilteredAggs: string[],
+  prevFilteredAggs: string[],
+): string {
+  return prevFilteredAggs
+    .filter(
+      (prevFilteredFacet) => !updatedFilteredAggs.includes(prevFilteredFacet),
+    )
+    .toString();
+}
+
+function getSelectedNewFacet(
+  updatedFilteredAggs: string[],
+  prevFilteredAggs: string[],
+): string {
+  return updatedFilteredAggs
+    .filter(
+      (updatedFilteredAgg) => !prevFilteredAggs.includes(updatedFilteredAgg),
+    )
+    .toString();
 }
