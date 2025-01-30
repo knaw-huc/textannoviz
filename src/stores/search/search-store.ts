@@ -4,26 +4,40 @@ import {
   SearchResultsSlice,
 } from "./search-results-slice.ts";
 import {
-  createTextToHighlightSlice,
-  TextToHighlightSlice,
-} from "./text-to-highlight-slice.ts";
+  createSearchHistorySlice,
+  SearchHistorySlice,
+} from "./search-history-slice.ts";
 import {
-  createSearchParamsSlice,
-  SearchParamsSlice,
-} from "./search-params-slice.ts";
+  createSearchFacetTypesSlice,
+  SearchFacetTypesSlice,
+} from "./search-facet-types-slice.ts";
 import {
-  createSearchQuerySlice,
-  SearchQuerySlice,
-} from "./search-query-slice.ts";
+  createKeywordFacetsSlice,
+  KeywordFacetsSlice,
+} from "./keyword-facets-slice.ts";
+import {
+  createDefaultQuerySlice,
+  DefaultQuerySlice,
+} from "./default-query-slice.ts";
 
-type SearchStore = SearchResultsSlice &
-  TextToHighlightSlice &
-  SearchParamsSlice &
-  SearchQuerySlice;
+export type SearchStore = DefaultQuerySlice &
+  SearchResultsSlice &
+  SearchHistorySlice &
+  SearchFacetTypesSlice &
+  KeywordFacetsSlice;
 
 export const useSearchStore = create<SearchStore>()((...a) => ({
+  ...createDefaultQuerySlice(...a),
+  ...createKeywordFacetsSlice(...a),
+  ...createSearchFacetTypesSlice(...a),
   ...createSearchResultsSlice(...a),
-  ...createTextToHighlightSlice(...a),
-  ...createSearchParamsSlice(...a),
-  ...createSearchQuerySlice(...a),
+  ...createSearchHistorySlice(...a),
 }));
+
+export function defaultQuerySettersSelector(state: SearchStore) {
+  return {
+    setKeywordFacets: state.setKeywordFacets,
+    setSearchFacetTypes: state.setSearchFacetTypes,
+    setDefaultQuery: state.setDefaultQuery,
+  };
+}

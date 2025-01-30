@@ -2,14 +2,15 @@ import isEmpty from "lodash/isEmpty";
 import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
-import { FacetName, FacetOptionName } from "../../model/Search.ts";
+import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
+  translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { SearchQuery } from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { usePagination } from "../../utils/usePagination.tsx";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
 import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
@@ -17,27 +18,33 @@ import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
-import { toPageNumber } from "./util/toPageNumber.ts";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 
 type SearchResultsProps = {
-  onSearch: (stayOnPage?: boolean) => void;
-  selectedFacets: SearchQuery;
+  query: SearchQuery;
+  onSearch: () => void;
+  onPageChange: () => void;
 };
 
 export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
+  const { searchResults } = useSearchStore();
+  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
+    useSearchUrlParams();
   const {
-    searchUrlParams,
-    setSearchUrlParams,
-    searchQuery,
-    setSearchQuery,
-    searchResults,
-  } = useSearchStore();
+    hasPrevPage,
+    selectPrevPage,
+    hasNextPage,
+    selectNextPage,
+    jumpToPage,
+    fromToPage,
+  } = usePagination();
 
-  const resultsStart = searchUrlParams.from + 1;
-  const pageSize = searchUrlParams.size;
-  const pageNumber = toPageNumber(searchUrlParams.from, searchUrlParams.size);
+  const resultsStart = searchParams.from + 1;
+  const pageSize = searchParams.size;
+  const pageNumber = fromToPage(searchParams.from);
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const [graphType, setGraphType] = React.useState("bar");
   const [graphFrom] = React.useState(
@@ -45,54 +52,43 @@ export function SearchResults(props: SearchResultsProps) {
   );
   const [graphTo] = React.useState(projectConfig.initialDateTo.split("-")[0]);
   const [showHistogram, setShowHistogram] = React.useState(true);
-  const queryHistory = useSearchStore((state) => state.searchQueryHistory);
+  const { searchQueryHistory } = useSearchStore();
   const [histogramZoomed, setHistogramZoomed] = React.useState(false);
 
   function updateSorting(sorting: Sorting) {
-    setSearchUrlParams({
-      ...searchUrlParams,
+    updateSearchParams({
       sortBy: sorting.field,
       sortOrder: sorting.order,
     });
     props.onSearch();
   }
 
-  function selectPrevPage() {
-    const newFrom = searchUrlParams.from - searchUrlParams.size;
-    if (!searchResults || newFrom < 0) {
+  function handleSelectPrevPageClick() {
+    if (!hasPrevPage()) {
       return;
     }
-    selectPage(newFrom);
+    selectPrevPage();
+    props.onPageChange();
   }
 
-  function selectNextPage() {
-    const newFrom = searchUrlParams.from + searchUrlParams.size;
-    if (!searchResults || newFrom >= searchResults.total.value) {
+  function handleSelectNextPageClick() {
+    if (!hasNextPage()) {
       return;
     }
-    selectPage(newFrom);
+    selectNextPage();
+    props.onPageChange();
   }
 
-  function jumpToPage(page: number) {
-    const newFrom = (page - 1) * searchUrlParams.size;
-    if (!searchResults || newFrom >= searchResults.total.value) return;
-    selectPage(newFrom);
-  }
-
-  function selectPage(newFrom: number) {
-    setSearchUrlParams({
-      ...searchUrlParams,
-      from: newFrom,
-    });
-    props.onSearch(true);
+  function handleJumpToPage(page: number) {
+    jumpToPage(page);
+    props.onPageChange();
   }
 
   const changePageSize = (key: Key) => {
     if (!key) {
       return;
     }
-    setSearchUrlParams({
-      ...searchUrlParams,
+    updateSearchParams({
       size: key as number,
     });
     props.onSearch();
@@ -101,8 +97,7 @@ export function SearchResults(props: SearchResultsProps) {
   function removeFacet(facet: FacetName, option: FacetOptionName) {
     const newTerms = structuredClone(searchQuery.terms);
     removeTerm(newTerms, facet, option);
-    setSearchQuery({ ...searchQuery, terms: newTerms });
-    setSearchUrlParams({ ...searchUrlParams });
+    updateSearchQuery({ terms: newTerms });
     props.onSearch();
   }
 
@@ -126,10 +121,13 @@ export function SearchResults(props: SearchResultsProps) {
   }
 
   function filterDateQuery(event: CategoricalChartState) {
-    setHistogramZoomed(true);
     const newYear = event.activeLabel;
 
-    setSearchQuery({
+    if (!newYear) return;
+
+    setHistogramZoomed(true);
+
+    updateSearchQuery({
       ...searchQuery,
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
@@ -138,13 +136,12 @@ export function SearchResults(props: SearchResultsProps) {
   }
 
   function returnToPrevDateRange() {
-    if (queryHistory.length < 2) return;
-    const prevQuery = queryHistory[queryHistory.length - 2];
+    if (searchQueryHistory.length < 2) return;
+    const prevQuery = searchQueryHistory[searchQueryHistory.length - 2].query;
 
     setHistogramZoomed(false);
 
-    setSearchQuery({
-      ...searchQuery,
+    updateSearchQuery({
       dateFrom: prevQuery.dateFrom,
       dateTo: prevQuery.dateTo,
     });
@@ -157,9 +154,9 @@ export function SearchResults(props: SearchResultsProps) {
       <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
         <span className="font-semibold">
           {resultStartEnd
-            ? `${resultStartEnd} ${searchResults.total.value} ${translate(
-                "RESULTS",
-              ).toLowerCase()}`
+            ? `${resultStartEnd} ${
+                searchResults.total.value
+              } ${translateProject("results").toLowerCase()}`
             : translate("NO_SEARCH_RESULTS")}
         </span>
         <div className="flex items-center justify-between gap-10">
@@ -169,8 +166,8 @@ export function SearchResults(props: SearchResultsProps) {
                 dateFacet={searchQuery.dateFacet}
                 onSort={updateSorting}
                 selected={{
-                  field: searchUrlParams.sortBy,
-                  order: searchUrlParams.sortOrder,
+                  field: searchParams.sortBy,
+                  order: searchParams.sortOrder,
                 }}
               />
             )}
@@ -207,17 +204,17 @@ export function SearchResults(props: SearchResultsProps) {
         {searchResults.results.length >= 1 && (
           <div className="flex w-full flex-row justify-end">
             <SearchPagination
-              prevPageClickHandler={selectPrevPage}
-              nextPageClickHandler={selectNextPage}
+              onPrevPageClick={handleSelectPrevPageClick}
+              onNextPageClick={handleSelectNextPageClick}
               pageNumber={pageNumber}
               searchResult={searchResults}
               elasticSize={pageSize}
-              jumpToPage={jumpToPage}
+              onJumpToPage={handleJumpToPage}
             />
           </div>
         )}
       </div>
-      {projectConfig.showHistogram ? (
+      {projectConfig.showHistogram && searchResults.results.length >= 1 ? (
         <>
           <HistogramControls
             graphTypeButtonClickHandler={graphTypeButtonClickHandler}
@@ -239,16 +236,20 @@ export function SearchResults(props: SearchResultsProps) {
       <div id="resultsList">
         {searchResults.results.length >= 1 &&
           searchResults.results.map((result, index) => (
-            <projectConfig.components.SearchItem key={index} result={result} />
+            <projectConfig.components.SearchItem
+              key={index}
+              result={result}
+              query={props.query}
+            />
           ))}
         {searchResults.results.length >= 1 && (
           <SearchPagination
-            prevPageClickHandler={selectPrevPage}
-            nextPageClickHandler={selectNextPage}
+            onPrevPageClick={handleSelectPrevPageClick}
+            onNextPageClick={handleSelectNextPageClick}
             pageNumber={pageNumber}
             searchResult={searchResults}
             elasticSize={pageSize}
-            jumpToPage={jumpToPage}
+            onJumpToPage={handleJumpToPage}
           />
         )}
       </div>

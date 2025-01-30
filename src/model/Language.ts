@@ -1,3 +1,5 @@
+import { Labels } from "./Labels.ts";
+
 export type LanguageCode = "en" | "nl";
 const languageCodes = ["en", "nl"];
 export function isValidLanguageCode(code: string): code is LanguageCode {
@@ -6,5 +8,5 @@ export function isValidLanguageCode(code: string): code is LanguageCode {
 
 export type Language = {
   code: LanguageCode;
-  labels: Record<string, string>;
+  labels: Labels;
 };

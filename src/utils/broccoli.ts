@@ -1,7 +1,13 @@
 import { toast } from "react-toastify";
 import { ProjectConfig } from "../model/ProjectConfig";
-import { SearchQueryRequestBody, SearchResult } from "../model/Search";
-import { SearchUrlParams } from "../stores/search/search-params-slice.ts";
+import {
+  ElasticIndices,
+  SearchParams,
+  SearchQueryRequestBody,
+  SearchResult,
+} from "../model/Search";
+import { Broccoli } from "../model/Broccoli.ts";
+import { cleanUrlParams } from "./UrlParamUtils.ts";
 
 const headers = {
   "Content-Type": "application/json",
@@ -15,11 +21,9 @@ export const fetchBroccoliScanWithOverlap = async (
   relativeTo: string,
   config: ProjectConfig,
   signal: AbortSignal,
-) => {
-  const response = await fetch(
-    `${config.broccoliUrl}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`,
-    { signal },
-  );
+): Promise<Broccoli | null> => {
+  const url = `${config.broccoliUrl}/projects/${config.id}/${bodyId}?overlapTypes=${overlapTypes}&includeResults=${includeResults}&views=${views}&relativeTo=${relativeTo}`;
+  const response = await fetch(url, { signal });
   if (!response.ok) {
     const error = await response.json();
     toast(`${error.message}`, { type: "error" });
@@ -46,12 +50,11 @@ export const selectDistinctBodyTypes = async (
 
 export const sendSearchQuery = async (
   projectConfig: ProjectConfig,
-  params: Partial<SearchUrlParams>,
+  params: Partial<SearchParams>,
   query: SearchQueryRequestBody,
   signal?: AbortSignal,
 ): Promise<SearchResult | null> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const urlSearchParams = new URLSearchParams(params as any);
+  const urlSearchParams = new URLSearchParams(cleanUrlParams(params));
   const response = await fetch(
     `${projectConfig.broccoliUrl}/projects/${projectConfig.id}/search?${urlSearchParams}`,
     {
@@ -74,7 +77,7 @@ export const sendSearchQuery = async (
 export const getElasticIndices = async (
   projectConfig: ProjectConfig,
   signal?: AbortSignal,
-) => {
+): Promise<ElasticIndices | null> => {
   const response = await fetch(
     `${projectConfig.broccoliUrl}/brinta/${projectConfig.id}/indices`,
     { signal },

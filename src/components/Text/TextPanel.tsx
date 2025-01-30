@@ -5,7 +5,9 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { TextHighlighting } from "./TextHighlighting";
+import { AnnotatedText } from "./Annotated/AnnotatedText.tsx";
+import { StyledText } from "./StyledText.tsx";
+import { TextHighlighting } from "./TextHighlighting.tsx";
 
 type TextPanelProps = {
   panel: string;
@@ -18,25 +20,32 @@ export const TextPanel = (props: TextPanelProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   return (
-    <div
-      id={props.panel}
-      className="prose border-brand1Grey-100 mx-auto w-full max-w-full overflow-auto border-x border-y p-3 font-serif text-lg"
-    >
-      {projectConfig.allowCloseTextPanel && (
-        <XMarkIcon
-          style={{
-            height: "1.5rem",
-            width: "1.5rem",
-            float: "right",
-            cursor: "pointer",
-          }}
-          onClick={() => props.closePanelHandler(props.panel)}
-        />
-      )}
-      <strong className="text-brand1Grey-800 mb-4 block border-b" tabIndex={0}>
-        {translateProject(`${props.panel}`)}
-      </strong>
-      <TextHighlighting text={props.text} />
-    </div>
+    <StyledText panel={props.panel}>
+      <div className="mx-auto mb-8 flex w-full max-w-3xl items-center justify-between border-b pb-4">
+        <span
+          className="font-sans text-sm uppercase text-neutral-800"
+          tabIndex={0}
+        >
+          {translateProject(`${props.panel}`)}
+        </span>
+
+        {projectConfig.allowCloseTextPanel && (
+          <button
+            onClick={() => props.closePanelHandler(props.panel)}
+            className="rounded p-2"
+          >
+            <XMarkIcon className="h-6 fill-neutral-500 stroke-neutral-800" />
+          </button>
+        )}
+      </div>
+
+      <div className="mx-auto flex max-w-3xl" role="textpanel">
+        {projectConfig.showAnnotations ? (
+          <AnnotatedText text={props.text} showDetail={false} />
+        ) : (
+          <TextHighlighting text={props.text} />
+        )}
+      </div>
+    </StyledText>
   );
 };

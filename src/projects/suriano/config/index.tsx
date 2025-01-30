@@ -1,17 +1,37 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
+import logo from "../../../assets/logo-correspondense-of-Suriano.png";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
+import "../project.css";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
+import { EntitySummary } from "../annotation/EntitySummary.tsx";
+import {
+  getAnnotationCategory,
+  getHighlightCategory,
+  isEntity,
+  projectEntityTypes,
+  projectHighlightedTypes,
+  projectInsertTextMarkerAnnotationTypes,
+  projectPageMarkerAnnotationTypes,
+  projectTooltipMarkerAnnotationTypes,
+} from "../annotation/ProjectAnnotationModel.ts";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { Empty } from "../../../components/Empty.tsx";
+
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
+  broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
   relativeTo: "tf:File",
+  showWebAnnoTab: false,
   annotationTypesToInclude: [
-    // "nlp:Sentence",
-    // "nlp:Token",
+    // "EntityMetadata",
     // "tei:Author",
     // "tei:Bibl",
     // "tei:BiblScope",
@@ -21,24 +41,17 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:CorrespAction",
     // "tei:CorrespDesc",
     // "tei:Date",
-    // "tei:Div",
     // "tei:Editor",
-    "tf:Ent",
     // "tei:FileDesc",
     // "tei:Head",
-    // "tei:Hi",
     // "tei:Idno",
     // "tei:Institution",
-    // "tei:Lb",
     // "tei:MsDesc",
     // "tei:MsIdentifier",
     // "tei:Name",
-    // "tei:Note",
     // "tei:Num",
     // "tei:P",
-    // "tei:Pb",
     // "tei:ProfileDesc",
-    // "tei:Ptr",
     // "tei:PublicationStmt",
     // "tei:Quote",
     // "tei:Resp",
@@ -46,45 +59,67 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:Row",
     // "tei:Settlement",
     // "tei:SourceDesc",
-    // "tei:Supplied",
     // "tei:Table",
     // "tei:TeiHeader",
     // "tei:Text",
     // "tei:Title",
     // "tei:TitleStmt",
-    // "tf:Chunk",
+    // "tf:Ln",
+    "tei:Div",
+    "tei:Note",
+    "tei:Ptr",
+    "tf:Ent",
     "tf:File",
     "tf:Folder",
+    "tf:Page",
+    "LetterBody",
+    "tei:Hi",
+    "tei:Head",
+    "tei:Metamark",
   ],
-  allPossibleTextPanels: [
-    "original",
-    "appendix",
-    "text",
-    "secretarial",
-    "notes",
-    "self",
-  ],
-  defaultTextPanels: ["text"],
-  annotationTypesToHighlight: ["tei:Ent"],
-  allowedAnnotationTypesToHighlight: ["tei:Ent"],
-  elasticIndexName: "suriano-0.2.1e",
+  showAnnotations: true,
+  annotationTypesToHighlight: [],
+  entityAnnotationTypes: projectEntityTypes,
+  highlightedAnnotationTypes: projectHighlightedTypes,
+  tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
+  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
+
+  getAnnotationCategory: getAnnotationCategory,
+  getHighlightCategory: getHighlightCategory,
+  isEntity: isEntity,
+
+  showPrevNextScanButtons: true,
+  pageAnnotation: "tf:Page",
+  elasticIndexName: "suriano-1.0.1e-029",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-900 text-brand1-400",
-  headerTitle: "The Correspondence of Christofforo Suriano",
+  headerColor: "bg-brand2-800 text-white",
+  headerTitle: "",
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
-  showToggleTextPanels: true,
+  showToggleTextPanels: false,
   showKeywordFacets: false,
+  showFacetFilter: false,
+  showMiradorNavigationButtons: false,
   components: {
+    EntitySummary,
     SearchItem,
     MetadataPanel,
+    AnnotationButtons,
+    SearchInfoPage,
+    HelpLink: Empty,
   },
 
   selectedLanguage: "en",
   languages: [{ code: "en", labels: englishSurianoLabels }],
-});
+  showSearchResultsOnInfoPage: true,
+  overrideDefaultSearchParams: {
+    sortBy: "date",
+    sortOrder: "asc",
+  },
+} as ProjectSpecificConfig);

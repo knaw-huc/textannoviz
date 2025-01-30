@@ -54,6 +54,14 @@
   display: flex;
 }
 
+.p-checkbox-box {
+  border: 2px solid #ced4da;
+}
+
+.p-checkbox-box.p-highlight {
+  border-color: #007bff;
+}
+
 .toggleTextPanelCheckboxLabel {
   margin-left: 0.5rem;
 }
@@ -293,52 +301,6 @@ em {
   text-decoration: underline;
 }
 
-.underlined-resolution {
-  border-bottom: 1px solid green;
-  cursor: pointer;
-}
-
-.underlined-attendancelist {
-  border-bottom: 1px solid #b84040;
-  cursor: pointer;
-}
-
-.underlined-attendant {
-  content: "";
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
-}
-
-.underlined-attendant::before {
-  content: "👤";
-  margin-right: 0.25rem;
-}
-
-.underlined-reviewed {
-  border-bottom: 1px solid cyan;
-  cursor: pointer;
-}
-
-.underlined-tei-rs {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
-}
-
-.underlined-px-page {
-  border-bottom: 1px solid green;
-  cursor: pointer;
-}
-
-.underlined-tei-ent {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
-}
-
-.underlined-dataset {
-  border-bottom: 1px solid rgb(202 138 4);
-  cursor: pointer;
-}
-
 input:invalid {
   border: none;
   outline: 1px solid red;
@@ -366,7 +328,6 @@ input:valid + span::after {
 
 .react-aria-Dialog {
   outline: none;
-  padding: 30px;
 }
 
 .react-aria-Switch {
@@ -419,5 +380,52 @@ input:valid + span::after {
         background: hsl(350, 45%, 20%);
       }
     }
+  }
+}
+
+/* Prevent footer from hiding TabPanel or TextPanel content */
+div[role="tabpanel"] > *:last-child,
+div[role="textpanel"] > *:last-child {
+  padding-bottom: 5em;
+}
+
+.query-delete,
+.query-date {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.query-delete {
+  float: right;
+  &:hover {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+  }
+}
+
+.icon {
+  width: 1em;
+  display: inline;
+}
+
+/* Loading spinner */
+.spinner-border {
+  @apply border-brand2-400;
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+
+.query-date {
+  color: #ccc;
+}
+
+.query-delete {
+  color: #ccc;
+  float: right;
+  &:hover {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
   }
 }

@@ -3,7 +3,7 @@ import { HIT_PREVIEW_REGEX } from "../../components/Search/util/createHighlights
 
 export type SummaryProps = {
   summary: string;
-  summaryHits: string[];
+  summaryHits: string[] | undefined;
 };
 
 function createSummaryHighlights(hits: string[]) {
@@ -31,27 +31,29 @@ function createSummaryHighlights(hits: string[]) {
 export function Summary(props: SummaryProps) {
   let summary = <span>{props.summary}</span>;
 
-  const textToHighlight = createSummaryHighlights(props.summaryHits);
+  if (props.summaryHits) {
+    const textToHighlight = createSummaryHighlights(props.summaryHits);
 
-  if (textToHighlight.length > 0) {
-    const regexStrings = textToHighlight?.map((str) =>
-      str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-    );
+    if (textToHighlight.length > 0) {
+      const regexStrings = textToHighlight?.map((str) =>
+        str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+      );
 
-    const joinedRegexString = regexStrings?.join("|");
+      const joinedRegexString = regexStrings?.join("|");
 
-    const regex = new RegExp(`${joinedRegexString}`, "g");
+      const regex = new RegExp(`${joinedRegexString}`, "g");
 
-    summary = (
-      <span
-        dangerouslySetInnerHTML={{
-          __html: props.summary.replace(
-            regex,
-            '<span class="rounded bg-yellow-200 p-1">$&</span>',
-          ),
-        }}
-      ></span>
-    );
+      summary = (
+        <span
+          dangerouslySetInnerHTML={{
+            __html: props.summary.replace(
+              regex,
+              '<span class="rounded bg-yellow-200 p-1">$&</span>',
+            ),
+          }}
+        ></span>
+      );
+    }
   }
 
   return <p className="italic">Summary: {summary}</p>;

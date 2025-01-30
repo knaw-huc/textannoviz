@@ -1,6 +1,9 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-mondrian-papers.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import AnnotationItem from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
@@ -96,15 +99,29 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   defaultTextPanels: ["textOrig", "textTrans"],
   annotationTypesToHighlight: ["tei:Rs"],
-  allowedAnnotationTypesToHighlight: ["tei:Rs"],
   showToggleTextPanels: true,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-900 text-brand1-400",
+  headerColor: "bg-brand1-100 text-brand1-700",
   headerTitle: "MONDRIAAN",
   logoHref:
     "https://rkd.nl/nl/projecten-en-publicaties/projecten/130-mondriaan-editieproject",
   histogramFacet: "period",
   showHistogram: true,
+  defaultKeywordAggsToRender: [
+    "anno",
+    "bodyType",
+    "correspondent",
+    "country",
+    "institution",
+    "lang",
+    "letterId",
+    "location",
+    "msid",
+    "period",
+    "periodLong",
+    "sender",
+    "type",
+  ],
   components: {
     AnnotationItem,
     AnnotationItemContent,
@@ -121,4 +138,4 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
   mirador: {
     showTopMenuButton: true,
   },
-});
+} as ProjectSpecificConfig);

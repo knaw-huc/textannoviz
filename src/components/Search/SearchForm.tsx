@@ -2,17 +2,15 @@ import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import React from "react";
-import { type Key } from "react-aria-components";
+import type { Key, Selection } from "react-aria-components";
 import {
   projectConfigSelector,
+  translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import {
-  FacetEntry,
-  SearchQuery,
-} from "../../stores/search/search-query-slice.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { DateFacet } from "./DateFacet.tsx";
+import { FacetFilter } from "./FacetFilter.tsx";
 import { FragmenterSelection } from "./FragmenterSelection.tsx";
 import { FullTextSearchBar } from "./FullTextSearchBar.tsx";
 import { InputFacet } from "./InputFacet.tsx";
@@ -23,34 +21,34 @@ import { ShowLessButton } from "./ShowLessButton.tsx";
 import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
+import { FacetEntry, SearchQuery } from "../../model/Search.ts";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
+import { toast } from "react-toastify";
 
 interface SearchFormProps {
-  onSearch: (stayOnPage?: boolean) => void;
+  onSearch: () => void;
   keywordFacets: FacetEntry[];
+  searchQuery: SearchQuery;
   updateAggs: (query: SearchQuery) => void;
 }
-
-type ShowMoreClickedState = Record<string, boolean>;
 
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
 
 export function SearchForm(props: SearchFormProps) {
-  const { keywordFacets, onSearch } = props;
+  const { onSearch } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
-  const queryHistory = useSearchStore((state) => state.searchQueryHistory);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
-  const [showMoreClicked, setShowMoreClicked] =
-    React.useState<ShowMoreClickedState>({});
 
-  const {
-    searchUrlParams,
-    setSearchUrlParams,
-    searchQuery,
-    setSearchQuery,
-    searchResults,
-  } = useSearchStore();
+  const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
+  const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
+  const translate = useProjectStore(translateSelector);
+
+  const { searchResults } = useSearchStore();
+  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
+    useSearchUrlParams();
 
   const debouncedOnSearch = React.useCallback(
     debounce(() => {
@@ -58,6 +56,28 @@ export function SearchForm(props: SearchFormProps) {
     }, 250),
     [],
   );
+
+  React.useEffect(() => {
+    if (defaultAggsIsInit) return;
+
+    if (!isEmpty(props.keywordFacets)) {
+      const searchQueryTerms = Object.keys(props.searchQuery.terms);
+      const defaultKeywordAggs = projectConfig.defaultKeywordAggsToRender;
+      const relevantFacetNames = [...defaultKeywordAggs, ...searchQueryTerms];
+
+      const initialFilteredAggs = props.keywordFacets.reduce<string[]>(
+        (accumulator, keywordFacet) => {
+          if (relevantFacetNames.includes(keywordFacet[0])) {
+            accumulator.push(keywordFacet[0]);
+          }
+          return accumulator;
+        },
+        [],
+      );
+      setFilteredAggs(initialFilteredAggs);
+      setDefaultAggsIsInit(true);
+    }
+  }, [props.keywordFacets, projectConfig.defaultKeywordAggsToRender]);
 
   function updateKeywordFacet(
     facetName: string,
@@ -75,13 +95,13 @@ export function SearchForm(props: SearchFormProps) {
         newTerms[facetName] = [facetOptionName];
       }
     }
-    setSearchQuery({ ...searchQuery, terms: newTerms });
+    updateSearchQuery({ terms: newTerms });
     onSearch();
   }
 
   function updateSliderFacet(newValue: number | number[]) {
     if (Array.isArray(newValue)) {
-      setSearchQuery({
+      updateSearchQuery({
         ...searchQuery,
         rangeFrom: newValue[0].toString(),
         rangeTo: newValue[1].toString(),
@@ -91,7 +111,7 @@ export function SearchForm(props: SearchFormProps) {
   }
 
   function goToQuery(query: SearchQuery) {
-    setSearchQuery(query);
+    updateSearchQuery(query);
     onSearch();
   }
 
@@ -99,8 +119,7 @@ export function SearchForm(props: SearchFormProps) {
     if (!key) {
       return;
     }
-    setSearchUrlParams({
-      ...searchUrlParams,
+    updateSearchParams({
       fragmentSize: key as number,
     });
     if (searchResults) {
@@ -109,11 +128,11 @@ export function SearchForm(props: SearchFormProps) {
   };
 
   function updateFullText(value: string) {
-    setSearchQuery({ ...searchQuery, fullText: value });
+    updateSearchQuery({ fullText: value });
   }
 
   function resetDates(update: { dateFrom: string; dateTo: string }) {
-    setSearchQuery({
+    updateSearchQuery({
       ...searchQuery,
       dateFrom: update.dateFrom,
       dateTo: update.dateTo,
@@ -123,7 +142,7 @@ export function SearchForm(props: SearchFormProps) {
 
   function fromDateChangeHandler(newFromDate: string, isValid: boolean) {
     setIsFromDateValid(isValid);
-    setSearchQuery({
+    updateSearchQuery({
       ...searchQuery,
       dateFrom: newFromDate,
     });
@@ -135,7 +154,7 @@ export function SearchForm(props: SearchFormProps) {
 
   function toDateChangeHandler(newToDate: string, isValid: boolean) {
     setIsToDateValid(isValid);
-    setSearchQuery({
+    updateSearchQuery({
       ...searchQuery,
       dateTo: newToDate,
     });
@@ -152,10 +171,7 @@ export function SearchForm(props: SearchFormProps) {
       [projectConfig.inputFacetOptions]: uniqValues,
     };
 
-    setSearchQuery({
-      ...searchQuery,
-      terms: newTerms,
-    });
+    updateSearchQuery({ terms: newTerms });
     onSearch();
   }
 
@@ -166,15 +182,20 @@ export function SearchForm(props: SearchFormProps) {
       [projectConfig.inputFacetOptions]: uniqValues,
     };
 
-    setSearchQuery({
-      ...searchQuery,
-      terms: newTerms,
-    });
+    updateSearchQuery({ terms: newTerms });
   }
 
   function fullTextSearchBarSubmitHandler(value: string) {
-    const sanitisedValue = value.trim();
-    updateFullText(sanitisedValue);
+    const sanitized = sanitizeFullText(value);
+    const isEmptySearch =
+      !sanitized.length && !projectConfig.allowEmptyStringSearch;
+
+    if (isEmptySearch) {
+      return toast(translate("NO_SEARCH_STRING"), {
+        type: "warning",
+      });
+    }
+    updateFullText(sanitized);
     onSearch();
   }
 
@@ -182,15 +203,23 @@ export function SearchForm(props: SearchFormProps) {
     updateFullText(value);
   }
 
-  function showMoreButtonClickHandler(aggregation: string) {
+  function showLessMoreButtonClickHandler(
+    aggregation: string,
+    facetLength: number,
+  ) {
     const prevAggs = searchQuery.aggs;
+    const defaultFacetLength = 10;
+    const maxFacetLength = 9999;
 
     const newAggs = prevAggs?.map((prevAgg) => {
       if (!prevAgg.facetName.startsWith(aggregation)) return prevAgg;
 
       const newAgg = {
         ...prevAgg,
-        size: showMoreClicked[aggregation] ? 10 : 1000,
+        size:
+          facetLength > defaultFacetLength
+            ? defaultFacetLength
+            : maxFacetLength,
       };
 
       return newAgg;
@@ -201,14 +230,17 @@ export function SearchForm(props: SearchFormProps) {
       aggs: newAggs,
     };
 
-    setSearchQuery(newQuery);
-
-    setShowMoreClicked({
-      ...showMoreClicked,
-      [aggregation]: !showMoreClicked[aggregation],
-    });
+    updateSearchQuery(newQuery);
 
     props.updateAggs(newQuery);
+  }
+
+  function facetFilterChangeHandler(keys: Selection) {
+    const updatedFilteredAggs = Array.from(keys) as string[];
+    const orderedFilteredAggs = props.keywordFacets
+      .map((facet) => facet[0])
+      .filter((facetName) => updatedFilteredAggs.includes(facetName));
+    setFilteredAggs(orderedFilteredAggs);
   }
 
   return (
@@ -243,10 +275,8 @@ export function SearchForm(props: SearchFormProps) {
       {projectConfig.showSearchQueryHistory && (
         <div className="w-full max-w-[450px]">
           <SearchQueryHistory
-            queryHistory={queryHistory}
             goToQuery={goToQuery}
             projectConfig={projectConfig}
-            disabled={!queryHistory.length}
           />
         </div>
       )}
@@ -254,7 +284,7 @@ export function SearchForm(props: SearchFormProps) {
       <div className="w-full max-w-[450px]">
         <FragmenterSelection
           onChange={updateFragmenter}
-          value={searchUrlParams.fragmentSize}
+          value={searchParams.fragmentSize}
         />
       </div>
 
@@ -280,42 +310,63 @@ export function SearchForm(props: SearchFormProps) {
         />
       )}
 
+      {projectConfig.showFacetFilter && props.keywordFacets.length !== 0 && (
+        <div className="flex w-full max-w-[450px] flex-col gap-4">
+          <FacetFilter
+            allPossibleKeywordFacets={props.keywordFacets}
+            filteredKeywordFacets={filteredAggs}
+            facetFilterChangeHandler={facetFilterChangeHandler}
+          />
+        </div>
+      )}
+
       {projectConfig.showKeywordFacets &&
-        !isEmpty(keywordFacets) &&
-        props.keywordFacets.map(([facetName, facetValue], i) => (
-          <>
-            <div
-              key={i}
-              className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden"
-            >
-              <KeywordFacet
-                facetName={facetName}
-                facet={facetValue}
-                selectedFacets={searchQuery.terms}
-                onChangeKeywordFacet={updateKeywordFacet}
-                onSearch={props.onSearch}
-                updateAggs={props.updateAggs}
-              />
-            </div>
-            {Object.keys(facetValue).length < 10 ? null : (
-              <div key={`btn-${i}`}>
-                {showMoreClicked[facetName] ? (
-                  <ShowLessButton
-                    showLessButtonClickHandler={() =>
-                      showMoreButtonClickHandler(facetName)
-                    }
-                    facetName={facetName}
-                  />
-                ) : (
-                  <ShowMoreButton
-                    showMoreButtonClickHandler={showMoreButtonClickHandler}
-                    facetName={facetName}
-                  />
-                )}
+        !isEmpty(props.keywordFacets) &&
+        filteredAggs.map((facetName, index) => {
+          const facetValue = props.keywordFacets.find(
+            (facet) => facet[0] === facetName,
+          )?.[1];
+
+          return facetValue ? (
+            <React.Fragment key={index}>
+              <div className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden">
+                <KeywordFacet
+                  facetName={facetName}
+                  facet={facetValue}
+                  selectedFacets={searchQuery.terms}
+                  onChangeKeywordFacet={updateKeywordFacet}
+                  onSearch={props.onSearch}
+                  updateAggs={props.updateAggs}
+                />
               </div>
-            )}
-          </>
-        ))}
+              {Object.keys(facetValue).length < 10 ? null : (
+                <div key={`btn-${index}`}>
+                  {Object.keys(facetValue).length > 10 ? (
+                    <ShowLessButton
+                      showLessButtonClickHandler={() =>
+                        showLessMoreButtonClickHandler(
+                          facetName,
+                          Object.keys(facetValue).length,
+                        )
+                      }
+                      facetName={facetName}
+                    />
+                  ) : (
+                    <ShowMoreButton
+                      showMoreButtonClickHandler={() =>
+                        showLessMoreButtonClickHandler(
+                          facetName,
+                          Object.keys(facetValue).length,
+                        )
+                      }
+                      facetName={facetName}
+                    />
+                  )}
+                </div>
+              )}
+            </React.Fragment>
+          ) : null;
+        })}
     </div>
   );
 }

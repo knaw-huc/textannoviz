@@ -6,8 +6,10 @@ type HeaderProps = {
 };
 
 export const Header = (props: HeaderProps) => {
+  const { projectConfig } = props;
+
   return (
-    <header className={props.projectConfig.headerColor}>
+    <header className={projectConfig.headerColor}>
       <div className="mx-auto flex w-full flex-row">
         <div className="flex flex-row items-center justify-start">
           <div className="flex flex-row items-center justify-start gap-3 px-6 py-3">
@@ -16,10 +18,10 @@ export const Header = (props: HeaderProps) => {
                 title="Homepage"
                 rel="noreferrer"
                 target="_blank"
-                href={props.projectConfig.logoHref}
+                href={projectConfig.logoHref}
               >
                 <img
-                  src={props.projectConfig.logoImageUrl}
+                  src={projectConfig.logoImageUrl}
                   className="h-12"
                   alt="logo"
                 />
@@ -32,21 +34,12 @@ export const Header = (props: HeaderProps) => {
                 href="/"
                 className="hover:text-brand1-100 text-inherit no-underline hover:underline"
               >
-                {props.projectConfig.headerTitle}
+                {projectConfig.headerTitle}
               </a>
             </span>
           </div>
         </div>
-        <div className="mr-4 flex grow flex-row items-center justify-end gap-2">
-          <a
-            title="Help"
-            rel="noreferrer"
-            href={window.location.pathname === "/help" ? "/" : "/help"}
-            className="hover:text-brand1-100 text-inherit no-underline hover:underline"
-          >
-            {window.location.pathname === "/help" ? "Search" : "Help"}
-          </a>
-        </div>
+        <projectConfig.components.HelpLink />
         <LanguageMenu />
       </div>
     </header>

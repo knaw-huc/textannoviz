@@ -105,7 +105,7 @@ export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
 
 export type FacetType = "date" | "keyword" | "short";
 
-export type FacetNamesByType = {
+export type FacetTypes = {
   [key: FacetName]: FacetType;
 };
 
@@ -127,11 +127,20 @@ export type Facet = Record<FacetOptionName, number>;
  */
 export type Terms = Record<FacetName, FacetOptionName[]>;
 
+export type FacetAgg = {
+  order: "countDesc" | "countAsc" | string;
+  size: number;
+};
+
+export type NamedFacetAgg = FacetAgg & {
+  facetName: FacetName;
+};
+type Aggs = Record<FacetName, FacetAgg>;
 export type SearchQueryRequestBody =
   | {
       text?: string;
       terms: Terms;
-      aggs?: string[];
+      aggs?: Aggs;
       date?: {
         from: string;
         to: string;
@@ -147,3 +156,31 @@ export type SearchQueryRequestBody =
 export const ASC = "asc";
 export const DESC = "desc";
 export type SortOrder = "desc" | "asc";
+
+export type SearchParams = {
+  indexName: string;
+  fragmentSize: number;
+  from: number;
+  size: number;
+  sortBy: string;
+  sortOrder: SortOrder;
+};
+
+/**
+ * Parameters used to generate a search request body
+ */
+export type SearchQuery = {
+  dateFacet?: FacetName;
+  rangeFacet?: FacetName;
+  aggs?: NamedFacetAgg[];
+  dateFrom: string;
+  dateTo: string;
+  rangeFrom: string;
+  rangeTo: string;
+  fullText: string;
+  terms: Terms;
+};
+
+export type FacetEntry = [FacetName, Facet];
+export type IndexName = string;
+export type ElasticIndices = Record<IndexName, FacetTypes>;

@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { MondriaanSearchResultsBody } from "../../model/Search";
 
-type SearchItemProps = {
-  result: MondriaanSearchResultsBody;
-};
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
-export const SearchItem = (props: SearchItemProps) => {
+export const SearchItem = (
+  props: SearchItemProps<MondriaanSearchResultsBody>,
+) => {
   const dateOptions: Intl.DateTimeFormatOptions = {
     day: "numeric",
     month: "long",
@@ -18,11 +19,14 @@ export const SearchItem = (props: SearchItemProps) => {
   );
 
   const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}, ${formattedDate}`;
+  const { createDetailUrl } = useDetailNavigation();
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
-        to={`/detail/${props.result._id}`}
+        to={createDetailUrl(props.result._id, {
+          highlight: props.query.fullText,
+        })}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">

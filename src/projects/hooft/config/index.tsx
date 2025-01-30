@@ -1,6 +1,9 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
-import { ProjectConfig } from "../../../model/ProjectConfig";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 
 export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
@@ -9,7 +12,6 @@ export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
   //Possible: ["Dataset","File","Letter"]
   annotationTypesToInclude: ["Letter", "File"],
   // annotationTypesToHighlight: ["Dataset"],
-  // allowedAnnotationTypesToHighlight: ["Dataset"],
   elasticIndexName: "letters-2024-03-28",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
@@ -17,9 +19,10 @@ export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-900 text-brand1-400",
+  headerColor: "bg-brand1-100 text-brand1-800",
   headerTitle: "Brieven van Hooft",
   showSearchResultsButtonFooter: false,
   showMirador: false,
   useExternalConfig: true,
-});
+  defaultKeywordAggsToRender: ["bodyType"],
+} as ProjectSpecificConfig);

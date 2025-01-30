@@ -2,10 +2,10 @@ import { englishLabels } from "../../default/config/englishLabels";
 
 export const englishSurianoLabels = Object.assign({}, englishLabels, {
   //Text panel titles
-  self: "Debug text",
-  text: "Main text",
+  self: "Main text + secretarial + appendix",
+  text: "Main text + secretarial",
   appendix: "Appendix",
-  original: "Main text + appendix",
+  original: "Main text without secretarial and appendix",
   secretarial: "Secretarial",
   notes: "Notes",
 
@@ -20,4 +20,19 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   //Metadata panel
   summary: "Summary",
   shelfmark: "Shelfmark",
+
+  // search results:
+  results: "letters",
+
+  PER: "person",
+
+  page: "f.",
+
+  "PRIMARY NAME": "Primary name",
+  "OCCUPATIONS, ROLES, and/or TITLES": "Occupations, roles, titles",
+  "BIRTH YEAR": "Date of birth",
+  "DEATH YEAR": "Date of death",
+  "GENERAL NOTES ON PERSON": "General notes",
+  "RELATED RESOURCE NAME": "Related resource",
+  "RELATED RESOURCE URL": "Related resource url",
 });

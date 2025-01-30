@@ -4,21 +4,20 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
+import { detailTier2Path } from "./components/Text/Annotated/utils/detailPath.ts";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";
-import { globaliseConfig } from "./projects/globalise/config";
-import { hooftConfig } from "./projects/hooft/config";
-import { mondriaanConfig } from "./projects/mondriaan/config";
-import { republicConfig } from "./projects/republic/config";
-import { surianoConfig } from "./projects/suriano/config";
-import { translatinConfig } from "./projects/translatin/config";
-import { vangoghConfig } from "./projects/vangogh/config";
+import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
 import { useAnnotationStore } from "./stores/annotation";
-import { setProjectConfigSelector, useProjectStore } from "./stores/project";
+import {
+  setProjectConfigSelector,
+  setProjectNameSelector,
+  useProjectStore,
+} from "./stores/project";
 
-const { project, config } = createProjectConfig();
+const { project, config } = selectProjectConfig();
 const router = await createRouter();
 
 async function fetchExternalConfig(): Promise<ExternalConfig | null> {
@@ -42,6 +41,7 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
       initialRangeTo,
       maxRange,
       broccoliUrl,
+      annotationTypesToInclude,
     } = externalConfig;
 
     config.elasticIndexName = indexName;
@@ -51,6 +51,8 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
     if (initialRangeTo) config.initialRangeTo = initialRangeTo;
     if (maxRange) config.maxRange = maxRange;
     if (broccoliUrl) config.broccoliUrl = broccoliUrl;
+    if (annotationTypesToInclude)
+      config.annotationTypesToInclude = annotationTypesToInclude;
   }
 }
 
@@ -62,9 +64,12 @@ export default function App() {
     (state) => state.setAnnotationTypesToHighlight,
   );
   const setProjectConfig = useProjectStore(setProjectConfigSelector);
+  const setProjectName = useProjectStore(setProjectNameSelector);
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
   setAnnotationTypesToHighlight(config.annotationTypesToHighlight);
+
   setProjectConfig(config);
+  setProjectName(project);
 
   return <RouterProvider router={router} />;
 }
@@ -89,11 +94,7 @@ async function createRouter() {
           element: <Search />,
         },
         {
-          path: "detail/:tier0/:tier1",
-          element: <Detail project={project} config={config} />,
-        },
-        {
-          path: "detail/:tier2",
+          path: detailTier2Path,
           element: <Detail project={project} config={config} />,
         },
         {
@@ -105,37 +106,14 @@ async function createRouter() {
   ]);
 }
 
-function createProjectConfig() {
+function selectProjectConfig() {
   const projectEnvVar = "VITE_PROJECT";
-  const project: string = import.meta.env[projectEnvVar];
-  let config: ProjectConfig;
-
-  switch (project) {
-    case "republic":
-      config = republicConfig;
-      break;
-    case "globalise":
-      config = globaliseConfig;
-      break;
-    case "mondriaan":
-      config = mondriaanConfig;
-      break;
-    case "translatin":
-      config = translatinConfig;
-      break;
-    case "suriano":
-      config = surianoConfig;
-      break;
-    case "hooft":
-      config = hooftConfig;
-      break;
-    case "vangogh":
-      config = vangoghConfig;
-      break;
-    default:
-      throw new Error(
-        `No project config defined for ${projectEnvVar}=${project}`,
-      );
+  const project: ProjectName = import.meta.env[projectEnvVar];
+  const config: ProjectConfig = projectConfigs[project];
+  if (!config) {
+    throw new Error(
+      `No project config defined for ${projectEnvVar}=${project}`,
+    );
   }
   return { project, config };
 }

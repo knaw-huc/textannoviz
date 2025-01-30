@@ -1,19 +1,10 @@
-import { nextui } from "@nextui-org/react";
-import typography from "@tailwindcss/typography";
-import reactAria from "tailwindcss-react-aria-components/src/index";
+import _ from "lodash";
+import defaultTailwindConfig from "./tailwind.config.default.js";
 
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
-  ],
+export default _.merge(defaultTailwindConfig, {
   theme: {
     extend: {
-      fontFamily: {
-        public: ["Public Sans", "sans-serif"],
-      },
       colors: {
         brand1: {
           50: "hsl(32, 95%, 96%)",
@@ -53,17 +44,7 @@ export default {
           900: "hsl(32, 95%, 10%)",
           950: "#2B2B2B",
         },
-        entityColor: {
-          location: "hsl(20, 67%, 97%)",
-          person: "hsl(120, 67%, 90%)",
-          institution: "hsl(160, 67%, 80%)",
-        },
-      },
-      dropShadow: {
-        top: "15px 15px 15px rgba(0, 0, 0, 0.75)",
       },
     },
   },
-  darkMode: "class",
-  plugins: [typography(), reactAria(), nextui()],
-};
+});

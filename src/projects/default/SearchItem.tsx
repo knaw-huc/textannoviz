@@ -1,15 +1,19 @@
 import { Link } from "react-router-dom";
-import { DefaultSearchResultsBody } from "../../model/Search";
+import { DefaultSearchResultsBody } from "../../model/Search.ts";
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
-type SearchItemProps = {
-  result: DefaultSearchResultsBody;
-};
+export const SearchItem = (
+  props: SearchItemProps<DefaultSearchResultsBody>,
+) => {
+  const { createDetailUrl } = useDetailNavigation();
 
-export const SearchItem = (props: SearchItemProps) => {
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
-        to={`/detail/${props.result._id}`}
+        to={createDetailUrl(props.result._id, {
+          highlight: props.query.fullText,
+        })}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">

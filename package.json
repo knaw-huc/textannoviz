@@ -1,6 +1,6 @@
 {
   "name": "textannoviz",
-  "version": "0.13.3",
+  "version": "0.16.4",
   "description": "",
   "private": true,
   "type": "module",
@@ -8,13 +8,24 @@
     "start": "vite serve --config vite.config.local.ts",
     "build": "vite build --config vite.config.prod.ts",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "vitest run",
+    "test-watch": "vitest",
+    "docker:build-push:globalise": "./scripts/docker-globalise-all.sh",
+    "docker:build-push:globalise-demo": "./scripts/docker-globalise-demo-all.sh",
+    "docker:build-push:hooft": "./scripts/docker-hooft-all.sh",
+    "docker:build-push:mondriaan": "./scripts/docker-mondriaan-all.sh",
+    "docker:build-push:republic": "./scripts/docker-republic-all.sh",
+    "docker:build-push:republic-test": "./scripts/docker-republic-test-all.sh",
+    "docker:build-push:republic-prod": "./scripts/docker-republic-prod-all.sh",
+    "docker:build-push:suriano": "./scripts/docker-suriano-all.sh",
+    "docker:build-push:translatin": "./scripts/docker-translatin-all.sh",
+    "docker:build-push:vangogh": "./scripts/docker-vangogh-all.sht"
   },
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@heroicons/react": "^2.1.1",
-    "@nextui-org/react": "^2.2.9",
     "@spectrum-icons/workflow": "^4.2.11",
     "framer-motion": "^11.0.8",
     "immer": "^9.0.21",
@@ -54,11 +65,12 @@
     "postcss": "^8.4.35",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.3.3",
     "vite": "^4.5.2",
     "vite-plugin-checker": "^0.6.4",
-    "vite-plugin-html-injection": "^1.4.2"
+    "vite-plugin-html-injection": "^1.4.2",
+    "vitest": "^1.6.0"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": "eslint --cache --fix",

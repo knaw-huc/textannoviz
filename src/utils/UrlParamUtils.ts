@@ -1,17 +1,16 @@
 import isBoolean from "lodash/isBoolean";
 import isNumber from "lodash/isNumber";
-import mapValues from "lodash/mapValues";
 import toNumber from "lodash/toNumber";
-import { URLSearchParamsInit } from "react-router-dom";
+import { QUERY } from "../components/Search/SearchUrlParams.ts";
+import { Base64 } from "js-base64";
+import { SearchQuery } from "../model/Search.ts";
+import _ from "lodash";
 
 /**
- * Merge the properties in {@link toPopulate} with
- * params of the same name in ${@link urlParams}.
- * When not found, keep value of {@link toPopulate}.
- * Url param are comverted to number or boolean
- * to match original type in {@link toPopulate}
+ * Merge the properties in {@link toPopulate} with params of the same name in ${@link urlParams}.
+ * Url param are converted to number or boolean to match the type in {@link toPopulate}.
  */
-export function getFromUrlParams<T extends object>(
+export function getSearchParamsFromUrl<T extends UrlSearchParamRecord>(
   toPopulate: T,
   urlParams: URLSearchParams,
 ): T {
@@ -32,16 +31,60 @@ export function getFromUrlParams<T extends object>(
   ) as T;
 }
 
+type ParamValueType = string | boolean | number;
+type UrlSearchParamRecord = Record<string, ParamValueType>;
+
 /**
- * Add properties of ${@link toAdd} to {@link urlParams}
- * or overwrite existing values
+ * Clean up record:
+ * - remove params that are null or undefined
+ * - convert param values to string
  */
-export function addToUrlParams<T extends object>(
+export function cleanUrlParams(
+  merged: UrlSearchParamRecord,
+): Record<string, string> {
+  return _(merged)
+    .pickBy((v) => !_.isNil(v))
+    .mapValues((v) => `${v}`)
+    .value() as Record<string, string>;
+}
+
+export function encodeSearchQuery(query: SearchQuery): string {
+  return Base64.toBase64(JSON.stringify(query));
+}
+
+export function getSearchQueryFromUrl(
+  baseSearchQuery: SearchQuery,
   urlParams: URLSearchParams,
-  toAdd: T,
-): URLSearchParamsInit {
-  return {
-    ...urlParams,
-    ...mapValues(toAdd, (v) => `${v}`),
-  };
+): SearchQuery {
+  const queryEncoded = urlParams.get(QUERY);
+  if (!queryEncoded) {
+    return baseSearchQuery;
+  }
+  const parsed: Partial<SearchQuery> = JSON.parse(
+    Base64.fromBase64(queryEncoded),
+  );
+  return { ...baseSearchQuery, ...parsed };
+}
+
+export function getUrlParams(): URLSearchParams {
+  return new URLSearchParams(window.location.search);
+}
+
+export function setUrlParams(
+  toMutate: URLSearchParams,
+  mutateWith: Record<string, string>,
+): void {
+  for (const key in mutateWith) {
+    toMutate.set(key, mutateWith[key]);
+  }
+}
+
+export function pushUrlParamsToHistory(
+  toSet: Record<string, string> | URLSearchParams,
+): void {
+  const stringRecord =
+    toSet instanceof URLSearchParams ? Object.fromEntries(toSet) : toSet;
+  const updatedUrl = new URL(window.location.toString());
+  setUrlParams(updatedUrl.searchParams, stringRecord);
+  history.pushState(null, "", updatedUrl);
 }
