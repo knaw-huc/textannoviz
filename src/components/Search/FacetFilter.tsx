@@ -72,11 +72,18 @@ export function FacetFilter(props: FacetFilterProps) {
 
     async function handleNewFacetSelection(selectedNewFacet: string) {
       const aborter = new AbortController();
+      const defaultOrder = "countDesc";
+      const defaultSize = 10;
+
+      const override = projectConfig.overrideDefaultAggs.find(
+        (override) => override.facetName === selectedNewFacet,
+      );
+
       const newAgg = [
         {
           facetName: selectedNewFacet,
-          order: "countDesc",
-          size: 10,
+          order: override?.order ?? defaultOrder,
+          size: override?.size ?? defaultSize,
         },
       ];
 
