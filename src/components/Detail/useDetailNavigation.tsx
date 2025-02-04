@@ -87,7 +87,12 @@ export function useDetailNavigation() {
     return `${path}?${nextUrlSearchParams}`;
   }
 
-  function getResultId(): string {
+  /**
+   * @returns
+   *  - current search result ID, from tier2 or {@link LAST_SEARCH_RESULT}
+   *  - undefined: should only happen when entering page without search query
+   */
+  function findResultId(): string | undefined {
     if (
       params.tier2 &&
       searchResults &&
@@ -95,18 +100,28 @@ export function useDetailNavigation() {
     ) {
       return params.tier2;
     }
+
     const lastSearchResultParam = getUrlParams().get(LAST_SEARCH_RESULT);
-    if (!lastSearchResultParam) {
-      throw new Error(`No tier2 or ${LAST_SEARCH_RESULT}`);
+    if (
+      lastSearchResultParam &&
+      searchResults &&
+      isIdInResults(searchResults, lastSearchResultParam)
+    ) {
+      return lastSearchResultParam;
     }
-    return lastSearchResultParam;
+
+    console.debug(
+      `No search result found by tier2=${params.tier2}` +
+        ` or ${LAST_SEARCH_RESULT}=${lastSearchResultParam}`,
+    );
+    return undefined;
   }
 
   return {
     getDetailParams,
     createDetailUrl,
     navigateDetail,
-    getResultId,
+    findResultId,
   };
 }
 

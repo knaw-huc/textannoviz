@@ -11,7 +11,7 @@ import { getUrlParams } from "../../utils/UrlParamUtils.ts";
 
 export function DetailSearchResultsNavigation() {
   const translate = useProjectStore(translateSelector);
-  const { getResultId, navigateDetail } = useDetailNavigation();
+  const { findResultId, navigateDetail } = useDetailNavigation();
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
@@ -23,12 +23,13 @@ export function DetailSearchResultsNavigation() {
     return null;
   }
 
-  const resultIndex = searchResults.results.findIndex(
-    (r) => r._id === getResultId(),
-  );
+  const foundResultId = findResultId();
+  const resultIndex = foundResultId
+    ? searchResults.results.findIndex((r) => r._id === foundResultId)
+    : -1;
 
   async function handleNextResultClick() {
-    if (!searchResults) {
+    if (!searchResults || !foundResultId) {
       return null;
     }
     if (hasNextResult(resultIndex, searchParams)) {
@@ -42,7 +43,7 @@ export function DetailSearchResultsNavigation() {
   }
 
   async function handlePrevResultClick() {
-    if (!searchResults) {
+    if (!searchResults || !foundResultId) {
       return null;
     }
 
@@ -82,7 +83,9 @@ export function DetailSearchResultsNavigation() {
       <FooterLink
         classes={["pl-10"]}
         onClick={handlePrevResultClick}
-        disabled={!hasPrevResult(resultIndex) && !hasPrevPage()}
+        disabled={
+          !foundResultId || (!hasPrevResult(resultIndex) && !hasPrevPage())
+        }
       >
         &lt; {translate("PREV")}
       </FooterLink>
@@ -92,7 +95,10 @@ export function DetailSearchResultsNavigation() {
       </FooterLink>
       <FooterLink
         onClick={handleNextResultClick}
-        disabled={!hasNextResult(resultIndex, searchParams) && !hasNextPage()}
+        disabled={
+          !foundResultId ||
+          (!hasNextResult(resultIndex, searchParams) && !hasNextPage())
+        }
       >
         {translate("NEXT")} &gt;
       </FooterLink>
