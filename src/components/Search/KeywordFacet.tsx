@@ -2,16 +2,16 @@ import _, { debounce } from "lodash";
 import React from "react";
 import { Facet, SearchQuery, Terms } from "../../model/Search.ts";
 import {
+  projectNameSelector,
   translateProjectSelector,
   useProjectStore,
-  projectNameSelector,
 } from "../../stores/project.ts";
 import {
   CheckboxComponent,
   CheckboxGroupComponent,
 } from "../common/CheckboxGroupComponent.tsx";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { FacetItemsFilter } from "./FacetItemsFilter.tsx";
+import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 
 export function KeywordFacet(props: {
   facetName: string;
@@ -41,7 +41,8 @@ export function KeywordFacet(props: {
     (agg) => agg.facetName === props.facetName,
   )?.order;
 
-  const maxFacetItemsVisible = 100;
+  //TODO: reset to 100? Otherwise: make it configurable per project
+  const maxFacetItemsVisible = 1000;
   const slicedFacetItems =
     facetLength > maxFacetItemsVisible
       ? Object.entries(filteredFacets).slice(0, maxFacetItemsVisible)

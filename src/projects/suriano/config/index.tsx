@@ -11,6 +11,7 @@ import "../project.css";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
+import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
   getAnnotationCategory,
@@ -23,11 +24,11 @@ import {
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
-import { Empty } from "../../../components/Empty.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
-  broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
+  // broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
+  broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   relativeTo: "tf:File",
   showWebAnnoTab: false,
   annotationTypesToInclude: [
@@ -91,7 +92,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
 
   showPrevNextScanButtons: true,
   pageAnnotation: "tf:Page",
-  elasticIndexName: "suriano-1.0.1e-029",
+  elasticIndexName: "surind-029",
   initialDateFrom: "1600-01-01",
   initialDateTo: "1700-01-01",
   initialRangeFrom: "0",
@@ -103,9 +104,16 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: false,
-  showKeywordFacets: false,
-  showFacetFilter: false,
+  showKeywordFacets: true,
+  showFacetFilter: true,
   showMiradorNavigationButtons: false,
+  defaultKeywordAggsToRender: ["entityNames"],
+  overrideDefaultAggs: [
+    {
+      facetName: "entityNames",
+      size: 9999,
+    },
+  ],
   components: {
     EntitySummary,
     SearchItem,
