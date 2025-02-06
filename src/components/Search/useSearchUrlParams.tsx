@@ -1,4 +1,9 @@
 import { useEffect, useState } from "react";
+import { SearchParams, SearchQuery } from "../../model/Search.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import {
   cleanUrlParams,
   encodeSearchQuery,
@@ -7,13 +12,8 @@ import {
   getUrlParams,
   pushUrlParamsToHistory,
 } from "../../utils/UrlParamUtils.ts";
-import { SearchParams, SearchQuery } from "../../model/Search.ts";
-import { createSearchQuery } from "./createSearchQuery.tsx";
-import {
-  projectConfigSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
+import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * The url is our single source of truth.
@@ -59,15 +59,10 @@ export function useSearchUrlParams() {
     pushUrlParamsToHistory(cleanUrlParams({ ...searchParams, ...update }));
   }
 
-  function toFirstPage() {
-    updateSearchParams({ from: 0 });
-  }
-
   return {
     searchQuery,
     updateSearchQuery,
     searchParams,
     updateSearchParams,
-    toFirstPage,
   };
 }
