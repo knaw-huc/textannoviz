@@ -6,11 +6,11 @@ import _ from "lodash";
 export function useIsDefaultQuery() {
   const { searchQuery } = useSearchUrlParams();
   const [isDefaultQuery, setIsDefaultQuery] = useState(false);
-  const { searchResults, defaultQuery } = useSearchStore();
+  const { defaultQuery } = useSearchStore();
 
   useEffect(() => {
     setIsDefaultQuery(_.isEqual(defaultQuery, searchQuery));
-  }, [defaultQuery, searchQuery, searchResults]);
+  }, [defaultQuery, searchQuery]);
 
   return { isDefaultQuery };
 }
