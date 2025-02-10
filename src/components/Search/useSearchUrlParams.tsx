@@ -6,6 +6,7 @@ import {
 } from "../../stores/project.ts";
 import {
   cleanUrlParams,
+  deduplicateQuery,
   encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
@@ -14,6 +15,8 @@ import {
 } from "../../utils/UrlParamUtils.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
 import { createSearchQuery } from "./createSearchQuery.tsx";
+import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
 
 /**
  * The url is our single source of truth.
@@ -47,8 +50,17 @@ export function useSearchUrlParams() {
    * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
+    const merged = { ...searchQuery, ...update };
+    const deduplicated = deduplicateQuery(merged, defaultQuery);
+    const encoded = encodeSearchQuery(merged);
+    console.log("updateSearchQuery", {
+      update,
+      defaultQuery,
+      deduplicated,
+      merged,
+    });
     pushUrlParamsToHistory({
-      query: encodeSearchQuery({ ...searchQuery, ...update }),
+      query: encoded,
     });
   }
 
@@ -58,6 +70,12 @@ export function useSearchUrlParams() {
   function updateSearchParams(update: Partial<SearchParams>): void {
     pushUrlParamsToHistory(cleanUrlParams({ ...searchParams, ...update }));
   }
+
+  const { defaultQuery } = useSearchStore();
+  const { isInitDefaultQuery } = useInitDefaultQuery();
+  useEffect(() => {
+    // console.log('isDefaultQuery?', {isInitDefaultQuery, defaultQuery})
+  }, [isInitDefaultQuery, defaultQuery]);
 
   return {
     searchQuery,

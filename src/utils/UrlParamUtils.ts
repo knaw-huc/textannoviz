@@ -88,3 +88,15 @@ export function pushUrlParamsToHistory(
   setUrlParams(updatedUrl.searchParams, stringRecord);
   history.pushState(null, "", updatedUrl);
 }
+
+/**
+ * Only keep query properties that differ from the default
+ */
+export function deduplicateQuery(
+  query: SearchQuery,
+  defaultQuery: SearchQuery,
+): Partial<SearchQuery> {
+  return _.pickBy<SearchQuery>(query, (v, k) => {
+    return !_.isEqual(defaultQuery[k as keyof SearchQuery], v);
+  });
+}
