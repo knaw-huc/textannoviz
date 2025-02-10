@@ -15,7 +15,6 @@ import {
 } from "../../utils/UrlParamUtils.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
 import { createSearchQuery } from "./createSearchQuery.tsx";
-import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 
 /**
@@ -72,10 +71,6 @@ export function useSearchUrlParams() {
   }
 
   const { defaultQuery } = useSearchStore();
-  const { isInitDefaultQuery } = useInitDefaultQuery();
-  useEffect(() => {
-    // console.log('isDefaultQuery?', {isInitDefaultQuery, defaultQuery})
-  }, [isInitDefaultQuery, defaultQuery]);
 
   return {
     searchQuery,
