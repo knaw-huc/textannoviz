@@ -16,6 +16,7 @@ import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useInitSearch } from "./useInitSearch.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { useIsDefaultQuery } from "./useIsDefaultQuery.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -32,7 +33,6 @@ export const Search = () => {
     keywordFacets,
     addToHistory,
     searchResults,
-    defaultQuery,
   } = useSearchStore();
 
   useEffect(() => {
@@ -116,10 +116,7 @@ export const Search = () => {
     setDirty(true);
   }
 
-  const [isDefaultQuery, setIsDefaultQuery] = useState(false);
-  useEffect(() => {
-    setIsDefaultQuery(_.isEqual(defaultQuery, searchQuery));
-  }, [defaultQuery, searchQuery, searchResults]);
+  const { isDefaultQuery } = useIsDefaultQuery();
 
   return (
     <React.Fragment>

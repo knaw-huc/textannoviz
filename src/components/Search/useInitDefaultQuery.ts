@@ -21,7 +21,7 @@ import { handleAbort } from "../../utils/handleAbort.tsx";
  * This includes facets that first need to be fetched from ES
  * and related properties (see {@link createSearchQuery})
  */
-export function useDefaultQuery() {
+export function useInitDefaultQuery() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 

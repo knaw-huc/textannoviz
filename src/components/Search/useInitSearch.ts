@@ -5,7 +5,7 @@ import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
-import { useDefaultQuery } from "./useDefaultQuery.ts";
+import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
 import _ from "lodash";
 import {
   projectConfigSelector,
@@ -30,7 +30,7 @@ export function useInitSearch() {
 
   const [isInitSearch, setIsInitSearch] = useState(false);
   const [isLoadingSearch, setLoading] = useState(false);
-  const { isInitDefaultQuery } = useDefaultQuery();
+  const { isInitDefaultQuery } = useInitDefaultQuery();
 
   useEffect(() => {
     if (isInitSearch || isLoadingSearch || !isInitDefaultQuery) {
