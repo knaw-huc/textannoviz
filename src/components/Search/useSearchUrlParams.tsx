@@ -17,7 +17,6 @@ import {
 import { createSearchParams } from "./createSearchParams.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import _ from "lodash";
-import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
 import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
@@ -27,8 +26,7 @@ import { createSearchQuery } from "./createSearchQuery.tsx";
  * 2. update search query and params with a useEffect
  */
 export function useSearchUrlParams() {
-  const { defaultQuery } = useSearchStore();
-  const { isInitDefaultQuery } = useInitDefaultQuery();
+  const { defaultQuery, isInitDefaultQuery } = useSearchStore();
 
   const projectConfig = useProjectStore(projectConfigSelector);
 

@@ -38,6 +38,6 @@ export function defaultQuerySettersSelector(state: SearchStore) {
   return {
     setKeywordFacets: state.setKeywordFacets,
     setSearchFacetTypes: state.setSearchFacetTypes,
-    setDefaultQuery: state.setDefaultQuery,
+    setDefaultQuery: state.setDefaultQueryState,
   };
 }

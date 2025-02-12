@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getElasticIndices } from "../../utils/broccoli.ts";
 import { toast } from "react-toastify";
 import { createAggs } from "./util/createAggs.ts";
@@ -24,19 +24,19 @@ import { handleAbort } from "../../utils/handleAbort.tsx";
 export function useInitDefaultQuery() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
+  const { setDefaultQueryState, isInitDefaultQuery, isLoadingDefaultQuery } =
+    useSearchStore();
 
-  const [isInit, setIsInit] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-
-  const { setKeywordFacets, setSearchFacetTypes, setDefaultQuery } =
-    useSearchStore(defaultQuerySettersSelector);
+  const { setKeywordFacets, setSearchFacetTypes } = useSearchStore(
+    defaultQuerySettersSelector,
+  );
 
   useEffect(() => {
-    if (isInit || isLoading) {
+    if (isInitDefaultQuery || isLoadingDefaultQuery) {
       return;
     }
 
-    setLoading(true);
+    setDefaultQueryState({ isLoadingDefaultQuery: true });
     const aborter = new AbortController();
     init(aborter).catch(handleAbort);
 
@@ -82,15 +82,15 @@ export function useInitDefaultQuery() {
       });
 
       setSearchFacetTypes(newFacetTypes);
-      setDefaultQuery(newDefaultQuery);
       setKeywordFacets(newKeywordFacets);
 
-      setLoading(false);
-      setIsInit(true);
+      setDefaultQueryState({
+        defaultQuery: newDefaultQuery,
+        isLoadingDefaultQuery: false,
+        isInitDefaultQuery: true,
+      });
     }
   }, []);
 
-  return {
-    isInitDefaultQuery: isInit,
-  };
+  return;
 }

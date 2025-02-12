@@ -5,13 +5,13 @@ import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
-import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
 import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
 import { defaultSearchParams } from "./createSearchParams.tsx";
+import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -22,15 +22,21 @@ import { defaultSearchParams } from "./createSearchParams.tsx";
 export function useInitSearch() {
   const projectConfig = useProjectStore(projectConfigSelector);
 
-  const { setSearchResults, setKeywordFacets, searchFacetTypes, defaultQuery } =
-    useSearchStore();
+  const {
+    setSearchResults,
+    setKeywordFacets,
+    searchFacetTypes,
+    defaultQuery,
+    isInitDefaultQuery,
+  } = useSearchStore();
   const { getSearchResults } = useSearchResults();
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
     useSearchUrlParams();
 
   const [isInitSearch, setIsInitSearch] = useState(false);
   const [isLoadingSearch, setLoading] = useState(false);
-  const { isInitDefaultQuery } = useInitDefaultQuery();
+
+  useInitDefaultQuery();
 
   useEffect(() => {
     if (isInitSearch || isLoadingSearch || !isInitDefaultQuery) {
