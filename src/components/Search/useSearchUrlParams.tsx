@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
+import { SearchParams, SearchQuery } from "../../model/Search.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import {
   cleanUrlParams,
   encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
   getUrlParams,
-  setUrlParams,
+  pushUrlParamsToHistory,
 } from "../../utils/UrlParamUtils.ts";
-import { SearchParams, SearchQuery } from "../../model/Search.ts";
-import { createSearchQuery } from "./createSearchQuery.tsx";
-import {
-  projectConfigSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
+import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * The url is our single source of truth.
@@ -25,6 +25,7 @@ export function useSearchUrlParams() {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const urlParams = getUrlParams();
+
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
     getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
@@ -46,18 +47,16 @@ export function useSearchUrlParams() {
    * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
-    setUrlParams({ query: encodeSearchQuery({ ...searchQuery, ...update }) });
+    pushUrlParamsToHistory({
+      query: encodeSearchQuery({ ...searchQuery, ...update }),
+    });
   }
 
   /**
    * Update search params by updating the url, see useEffect
    */
   function updateSearchParams(update: Partial<SearchParams>): void {
-    setUrlParams(cleanUrlParams({ ...searchParams, ...update }));
-  }
-
-  function toFirstPage() {
-    updateSearchParams({ from: 0 });
+    pushUrlParamsToHistory(cleanUrlParams({ ...searchParams, ...update }));
   }
 
   return {
@@ -65,6 +64,5 @@ export function useSearchUrlParams() {
     updateSearchQuery,
     searchParams,
     updateSearchParams,
-    toFirstPage,
   };
 }

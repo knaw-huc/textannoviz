@@ -4,16 +4,20 @@ export const SearchInfoPage = () => {
       <p className="mb-4 mt-4 block font-bold" style={{ maxWidth: "50em" }}>
         Welcome to the{" "}
         <span className="italic">
-          Correspondence of Christofforo Suriano (1616-1623)
+          Correspondence of Christofforo Suriano (1616–1623)
         </span>{" "}
-        project at the Huygens Institute, edited by Dr Nina Lamal.
+        project, based at the Huygens Institute, edited by Dr Nina Lamal.
       </p>
       <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
         In this application, you can find the digital facsimiles alongside the
-        transcriptions of the 725 letters written by the Venetian ambassador
+        transcriptions of the 725 letters written by the Venetian diplomat
         Christofforo Suriano from The Hague to the Venetian Doge and Senate
-        between 1616 and 1623. To get an overview of all the letters, perform an
-        empty search by pressing ENTER in the search box.
+        between 1616 and 1623.
+      </p>
+      <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
+        For an overview of all the letters, with the English summaries, just
+        scroll towards the end of this short introduction on how to use this
+        application.
       </p>
       <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
         The letters are written in Italian. For a full text search, you will get
@@ -28,10 +32,10 @@ export const SearchInfoPage = () => {
       </p>
       <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
         The individuals mentioned in his letters have been identified as much as
-        possible, and for each individual, a brief biography is provided. We are
-        improving the search function for the names of individuals. This is an
-        ongoing and collaborative endeavour: improvements will be added in
-        increments.
+        possible, and for each person we have been able to identify, a brief
+        biography is provided. We are improving the search function for names of
+        individuals. This is an ongoing and collaborative endeavour:
+        improvements will be added in increments.
       </p>
       <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
         For more information please consult:{" "}
@@ -44,13 +48,13 @@ export const SearchInfoPage = () => {
         </a>
       </p>
       <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
-        In case you have found a letter and want to reference it, please cite
-        using the full archival reference and the edition. The full archival
-        reference can be found in the metadata field under shelfmark.
+        Please cite this resource using the full archival reference and the
+        edition. The full archival reference can be found in the metadata field
+        under shelfmark.
       </p>
       <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
         For example: Archivio di Stato di Venezia (ASVe), Senato, Dispacci,
-        Signori Stati, Filza 2, fol 133r-136v, 139r-v; via Nina Lamal (ed.),
+        Signori Stati, Filza 2, fol 133r-136v, 139r-v; Nina Lamal (ed.),
         Correspondence of Christofforo Suriano (1616-1623),
         https://edition.suriano.huygens.knaw.nl. Last accessed [Date].
       </p>

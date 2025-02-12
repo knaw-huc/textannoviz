@@ -9,7 +9,7 @@ import { useTextStore } from "../../stores/text.ts";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
-import { useDetailUrl } from "../Text/Annotated/utils/useDetailUrl.tsx";
+import { useDetailNavigation } from "./useDetailNavigation.tsx";
 
 /**
  * Initialize views, annotations and iiif
@@ -18,7 +18,7 @@ import { useDetailUrl } from "../Text/Annotated/utils/useDetailUrl.tsx";
 export function useInitDetail() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { projectName } = useProjectStore();
-  const { getDetailUrlParams } = useDetailUrl();
+  const { getDetailParams } = useDetailNavigation();
 
   const [isInitDetail, setInitDetail] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ export function useInitDetail() {
   const { setAnnotations } = useAnnotationStore();
   const { setViews } = useTextStore();
 
-  const { tier2 } = useDetailUrl().getDetailUrlParams();
+  const { tier2 } = useDetailNavigation().getDetailParams();
   const [prevTier2, setPrevTier2] = useState(tier2);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export function useInitDetail() {
 
     async function initDetail(aborter: AbortController) {
       setLoading(true);
-      const { tier2 } = getDetailUrlParams();
+      const { tier2 } = getDetailParams();
       if (!tier2) {
         return;
       }

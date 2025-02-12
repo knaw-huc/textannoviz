@@ -17,8 +17,8 @@ import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
 import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
-import { removeTerm } from "./util/removeTerm.ts";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { removeTerm } from "./util/removeTerm.ts";
 
 type SearchResultsProps = {
   query: SearchQuery;
@@ -59,6 +59,8 @@ export function SearchResults(props: SearchResultsProps) {
     updateSearchParams({
       sortBy: sorting.field,
       sortOrder: sorting.order,
+      //bring user back to first page
+      from: 0,
     });
     props.onSearch();
   }
@@ -90,6 +92,8 @@ export function SearchResults(props: SearchResultsProps) {
     }
     updateSearchParams({
       size: key as number,
+      //bring user back to first page
+      from: 0,
     });
     props.onSearch();
   };
