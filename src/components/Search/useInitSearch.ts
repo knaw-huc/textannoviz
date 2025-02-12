@@ -34,13 +34,23 @@ export function useInitSearch() {
   } = useSearchStore();
 
   const { getSearchResults } = useSearchResults();
-  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
-    useSearchUrlParams();
+  const {
+    searchQuery,
+    isInitSearchUrlParams,
+    updateSearchQuery,
+    searchParams,
+    updateSearchParams,
+  } = useSearchUrlParams();
 
   useInitDefaultQuery();
 
   useEffect(() => {
-    if (isInitSearch || isLoadingSearch || !isInitDefaultQuery) {
+    if (
+      isInitSearch ||
+      isLoadingSearch ||
+      !isInitDefaultQuery ||
+      !isInitSearchUrlParams
+    ) {
       return;
     }
 
@@ -51,7 +61,7 @@ export function useInitSearch() {
       aborter.abort();
       setSearchInitStatus({ isLoadingSearch: false });
     };
-  }, [isInitSearch, isInitDefaultQuery]);
+  }, [isInitSearch, isInitDefaultQuery, isInitSearchUrlParams]);
 
   async function initSearch(aborter: AbortController) {
     setSearchInitStatus({ isLoadingSearch: true });

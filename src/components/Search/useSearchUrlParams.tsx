@@ -36,6 +36,7 @@ export function useSearchUrlParams() {
   const [searchParams, setSearchParams] = useState<SearchParams>(
     getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
   );
+  const [isInitSearchUrlParams, setInitSearchUrlParams] = useState(false);
 
   /**
    * Update search params and query when url changes
@@ -51,12 +52,16 @@ export function useSearchUrlParams() {
       return;
     }
     setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
+    setInitSearchUrlParams(true);
   }, [isInitDefaultQuery]);
 
   /**
    * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
+    if (!isInitDefaultQuery) {
+      throw new Error("Cannot update before init");
+    }
     const merged = { ...searchQuery, ...update };
     const deduplicated = removeDefaultQuery(merged, defaultQuery);
     const encoded = encodeSearchQuery(deduplicated);
@@ -71,6 +76,7 @@ export function useSearchUrlParams() {
   }
 
   return {
+    isInitSearchUrlParams,
     searchQuery,
     updateSearchQuery,
     searchParams,

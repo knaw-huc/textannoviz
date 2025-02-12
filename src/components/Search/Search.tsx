@@ -113,11 +113,7 @@ export const Search = () => {
   }
 
   const { isDefaultQuery } = useIsDefaultQuery();
-  console.log("Search.render", {
-    isInitSearch,
-    searchQuery,
-    dateFacet: searchQuery.dateFacet,
-  });
+
   return (
     <React.Fragment>
       {isLoading && <SearchLoadingSpinner />}
