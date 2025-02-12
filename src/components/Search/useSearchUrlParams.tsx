@@ -15,6 +15,8 @@ import {
 } from "../../utils/UrlParamUtils.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import _ from "lodash";
+import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * The url is our single source of truth.
@@ -37,7 +39,7 @@ export function useSearchUrlParams() {
    * Initialize search query after default query is initialized
    */
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    {} as SearchQuery,
+    getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
   useEffect(() => {
     if (isInitDefaultQuery) {
@@ -62,7 +64,7 @@ export function useSearchUrlParams() {
     const merged = { ...searchQuery, ...update };
     const deduplicated = removeDefaultProps(merged, defaultQuery);
     const encoded = encodeSearchQuery(deduplicated);
-    pushUrlParamsToHistory({ query: encoded });
+    pushUrlParamsToHistory({ query: _.isEmpty(deduplicated) ? null : encoded });
   }
 
   /**

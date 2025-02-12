@@ -70,22 +70,36 @@ export function getUrlParams(): URLSearchParams {
   return new URLSearchParams(window.location.search);
 }
 
-export function setUrlParams(
+/**
+ * Set url params when string
+ * Delete url params when null
+ */
+export function mutateUrlParams(
   toMutate: URLSearchParams,
-  mutateWith: Record<string, string>,
+  mutateWith: Record<string, string | null>,
 ): void {
   for (const key in mutateWith) {
-    toMutate.set(key, mutateWith[key]);
+    const value = mutateWith[key];
+    if (value == null) {
+      toMutate.delete(key);
+    } else {
+      toMutate.set(key, value);
+    }
   }
 }
 
+/**
+ * set or remove url params from window.history
+ */
 export function pushUrlParamsToHistory(
-  toSet: Record<string, string> | URLSearchParams,
+  toSetOrDelete: Record<string, string | null> | URLSearchParams,
 ): void {
   const stringRecord =
-    toSet instanceof URLSearchParams ? Object.fromEntries(toSet) : toSet;
+    toSetOrDelete instanceof URLSearchParams
+      ? Object.fromEntries(toSetOrDelete)
+      : toSetOrDelete;
   const updatedUrl = new URL(window.location.toString());
-  setUrlParams(updatedUrl.searchParams, stringRecord);
+  mutateUrlParams(updatedUrl.searchParams, stringRecord);
   history.pushState(null, "", updatedUrl);
 }
 
