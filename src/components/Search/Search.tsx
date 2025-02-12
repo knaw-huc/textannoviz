@@ -132,7 +132,7 @@ export const Search = () => {
             <SearchResults
               onSearch={handleNewSearch}
               onPageChange={handlePageChange}
-              query={searchQuery}
+              searchQuery={searchQuery}
             />
           )}
         </SearchResultsColumn>

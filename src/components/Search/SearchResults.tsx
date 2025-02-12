@@ -21,7 +21,7 @@ import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
 type SearchResultsProps = {
-  query: SearchQuery;
+  searchQuery: SearchQuery;
   onSearch: () => void;
   onPageChange: () => void;
 };
@@ -29,7 +29,7 @@ type SearchResultsProps = {
 export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { searchResults } = useSearchStore();
-  const { query } = props;
+  const { searchQuery } = props;
   const { updateSearchQuery, searchParams, updateSearchParams } =
     useSearchUrlParams();
 
@@ -101,7 +101,7 @@ export function SearchResults(props: SearchResultsProps) {
   };
 
   function removeFacet(facet: FacetName, option: FacetOptionName) {
-    const newTerms = structuredClone(query.terms);
+    const newTerms = structuredClone(searchQuery.terms);
     removeTerm(newTerms, facet, option);
     updateSearchQuery({ terms: newTerms });
     props.onSearch();
@@ -134,7 +134,7 @@ export function SearchResults(props: SearchResultsProps) {
     setHistogramZoomed(true);
 
     updateSearchQuery({
-      ...query,
+      ...searchQuery,
       dateFrom: `${newYear}-01-01`,
       dateTo: `${newYear}-12-31`,
     });
@@ -169,7 +169,7 @@ export function SearchResults(props: SearchResultsProps) {
           {searchResults.results.length >= 1 &&
             projectConfig.showSearchSortBy && (
               <SearchSorting
-                dateFacet={query.dateFacet}
+                dateFacet={searchQuery.dateFacet}
                 onSort={updateSorting}
                 selected={{
                   field: searchParams.sortBy,
@@ -184,13 +184,13 @@ export function SearchResults(props: SearchResultsProps) {
         </div>
       </div>
       <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-8">
-        {projectConfig.showSelectedFilters && !isEmpty(query.terms) && (
+        {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
           <div className="flex w-full flex-row items-center justify-start">
             <div className="grid grid-cols-4 items-center gap-2">
               <span className="text-brand1Grey-600 text-sm">
                 {translate("FILTERS")}:{" "}
               </span>
-              {Object.entries(query.terms).map(
+              {Object.entries(searchQuery.terms).map(
                 ([facetOptionName, facetOptions]) =>
                   facetOptions.map((facetOption, index) => {
                     return (
@@ -245,7 +245,7 @@ export function SearchResults(props: SearchResultsProps) {
             <projectConfig.components.SearchItem
               key={index}
               result={result}
-              query={query}
+              query={searchQuery}
             />
           ))}
         {searchResults.results.length >= 1 && (
