@@ -49,6 +49,9 @@ export function useSearchUrlParams() {
   }, [window.location.search]);
 
   useEffect(() => {
+    if (!isInitDefaultQuery) {
+      return;
+    }
     setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
   }, [isInitDefaultQuery]);
 
