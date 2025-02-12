@@ -22,7 +22,6 @@ export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isDirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isShowingResults, setShowingResults] = useState(false);
   const { searchQuery, searchParams } = useSearchUrlParams();
   const { isInitSearch, isLoadingSearch } = useInitSearch();
   const { getSearchResults } = useSearchResults();
@@ -34,12 +33,6 @@ export const Search = () => {
     addToHistory,
     searchResults,
   } = useSearchStore();
-
-  useEffect(() => {
-    if (isInitSearch && searchResults) {
-      setShowingResults(true);
-    }
-  }, [isInitSearch, searchResults]);
 
   useEffect(() => {
     setIsLoading(isLoadingSearch);
@@ -80,7 +73,6 @@ export const Search = () => {
       }
 
       addToHistory(searchQuery);
-      setShowingResults(true);
       setDirty(false);
     }
   }, [isDirty, searchQuery, searchParams]);
@@ -136,11 +128,11 @@ export const Search = () => {
           {isInitSearch && isDefaultQuery && (
             <projectConfig.components.SearchInfoPage />
           )}
-          {isShowingResults && (
+          {isInitSearch && searchResults && (
             <SearchResults
               onSearch={handleNewSearch}
               onPageChange={handlePageChange}
-              query={searchQuery}
+              searchQuery={searchQuery}
             />
           )}
         </SearchResultsColumn>

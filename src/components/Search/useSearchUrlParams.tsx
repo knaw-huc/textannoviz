@@ -5,17 +5,20 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import {
+  addDefaultQuery,
   cleanUrlParams,
-  deduplicateQuery,
   encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
   getUrlParams,
   pushUrlParamsToHistory,
+  removeDefaultQuery,
 } from "../../utils/UrlParamUtils.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
-import { createSearchQuery } from "./createSearchQuery.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import _ from "lodash";
+import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
+import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * The url is our single source of truth.
@@ -24,6 +27,9 @@ import { useSearchStore } from "../../stores/search/search-store.ts";
  * 2. update search query and params with a useEffect
  */
 export function useSearchUrlParams() {
+  const { defaultQuery } = useSearchStore();
+  const { isInitDefaultQuery } = useInitDefaultQuery();
+
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const urlParams = getUrlParams();
@@ -31,7 +37,6 @@ export function useSearchUrlParams() {
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
     getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
   );
-
   const [searchParams, setSearchParams] = useState<SearchParams>(
     getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
   );
@@ -45,19 +50,29 @@ export function useSearchUrlParams() {
     setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
   }, [window.location.search]);
 
+  useEffect(() => {
+    setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
+  }, [isInitDefaultQuery]);
+
   /**
    * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
     const merged = { ...searchQuery, ...update };
-    const deduplicated = deduplicateQuery(merged, defaultQuery);
-    const encoded = encodeSearchQuery(merged);
+
+    const deduplicated = removeDefaultQuery(merged, defaultQuery);
+    const hydrated = addDefaultQuery(defaultQuery, deduplicated);
+    const isHydratedEqual = _.isEqual(hydrated, merged);
     console.log("updateSearchQuery", {
       update,
       defaultQuery,
-      deduplicated,
       merged,
+      deduplicated,
+      hydrated,
+      isHydratedEqual,
     });
+
+    const encoded = encodeSearchQuery(deduplicated);
     pushUrlParamsToHistory({
       query: encoded,
     });
@@ -69,8 +84,6 @@ export function useSearchUrlParams() {
   function updateSearchParams(update: Partial<SearchParams>): void {
     pushUrlParamsToHistory(cleanUrlParams({ ...searchParams, ...update }));
   }
-
-  const { defaultQuery } = useSearchStore();
 
   return {
     searchQuery,

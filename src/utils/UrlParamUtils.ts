@@ -48,7 +48,7 @@ export function cleanUrlParams(
     .value() as Record<string, string>;
 }
 
-export function encodeSearchQuery(query: SearchQuery): string {
+export function encodeSearchQuery(query: Partial<SearchQuery>): string {
   return Base64.toBase64(JSON.stringify(query));
 }
 
@@ -92,11 +92,18 @@ export function pushUrlParamsToHistory(
 /**
  * Only keep query properties that differ from the default
  */
-export function deduplicateQuery(
+export function removeDefaultQuery(
   query: SearchQuery,
   defaultQuery: SearchQuery,
 ): Partial<SearchQuery> {
   return _.pickBy<SearchQuery>(query, (v, k) => {
     return !_.isEqual(defaultQuery[k as keyof SearchQuery], v);
   });
+}
+
+export function addDefaultQuery(
+  defaultQuery: SearchQuery,
+  deduplicated: Partial<SearchQuery>,
+) {
+  return { ...defaultQuery, ...deduplicated };
 }
