@@ -19,14 +19,20 @@ import {
   createDefaultQuerySlice,
   DefaultQuerySlice,
 } from "./default-query-slice.ts";
+import {
+  createSearchInitStatusSlice,
+  SearchInitStatusSlice,
+} from "./search-init-status.ts";
 
-export type SearchStore = DefaultQuerySlice &
+export type SearchStore = SearchInitStatusSlice &
+  DefaultQuerySlice &
   SearchResultsSlice &
   SearchHistorySlice &
   SearchFacetTypesSlice &
   KeywordFacetsSlice;
 
 export const useSearchStore = create<SearchStore>()((...a) => ({
+  ...createSearchInitStatusSlice(...a),
   ...createDefaultQuerySlice(...a),
   ...createKeywordFacetsSlice(...a),
   ...createSearchFacetTypesSlice(...a),

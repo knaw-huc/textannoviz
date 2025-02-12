@@ -1,6 +1,6 @@
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
@@ -28,13 +28,14 @@ export function useInitSearch() {
     searchFacetTypes,
     defaultQuery,
     isInitDefaultQuery,
+    isInitSearch,
+    isLoadingSearch,
+    setSearchInitStatus,
   } = useSearchStore();
+
   const { getSearchResults } = useSearchResults();
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
     useSearchUrlParams();
-
-  const [isInitSearch, setIsInitSearch] = useState(false);
-  const [isLoadingSearch, setLoading] = useState(false);
 
   useInitDefaultQuery();
 
@@ -48,12 +49,12 @@ export function useInitSearch() {
 
     return () => {
       aborter.abort();
-      setLoading(false);
+      setSearchInitStatus({ isLoadingSearch: false });
     };
   }, [isInitSearch, isInitDefaultQuery]);
 
   async function initSearch(aborter: AbortController) {
-    setLoading(true);
+    setSearchInitStatus({ isLoadingSearch: true });
 
     const newSearchParams: SearchParams = _.merge(
       {},
@@ -81,12 +82,11 @@ export function useInitSearch() {
       }
     }
 
-    setLoading(false);
-    setIsInitSearch(true);
+    setSearchInitStatus({
+      isLoadingSearch: false,
+      isInitSearch: true,
+    });
   }
 
-  return {
-    isInitSearch,
-    isLoadingSearch,
-  };
+  return;
 }

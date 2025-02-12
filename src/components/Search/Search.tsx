@@ -22,8 +22,12 @@ export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isDirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const { searchQuery, searchParams } = useSearchUrlParams();
-  const { isInitSearch, isLoadingSearch } = useInitSearch();
+  const { isInitSearch, isLoadingSearch } = useSearchStore();
+
+  useInitSearch();
+
   const { getSearchResults } = useSearchResults();
   const {
     setSearchResults,
@@ -109,7 +113,11 @@ export const Search = () => {
   }
 
   const { isDefaultQuery } = useIsDefaultQuery();
-
+  console.log("Search.render", {
+    isInitSearch,
+    searchQuery,
+    dateFacet: searchQuery.dateFacet,
+  });
   return (
     <React.Fragment>
       {isLoading && <SearchLoadingSpinner />}
