@@ -3,7 +3,7 @@ import isNumber from "lodash/isNumber";
 import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
-import { SearchQuery } from "../model/Search.ts";
+import { SearchParams, SearchQuery } from "../model/Search.ts";
 import _ from "lodash";
 
 /**
@@ -92,13 +92,13 @@ export function pushUrlParamsToHistory(
 /**
  * Only keep query properties that differ from the default
  */
-export function removeDefaultQuery(
-  query: SearchQuery,
-  defaultQuery: SearchQuery,
-): Partial<SearchQuery> {
-  return _.pickBy<SearchQuery>(query, (v, k) => {
-    return !_.isEqual(defaultQuery[k as keyof SearchQuery], v);
-  });
+export function removeDefaultProps<T extends SearchQuery | SearchParams>(
+  props: T,
+  defaultProps: T,
+): Partial<T> {
+  return _.pickBy<T>(props, (v, k) => {
+    return !_.isEqual(defaultProps[k as keyof T], v);
+  }) as Partial<T>;
 }
 
 export function addDefaultQuery(
