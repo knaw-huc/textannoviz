@@ -15,7 +15,6 @@ import {
 } from "../../utils/UrlParamUtils.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * The url is our single source of truth.
@@ -24,11 +23,9 @@ import { createSearchQuery } from "./createSearchQuery.tsx";
  * 2. update search query and params with a useEffect
  */
 export function useSearchUrlParams() {
-  const { defaultQuery, isInitDefaultQuery } = useSearchStore();
-
-  const projectConfig = useProjectStore(projectConfigSelector);
-
   const urlParams = getUrlParams();
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const { defaultQuery, isInitDefaultQuery } = useSearchStore();
 
   const [isInitSearchUrlParams, setInitSearchUrlParams] = useState(false);
 
@@ -40,14 +37,13 @@ export function useSearchUrlParams() {
    * Initialize search query after default query is initialized
    */
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
+    {} as SearchQuery,
   );
   useEffect(() => {
-    if (!isInitDefaultQuery) {
-      return;
+    if (isInitDefaultQuery) {
+      setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
+      setInitSearchUrlParams(true);
     }
-    setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
-    setInitSearchUrlParams(true);
   }, [isInitDefaultQuery]);
 
   /**
@@ -63,9 +59,6 @@ export function useSearchUrlParams() {
    * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
-    if (!isInitDefaultQuery) {
-      throw new Error("Cannot update before init");
-    }
     const merged = { ...searchQuery, ...update };
     const deduplicated = removeDefaultProps(merged, defaultQuery);
     const encoded = encodeSearchQuery(deduplicated);
@@ -84,8 +77,10 @@ export function useSearchUrlParams() {
 
   return {
     isInitSearchUrlParams,
+
     searchQuery,
     updateSearchQuery,
+
     searchParams,
     updateSearchParams,
   };
