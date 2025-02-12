@@ -36,31 +36,27 @@ export function BrowseScanButtons() {
   function prevCanvas() {
     miradorStore.dispatch(mirador.actions.setPreviousCanvas(projectName));
     if (projectConfig.visualizeAnnosMirador) {
-      const newCanvas = miradorStore?.getState().windows[projectName]
-        .canvasId as string;
-
-      visualizeAnnosMirador(
-        annotations,
-        miradorStore,
-        newCanvas,
-        projectConfig,
-      );
+      updateMiradorSvgs();
     }
   }
 
   function nextCanvas() {
     miradorStore.dispatch(mirador.actions.setNextCanvas(projectName));
     if (projectConfig.visualizeAnnosMirador) {
-      const newCanvas = miradorStore?.getState().windows[projectName]
-        .canvasId as string;
-
-      visualizeAnnosMirador(
-        annotations,
-        miradorStore,
-        newCanvas,
-        projectConfig,
-      );
+      updateMiradorSvgs();
     }
+  }
+
+  function updateMiradorSvgs() {
+    /**
+     * Mirador's internal state is used below because the new contents of the state are needed in the same render as the state is updated
+     * (see {@link nextCanvas} and {@link prevCanvas} for where the state is updated)
+     * Mirador's internal state is always up-to-date, whilst TAV's own Mirador store is one behind at this point due to what is written above.
+     */
+    const newCanvas = miradorStore?.getState().windows[projectName]
+      .canvasId as string;
+
+    visualizeAnnosMirador(annotations, miradorStore, newCanvas, projectConfig);
   }
 
   return (
