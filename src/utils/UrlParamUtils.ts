@@ -63,7 +63,7 @@ export function getSearchQueryFromUrl(
   const parsed: Partial<SearchQuery> = JSON.parse(
     Base64.fromBase64(queryEncoded),
   );
-  return { ...baseSearchQuery, ...parsed };
+  return addDefaultQuery(baseSearchQuery, parsed);
 }
 
 export function getUrlParams(): URLSearchParams {

@@ -5,7 +5,6 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import {
-  addDefaultQuery,
   cleanUrlParams,
   encodeSearchQuery,
   getSearchParamsFromUrl,
@@ -16,7 +15,6 @@ import {
 } from "../../utils/UrlParamUtils.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import _ from "lodash";
 import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
@@ -60,23 +58,9 @@ export function useSearchUrlParams() {
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
     const merged = { ...searchQuery, ...update };
-
     const deduplicated = removeDefaultQuery(merged, defaultQuery);
-    const hydrated = addDefaultQuery(defaultQuery, deduplicated);
-    const isHydratedEqual = _.isEqual(hydrated, merged);
-    console.log("updateSearchQuery", {
-      update,
-      defaultQuery,
-      merged,
-      deduplicated,
-      hydrated,
-      isHydratedEqual,
-    });
-
     const encoded = encodeSearchQuery(deduplicated);
-    pushUrlParamsToHistory({
-      query: encoded,
-    });
+    pushUrlParamsToHistory({ query: encoded });
   }
 
   /**

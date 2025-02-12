@@ -28,11 +28,6 @@ export type SearchStore = DefaultQuerySlice &
 
 export const useSearchStore = create<SearchStore>()((...a) => ({
   ...createDefaultQuerySlice(...a),
-  /**
-   * TODO: add searchQuery slice that tracks if search query has been initialized
-   * - if initialized: hook does not need to re-initialize
-   * - if not initialize: do not initialize search
-   */
   ...createKeywordFacetsSlice(...a),
   ...createSearchFacetTypesSlice(...a),
   ...createSearchResultsSlice(...a),
