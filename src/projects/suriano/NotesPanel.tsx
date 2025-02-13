@@ -29,11 +29,11 @@ export function NotesPanel(props: NotesPanelProps) {
   });
 
   return (
-    <>
+    <div className="flex flex-col items-start">
       {footnotes.length ? (
         footnotes.map((footnote, index) => (
           <button
-            className={`mb-2 cursor-pointer bg-white hover:underline`}
+            className={`mb-2 w-full cursor-pointer bg-white text-left hover:underline`}
             key={index}
             onClick={() => scrollToFootnote(footnote.id)}
           >
@@ -43,6 +43,6 @@ export function NotesPanel(props: NotesPanelProps) {
       ) : (
         <div>This letter has no footnotes.</div>
       )}
-    </>
+    </div>
   );
 }
