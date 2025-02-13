@@ -1,15 +1,15 @@
-import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli.ts";
 import { useEffect, useState } from "react";
+import { useAnnotationStore } from "../../stores/annotation.ts";
+import { useMiradorStore } from "../../stores/mirador.ts";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { useTextStore } from "../../stores/text.ts";
+import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
 import { useDetailNavigation } from "./useDetailNavigation.tsx";
-import { useAnnotationStore } from "../../stores/annotation.ts";
-import { useTextStore } from "../../stores/text.ts";
-import { useMiradorStore } from "../../stores/mirador.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -24,6 +24,7 @@ export function useInitDetail() {
   const [isLoading, setLoading] = useState(false);
 
   const { setStore } = useMiradorStore();
+  const { setCurrentCanvas } = useMiradorStore();
   const { setAnnotations } = useAnnotationStore();
   const { setViews } = useTextStore();
 
@@ -105,6 +106,7 @@ export function useInitDetail() {
         bodyId: result.request.bodyId,
         iiif: result.iiif,
       });
+      setCurrentCanvas(result.iiif.canvasIds[0]);
       setAnnotations(annotations);
       setViews(views);
 
