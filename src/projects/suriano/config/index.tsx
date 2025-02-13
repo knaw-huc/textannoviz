@@ -11,6 +11,7 @@ import "../project.css";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
+import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
   getAnnotationCategory,
@@ -22,8 +23,8 @@ import {
   projectPageMarkerAnnotationTypes,
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
-import { Empty } from "../../../components/Empty.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -113,6 +114,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
     SearchInfoPage,
     HelpLink: Empty,
+    NotesPanel,
   },
 
   selectedLanguage: "en",

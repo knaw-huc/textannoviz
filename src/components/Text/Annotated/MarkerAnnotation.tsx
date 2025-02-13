@@ -1,4 +1,5 @@
 import mirador from "mirador-knaw-huc-mui5";
+import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { CanvasTarget } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
@@ -8,6 +9,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import { useTextStore } from "../../../stores/text.ts";
 import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
 import { TooltipMarkerButton } from "./MarkerTooltip.tsx";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
@@ -83,11 +85,30 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 }
 
 export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
+  const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
   const classNames: string[] = [];
   classNames.push(...createTooltipMarkerClasses(marker));
+  const { registerFootnotes, activeFootnote } = useTextStore();
+  const footnoteId = marker.body.metadata.target.split("#")[1];
+
+  useEffect(() => {
+    if (ref.current) {
+      registerFootnotes(footnoteId, ref.current);
+    }
+  }, [footnoteId, registerFootnotes]);
+
   return (
-    <span className={classNames.join(" ")}>
+    <span
+      ref={ref}
+      className={`${classNames.join(
+        " ",
+      )} transition-all duration-300 ease-in-out ${
+        activeFootnote === footnoteId
+          ? "animate-pulse bg-yellow-400"
+          : "bg-white"
+      }`}
+    >
       <TooltipMarkerButton clickedMarker={marker}>
         {/*TODO: move to project config*/}
         {marker.body.metadata.n ?? "*"}

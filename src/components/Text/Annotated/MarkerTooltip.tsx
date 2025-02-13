@@ -1,15 +1,15 @@
 import { PropsWithChildren } from "react";
-import { MarkerSegment } from "./AnnotationModel.ts";
-import { Optional } from "../../../utils/Optional.ts";
-import { useAnnotationStore } from "../../../stores/annotation.ts";
+import { OverlayArrow, Tooltip } from "react-aria-components";
 import {
   AnnoRepoAnnotation,
   isNoteBody,
 } from "../../../model/AnnoRepoAnnotation.ts";
-import { useTextStore } from "../../../stores/text.ts";
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
-import { OverlayArrow, Tooltip } from "react-aria-components";
+import { useAnnotationStore } from "../../../stores/annotation.ts";
+import { useTextStore } from "../../../stores/text.ts";
+import { Optional } from "../../../utils/Optional.ts";
 import { SpanTooltipButton } from "../../common/SpanTooltipButton.tsx";
+import { MarkerSegment } from "./AnnotationModel.ts";
 
 // Detail.tsx performs an additional broccoli call to retrieve notes:
 export const NOTES_VIEW = "notes";
@@ -83,7 +83,7 @@ function getTooltipBody(
   return noteBody;
 }
 
-function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {
+export function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {
   const noteOffsets = view.locations.annotations.find(
     (a) => a.bodyId === noteBodyId,
   );

@@ -38,6 +38,12 @@ export function Annotation(props: AnnotationProps) {
               {translate("WEB_ANNOTATIONS")}
             </Tab>
           )}
+          <Tab
+            id="notes"
+            className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
+          >
+            Notes
+          </Tab>
         </TabList>
         <TabPanel id="metadata" className="text-brand1-800 h-full p-5">
           {annotations.length > 0 && !props.isLoading ? (
@@ -61,6 +67,11 @@ export function Annotation(props: AnnotationProps) {
             </>
           </TabPanel>
         )}
+        <TabPanel id="notes" className="text-brand1-800 p-5">
+          {annotations.length > 0 && !props.isLoading ? (
+            <projectConfig.components.NotesPanel annotations={annotations} />
+          ) : null}
+        </TabPanel>
       </Tabs>
     </div>
   );

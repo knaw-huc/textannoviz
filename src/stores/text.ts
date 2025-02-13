@@ -6,6 +6,41 @@ export type TextPanelsSlice = {
   setViews: (newViews: TextPanelsSlice["views"]) => void;
 };
 
+export type FootnoteSlice = {
+  activeFootnote: string | null;
+  footnoteRefs: Map<string, HTMLSpanElement>;
+  registerFootnotes: (footnoteId: string, ref: HTMLSpanElement) => void;
+  scrollToFootnote: (footnoteId: string) => void;
+};
+
+const createFootnoteSlice: StateCreator<
+  FootnoteSlice,
+  [],
+  [],
+  FootnoteSlice
+> = (set, get) => ({
+  footnoteRefs: new Map(),
+  activeFootnote: null,
+
+  registerFootnotes: (footnoteId, ref) =>
+    set((state) => {
+      const newRefs = new Map(state.footnoteRefs);
+      newRefs.set(footnoteId, ref);
+      return { footnoteRefs: newRefs };
+    }),
+
+  scrollToFootnote: (footnoteId) => {
+    const ref = get().footnoteRefs.get(footnoteId);
+    if (ref) {
+      ref.scrollIntoView({ behavior: "smooth", block: "center" });
+      set({ activeFootnote: footnoteId });
+
+      //Remove highlight after 3 seconds
+      setTimeout(() => set({ activeFootnote: null }), 3000);
+    }
+  },
+});
+
 const createTextPanelsSlice: StateCreator<
   TextPanelsSlice,
   [],
@@ -16,6 +51,9 @@ const createTextPanelsSlice: StateCreator<
   setViews: (newViews) => set(() => ({ views: newViews })),
 });
 
-export const useTextStore = create<TextPanelsSlice>()((...a) => ({
-  ...createTextPanelsSlice(...a),
-}));
+export const useTextStore = create<TextPanelsSlice & FootnoteSlice>()(
+  (...a) => ({
+    ...createTextPanelsSlice(...a),
+    ...createFootnoteSlice(...a),
+  }),
+);
