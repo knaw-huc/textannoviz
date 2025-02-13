@@ -45,7 +45,7 @@ export const SearchSorting = (props: SearchSortByProps) => {
       options.filter(
         (option) =>
           option.value === `${props.selected.field}-${props.selected.order}`,
-      )[0]?.value,
+      )[0].value,
   );
 
   function handleSorting(key: Key) {
