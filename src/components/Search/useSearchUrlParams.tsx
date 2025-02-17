@@ -36,7 +36,9 @@ export function useSearchUrlParams() {
   );
 
   /**
-   * Initialize search query once default query is initialized
+   * Note: defaultQuery is persistent, but hook state is not
+   * - first route: initialize query with useEffect
+   * - switching route: initialize query with useState param
    */
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
     getSearchQueryFromUrl(defaultQuery, urlParams),
