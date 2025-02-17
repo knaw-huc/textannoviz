@@ -16,7 +16,6 @@ import {
 import { createSearchParams } from "./createSearchParams.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import _ from "lodash";
-import { createSearchQuery } from "./createSearchQuery.tsx";
 
 /**
  * The url is our single source of truth.
@@ -29,20 +28,21 @@ export function useSearchUrlParams() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { defaultQuery, isInitDefaultQuery } = useSearchStore();
 
-  const [isInitSearchUrlParams, setInitSearchUrlParams] = useState(false);
+  const [isInitSearchUrlParams, setInitSearchUrlParams] =
+    useState(isInitDefaultQuery);
 
   const [searchParams, setSearchParams] = useState<SearchParams>(
     getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
   );
 
   /**
-   * Initialize search query after default query is initialized
+   * Initialize search query once default query is initialized
    */
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
+    getSearchQueryFromUrl(defaultQuery, urlParams),
   );
   useEffect(() => {
-    if (isInitDefaultQuery) {
+    if (isInitDefaultQuery && !isInitSearchUrlParams) {
       setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
       setInitSearchUrlParams(true);
     }
