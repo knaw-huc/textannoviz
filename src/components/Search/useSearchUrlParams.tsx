@@ -28,10 +28,6 @@ export function useSearchUrlParams() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { defaultQuery, isInitDefaultQuery } = useSearchStore();
 
-  const [prevSearchParams, setPrevSearchParams] = useState<string>(
-    window.location.search,
-  );
-
   const [isInitSearchUrlParams, setInitSearchUrlParams] =
     useState(isInitDefaultQuery);
 
@@ -59,27 +55,10 @@ export function useSearchUrlParams() {
    * Update search params and query when url changes
    */
   useEffect(() => {
-    const newSearchParams = window.location.search;
-    if (newSearchParams === prevSearchParams) {
-      return;
-    }
-    setPrevSearchParams(newSearchParams);
-
     const urlParams = getUrlParams();
-    // TODO; what should the template be?
-    const newStateParams = getSearchParamsFromUrl(defaultSearchParams, urlParams);
-    setSearchParams(newStateParams);
-    // TODO; and what should the template be for query?
+    setSearchParams(getSearchParamsFromUrl(defaultSearchParams, urlParams));
     setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
-    console.log("window.location.search", {
-      urlSize: new URLSearchParams(newSearchParams).get("size"),
-      stateSize: newStateParams.size,
-      prevSearchParams,
-      newSearchParams,
-      prevStateSearchParams: searchParams,
-      nextStateSearchParams: newStateParams,
-    });
-  }, [searchParams, urlParams, window.location.search]);
+  }, [window.location.search]);
 
   /**
    * Update search query by updating the url, see useEffect
@@ -100,7 +79,6 @@ export function useSearchUrlParams() {
   function updateSearchParams(update: Partial<SearchParams>): void {
     const merged = { ...searchParams, ...update };
     const deduplicated = markDefaultParamProps(merged, defaultSearchParams);
-    console.log("updateSearchParams", { update, deduplicated });
     pushUrlParamsToHistory(deduplicated);
   }
 
