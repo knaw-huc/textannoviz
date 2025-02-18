@@ -96,18 +96,22 @@ type UpdateOrRemoveParams = {
 export function pushUrlParamsToHistory({
   toUpdate,
   toRemove,
-}: UpdateOrRemoveParams): void {
+  setter,
+}: UpdateOrRemoveParams & {
+  setter: (update: Any) => void;
+}): void {
   const urlUpdate = new URL(window.location.toString());
+  const searchParams = urlUpdate.searchParams;
   if (toUpdate) {
     const cleaned = cleanUrlParams(toUpdate);
-    setUrlParams(urlUpdate.searchParams, cleaned);
+    setUrlParams(searchParams, cleaned);
   }
   if (toRemove) {
     for (const key of toRemove) {
-      urlUpdate.searchParams.delete(key);
+      searchParams.delete(key);
     }
   }
-  history.pushState(null, "", urlUpdate);
+  setter(searchParams);
 }
 
 /**

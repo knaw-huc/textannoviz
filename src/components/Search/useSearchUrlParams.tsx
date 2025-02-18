@@ -16,6 +16,7 @@ import {
 import { createSearchParams } from "./createSearchParams.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import _ from "lodash";
+import { useSearchParams } from "react-router-dom";
 
 /**
  * The url is our single source of truth.
@@ -27,7 +28,7 @@ export function useSearchUrlParams() {
   const urlParams = getUrlParams();
   const projectConfig = useProjectStore(projectConfigSelector);
   const { defaultQuery, isInitDefaultQuery } = useSearchStore();
-
+  const [sp, ssp] = useSearchParams();
   const [isInitSearchUrlParams, setInitSearchUrlParams] =
     useState(isInitDefaultQuery);
 
@@ -55,10 +56,11 @@ export function useSearchUrlParams() {
    * Update search params and query when url changes
    */
   useEffect(() => {
+    console.log("sp", sp);
     const urlParams = getUrlParams();
     setSearchParams(getSearchParamsFromUrl(defaultSearchParams, urlParams));
     setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
-  }, [window.location.search]);
+  }, [sp]);
 
   /**
    * Update search query by updating the url, see useEffect
@@ -70,7 +72,7 @@ export function useSearchUrlParams() {
     const historyUpdate = _.isEmpty(deduplicated)
       ? { toRemove: ["query"] }
       : { toUpdate: { query: encoded } };
-    pushUrlParamsToHistory(historyUpdate);
+    pushUrlParamsToHistory({ ...historyUpdate, setter: ssp });
   }
 
   /**
@@ -79,7 +81,7 @@ export function useSearchUrlParams() {
   function updateSearchParams(update: Partial<SearchParams>): void {
     const merged = { ...searchParams, ...update };
     const deduplicated = markDefaultParamProps(merged, defaultSearchParams);
-    pushUrlParamsToHistory(deduplicated);
+    pushUrlParamsToHistory({ ...deduplicated, setter: ssp });
   }
 
   return {
