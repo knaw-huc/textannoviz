@@ -1,27 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { markDefaultProps } from "./UrlParamUtils.ts";
+import { markDefaultParamProps } from "./UrlParamUtils.ts";
 
 describe("markDefaultProps", () => {
-  it("marks defaults as null", () => {
+  it("marks default param as a param to remove", () => {
     const defaultProps = { a: "foo" };
-    const result = markDefaultProps({ a: "foo" }, defaultProps);
-    expect(result.a).toBe(null);
+    const result = markDefaultParamProps({ a: "foo" }, defaultProps);
+    expect(result.toRemove).toEqual(["a"]);
   });
 
   it("keeps non-defaults", () => {
     const defaultProps = { a: "foo" };
-    const result = markDefaultProps({ a: "bar" }, defaultProps);
-    expect(result.a).toBe("bar");
+    const result = markDefaultParamProps({ a: "bar" }, defaultProps);
+    expect(result.toUpdate?.a).toBe("bar");
   });
 
-  it("does not touch undefined, 0 or empty string", () => {
-    const defaultProps = { a: "", b: "", c: undefined };
-    const result = markDefaultProps(
-      { a: undefined, b: 0, c: "" },
+  it("compares strict", () => {
+    const defaultProps = { a: "", b: "", c: "", d: "" };
+    const result = markDefaultParamProps(
+      { a: undefined, b: 0, c: null, d: "" },
       defaultProps,
     );
-    expect(result.a).toBe(undefined);
-    expect(result.b).toBe(0);
-    expect(result.c).toBe("");
+    expect(result.toUpdate?.a).toBe(undefined);
+    expect(result.toUpdate?.b).toBe(0);
+    expect(result.toUpdate?.c).toBe(null);
+    expect(result.toRemove).toEqual(["d"]);
   });
 });

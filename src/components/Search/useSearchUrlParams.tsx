@@ -5,13 +5,13 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import {
-  cleanUrlParams,
   encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
   getUrlParams,
+  markDefaultParamProps,
   pushUrlParamsToHistory,
-  removeDefaultProps,
+  removeDefaultQueryProps,
 } from "../../utils/UrlParamUtils.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -65,10 +65,12 @@ export function useSearchUrlParams() {
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
     const merged = { ...searchQuery, ...update };
-    const deduplicated = removeDefaultProps(merged, defaultQuery);
+    const deduplicated = removeDefaultQueryProps(merged, defaultQuery);
     const encoded = encodeSearchQuery(deduplicated);
-    const removeOrUpdate = _.isEmpty(deduplicated) ? null : encoded;
-    pushUrlParamsToHistory({ query: removeOrUpdate });
+    const historyUpdate = _.isEmpty(deduplicated)
+      ? { toRemove: ["query"] }
+      : { toUpdate: { query: encoded } };
+    pushUrlParamsToHistory(historyUpdate);
   }
 
   /**
@@ -76,9 +78,8 @@ export function useSearchUrlParams() {
    */
   function updateSearchParams(update: Partial<SearchParams>): void {
     const merged = { ...searchParams, ...update };
-    const deduplicated = removeDefaultProps(merged, defaultSearchParams);
-    const cleaned = cleanUrlParams(deduplicated);
-    pushUrlParamsToHistory(cleaned);
+    const removeDefaults = markDefaultParamProps(merged, defaultSearchParams);
+    pushUrlParamsToHistory(removeDefaults);
   }
 
   return {

@@ -2,7 +2,7 @@ import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
 import {
   cleanUrlParams,
   getUrlParams,
-  mutateUrlParams,
+  setUrlParams,
 } from "../../utils/UrlParamUtils.ts";
 import { SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -50,7 +50,7 @@ export function useDetailNavigation() {
       path = url.pathname;
     } else {
       path = props.path;
-      mutateUrlParams(nextUrlSearchParams, cleanUrlParams(props.params));
+      setUrlParams(nextUrlSearchParams, cleanUrlParams(props.params));
     }
 
     const nextTier2 = matchPath(detailTier2Path, path)?.params.tier2;
@@ -82,7 +82,7 @@ export function useDetailNavigation() {
     const path = `/detail/${resultId}`;
     const nextUrlSearchParams = getUrlParams();
     if (detailParams) {
-      mutateUrlParams(nextUrlSearchParams, cleanUrlParams(detailParams));
+      setUrlParams(nextUrlSearchParams, cleanUrlParams(detailParams));
     }
     return `${path}?${nextUrlSearchParams}`;
   }

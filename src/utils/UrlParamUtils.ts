@@ -75,39 +75,45 @@ export function getUrlParams(): URLSearchParams {
  * Set url params when string
  * Delete url params when null
  */
-export function mutateUrlParams(
+export function setUrlParams(
   toMutate: URLSearchParams,
-  mutateWith: Record<string, string | null>,
+  mutateWith: Record<string, string>,
 ): void {
   for (const key in mutateWith) {
     const value = mutateWith[key];
-    if (value == null) {
-      toMutate.delete(key);
-    } else {
-      toMutate.set(key, value);
-    }
+    toMutate.set(key, value);
   }
 }
 
+type UpdateOrRemoveParams = {
+  toUpdate?: Record<string, Any>;
+  toRemove?: string[];
+};
+
 /**
- * set or remove url params from window.history
+ * push new url with updated search url params to window.history
  */
-export function pushUrlParamsToHistory(
-  toSetOrDelete: Record<string, string | null> | URLSearchParams,
-): void {
-  const stringRecord =
-    toSetOrDelete instanceof URLSearchParams
-      ? Object.fromEntries(toSetOrDelete)
-      : toSetOrDelete;
-  const updatedUrl = new URL(window.location.toString());
-  mutateUrlParams(updatedUrl.searchParams, stringRecord);
-  history.pushState(null, "", updatedUrl);
+export function pushUrlParamsToHistory({
+  toUpdate,
+  toRemove,
+}: UpdateOrRemoveParams): void {
+  const urlUpdate = new URL(window.location.toString());
+  if (toUpdate) {
+    const cleaned = cleanUrlParams(toUpdate);
+    setUrlParams(urlUpdate.searchParams, cleaned);
+  }
+  if (toRemove) {
+    for (const key of toRemove) {
+      urlUpdate.searchParams.delete(key);
+    }
+  }
+  history.pushState(null, "", urlUpdate);
 }
 
 /**
  * Only keep query properties that differ from the default
  */
-export function removeDefaultProps<T extends SearchQuery | SearchParams>(
+export function removeDefaultQueryProps<T extends SearchQuery | SearchParams>(
   props: T,
   defaultProps: T,
 ): Partial<T> {
@@ -117,17 +123,22 @@ export function removeDefaultProps<T extends SearchQuery | SearchParams>(
 }
 
 /**
- * Mark url search params that match the default as null
- * Should be cleaned up later
- * TODO: fix-default-param-removal
+ * Url search params that match the default are marked as removable
  */
-export function markDefaultProps(
+export function markDefaultParamProps(
   props: Record<string, Any>,
   defaultProps: Record<string, Any>,
-): Record<string, Any | null> {
-  return _.mapValues(props, (v, k) => {
-    return _.isEqual(defaultProps[k], v) ? null : v;
+): UpdateOrRemoveParams {
+  const toUpdate: Record<string, Any> = {};
+  const toRemove: string[] = [];
+  _.forOwn(props, (v, k) => {
+    if (_.isEqual(defaultProps[k], v)) {
+      toRemove.push(k);
+    } else {
+      toUpdate[k] = v;
+    }
   });
+  return { toUpdate, toRemove };
 }
 
 export function addDefaultQuery(
