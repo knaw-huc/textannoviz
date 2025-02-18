@@ -1,3 +1,4 @@
+import { Key } from "react-aria-components";
 import { create, StateCreator } from "zustand";
 import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation";
 
@@ -24,6 +25,11 @@ export type ShowSvgsAnnosMiradorSlice = {
   setShowSvgsAnnosMirador: (
     newShowSvgsAnnosMirador: ShowSvgsAnnosMiradorSlice["showSvgsAnnosMirador"],
   ) => void;
+};
+
+export type ActiveSidebarPanel = {
+  activeSidebarPanel: Key;
+  setActiveSidebarPanel: (newActiveSidebarPanel: Key) => void;
 };
 
 const createAnnotationSlice: StateCreator<
@@ -70,14 +76,27 @@ const createShowSvgsAnnosMiradorSlice: StateCreator<
     set(() => ({ showSvgsAnnosMirador: newShowSvgsAnnosMirador })),
 });
 
+const createActiveSidebarPanelSlice: StateCreator<
+  ActiveSidebarPanel,
+  [],
+  [],
+  ActiveSidebarPanel
+> = (set) => ({
+  activeSidebarPanel: "",
+  setActiveSidebarPanel: (newActiveSidebarPanel) =>
+    set(() => ({ activeSidebarPanel: newActiveSidebarPanel })),
+});
+
 export const useAnnotationStore = create<
   AnnotationsSlice &
     AnnotationTypesToIncludeSlice &
     AnnotationTypesToHighlightSlice &
-    ShowSvgsAnnosMiradorSlice
+    ShowSvgsAnnosMiradorSlice &
+    ActiveSidebarPanel
 >()((...a) => ({
   ...createAnnotationSlice(...a),
   ...createAnnotationTypesToIncluceSlice(...a),
   ...createAnnotationTypesToHighlightSlice(...a),
   ...createShowSvgsAnnosMiradorSlice(...a),
+  ...createActiveSidebarPanelSlice(...a),
 }));

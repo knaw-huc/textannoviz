@@ -13,13 +13,18 @@ type AnnotationProps = {
 };
 
 export function Annotation(props: AnnotationProps) {
-  const annotations = useAnnotationStore((state) => state.annotations);
+  const { annotations, activeSidebarPanel, setActiveSidebarPanel } =
+    useAnnotationStore();
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 
   return (
     <div className="border-brand1Grey-100 relative hidden w-3/12 grow self-stretch border-x md:block">
-      <Tabs className="flex h-[calc(100vh-100px)] flex-col overflow-auto">
+      <Tabs
+        selectedKey={activeSidebarPanel}
+        onSelectionChange={(key) => setActiveSidebarPanel(key)}
+        className="flex h-[calc(100vh-100px)] flex-col overflow-auto"
+      >
         <TabList
           aria-label="annotation-panel"
           className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"

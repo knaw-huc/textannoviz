@@ -89,7 +89,9 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { marker } = props;
   const classNames: string[] = [];
   classNames.push(...createTooltipMarkerClasses(marker));
-  const { registerFootnotes, activeFootnote } = useTextStore();
+  const { registerFootnotes, activeFootnote, setActiveFootnote } =
+    useTextStore();
+  const { setActiveSidebarPanel } = useAnnotationStore();
   const footnoteId = marker.body.metadata.target.split("#")[1];
 
   useEffect(() => {
@@ -98,16 +100,20 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
     }
   }, [footnoteId, registerFootnotes]);
 
+  function spanClickHandler(footnoteId: string) {
+    setActiveFootnote(footnoteId);
+    setActiveSidebarPanel("notes");
+  }
+
   return (
     <span
       ref={ref}
       className={`${classNames.join(
         " ",
       )} transition-all duration-300 ease-in-out ${
-        activeFootnote === footnoteId
-          ? "animate-pulse bg-yellow-400"
-          : "bg-white"
+        activeFootnote === footnoteId ? "bg-yellow-400" : "bg-white"
       }`}
+      onClick={() => spanClickHandler(footnoteId)}
     >
       <TooltipMarkerButton clickedMarker={marker}>
         {/*TODO: move to project config*/}

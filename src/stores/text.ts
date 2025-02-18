@@ -11,6 +11,7 @@ export type FootnoteSlice = {
   footnoteRefs: Map<string, HTMLSpanElement>;
   registerFootnotes: (footnoteId: string, ref: HTMLSpanElement) => void;
   scrollToFootnote: (footnoteId: string) => void;
+  setActiveFootnote: (footnoteId: string) => void;
 };
 
 const createFootnoteSlice: StateCreator<
@@ -36,8 +37,11 @@ const createFootnoteSlice: StateCreator<
       set({ activeFootnote: footnoteId });
 
       //Remove highlight after 3 seconds
-      setTimeout(() => set({ activeFootnote: null }), 3000);
+      // setTimeout(() => set({ activeFootnote: null }), 3000);
     }
+  },
+  setActiveFootnote: (footnoteId) => {
+    set(() => ({ activeFootnote: footnoteId }));
   },
 });
 

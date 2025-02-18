@@ -1,3 +1,4 @@
+import { Button } from "react-aria-components";
 import { createNoteLines } from "../../components/Text/Annotated/MarkerTooltip";
 import {
   AnnoRepoAnnotation,
@@ -11,9 +12,11 @@ type NotesPanelProps = {
 };
 
 export function NotesPanel(props: NotesPanelProps) {
-  const textPanels = useTextStore((state) => state.views);
-  const { scrollToFootnote } = useTextStore();
-  if (!textPanels) return;
+  const textPanels = useTextStore().views;
+  const { scrollToFootnote, activeFootnote, setActiveFootnote } =
+    useTextStore();
+
+  if (!textPanels) return null;
   const notesView = textPanels["notes"];
 
   const footnoteAnnotations = props.annotations.filter((anno) => {
@@ -28,17 +31,24 @@ export function NotesPanel(props: NotesPanelProps) {
     };
   });
 
+  const footnoteButtonPressHandler = (footnoteId: string) => {
+    scrollToFootnote(footnoteId);
+    setActiveFootnote(footnoteId);
+  };
+
   return (
     <div className="flex flex-col items-start">
       {footnotes.length ? (
         footnotes.map((footnote, index) => (
-          <button
-            className={`mb-2 w-full cursor-pointer bg-white text-left hover:underline`}
+          <Button
+            className={`w-full cursor-pointer rounded-md bg-white p-2 text-left outline-none transition-all duration-300 ease-in-out hover:underline ${
+              activeFootnote === footnote.id ? "bg-yellow-400" : ""
+            }`}
             key={index}
-            onClick={() => scrollToFootnote(footnote.id)}
+            onPress={() => footnoteButtonPressHandler(footnote.id)}
           >
             {footnote.lines}
-          </button>
+          </Button>
         ))
       ) : (
         <div>This letter has no footnotes.</div>
