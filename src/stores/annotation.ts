@@ -27,9 +27,9 @@ export type ShowSvgsAnnosMiradorSlice = {
   ) => void;
 };
 
-export type ActiveSidebarPanel = {
-  activeSidebarPanel: Key;
-  setActiveSidebarPanel: (newActiveSidebarPanel: Key) => void;
+export type ActiveSidebarTab = {
+  activeSidebarTab: Key;
+  setActiveSidebarTab: (newActiveSidebarTab: Key) => void;
 };
 
 const createAnnotationSlice: StateCreator<
@@ -76,15 +76,15 @@ const createShowSvgsAnnosMiradorSlice: StateCreator<
     set(() => ({ showSvgsAnnosMirador: newShowSvgsAnnosMirador })),
 });
 
-const createActiveSidebarPanelSlice: StateCreator<
-  ActiveSidebarPanel,
+const createActiveSidebarTabSlice: StateCreator<
+  ActiveSidebarTab,
   [],
   [],
-  ActiveSidebarPanel
+  ActiveSidebarTab
 > = (set) => ({
-  activeSidebarPanel: "",
-  setActiveSidebarPanel: (newActiveSidebarPanel) =>
-    set(() => ({ activeSidebarPanel: newActiveSidebarPanel })),
+  activeSidebarTab: "",
+  setActiveSidebarTab: (newActiveSidebarTab) =>
+    set(() => ({ activeSidebarTab: newActiveSidebarTab })),
 });
 
 export const useAnnotationStore = create<
@@ -92,11 +92,11 @@ export const useAnnotationStore = create<
     AnnotationTypesToIncludeSlice &
     AnnotationTypesToHighlightSlice &
     ShowSvgsAnnosMiradorSlice &
-    ActiveSidebarPanel
+    ActiveSidebarTab
 >()((...a) => ({
   ...createAnnotationSlice(...a),
   ...createAnnotationTypesToIncluceSlice(...a),
   ...createAnnotationTypesToHighlightSlice(...a),
   ...createShowSvgsAnnosMiradorSlice(...a),
-  ...createActiveSidebarPanelSlice(...a),
+  ...createActiveSidebarTabSlice(...a),
 }));

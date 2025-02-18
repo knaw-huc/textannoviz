@@ -91,7 +91,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   classNames.push(...createTooltipMarkerClasses(marker));
   const { registerFootnotes, activeFootnote, setActiveFootnote } =
     useTextStore();
-  const { setActiveSidebarPanel } = useAnnotationStore();
+  const { setActiveSidebarTab } = useAnnotationStore();
   const footnoteId = marker.body.metadata.target.split("#")[1];
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
 
   function spanClickHandler(footnoteId: string) {
     setActiveFootnote(footnoteId);
-    setActiveSidebarPanel("notes");
+    setActiveSidebarTab("notes");
   }
 
   return (
