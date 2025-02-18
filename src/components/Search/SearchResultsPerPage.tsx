@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import type { Key } from "react-aria-components";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import {
@@ -8,8 +8,7 @@ import {
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 
 interface SearchResultsPerPageProps {
-  onChange: (key: Key) => void;
-  value: number;
+  onChange: () => void;
 }
 
 type PageSizeOption = {
@@ -18,8 +17,7 @@ type PageSizeOption = {
 
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   const translate = useProjectStore(translateSelector);
-  const { searchParams } = useSearchUrlParams();
-  const [selectedKey, setSelectedKey] = React.useState<Key>(searchParams.size);
+  const { searchParams, updateSearchParams } = useSearchUrlParams();
   const options: PageSizeOption[] = [
     { name: 10 },
     { name: 20 },
@@ -27,17 +25,23 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
     { name: 100 },
   ];
 
-  function selectChangeHandler(key: Key) {
-    props.onChange(key);
-  }
+  const selectChangeHandler = (key: Key) => {
+    console.log("selectChangeHandler", key);
+    updateSearchParams({
+      size: key as number,
+      //bring user back to first page
+      from: 0,
+    });
+    props.onChange();
+  };
 
   useEffect(() => {
     const foundOption = options.find((o) => o.name === searchParams.size);
     if (!foundOption) {
       throw new Error("Unknown page size: " + searchParams.size);
     }
-    setSelectedKey(foundOption.name);
-  }, [searchParams.size]);
+    console.log("SearchResultsPerPage useEffect", { size: searchParams.size });
+  }, [searchParams]);
 
   return (
     <SelectComponent
@@ -45,14 +49,14 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
       labelStyling="mr-1 text-sm"
       buttonWidth="w-[95px]"
       items={options}
-      selectedKey={selectedKey}
+      selectedKey={searchParams.size}
       onSelectionChange={selectChangeHandler}
     >
-      {(item: PageSizeOption, i: number) => (
+      {(item: PageSizeOption) => (
         <SelectItemComponent
           id={item.name}
           textValue={item.name.toString()}
-          key={i}
+          key={item.name}
         >
           {item.name}
         </SelectItemComponent>

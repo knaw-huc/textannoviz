@@ -30,13 +30,13 @@ const BY_SCORE = "_score";
  * Sort by _score or by date
  */
 export const SearchSorting = (props: SearchSortByProps) => {
-  const BY_DATE = props.dateFacet;
+  const dateFacet = props.dateFacet;
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const options = [
     { name: translate("RELEVANCE"), value: `${BY_SCORE}-${DESC}` },
-    { name: translate("DATE_ASC"), value: `${BY_DATE}-${ASC}` },
-    { name: translate("DATE_DESC"), value: `${BY_DATE}-${DESC}` },
+    { name: translate("DATE_ASC"), value: `${dateFacet}-${ASC}` },
+    { name: translate("DATE_DESC"), value: `${dateFacet}-${DESC}` },
   ];
 
   const defaultSorting: Sorting = { field: BY_SCORE, order: DESC };
@@ -51,7 +51,7 @@ export const SearchSorting = (props: SearchSortByProps) => {
   function handleSorting(key: Key) {
     setSelectedKey(key);
     const [selectedField, selectedOrder] = (key as string).split(SEPARATOR);
-    if (selectedField === BY_DATE) {
+    if (selectedField === dateFacet) {
       handleDateSorting(selectedOrder as SortOrder);
     } else {
       props.onSort(defaultSorting);
