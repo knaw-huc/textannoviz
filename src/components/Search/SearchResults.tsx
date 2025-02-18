@@ -1,5 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import React, { ReactNode } from "react";
+import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
 import {
@@ -87,6 +88,18 @@ export function SearchResults(props: SearchResultsProps) {
     props.onPageChange();
   }
 
+  const changePageSize = (key: Key) => {
+    if (!key) {
+      return;
+    }
+    updateSearchParams({
+      size: key as number,
+      //bring user back to first page
+      from: 0,
+    });
+    props.onSearch();
+  };
+
   function removeFacet(facet: FacetName, option: FacetOptionName) {
     const newTerms = structuredClone(searchQuery.terms);
     removeTerm(newTerms, facet, option);
@@ -166,7 +179,7 @@ export function SearchResults(props: SearchResultsProps) {
             )}
 
           {searchResults.results.length >= 1 && (
-            <SearchResultsPerPage onChange={props.onSearch} />
+            <SearchResultsPerPage onChange={changePageSize} value={pageSize} />
           )}
         </div>
       </div>
