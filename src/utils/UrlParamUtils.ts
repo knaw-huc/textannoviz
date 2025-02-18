@@ -5,17 +5,18 @@ import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
 import { SearchParams, SearchQuery } from "../model/Search.ts";
 import _ from "lodash";
+import { Any } from "./Any.ts";
 
 /**
- * Merge the properties in {@link toPopulate} with params of the same name in ${@link urlParams}.
- * Url param are converted to number or boolean to match the type in {@link toPopulate}.
+ * Merge the properties in {@link template} with params of the same name in ${@link urlParams}.
+ * Url param are converted to number or boolean to match the type in {@link template}.
  */
 export function getSearchParamsFromUrl<T extends UrlSearchParamRecord>(
-  toPopulate: T,
+  template: T,
   urlParams: URLSearchParams,
 ): T {
   return Object.fromEntries(
-    Object.entries(toPopulate).map(([k, v]) => {
+    Object.entries(template).map(([k, v]) => {
       const urlValue = urlParams.get(k);
       if (!urlValue) {
         return [k, v];
@@ -113,6 +114,20 @@ export function removeDefaultProps<T extends SearchQuery | SearchParams>(
   return _.pickBy<T>(props, (v, k) => {
     return !_.isEqual(defaultProps[k as keyof T], v);
   }) as Partial<T>;
+}
+
+/**
+ * Mark url search params that match the default as null
+ * Should be cleaned up later
+ * TODO: fix-default-param-removal
+ */
+export function markDefaultProps(
+  props: Record<string, Any>,
+  defaultProps: Record<string, Any>,
+): Record<string, Any | null> {
+  return _.mapValues(props, (v, k) => {
+    return _.isEqual(defaultProps[k], v) ? null : v;
+  });
 }
 
 export function addDefaultQuery(

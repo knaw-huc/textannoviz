@@ -31,13 +31,14 @@ export function useSearchUrlParams() {
   const [isInitSearchUrlParams, setInitSearchUrlParams] =
     useState(isInitDefaultQuery);
 
+  const defaultSearchParams = createSearchParams({ projectConfig });
   const [searchParams, setSearchParams] = useState<SearchParams>(
-    getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
+    getSearchParamsFromUrl(defaultSearchParams, urlParams),
   );
 
   /**
-   * Note: defaultQuery is persistent, but hook state is not
-   * - first route: initialize query with useEffect
+   * Note: defaultQuery is persistent, hook state is not
+   * - landing route: initialize query with useEffect
    * - switching route: initialize query with useState param
    */
   const [searchQuery, setSearchQuery] = useState<SearchQuery>(
@@ -66,7 +67,8 @@ export function useSearchUrlParams() {
     const merged = { ...searchQuery, ...update };
     const deduplicated = removeDefaultProps(merged, defaultQuery);
     const encoded = encodeSearchQuery(deduplicated);
-    pushUrlParamsToHistory({ query: _.isEmpty(deduplicated) ? null : encoded });
+    const removeOrUpdate = _.isEmpty(deduplicated) ? null : encoded;
+    pushUrlParamsToHistory({ query: removeOrUpdate });
   }
 
   /**
@@ -74,7 +76,7 @@ export function useSearchUrlParams() {
    */
   function updateSearchParams(update: Partial<SearchParams>): void {
     const merged = { ...searchParams, ...update };
-    const deduplicated = removeDefaultProps(merged, searchParams);
+    const deduplicated = removeDefaultProps(merged, defaultSearchParams);
     const cleaned = cleanUrlParams(deduplicated);
     pushUrlParamsToHistory(cleaned);
   }

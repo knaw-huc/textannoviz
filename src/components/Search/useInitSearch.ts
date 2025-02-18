@@ -1,16 +1,13 @@
-import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { useEffect } from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
-import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { defaultSearchParams } from "./createSearchParams.tsx";
 import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
 
 /**
@@ -34,13 +31,8 @@ export function useInitSearch() {
   } = useSearchStore();
 
   const { getSearchResults } = useSearchResults();
-  const {
-    searchQuery,
-    isInitSearchUrlParams,
-    updateSearchQuery,
-    searchParams,
-    updateSearchParams,
-  } = useSearchUrlParams();
+  const { searchQuery, isInitSearchUrlParams, searchParams } =
+    useSearchUrlParams();
 
   useInitDefaultQuery();
 
@@ -66,24 +58,14 @@ export function useInitSearch() {
   async function initSearch(aborter: AbortController) {
     setSearchInitStatus({ isLoadingSearch: true });
 
-    const newSearchParams: SearchParams = _.merge(
-      {},
-      defaultSearchParams,
-      searchParams,
-    );
-    updateSearchParams(newSearchParams);
-
-    const newSearchQuery: SearchQuery = _.merge({}, defaultQuery, searchQuery);
-    updateSearchQuery(newSearchQuery);
-
     if (
       projectConfig.showSearchResultsOnInfoPage ||
-      isSearchableQuery(newSearchQuery, defaultQuery)
+      isSearchableQuery(searchQuery, defaultQuery)
     ) {
       const searchResults = await getSearchResults(
         searchFacetTypes,
         searchParams,
-        newSearchQuery,
+        searchQuery,
         aborter.signal,
       );
       if (searchResults) {

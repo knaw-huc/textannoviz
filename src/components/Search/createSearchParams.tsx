@@ -1,7 +1,7 @@
 import { ProjectConfig } from "../../model/ProjectConfig.ts";
 import { SearchParams } from "../../model/Search.ts";
 
-export const defaultSearchParams: SearchParams = {
+export const blankSearchParams: SearchParams = {
   indexName: "",
   fragmentSize: 100,
   from: 0,
@@ -12,7 +12,7 @@ export const defaultSearchParams: SearchParams = {
 
 export function createSearchParams(props: { projectConfig: ProjectConfig }) {
   return {
-    ...defaultSearchParams,
+    ...blankSearchParams,
     ...props.projectConfig.overrideDefaultSearchParams,
   };
 }
