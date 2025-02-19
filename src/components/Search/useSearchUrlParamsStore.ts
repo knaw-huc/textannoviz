@@ -6,9 +6,9 @@ import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
 import {
   getStateStorageItemFromUrl,
   pushUrlParamsToHistory,
-  removeDefaultParamProps,
   removeDefaultProps,
-  removeDefaultQueryProps,
+  removeOrUpdateParams,
+  removeOrUpdateQuery,
 } from "../../utils/UrlParamUtils.ts";
 import _ from "lodash";
 
@@ -22,11 +22,19 @@ const persistentStorage: StateStorage = {
   // @ts-expect-error unused key
   setItem: (key, newValue: string): void => {
     const urlState = JSON.parse(newValue).state as SearchUrlState;
-    const updateOrRemove = _.merge(
-      removeDefaultParamProps(urlState.urlSearchParams, blankSearchParams),
-      removeDefaultQueryProps(urlState.urlSearchQuery),
+    const paramUpdate = removeOrUpdateParams(
+      urlState.urlSearchParams,
+      blankSearchParams,
     );
-    console.log("setItem", { newValue, urlState, updateOrRemove });
+    const queryUpdate = removeOrUpdateQuery(urlState.urlSearchQuery);
+    const updateOrRemove = _.merge(paramUpdate, queryUpdate);
+    console.log("setItem", {
+      newValue,
+      urlState,
+      paramUpdate,
+      queryUpdate,
+      updateOrRemove,
+    });
     pushUrlParamsToHistory(updateOrRemove);
   },
   removeItem: (): void => {

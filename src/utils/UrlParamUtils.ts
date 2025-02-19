@@ -170,26 +170,25 @@ export function removeDefaultProps<T extends SearchQuery | SearchParams>(
   }) as Partial<T>;
 }
 
-/**
- * Url search params that match the default are marked as removable
- */
-export function removeDefaultParamProps(
-  props: Record<string, Any>,
-  defaultProps: Record<string, Any>,
+export function removeOrUpdateParams(
+  update: Record<string, Any>,
+  // Should contain all relevant keys
+  template: Record<string, Any>,
 ): UpdateOrRemoveParams {
   const toUpdate: Record<string, Any> = {};
   const toRemove: string[] = [];
-  _.forOwn(props, (v, k) => {
-    if (_.isEqual(defaultProps[k], v)) {
+  // @ts-expect-error unused value
+  _.forOwn(template, (v, k) => {
+    if (_.isUndefined(update[k])) {
       toRemove.push(k);
     } else {
-      toUpdate[k] = v;
+      toUpdate[k] = update[k];
     }
   });
   return { toUpdate, toRemove };
 }
 
-export function removeDefaultQueryProps(
+export function removeOrUpdateQuery(
   query: Partial<SearchQuery>,
 ): UpdateOrRemoveParams {
   if (_.isEmpty(query)) {
