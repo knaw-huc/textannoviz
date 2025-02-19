@@ -1,22 +1,22 @@
 import { describe, expect, it } from "vitest";
-import { markDefaultParamProps } from "./UrlParamUtils.ts";
+import { removeDefaultParamProps } from "./UrlParamUtils.ts";
 
-describe("markDefaultProps", () => {
+describe("removeDefaultParamProps", () => {
   it("marks default param as a param to remove", () => {
     const defaultProps = { a: "foo" };
-    const result = markDefaultParamProps({ a: "foo" }, defaultProps);
+    const result = removeDefaultParamProps({ a: "foo" }, defaultProps);
     expect(result.toRemove).toEqual(["a"]);
   });
 
   it("keeps non-defaults", () => {
     const defaultProps = { a: "foo" };
-    const result = markDefaultParamProps({ a: "bar" }, defaultProps);
+    const result = removeDefaultParamProps({ a: "bar" }, defaultProps);
     expect(result.toUpdate?.a).toBe("bar");
   });
 
   it("compares strict", () => {
     const defaultProps = { a: "", b: "", c: "", d: "" };
-    const result = markDefaultParamProps(
+    const result = removeDefaultParamProps(
       { a: undefined, b: 0, c: null, d: "" },
       defaultProps,
     );

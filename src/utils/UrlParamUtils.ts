@@ -6,6 +6,8 @@ import { Base64 } from "js-base64";
 import { SearchParams, SearchQuery } from "../model/Search.ts";
 import _ from "lodash";
 import { Any } from "./Any.ts";
+import { blankSearchParams } from "../components/Search/createSearchParams.tsx";
+import { SearchUrlState } from "../components/Search/useSearchUrlParamsStore.ts";
 
 /**
  * Merge the properties in {@link template} with params of the same name in ${@link urlParams}.
@@ -30,6 +32,34 @@ export function getSearchParamsFromUrl<T extends UrlSearchParamRecord>(
       }
     }),
   ) as T;
+}
+
+/**
+ * Use template to convert url params to correct type
+ */
+export function getUrlSearchParamsFromUrl(
+  template: SearchParams,
+  urlParams: URLSearchParams,
+): Partial<SearchParams> {
+  return Object.fromEntries(
+    Object.entries(template)
+      .map(([k, v]) => {
+        const urlValue = urlParams.get(k);
+        if (_.isNil(urlValue)) {
+          // Filter out later on
+          return [k, urlValue];
+        } else if (isNumber(v)) {
+          return [k, toNumber(urlValue)];
+        } else if (isBoolean(v)) {
+          return [k, urlValue === "true"];
+        } else if (_.isString(v)) {
+          return [k, urlValue];
+        } else {
+          throw new Error(`Unexpected type: ${k}=${v}`);
+        }
+      })
+      .filter(([, v]) => !_.isNil(v)),
+  );
 }
 
 type ParamValueType = string | boolean | number;
@@ -67,6 +97,16 @@ export function getSearchQueryFromUrl(
   return addDefaultQuery(baseSearchQuery, parsed);
 }
 
+export function getUrlSearchQueryFromUrl(
+  urlParams: URLSearchParams,
+): Partial<SearchQuery> {
+  const queryEncoded = urlParams.get(QUERY);
+  if (!queryEncoded) {
+    return {};
+  }
+  return JSON.parse(Base64.fromBase64(queryEncoded));
+}
+
 export function getUrlParams(): URLSearchParams {
   return new URLSearchParams(window.location.search);
 }
@@ -85,7 +125,7 @@ export function setUrlParams(
   }
 }
 
-type UpdateOrRemoveParams = {
+export type UpdateOrRemoveParams = {
   toUpdate?: Record<string, Any>;
   toRemove?: string[];
 };
@@ -110,6 +150,14 @@ export function pushUrlParamsToHistory({
   history.pushState(null, "", urlUpdate);
 }
 
+export function getStateStorageItemFromUrl(): SearchUrlState {
+  const urlParams = getUrlParams();
+  return {
+    urlSearchParams: getUrlSearchParamsFromUrl(blankSearchParams, urlParams),
+    urlSearchQuery: getUrlSearchQueryFromUrl(urlParams),
+  };
+}
+
 /**
  * Only keep query properties that differ from the default
  */
@@ -125,7 +173,7 @@ export function removeDefaultProps<T extends SearchQuery | SearchParams>(
 /**
  * Url search params that match the default are marked as removable
  */
-export function markDefaultParamProps(
+export function removeDefaultParamProps(
   props: Record<string, Any>,
   defaultProps: Record<string, Any>,
 ): UpdateOrRemoveParams {
@@ -139,6 +187,16 @@ export function markDefaultParamProps(
     }
   });
   return { toUpdate, toRemove };
+}
+
+export function removeDefaultQueryProps(
+  query: Partial<SearchQuery>,
+): UpdateOrRemoveParams {
+  if (_.isEmpty(query)) {
+    return { toRemove: ["query"] };
+  } else {
+    return { toUpdate: { query: encodeSearchQuery(query) } };
+  }
 }
 
 export function addDefaultQuery(
