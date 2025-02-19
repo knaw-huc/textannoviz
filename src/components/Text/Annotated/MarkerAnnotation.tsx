@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { CanvasTarget } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
+import { useDetailViewStore } from "../../../stores/detail-view.ts";
 import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
 import {
   projectConfigSelector,
@@ -91,7 +92,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   classNames.push(...createTooltipMarkerClasses(marker));
   const { registerFootnotes, activeFootnote, setActiveFootnote } =
     useTextStore();
-  const { setActiveSidebarTab } = useAnnotationStore();
+  const { setActiveSidebarTab } = useDetailViewStore();
   const footnoteId = marker.body.metadata.target.split("#")[1];
 
   useEffect(() => {
@@ -111,7 +112,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
       className={`${classNames.join(
         " ",
       )} transition-all duration-300 ease-in-out ${
-        activeFootnote === footnoteId ? "bg-yellow-400" : "bg-white"
+        activeFootnote === footnoteId ? "bg-brand2-300" : "bg-white"
       }`}
       onClick={() => spanClickHandler(footnoteId)}
     >

@@ -1,5 +1,6 @@
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 import { useAnnotationStore } from "../../stores/annotation";
+import { useDetailViewStore } from "../../stores/detail-view";
 import {
   projectConfigSelector,
   translateSelector,
@@ -13,8 +14,8 @@ type AnnotationProps = {
 };
 
 export function Annotation(props: AnnotationProps) {
-  const { annotations, activeSidebarTab, setActiveSidebarTab } =
-    useAnnotationStore();
+  const { annotations } = useAnnotationStore();
+  const { activeSidebarTab, setActiveSidebarTab } = useDetailViewStore();
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 
