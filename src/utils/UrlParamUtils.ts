@@ -113,7 +113,7 @@ export function pushUrlParamsToHistory({
 /**
  * Only keep query properties that differ from the default
  */
-export function removeDefaultQueryProps<T extends SearchQuery | SearchParams>(
+export function removeDefaultProps<T extends SearchQuery | SearchParams>(
   props: T,
   defaultProps: T,
 ): Partial<T> {

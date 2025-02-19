@@ -24,9 +24,9 @@ export function useInitSearchUrlParams() {
 
   const {
     isInitSearchUrlParams,
-    updateSearchQuery,
-    updateSearchParams,
-    setInitSearchUrlParams,
+    setDefaultSearchParams,
+    setDefaultSearchQuery,
+    initSearchUrlParams,
   } = useUrlSearchParamsStore();
   /**
    * Note: defaultQuery is persistent, hook state is not
@@ -36,9 +36,9 @@ export function useInitSearchUrlParams() {
   useEffect(() => {
     if (isInitDefaultQuery && !isInitSearchUrlParams) {
       console.log("useInitSearchUrlParams: init");
-      updateSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
-      updateSearchParams(createSearchParams({ projectConfig }));
-      setInitSearchUrlParams(true);
+      setDefaultSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
+      setDefaultSearchParams(createSearchParams({ projectConfig }));
+      initSearchUrlParams();
     } else {
       console.log("useInitSearchUrlParams: no init");
     }
