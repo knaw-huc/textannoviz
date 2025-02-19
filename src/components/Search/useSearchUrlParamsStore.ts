@@ -13,28 +13,17 @@ import {
 import _ from "lodash";
 
 const persistentStorage: StateStorage = {
-  getItem: (key): string => {
-    const stateStorageItemFromUrl = getStateStorageItemFromUrl();
-    const result = JSON.stringify({ state: stateStorageItemFromUrl });
-    console.log("getItem", { key, stateStorageItemFromUrl, result });
-    return result;
-  },
+  getItem: (): string =>
+    JSON.stringify({ state: getStateStorageItemFromUrl() }),
   // @ts-expect-error unused key
   setItem: (key, newValue: string): void => {
-    const urlState = JSON.parse(newValue).state as SearchUrlState;
+    const { urlSearchParams, urlSearchQuery } = JSON.parse(newValue).state;
     const paramUpdate = removeOrUpdateParams(
-      urlState.urlSearchParams,
+      urlSearchParams,
       blankSearchParams,
     );
-    const queryUpdate = removeOrUpdateQuery(urlState.urlSearchQuery);
+    const queryUpdate = removeOrUpdateQuery(urlSearchQuery);
     const updateOrRemove = _.merge(paramUpdate, queryUpdate);
-    console.log("setItem", {
-      newValue,
-      urlState,
-      paramUpdate,
-      queryUpdate,
-      updateOrRemove,
-    });
     pushUrlParamsToHistory(updateOrRemove);
   },
   removeItem: (): void => {
@@ -95,13 +84,11 @@ const createUrlSearchParamsStoreState: StateCreator<
         ...update,
       };
       const deduplicated = removeDefaultProps(merged, state.defaultSearchQuery);
-      const result = {
+      return {
         ...state,
         searchQuery: merged,
         urlSearchQuery: deduplicated,
       };
-      console.log("updateSearchQuery", { state, result });
-      return result;
     }
 
     function updateSearchParams(
@@ -117,18 +104,11 @@ const createUrlSearchParamsStoreState: StateCreator<
         merged,
         state.defaultSearchParams,
       );
-      const result = {
+      return {
         ...state,
         searchParams: merged,
         urlSearchParams: deduplicated,
       };
-      console.log("updateSearchParams", {
-        state,
-        merged,
-        defaultSearchParams: state.defaultSearchParams,
-        deduplicated,
-      });
-      return result;
     }
 
     return {
@@ -144,25 +124,9 @@ const createUrlSearchParamsStoreState: StateCreator<
       urlSearchParams: {},
 
       setDefaultSearchQuery: (defaultSearchQuery) =>
-        set((state) => {
-          const result = { ...state, defaultSearchQuery };
-          console.log("setDefaultSearchQuery", {
-            state,
-            defaultSearchQuery,
-            result,
-          });
-          return result;
-        }),
+        set((state) => ({ ...state, defaultSearchQuery })),
       setDefaultSearchParams: (defaultSearchParams) =>
-        set((state) => {
-          const result = { ...state, defaultSearchParams };
-          console.log("setDefaultSearchParams", {
-            state,
-            defaultSearchParams,
-            result,
-          });
-          return result;
-        }),
+        set((state) => ({ ...state, defaultSearchParams })),
 
       updateSearchQuery: (update) =>
         set((state) => updateSearchQuery(state, update)),
@@ -176,7 +140,7 @@ const createUrlSearchParamsStoreState: StateCreator<
             state,
             {},
           );
-          const result = {
+          return {
             ...state,
             searchParams,
             urlSearchParams,
@@ -184,8 +148,6 @@ const createUrlSearchParamsStoreState: StateCreator<
             urlSearchQuery,
             isInitSearchUrlParams: true,
           };
-          console.log("initSearchUrlParams", { state, result });
-          return result;
         }),
     };
   },
@@ -200,7 +162,5 @@ const createUrlSearchParamsStoreState: StateCreator<
 );
 
 export const useUrlSearchParamsStore = create<SearchUrlParamsStore>()(
-  (...a) => ({
-    ...createUrlSearchParamsStoreState(...a),
-  }),
+  (...a) => ({ ...createUrlSearchParamsStoreState(...a) }),
 );

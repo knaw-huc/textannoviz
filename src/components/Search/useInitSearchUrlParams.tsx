@@ -30,12 +30,9 @@ export function useInitSearchUrlParams() {
    */
   useEffect(() => {
     if (isInitDefaultQuery && !isInitSearchUrlParams) {
-      console.log("useInitSearchUrlParams: init");
       setDefaultSearchQuery(defaultQuery);
       setDefaultSearchParams(createSearchParams({ projectConfig }));
       initSearchUrlParams();
-    } else {
-      console.log("useInitSearchUrlParams: no init");
     }
   }, [isInitDefaultQuery, isInitSearchUrlParams]);
 
