@@ -3,19 +3,20 @@ import isNumber from "lodash/isNumber";
 import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
-import { SearchQuery } from "../model/Search.ts";
+import { SearchParams, SearchQuery } from "../model/Search.ts";
 import _ from "lodash";
+import { Any } from "./Any.ts";
 
 /**
- * Merge the properties in {@link toPopulate} with params of the same name in ${@link urlParams}.
- * Url param are converted to number or boolean to match the type in {@link toPopulate}.
+ * Merge the properties in {@link template} with params of the same name in ${@link urlParams}.
+ * Url param are converted to number or boolean to match the type in {@link template}.
  */
 export function getSearchParamsFromUrl<T extends UrlSearchParamRecord>(
-  toPopulate: T,
+  template: T,
   urlParams: URLSearchParams,
 ): T {
   return Object.fromEntries(
-    Object.entries(toPopulate).map(([k, v]) => {
+    Object.entries(template).map(([k, v]) => {
       const urlValue = urlParams.get(k);
       if (!urlValue) {
         return [k, v];
@@ -48,7 +49,7 @@ export function cleanUrlParams(
     .value() as Record<string, string>;
 }
 
-export function encodeSearchQuery(query: SearchQuery): string {
+export function encodeSearchQuery(query: Partial<SearchQuery>): string {
   return Base64.toBase64(JSON.stringify(query));
 }
 
@@ -63,28 +64,90 @@ export function getSearchQueryFromUrl(
   const parsed: Partial<SearchQuery> = JSON.parse(
     Base64.fromBase64(queryEncoded),
   );
-  return { ...baseSearchQuery, ...parsed };
+  return addDefaultQuery(baseSearchQuery, parsed);
 }
 
 export function getUrlParams(): URLSearchParams {
   return new URLSearchParams(window.location.search);
 }
 
+/**
+ * Set url params when string
+ * Delete url params when null
+ */
 export function setUrlParams(
   toMutate: URLSearchParams,
   mutateWith: Record<string, string>,
 ): void {
   for (const key in mutateWith) {
-    toMutate.set(key, mutateWith[key]);
+    const value = mutateWith[key];
+    toMutate.set(key, value);
   }
 }
 
-export function pushUrlParamsToHistory(
-  toSet: Record<string, string> | URLSearchParams,
-): void {
-  const stringRecord =
-    toSet instanceof URLSearchParams ? Object.fromEntries(toSet) : toSet;
-  const updatedUrl = new URL(window.location.toString());
-  setUrlParams(updatedUrl.searchParams, stringRecord);
-  history.pushState(null, "", updatedUrl);
+type UpdateOrRemoveParams = {
+  toUpdate?: Record<string, Any>;
+  toRemove?: string[];
+};
+
+/**
+ * push new url with updated search url params to window.history
+ */
+export function pushUrlParamsToHistory({
+  toUpdate,
+  toRemove,
+  setter,
+}: UpdateOrRemoveParams & {
+  setter: (update: Any) => void;
+}): void {
+  const urlUpdate = new URL(window.location.toString());
+  const searchParams = urlUpdate.searchParams;
+  if (toUpdate) {
+    const cleaned = cleanUrlParams(toUpdate);
+    setUrlParams(searchParams, cleaned);
+  }
+  if (toRemove) {
+    for (const key of toRemove) {
+      searchParams.delete(key);
+    }
+  }
+  setter(searchParams);
+}
+
+/**
+ * Only keep query properties that differ from the default
+ */
+export function removeDefaultQueryProps<T extends SearchQuery | SearchParams>(
+  props: T,
+  defaultProps: T,
+): Partial<T> {
+  return _.pickBy<T>(props, (v, k) => {
+    return !_.isEqual(defaultProps[k as keyof T], v);
+  }) as Partial<T>;
+}
+
+/**
+ * Url search params that match the default are marked as removable
+ */
+export function markDefaultParamProps(
+  props: Record<string, Any>,
+  defaultProps: Record<string, Any>,
+): UpdateOrRemoveParams {
+  const toUpdate: Record<string, Any> = {};
+  const toRemove: string[] = [];
+  _.forOwn(props, (v, k) => {
+    if (_.isEqual(defaultProps[k], v)) {
+      toRemove.push(k);
+    } else {
+      toUpdate[k] = v;
+    }
+  });
+  return { toUpdate, toRemove };
+}
+
+export function addDefaultQuery(
+  defaultQuery: SearchQuery,
+  deduplicated: Partial<SearchQuery>,
+) {
+  return { ...defaultQuery, ...deduplicated };
 }

@@ -21,7 +21,7 @@ import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 
 type SearchResultsProps = {
-  query: SearchQuery;
+  searchQuery: SearchQuery;
   onSearch: () => void;
   onPageChange: () => void;
 };
@@ -29,8 +29,10 @@ type SearchResultsProps = {
 export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { searchResults } = useSearchStore();
-  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
+  const { searchQuery } = props;
+  const { updateSearchQuery, searchParams, updateSearchParams } =
     useSearchUrlParams();
+
   const {
     hasPrevPage,
     selectPrevPage,
@@ -243,7 +245,7 @@ export function SearchResults(props: SearchResultsProps) {
             <projectConfig.components.SearchItem
               key={index}
               result={result}
-              query={props.query}
+              query={searchQuery}
             />
           ))}
         {searchResults.results.length >= 1 && (
