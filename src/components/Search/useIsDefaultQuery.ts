@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import _ from "lodash";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 export function useIsDefaultQuery() {
-  const { searchQuery } = useSearchUrlParams();
+  const { searchQuery } = useUrlSearchParamsStore();
   const [isDefaultQuery, setIsDefaultQuery] = useState(false);
   const { defaultQuery } = useSearchStore();
 

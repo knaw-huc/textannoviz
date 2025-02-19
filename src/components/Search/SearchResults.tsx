@@ -17,8 +17,8 @@ import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
 import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 type SearchResultsProps = {
   searchQuery: SearchQuery;
@@ -31,7 +31,7 @@ export function SearchResults(props: SearchResultsProps) {
   const { searchResults } = useSearchStore();
   const { searchQuery } = props;
   const { updateSearchQuery, searchParams, updateSearchParams } =
-    useSearchUrlParams();
+    useUrlSearchParamsStore();
 
   const {
     hasPrevPage,

@@ -1,4 +1,3 @@
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { useEffect } from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -9,6 +8,8 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
+import { useInitSearchUrlParams } from "./useInitSearchUrlParams.tsx";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -32,9 +33,10 @@ export function useInitSearch() {
 
   const { getSearchResults } = useSearchResults();
   const { searchQuery, isInitSearchUrlParams, searchParams } =
-    useSearchUrlParams();
+    useUrlSearchParamsStore();
 
   useInitDefaultQuery();
+  useInitSearchUrlParams();
 
   useEffect(() => {
     if (

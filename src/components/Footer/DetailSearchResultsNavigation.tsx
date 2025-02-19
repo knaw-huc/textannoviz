@@ -6,13 +6,13 @@ import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
 import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
-import { useSearchUrlParams } from "../Search/useSearchUrlParams.tsx";
 import { getUrlParams } from "../../utils/UrlParamUtils.ts";
+import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 
 export function DetailSearchResultsNavigation() {
   const translate = useProjectStore(translateSelector);
   const { findResultId, navigateDetail } = useDetailNavigation();
-  const { searchQuery, searchParams } = useSearchUrlParams();
+  const { searchParams, searchQuery } = useUrlSearchParamsStore();
   const { searchResults, searchFacetTypes, setSearchResults } =
     useSearchStore();
   const { hasNextPage, getNextFrom, hasPrevPage, getPrevFrom } =

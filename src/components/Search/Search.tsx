@@ -15,15 +15,15 @@ import { SearchLoadingSpinner } from "./SearchLoadingSpinner.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useInitSearch } from "./useInitSearch.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { useIsDefaultQuery } from "./useIsDefaultQuery.ts";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isDirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { searchQuery, searchParams } = useSearchUrlParams();
+  const { searchQuery, searchParams } = useUrlSearchParamsStore();
   const { isInitSearch, isLoadingSearch } = useSearchStore();
 
   useInitSearch();
