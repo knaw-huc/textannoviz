@@ -70,7 +70,7 @@
     "vite": "^4.5.2",
     "vite-plugin-checker": "^0.6.4",
     "vite-plugin-html-injection": "^1.4.2",
-    "vitest": "^1.6.0"
+    "vitest": "^3.0.6"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": "eslint --cache --fix",
