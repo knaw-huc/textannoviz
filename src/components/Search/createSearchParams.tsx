@@ -10,13 +10,13 @@ export const blankSearchParams: SearchParams = {
   sortOrder: "desc",
 };
 
-export type SearchQueryAndParamUrlParams = Partial<
+export type UrlState = Partial<
   SearchParams & {
     query: Partial<SearchQuery>;
   }
 >;
 
-export const blankParams: SearchQueryAndParamUrlParams = {
+export const blankParams: UrlState = {
   ...blankSearchParams,
   query: {},
 };

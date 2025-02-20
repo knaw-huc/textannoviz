@@ -8,17 +8,17 @@ import _, { isNil, isObject, isString, isUndefined } from "lodash";
 import { Any } from "./Any.ts";
 import {
   blankParams,
-  SearchQueryAndParamUrlParams,
+  UrlState,
 } from "../components/Search/createSearchParams.tsx";
 import isEmpty from "lodash/isEmpty";
-import { SearchUrlState } from "../components/Search/useSearchUrlParamsStore.ts";
+import { UrlStateItem } from "../components/Search/useSearchUrlParamsStore.ts";
 
 /**
  * Use template to convert url params to correct type
  * Remove properties that are null or undefined
  */
 export function getUrlSearchParamsFromUrl(
-  template: SearchQueryAndParamUrlParams,
+  template: UrlState,
   urlParams: URLSearchParams,
 ): Partial<SearchParams> {
   return Object.fromEntries(
@@ -147,10 +147,10 @@ export function pushUrlParamsToHistory({
   history.pushState(null, "", urlUpdate);
 }
 
-export function getSearchUrlStateFromUrl(): SearchUrlState {
+export function getSearchUrlStateFromUrl(): UrlStateItem {
   const urlParams = getUrlParams();
   return {
-    urlParams: getUrlSearchParamsFromUrl(blankParams, urlParams),
+    urlState: getUrlSearchParamsFromUrl(blankParams, urlParams),
   };
 }
 
@@ -181,21 +181,4 @@ export function removeOrUpdateParams(
     }
   });
   return { toUpdate, toRemove };
-}
-
-export function removeOrUpdateQuery(
-  query: Partial<SearchQuery>,
-): UpdateOrRemoveParams {
-  if (_.isEmpty(query)) {
-    return { toRemove: ["query"] };
-  } else {
-    return { toUpdate: { query: encodeObject(query) } };
-  }
-}
-
-export function addDefaultQuery(
-  defaultQuery: SearchQuery,
-  deduplicated: Partial<SearchQuery>,
-) {
-  return { ...defaultQuery, ...deduplicated };
 }
