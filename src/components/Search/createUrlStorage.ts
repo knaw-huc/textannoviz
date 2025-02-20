@@ -6,10 +6,14 @@ import {
 } from "../../utils/UrlParamUtils.ts";
 import { UrlStateItem } from "./useSearchUrlParamsStore.ts";
 
+/**
+ * Implementation of zustand StateStorage to persist state as URLSearchParams
+ */
 export function createUrlStorage<T extends object>(
   /**
-   * Object containing all properties with an initial value
-   * used to infer types when converting url values into state
+   * Object containing all properties with an initial value, used to:
+   * 1. find relevant params in URLSearchParams
+   * 2. infer types when converting url values into state
    */
   paramTemplate: T,
 ): StateStorage {
