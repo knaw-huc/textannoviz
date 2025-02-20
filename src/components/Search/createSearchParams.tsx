@@ -1,5 +1,6 @@
 import { ProjectConfig } from "../../model/ProjectConfig.ts";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
+import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
 
 export const blankSearchParams: SearchParams = {
   indexName: "",
@@ -18,7 +19,7 @@ export type SearchUrlState = Partial<
 
 export const blankParams: SearchUrlState = {
   ...blankSearchParams,
-  query: {},
+  query: blankSearchQuery,
 };
 
 export function createSearchParams(props: { projectConfig: ProjectConfig }) {
