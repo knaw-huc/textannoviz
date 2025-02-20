@@ -111,6 +111,19 @@ const createUrlSearchParamsStoreState: StateCreator<
       };
     }
 
+    function initSearchUrlParams(state: SearchUrlParamsStore) {
+      const { searchQuery, urlSearchQuery } = updateSearchQuery(state, {});
+      const { searchParams, urlSearchParams } = updateSearchParams(state, {});
+      return {
+        ...state,
+        searchParams,
+        urlSearchParams,
+        searchQuery,
+        urlSearchQuery,
+        isInitSearchUrlParams: true,
+      };
+    }
+
     return {
       isInitSearchUrlParams: false,
 
@@ -133,22 +146,7 @@ const createUrlSearchParamsStoreState: StateCreator<
       updateSearchParams: (update) =>
         set((state) => updateSearchParams(state, update)),
 
-      initSearchUrlParams: () =>
-        set((state) => {
-          const { searchQuery, urlSearchQuery } = updateSearchQuery(state, {});
-          const { searchParams, urlSearchParams } = updateSearchParams(
-            state,
-            {},
-          );
-          return {
-            ...state,
-            searchParams,
-            urlSearchParams,
-            searchQuery,
-            urlSearchQuery,
-            isInitSearchUrlParams: true,
-          };
-        }),
+      initSearchUrlParams: () => set((state) => initSearchUrlParams(state)),
     };
   },
   {

@@ -8,6 +8,8 @@ import { useSearchStore } from "../../stores/search/search-store.ts";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 /**
+ * // TODO: why is page not reset when updating full text search?
+ *
  * The url is our single source of truth.
  * To keep the search params and query in sync with the url:
  * 1. update url with {@link updateSearchQuery}
