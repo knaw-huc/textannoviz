@@ -4,7 +4,7 @@ import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
 import { SearchParams, SearchQuery } from "../model/Search.ts";
-import _, { isNil, isObject, isString, isUndefined } from "lodash";
+import _, { isNil, isPlainObject, isString, isUndefined } from "lodash";
 import { Any } from "./Any.ts";
 import {
   blankParams,
@@ -34,7 +34,7 @@ export function getUrlSearchParamsFromUrl(
           return [k, urlValue === "true"];
         } else if (isString(templateValue)) {
           return [k, urlValue];
-        } else if (isObject(templateValue)) {
+        } else if (isPlainObject(templateValue)) {
           return [k, decodeObject(urlValue)];
         } else {
           throw new Error(`Unexpected type: ${k}=${templateValue}`);
@@ -44,11 +44,11 @@ export function getUrlSearchParamsFromUrl(
   );
 }
 
-type ParamValueType = string | boolean | number;
+type ParamValueType = string | boolean | number | object;
 type UrlSearchParamRecord = Record<string, ParamValueType>;
 
 function isEmptyObject(v: Any) {
-  return isObject(v) && isEmpty(v);
+  return isPlainObject(v) && isEmpty(v);
 }
 
 /**
@@ -62,7 +62,7 @@ export function cleanUrlParams(
   return _(merged)
     .pickBy((v) => !_.isNil(v))
     .filter((v) => {
-      if (!isObject(v)) {
+      if (!isPlainObject(v)) {
         return true;
       }
       throw new Error("Can not clean object");
@@ -76,7 +76,7 @@ export function toUrlParams(
 ): Record<string, string> {
   return _(merged)
     .pickBy((v) => !isNil(v) && !isEmptyObject(v))
-    .mapValues((v) => (isObject(v) ? encodeObject(v) : `${v}`))
+    .mapValues((v) => (isPlainObject(v) ? encodeObject(v as object) : `${v}`))
     .value() as Record<string, string>;
 }
 
@@ -174,7 +174,7 @@ export function removeOrUpdateParams(
   const toUpdate: Record<string, Any> = {};
   const toRemove: string[] = [];
   _.forOwn(template, (_, k) => {
-    if (isUndefined(update[k])) {
+    if (isUndefined(update[k]) || isEmptyObject(update[k])) {
       toRemove.push(k);
     } else {
       toUpdate[k] = update[k];
