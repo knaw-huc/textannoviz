@@ -13,6 +13,9 @@ import {
 import _ from "lodash";
 
 type SearchUrlParamsState = {
+  searchQuery: SearchQuery;
+  searchParams: SearchParams;
+
   /**
    * When init, the defaults have been generated and can be used
    * to generate the query and params from store state + url params:
@@ -23,11 +26,7 @@ type SearchUrlParamsState = {
   defaultSearchQuery: SearchQuery;
   defaultSearchParams: SearchParams;
 
-  // Properties that differ from the default are stored in url:
-  searchQuery: SearchQuery;
-  searchParams: SearchParams;
-
-  // Differences between current and default:
+  // Param and query properties that differ from the default are stored in url:
   urlSearchQuery: Partial<SearchQuery>;
   urlSearchParams: Partial<SearchParams>;
 };
