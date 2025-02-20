@@ -12,25 +12,6 @@ import {
 } from "../../utils/UrlParamUtils.ts";
 import _ from "lodash";
 
-const persistentStorage: StateStorage = {
-  getItem: (): string =>
-    JSON.stringify({ state: getStateStorageItemFromUrl() }),
-  // @ts-expect-error unused key
-  setItem: (key, newValue: string): void => {
-    const { urlSearchParams, urlSearchQuery } = JSON.parse(newValue).state;
-    const paramUpdate = removeOrUpdateParams(
-      urlSearchParams,
-      blankSearchParams,
-    );
-    const queryUpdate = removeOrUpdateQuery(urlSearchQuery);
-    const updateOrRemove = _.merge(paramUpdate, queryUpdate);
-    pushUrlParamsToHistory(updateOrRemove);
-  },
-  removeItem: (): void => {
-    throw new Error("not implemented");
-  },
-};
-
 type SearchUrlParamsState = {
   /**
    * When init, the defaults have been generated and can be used
@@ -51,6 +32,25 @@ type SearchUrlParamsState = {
   urlSearchParams: Partial<SearchParams>;
 };
 
+const persistentStorage: StateStorage = {
+  getItem: (): string =>
+    JSON.stringify({ state: getStateStorageItemFromUrl() }),
+  // @ts-expect-error unused key
+  setItem: (key, newValue: string): void => {
+    const { urlSearchParams, urlSearchQuery } = JSON.parse(newValue).state;
+    const paramUpdate = removeOrUpdateParams(
+      urlSearchParams,
+      blankSearchParams,
+    );
+    const queryUpdate = removeOrUpdateQuery(urlSearchQuery);
+    const updateOrRemove = _.merge(paramUpdate, queryUpdate);
+    pushUrlParamsToHistory(updateOrRemove);
+  },
+  removeItem: (): void => {
+    throw new Error("not implemented");
+  },
+};
+
 export type SearchUrlState = Pick<
   SearchUrlParamsState,
   "urlSearchQuery" | "urlSearchParams"
@@ -63,7 +63,6 @@ type SearchUrlParamsStore = SearchUrlParamsState & {
   updateSearchParams: (update: Partial<SearchParams>) => void;
   updateSearchQuery: (update: Partial<SearchQuery>) => void;
 
-  // Initialize search params and query from defaults and url values:
   initSearchUrlParams: () => void;
 };
 
