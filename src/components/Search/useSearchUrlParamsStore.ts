@@ -114,9 +114,9 @@ const createUrlSearchParamsStoreState: StateCreator<
     }
 
     function initSearchUrlParams(state: SearchUrlParamsStore) {
-      const updatedState = updateSearchQuery(state, {});
-      const searchQuery = updatedState.searchQuery;
-      const { searchParams, urlState } = updateSearchParams(updatedState, {});
+      let stateUpdate = updateSearchQuery(state, {});
+      stateUpdate = updateSearchParams(stateUpdate, {});
+      const { searchQuery, searchParams, urlState } = stateUpdate;
 
       return {
         ...state,
