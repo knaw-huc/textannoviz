@@ -4,10 +4,13 @@ import {
   pushUrlParamsToHistory,
   removeOrUpdateParams,
 } from "../../utils/UrlParamUtils.ts";
-import { UrlStateItem } from "./useSearchUrlParamsStore.ts";
+
+export type UrlStateItem<T> = {
+  urlState: Partial<T>;
+};
 
 /**
- * Implementation of zustand StateStorage to persist state as URLSearchParams
+ * Implement zustand StateStorage to persist state as URLSearchParams
  */
 export function createUrlStorage<T extends object>(
   /**

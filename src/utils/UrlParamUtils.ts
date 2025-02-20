@@ -7,7 +7,8 @@ import { SearchParams, SearchQuery } from "../model/Search.ts";
 import _, { isNil, isPlainObject, isString, isUndefined } from "lodash";
 import { Any } from "./Any.ts";
 import isEmpty from "lodash/isEmpty";
-import { UrlStateItem } from "../components/Search/useSearchUrlParamsStore.ts";
+
+import { UrlStateItem } from "../components/Search/createUrlStorage.ts";
 
 /**
  * Use template to convert url params to correct type

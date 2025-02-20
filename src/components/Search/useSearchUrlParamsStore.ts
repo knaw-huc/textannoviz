@@ -28,10 +28,6 @@ type SearchUrlParamsState = {
   urlState: SearchUrlState;
 };
 
-export type UrlStateItem<T> = {
-  urlState: Partial<T>;
-};
-
 type SearchUrlParamsStore = SearchUrlParamsState & {
   setDefaultSearchParams: (update: SearchParams) => void;
   setDefaultSearchQuery: (update: SearchQuery) => void;
