@@ -1,13 +1,13 @@
 import { Skeleton } from "primereact/skeleton";
 import { useState } from "react";
-import { Annotation } from "./components/Annotations/Annotation.tsx";
+import { Annotation } from "./components/Detail/Annotations/Annotation.tsx";
+import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { Footer } from "./components/Footer/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
+import { useInitSearch } from "./components/Search/useInitSearch.ts";
 import { TextComponent } from "./components/Text/TextComponent";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
-import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
-import { useInitSearch } from "./components/Search/useInitSearch.ts";
 
 interface DetailProps {
   project: string;

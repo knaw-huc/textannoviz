@@ -1,4 +1,7 @@
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project";
 import { BrowseScanButtons } from "../Footer/BrowseScanButtons";
 
 export const AnnotationButtons = () => {

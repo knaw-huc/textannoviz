@@ -1,9 +1,12 @@
 import mirador from "mirador-knaw-huc-mui5";
 import React from "react";
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
-import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
-import { AnnotationItemContent } from "./AnnotationItemContent";
+import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation.ts";
+import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
+import { AnnotationItemContent } from "./AnnotationItemContent.tsx";
 
 type AnnotationSnippetProps = {
   annotation: AnnoRepoAnnotation;
