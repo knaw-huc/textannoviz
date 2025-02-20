@@ -4,7 +4,7 @@ import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
 import { SearchParams, SearchQuery } from "../model/Search.ts";
-import _ from "lodash";
+import _, { isUndefined } from "lodash";
 import { Any } from "./Any.ts";
 import { SearchUrlState } from "../components/Search/useSearchUrlParamsStore.ts";
 import { blankSearchParams } from "../components/Search/createSearchParams.tsx";
@@ -138,9 +138,8 @@ export function removeOrUpdateParams(
 ): UpdateOrRemoveParams {
   const toUpdate: Record<string, Any> = {};
   const toRemove: string[] = [];
-  // @ts-expect-error unused value
-  _.forOwn(template, (v, k) => {
-    if (_.isUndefined(update[k])) {
+  _.forOwn(template, (_, k) => {
+    if (isUndefined(update[k])) {
       toRemove.push(k);
     } else {
       toUpdate[k] = update[k];

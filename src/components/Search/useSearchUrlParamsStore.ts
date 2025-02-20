@@ -10,7 +10,7 @@ import {
   removeOrUpdateParams,
   removeOrUpdateQuery,
 } from "../../utils/UrlParamUtils.ts";
-import _ from "lodash";
+import merge from "lodash/merge";
 
 type SearchUrlParamsState = {
   searchQuery: SearchQuery;
@@ -35,15 +35,14 @@ const persistentStorage: StateStorage = {
   getItem: (): string =>
     JSON.stringify({ state: getStateStorageItemFromUrl() }),
 
-  // @ts-expect-error unused key
-  setItem: (key, newValue: string): void => {
+  setItem: (_, newValue: string): void => {
     const { urlSearchParams, urlSearchQuery } = JSON.parse(newValue).state;
     const paramUpdate = removeOrUpdateParams(
       urlSearchParams,
       blankSearchParams,
     );
     const queryUpdate = removeOrUpdateQuery(urlSearchQuery);
-    const updateOrRemove = _.merge(paramUpdate, queryUpdate);
+    const updateOrRemove = merge(paramUpdate, queryUpdate);
     pushUrlParamsToHistory(updateOrRemove);
   },
 
