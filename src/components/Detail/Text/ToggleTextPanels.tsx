@@ -1,13 +1,13 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import React from "react";
-import { ProjectConfig } from "../../model/ProjectConfig";
+import { ProjectConfig } from "../../../model/ProjectConfig";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
-} from "../../stores/project";
-import { useTextStore } from "../../stores/text";
+} from "../../../stores/project";
+import { useTextStore } from "../../../stores/text";
 
 type ToggleTextPanelsProps = {
   textPanelsCheckboxHandler: (event: CheckboxChangeEvent) => void;

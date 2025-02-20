@@ -1,4 +1,4 @@
-import { MiradorConfig } from "../../model/MiradorConfig";
+import { MiradorConfig } from "../../../model/MiradorConfig";
 
 type Action = {
   annotationId: string;

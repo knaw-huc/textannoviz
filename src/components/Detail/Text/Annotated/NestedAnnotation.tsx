@@ -1,14 +1,14 @@
 import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../../stores/project.ts";
+import {
   AnnotationSegment,
   isNestedAnnotationSegment,
   Segment,
 } from "./AnnotationModel.ts";
-import { createAnnotationClasses } from "./utils/createAnnotationClasses.ts";
 import { HighlightAnnotations } from "./HighlightAnnotations.tsx";
-import {
-  projectConfigSelector,
-  useProjectStore,
-} from "../../../stores/project.ts";
+import { createAnnotationClasses } from "./utils/createAnnotationClasses.ts";
 
 export type NestedAnnotationProps = {
   segment: Segment;

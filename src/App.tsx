@@ -1,11 +1,11 @@
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { Detail } from "./components/Detail/Detail.tsx";
+import { detailTier2Path } from "./components/Detail/Text/Annotated/utils/detailPath.ts";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
-import { detailTier2Path } from "./components/Text/Annotated/utils/detailPath.ts";
-import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";

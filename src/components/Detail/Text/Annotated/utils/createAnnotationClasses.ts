@@ -1,3 +1,5 @@
+import { CategoryGetter } from "../../../../../model/ProjectConfig.ts";
+import { Any } from "../../../../../utils/Any.ts";
 import {
   AnnotationSegment,
   HighlightSegment,
@@ -7,8 +9,6 @@ import {
   NestedAnnotationSegment,
   Segment,
 } from "../AnnotationModel.ts";
-import { Any } from "../../../../utils/Any.ts";
-import { CategoryGetter } from "../../../../model/ProjectConfig.ts";
 
 export function createAnnotationClasses(
   segment: Segment,

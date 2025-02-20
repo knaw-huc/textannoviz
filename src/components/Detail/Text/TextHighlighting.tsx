@@ -1,12 +1,12 @@
 import React from "react";
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
-import { BroccoliTextGeneric } from "../../model/Broccoli";
-import { useAnnotationStore } from "../../stores/annotation";
-import { useProjectStore } from "../../stores/project";
+import { AnnoRepoAnnotation } from "../../../model/AnnoRepoAnnotation";
+import { BroccoliTextGeneric } from "../../../model/Broccoli";
+import { useAnnotationStore } from "../../../stores/annotation";
+import { useProjectStore } from "../../../stores/project";
+import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
+import { normalizeClassname } from "./Annotated/utils/createAnnotationClasses.ts";
 import { getAnnotationsByTypes } from "./Annotated/utils/getAnnotationsByTypes.ts";
 import { createSearchRegex } from "./createSearchRegex.tsx";
-import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
-import { normalizeClassname } from "./Annotated/utils/createAnnotationClasses.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;

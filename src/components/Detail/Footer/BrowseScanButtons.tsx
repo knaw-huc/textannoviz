@@ -1,15 +1,15 @@
 import mirador from "mirador-knaw-huc-mui5";
 import { Button } from "react-aria-components";
-import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
-import { useAnnotationStore } from "../../stores/annotation";
-import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
-import { useMiradorStore } from "../../stores/mirador.ts";
+import { CanvasTarget } from "../../../model/AnnoRepoAnnotation";
+import { useAnnotationStore } from "../../../stores/annotation";
+import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
+import { useMiradorStore } from "../../../stores/mirador.ts";
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
-} from "../../stores/project";
-import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
+} from "../../../stores/project";
+import { visualizeAnnosMirador } from "../../../utils/visualizeAnnosMirador";
 
 export function BrowseScanButtons() {
   const translate = useProjectStore(translateSelector);

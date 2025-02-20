@@ -1,14 +1,17 @@
 import mirador from "mirador-knaw-huc-mui5";
 import React from "react";
-import { iiifAnn } from "../../model/AnnoRepoAnnotation";
-import { Iiif } from "../../model/Broccoli";
-import { MiradorConfig } from "../../model/MiradorConfig";
-import { ProjectConfig } from "../../model/ProjectConfig";
-import { useAnnotationStore } from "../../stores/annotation";
-import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
-import { miradorSelector, useMiradorStore } from "../../stores/mirador.ts";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
-import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
+import { iiifAnn } from "../../../model/AnnoRepoAnnotation";
+import { Iiif } from "../../../model/Broccoli";
+import { MiradorConfig } from "../../../model/MiradorConfig";
+import { ProjectConfig } from "../../../model/ProjectConfig";
+import { useAnnotationStore } from "../../../stores/annotation";
+import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
+import { miradorSelector, useMiradorStore } from "../../../stores/mirador.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project";
+import { visualizeAnnosMirador } from "../../../utils/visualizeAnnosMirador";
 import { defaultMiradorConfig } from "./defaultMiradorConfig";
 import { observeMiradorStore } from "./utils/observeMiradorStore.ts";
 import { zoomAnnoMirador } from "./zoomAnnoMirador";

@@ -1,4 +1,7 @@
-import { AnnoRepoBody, MarkerBody } from "../../../model/AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoBody,
+  MarkerBody,
+} from "../../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * Annotation types:

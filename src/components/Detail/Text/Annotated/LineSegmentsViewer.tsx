@@ -1,11 +1,11 @@
-import { LineSegment } from "./LineSegment.tsx";
-import { Segment } from "./AnnotationModel.ts";
-import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
 import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
-} from "../../../stores/project.ts";
+} from "../../../../stores/project.ts";
+import { Segment } from "./AnnotationModel.ts";
+import { LineSegment } from "./LineSegment.tsx";
+import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
 
 export type LineSegmentsViewerProps = {
   segments: Segment[];
