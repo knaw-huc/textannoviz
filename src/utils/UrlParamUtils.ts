@@ -6,33 +6,8 @@ import { Base64 } from "js-base64";
 import { SearchParams, SearchQuery } from "../model/Search.ts";
 import _ from "lodash";
 import { Any } from "./Any.ts";
-import { blankSearchParams } from "../components/Search/createSearchParams.tsx";
 import { SearchUrlState } from "../components/Search/useSearchUrlParamsStore.ts";
-
-/**
- * Merge the properties in {@link template} with params of the same name in ${@link urlParams}.
- * Url param are converted to number or boolean to match the type in {@link template}.
- */
-export function getSearchParamsFromUrl<T extends UrlSearchParamRecord>(
-  template: T,
-  urlParams: URLSearchParams,
-): T {
-  return Object.fromEntries(
-    Object.entries(template).map(([k, v]) => {
-      const urlValue = urlParams.get(k);
-      if (!urlValue) {
-        return [k, v];
-      }
-      if (isNumber(v)) {
-        return [k, toNumber(urlValue)];
-      } else if (isBoolean(v)) {
-        return [k, urlValue === "true"];
-      } else {
-        return [k, urlValue];
-      }
-    }),
-  ) as T;
-}
+import { blankSearchParams } from "../components/Search/createSearchParams.tsx";
 
 /**
  * Use template to convert url params to correct type
@@ -81,20 +56,6 @@ export function cleanUrlParams(
 
 export function encodeSearchQuery(query: Partial<SearchQuery>): string {
   return Base64.toBase64(JSON.stringify(query));
-}
-
-export function getSearchQueryFromUrl(
-  baseSearchQuery: SearchQuery,
-  urlParams: URLSearchParams,
-): SearchQuery {
-  const queryEncoded = urlParams.get(QUERY);
-  if (!queryEncoded) {
-    return baseSearchQuery;
-  }
-  const parsed: Partial<SearchQuery> = JSON.parse(
-    Base64.fromBase64(queryEncoded),
-  );
-  return addDefaultQuery(baseSearchQuery, parsed);
 }
 
 export function getUrlSearchQueryFromUrl(

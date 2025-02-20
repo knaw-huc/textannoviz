@@ -35,6 +35,7 @@ type SearchUrlParamsState = {
 const persistentStorage: StateStorage = {
   getItem: (): string =>
     JSON.stringify({ state: getStateStorageItemFromUrl() }),
+
   // @ts-expect-error unused key
   setItem: (key, newValue: string): void => {
     const { urlSearchParams, urlSearchQuery } = JSON.parse(newValue).state;
@@ -46,6 +47,7 @@ const persistentStorage: StateStorage = {
     const updateOrRemove = _.merge(paramUpdate, queryUpdate);
     pushUrlParamsToHistory(updateOrRemove);
   },
+
   removeItem: (): void => {
     throw new Error("not implemented");
   },
