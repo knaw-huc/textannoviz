@@ -74,7 +74,8 @@ export function DetailSearchResultsNavigation() {
     setSearchResults(newSearchResults.results);
     navigateDetail({
       path: `/detail/${newResultId}`,
-      params: { from: newFrom },
+      searchParams: { from: newFrom },
+      nextSearchResult: newSearchResults.results,
     });
   }
 
