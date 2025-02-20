@@ -7,11 +7,12 @@ export type TextPanelsSlice = {
 };
 
 export type FootnoteSlice = {
-  activeFootnote: string | null;
+  activeFootnote: string;
   footnoteRefs: Map<string, HTMLSpanElement>;
   registerFootnotes: (footnoteId: string, ref: HTMLSpanElement) => void;
   scrollToFootnote: (footnoteId: string) => void;
   setActiveFootnote: (footnoteId: string) => void;
+  resetActiveFootnote: () => void;
 };
 
 const createFootnoteSlice: StateCreator<
@@ -21,7 +22,7 @@ const createFootnoteSlice: StateCreator<
   FootnoteSlice
 > = (set, get) => ({
   footnoteRefs: new Map(),
-  activeFootnote: null,
+  activeFootnote: "",
 
   registerFootnotes: (footnoteId, ref) =>
     set((state) => {
@@ -35,13 +36,14 @@ const createFootnoteSlice: StateCreator<
     if (ref) {
       ref.scrollIntoView({ behavior: "smooth", block: "center" });
       set({ activeFootnote: footnoteId });
-
-      //Remove highlight after 3 seconds
-      // setTimeout(() => set({ activeFootnote: null }), 3000);
     }
   },
   setActiveFootnote: (footnoteId) => {
     set(() => ({ activeFootnote: footnoteId }));
+  },
+
+  resetActiveFootnote() {
+    set(() => ({ activeFootnote: "" }));
   },
 });
 

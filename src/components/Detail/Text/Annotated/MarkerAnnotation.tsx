@@ -86,13 +86,14 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 }
 
 export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
+  const { registerFootnotes, activeFootnote, setActiveFootnote } =
+    useTextStore();
+  const { setActiveSidebarTab } = useDetailViewStore();
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
   const classNames: string[] = [];
   classNames.push(...createTooltipMarkerClasses(marker));
-  const { registerFootnotes, activeFootnote, setActiveFootnote } =
-    useTextStore();
-  const { setActiveSidebarTab } = useDetailViewStore();
+
   const footnoteId = marker.body.metadata.target.split("#")[1];
 
   useEffect(() => {

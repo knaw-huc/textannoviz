@@ -4,6 +4,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { useTextStore } from "../../stores/text.ts";
 import {
   cleanUrlParams,
   encodeSearchQuery,
@@ -23,6 +24,7 @@ import { createSearchQuery } from "./createSearchQuery.tsx";
  */
 export function useSearchUrlParams() {
   const projectConfig = useProjectStore(projectConfigSelector);
+  const { resetActiveFootnote } = useTextStore();
 
   const urlParams = getUrlParams();
 
@@ -41,6 +43,7 @@ export function useSearchUrlParams() {
     const urlParams = getUrlParams();
     setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
     setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
+    resetActiveFootnote();
   }, [window.location.search]);
 
   /**
