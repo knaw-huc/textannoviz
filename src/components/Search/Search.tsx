@@ -23,7 +23,8 @@ export const Search = () => {
   const [isDirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { searchQuery, searchParams } = useUrlSearchParamsStore();
+  const { searchQuery, searchParams, updateSearchParams } =
+    useUrlSearchParamsStore();
   const { isInitSearch, isLoadingSearch } = useSearchStore();
 
   useInitSearch();
@@ -105,6 +106,7 @@ export const Search = () => {
   }
 
   function handleNewSearch() {
+    updateSearchParams({ from: 0 });
     setDirty(true);
   }
 
