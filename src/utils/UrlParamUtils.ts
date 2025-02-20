@@ -56,12 +56,11 @@ export function cleanUrlParams(
   merged: UrlSearchParamRecord,
 ): Record<string, string> {
   return _(merged)
-    .pickBy((v) => !_.isNil(v))
-    .filter((v) => {
-      if (!isPlainObject(v)) {
-        return true;
+    .pickBy((v) => {
+      if (isPlainObject(v)) {
+        throw new Error("Can not clean object");
       }
-      throw new Error("Can not clean object");
+      return !_.isNil(v);
     })
     .mapValues((v) => `${v}`)
     .value() as Record<string, string>;
