@@ -1,25 +1,21 @@
 import { create, StateCreator } from "zustand";
-import { createJSONStorage, persist, StateStorage } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import {
   blankParams,
   blankSearchParams,
-  UrlState,
+  SearchUrlState,
 } from "./createSearchParams.tsx";
 import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
-import {
-  getSearchUrlStateFromUrl,
-  pushUrlParamsToHistory,
-  removeDefaultProps,
-  removeOrUpdateParams,
-} from "../../utils/UrlParamUtils.ts";
+import { removeDefaultProps } from "../../utils/UrlParamUtils.ts";
+import { createUrlStorage } from "./createUrlStorage.ts";
 
 type SearchUrlParamsState = {
   searchQuery: SearchQuery;
   searchParams: SearchParams;
 
   /**
-   * When init, the defaults have been generated and can be used
+   * When initialized, the defaults have been generated and are used
    * to generate the query and params from store state + url params:
    */
   isInitSearchUrlParams: boolean;
@@ -29,27 +25,11 @@ type SearchUrlParamsState = {
   defaultSearchParams: SearchParams;
 
   // Param and query properties that differ from the default are stored in url:
-  urlState: UrlState;
+  urlState: SearchUrlState;
 };
 
-const persistentStorage: StateStorage = {
-  getItem: (): string => {
-    return JSON.stringify({ state: getSearchUrlStateFromUrl() });
-  },
-
-  setItem: (_, newValue: string): void => {
-    const { urlState } = JSON.parse(newValue).state as UrlStateItem;
-    const paramUpdate = removeOrUpdateParams(urlState, blankParams);
-    pushUrlParamsToHistory(paramUpdate);
-  },
-
-  removeItem: (): void => {
-    throw new Error("not implemented");
-  },
-};
-
-export type UrlStateItem = {
-  urlState: UrlState;
+export type UrlStateItem<T> = {
+  urlState: Partial<T>;
 };
 
 type SearchUrlParamsStore = SearchUrlParamsState & {
@@ -151,9 +131,10 @@ const createUrlSearchParamsStoreState: StateCreator<
       initSearchUrlParams: () => set((state) => initSearchUrlParams(state)),
     };
   },
+
   {
     name: "urlSearchParamsStore",
-    storage: createJSONStorage(() => persistentStorage),
+    storage: createJSONStorage(() => createUrlStorage(blankParams)),
     partialize: (state) => ({
       urlState: state.urlState,
     }),

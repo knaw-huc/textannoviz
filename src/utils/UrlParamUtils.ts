@@ -6,10 +6,6 @@ import { Base64 } from "js-base64";
 import { SearchParams, SearchQuery } from "../model/Search.ts";
 import _, { isNil, isPlainObject, isString, isUndefined } from "lodash";
 import { Any } from "./Any.ts";
-import {
-  blankParams,
-  UrlState,
-} from "../components/Search/createSearchParams.tsx";
 import isEmpty from "lodash/isEmpty";
 import { UrlStateItem } from "../components/Search/useSearchUrlParamsStore.ts";
 
@@ -17,10 +13,10 @@ import { UrlStateItem } from "../components/Search/useSearchUrlParamsStore.ts";
  * Use template to convert url params to correct type
  * Remove properties that are null or undefined
  */
-export function getUrlSearchParamsFromUrl(
-  template: UrlState,
+export function getTypedParamsFromUrl<T extends object>(
+  template: T,
   urlParams: URLSearchParams,
-): Partial<SearchParams> {
+): Partial<T> {
   return Object.fromEntries(
     Object.entries(template)
       .map(([k, templateValue]) => {
@@ -147,10 +143,12 @@ export function pushUrlParamsToHistory({
   history.pushState(null, "", urlUpdate);
 }
 
-export function getSearchUrlStateFromUrl(): UrlStateItem {
+export function getStateFromUrl<T extends object>(
+  template: T,
+): UrlStateItem<T> {
   const urlParams = getUrlParams();
   return {
-    urlState: getUrlSearchParamsFromUrl(blankParams, urlParams),
+    urlState: getTypedParamsFromUrl(template, urlParams),
   };
 }
 
