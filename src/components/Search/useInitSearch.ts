@@ -1,17 +1,15 @@
-import { SearchParams, SearchQuery } from "../../model/Search.ts";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
-import { useDefaultQuery } from "./useDefaultQuery.ts";
-import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { defaultSearchParams } from "./createSearchParams.tsx";
+import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
+import { useInitSearchUrlParams } from "./useInitSearchUrlParams.tsx";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -22,18 +20,31 @@ import { defaultSearchParams } from "./createSearchParams.tsx";
 export function useInitSearch() {
   const projectConfig = useProjectStore(projectConfigSelector);
 
-  const { setSearchResults, setKeywordFacets, searchFacetTypes, defaultQuery } =
-    useSearchStore();
-  const { getSearchResults } = useSearchResults();
-  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
-    useSearchUrlParams();
+  const {
+    setSearchResults,
+    setKeywordFacets,
+    searchFacetTypes,
+    defaultQuery,
+    isInitDefaultQuery,
+    isInitSearch,
+    isLoadingSearch,
+    setSearchInitStatus,
+  } = useSearchStore();
 
-  const [isInitSearch, setIsInitSearch] = useState(false);
-  const [isLoadingSearch, setLoading] = useState(false);
-  const { isInitDefaultQuery } = useDefaultQuery();
+  const { getSearchResults } = useSearchResults();
+  const { searchQuery, isInitSearchUrlParams, searchParams } =
+    useUrlSearchParamsStore();
+
+  useInitDefaultQuery();
+  useInitSearchUrlParams();
 
   useEffect(() => {
-    if (isInitSearch || isLoadingSearch || !isInitDefaultQuery) {
+    if (
+      isInitSearch ||
+      isLoadingSearch ||
+      !isInitDefaultQuery ||
+      !isInitSearchUrlParams
+    ) {
       return;
     }
 
@@ -42,31 +53,21 @@ export function useInitSearch() {
 
     return () => {
       aborter.abort();
-      setLoading(false);
+      setSearchInitStatus({ isLoadingSearch: false });
     };
-  }, [isInitSearch, isInitDefaultQuery]);
+  }, [isInitSearch, isInitDefaultQuery, isInitSearchUrlParams]);
 
   async function initSearch(aborter: AbortController) {
-    setLoading(true);
-
-    const newSearchParams: SearchParams = _.merge(
-      {},
-      defaultSearchParams,
-      searchParams,
-    );
-    updateSearchParams(newSearchParams);
-
-    const newSearchQuery: SearchQuery = _.merge({}, defaultQuery, searchQuery);
-    updateSearchQuery(newSearchQuery);
+    setSearchInitStatus({ isLoadingSearch: true });
 
     if (
       projectConfig.showSearchResultsOnInfoPage ||
-      isSearchableQuery(newSearchQuery, defaultQuery)
+      isSearchableQuery(searchQuery, defaultQuery)
     ) {
       const searchResults = await getSearchResults(
         searchFacetTypes,
         searchParams,
-        newSearchQuery,
+        searchQuery,
         aborter.signal,
       );
       if (searchResults) {
@@ -75,12 +76,11 @@ export function useInitSearch() {
       }
     }
 
-    setLoading(false);
-    setIsInitSearch(true);
+    setSearchInitStatus({
+      isLoadingSearch: false,
+      isInitSearch: true,
+    });
   }
 
-  return {
-    isInitSearch,
-    isLoadingSearch,
-  };
+  return;
 }

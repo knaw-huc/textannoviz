@@ -4,21 +4,15 @@ import {
   getUrlParams,
   setUrlParams,
 } from "../../utils/UrlParamUtils.ts";
-import { SearchResult } from "../../model/Search.ts";
+import { SearchParams, SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
 import _ from "lodash";
 import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
+import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 
 export type DetailUrlSearchParams = {
   highlight?: string;
-  from?: number;
-
-  /**
-   * Remember last search result when navigating away from a search result
-   * on the detail page, to be able to navigate to next/prev search result
-   */
-  lastSearchResult?: string;
 };
 
 export type DetailParams = DetailUrlSearchParams & {
@@ -30,13 +24,16 @@ export type NavigateDetailProps =
   | PathName
   | {
       path: string;
-      params: DetailUrlSearchParams;
+      searchParams?: Pick<SearchParams, "from">;
+      // When result update is not yet synced to store:
+      nextSearchResult?: SearchResult;
     };
 
 export function useDetailNavigation() {
   const params = useParams();
   const { searchResults } = useSearchStore();
   const navigate = useNavigate();
+  const { updateSearchParams } = useUrlSearchParamsStore();
 
   /**
    * Wrapper of useNavigate hook that sets and updates url search params
@@ -44,25 +41,21 @@ export function useDetailNavigation() {
    */
   function navigateDetail(props: NavigateDetailProps) {
     let path: string;
-    const nextUrlSearchParams: URLSearchParams = getUrlParams();
+    let nextSearchResult;
     if (_.isString(props)) {
       const url = new URL(props, location.toString());
       path = url.pathname;
+      nextSearchResult = searchResults;
     } else {
       path = props.path;
-      setUrlParams(nextUrlSearchParams, cleanUrlParams(props.params));
+      nextSearchResult = props.nextSearchResult ?? searchResults;
+      if (props.searchParams) {
+        updateSearchParams(props.searchParams);
+      }
     }
+    const nextUrlSearchParams = getUrlParams();
 
-    const nextTier2 = matchPath(detailTier2Path, path)?.params.tier2;
-    const currentTier2 = matchPath(detailTier2Path, location.pathname)?.params
-      .tier2;
-
-    updateLastSearchResultParam({
-      nextUrlSearchParams,
-      nextTier2,
-      searchResults,
-      currentTier2,
-    });
+    updateLastSearchResultParam(nextUrlSearchParams, path, nextSearchResult);
 
     navigate(`${path}?${nextUrlSearchParams}`);
   }
@@ -110,11 +103,7 @@ export function useDetailNavigation() {
       return lastSearchResultParam;
     }
 
-    console.debug(
-      `No search result found by tier2=${params.tier2}` +
-        ` or ${LAST_SEARCH_RESULT}=${lastSearchResultParam}`,
-    );
-    return undefined;
+    console.warn("findResultId: No last search result found");
   }
 
   return {
@@ -133,13 +122,14 @@ function getTier2Validated(params: Params) {
   return tier2;
 }
 
-function updateLastSearchResultParam(props: {
-  nextTier2?: string;
-  nextUrlSearchParams: URLSearchParams;
-  searchResults?: SearchResult;
-  currentTier2?: string;
-}) {
-  const { nextTier2, nextUrlSearchParams, searchResults, currentTier2 } = props;
+function updateLastSearchResultParam(
+  nextUrlSearchParams: URLSearchParams,
+  path: string,
+  searchResults: SearchResult | undefined,
+) {
+  const nextTier2 = matchPath(detailTier2Path, path)?.params.tier2;
+  const currentTier2 = matchPath(detailTier2Path, location.pathname)?.params
+    .tier2;
 
   const isExitingDetailPage = !nextTier2;
   if (isExitingDetailPage) {

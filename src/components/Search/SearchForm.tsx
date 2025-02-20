@@ -22,9 +22,9 @@ import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { FacetEntry, SearchQuery } from "../../model/Search.ts";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
 import { toast } from "react-toastify";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 interface SearchFormProps {
   onSearch: () => void;
@@ -48,7 +48,7 @@ export function SearchForm(props: SearchFormProps) {
 
   const { searchResults } = useSearchStore();
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
-    useSearchUrlParams();
+    useUrlSearchParamsStore();
 
   const debouncedOnSearch = React.useCallback(
     debounce(() => {
