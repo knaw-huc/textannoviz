@@ -4,33 +4,40 @@ import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
 import { SearchParams, SearchQuery } from "../model/Search.ts";
-import _, { isUndefined } from "lodash";
+import _, { isNil, isObject, isString, isUndefined } from "lodash";
 import { Any } from "./Any.ts";
+import {
+  blankParams,
+  SearchQueryAndParamUrlParams,
+} from "../components/Search/createSearchParams.tsx";
+import isEmpty from "lodash/isEmpty";
 import { SearchUrlState } from "../components/Search/useSearchUrlParamsStore.ts";
-import { blankSearchParams } from "../components/Search/createSearchParams.tsx";
 
 /**
  * Use template to convert url params to correct type
+ * Remove properties that are null or undefined
  */
 export function getUrlSearchParamsFromUrl(
-  template: SearchParams,
+  template: SearchQueryAndParamUrlParams,
   urlParams: URLSearchParams,
 ): Partial<SearchParams> {
   return Object.fromEntries(
     Object.entries(template)
-      .map(([k, v]) => {
+      .map(([k, templateValue]) => {
         const urlValue = urlParams.get(k);
         if (_.isNil(urlValue)) {
           // Filter out later on
           return [k, urlValue];
-        } else if (isNumber(v)) {
+        } else if (isNumber(templateValue)) {
           return [k, toNumber(urlValue)];
-        } else if (isBoolean(v)) {
+        } else if (isBoolean(templateValue)) {
           return [k, urlValue === "true"];
-        } else if (_.isString(v)) {
+        } else if (isString(templateValue)) {
           return [k, urlValue];
+        } else if (isObject(templateValue)) {
+          return [k, decodeObject(urlValue)];
         } else {
-          throw new Error(`Unexpected type: ${k}=${v}`);
+          throw new Error(`Unexpected type: ${k}=${templateValue}`);
         }
       })
       .filter(([, v]) => !_.isNil(v)),
@@ -39,6 +46,10 @@ export function getUrlSearchParamsFromUrl(
 
 type ParamValueType = string | boolean | number;
 type UrlSearchParamRecord = Record<string, ParamValueType>;
+
+function isEmptyObject(v: Any) {
+  return isObject(v) && isEmpty(v);
+}
 
 /**
  * Clean up record:
@@ -50,22 +61,47 @@ export function cleanUrlParams(
 ): Record<string, string> {
   return _(merged)
     .pickBy((v) => !_.isNil(v))
+    .filter((v) => {
+      if (!isObject(v)) {
+        return true;
+      }
+      throw new Error("Can not clean object");
+    })
     .mapValues((v) => `${v}`)
     .value() as Record<string, string>;
 }
 
-export function encodeSearchQuery(query: Partial<SearchQuery>): string {
-  return Base64.toBase64(JSON.stringify(query));
+export function toUrlParams(
+  merged: UrlSearchParamRecord,
+): Record<string, string> {
+  return _(merged)
+    .pickBy((v) => !isNil(v) && !isEmptyObject(v))
+    .mapValues((v) => (isObject(v) ? encodeObject(v) : `${v}`))
+    .value() as Record<string, string>;
+}
+
+export function encodeObject(decoded: object): string {
+  const result = Base64.toBase64(JSON.stringify(decoded));
+  console.log("encodeSearchQuery", {
+    query: decoded,
+    result,
+    isEmpty: isEmptyObject(decoded),
+  });
+  return result;
+}
+
+function decodeObject(encoded: string | null) {
+  if (!encoded) {
+    return {};
+  }
+  return JSON.parse(Base64.fromBase64(encoded));
 }
 
 export function getUrlSearchQueryFromUrl(
   urlParams: URLSearchParams,
 ): Partial<SearchQuery> {
   const queryEncoded = urlParams.get(QUERY);
-  if (!queryEncoded) {
-    return {};
-  }
-  return JSON.parse(Base64.fromBase64(queryEncoded));
+  return decodeObject(queryEncoded);
 }
 
 export function getUrlParams(): URLSearchParams {
@@ -100,7 +136,7 @@ export function pushUrlParamsToHistory({
 }: UpdateOrRemoveParams): void {
   const urlUpdate = new URL(window.location.toString());
   if (toUpdate) {
-    const cleaned = cleanUrlParams(toUpdate);
+    const cleaned = toUrlParams(toUpdate);
     setUrlParams(urlUpdate.searchParams, cleaned);
   }
   if (toRemove) {
@@ -111,11 +147,10 @@ export function pushUrlParamsToHistory({
   history.pushState(null, "", urlUpdate);
 }
 
-export function getStateStorageItemFromUrl(): SearchUrlState {
+export function getSearchUrlStateFromUrl(): SearchUrlState {
   const urlParams = getUrlParams();
   return {
-    urlSearchParams: getUrlSearchParamsFromUrl(blankSearchParams, urlParams),
-    urlSearchQuery: getUrlSearchQueryFromUrl(urlParams),
+    urlParams: getUrlSearchParamsFromUrl(blankParams, urlParams),
   };
 }
 
@@ -133,7 +168,7 @@ export function removeDefaultProps<T extends SearchQuery | SearchParams>(
 
 export function removeOrUpdateParams(
   update: Record<string, Any>,
-  // Should contain all relevant keys
+  // Should contain all relevant keys:
   template: Record<string, Any>,
 ): UpdateOrRemoveParams {
   const toUpdate: Record<string, Any> = {};
@@ -154,7 +189,7 @@ export function removeOrUpdateQuery(
   if (_.isEmpty(query)) {
     return { toRemove: ["query"] };
   } else {
-    return { toUpdate: { query: encodeSearchQuery(query) } };
+    return { toUpdate: { query: encodeObject(query) } };
   }
 }
 

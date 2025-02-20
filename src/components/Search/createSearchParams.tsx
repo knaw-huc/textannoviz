@@ -1,5 +1,5 @@
 import { ProjectConfig } from "../../model/ProjectConfig.ts";
-import { SearchParams } from "../../model/Search.ts";
+import { SearchParams, SearchQuery } from "../../model/Search.ts";
 
 export const blankSearchParams: SearchParams = {
   indexName: "",
@@ -8,6 +8,17 @@ export const blankSearchParams: SearchParams = {
   size: 10,
   sortBy: "_score",
   sortOrder: "desc",
+};
+
+export type SearchQueryAndParamUrlParams = Partial<
+  SearchParams & {
+    query: Partial<SearchQuery>;
+  }
+>;
+
+export const blankParams: SearchQueryAndParamUrlParams = {
+  ...blankSearchParams,
+  query: {},
 };
 
 export function createSearchParams(props: { projectConfig: ProjectConfig }) {

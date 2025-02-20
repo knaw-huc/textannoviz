@@ -1,16 +1,18 @@
 import { create, StateCreator } from "zustand";
 import { createJSONStorage, persist, StateStorage } from "zustand/middleware";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
-import { blankSearchParams } from "./createSearchParams.tsx";
+import {
+  blankParams,
+  blankSearchParams,
+  SearchQueryAndParamUrlParams,
+} from "./createSearchParams.tsx";
 import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
 import {
-  getStateStorageItemFromUrl,
+  getSearchUrlStateFromUrl,
   pushUrlParamsToHistory,
   removeDefaultProps,
   removeOrUpdateParams,
-  removeOrUpdateQuery,
 } from "../../utils/UrlParamUtils.ts";
-import merge from "lodash/merge";
 
 type SearchUrlParamsState = {
   searchQuery: SearchQuery;
@@ -27,23 +29,18 @@ type SearchUrlParamsState = {
   defaultSearchParams: SearchParams;
 
   // Param and query properties that differ from the default are stored in url:
-  urlSearchQuery: Partial<SearchQuery>;
-  urlSearchParams: Partial<SearchParams>;
+  urlParams: SearchQueryAndParamUrlParams;
 };
 
 const persistentStorage: StateStorage = {
-  getItem: (): string =>
-    JSON.stringify({ state: getStateStorageItemFromUrl() }),
+  getItem: (): string => {
+    return JSON.stringify({ state: getSearchUrlStateFromUrl() });
+  },
 
   setItem: (_, newValue: string): void => {
-    const { urlSearchParams, urlSearchQuery } = JSON.parse(newValue).state;
-    const paramUpdate = removeOrUpdateParams(
-      urlSearchParams,
-      blankSearchParams,
-    );
-    const queryUpdate = removeOrUpdateQuery(urlSearchQuery);
-    const updateOrRemove = merge(paramUpdate, queryUpdate);
-    pushUrlParamsToHistory(updateOrRemove);
+    const { urlParams } = JSON.parse(newValue).state;
+    const paramUpdate = removeOrUpdateParams(urlParams, blankParams);
+    pushUrlParamsToHistory(paramUpdate);
   },
 
   removeItem: (): void => {
@@ -51,10 +48,9 @@ const persistentStorage: StateStorage = {
   },
 };
 
-export type SearchUrlState = Pick<
-  SearchUrlParamsState,
-  "urlSearchQuery" | "urlSearchParams"
->;
+export type SearchUrlState = {
+  urlParams: SearchQueryAndParamUrlParams;
+};
 
 type SearchUrlParamsStore = SearchUrlParamsState & {
   setDefaultSearchParams: (update: SearchParams) => void;
@@ -76,17 +72,23 @@ const createUrlSearchParamsStoreState: StateCreator<
     function updateSearchQuery(
       state: SearchUrlParamsStore,
       update: Partial<SearchQuery>,
-    ) {
-      const merged = {
+    ): SearchUrlParamsStore {
+      const currentUrlQuery = state.urlParams.query ?? {};
+      const newQuery = {
         ...state.defaultSearchQuery,
-        ...state.urlSearchQuery,
+        ...currentUrlQuery,
         ...update,
       };
-      const deduplicated = removeDefaultProps(merged, state.defaultSearchQuery);
+      const deduplicatedQuery = removeDefaultProps(
+        newQuery,
+        state.defaultSearchQuery,
+      );
+      const newUrlParams = { ...state.urlParams, query: deduplicatedQuery };
+
       return {
         ...state,
-        searchQuery: merged,
-        urlSearchQuery: deduplicated,
+        searchQuery: newQuery,
+        urlParams: newUrlParams,
       };
     }
 
@@ -94,31 +96,33 @@ const createUrlSearchParamsStoreState: StateCreator<
       state: SearchUrlParamsStore,
       update: Partial<SearchParams>,
     ) {
-      const merged = {
+      const { query, ...currentParams } = state.urlParams;
+      const newParams = {
         ...state.defaultSearchParams,
-        ...state.urlSearchParams,
+        ...currentParams,
         ...update,
       };
-      const deduplicated = removeDefaultProps(
-        merged,
+      const deduplicatedParams = removeDefaultProps(
+        newParams,
         state.defaultSearchParams,
       );
       return {
         ...state,
-        searchParams: merged,
-        urlSearchParams: deduplicated,
+        searchParams: newParams,
+        urlParams: { ...deduplicatedParams, query },
       };
     }
 
     function initSearchUrlParams(state: SearchUrlParamsStore) {
-      const { searchQuery, urlSearchQuery } = updateSearchQuery(state, {});
-      const { searchParams, urlSearchParams } = updateSearchParams(state, {});
+      const updatedState = updateSearchQuery(state, {});
+      const searchQuery = updatedState.searchQuery;
+      const { searchParams, urlParams } = updateSearchParams(updatedState, {});
+
       return {
         ...state,
         searchParams,
-        urlSearchParams,
         searchQuery,
-        urlSearchQuery,
+        urlParams,
         isInitSearchUrlParams: true,
       };
     }
@@ -132,8 +136,7 @@ const createUrlSearchParamsStoreState: StateCreator<
       searchQuery: blankSearchQuery,
       searchParams: blankSearchParams,
 
-      urlSearchQuery: {},
-      urlSearchParams: {},
+      urlParams: {},
 
       setDefaultSearchQuery: (defaultSearchQuery) =>
         set((state) => ({ ...state, defaultSearchQuery })),
@@ -152,8 +155,7 @@ const createUrlSearchParamsStoreState: StateCreator<
     name: "urlSearchParamsStore",
     storage: createJSONStorage(() => persistentStorage),
     partialize: (state) => ({
-      urlSearchQuery: state.urlSearchQuery,
-      urlSearchParams: state.urlSearchParams,
+      urlParams: state.urlParams,
     }),
   },
 );
