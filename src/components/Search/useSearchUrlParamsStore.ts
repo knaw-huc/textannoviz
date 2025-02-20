@@ -55,12 +55,10 @@ export const useUrlSearchParamsStore = create<SearchUrlParamsStore>()(
           newQuery,
           state.defaultSearchQuery,
         );
-        const newUrlState = { ...state.urlState, query: deduplicatedQuery };
-
         return {
           ...state,
           searchQuery: newQuery,
-          urlState: newUrlState,
+          urlState: { ...state.urlState, query: deduplicatedQuery },
         };
       }
 
