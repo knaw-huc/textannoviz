@@ -41,8 +41,8 @@ export function NotesPanel(props: NotesPanelProps) {
       {footnotes.length ? (
         footnotes.map((footnote, index) => (
           <Button
-            className={`w-full cursor-pointer rounded-md bg-white p-2 text-left outline-none transition-all duration-300 ease-in-out hover:underline ${
-              activeFootnote === footnote.id ? "bg-brand2-300" : ""
+            className={`w-full cursor-pointer rounded-md p-2 text-left outline-none transition-all duration-300 ease-in-out hover:underline ${
+              activeFootnote === footnote.id ? "bg-brand2-300" : "bg-white"
             }`}
             key={index}
             onPress={() => footnoteButtonPressHandler(footnote.id)}
