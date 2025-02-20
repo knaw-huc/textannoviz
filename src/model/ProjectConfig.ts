@@ -33,6 +33,7 @@ export type ProjectConfig = SearchConfig &
     useExternalConfig: boolean;
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
+    showNotesTab: boolean;
 
     components: ComponentsConfig;
   };
