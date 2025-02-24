@@ -1,9 +1,5 @@
 import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
-import {
-  cleanUrlParams,
-  getUrlParams,
-  setUrlParams,
-} from "../../utils/UrlParamUtils.ts";
+import { getUrlParams } from "../../utils/UrlParamUtils.ts";
 import { SearchParams, SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
@@ -11,11 +7,8 @@ import _ from "lodash";
 import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 
-export type DetailUrlSearchParams = {
+export type DetailParams = {
   highlight?: string;
-};
-
-export type DetailParams = DetailUrlSearchParams & {
   tier2: string;
 };
 
@@ -33,7 +26,7 @@ export function useDetailNavigation() {
   const params = useParams();
   const { searchResults } = useSearchStore();
   const navigate = useNavigate();
-  const { updateSearchParams } = useUrlSearchParamsStore();
+  const { updateSearchParams, searchQuery } = useUrlSearchParamsStore();
 
   /**
    * Wrapper of useNavigate hook that sets and updates url search params
@@ -64,20 +57,12 @@ export function useDetailNavigation() {
     const tier2 = getTier2Validated(params);
     return {
       tier2,
-      highlight: getUrlParams().get("highlight") || undefined,
+      highlight: searchQuery.fullText,
     };
   }
 
-  function createDetailUrl(
-    resultId: string,
-    detailParams?: DetailUrlSearchParams,
-  ) {
-    const path = `/detail/${resultId}`;
-    const nextUrlSearchParams = getUrlParams();
-    if (detailParams) {
-      setUrlParams(nextUrlSearchParams, cleanUrlParams(detailParams));
-    }
-    return `${path}?${nextUrlSearchParams}`;
+  function createDetailUrl(resultId: string) {
+    return `/detail/${resultId}?${getUrlParams()}`;
   }
 
   /**
