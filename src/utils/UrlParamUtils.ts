@@ -3,7 +3,7 @@ import isNumber from "lodash/isNumber";
 import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
-import { SearchParams, SearchQuery } from "../model/Search.ts";
+import { SearchQuery } from "../model/Search.ts";
 import _, { isNil, isPlainObject, isString, isUndefined } from "lodash";
 import { Any } from "./Any.ts";
 import isEmpty from "lodash/isEmpty";
@@ -155,7 +155,7 @@ export function getStateFromUrl<T extends object>(
 /**
  * Only keep query properties that differ from the default
  */
-export function removeDefaultProps<T extends SearchQuery | SearchParams>(
+export function removeDefaultProps<T extends object>(
   props: T,
   defaultProps: T,
 ): Partial<T> {

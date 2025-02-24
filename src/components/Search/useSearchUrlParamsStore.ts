@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { SearchParams, SearchQuery } from "../../model/Search.ts";
+import { DetailParams, SearchParams, SearchQuery } from "../../model/Search.ts";
 import {
+  blankDetailParams,
   blankParams,
   blankSearchParams,
   SearchUrlState,
@@ -9,10 +10,12 @@ import {
 import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
 import { removeDefaultProps } from "../../utils/UrlParamUtils.ts";
 import { createUrlStorage } from "./createUrlStorage.ts";
+import { omit, pick } from "lodash";
 
 type SearchUrlParamsState = {
   searchQuery: SearchQuery;
   searchParams: SearchParams;
+  detailParams: DetailParams;
 
   /**
    * When initialized, the defaults have been generated and are used
@@ -34,6 +37,7 @@ type SearchUrlParamsStore = SearchUrlParamsState & {
 
   updateSearchParams: (update: Partial<SearchParams>) => void;
   updateSearchQuery: (update: Partial<SearchQuery>) => void;
+  updateDetailParams: (update: Partial<DetailParams>) => void;
 
   initSearchUrlParams: () => void;
 };
@@ -66,10 +70,17 @@ export const useUrlSearchParamsStore = create<SearchUrlParamsStore>()(
         state: SearchUrlParamsState,
         update: Partial<SearchParams>,
       ): SearchUrlParamsState {
-        const { query, ...currentParams } = state.urlState;
+        const currentSearchParams = pick(
+          state.urlState,
+          Object.keys(blankSearchParams),
+        );
+        const otherParams = omit(
+          state.urlState,
+          Object.keys(blankSearchParams),
+        );
         const newParams = {
           ...state.defaultSearchParams,
-          ...currentParams,
+          ...currentSearchParams,
           ...update,
         };
         const deduplicatedParams = removeDefaultProps(
@@ -79,7 +90,35 @@ export const useUrlSearchParamsStore = create<SearchUrlParamsStore>()(
         return {
           ...state,
           searchParams: newParams,
-          urlState: { ...deduplicatedParams, query },
+          urlState: { ...otherParams, ...deduplicatedParams },
+        };
+      }
+
+      function updateDetailParams(
+        state: SearchUrlParamsState,
+        update: Partial<DetailParams>,
+      ): SearchUrlParamsState {
+        const currentDetailParams = pick(
+          state.urlState,
+          Object.keys(blankDetailParams),
+        );
+        const otherParams = omit(
+          state.urlState,
+          Object.keys(blankDetailParams),
+        );
+        const newParams = {
+          ...blankDetailParams,
+          ...currentDetailParams,
+          ...update,
+        };
+        const deduplicatedParams = removeDefaultProps(
+          newParams,
+          blankDetailParams,
+        );
+        return {
+          ...state,
+          detailParams: newParams,
+          urlState: { ...otherParams, ...deduplicatedParams },
         };
       }
 
@@ -106,6 +145,8 @@ export const useUrlSearchParamsStore = create<SearchUrlParamsStore>()(
         searchQuery: blankSearchQuery,
         searchParams: blankSearchParams,
 
+        detailParams: blankDetailParams,
+
         urlState: {},
 
         setDefaultSearchQuery: (defaultSearchQuery) =>
@@ -117,6 +158,8 @@ export const useUrlSearchParamsStore = create<SearchUrlParamsStore>()(
           set((state) => updateSearchQuery(state, update)),
         updateSearchParams: (update) =>
           set((state) => updateSearchParams(state, update)),
+        updateDetailParams: (update) =>
+          set((state) => updateDetailParams(state, update)),
 
         initSearchUrlParams: () => set((state) => initSearchUrlParams(state)),
       };
