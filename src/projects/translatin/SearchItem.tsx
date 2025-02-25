@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { TranslatinSearchResultsBody } from "../../model/Search.ts";
 
-import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
 
 export const SearchItem = (
   props: SearchItemProps<TranslatinSearchResultsBody>,
@@ -11,7 +11,7 @@ export const SearchItem = (
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <li className="mb-3 text-base">
-        <strong>{`${props.result.earliest} - ${props.result.latest}`}</strong>
+        <strong>{props.result.pubYear}</strong>
       </li>
       <Link
         to={createDetailUrl(props.result._id)}
@@ -19,7 +19,7 @@ export const SearchItem = (
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
           <div className="p-4 font-semibold">
-            {`${props.result.latinTitle} (${props.result.manifestation})`}
+            {`${props.result.author}. ${props.result.titleExpanded}. ${props.result.publisher}`}
           </div>
           {props.result._hits?.text.map((hit, index) => (
             <div key={index} className="hover:bg-brand1Grey-50 w-full p-4">
