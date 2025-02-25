@@ -228,6 +228,35 @@ export type SurianoLetterBody = AnnoRepoBodyBase & {
   };
 };
 
+export type TranslatinPartBody = AnnoRepoBodyBase & {
+  metadata: {
+    part: string;
+    prevPart: string;
+    nextPart: string;
+  };
+};
+
+export type TranslatinDramaBody = AnnoRepoBodyBase & {
+  acts: string;
+  author: string;
+  chorus: string;
+  diction: string;
+  drama: string;
+  editor: string;
+  firstEdition: string;
+  genre: string;
+  medium: string;
+  pubPlace: string;
+  pubYear: string;
+  publisher: string;
+  sourceDescription: string;
+  sourceLink: string;
+  titleExpanded: string;
+  titleFull: string;
+  titleShort: string;
+  transcribers: string;
+};
+
 export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {
     document: string;

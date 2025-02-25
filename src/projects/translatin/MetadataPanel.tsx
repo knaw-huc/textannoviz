@@ -1,6 +1,6 @@
 import {
   AnnoRepoAnnotation,
-  TfLetterBody,
+  TranslatinDramaBody,
 } from "../../model/AnnoRepoAnnotation";
 
 type MetadataPanelProps = {
@@ -8,14 +8,14 @@ type MetadataPanelProps = {
 };
 
 export const MetadataPanel = (props: MetadataPanelProps) => {
-  const manifestationAnno = props.annotations.find(
-    (anno) => anno.body.type === "tl:Manifestation",
+  const dramaAnno = props.annotations.find(
+    (anno) => anno.body.type === "tei:Drama",
   );
 
   return (
     <>
       <ul className="m-0 list-none p-0">
-        {Object.entries((manifestationAnno?.body as TfLetterBody).metadata).map(
+        {Object.entries((dramaAnno?.body as TranslatinDramaBody).metadata).map(
           ([key, value], index) => (
             <li className="mb-8" key={index}>
               <div className="grid grid-cols-1">
