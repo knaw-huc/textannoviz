@@ -3,10 +3,10 @@ import { useState } from "react";
 import { Annotation } from "./components/Annotations/Annotation.tsx";
 import { Footer } from "./components/Footer/Footer";
 // import { Mirador } from "./components/Mirador/Mirador";
-import { Panel } from "./components/Detail/Panel.tsx";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { useInitSearch } from "./components/Search/useInitSearch.ts";
 // import { TextComponent } from "./components/Text/TextComponent";
+import { Panels } from "./components/Detail/Panels.tsx";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
 
@@ -43,7 +43,7 @@ export const Detail = (props: DetailProps) => {
       {isInitDetail && isInitSearch ? (
         <>
           <main className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
-            <Panel />
+            <Panels />
             {/* {showIiifViewer && props.config.showMirador ? <Mirador /> : null} */}
             {/* <TextComponent
               panelsToRender={props.config.defaultTextPanels}
