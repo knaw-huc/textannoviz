@@ -8,10 +8,10 @@ import {
 
 type PanelProps = {
   tabsToRender: {
-    id: number;
     title: string;
     content: JSX.Element;
   }[];
+  name: string;
 };
 
 export const Panel = (props: PanelProps) => {
@@ -24,10 +24,21 @@ export const Panel = (props: PanelProps) => {
         className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"
         items={props.tabsToRender}
       >
-        {(item) => <Tab className={tabStyling}>{item.title}</Tab>}
+        {(item) => (
+          <Tab
+            id={`${props.name}-${item.title.toLowerCase()}`}
+            className={tabStyling}
+          >
+            {item.title}
+          </Tab>
+        )}
       </TabList>
       <Collection items={props.tabsToRender}>
-        {(item) => <TabPanel>{item.content}</TabPanel>}
+        {(item) => (
+          <TabPanel id={`${props.name}-${item.title.toLowerCase()}`}>
+            {item.content}
+          </TabPanel>
+        )}
       </Collection>
     </Tabs>
   );

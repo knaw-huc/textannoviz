@@ -8,12 +8,10 @@ export const Panels = () => {
       name: "facs-text",
       tabs: [
         {
-          id: 1,
           title: "Facsimile",
           content: <MiradorTab />,
         },
         {
-          id: 2,
           title: "Text",
           content: <TextComponentTab />,
         },
@@ -23,7 +21,6 @@ export const Panels = () => {
       name: "text",
       tabs: [
         {
-          id: 3,
           title: "Text",
           content: <TextComponentTab />,
         },
@@ -33,7 +30,7 @@ export const Panels = () => {
   return (
     <>
       {panels.map((panel, index) => (
-        <Panel key={index} tabsToRender={panel.tabs} />
+        <Panel key={index} tabsToRender={panel.tabs} name={panel.name} />
       ))}
     </>
   );
