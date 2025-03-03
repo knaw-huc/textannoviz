@@ -110,31 +110,31 @@ function getTier2Validated(params: Params) {
 
 /**
  * @return last result ID when needed
- * @return undefined otherwise
+ * @return empty string otherwise
  */
 function createLastSearchResultParam(
   path: string,
   searchResults: SearchResult | undefined,
-): string | undefined {
+): string {
   const nextTier2 = matchPath(detailTier2Path, path)?.params.tier2;
   const currentTier2 = matchPath(detailTier2Path, location.pathname)?.params
     .tier2;
 
   const isExitingDetailPage = !nextTier2;
   if (isExitingDetailPage) {
-    return undefined;
+    return "";
   }
 
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
   if (!isOnDetailPage) {
-    return undefined;
+    return "";
   }
   if (!searchResults) {
     throw new Error("No search results on detail page");
   }
   const isNavigatingToSearchResult = isIdInResults(searchResults, nextTier2);
   if (isNavigatingToSearchResult) {
-    return undefined;
+    return "";
   }
   const isViewingSearchResult =
     currentTier2 && isIdInResults(searchResults, currentTier2);
@@ -142,9 +142,10 @@ function createLastSearchResultParam(
     return currentTier2;
   }
   if (!isViewingSearchResult && !isNavigatingToSearchResult) {
-    return currentTier2;
+    return currentTier2 ?? "";
   }
   console.warn("Could not determine lastResultId");
+  return "";
 }
 
 function isIdInResults(results: SearchResult, tier2: string) {

@@ -22,7 +22,12 @@ export function createUrlStorage<T extends object>(
 ): StateStorage {
   return {
     getItem: (): string => {
-      return JSON.stringify({ state: getStateFromUrl(paramTemplate) });
+      try {
+        return JSON.stringify({ state: getStateFromUrl(paramTemplate) });
+      } catch (cause) {
+        console.error("Could not get item:", cause);
+        throw new Error("Could not get item", { cause });
+      }
     },
 
     setItem: (_, newValue: string): void => {

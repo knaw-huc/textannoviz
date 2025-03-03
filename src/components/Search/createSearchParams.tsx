@@ -12,7 +12,7 @@ export const blankSearchParams: SearchParams = {
 };
 
 export const blankDetailParams: DetailParams = {
-  lastSearchResult: undefined,
+  lastSearchResult: "",
 };
 
 export type SearchUrlState = Partial<
@@ -24,7 +24,7 @@ export type SearchUrlState = Partial<
 export const blankParams: SearchUrlState = {
   ...blankSearchParams,
   query: blankSearchQuery,
-  lastSearchResult: undefined,
+  ...blankDetailParams,
 };
 
 export function createSearchParams(props: { projectConfig: ProjectConfig }) {

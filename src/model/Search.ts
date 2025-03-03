@@ -185,8 +185,10 @@ export type DetailParams = {
   /**
    * Remember last search result when navigating away from a search result
    * on the detail page, to be able to navigate to next/prev search result
+   *
+   * Is empty string when not needed
    */
-  lastSearchResult?: string;
+  lastSearchResult: string;
 };
 
 export type FacetEntry = [FacetName, Facet];
