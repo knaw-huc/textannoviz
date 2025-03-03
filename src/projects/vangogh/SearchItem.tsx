@@ -22,11 +22,11 @@ export const SearchItem = (
 
   const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}, ${formattedDate}`;
 
-  const queryUrlParam = encodeObject(QUERY, _.pick(props.query, "fullText"));
+  const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
-        to={`/detail/${props.result._id}?${queryUrlParam}`}
+        to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">

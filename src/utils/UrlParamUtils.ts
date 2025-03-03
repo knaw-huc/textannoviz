@@ -66,21 +66,22 @@ export function cleanUrlParams(
     .value() as Record<string, string>;
 }
 
-export function encodeObject(name: string, decoded: object): string {
-  const result = qs.stringify({ [name]: decoded }, { encodeValuesOnly: true });
-  console.log("encodeSearchQuery", {
-    query: decoded,
-    result,
-    isEmpty: isEmptyObject(decoded),
+export function encodeObject(decoded: object): string {
+  return qs.stringify(decoded, {
+    encodeValuesOnly: true,
+    arrayFormat: "comma",
+    commaRoundTrip: true,
   });
-  return result;
 }
 
 export function decodeObject(encoded: string | null) {
   if (!encoded) {
     return {};
   }
-  return qs.parse(encoded);
+  return qs.parse(encoded, {
+    ignoreQueryPrefix: true,
+    comma: true,
+  });
 }
 
 export function getUrlParams(): URLSearchParams {
