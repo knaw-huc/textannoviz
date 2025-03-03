@@ -112,8 +112,7 @@ export function pushUrlParamsToHistory(params: UpdateOrRemoveParams) {
       ...paramUpdate,
       ...toUpdate,
     };
-    urlUpdate.search =
-      "?" + qs.stringify(allEntries, { encodeValuesOnly: true });
+    urlUpdate.search = "?" + encodeObject(allEntries);
   }
 
   history.pushState(null, "", urlUpdate);
@@ -122,9 +121,7 @@ export function pushUrlParamsToHistory(params: UpdateOrRemoveParams) {
 export function getStateFromUrl<T extends object>(
   template: T,
 ): UrlStateItem<T> {
-  const urlParams = qs.parse(window.location.search, {
-    ignoreQueryPrefix: true,
-  });
+  const urlParams = decodeObject(window.location.search);
   return { urlState: getTypedParamsFromUrl(template, urlParams) };
 }
 
