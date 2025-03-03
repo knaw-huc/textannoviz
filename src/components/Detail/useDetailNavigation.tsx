@@ -26,7 +26,7 @@ export function useDetailNavigation() {
   const params = useParams();
   const { searchResults } = useSearchStore();
   const navigate = useNavigate();
-  const { updateSearchParams, updateDetailParams, searchQuery } =
+  const { updateSearchParams, updateDetailParams, searchQuery, detailParams } =
     useUrlSearchParamsStore();
 
   /**
@@ -48,7 +48,11 @@ export function useDetailNavigation() {
       }
     }
     updateDetailParams({
-      lastSearchResult: createLastSearchResultParam(path, nextSearchResults),
+      lastSearchResult: createLastSearchResultParam(
+        path,
+        nextSearchResults,
+        detailParams.lastSearchResult,
+      ),
     });
 
     navigate(`${path}?${getUrlParams()}`);
@@ -115,6 +119,7 @@ function getTier2Validated(params: Params) {
 function createLastSearchResultParam(
   path: string,
   searchResults: SearchResult | undefined,
+  currentLastResultId: string,
 ): string {
   const nextTier2 = matchPath(detailTier2Path, path)?.params.tier2;
   const currentTier2 = matchPath(detailTier2Path, location.pathname)?.params
@@ -142,7 +147,7 @@ function createLastSearchResultParam(
     return currentTier2;
   }
   if (!isViewingSearchResult && !isNavigatingToSearchResult) {
-    return currentTier2 ?? "";
+    return currentLastResultId;
   }
   console.warn("Could not determine lastResultId");
   return "";
