@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { SearchParams } from "../../model/Search.ts";
+import { SearchResult } from "../../model/Search.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
@@ -32,7 +32,7 @@ export function DetailSearchResultsNavigation() {
     if (!searchResults || !foundResultId) {
       return null;
     }
-    if (hasNextResult(resultIndex, searchParams)) {
+    if (hasNextResult(resultIndex, searchResults)) {
       const newResultId = searchResults.results[resultIndex + 1]._id;
       navigateDetail(`/detail/${newResultId}`);
       return;
@@ -98,7 +98,7 @@ export function DetailSearchResultsNavigation() {
         onClick={handleNextResultClick}
         disabled={
           !foundResultId ||
-          (!hasNextResult(resultIndex, searchParams) && !hasNextPage())
+          (!hasNextResult(resultIndex, searchResults) && !hasNextPage())
         }
       >
         {translate("NEXT")} &gt;
@@ -107,8 +107,8 @@ export function DetailSearchResultsNavigation() {
   );
 }
 
-function hasNextResult(resultIndex: number, searchParams: SearchParams) {
-  return resultIndex < searchParams.size - 1;
+function hasNextResult(resultIndex: number, searchResult: SearchResult) {
+  return resultIndex < searchResult.results.length - 1;
 }
 
 function hasPrevResult(resultIndex: number): boolean {
