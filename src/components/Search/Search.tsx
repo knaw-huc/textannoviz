@@ -105,8 +105,10 @@ export const Search = () => {
     }
   }
 
-  function handleNewSearch() {
-    updateSearchParams({ from: 0 });
+  function handleNewSearch(toFirstPage: boolean = true) {
+    if (toFirstPage) {
+      updateSearchParams({ from: 0 });
+    }
     setDirty(true);
   }
 

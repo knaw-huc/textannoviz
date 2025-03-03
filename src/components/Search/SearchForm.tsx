@@ -27,7 +27,7 @@ import { toast } from "react-toastify";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 interface SearchFormProps {
-  onSearch: () => void;
+  onSearch: (toFirstPage: boolean) => void;
   keywordFacets: FacetEntry[];
   searchQuery: SearchQuery;
   updateAggs: (query: SearchQuery) => void;
@@ -37,7 +37,6 @@ const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
 
 export function SearchForm(props: SearchFormProps) {
-  const { onSearch } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
@@ -49,6 +48,10 @@ export function SearchForm(props: SearchFormProps) {
   const { searchResults } = useSearchStore();
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
     useUrlSearchParamsStore();
+
+  function onSearch() {
+    props.onSearch(true);
+  }
 
   const debouncedOnSearch = React.useCallback(
     debounce(() => {
@@ -123,7 +126,7 @@ export function SearchForm(props: SearchFormProps) {
       fragmentSize: key as number,
     });
     if (searchResults) {
-      onSearch();
+      props.onSearch(false);
     }
   };
 
@@ -335,7 +338,7 @@ export function SearchForm(props: SearchFormProps) {
                   facet={facetValue}
                   selectedFacets={searchQuery.terms}
                   onChangeKeywordFacet={updateKeywordFacet}
-                  onSearch={props.onSearch}
+                  onSearch={onSearch}
                   updateAggs={props.updateAggs}
                 />
               </div>
