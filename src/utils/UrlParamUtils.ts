@@ -77,13 +77,7 @@ export function toUrlParams(
 }
 
 export function encodeObject(decoded: object): string {
-  const result = Base64.toBase64(JSON.stringify(decoded));
-  console.log("encodeSearchQuery", {
-    query: decoded,
-    result,
-    isEmpty: isEmptyObject(decoded),
-  });
-  return result;
+  return Base64.toBase64(JSON.stringify(decoded));
 }
 
 function decodeObject(encoded: string | null) {
