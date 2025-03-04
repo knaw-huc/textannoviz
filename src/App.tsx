@@ -77,6 +77,7 @@ export default function App() {
 function Layout() {
   return (
     <>
+      <style>{config.projectCss}</style>
       <Header projectConfig={config} />
       <Outlet />
     </>
