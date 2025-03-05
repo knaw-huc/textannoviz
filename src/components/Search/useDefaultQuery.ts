@@ -25,14 +25,14 @@ export function useDefaultQuery() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 
-  const [isInit, setIsInit] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
+  const { isInitDefaultQuery } = useSearchStore();
   const { setKeywordFacets, setSearchFacetTypes, setDefaultQuery } =
     useSearchStore(defaultQuerySettersSelector);
 
   useEffect(() => {
-    if (isInit || isLoading) {
+    if (isInitDefaultQuery || isLoading) {
       return;
     }
 
@@ -81,16 +81,16 @@ export function useDefaultQuery() {
         dateFacets: newDateFacets,
       });
 
+      // TODO: also cache searchFacetTypes and keywordFacets
       setSearchFacetTypes(newFacetTypes);
       setDefaultQuery(newDefaultQuery);
       setKeywordFacets(newKeywordFacets);
 
       setLoading(false);
-      setIsInit(true);
     }
   }, []);
 
   return {
-    isInitDefaultQuery: isInit,
+    isInitDefaultQuery: isInitDefaultQuery,
   };
 }

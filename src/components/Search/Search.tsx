@@ -16,7 +16,7 @@ import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useInitSearch } from "./useInitSearch.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
-
+console.time("init-search");
 const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isDirty, setDirty] = useState(false);
@@ -120,6 +120,10 @@ const Search = () => {
   useEffect(() => {
     setIsDefaultQuery(_.isEqual(defaultQuery, searchQuery));
   }, [defaultQuery, searchQuery, searchResults]);
+
+  if (isInitSearch) {
+    console.timeLog("init-search");
+  }
 
   return (
     <React.Fragment>
