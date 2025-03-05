@@ -7,7 +7,6 @@ import {
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
-import "../project.css";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
@@ -24,6 +23,8 @@ import {
 } from "../annotation/ProjectAnnotationModel.ts";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { Empty } from "../../../components/Empty.tsx";
+
+import projectCss from "../project.css?inline";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -122,4 +123,5 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     sortBy: "date",
     sortOrder: "asc",
   },
+  projectCss: projectCss,
 } as ProjectSpecificConfig);
