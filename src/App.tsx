@@ -2,10 +2,8 @@ import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Header } from "./components/Header";
-import Help from "./components/Help";
-import { Search } from "./components/Search/Search";
-import { detailTier2Path } from "./components/Text/Annotated/utils/detailPath.ts";
-import { Detail } from "./Detail";
+
+import { detailPath } from "./components/Text/Annotated/utils/detailPath.ts";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
 import { ProjectConfig } from "./model/ProjectConfig";
@@ -16,6 +14,12 @@ import {
   setProjectNameSelector,
   useProjectStore,
 } from "./stores/project";
+import { lazy, Suspense } from "react";
+import { SearchLoadingSpinner } from "./components/Search/SearchLoadingSpinner.tsx";
+
+const Detail = lazy(() => import("./Detail"));
+const Help = lazy(() => import("./components/Help"));
+const Search = lazy(() => import("./components/Search/Search"));
 
 const { project, config } = selectProjectConfig();
 const router = await createRouter();
@@ -71,7 +75,11 @@ export default function App() {
   setProjectConfig(config);
   setProjectName(project);
 
-  return <RouterProvider router={router} />;
+  return (
+    <Suspense fallback={<SearchLoadingSpinner />}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
 }
 
 function Layout() {
@@ -95,7 +103,7 @@ async function createRouter() {
           element: <Search />,
         },
         {
-          path: detailTier2Path,
+          path: detailPath,
           element: <Detail project={project} config={config} />,
         },
         {

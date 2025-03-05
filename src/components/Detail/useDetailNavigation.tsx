@@ -8,7 +8,7 @@ import { SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
 import _ from "lodash";
-import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
+import { detailPath } from "../Text/Annotated/utils/detailPath.ts";
 
 export type DetailUrlSearchParams = {
   highlight?: string;
@@ -53,9 +53,8 @@ export function useDetailNavigation() {
       setUrlParams(nextUrlSearchParams, cleanUrlParams(props.params));
     }
 
-    const nextTier2 = matchPath(detailTier2Path, path)?.params.tier2;
-    const currentTier2 = matchPath(detailTier2Path, location.pathname)?.params
-      .tier2;
+    const nextTier2 = matchPath(detailPath, path)?.params.tier2;
+    const currentTier2 = matchPath(detailPath, location.pathname)?.params.tier2;
 
     updateLastSearchResultParam({
       nextUrlSearchParams,
@@ -147,7 +146,7 @@ function updateLastSearchResultParam(props: {
     return;
   }
 
-  const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
+  const isOnDetailPage = !!matchPath(detailPath, location.pathname);
   if (!isOnDetailPage) {
     nextUrlSearchParams.delete(LAST_SEARCH_RESULT);
     return;

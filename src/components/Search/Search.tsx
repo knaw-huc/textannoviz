@@ -17,7 +17,7 @@ import { useInitSearch } from "./useInitSearch.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 
-export const Search = () => {
+const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isDirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -151,3 +151,5 @@ export const Search = () => {
     </React.Fragment>
   );
 };
+
+export default Search;
