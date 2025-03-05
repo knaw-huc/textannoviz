@@ -1,9 +1,9 @@
-import _ from "lodash";
 import {
   AnnotationOffset,
   OffsetsByCharIndex,
   LineOffsets,
 } from "../AnnotationModel.ts";
+import sortBy from "lodash/sortBy";
 
 /**
  * List all start and end offsets of annotations per character index
@@ -44,6 +44,6 @@ export function listOffsetsByChar(
   const offsetsByCharIndex = Array.from(annotationPositions.entries()).map(
     ([charIndex, offsets]) => ({ charIndex, offsets }),
   );
-  const sortedByCharIndex = _.sortBy(offsetsByCharIndex, (e) => e.charIndex);
+  const sortedByCharIndex = sortBy(offsetsByCharIndex, (e) => e.charIndex);
   return sortedByCharIndex;
 }

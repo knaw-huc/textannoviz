@@ -7,8 +7,8 @@ import {
 import { SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
-import _ from "lodash";
 import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
+import isString from "lodash/isString";
 
 export type DetailUrlSearchParams = {
   highlight?: string;
@@ -45,7 +45,7 @@ export function useDetailNavigation() {
   function navigateDetail(props: NavigateDetailProps) {
     let path: string;
     const nextUrlSearchParams: URLSearchParams = getUrlParams();
-    if (_.isString(props)) {
+    if (isString(props)) {
       const url = new URL(props, location.toString());
       path = url.pathname;
     } else {

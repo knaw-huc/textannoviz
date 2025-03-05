@@ -1,11 +1,11 @@
 import { LineSegment } from "./LineSegment.tsx";
 import { Segment } from "./AnnotationModel.ts";
 import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
-import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import isNumber from "lodash/isNumber";
 
 export type LineSegmentsViewerProps = {
   segments: Segment[];
@@ -19,7 +19,7 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const classes = ["line-segment"];
-  const isPartOfAnnotationGroup = _.isNumber(props.groupId);
+  const isPartOfAnnotationGroup = isNumber(props.groupId);
   if (isPartOfAnnotationGroup) {
     classes.push(
       props.showDetails

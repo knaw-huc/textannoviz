@@ -1,4 +1,3 @@
-import _ from "lodash";
 import {
   AnnotationGroup,
   AnnotationOffset,
@@ -15,6 +14,9 @@ import {
   Segment,
 } from "../AnnotationModel.ts";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
+import max from "lodash/max";
+import maxBy from "lodash/maxBy";
+import remove from "lodash/remove";
 
 /**
  * An {@link AnnotationOffset} (start or end) marks the boundary between two segments,
@@ -146,7 +148,7 @@ export class AnnotationSegmenter {
     this.currentAnnotationSegments.push(
       ...this.createAnnotationSegments(startOffsets),
     );
-    this.annotationGroup.maxDepth = _.max([
+    this.annotationGroup.maxDepth = max([
       this.annotationGroup.maxDepth,
       this.currentAnnotationDepth,
     ])!;
@@ -213,13 +215,13 @@ export class AnnotationSegmenter {
     closingAnnotations.forEach((a) => {
       a.endSegment = this.segments.length;
     });
-    _.remove(this.currentAnnotationSegments, (a) =>
+    remove(this.currentAnnotationSegments, (a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
     const currentNested = this.currentAnnotationSegments.filter(
       isNestedAnnotationSegment,
     );
-    this.currentAnnotationDepth = _.maxBy(currentNested, "depth")?.depth || 0;
+    this.currentAnnotationDepth = maxBy(currentNested, "depth")?.depth || 0;
 
     // Create new annotation group when all annotations are closed:
     const hasCurrentNestedAnnotations = this.currentAnnotationSegments.find(

@@ -1,8 +1,8 @@
 import defaultTailwindConfig from "./tailwind.config.default.js";
-import _ from "lodash";
+import merge from "lodash/merge";
 
 /** @type {import('tailwindcss').Config} */
-export default _.merge(defaultTailwindConfig, {
+export default merge(defaultTailwindConfig, {
   theme: {
     extend: {
       colors: {

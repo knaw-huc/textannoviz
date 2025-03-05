@@ -4,7 +4,8 @@ import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
 import { SearchQuery } from "../model/Search.ts";
-import _ from "lodash";
+import chain from "lodash/chain";
+import isNil from "lodash/isNil";
 
 /**
  * Merge the properties in {@link toPopulate} with params of the same name in ${@link urlParams}.
@@ -42,8 +43,8 @@ type UrlSearchParamRecord = Record<string, ParamValueType>;
 export function cleanUrlParams(
   merged: UrlSearchParamRecord,
 ): Record<string, string> {
-  return _(merged)
-    .pickBy((v) => !_.isNil(v))
+  return chain(merged)
+    .pickBy((v) => !isNil(v))
     .mapValues((v) => `${v}`)
     .value() as Record<string, string>;
 }

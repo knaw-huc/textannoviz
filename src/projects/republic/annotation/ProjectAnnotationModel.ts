@@ -2,7 +2,7 @@ import {
   AnnoRepoBody,
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation.ts";
-import _ from "lodash";
+import get from "lodash/get";
 
 export const projectEntityTypes = ["Entity", "DateOccurrence"];
 
@@ -57,7 +57,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === "DateOccurrence") {
     return "DAT";
   }
-  return _.get(annoRepoBody, "metadata.category") ?? "unknown";
+  return get(annoRepoBody, "metadata.category") ?? "unknown";
 }
 
 /**

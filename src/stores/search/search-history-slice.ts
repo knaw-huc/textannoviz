@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand";
 import { SearchQuery } from "../../model/Search.ts";
 import { createJSONStorage, persist } from "zustand/middleware";
-import _ from "lodash";
+import isEqual from "lodash/isEqual";
 
 export type Timestamp = number;
 export type DatedSearchQuery = {
@@ -26,9 +26,7 @@ export const createSearchHistorySlice: StateCreator<
     addToHistory: (update: SearchQuery) => {
       return set((prev) => {
         if (
-          prev.searchQueryHistory.find((entry) =>
-            _.isEqual(entry.query, update),
-          )
+          prev.searchQueryHistory.find((entry) => isEqual(entry.query, update))
         ) {
           console.debug("query already exists in history", {
             query: update,

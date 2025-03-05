@@ -1,7 +1,7 @@
 import { ProjectConfig } from "../../model/ProjectConfig.ts";
 import { FacetEntry, NamedFacetAgg, SearchQuery } from "../../model/Search.ts";
-import _ from "lodash";
 import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
+import isEmpty from "lodash/isEmpty";
 
 export function createSearchQuery(props: {
   projectConfig: ProjectConfig;
@@ -18,7 +18,7 @@ export function createSearchQuery(props: {
     rangeTo: projectConfig.initialRangeTo,
     aggs,
   };
-  if (!_.isEmpty(dateFacets)) {
+  if (!isEmpty(dateFacets)) {
     configuredSearchQuery.dateFacet = dateFacets?.[0]?.[0];
   }
   if (projectConfig.showSliderFacets) {

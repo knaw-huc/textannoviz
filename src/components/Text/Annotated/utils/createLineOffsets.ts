@@ -1,7 +1,7 @@
-import * as _ from "lodash";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { LineOffsets } from "../AnnotationModel.ts";
+import has from "lodash/has";
 
 export function createAnnotationLineOffsets(
   annotation: AnnoRepoAnnotation,
@@ -15,7 +15,7 @@ export function createAnnotationLineOffsets(
   );
 
   let endChar;
-  if (_.has(relativePosition.end, "offset")) {
+  if (has(relativePosition.end, "offset")) {
     endChar = relativePosition.end.offset! + 1;
   } else {
     endChar = lines[relativePosition.end.line].length;

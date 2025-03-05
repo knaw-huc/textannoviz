@@ -1,4 +1,5 @@
-import _, { debounce } from "lodash";
+import debounce from "lodash/debounce";
+import snakeCase from "lodash/snakeCase";
 import React from "react";
 import { Facet, SearchQuery, Terms } from "../../model/Search.ts";
 import {
@@ -171,5 +172,5 @@ export function KeywordFacet(props: {
 }
 
 function toFacetHelpLabelKey(name: string) {
-  return `${_.snakeCase(name).toUpperCase()}_HELP`;
+  return `${snakeCase(name).toUpperCase()}_HELP`;
 }
