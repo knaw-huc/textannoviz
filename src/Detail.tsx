@@ -14,7 +14,7 @@ interface DetailProps {
   config: ProjectConfig;
 }
 
-export const Detail = (props: DetailProps) => {
+const Detail = (props: DetailProps) => {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showIiifViewer, setShowIiifViewer] = useState(true);
   const [showAnnotationPanel, setShowAnnotationPanel] = useState(
@@ -72,3 +72,5 @@ export const Detail = (props: DetailProps) => {
     </>
   );
 };
+
+export default Detail;
