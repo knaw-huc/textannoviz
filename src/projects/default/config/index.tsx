@@ -88,4 +88,5 @@ export const defaultConfig: DefaultProjectConfig = {
     showTopMenuButton: false,
   },
   showSearchResultsOnInfoPage: false,
+  projectCss: "",
 };
