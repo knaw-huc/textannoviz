@@ -1,36 +1,12 @@
-import { MiradorTab } from "./MiradorTab";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { Panel } from "./Panel";
-import { TextComponentTab } from "./TextComponentTab";
 
 export const Panels = () => {
-  const panels = [
-    {
-      name: "facs-text",
-      tabs: [
-        {
-          title: "Facsimile",
-          content: <MiradorTab />,
-        },
-        {
-          title: "Text",
-          content: <TextComponentTab />,
-        },
-      ],
-    },
-    {
-      name: "text",
-      tabs: [
-        {
-          title: "Text",
-          content: <TextComponentTab />,
-        },
-      ],
-    },
-  ];
+  const projectConfig = useProjectStore(projectConfigSelector);
   return (
     <>
-      {panels.map((panel, index) => (
-        <Panel key={index} tabsToRender={panel.tabs} name={panel.name} />
+      {projectConfig.panels.map((panel, index) => (
+        <Panel key={index} tabsToRender={panel.tabs} panelName={panel.name} />
       ))}
     </>
   );

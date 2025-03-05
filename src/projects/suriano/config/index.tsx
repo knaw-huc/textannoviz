@@ -11,6 +11,8 @@ import "../project.css";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
+import { TabRecipes } from "../../../components/Detail/TabRecipes.tsx";
+import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
   getAnnotationCategory,
@@ -23,13 +25,12 @@ import {
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
-import { Empty } from "../../../components/Empty.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
   broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
   relativeTo: "tf:File",
-  showWebAnnoTab: false,
+  showWebAnnoTab: true,
   annotationTypesToInclude: [
     // "EntityMetadata",
     // "tei:Author",
@@ -122,4 +123,18 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     sortBy: "date",
     sortOrder: "asc",
   },
+  panels: [
+    {
+      name: "facs-text",
+      tabs: [TabRecipes.facsTab, TabRecipes.textTab],
+    },
+    {
+      name: "text-facs",
+      tabs: [TabRecipes.textTab, TabRecipes.facsTab],
+    },
+    {
+      name: "metadata-webannos",
+      tabs: [TabRecipes.metadataTab, TabRecipes.webAnnoTab],
+    },
+  ],
 } as ProjectSpecificConfig);

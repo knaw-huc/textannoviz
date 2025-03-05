@@ -1,6 +1,5 @@
 import { Skeleton } from "primereact/skeleton";
 import { useState } from "react";
-import { Annotation } from "./components/Annotations/Annotation.tsx";
 import { Footer } from "./components/Footer/Footer";
 // import { Mirador } from "./components/Mirador/Mirador";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
@@ -21,7 +20,7 @@ export const Detail = (props: DetailProps) => {
   const [showAnnotationPanel, setShowAnnotationPanel] = useState(
     props.config.defaultShowMetadataPanel,
   );
-  const { isInitDetail, isLoadingDetail } = useInitDetail();
+  const { isInitDetail } = useInitDetail();
   const { isInitSearch } = useInitSearch();
 
   const globalSearchResults = useSearchStore((state) => state.searchResults);
@@ -50,9 +49,9 @@ export const Detail = (props: DetailProps) => {
               allPossiblePanels={props.config.allPossibleTextPanels}
               isLoading={isLoadingDetail}
             /> */}
-            {showAnnotationPanel ? (
+            {/* {showAnnotationPanel ? (
               <Annotation isLoading={isLoadingDetail} />
-            ) : null}
+            ) : null} */}
           </main>
           <Footer
             showIiifViewerHandler={showIiifViewerHandler}
