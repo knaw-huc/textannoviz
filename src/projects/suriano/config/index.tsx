@@ -123,7 +123,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     sortBy: "date",
     sortOrder: "asc",
   },
-  panels: [
+  detailPanels: [
     {
       name: "facs-text",
       tabs: [TabRecipes.facsTab, TabRecipes.textTab],

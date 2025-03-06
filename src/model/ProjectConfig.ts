@@ -34,7 +34,7 @@ export type ProjectConfig = SearchConfig &
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
 
-    panels: {
+    detailPanels: {
       name: string;
       tabs: {
         title: string;
