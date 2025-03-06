@@ -17,11 +17,11 @@ import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
 import { SearchSorting, Sorting } from "./SearchSorting.tsx";
 import { Histogram } from "./histogram/Histogram.tsx";
 import { HistogramControls } from "./histogram/HistogramControls.tsx";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 type SearchResultsProps = {
-  query: SearchQuery;
+  searchQuery: SearchQuery;
   onSearch: () => void;
   onPageChange: () => void;
 };
@@ -29,8 +29,10 @@ type SearchResultsProps = {
 export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { searchResults } = useSearchStore();
-  const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
-    useSearchUrlParams();
+  const { searchQuery } = props;
+  const { updateSearchQuery, searchParams, updateSearchParams } =
+    useUrlSearchParamsStore();
+
   const {
     hasPrevPage,
     selectPrevPage,
@@ -59,8 +61,6 @@ export function SearchResults(props: SearchResultsProps) {
     updateSearchParams({
       sortBy: sorting.field,
       sortOrder: sorting.order,
-      //bring user back to first page
-      from: 0,
     });
     props.onSearch();
   }
@@ -92,8 +92,6 @@ export function SearchResults(props: SearchResultsProps) {
     }
     updateSearchParams({
       size: key as number,
-      //bring user back to first page
-      from: 0,
     });
     props.onSearch();
   };
@@ -243,7 +241,7 @@ export function SearchResults(props: SearchResultsProps) {
             <projectConfig.components.SearchItem
               key={index}
               result={result}
-              query={props.query}
+              query={searchQuery}
             />
           ))}
         {searchResults.results.length >= 1 && (
