@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import {
@@ -16,6 +15,7 @@ import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useInitSearch } from "./useInitSearch.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import isEqual from "lodash/isEqual";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -52,7 +52,7 @@ export const Search = () => {
       return;
     }
     const nextRequest = { ...searchQuery, ...searchParams };
-    if (_.isEqual(prevRequest, nextRequest)) {
+    if (isEqual(prevRequest, nextRequest)) {
       return;
     }
     setPrevRequest(nextRequest);
@@ -118,7 +118,7 @@ export const Search = () => {
 
   const [isDefaultQuery, setIsDefaultQuery] = useState(false);
   useEffect(() => {
-    setIsDefaultQuery(_.isEqual(defaultQuery, searchQuery));
+    setIsDefaultQuery(isEqual(defaultQuery, searchQuery));
   }, [defaultQuery, searchQuery, searchResults]);
 
   return (

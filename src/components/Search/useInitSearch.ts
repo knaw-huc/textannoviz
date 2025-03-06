@@ -6,12 +6,12 @@ import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
 import { useDefaultQuery } from "./useDefaultQuery.ts";
-import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
 import { defaultSearchParams } from "./createSearchParams.tsx";
+import merge from "lodash/merge";
 
 /**
  * Initialize search query, facets and (optional) results
@@ -49,14 +49,14 @@ export function useInitSearch() {
   async function initSearch(aborter: AbortController) {
     setLoading(true);
 
-    const newSearchParams: SearchParams = _.merge(
+    const newSearchParams: SearchParams = merge(
       {},
       defaultSearchParams,
       searchParams,
     );
     updateSearchParams(newSearchParams);
 
-    const newSearchQuery: SearchQuery = _.merge({}, defaultQuery, searchQuery);
+    const newSearchQuery: SearchQuery = merge({}, defaultQuery, searchQuery);
     updateSearchQuery(newSearchQuery);
 
     if (

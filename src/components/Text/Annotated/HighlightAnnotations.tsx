@@ -6,7 +6,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
-import _ from "lodash";
+import uniq from "lodash/uniq";
 
 export function HighlightAnnotations(
   props: Pick<NestedAnnotationProps, "segment">,
@@ -25,7 +25,7 @@ export function HighlightAnnotations(
       ...createHighlightClasses(highlight, props.segment, getHighlightCategory),
     );
   }
-  classNames.push(..._.uniq(allHighlightsClasses));
+  classNames.push(...uniq(allHighlightsClasses));
   return (
     <span className={classNames.join(" ")}>
       <MarkerAnnotation segment={props.segment} />

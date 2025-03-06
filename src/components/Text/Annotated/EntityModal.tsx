@@ -2,7 +2,6 @@ import { PropsWithChildren } from "react";
 
 import { StyledText } from "../StyledText.tsx";
 import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
-import _ from "lodash";
 import {
   GroupedSegments,
   isNestedAnnotationSegment,
@@ -17,6 +16,7 @@ import { ScrollableModal } from "./ScrollableModal.tsx";
 import { SpanModalButton } from "./SpanModalButton.tsx";
 import { ProjectEntityBody } from "../../../model/ProjectConfig.ts";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
+import unionBy from "lodash/unionBy";
 
 type EntityModalProps = PropsWithChildren<{
   clickedGroup: GroupedSegments;
@@ -78,6 +78,6 @@ function getAllEntities(
     .filter(isNestedAnnotationSegment)
     .map((a) => a.body)
     .filter(isEntity);
-  const deduplicated = _.unionBy(allEntitiesFromAllSegments, "id");
+  const deduplicated = unionBy(allEntitiesFromAllSegments, "id");
   return deduplicated;
 }

@@ -3,8 +3,8 @@ import {
   AnnoRepoBodyBase,
   EntityDetail,
 } from "../../../model/AnnoRepoAnnotation.ts";
-import _ from "lodash";
 import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+import get from "lodash/get";
 
 /**
  * Highlighted element
@@ -47,9 +47,9 @@ export function isEntity(
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === tfEnt) {
-    return _.get(annoRepoBody, "metadata.kind") ?? "unknown";
+    return get(annoRepoBody, "metadata.kind") ?? "unknown";
   } else if (annoRepoBody.type === teiHi) {
-    return _.get(annoRepoBody, "metadata.rend");
+    return get(annoRepoBody, "metadata.rend");
   } else if (annoRepoBody.type === teiHead) {
     return normalizeClassname(teiHead);
   } else {
@@ -60,7 +60,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
 
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === teiHi) {
-    return _.get(annoRepoBody, "metadata.rend");
+    return get(annoRepoBody, "metadata.rend");
   } else if (annoRepoBody.type === teiHead) {
     return normalizeClassname(teiHead);
   } else {

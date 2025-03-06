@@ -4,7 +4,9 @@ import toNumber from "lodash/toNumber";
 import { QUERY } from "../components/Search/SearchUrlParams.ts";
 import { Base64 } from "js-base64";
 import { SearchQuery } from "../model/Search.ts";
-import _ from "lodash";
+import isNil from "lodash/isNil";
+import pickBy from "lodash/pickBy";
+import mapValues from "lodash/mapValues";
 
 /**
  * Merge the properties in {@link toPopulate} with params of the same name in ${@link urlParams}.
@@ -32,7 +34,7 @@ export function getSearchParamsFromUrl<T extends UrlSearchParamRecord>(
 }
 
 type ParamValueType = string | boolean | number;
-type UrlSearchParamRecord = Record<string, ParamValueType>;
+export type UrlSearchParamRecord = Record<string, ParamValueType>;
 
 /**
  * Clean up record:
@@ -42,10 +44,9 @@ type UrlSearchParamRecord = Record<string, ParamValueType>;
 export function cleanUrlParams(
   merged: UrlSearchParamRecord,
 ): Record<string, string> {
-  return _(merged)
-    .pickBy((v) => !_.isNil(v))
-    .mapValues((v) => `${v}`)
-    .value() as Record<string, string>;
+  const notNill = pickBy(merged, (v) => !isNil(v));
+  const asStrings = mapValues(notNill, (v) => `${v}`);
+  return asStrings;
 }
 
 export function encodeSearchQuery(query: SearchQuery): string {

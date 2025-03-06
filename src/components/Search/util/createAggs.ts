@@ -1,7 +1,7 @@
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { FacetTypes, NamedFacetAgg } from "../../../model/Search.ts";
 import { createDefaultAggs } from "./createDefaultAggs.ts";
-import _ from "lodash";
+import merge from "lodash/merge";
 
 export function createAggs(
   newFacetTypes: FacetTypes,
@@ -9,5 +9,5 @@ export function createAggs(
   urlAggs?: NamedFacetAgg[],
 ): NamedFacetAgg[] {
   const defaultAggs = createDefaultAggs(newFacetTypes, projectConfig);
-  return _.merge([], defaultAggs, urlAggs);
+  return merge([], defaultAggs, urlAggs);
 }

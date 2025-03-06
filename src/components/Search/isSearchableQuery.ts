@@ -1,5 +1,5 @@
 import { SearchQuery } from "../../model/Search.ts";
-import _ from "lodash";
+import isEqual from "lodash/isEqual";
 
 /**
  * Search when query differs from default query
@@ -18,7 +18,7 @@ export function isSearchableQuery(
     "terms",
   ];
   for (const key of keysToDiffer) {
-    if (!_.isEqual(query[key], defaultQuery[key])) {
+    if (!isEqual(query[key], defaultQuery[key])) {
       return true;
     }
   }
