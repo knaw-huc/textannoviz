@@ -5,15 +5,18 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import {
-  cleanUrlParams,
   encodeSearchQuery,
   getSearchParamsFromUrl,
   getSearchQueryFromUrl,
   getUrlParams,
+  markDefaultParamProps,
   pushUrlParamsToHistory,
+  removeDefaultQueryProps,
 } from "../../utils/UrlParamUtils.ts";
 import { createSearchParams } from "./createSearchParams.tsx";
-import { createSearchQuery } from "./createSearchQuery.tsx";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import _ from "lodash";
+import { useSearchParams } from "react-router-dom";
 
 /**
  * The url is our single source of truth.
@@ -22,46 +25,71 @@ import { createSearchQuery } from "./createSearchQuery.tsx";
  * 2. update search query and params with a useEffect
  */
 export function useSearchUrlParams() {
-  const projectConfig = useProjectStore(projectConfigSelector);
-
   const urlParams = getUrlParams();
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const { defaultQuery, isInitDefaultQuery } = useSearchStore();
+  const [sp, ssp] = useSearchParams();
+  const [isInitSearchUrlParams, setInitSearchUrlParams] =
+    useState(isInitDefaultQuery);
 
-  const [searchQuery, setSearchQuery] = useState<SearchQuery>(
-    getSearchQueryFromUrl(createSearchQuery({ projectConfig }), urlParams),
-  );
-
+  const defaultSearchParams = createSearchParams({ projectConfig });
   const [searchParams, setSearchParams] = useState<SearchParams>(
-    getSearchParamsFromUrl(createSearchParams({ projectConfig }), urlParams),
+    getSearchParamsFromUrl(defaultSearchParams, urlParams),
   );
+
+  /**
+   * Note: defaultQuery is persistent, hook state is not
+   * - landing route: initialize query with useEffect
+   * - switching route: initialize query with useState param
+   */
+  const [searchQuery, setSearchQuery] = useState<SearchQuery>(
+    getSearchQueryFromUrl(defaultQuery, urlParams),
+  );
+  useEffect(() => {
+    if (isInitDefaultQuery && !isInitSearchUrlParams) {
+      setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
+      setInitSearchUrlParams(true);
+    }
+  }, [isInitDefaultQuery]);
 
   /**
    * Update search params and query when url changes
    */
   useEffect(() => {
+    console.log("sp", sp);
     const urlParams = getUrlParams();
-    setSearchParams(getSearchParamsFromUrl(searchParams, urlParams));
-    setSearchQuery(getSearchQueryFromUrl(searchQuery, urlParams));
-  }, [window.location.search]);
+    setSearchParams(getSearchParamsFromUrl(defaultSearchParams, urlParams));
+    setSearchQuery(getSearchQueryFromUrl(defaultQuery, urlParams));
+  }, [sp]);
 
   /**
    * Update search query by updating the url, see useEffect
    */
   function updateSearchQuery(update: Partial<SearchQuery>): void {
-    pushUrlParamsToHistory({
-      query: encodeSearchQuery({ ...searchQuery, ...update }),
-    });
+    const merged = { ...searchQuery, ...update };
+    const deduplicated = removeDefaultQueryProps(merged, defaultQuery);
+    const encoded = encodeSearchQuery(deduplicated);
+    const historyUpdate = _.isEmpty(deduplicated)
+      ? { toRemove: ["query"] }
+      : { toUpdate: { query: encoded } };
+    pushUrlParamsToHistory({ ...historyUpdate, setter: ssp });
   }
 
   /**
    * Update search params by updating the url, see useEffect
    */
   function updateSearchParams(update: Partial<SearchParams>): void {
-    pushUrlParamsToHistory(cleanUrlParams({ ...searchParams, ...update }));
+    const merged = { ...searchParams, ...update };
+    const deduplicated = markDefaultParamProps(merged, defaultSearchParams);
+    pushUrlParamsToHistory({ ...deduplicated, setter: ssp });
   }
 
   return {
+    isInitSearchUrlParams,
+
     searchQuery,
     updateSearchQuery,
+
     searchParams,
     updateSearchParams,
   };

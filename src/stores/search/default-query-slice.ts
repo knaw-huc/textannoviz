@@ -1,9 +1,14 @@
 import { StateCreator } from "zustand";
 import { SearchQuery } from "../../model/Search.ts";
 
-export type DefaultQuerySlice = {
+export type DefaultQueryState = {
   defaultQuery: SearchQuery;
-  setDefaultQuery: (update: SearchQuery) => void;
+  isLoadingDefaultQuery: boolean;
+  isInitDefaultQuery: boolean;
+};
+
+export type DefaultQuerySlice = DefaultQueryState & {
+  setDefaultQueryState: (update: Partial<DefaultQueryState>) => void;
 };
 
 export const blankSearchQuery: SearchQuery = {
@@ -22,5 +27,8 @@ export const createDefaultQuerySlice: StateCreator<
   DefaultQuerySlice
 > = (set) => ({
   defaultQuery: blankSearchQuery,
-  setDefaultQuery: (update) => set(() => ({ defaultQuery: update })),
+  isLoadingDefaultQuery: false,
+  isInitDefaultQuery: false,
+  setDefaultQueryState: (update: Partial<DefaultQueryState>) =>
+    set((prev: DefaultQueryState) => ({ ...prev, ...update })),
 });
