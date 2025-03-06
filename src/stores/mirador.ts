@@ -10,6 +10,13 @@ export type MiradorSlice = {
 export type MiradorInitSlice = Optional<MiradorSlice, "bodyId" | "iiif">;
 export type MiradorState = Omit<MiradorSlice, "setStore">;
 
+export type MiradorCurrentCanvasSlice = {
+  currentCanvas: string;
+  setCurrentCanvas: (newCanvas: string) => void;
+};
+
+type MiradorStore = MiradorInitSlice & MiradorCurrentCanvasSlice;
+
 const createMiradorSlice: StateCreator<
   MiradorInitSlice,
   [],
@@ -21,8 +28,19 @@ const createMiradorSlice: StateCreator<
   setStore: (update) => set(() => ({ ...update })),
 });
 
-export const useMiradorStore = create<MiradorInitSlice>()((...a) => ({
+const createMiradorCurrentCanvasSlice: StateCreator<
+  MiradorCurrentCanvasSlice,
+  [],
+  [],
+  MiradorCurrentCanvasSlice
+> = (set) => ({
+  currentCanvas: "",
+  setCurrentCanvas: (newCanvas) => set(() => ({ currentCanvas: newCanvas })),
+});
+
+export const useMiradorStore = create<MiradorStore>()((...a) => ({
   ...createMiradorSlice(...a),
+  ...createMiradorCurrentCanvasSlice(...a),
 }));
 
 export function miradorSelector(state: MiradorInitSlice): MiradorSlice {

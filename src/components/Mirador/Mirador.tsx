@@ -10,6 +10,7 @@ import { miradorSelector, useMiradorStore } from "../../stores/mirador.ts";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
 import { defaultMiradorConfig } from "./defaultMiradorConfig";
+import { observeMiradorStore } from "./utils/observeMiradorStore.ts";
 import { zoomAnnoMirador } from "./zoomAnnoMirador";
 
 export function Mirador() {
@@ -19,6 +20,9 @@ export function Mirador() {
   const setInternalMiradorStore = useInternalMiradorStore(
     (state) => state.setStore,
   );
+
+  const { setCurrentCanvas } = useMiradorStore();
+
   const miradorStore = useInternalMiradorStore((state) => state.miradorStore);
   const projectConfig = useProjectStore(projectConfigSelector);
   const showSvgsAnnosMirador = useAnnotationStore(
@@ -54,10 +58,15 @@ export function Mirador() {
     );
   }
 
+  function onCanvasChange(canvasId: string) {
+    setCurrentCanvas(canvasId);
+  }
+
   React.useEffect(() => {
     console.log("MIRADOR EFFECT");
     const viewer = mirador.viewer(miradorConfig);
     setInternalMiradorStore(viewer.store);
+    let unsubscribe: () => void;
 
     const INIT_CHECK_INTERVAL_MS = 250;
     const MAX_INIT_ATTEMPTS = 80;
@@ -83,6 +92,12 @@ export function Mirador() {
     }
 
     function performPostInitialisationActions() {
+      unsubscribe = observeMiradorStore(
+        viewer.store,
+        projectConfig.id,
+        onCanvasChange,
+      );
+
       if (projectConfig.zoomAnnoMirador) {
         zoomAnnoMirador(bodyId, annotations, iiif, viewer.store, projectConfig);
       }
@@ -106,6 +121,9 @@ export function Mirador() {
 
     return () => {
       clearInterval(initialisationCheckInterval);
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
   }, [miradorConfig, projectConfig, bodyId]);
 

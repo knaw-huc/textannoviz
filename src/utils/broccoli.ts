@@ -7,6 +7,7 @@ import {
   SearchResult,
 } from "../model/Search";
 import { Broccoli } from "../model/Broccoli.ts";
+import { cleanUrlParams } from "./UrlParamUtils.ts";
 
 const headers = {
   "Content-Type": "application/json",
@@ -53,8 +54,7 @@ export const sendSearchQuery = async (
   query: SearchQueryRequestBody,
   signal?: AbortSignal,
 ): Promise<SearchResult | null> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const urlSearchParams = new URLSearchParams(params as any);
+  const urlSearchParams = new URLSearchParams(cleanUrlParams(params));
   const response = await fetch(
     `${projectConfig.broccoliUrl}/projects/${projectConfig.id}/search?${urlSearchParams}`,
     {

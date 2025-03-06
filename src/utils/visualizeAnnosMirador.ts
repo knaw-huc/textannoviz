@@ -27,7 +27,7 @@ export const visualizeAnnosMirador = (
     const region = findImageRegions(item, canvasId);
 
     if (region === null) {
-      console.log(item.body.id + " region is undefined");
+      console.debug(item.body.id + " region is undefined");
       return null;
     }
 
