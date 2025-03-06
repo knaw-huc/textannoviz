@@ -25,8 +25,8 @@ export const Panel = (props: PanelProps) => {
   return (
     <>
       <Tabs
-        className={`border-brand1Grey-100 flex h-[calc(100vh-100px)] w-7/12 flex-col overflow-auto border-x ${
-          !isOpen ? "w-8 overflow-hidden" : ""
+        className={`border-brand1Grey-100 flex h-[calc(100vh-100px)] w-7/12 flex-col overflow-hidden border-x ${
+          !isOpen ? "w-8" : ""
         }`}
       >
         <div className="flex flex-row">
