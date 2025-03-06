@@ -8,21 +8,21 @@ export const WebAnnoTab = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
 
   return (
-    <>
+    <div className="text-brand1-800 h-full p-5">
       {projectConfig.showWebAnnoTab ? (
         <>
           <div className="flex">
             <AnnotationFilter />
           </div>
-          {annotations?.length > 0 &&
+          {annotations.length > 0 &&
             annotations.map((annotation, index) => (
               <AnnotationItem key={index} annotation={annotation} />
             ))}
-          {annotations?.length === 0 && (
+          {annotations.length === 0 && (
             <div className="font-bold">No web annotations</div>
           )}
         </>
       ) : null}
-    </>
+    </div>
   );
 };
