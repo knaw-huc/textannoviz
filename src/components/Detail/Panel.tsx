@@ -24,41 +24,39 @@ export const Panel = (props: PanelProps) => {
 
   return (
     <>
-      <>
-        <Tabs
-          className={`border-brand1Grey-100 flex h-[calc(100vh-100px)] w-7/12 flex-col overflow-auto border-x ${
-            !isOpen ? "w-8 overflow-hidden" : ""
-          }`}
-        >
-          <div className="flex flex-row">
-            <Button className="text-sm" onPress={() => setIsOpen(!isOpen)}>
-              {isOpen ? "Close" : "Open"}
-            </Button>
+      <Tabs
+        className={`border-brand1Grey-100 flex h-[calc(100vh-100px)] w-7/12 flex-col overflow-auto border-x ${
+          !isOpen ? "w-8 overflow-hidden" : ""
+        }`}
+      >
+        <div className="flex flex-row">
+          <Button className="text-sm" onPress={() => setIsOpen(!isOpen)}>
+            {isOpen ? "Close" : "Open"}
+          </Button>
 
-            <TabList className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600">
-              {props.tabsToRender.map((item) => (
-                <Tab
-                  key={item.title}
-                  id={`${props.panelName}-${item.title.toLowerCase()}`}
-                  className={tabStyling}
-                >
-                  {item.title}
-                </Tab>
-              ))}
-            </TabList>
-          </div>
+          <TabList className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600">
+            {props.tabsToRender.map((item) => (
+              <Tab
+                key={item.title}
+                id={`${props.panelName}-${item.title.toLowerCase()}`}
+                className={tabStyling}
+              >
+                {item.title}
+              </Tab>
+            ))}
+          </TabList>
+        </div>
 
-          {isOpen ? (
-            <Collection items={props.tabsToRender}>
-              {(item) => (
-                <TabPanel id={`${props.panelName}-${item.title.toLowerCase()}`}>
-                  {item.content}
-                </TabPanel>
-              )}
-            </Collection>
-          ) : null}
-        </Tabs>
-      </>
+        {isOpen ? (
+          <Collection items={props.tabsToRender}>
+            {(item) => (
+              <TabPanel id={`${props.panelName}-${item.title.toLowerCase()}`}>
+                {item.content}
+              </TabPanel>
+            )}
+          </Collection>
+        ) : null}
+      </Tabs>
     </>
   );
 };
