@@ -30,7 +30,10 @@ export const Panel = (props: PanelProps) => {
         }`}
       >
         <div className="flex flex-row">
-          <Button className="text-sm" onPress={() => setIsOpen(!isOpen)}>
+          <Button
+            className="px-2 text-sm outline-none"
+            onPress={() => setIsOpen(!isOpen)}
+          >
             {isOpen ? "Close" : "Open"}
           </Button>
 
