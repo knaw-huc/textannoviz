@@ -38,8 +38,16 @@ export function SearchHighlightBrowser(props: SearchHighlightBrowserProps) {
       console.debug("top should be positive");
       return;
     }
-    setTop(containerRect.bottom - refRect.height);
-    setLeft(containerRect.right - refRect.width);
+    const newTop = containerRect.bottom - refRect.height;
+    const newLeft = containerRect.right - refRect.width;
+    console.log("Position browser", {
+      newLeft,
+      newTop,
+      containerRect: containerRect.toJSON(),
+      refRect: refRect.toJSON(),
+    });
+    setTop(newTop);
+    setLeft(newLeft);
   }, [props.containerRect]);
 
   if (!isInitSearchHighlight || !searchHighlightOffsets.length) {
