@@ -1,5 +1,9 @@
 import { create, StateCreator } from "zustand";
 import { Broccoli } from "../model/Broccoli";
+import {
+  createSearchHighlightSlice,
+  SearchHighlightSlice,
+} from "./search-highlight-slice.ts";
 
 export type TextPanelsSlice = {
   views: Broccoli["views"] | undefined;
@@ -16,6 +20,9 @@ const createTextPanelsSlice: StateCreator<
   setViews: (newViews) => set(() => ({ views: newViews })),
 });
 
-export const useTextStore = create<TextPanelsSlice>()((...a) => ({
-  ...createTextPanelsSlice(...a),
-}));
+export const useTextStore = create<TextPanelsSlice & SearchHighlightSlice>()(
+  (...a) => ({
+    ...createTextPanelsSlice(...a),
+    ...createSearchHighlightSlice(...a),
+  }),
+);

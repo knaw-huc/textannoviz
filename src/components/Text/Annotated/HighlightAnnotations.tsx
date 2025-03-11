@@ -7,13 +7,30 @@ import {
   useProjectStore,
 } from "../../../stores/project.ts";
 import _ from "lodash";
+import { useEffect, useRef } from "react";
+import { useTextStore } from "../../../stores/text.ts";
+import { isStartingSegment } from "./utils/isStartingSegment.ts";
 
 export function HighlightAnnotations(
   props: Pick<NestedAnnotationProps, "segment">,
 ) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const { highlightedSearchId } = useTextStore();
   const { getHighlightCategory } = useProjectStore(projectConfigSelector);
   const classNames: string[] = [];
   const highlights = props.segment.annotations.filter(isHighlightSegment);
+
+  useEffect(() => {
+    const isStartOfSelectedHighlight = highlights.find(
+      (highlight) =>
+        highlight.body.id === highlightedSearchId &&
+        isStartingSegment(props.segment, highlight),
+    );
+    if (!isStartOfSelectedHighlight) {
+      return;
+    }
+    ref.current?.scrollIntoView();
+  }, [highlightedSearchId]);
 
   if (!highlights.length) {
     return <MarkerAnnotation segment={props.segment} />;
@@ -26,8 +43,9 @@ export function HighlightAnnotations(
     );
   }
   classNames.push(..._.uniq(allHighlightsClasses));
+
   return (
-    <span className={classNames.join(" ")}>
+    <span ref={ref} className={classNames.join(" ")}>
       <MarkerAnnotation segment={props.segment} />
     </span>
   );

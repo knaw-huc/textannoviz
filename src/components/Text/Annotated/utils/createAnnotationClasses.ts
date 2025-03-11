@@ -9,6 +9,9 @@ import {
 } from "../AnnotationModel.ts";
 import { Any } from "../../../../utils/Any.ts";
 import { CategoryGetter } from "../../../../model/ProjectConfig.ts";
+import { isStartingSegment } from "./isStartingSegment.ts";
+
+export const SEARCH_HIGHLIGHT = "search-highlight";
 
 export function createAnnotationClasses(
   segment: Segment,
@@ -58,13 +61,20 @@ function createStartEndClasses(
   annotationSegment: AnnotationSegment,
 ): string[] {
   const classes = [];
-  if (segment.index === annotationSegment.startSegment) {
+  if (isStartingSegment(segment, annotationSegment)) {
     classes.push("start-annotation");
   }
-  if (segment.index === annotationSegment.endSegment - 1) {
+  if (isEndingSegment(segment, annotationSegment)) {
     classes.push("end-annotation");
   }
   return classes.map(normalizeClassname);
+}
+
+function isEndingSegment(
+  segment: Segment,
+  annotationSegment: AnnotationSegment,
+) {
+  return segment.index === annotationSegment.endSegment - 1;
 }
 
 // TODO: move to project config

@@ -17,9 +17,11 @@ import {
   createAnnotationLineOffsets,
   createMarkerLineOffsets,
 } from "./utils/createLineOffsets.ts";
-import { LineOffsets } from "./AnnotationModel.ts";
+import { isSearchHighlightBody, LineOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
+import { useTextStore } from "../../../stores/text.ts";
+import { useEffect } from "react";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -52,7 +54,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     highlightedAnnotationTypes,
   } = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
-
+  const { setHighlightedSearchId, isInitSearchHighlight } = useTextStore();
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
   const lines = props.text.lines;
@@ -104,6 +106,24 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
         createMarkerLineOffsets(annotation, relativeAnnotations),
       ),
   );
+
+  /**
+   * TODO: use search highlights to scroll
+   * - Config option to enable highlight scrolling
+   * - Store that tracks which highlight is highlighted
+   * - Panel that shows prev/next button
+   * - Highlight first search highlight
+   * - Move to prev/next highlight
+   */
+  const searchHighlights = offsets.filter((o) => isSearchHighlightBody(o.body));
+  useEffect(() => {
+    if (!isInitSearchHighlight && searchHighlights.length) {
+      setHighlightedSearchId(searchHighlights[0].body.id);
+    }
+  }, [isInitSearchHighlight]);
+
+  console.log("AnnotatedText", { offsets, searchHighlights });
+
   return (
     <div>
       {props.text.lines.map((line, index) => (
