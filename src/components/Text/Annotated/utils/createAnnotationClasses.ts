@@ -11,8 +11,6 @@ import { Any } from "../../../../utils/Any.ts";
 import { CategoryGetter } from "../../../../model/ProjectConfig.ts";
 import { isStartingSegment } from "./isStartingSegment.ts";
 
-export const SEARCH_HIGHLIGHT = "search-highlight";
-
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
