@@ -17,7 +17,7 @@ import {
   createAnnotationLineOffsets,
   createMarkerLineOffsets,
 } from "./utils/createLineOffsets.ts";
-import { isSearchHighlightBody, LineOffsets } from "./AnnotationModel.ts";
+import { LineOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import { useTextStore } from "../../../stores/text.ts";
@@ -92,7 +92,11 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   }
 
   const searchHighlight = createSearchRegex(searchTerms, tier2);
-  offsets.push(...createSearchHighlightOffsets(lines, searchHighlight));
+  const searchHighlightOffsets = createSearchHighlightOffsets(
+    lines,
+    searchHighlight,
+  );
+  offsets.push(...searchHighlightOffsets);
 
   const markerAnnotations = [
     ...tooltipMarkerAnnotationTypes,
@@ -115,14 +119,13 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
    * - Highlight first search highlight
    * - Move to prev/next highlight
    */
-  const searchHighlights = offsets.filter((o) => isSearchHighlightBody(o.body));
   useEffect(() => {
-    if (!isInitSearchHighlight && searchHighlights.length) {
-      setHighlightedSearchId(searchHighlights[0].body.id);
+    if (!isInitSearchHighlight && searchHighlightOffsets.length) {
+      setHighlightedSearchId(searchHighlightOffsets[0].body.id);
     }
   }, [isInitSearchHighlight]);
 
-  console.log("AnnotatedText", { offsets, searchHighlights });
+  console.log("AnnotatedText", { offsets, searchHighlightOffsets });
 
   return (
     <div>
