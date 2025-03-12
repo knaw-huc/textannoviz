@@ -2,16 +2,16 @@ import _, { debounce } from "lodash";
 import React from "react";
 import { Facet, SearchQuery, Terms } from "../../model/Search.ts";
 import {
+  projectNameSelector,
   translateProjectSelector,
   useProjectStore,
-  projectNameSelector,
 } from "../../stores/project.ts";
 import {
   CheckboxComponent,
   CheckboxGroupComponent,
 } from "../common/CheckboxGroupComponent.tsx";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
 import { FacetItemsFilter } from "./FacetItemsFilter.tsx";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 export function KeywordFacet(props: {
   facetName: string;
@@ -25,7 +25,7 @@ export function KeywordFacet(props: {
   onSearch: (stayOnPage?: boolean) => void;
   updateAggs: (query: SearchQuery) => void;
 }) {
-  const { searchQuery, updateSearchQuery } = useSearchUrlParams();
+  const { searchQuery, updateSearchQuery } = useUrlSearchParamsStore();
   const facetLength = Object.keys(props.facet).length;
   const translateProject = useProjectStore(translateProjectSelector);
   const projectName = useProjectStore(projectNameSelector);

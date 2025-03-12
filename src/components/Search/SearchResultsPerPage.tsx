@@ -5,7 +5,7 @@ import {
   SelectComponent,
   SelectItemComponent,
 } from "../common/SelectComponent.tsx";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 interface SearchResultsPerPageProps {
   onChange: (key: Key) => void;
@@ -18,7 +18,7 @@ type PageSizeOption = {
 
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   const translate = useProjectStore(translateSelector);
-  const { searchParams } = useSearchUrlParams();
+  const { searchParams } = useUrlSearchParamsStore();
   const [selectedKey, setSelectedKey] = React.useState<Key>(searchParams.size);
   const options: PageSizeOption[] = [
     { name: 10 },

@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { VanGoghSearchResultsBody } from "../../model/Search";
 
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
+import { encodeObject } from "../../utils/UrlParamUtils.ts";
+import _ from "lodash";
+import { QUERY } from "../../components/Search/SearchUrlParams.ts";
 
 export const SearchItem = (
   props: SearchItemProps<VanGoghSearchResultsBody>,
@@ -19,10 +22,11 @@ export const SearchItem = (
 
   const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}, ${formattedDate}`;
 
+  const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
-        to={`/detail/${props.result._id}?highlight=${props.query.fullText}`}
+        to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
         className="hover:text-brand1-600 active:text-brand1-700 text-inherit no-underline"
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">

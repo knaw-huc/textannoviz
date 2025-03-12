@@ -1,7 +1,7 @@
 import { useSearchStore } from "../stores/search/search-store.ts";
 import _ from "lodash";
 import { SearchParams } from "../model/Search.ts";
-import { useSearchUrlParams } from "../components/Search/useSearchUrlParams.tsx";
+import { useUrlSearchParamsStore } from "../components/Search/useSearchUrlParamsStore.ts";
 
 export type PageParams = Pick<SearchParams, "from" | "size">;
 
@@ -10,7 +10,7 @@ function toPageParams(searchParams: SearchParams) {
 }
 
 export function usePagination() {
-  const { searchParams, updateSearchParams } = useSearchUrlParams();
+  const { searchParams, updateSearchParams } = useUrlSearchParamsStore();
 
   const { searchResults } = useSearchStore();
 

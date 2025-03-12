@@ -21,9 +21,10 @@ export const Detail = (props: DetailProps) => {
     props.config.defaultShowMetadataPanel,
   );
   const { isInitDetail, isLoadingDetail } = useInitDetail();
-  const { isInitSearch } = useInitSearch();
 
-  const globalSearchResults = useSearchStore((state) => state.searchResults);
+  useInitSearch();
+
+  const { searchResults, isInitSearch } = useSearchStore();
 
   function showIiifViewerHandler() {
     setShowIiifViewer(!showIiifViewer);
@@ -56,7 +57,7 @@ export const Detail = (props: DetailProps) => {
             showIiifViewerHandler={showIiifViewerHandler}
             showAnnotationPanelHandler={showAnnotationPanelHandler}
             showSearchResultsHandler={showSearchResultsHandler}
-            showSearchResultsDisabled={globalSearchResults === undefined}
+            showSearchResultsDisabled={searchResults === undefined}
             facsimileShowState={showIiifViewer}
             panelShowState={showAnnotationPanel}
             searchResultsShowState={showSearchResults}
