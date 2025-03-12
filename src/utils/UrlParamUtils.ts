@@ -74,18 +74,22 @@ export function encodeObject(decoded: object): string {
   });
 }
 
-export function decodeObject(encoded: string | null) {
-  if (!encoded) {
-    return {};
-  }
+function decodeUrlParams(encoded: string) {
   return qs.parse(encoded, {
     ignoreQueryPrefix: true,
     comma: true,
   });
 }
 
-export function getUrlParams(): URLSearchParams {
-  return new URLSearchParams(window.location.search);
+export function decodeObject(encoded: string | null) {
+  if (!encoded) {
+    return {};
+  }
+  return decodeUrlParams(encoded);
+}
+
+export function getUrlParams(): string {
+  return window.location.search;
 }
 
 export type UpdateOrRemoveParams = {
@@ -99,9 +103,7 @@ export type UpdateOrRemoveParams = {
 export function pushUrlParamsToHistory(params: UpdateOrRemoveParams) {
   const { toUpdate, toRemove } = params;
   const urlUpdate = new URL(window.location.toString());
-  const paramUpdate = qs.parse(window.location.search, {
-    ignoreQueryPrefix: true,
-  });
+  const paramUpdate = decodeUrlParams(getUrlParams());
   if (toRemove) {
     for (const key of toRemove) {
       delete paramUpdate[key];
@@ -122,7 +124,7 @@ export function pushUrlParamsToHistory(params: UpdateOrRemoveParams) {
 export function getStateFromUrl<T extends object>(
   template: T,
 ): UrlStateItem<T> {
-  const urlParams = decodeObject(window.location.search);
+  const urlParams = decodeObject(getUrlParams());
   return { urlState: getTypedParamsFromUrl(template, urlParams) };
 }
 

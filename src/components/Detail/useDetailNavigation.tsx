@@ -1,9 +1,9 @@
 import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
-import { getUrlParams } from "../../utils/UrlParamUtils.ts";
+import { decodeObject, getUrlParams } from "../../utils/UrlParamUtils.ts";
 import { SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
-import { isString, isNumber } from "lodash";
+import { isNumber, isString } from "lodash";
 import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 
@@ -55,7 +55,7 @@ export function useDetailNavigation() {
       ),
     });
 
-    navigate(`${path}?${getUrlParams()}`);
+    navigate(`${path}${getUrlParams()}`);
   }
 
   function getDetailParams(): DetailTierAndParams {
@@ -67,7 +67,7 @@ export function useDetailNavigation() {
   }
 
   function createDetailUrl(resultId: string) {
-    return `/detail/${resultId}?${getUrlParams()}`;
+    return `/detail/${resultId}${getUrlParams()}`;
   }
 
   /**
@@ -84,7 +84,9 @@ export function useDetailNavigation() {
       return params.tier2;
     }
 
-    const lastSearchResultParam = getUrlParams().get(LAST_SEARCH_RESULT);
+    const lastSearchResultParam = decodeObject(getUrlParams())[
+      LAST_SEARCH_RESULT
+    ] as string;
     if (
       lastSearchResultParam &&
       searchResults &&
