@@ -55,7 +55,7 @@ export function useDetailNavigation() {
       ),
     });
 
-    navigate(`${path}?${getUrlParams()}`);
+    navigate(`${path}${getUrlParams()}`);
   }
 
   function getDetailParams(): DetailTierAndParams {
@@ -67,7 +67,7 @@ export function useDetailNavigation() {
   }
 
   function createDetailUrl(resultId: string) {
-    return `/detail/${resultId}?${getUrlParams()}`;
+    return `/detail/${resultId}${getUrlParams()}`;
   }
 
   /**
