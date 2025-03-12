@@ -84,8 +84,8 @@ export function decodeObject(encoded: string | null) {
   });
 }
 
-export function getUrlParams(): URLSearchParams {
-  return new URLSearchParams(window.location.search);
+export function getUrlParams(): string {
+  return window.location.search;
 }
 
 export type UpdateOrRemoveParams = {
