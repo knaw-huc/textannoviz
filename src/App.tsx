@@ -21,7 +21,12 @@ const { project, config } = selectProjectConfig();
 const router = await createRouter();
 
 async function fetchExternalConfig(): Promise<ExternalConfig | null> {
-  const response = await fetch("/config");
+  const basePath = (import.meta.env["VITE_ROUTER_BASENAME"] as string) ?? "/";
+  const configUrl = `${
+    basePath.endsWith("/") ? basePath : basePath + "/"
+  }config`;
+
+  const response = await fetch(configUrl);
   if (!response.ok) {
     return null;
   }
