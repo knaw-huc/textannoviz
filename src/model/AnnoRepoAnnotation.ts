@@ -228,6 +228,23 @@ export type SurianoLetterBody = AnnoRepoBodyBase & {
   };
 };
 
+export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
+  metadata: {
+    type: string;
+    correspondent: string;
+    sender: string;
+    file: string;
+    institution: string;
+    letterid: string;
+    location: string;
+    msid: string;
+    period: string;
+    periodlong: string;
+    prevLetter: string;
+    nextLetter: string;
+  };
+};
+
 export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {
     document: string;

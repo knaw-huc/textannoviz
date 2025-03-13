@@ -11,6 +11,7 @@ import {
   projectHighlightedTypes,
   projectPageMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel";
+import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishVanGoghLabels } from "./englishVanGoghLabels";
@@ -103,6 +104,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   components: {
     SearchItem,
     MetadataPanel,
+    AnnotationButtons,
   },
   selectedLanguage: "en",
   languages: [{ code: "en", labels: englishVanGoghLabels }],
