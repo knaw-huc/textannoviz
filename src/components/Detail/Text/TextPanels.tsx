@@ -1,4 +1,4 @@
-import { BroccoliTextGeneric } from "../../../model/Broccoli";
+import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { TextPanel } from "./TextPanel";
 
 type TextPanelsProps = {

@@ -1,11 +1,8 @@
 import _ from "lodash";
-import { MarkerBody } from "../../../../../model/AnnoRepoAnnotation.ts";
 import {
   AnnotationGroup,
   AnnotationOffset,
   AnnotationSegment,
-  HighlightBody,
-  HighlightSegment,
   isMarkerAnnotationOffset,
   isNestedAnnotationOffset,
   isNestedAnnotationSegment,
@@ -13,8 +10,11 @@ import {
   MarkerSegment,
   NestedAnnotationSegment,
   OffsetsByCharIndex,
+  HighlightBody,
+  HighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
+import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * An {@link AnnotationOffset} (start or end) marks the boundary between two segments,

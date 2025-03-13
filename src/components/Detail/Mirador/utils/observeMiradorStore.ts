@@ -1,4 +1,4 @@
-import { Any } from "../../../../utils/Any";
+import { Any } from "../../../utils/Any";
 
 export function observeMiradorStore(
   store: Any,

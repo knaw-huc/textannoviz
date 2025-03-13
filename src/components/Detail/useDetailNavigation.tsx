@@ -1,14 +1,14 @@
-import _ from "lodash";
 import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
-import { SearchResult } from "../../model/Search.ts";
-import { useSearchStore } from "../../stores/search/search-store.ts";
 import {
   cleanUrlParams,
   getUrlParams,
   setUrlParams,
 } from "../../utils/UrlParamUtils.ts";
-import { detailTier2Path } from "../Detail/Text/Annotated/utils/detailPath.ts";
+import { SearchResult } from "../../model/Search.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
+import _ from "lodash";
+import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
 
 export type DetailUrlSearchParams = {
   highlight?: string;

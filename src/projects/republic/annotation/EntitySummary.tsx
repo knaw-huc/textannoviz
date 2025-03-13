@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import {
   toEntityCategory,
   toEntityClassname,
-} from "../../../components/Detail/Text/Annotated/utils/createAnnotationClasses.ts";
+} from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 import {
   projectConfigSelector,

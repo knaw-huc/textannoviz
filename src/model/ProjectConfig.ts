@@ -1,4 +1,4 @@
-import { EntitySummaryProps } from "../components/Detail/Text/Annotated/details/EntitySummaryProps.ts";
+import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,

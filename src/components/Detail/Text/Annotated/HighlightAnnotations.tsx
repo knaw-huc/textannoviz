@@ -1,12 +1,12 @@
-import _ from "lodash";
+import { createHighlightClasses } from "./utils/createAnnotationClasses.ts";
+import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
+import { isHighlightSegment } from "./AnnotationModel.ts";
+import { MarkerAnnotation } from "./MarkerAnnotation.tsx";
 import {
   projectConfigSelector,
   useProjectStore,
-} from "../../../../stores/project.ts";
-import { isHighlightSegment } from "./AnnotationModel.ts";
-import { MarkerAnnotation } from "./MarkerAnnotation.tsx";
-import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
-import { createHighlightClasses } from "./utils/createAnnotationClasses.ts";
+} from "../../../stores/project.ts";
+import _ from "lodash";
 
 export function HighlightAnnotations(
   props: Pick<NestedAnnotationProps, "segment">,

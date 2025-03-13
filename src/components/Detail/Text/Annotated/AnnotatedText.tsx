@@ -1,25 +1,25 @@
-import { BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
-import { useAnnotationStore } from "../../../../stores/annotation.ts";
+import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
+import { useAnnotationStore } from "../../../stores/annotation.ts";
 // import { createSearchRegex } from "../createSearchRegex.tsx";
 import { SegmentedLine } from "./SegmentedLine.tsx";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 // import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
-import {
-  AnnoRepoAnnotation,
-  isLogicalTextAnchorTarget,
-} from "../../../../model/AnnoRepoAnnotation.ts";
+import "./annotated.css";
 import {
   projectConfigSelector,
   useProjectStore,
-} from "../../../../stores/project.ts";
-import { useDetailNavigation } from "../../../Detail/useDetailNavigation.tsx";
-import { createSearchRegex } from "../createSearchRegex.tsx";
-import "./annotated.css";
-import { LineOffsets } from "./AnnotationModel.ts";
+} from "../../../stores/project.ts";
+import {
+  AnnoRepoAnnotation,
+  isLogicalTextAnchorTarget,
+} from "../../../model/AnnoRepoAnnotation.ts";
 import {
   createAnnotationLineOffsets,
   createMarkerLineOffsets,
 } from "./utils/createLineOffsets.ts";
+import { LineOffsets } from "./AnnotationModel.ts";
+import { createSearchRegex } from "../createSearchRegex.tsx";
+import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;

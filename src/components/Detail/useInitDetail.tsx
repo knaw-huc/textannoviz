@@ -8,7 +8,7 @@ import {
 import { useTextStore } from "../../stores/text.ts";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
-import { NOTES_VIEW } from "../Detail/Text/Annotated/MarkerTooltip.tsx";
+import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
 import { useDetailNavigation } from "./useDetailNavigation.tsx";
 
 /**

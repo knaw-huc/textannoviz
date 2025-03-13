@@ -1,14 +1,14 @@
-import { Base64 } from "js-base64";
-import { toEntityCategory } from "../../../components/Detail/Text/Annotated/utils/createAnnotationClasses.ts";
-import { QUERY } from "../../../components/Search/SearchUrlParams.ts";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
-import { SearchQuery } from "../../../model/Search.ts";
 import { skipEmptyValues } from "../../../utils/skipEmptyValues.ts";
+import { Base64 } from "js-base64";
 import {
   entityCategoryToAgg,
   isDateEntity,
   isEntityEntity,
 } from "./ProjectAnnotationModel.ts";
+import { QUERY } from "../../../components/Search/SearchUrlParams.ts";
+import { SearchQuery } from "../../../model/Search.ts";
+import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 
 export function toEntitySearchQuery(anno: AnnoRepoBodyBase): URLSearchParams {
   if (isDateEntity(anno)) {

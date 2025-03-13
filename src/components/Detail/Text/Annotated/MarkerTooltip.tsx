@@ -3,12 +3,12 @@ import { OverlayArrow, Tooltip } from "react-aria-components";
 import {
   AnnoRepoAnnotation,
   isNoteBody,
-} from "../../../../model/AnnoRepoAnnotation.ts";
-import { BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
-import { useAnnotationStore } from "../../../../stores/annotation.ts";
-import { useTextStore } from "../../../../stores/text.ts";
-import { Optional } from "../../../../utils/Optional.ts";
-import { SpanTooltipButton } from "../../../common/SpanTooltipButton.tsx";
+} from "../../../model/AnnoRepoAnnotation.ts";
+import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
+import { useAnnotationStore } from "../../../stores/annotation.ts";
+import { useTextStore } from "../../../stores/text.ts";
+import { Optional } from "../../../utils/Optional.ts";
+import { SpanTooltipButton } from "../../common/SpanTooltipButton.tsx";
 import { MarkerSegment } from "./AnnotationModel.ts";
 
 // Detail.tsx performs an additional broccoli call to retrieve notes:

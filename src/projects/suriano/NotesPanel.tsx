@@ -1,5 +1,5 @@
 import { Button } from "react-aria-components";
-import { createNoteLines } from "../../components/Detail/Text/Annotated/MarkerTooltip";
+import { createNoteLines } from "../../components/Text/Annotated/MarkerTooltip";
 import {
   AnnoRepoAnnotation,
   isNoteBody,

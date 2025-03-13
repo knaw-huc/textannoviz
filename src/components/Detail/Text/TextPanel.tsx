@@ -1,10 +1,10 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { BroccoliTextGeneric } from "../../../model/Broccoli";
+import { BroccoliTextGeneric } from "../../model/Broccoli";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
-} from "../../../stores/project";
+} from "../../stores/project";
 import { AnnotatedText } from "./Annotated/AnnotatedText.tsx";
 import { StyledText } from "./StyledText.tsx";
 import { TextHighlighting } from "./TextHighlighting.tsx";

@@ -1,22 +1,22 @@
 import { PropsWithChildren } from "react";
 
-import _ from "lodash";
-import { AnnoRepoBodyBase } from "../../../../model/AnnoRepoAnnotation.ts";
-import { ProjectEntityBody } from "../../../../model/ProjectConfig.ts";
-import {
-  projectConfigSelector,
-  translateProjectSelector,
-  useProjectStore,
-} from "../../../../stores/project.ts";
-import { Optional } from "../../../../utils/Optional.ts";
 import { StyledText } from "../StyledText.tsx";
+import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
+import _ from "lodash";
 import {
   GroupedSegments,
   isNestedAnnotationSegment,
 } from "./AnnotationModel.ts";
-import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
+import { Optional } from "../../../utils/Optional.ts";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 import { ScrollableModal } from "./ScrollableModal.tsx";
 import { SpanModalButton } from "./SpanModalButton.tsx";
+import { ProjectEntityBody } from "../../../model/ProjectConfig.ts";
+import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
 type EntityModalProps = PropsWithChildren<{
   clickedGroup: GroupedSegments;

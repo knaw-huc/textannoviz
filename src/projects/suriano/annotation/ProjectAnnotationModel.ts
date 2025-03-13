@@ -1,10 +1,10 @@
-import _ from "lodash";
-import { normalizeClassname } from "../../../components/Detail/Text/Annotated/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoBody,
   AnnoRepoBodyBase,
   EntityDetail,
 } from "../../../model/AnnoRepoAnnotation.ts";
+import _ from "lodash";
+import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 
 /**
  * Highlighted element
