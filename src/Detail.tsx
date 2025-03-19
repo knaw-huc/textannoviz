@@ -1,11 +1,9 @@
 import { Skeleton } from "primereact/skeleton";
 import { useState } from "react";
-import { Footer } from "./components/Footer/Footer";
-// import { Mirador } from "./components/Mirador/Mirador";
-import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
-import { useInitSearch } from "./components/Search/useInitSearch.ts";
-// import { TextComponent } from "./components/Text/TextComponent";
 import { Panels } from "./components/Detail/Panels.tsx";
+import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
+import { Footer } from "./components/Footer/Footer";
+import { useInitSearch } from "./components/Search/useInitSearch.ts";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
 
@@ -43,15 +41,6 @@ export const Detail = (props: DetailProps) => {
         <>
           <main className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
             <Panels />
-            {/* {showIiifViewer && props.config.showMirador ? <Mirador /> : null} */}
-            {/* <TextComponent
-              panelsToRender={props.config.defaultTextPanels}
-              allPossiblePanels={props.config.allPossibleTextPanels}
-              isLoading={isLoadingDetail}
-            /> */}
-            {/* {showAnnotationPanel ? (
-              <Annotation isLoading={isLoadingDetail} />
-            ) : null} */}
           </main>
           <Footer
             showIiifViewerHandler={showIiifViewerHandler}
