@@ -57,6 +57,9 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
 }
 
 export default function App() {
+  const t = 1;
+  console.log("test", t);
+
   const setAnnotationTypesToInclude = useAnnotationStore(
     (state) => state.setAnnotationTypesToInclude,
   );
