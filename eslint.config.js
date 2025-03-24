@@ -8,6 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
+import stylisticJs from "@stylistic/eslint-plugin-js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,6 +35,7 @@ export default defineConfig([
     plugins: {
       react: fixupPluginRules(react),
       "@typescript-eslint": fixupPluginRules(typescriptEslint),
+      "@stylistic/js": stylisticJs,
     },
 
     languageOptions: {
@@ -61,6 +63,18 @@ export default defineConfig([
       "react/jsx-uses-react": "off",
       "react/react-in-jsx-scope": "off",
       "prefer-const": "error",
+      "@stylistic/js/indent": [
+        "error",
+        2,
+        { SwitchCase: 1, flatTernaryExpressions: false },
+      ],
+      "@stylistic/js/quotes": [
+        "error",
+        "double",
+        {
+          allowTemplateLiterals: "always",
+        },
+      ],
     },
   },
 ]);

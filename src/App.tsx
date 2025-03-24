@@ -57,6 +57,7 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
 }
 
 export default function App() {
+  // TODO: remove lint tests:
   const t = 1;
   console.log("test", t);
 

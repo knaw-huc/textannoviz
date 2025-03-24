@@ -48,7 +48,7 @@ export function Summary(props: SummaryProps) {
           dangerouslySetInnerHTML={{
             __html: props.summary.replace(
               regex,
-              '<span class="rounded bg-yellow-200 p-1">$&</span>',
+              "<span class=\"rounded bg-yellow-200 p-1\">$&</span>",
             ),
           }}
         ></span>
