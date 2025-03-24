@@ -158,22 +158,22 @@ export function SearchResults(props: SearchResultsProps) {
         <span className="font-semibold">
           {resultStartEnd
             ? `${resultStartEnd} ${
-                searchResults.total.value
-              } ${translateProject("results").toLowerCase()}`
+              searchResults.total.value
+            } ${translateProject("results").toLowerCase()}`
             : translate("NO_SEARCH_RESULTS")}
         </span>
         <div className="flex items-center justify-between gap-10">
           {searchResults.results.length >= 1 &&
             projectConfig.showSearchSortBy && (
-              <SearchSorting
-                dateFacet={searchQuery.dateFacet}
-                onSort={updateSorting}
-                selected={{
-                  field: searchParams.sortBy,
-                  order: searchParams.sortOrder,
-                }}
-              />
-            )}
+            <SearchSorting
+              dateFacet={searchQuery.dateFacet}
+              onSort={updateSorting}
+              selected={{
+                field: searchParams.sortBy,
+                order: searchParams.sortOrder,
+              }}
+            />
+          )}
 
           {searchResults.results.length >= 1 && (
             <SearchResultsPerPage onChange={changePageSize} value={pageSize} />

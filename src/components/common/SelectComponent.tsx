@@ -13,15 +13,14 @@ import {
 
 import { HelpTooltip } from "./HelpTooltip.tsx";
 
-interface SelectComponentProps<T extends object>
-  extends Omit<SelectProps<T>, "children"> {
+type SelectComponentProps<T extends object> = {
   label?: string;
   helpLabel?: string;
   items?: Iterable<T>;
   buttonWidth?: string;
   labelStyling?: string;
   children: React.ReactNode | ((item: T) => React.ReactNode);
-}
+} & Omit<SelectProps<T>, "children">;
 
 export function SelectComponent<T extends object>({
   label,

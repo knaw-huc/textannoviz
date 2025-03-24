@@ -10,10 +10,10 @@ import { TextComponent } from "./components/Text/TextComponent";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
 
-interface DetailProps {
+type DetailProps = {
   project: string;
   config: ProjectConfig;
-}
+};
 
 export const Detail = (props: DetailProps) => {
   const [showSearchResults, setShowSearchResults] = useState(false);

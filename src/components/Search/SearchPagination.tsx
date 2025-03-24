@@ -6,14 +6,14 @@ import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { TextFieldComponent } from "../common/TextFieldComponent.tsx";
 
-interface SearchPaginationProps {
+type SearchPaginationProps = {
   onPrevPageClick: () => void;
   onNextPageClick: () => void;
   onJumpToPage: (page: number) => void;
   pageNumber: number;
   searchResult: SearchResult;
   elasticSize: number;
-}
+};
 
 export const SearchPagination = (props: SearchPaginationProps) => {
   const translate = useProjectStore(translateSelector);

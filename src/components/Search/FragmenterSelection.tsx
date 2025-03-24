@@ -11,10 +11,10 @@ import {
   SelectItemComponent,
 } from "../common/SelectComponent.tsx";
 
-interface FragmenterProps {
+type FragmenterProps = {
   onChange: (key: Key) => void;
   value: number;
-}
+};
 
 export const FragmenterSelection = (props: FragmenterProps) => {
   const translate = useProjectStore(translateSelector);

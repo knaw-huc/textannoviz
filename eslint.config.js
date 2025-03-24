@@ -52,6 +52,7 @@ export default defineConfig([
         },
       ],
       "simple-import-sort/imports": "error",
+      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     },
 
     plugins: {

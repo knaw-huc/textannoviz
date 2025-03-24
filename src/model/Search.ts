@@ -13,7 +13,7 @@ export type SearchResult = {
     | GlobaliseSearchResultsBody[];
 };
 
-export interface RepublicSearchResultBody {
+export type RepublicSearchResultBody = {
   _id: string;
   bodyType: string;
   sessionDate: string;
@@ -28,7 +28,7 @@ export interface RepublicSearchResultBody {
   _hits: {
     text: string[];
   };
-}
+};
 
 export type TranslatinSearchResultsBody = {
   _id: string;

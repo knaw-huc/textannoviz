@@ -8,10 +8,10 @@ import {
 } from "../common/SelectComponent.tsx";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
-interface SearchResultsPerPageProps {
+type SearchResultsPerPageProps = {
   onChange: (key: Key) => void;
   value: number;
-}
+};
 
 type PageSizeOption = {
   name: number;

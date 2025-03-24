@@ -93,27 +93,27 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
 
       projectName === "republic" || projectName === "globalise"
         ? (result = (
-            <div
-              className={collectClasses(index) + "w-fit"}
-              dangerouslySetInnerHTML={{
-                __html: line.replace(
-                  regex,
-                  '<span class="rounded bg-yellow-200 p-1">$&</span>',
-                ),
-              }}
-            />
-          ))
+          <div
+            className={collectClasses(index) + "w-fit"}
+            dangerouslySetInnerHTML={{
+              __html: line.replace(
+                regex,
+                "<span class=\"rounded bg-yellow-200 p-1\">$&</span>",
+              ),
+            }}
+          />
+        ))
         : (result = (
-            <span
-              className={collectClasses(index) + "w-fit"}
-              dangerouslySetInnerHTML={{
-                __html: line.replace(
-                  regex,
-                  '<span class="rounded bg-yellow-200 p-1">$&</span>',
-                ),
-              }}
-            />
-          ));
+          <span
+            className={collectClasses(index) + "w-fit"}
+            dangerouslySetInnerHTML={{
+              __html: line.replace(
+                regex,
+                "<span class=\"rounded bg-yellow-200 p-1\">$&</span>",
+              ),
+            }}
+          />
+        ));
       return result;
     } else {
       if (projectName === "republic" || projectName === "globalise") {

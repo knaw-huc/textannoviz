@@ -18,11 +18,11 @@ export type Sorting = {
   order: SortOrder;
 };
 
-interface SearchSortByProps {
+type SearchSortByProps = {
   onSort: (sortBy: Sorting) => void;
   selected: Sorting;
   dateFacet?: FacetName;
-}
+};
 
 const SEPARATOR = "-";
 const BY_SCORE = "_score";

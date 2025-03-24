@@ -1,8 +1,8 @@
 import { AnnoRepoAnnotation, TeiRsBody } from "../../model/AnnoRepoAnnotation";
 
-interface GetAnnotationItemContentProps {
+type GetAnnotationItemContentProps = {
   annotation: AnnoRepoAnnotation;
-}
+};
 
 export const AnnotationItemContent = (props: GetAnnotationItemContentProps) => {
   function renderAnnotationItemContent() {

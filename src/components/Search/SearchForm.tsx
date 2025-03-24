@@ -27,12 +27,12 @@ import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 import { removeTerm } from "./util/removeTerm.ts";
 import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
 
-interface SearchFormProps {
+type SearchFormProps = {
   onSearch: (toFirstPage: boolean) => void;
   keywordFacets: FacetEntry[];
   searchQuery: SearchQuery;
   updateAggs: (query: SearchQuery) => void;
-}
+};
 
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
