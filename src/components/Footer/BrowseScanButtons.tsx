@@ -1,5 +1,6 @@
 import mirador from "mirador-knaw-huc-mui5";
 import { Button } from "react-aria-components";
+
 import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";

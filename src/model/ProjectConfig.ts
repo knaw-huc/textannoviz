@@ -5,6 +5,7 @@ import {
   AnnoRepoBodyBase,
 } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
+import { MiradorConfig } from "./MiradorConfig.ts";
 import {
   GlobaliseSearchResultsBody,
   MondriaanSearchResultsBody,
@@ -15,7 +16,6 @@ import {
   TranslatinSearchResultsBody,
   VanGoghSearchResultsBody,
 } from "./Search.ts";
-import { MiradorConfig } from "./MiradorConfig.ts";
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &

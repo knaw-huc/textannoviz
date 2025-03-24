@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import type { Key } from "react-aria-components";
+
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import {
   SelectComponent,

@@ -1,4 +1,5 @@
 import uniq from "lodash/uniq";
+
 import { HIT_PREVIEW_REGEX } from "../../components/Search/util/createHighlights";
 
 export type SummaryProps = {

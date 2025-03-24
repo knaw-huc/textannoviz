@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { DialogTrigger } from "react-aria-components";
+
 import { SpanButton } from "./SpanButton.tsx";
 
 export function SpanModalButton(props: { label: ReactNode; modal: ReactNode }) {

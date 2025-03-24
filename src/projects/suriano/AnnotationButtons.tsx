@@ -2,9 +2,10 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
+
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 import { SurianoLetterBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;

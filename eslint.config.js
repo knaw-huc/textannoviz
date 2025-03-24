@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
 import stylisticJs from "@stylistic/eslint-plugin-js";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,7 +39,10 @@ export default defineConfig([
       "@stylistic/js/indent": [
         "error",
         2,
-        { SwitchCase: 1, flatTernaryExpressions: false },
+        {
+          SwitchCase: 1,
+          flatTernaryExpressions: false,
+        },
       ],
       "@stylistic/js/quotes": [
         "error",
@@ -47,12 +51,14 @@ export default defineConfig([
           allowTemplateLiterals: "always",
         },
       ],
+      "simple-import-sort/imports": "error",
     },
 
     plugins: {
       react: fixupPluginRules(react),
       "@typescript-eslint": fixupPluginRules(typescriptEslint),
       "@stylistic/js": stylisticJs,
+      "simple-import-sort": simpleImportSort,
     },
 
     languageOptions: {

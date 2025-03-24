@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { MondriaanSearchResultsBody } from "../../model/Search";
 
-import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
+import { MondriaanSearchResultsBody } from "../../model/Search";
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
 
 export const SearchItem = (
   props: SearchItemProps<MondriaanSearchResultsBody>,

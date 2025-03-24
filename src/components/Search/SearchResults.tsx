@@ -2,6 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
+
 import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
@@ -11,14 +12,14 @@ import {
 } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
+import { Histogram } from "./histogram/Histogram.tsx";
+import { HistogramControls } from "./histogram/HistogramControls.tsx";
 import { KeywordFacetLabel } from "./KeywordFacetLabel.tsx";
 import { SearchPagination } from "./SearchPagination.tsx";
 import { SearchResultsPerPage } from "./SearchResultsPerPage.tsx";
 import { SearchSorting, Sorting } from "./SearchSorting.tsx";
-import { Histogram } from "./histogram/Histogram.tsx";
-import { HistogramControls } from "./histogram/HistogramControls.tsx";
-import { removeTerm } from "./util/removeTerm.ts";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
+import { removeTerm } from "./util/removeTerm.ts";
 
 type SearchResultsProps = {
   searchQuery: SearchQuery;
@@ -157,22 +158,22 @@ export function SearchResults(props: SearchResultsProps) {
         <span className="font-semibold">
           {resultStartEnd
             ? `${resultStartEnd} ${
-              searchResults.total.value
-            } ${translateProject("results").toLowerCase()}`
+                searchResults.total.value
+              } ${translateProject("results").toLowerCase()}`
             : translate("NO_SEARCH_RESULTS")}
         </span>
         <div className="flex items-center justify-between gap-10">
           {searchResults.results.length >= 1 &&
             projectConfig.showSearchSortBy && (
-            <SearchSorting
-              dateFacet={searchQuery.dateFacet}
-              onSort={updateSorting}
-              selected={{
-                field: searchParams.sortBy,
-                order: searchParams.sortOrder,
-              }}
-            />
-          )}
+              <SearchSorting
+                dateFacet={searchQuery.dateFacet}
+                onSort={updateSorting}
+                selected={{
+                  field: searchParams.sortBy,
+                  order: searchParams.sortOrder,
+                }}
+              />
+            )}
 
           {searchResults.results.length >= 1 && (
             <SearchResultsPerPage onChange={changePageSize} value={pageSize} />

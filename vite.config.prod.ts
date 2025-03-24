@@ -5,6 +5,7 @@ import tailwindCss from "tailwindcss";
 import { defineConfig, loadEnv } from "vite";
 import checker from "vite-plugin-checker";
 import { htmlInjectionPlugin } from "vite-plugin-html-injection";
+
 import globaliseHtmlInjectionPluginConfig from "./src/projects/globalise/config/htmlInjectionPluginConfig.json";
 import republicHtmlInjectionPluginConfig from "./src/projects/republic/config/htmlInjectionPluginConfig.json";
 

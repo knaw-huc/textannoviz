@@ -1,8 +1,8 @@
+import { ArchiveIcon } from "../../../components/common/icons/ArchiveIcon.tsx";
 import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
-import { ArchiveIcon } from "../../../components/common/icons/ArchiveIcon.tsx";
 
 export function ProvenanceButton(props: {
   className?: string;

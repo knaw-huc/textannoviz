@@ -1,4 +1,5 @@
 import { CategoricalChartState } from "recharts/types/chart/types";
+
 import { SearchResult } from "../../../model/Search";
 import { createIndices } from "../../../utils/createIndices";
 import { BarChartHistogram } from "./BarChartHistogram";

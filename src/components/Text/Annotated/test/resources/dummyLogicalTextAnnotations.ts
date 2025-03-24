@@ -1,7 +1,7 @@
 import {
   AnnotationBody,
-  OffsetsByCharIndex,
   LineOffsets,
+  OffsetsByCharIndex,
 } from "../../AnnotationModel.ts";
 
 /**

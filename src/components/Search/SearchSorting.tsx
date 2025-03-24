@@ -1,6 +1,7 @@
 import React from "react";
 import type { Key } from "react-aria-components";
 import { toast } from "react-toastify";
+
 import { ASC, DESC, FacetName, SortOrder } from "../../model/Search.ts";
 import {
   translateProjectSelector,

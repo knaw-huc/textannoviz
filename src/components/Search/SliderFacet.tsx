@@ -6,6 +6,7 @@ import {
   SliderThumb,
   SliderTrack,
 } from "react-aria-components";
+
 import {
   translateProjectSelector,
   useProjectStore,

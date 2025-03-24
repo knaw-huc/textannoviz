@@ -1,28 +1,29 @@
 import { create } from "zustand";
-import {
-  createSearchResultsSlice,
-  SearchResultsSlice,
-} from "./search-results-slice.ts";
-import {
-  createSearchHistorySlice,
-  SearchHistorySlice,
-} from "./search-history-slice.ts";
-import {
-  createSearchFacetTypesSlice,
-  SearchFacetTypesSlice,
-} from "./search-facet-types-slice.ts";
-import {
-  createKeywordFacetsSlice,
-  KeywordFacetsSlice,
-} from "./keyword-facets-slice.ts";
+
 import {
   createDefaultQuerySlice,
   DefaultQuerySlice,
 } from "./default-query-slice.ts";
 import {
+  createKeywordFacetsSlice,
+  KeywordFacetsSlice,
+} from "./keyword-facets-slice.ts";
+import {
+  createSearchFacetTypesSlice,
+  SearchFacetTypesSlice,
+} from "./search-facet-types-slice.ts";
+import {
+  createSearchHistorySlice,
+  SearchHistorySlice,
+} from "./search-history-slice.ts";
+import {
   createSearchInitStatusSlice,
   SearchInitStatusSlice,
 } from "./search-init-status.ts";
+import {
+  createSearchResultsSlice,
+  SearchResultsSlice,
+} from "./search-results-slice.ts";
 
 export type SearchStore = SearchInitStatusSlice &
   DefaultQuerySlice &

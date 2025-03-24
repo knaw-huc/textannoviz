@@ -1,5 +1,6 @@
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { Link } from "react-router-dom";
+
+import { translateSelector, useProjectStore } from "../../stores/project.ts";
 
 export function NewSearchButton() {
   const translate = useProjectStore(translateSelector);

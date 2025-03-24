@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { useSearchStore } from "../../stores/search/search-store.ts";
 import _ from "lodash";
+import { useEffect, useState } from "react";
+
+import { useSearchStore } from "../../stores/search/search-store.ts";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 export function useIsDefaultQuery() {

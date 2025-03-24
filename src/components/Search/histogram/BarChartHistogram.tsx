@@ -9,8 +9,9 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
-import { HitsYear } from "./Histogram";
+
 import { translateSelector, useProjectStore } from "../../../stores/project.ts";
+import { HitsYear } from "./Histogram";
 
 type BarChartHistorgramProps = {
   hitsYear: HitsYear;

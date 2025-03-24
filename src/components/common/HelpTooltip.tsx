@@ -1,6 +1,7 @@
-import { SpanTooltipButton } from "./SpanTooltipButton.tsx";
 import { OverlayArrow, Tooltip } from "react-aria-components";
+
 import { HelpIcon } from "./icons/HelpIcon.tsx";
+import { SpanTooltipButton } from "./SpanTooltipButton.tsx";
 
 export function HelpTooltip(props: { label?: string; iconColor?: string }) {
   // Hide tooltip when project does not provide a label:

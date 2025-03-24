@@ -1,15 +1,16 @@
 import { useEffect } from "react";
-import { handleAbort } from "../../utils/handleAbort.tsx";
-import { useSearchStore } from "../../stores/search/search-store.ts";
-import { isSearchableQuery } from "./isSearchableQuery.ts";
-import { useSearchResults } from "./useSearchResults.tsx";
+
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
+import { handleAbort } from "../../utils/handleAbort.tsx";
+import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
-import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 import { useInitSearchUrlParams } from "./useInitSearchUrlParams.tsx";
+import { useSearchResults } from "./useSearchResults.tsx";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 /**
  * Initialize search query, facets and (optional) results

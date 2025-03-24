@@ -7,6 +7,7 @@ import {
   SearchField,
   type SearchFieldProps,
 } from "react-aria-components";
+
 import { HelpTooltip } from "./HelpTooltip.tsx";
 
 interface SearchFieldComponentProps extends SearchFieldProps {

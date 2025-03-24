@@ -1,4 +1,5 @@
 import pull from "lodash/pull";
+
 import { Terms } from "../../../model/Search.ts";
 
 export function removeTerm(

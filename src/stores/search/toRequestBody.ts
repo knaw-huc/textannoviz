@@ -1,5 +1,6 @@
-import { SearchQuery, SearchQueryRequestBody } from "../../model/Search.ts";
 import _ from "lodash";
+
+import { SearchQuery, SearchQueryRequestBody } from "../../model/Search.ts";
 
 export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
   if (!query?.terms) {

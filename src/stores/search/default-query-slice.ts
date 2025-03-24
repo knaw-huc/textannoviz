@@ -1,4 +1,5 @@
 import { StateCreator } from "zustand";
+
 import { SearchQuery } from "../../model/Search.ts";
 
 export type DefaultQueryState = {

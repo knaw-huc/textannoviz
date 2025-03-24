@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 
 type RenderMetadataPanelProps = {

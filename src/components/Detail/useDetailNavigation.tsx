@@ -1,11 +1,12 @@
+import { isNumber, isString } from "lodash";
 import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
-import { decodeObject, getUrlParams } from "../../utils/UrlParamUtils.ts";
+
 import { SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { decodeObject, getUrlParams } from "../../utils/UrlParamUtils.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
-import { isNumber, isString } from "lodash";
-import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
+import { detailTier2Path } from "../Text/Annotated/utils/detailPath.ts";
 
 export type DetailTierAndParams = {
   highlight?: string;
