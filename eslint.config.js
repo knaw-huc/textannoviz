@@ -31,6 +31,23 @@ export default defineConfig([
         "prettier",
       ),
     ),
+    rules: {
+      "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off",
+      "prefer-const": "error",
+      "@stylistic/js/indent": [
+        "error",
+        2,
+        { SwitchCase: 1, flatTernaryExpressions: false },
+      ],
+      "@stylistic/js/quotes": [
+        "error",
+        "double",
+        {
+          allowTemplateLiterals: "always",
+        },
+      ],
+    },
 
     plugins: {
       react: fixupPluginRules(react),
@@ -57,24 +74,6 @@ export default defineConfig([
       react: {
         version: "detect",
       },
-    },
-
-    rules: {
-      "react/jsx-uses-react": "off",
-      "react/react-in-jsx-scope": "off",
-      "prefer-const": "error",
-      "@stylistic/js/indent": [
-        "error",
-        2,
-        { SwitchCase: 1, flatTernaryExpressions: false },
-      ],
-      "@stylistic/js/quotes": [
-        "error",
-        "double",
-        {
-          allowTemplateLiterals: "always",
-        },
-      ],
     },
   },
 ]);
