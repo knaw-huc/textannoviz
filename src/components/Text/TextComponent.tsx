@@ -38,7 +38,7 @@ export const TextComponent = (props: TextComponentProps) => {
   }
 
   return (
-    <div className="flex h-full w-6/12 grow flex-col self-stretch">
+    <div className="flex h-full w-full grow flex-col self-stretch">
       <div className="sr-only">
         <h1>Resolutie</h1>
       </div>

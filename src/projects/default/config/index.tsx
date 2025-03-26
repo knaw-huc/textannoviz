@@ -89,4 +89,5 @@ export const defaultConfig: DefaultProjectConfig = {
   },
   showSearchResultsOnInfoPage: false,
   projectCss: "",
+  detailPanels: [],
 };

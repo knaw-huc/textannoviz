@@ -5,6 +5,7 @@ import {
   AnnoRepoBodyBase,
 } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
+import { MiradorConfig } from "./MiradorConfig.ts";
 import {
   GlobaliseSearchResultsBody,
   MondriaanSearchResultsBody,
@@ -15,7 +16,6 @@ import {
   TranslatinSearchResultsBody,
   VanGoghSearchResultsBody,
 } from "./Search.ts";
-import { MiradorConfig } from "./MiradorConfig.ts";
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
@@ -33,6 +33,14 @@ export type ProjectConfig = SearchConfig &
     useExternalConfig: boolean;
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
+
+    detailPanels: {
+      name: string;
+      tabs: {
+        title: string;
+        content: JSX.Element;
+      }[];
+    }[];
 
     components: ComponentsConfig;
     projectCss: string;
