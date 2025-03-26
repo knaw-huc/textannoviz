@@ -245,6 +245,23 @@ export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
   };
 };
 
+export type VanGoghTtLetterBodyBody = AnnoRepoBodyBase & {
+  metadata: {
+    type: string;
+    correspondent: string;
+    sender: string;
+    file: string;
+    institution: string;
+    letterid: string;
+    location: string;
+    msid: string;
+    period: string;
+    periodlong: string;
+    prevLetterBody: string;
+    nextLetterBody: string;
+  };
+};
+
 export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {
     document: string;

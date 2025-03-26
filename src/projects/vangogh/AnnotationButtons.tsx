@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
-import { VanGoghTfLetterBody } from "../../model/AnnoRepoAnnotation";
+import { VanGoghTtLetterBodyBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 
 export function AnnotationButtons() {
@@ -17,10 +17,10 @@ export function AnnotationButtons() {
     (annotation) => annotation.body.id === params.tier2,
   );
 
-  const nextLetter = (currentAnnotation?.body as VanGoghTfLetterBody)?.metadata
-    .nextLetter;
-  const prevLetter = (currentAnnotation?.body as VanGoghTfLetterBody)?.metadata
-    .prevLetter;
+  const nextLetter = (currentAnnotation?.body as VanGoghTtLetterBodyBody)
+    ?.metadata.nextLetterBody;
+  const prevLetter = (currentAnnotation?.body as VanGoghTtLetterBodyBody)
+    ?.metadata.prevLetterBody;
 
   React.useEffect(() => {
     setIsNextButtonDisabled(!nextLetter || nextLetter === params.tier2);
