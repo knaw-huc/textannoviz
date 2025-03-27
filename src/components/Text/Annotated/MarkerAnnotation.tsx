@@ -86,11 +86,13 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { marker } = props;
   const classNames: string[] = [];
   classNames.push(...createTooltipMarkerClasses(marker));
+  //TODO: Note numbers should always come from the same data point
+  const vanGoghNoteNumber = marker.body.metadata.target.match(/[^-]+$/)?.[0];
   return (
     <span className={classNames.join(" ")}>
       <TooltipMarkerButton clickedMarker={marker}>
         {/*TODO: move to project config*/}
-        {marker.body.metadata.n ?? "*"}
+        {(marker.body.metadata.n || vanGoghNoteNumber) ?? "*"}
       </TooltipMarkerButton>
     </span>
   );
