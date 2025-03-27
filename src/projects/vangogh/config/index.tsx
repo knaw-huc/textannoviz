@@ -1,5 +1,6 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
+import { TabRecipes } from "../../../components/Detail/TabRecipes";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -8,11 +9,14 @@ import { defaultConfig } from "../../default/config";
 import {
   getAnnotationCategory,
   getHighlightCategory,
+  projectEntityTypes,
   projectHighlightedTypes,
   projectPageMarkerAnnotationTypes,
+  projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
+import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
 import { englishVanGoghLabels } from "./englishVanGoghLabels";
 
@@ -95,8 +99,9 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   showAnnotations: true,
   highlightedAnnotationTypes: projectHighlightedTypes,
-  // tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
+  tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  entityAnnotationTypes: projectEntityTypes,
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
 
@@ -111,7 +116,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   headerTitle: "Correspondence of Vincent van Gogh",
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
-  showToggleTextPanels: false,
+  showToggleTextPanels: true,
   defaultKeywordAggsToRender: ["correspondent", "location", "period", "sender"],
   components: {
     SearchItem,
@@ -119,6 +124,23 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
   },
   selectedLanguage: "en",
-  // zoomAnnoMirador: true,
+  zoomAnnoMirador: true,
   languages: [{ code: "en", labels: englishVanGoghLabels }],
+  detailPanels: [
+    {
+      name: "facs-text",
+      tabs: [TabRecipes.facsTab, TabRecipes.textTab],
+    },
+    {
+      name: "text-facs",
+      tabs: [TabRecipes.textTab, TabRecipes.facsTab],
+    },
+    {
+      name: "metadata-webannos",
+      tabs: [TabRecipes.metadataTab, TabRecipes.webAnnoTab],
+    },
+  ],
+  allPossibleTextPanels: ["self", "textOrig", "textTrans"],
+  defaultTextPanels: ["textOrig"],
+  projectCss: projectCss,
 } as ProjectSpecificConfig);
