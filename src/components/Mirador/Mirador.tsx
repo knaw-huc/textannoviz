@@ -131,9 +131,9 @@ export function Mirador() {
       clearAnnosMirador(miradorStore);
     }
 
-    if (showSvgsAnnosMirador && miradorStore) {
-      renderAnnosMirador(miradorStore);
-    }
+    // if (showSvgsAnnosMirador && miradorStore) {
+    //   renderAnnosMirador(miradorStore);
+    // }
   }, [showSvgsAnnosMirador]);
 
   return (
