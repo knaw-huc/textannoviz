@@ -33,6 +33,7 @@ export type ProjectConfig = SearchConfig &
     useExternalConfig: boolean;
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
+    showNotesTab: boolean;
 
     detailPanels: {
       name: string;
@@ -84,6 +85,7 @@ export type ComponentsConfig = {
       | VanGoghSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
+  NotesPanel: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
 };
 
 type TextConfig = {

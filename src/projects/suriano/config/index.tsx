@@ -23,6 +23,7 @@ import {
   projectPageMarkerAnnotationTypes,
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
 import projectCss from "../project.css?inline";
@@ -32,6 +33,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
   relativeTo: "tf:File",
   showWebAnnoTab: true,
+  showNotesTab: true,
   annotationTypesToInclude: [
     // "EntityMetadata",
     // "tei:Author",
@@ -115,6 +117,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
     SearchInfoPage,
     HelpLink: Empty,
+    NotesPanel,
   },
 
   selectedLanguage: "en",
