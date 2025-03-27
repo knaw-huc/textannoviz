@@ -4,7 +4,9 @@ import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation";
 
 const teiHi = "tei:Hi";
 const teiHead = "tei:Head";
+const teiRs = "tei:Rs";
 
+export const projectEntityTypes = [teiRs];
 export const projectHighlightedTypes = [teiHi, teiHead];
 export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
 export const projectPageMarkerAnnotationTypes = ["tf:Page"];
@@ -14,6 +16,8 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
     return get(annoRepoBody, "metadata.rend");
   } else if (annoRepoBody.type === teiHead) {
     return normalizeClassname(teiHead);
+  } else if (annoRepoBody.type === teiRs) {
+    return "PER";
   } else {
     return "unknown";
   }
