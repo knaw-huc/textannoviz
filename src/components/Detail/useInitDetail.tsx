@@ -83,8 +83,11 @@ export function useInitDetail() {
       const annotations = result.anno;
       const views = result.views;
 
-      if (projectName === "suriano") {
-        const tfFileId = bodyId.replace("letter_body", "file");
+      if (projectName === "suriano" || projectName === "vangogh") {
+        const tfFileId =
+          projectName === "suriano"
+            ? bodyId.replace("letter_body", "file")
+            : bodyId.replace("letter_body", "letter");
         console.warn("Add suriano notes panel by " + tfFileId);
         const withNotes = await fetchBroccoliScanWithOverlap(
           tfFileId,
