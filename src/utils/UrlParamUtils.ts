@@ -115,7 +115,10 @@ export function pushUrlParamsToHistory(params: UpdateOrRemoveParams) {
       ...paramUpdate,
       ...toUpdate,
     };
-    urlUpdate.search = "?" + encodeObject(allEntries);
+    const encoded = encodeObject(allEntries);
+    if (encoded) {
+      urlUpdate.search = "?" + encoded;
+    }
   }
 
   history.pushState(null, "", urlUpdate);
