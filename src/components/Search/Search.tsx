@@ -120,6 +120,7 @@ export const Search = () => {
 
   const { isDefaultQuery } = useIsDefaultQuery();
 
+  // Hide info page when !showSearchResultsOnInfoPage and pressing enter with empty query:
   const isShowingSearchInfoPage =
     isInitSearch &&
     isDefaultQuery &&
