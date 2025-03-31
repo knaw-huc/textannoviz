@@ -22,7 +22,7 @@ export const Detail = (props: DetailProps) => {
   );
   const { isInitDetail, isLoadingDetail } = useInitDetail();
 
-  useInitSearch();
+  useInitSearch({ loadDefaultResults: true });
 
   const { searchResults, isInitSearch } = useSearchStore();
 

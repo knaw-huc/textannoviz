@@ -3,13 +3,14 @@ import { handleAbort } from "../../utils/handleAbort.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { isSearchableQuery } from "./isSearchableQuery.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
-import {
-  projectConfigSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 import { useInitDefaultQuery } from "./useInitDefaultQuery.ts";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 import { useInitSearchUrlParams } from "./useInitSearchUrlParams.tsx";
+import { useIsDefaultQuery } from "./useIsDefaultQuery.ts";
+
+export type UseInitSearchProps = {
+  loadDefaultResults: boolean;
+};
 
 /**
  * Initialize search query, facets and (optional) results
@@ -17,9 +18,7 @@ import { useInitSearchUrlParams } from "./useInitSearchUrlParams.tsx";
  * - fetch keyword and date facets
  * - fetch results when {@link isSearchableQuery}
  */
-export function useInitSearch() {
-  const projectConfig = useProjectStore(projectConfigSelector);
-
+export function useInitSearch(props: UseInitSearchProps) {
   const {
     setSearchResults,
     setKeywordFacets,
@@ -37,6 +36,7 @@ export function useInitSearch() {
 
   useInitDefaultQuery();
   useInitSearchUrlParams();
+  const { isDefaultQuery } = useIsDefaultQuery();
 
   useEffect(() => {
     if (
@@ -61,7 +61,7 @@ export function useInitSearch() {
     setSearchInitStatus({ isLoadingSearch: true });
 
     if (
-      projectConfig.showSearchResultsOnInfoPage ||
+      (props.loadDefaultResults && isDefaultQuery) ||
       isSearchableQuery(searchQuery, defaultQuery)
     ) {
       const searchResults = await getSearchResults(

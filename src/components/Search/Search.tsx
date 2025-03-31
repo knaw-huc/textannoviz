@@ -27,7 +27,9 @@ export const Search = () => {
     useUrlSearchParamsStore();
   const { isInitSearch, isLoadingSearch } = useSearchStore();
 
-  useInitSearch();
+  useInitSearch({
+    loadDefaultResults: projectConfig.showSearchResultsOnInfoPage,
+  });
 
   const { getSearchResults } = useSearchResults();
   const {
