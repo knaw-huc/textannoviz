@@ -118,7 +118,10 @@ export function pushUrlParamsToHistory(params: UpdateOrRemoveParams) {
     urlUpdate.search = "?" + encodeObject(allEntries);
   }
 
-  history.pushState(null, "", urlUpdate);
+  const isUrlChanged = window.location.toString() !== urlUpdate.toString();
+  if (isUrlChanged) {
+    history.pushState(null, "", urlUpdate);
+  }
 }
 
 export function getStateFromUrl<T extends object>(
