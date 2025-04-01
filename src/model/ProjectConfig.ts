@@ -86,6 +86,7 @@ export type ComponentsConfig = {
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
+  ArtworksTab: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
 };
 
 type TextConfig = {

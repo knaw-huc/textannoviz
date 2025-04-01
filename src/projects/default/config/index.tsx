@@ -77,6 +77,7 @@ export const defaultConfig: DefaultProjectConfig = {
     SearchItem: SearchItem,
     BrowseScanButtons: Empty,
     NotesPanel: Placeholder,
+    ArtworksTab: Placeholder,
   },
   selectedLanguage: "en",
   languages: [

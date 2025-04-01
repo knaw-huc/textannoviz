@@ -6,6 +6,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { NotesPanel } from "../../suriano/NotesPanel";
 import {
   getAnnotationCategory,
   getHighlightCategory,
@@ -15,6 +16,7 @@ import {
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel";
 import { AnnotationButtons } from "../AnnotationButtons";
+import { ArtworksTab } from "../ArtworksTab";
 import { MetadataPanel } from "../MetadataPanel";
 import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
@@ -117,11 +119,14 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
+  showSearchResultsOnInfoPage: true,
   defaultKeywordAggsToRender: ["correspondent", "location", "period", "sender"],
   components: {
     SearchItem,
     MetadataPanel,
     AnnotationButtons,
+    NotesPanel,
+    ArtworksTab,
   },
   selectedLanguage: "en",
   zoomAnnoMirador: true,
@@ -137,7 +142,12 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
     },
     {
       name: "metadata-webannos",
-      tabs: [TabRecipes.metadataTab, TabRecipes.webAnnoTab],
+      tabs: [
+        TabRecipes.metadataTab,
+        TabRecipes.notesTab,
+        TabRecipes.artworksTab,
+        TabRecipes.webAnnoTab,
+      ],
     },
   ],
   allPossibleTextPanels: ["self", "textOrig", "textTrans"],
