@@ -1,5 +1,6 @@
-import { FacetTypes } from "../../model/Search.ts";
 import { StateCreator } from "zustand";
+
+import { FacetTypes } from "../../model/Search.ts";
 
 export type SearchFacetTypesSlice = {
   searchFacetTypes: FacetTypes;

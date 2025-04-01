@@ -1,10 +1,10 @@
+import _ from "lodash";
 import { Link } from "react-router-dom";
-import { VanGoghSearchResultsBody } from "../../model/Search";
 
+import { QUERY } from "../../components/Search/SearchUrlParams.ts";
+import { VanGoghSearchResultsBody } from "../../model/Search";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { encodeObject } from "../../utils/UrlParamUtils.ts";
-import _ from "lodash";
-import { QUERY } from "../../components/Search/SearchUrlParams.ts";
 
 export const SearchItem = (
   props: SearchItemProps<VanGoghSearchResultsBody>,

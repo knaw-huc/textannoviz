@@ -1,7 +1,7 @@
 import { ProjectConfig } from "../../../model/ProjectConfig";
-import { sendSearchQuery } from "../../../utils/broccoli";
-import { toRequestBody } from "../../../stores/search/toRequestBody.ts";
 import { SearchQuery } from "../../../model/Search.ts";
+import { toRequestBody } from "../../../stores/search/toRequestBody.ts";
+import { sendSearchQuery } from "../../../utils/broccoli";
 
 export async function getFacets(
   projectConfig: ProjectConfig,

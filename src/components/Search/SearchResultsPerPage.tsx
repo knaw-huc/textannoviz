@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import type { Key } from "react-aria-components";
+
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import {
   SelectComponent,
@@ -7,10 +8,10 @@ import {
 } from "../common/SelectComponent.tsx";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
-interface SearchResultsPerPageProps {
+type SearchResultsPerPageProps = {
   onChange: (key: Key) => void;
   value: number;
-}
+};
 
 type PageSizeOption = {
   name: number;

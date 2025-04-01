@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { createSearchHighlightOffsets } from "./createSearchHighlightOffsets.ts";
 
 describe("createLineSearchOffsets", () => {

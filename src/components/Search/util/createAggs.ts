@@ -1,7 +1,8 @@
+import _ from "lodash";
+
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { FacetTypes, NamedFacetAgg } from "../../../model/Search.ts";
 import { createDefaultAggs } from "./createDefaultAggs.ts";
-import _ from "lodash";
 
 export function createAggs(
   newFacetTypes: FacetTypes,

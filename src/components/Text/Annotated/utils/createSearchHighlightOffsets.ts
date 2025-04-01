@@ -1,4 +1,4 @@
-import { LineOffsets, HighlightBody } from "../AnnotationModel.ts";
+import { HighlightBody, LineOffsets } from "../AnnotationModel.ts";
 
 export function createSearchHighlightOffsets(
   lines: string[],

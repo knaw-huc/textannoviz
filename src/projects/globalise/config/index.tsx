@@ -1,4 +1,5 @@
 import merge from "lodash/merge";
+
 import logo from "../../../assets/G-1.png";
 import {
   ProjectConfig,
@@ -7,11 +8,11 @@ import {
 import { defaultConfig } from "../../default/config";
 import { AnnotationButtons } from "../AnnotationButtons.tsx";
 import { Help } from "../Help.tsx";
+import { HelpLink } from "../HelpLink.tsx";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishGlobaliseLabels } from "./englishGlobaliseLabels.ts";
-import { HelpLink } from "../HelpLink.tsx";
 
 export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "globalise",

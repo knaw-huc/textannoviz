@@ -1,5 +1,6 @@
 import React from "react";
 import type { Key } from "react-aria-components";
+
 import {
   translateProjectSelector,
   translateSelector,
@@ -10,10 +11,10 @@ import {
   SelectItemComponent,
 } from "../common/SelectComponent.tsx";
 
-interface FragmenterProps {
+type FragmenterProps = {
   onChange: (key: Key) => void;
   value: number;
-}
+};
 
 export const FragmenterSelection = (props: FragmenterProps) => {
   const translate = useProjectStore(translateSelector);

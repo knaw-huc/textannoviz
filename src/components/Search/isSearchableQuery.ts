@@ -1,5 +1,6 @@
-import { SearchQuery } from "../../model/Search.ts";
 import _ from "lodash";
+
+import { SearchQuery } from "../../model/Search.ts";
 
 /**
  * Search when query differs from default query

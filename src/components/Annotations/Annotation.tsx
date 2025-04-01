@@ -1,4 +1,5 @@
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
+
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,

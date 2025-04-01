@@ -1,18 +1,19 @@
 import React from "react";
 import { Button } from "react-aria-components";
+
 import { SearchResult } from "../../model/Search";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
-import { TextFieldComponent } from "../common/TextFieldComponent.tsx";
 import { usePagination } from "../../utils/usePagination.tsx";
+import { TextFieldComponent } from "../common/TextFieldComponent.tsx";
 
-interface SearchPaginationProps {
+type SearchPaginationProps = {
   onPrevPageClick: () => void;
   onNextPageClick: () => void;
   onJumpToPage: (page: number) => void;
   pageNumber: number;
   searchResult: SearchResult;
   elasticSize: number;
-}
+};
 
 export const SearchPagination = (props: SearchPaginationProps) => {
   const translate = useProjectStore(translateSelector);

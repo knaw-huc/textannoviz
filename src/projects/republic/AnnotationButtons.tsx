@@ -1,13 +1,14 @@
 import React from "react";
 import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
+
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 import { ResolutionBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;

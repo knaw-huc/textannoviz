@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button } from "react-aria-components";
+
 import { ProjectConfig } from "../../model/ProjectConfig";
+import { SearchQuery } from "../../model/Search.ts";
 import {
   translateProjectSelector,
   translateSelector,
@@ -8,7 +10,6 @@ import {
 } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { HelpTooltip } from "../common/HelpTooltip.tsx";
-import { SearchQuery } from "../../model/Search.ts";
 
 type SearchQueryHistoryProps = {
   goToQuery: (query: SearchQuery) => void;

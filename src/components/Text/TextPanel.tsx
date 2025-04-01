@@ -1,4 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
+
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import {
   projectConfigSelector,

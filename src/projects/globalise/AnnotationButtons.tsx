@@ -2,11 +2,12 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import mirador from "mirador-knaw-huc-mui5";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 import { PxPageBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
-import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export const AnnotationButtons = () => {
   const miradorStore = useInternalMiradorStore((state) => state.miradorStore);

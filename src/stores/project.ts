@@ -1,4 +1,5 @@
 import { create, StateCreator } from "zustand";
+
 import { Labels } from "../model/Labels.ts";
 import { ProjectConfig } from "../model/ProjectConfig";
 

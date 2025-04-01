@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { useMiradorStore } from "../../stores/mirador.ts";
 import {

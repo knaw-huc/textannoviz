@@ -1,4 +1,5 @@
 import { create, StateCreator } from "zustand";
+
 import { Broccoli } from "../model/Broccoli";
 
 export type TextPanelsSlice = {

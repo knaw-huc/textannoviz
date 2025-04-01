@@ -5,13 +5,13 @@ import {
   SearchQuery,
   SearchResult,
 } from "../../model/Search.ts";
-import { sendSearchQuery } from "../../utils/broccoli.ts";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { toRequestBody } from "../../stores/search/toRequestBody.ts";
 import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
+import { toRequestBody } from "../../stores/search/toRequestBody.ts";
+import { sendSearchQuery } from "../../utils/broccoli.ts";
 
 type SearchResultsAndFacets = {
   results: SearchResult;

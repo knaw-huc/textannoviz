@@ -1,4 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
+
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
 import {
   translateProjectSelector,

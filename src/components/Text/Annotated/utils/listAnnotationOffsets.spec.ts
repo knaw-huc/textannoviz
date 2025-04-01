@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { listOffsetsByChar } from "./listOffsetsByChar.ts";
+
 import { annotations } from "../test/resources/dummyLogicalTextAnnotations.ts";
+import { listOffsetsByChar } from "./listOffsetsByChar.ts";
 
 describe("listAnnotationOffsets", () => {
   it("contains all positions in sorted order", () => {

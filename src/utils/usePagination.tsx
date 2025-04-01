@@ -1,7 +1,8 @@
-import { useSearchStore } from "../stores/search/search-store.ts";
 import _ from "lodash";
-import { SearchParams } from "../model/Search.ts";
+
 import { useUrlSearchParamsStore } from "../components/Search/useSearchUrlParamsStore.ts";
+import { SearchParams } from "../model/Search.ts";
+import { useSearchStore } from "../stores/search/search-store.ts";
 
 export type PageParams = Pick<SearchParams, "from" | "size">;
 

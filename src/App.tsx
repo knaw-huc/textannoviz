@@ -1,6 +1,8 @@
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
+
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
@@ -57,6 +59,10 @@ if (import.meta.env.PROD && config.useExternalConfig === true) {
 }
 
 export default function App() {
+  // TODO: remove lint tests:
+  const t = 1;
+  console.log("test", t);
+
   const setAnnotationTypesToInclude = useAnnotationStore(
     (state) => state.setAnnotationTypesToInclude,
   );

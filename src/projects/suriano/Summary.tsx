@@ -1,4 +1,5 @@
 import uniq from "lodash/uniq";
+
 import { HIT_PREVIEW_REGEX } from "../../components/Search/util/createHighlights";
 
 export type SummaryProps = {
@@ -48,7 +49,7 @@ export function Summary(props: SummaryProps) {
           dangerouslySetInnerHTML={{
             __html: props.summary.replace(
               regex,
-              '<span class="rounded bg-yellow-200 p-1">$&</span>',
+              "<span class=\"rounded bg-yellow-200 p-1\">$&</span>",
             ),
           }}
         ></span>

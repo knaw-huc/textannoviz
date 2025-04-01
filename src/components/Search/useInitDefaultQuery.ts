@@ -1,20 +1,21 @@
 import { useEffect } from "react";
-import { getElasticIndices } from "../../utils/broccoli.ts";
 import { toast } from "react-toastify";
-import { createAggs } from "./util/createAggs.ts";
-import { getFacets } from "./util/getFacets.ts";
-import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
-import { createSearchQuery } from "./createSearchQuery.tsx";
+
 import {
   projectConfigSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import {
   defaultQuerySettersSelector,
   useSearchStore,
 } from "../../stores/search/search-store.ts";
+import { getElasticIndices } from "../../utils/broccoli.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
+import { createSearchQuery } from "./createSearchQuery.tsx";
+import { createAggs } from "./util/createAggs.ts";
+import { getFacets } from "./util/getFacets.ts";
 
 /**
  * The default query used when pressing enter in the full text input field

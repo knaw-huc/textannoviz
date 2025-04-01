@@ -1,5 +1,6 @@
-import { SearchResult } from "../../model/Search.ts";
 import { StateCreator } from "zustand";
+
+import { SearchResult } from "../../model/Search.ts";
 
 export type SearchResultsSlice = {
   searchResults: SearchResult | undefined;

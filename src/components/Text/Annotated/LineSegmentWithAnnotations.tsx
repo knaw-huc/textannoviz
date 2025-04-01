@@ -1,8 +1,8 @@
+import { isNestedAnnotationSegment, Segment } from "./AnnotationModel.ts";
 import {
   NestedAnnotation,
   NestedAnnotationProps,
 } from "./NestedAnnotation.tsx";
-import { isNestedAnnotationSegment, Segment } from "./AnnotationModel.ts";
 
 export type OnClickSegment = (value: Segment | undefined) => void;
 export type LineSegmentWithAnnotationsProps = Omit<

@@ -1,5 +1,6 @@
 import mirador from "mirador-knaw-huc-mui5";
 import React from "react";
+
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";

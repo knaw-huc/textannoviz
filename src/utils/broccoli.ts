@@ -1,4 +1,6 @@
 import { toast } from "react-toastify";
+
+import { Broccoli } from "../model/Broccoli.ts";
 import { ProjectConfig } from "../model/ProjectConfig";
 import {
   ElasticIndices,
@@ -6,7 +8,6 @@ import {
   SearchQueryRequestBody,
   SearchResult,
 } from "../model/Search";
-import { Broccoli } from "../model/Broccoli.ts";
 import { cleanUrlParams } from "./UrlParamUtils.ts";
 
 const headers = {

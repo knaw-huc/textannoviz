@@ -1,8 +1,9 @@
 import _ from "lodash";
+
 import {
   AnnotationOffset,
-  OffsetsByCharIndex,
   LineOffsets,
+  OffsetsByCharIndex,
 } from "../AnnotationModel.ts";
 
 /**

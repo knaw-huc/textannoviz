@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-aria-components";
+
 import { translateSelector, useProjectStore } from "../../../stores/project";
 
 type HistogramControlsProps = {
