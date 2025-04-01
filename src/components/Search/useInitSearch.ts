@@ -9,6 +9,9 @@ import { useInitSearchUrlParams } from "./useInitSearchUrlParams.tsx";
 import { useIsDefaultQuery } from "./useIsDefaultQuery.ts";
 
 export type UseInitSearchProps = {
+  /**
+   * When no query is provided, should results be fetched with the default query?
+   */
   loadDefaultResults: boolean;
 };
 
