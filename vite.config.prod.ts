@@ -63,5 +63,6 @@ export default defineConfig(({ mode }) => {
     build: {
       target: "esnext",
     },
+    base: env.VITE_ROUTER_BASENAME ?? "/",
   };
 });
