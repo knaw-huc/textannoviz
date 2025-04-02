@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { VanGoghSearchResultsBody } from "../../model/Search";
 
-import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import { encodeObject } from "../../utils/UrlParamUtils.ts";
 import _ from "lodash";
 import { QUERY } from "../../components/Search/SearchUrlParams.ts";
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
+import { encodeObject } from "../../utils/UrlParamUtils.ts";
 
 export const SearchItem = (
   props: SearchItemProps<VanGoghSearchResultsBody>,
@@ -20,7 +20,7 @@ export const SearchItem = (
     dateOptions,
   );
 
-  const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}, ${formattedDate}`;
+  const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}. ${props.result.location}, ${formattedDate}`;
 
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (

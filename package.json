@@ -20,7 +20,8 @@
     "docker:build-push:republic-prod": "./scripts/docker-republic-prod-all.sh",
     "docker:build-push:suriano": "./scripts/docker-suriano-all.sh",
     "docker:build-push:translatin": "./scripts/docker-translatin-all.sh",
-    "docker:build-push:vangogh": "./scripts/docker-vangogh-all.sht"
+    "docker:build-push:vangogh": "./scripts/docker-vangogh-all.sh",
+    "docker:build-push:vangogh-peen": "./scripts/docker-vangogh-peen-all.sh"
   },
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
