@@ -48,12 +48,8 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
       selectedKey={selectedKey}
       onSelectionChange={selectChangeHandler}
     >
-      {(item: PageSizeOption, i: number) => (
-        <SelectItemComponent
-          id={item.name}
-          textValue={item.name.toString()}
-          key={i}
-        >
+      {(item) => (
+        <SelectItemComponent id={item.name} textValue={item.name.toString()}>
           {item.name}
         </SelectItemComponent>
       )}

@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "react-aria-components";
 import { HelpTooltip } from "./HelpTooltip.tsx";
+import { PropsWithChildren } from "react";
 
 interface SelectComponentProps<T extends object>
   extends Omit<SelectProps<T>, "children"> {
@@ -56,7 +57,9 @@ export function SelectComponent<T extends object>({
   );
 }
 
-export function SelectItemComponent(props: ListBoxItemProps) {
+export function SelectItemComponent(
+  props: PropsWithChildren<ListBoxItemProps>,
+) {
   return (
     <ListBoxItem
       {...props}
