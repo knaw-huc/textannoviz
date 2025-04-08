@@ -35,6 +35,7 @@ export type ProjectConfig = SearchConfig &
     showWebAnnoTab: boolean;
 
     components: ComponentsConfig;
+    projectCss: string;
   };
 
 type FacsimileConfig = {

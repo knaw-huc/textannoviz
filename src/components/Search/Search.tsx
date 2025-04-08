@@ -15,15 +15,20 @@ import { SearchLoadingSpinner } from "./SearchLoadingSpinner.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useInitSearch } from "./useInitSearch.ts";
 import { useSearchResults } from "./useSearchResults.tsx";
-import { useSearchUrlParams } from "./useSearchUrlParams.tsx";
+import { useIsDefaultQuery } from "./useIsDefaultQuery.ts";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isDirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isShowingResults, setShowingResults] = useState(false);
-  const { searchQuery, searchParams } = useSearchUrlParams();
-  const { isInitSearch, isLoadingSearch } = useInitSearch();
+
+  const { searchQuery, searchParams, updateSearchParams } =
+    useUrlSearchParamsStore();
+  const { isInitSearch, isLoadingSearch } = useSearchStore();
+
+  useInitSearch();
+
   const { getSearchResults } = useSearchResults();
   const {
     setSearchResults,
@@ -32,14 +37,7 @@ export const Search = () => {
     keywordFacets,
     addToHistory,
     searchResults,
-    defaultQuery,
   } = useSearchStore();
-
-  useEffect(() => {
-    if (isInitSearch && searchResults) {
-      setShowingResults(true);
-    }
-  }, [isInitSearch, searchResults]);
 
   useEffect(() => {
     setIsLoading(isLoadingSearch);
@@ -80,7 +78,6 @@ export const Search = () => {
       }
 
       addToHistory(searchQuery);
-      setShowingResults(true);
       setDirty(false);
     }
   }, [isDirty, searchQuery, searchParams]);
@@ -108,7 +105,10 @@ export const Search = () => {
     }
   }
 
-  function handleNewSearch() {
+  function handleNewSearch(toFirstPage: boolean = true) {
+    if (toFirstPage) {
+      updateSearchParams({ from: 0 });
+    }
     setDirty(true);
   }
 
@@ -116,10 +116,7 @@ export const Search = () => {
     setDirty(true);
   }
 
-  const [isDefaultQuery, setIsDefaultQuery] = useState(false);
-  useEffect(() => {
-    setIsDefaultQuery(_.isEqual(defaultQuery, searchQuery));
-  }, [defaultQuery, searchQuery, searchResults]);
+  const { isDefaultQuery } = useIsDefaultQuery();
 
   return (
     <React.Fragment>
@@ -139,11 +136,11 @@ export const Search = () => {
           {isInitSearch && isDefaultQuery && (
             <projectConfig.components.SearchInfoPage />
           )}
-          {isShowingResults && (
+          {isInitSearch && searchResults && (
             <SearchResults
               onSearch={handleNewSearch}
               onPageChange={handlePageChange}
-              query={searchQuery}
+              searchQuery={searchQuery}
             />
           )}
         </SearchResultsColumn>
