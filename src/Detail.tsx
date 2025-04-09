@@ -47,7 +47,7 @@ export const Detail = (props: DetailProps) => {
             <TextComponent
               panelsToRender={props.config.defaultTextPanels}
               allPossiblePanels={props.config.allPossibleTextPanels}
-              isLoading={true}
+              isLoading={isLoadingDetail}
             />
             {showAnnotationPanel ? (
               <Annotation isLoading={isLoadingDetail} />
