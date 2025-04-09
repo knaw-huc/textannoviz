@@ -33,7 +33,6 @@
     "js-base64": "^3.7.7",
     "lodash": "^4.17.21",
     "mirador-knaw-huc-mui5": "^3.3.1",
-    "primereact": "^10.5.1",
     "qs": "^6.14.0",
     "react": "^18.2.0",
     "react-aria-components": "^1.2.1",

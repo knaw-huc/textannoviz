@@ -1,10 +1,9 @@
-import { CheckboxChangeEvent } from "primereact/checkbox";
-import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { TextPanels } from "./TextPanels";
-import { ToggleTextPanels } from "./ToggleTextPanels";
+import { CheckboxChangeEvent, ToggleTextPanels } from "./ToggleTextPanels";
+import { SkeletonLoader } from "../common/SkeletonLoader.tsx";
 
 type TextComponentProps = {
   panelsToRender: string[];
@@ -22,7 +21,7 @@ export const TextComponent = (props: TextComponentProps) => {
   function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
     const checkedTextPanels = [...panelsToRender];
 
-    if (event.checked) {
+    if (event.isSelected) {
       checkedTextPanels.push(event.value);
     } else {
       checkedTextPanels.splice(checkedTextPanels.indexOf(event.value), 1);
@@ -63,11 +62,7 @@ export const TextComponent = (props: TextComponentProps) => {
             closePanelHandler={closePanelHandler}
           />
         ) : (
-          <div className="flex flex-col gap-2 pl-2 pt-2">
-            <Skeleton width="16rem" borderRadius="8px" className="h-4" />
-            <Skeleton width="24rem" borderRadius="8px" className="h-4" />
-            <Skeleton width="12rem" borderRadius="8px" className="h-4" />
-          </div>
+          <SkeletonLoader />
         )}
       </div>
     </div>

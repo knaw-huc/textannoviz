@@ -1,5 +1,4 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import React from "react";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -8,6 +7,7 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
+import { CheckboxComponent } from "../common/CheckboxGroupComponent.tsx";
 
 type ToggleTextPanelsProps = {
   textPanelsCheckboxHandler: (event: CheckboxChangeEvent) => void;
@@ -22,25 +22,38 @@ type CheckboxListProps = ToggleTextPanelsProps & {
 
 const CheckboxList = React.memo((props: CheckboxListProps) => (
   <>
-    {props.viewsInData.map((panel) => (
-      <div key={panel} className="toggleTextPanelCheckbox">
-        <Checkbox
-          inputId={`panel-${panel}`}
-          name="textPanels"
-          value={panel}
-          onChange={props.textPanelsCheckboxHandler}
-          checked={props.panels.includes(panel)}
-        />
-        <label
-          className="toggleTextPanelCheckboxLabel"
-          htmlFor={`panel-${panel}`}
-        >
-          {props.translateProject(panel)}
-        </label>
-      </div>
-    ))}
+    {props.viewsInData.map((panel) => {
+      const isSelected = props.panels.includes(panel);
+      return (
+        <div key={panel} className="toggleTextPanelCheckbox">
+          <CheckboxComponent
+            id={`panel-${panel}`}
+            name="textPanels"
+            value={panel}
+            onChange={() =>
+              props.textPanelsCheckboxHandler({
+                value: panel,
+                isSelected: !isSelected,
+              })
+            }
+            isSelected={isSelected}
+          />
+          <label
+            className="toggleTextPanelCheckboxLabel"
+            htmlFor={`panel-${panel}`}
+          >
+            {props.translateProject(panel)}
+          </label>
+        </div>
+      );
+    })}
   </>
 ));
+
+export type CheckboxChangeEvent = {
+  isSelected: boolean;
+  value: string;
+};
 
 CheckboxList.displayName = "CheckboxList";
 
