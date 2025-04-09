@@ -2,7 +2,7 @@ import React from "react";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { TextPanels } from "./TextPanels";
-import { ToggleTextPanels } from "./ToggleTextPanels";
+import { CheckboxChangeEvent, ToggleTextPanels } from "./ToggleTextPanels";
 import { SkeletonLoader } from "../common/SkeletonLoader.tsx";
 
 type TextComponentProps = {
@@ -18,10 +18,7 @@ export const TextComponent = (props: TextComponentProps) => {
   const textPanels = useTextStore((state) => state.views);
   const projectConfig = useProjectStore(projectConfigSelector);
 
-  function textPanelsCheckboxHandler(event: {
-    checked?: boolean;
-    value: string;
-  }) {
+  function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
     const checkedTextPanels = [...panelsToRender];
 
     if (event.checked) {
