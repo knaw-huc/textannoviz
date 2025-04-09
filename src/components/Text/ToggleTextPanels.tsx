@@ -33,7 +33,7 @@ const CheckboxList = React.memo((props: CheckboxListProps) => (
             onChange={() =>
               props.textPanelsCheckboxHandler({
                 value: panel,
-                checked: !isSelected,
+                isSelected: !isSelected,
               })
             }
             isSelected={isSelected}
@@ -51,7 +51,7 @@ const CheckboxList = React.memo((props: CheckboxListProps) => (
 ));
 
 export type CheckboxChangeEvent = {
-  checked: boolean;
+  isSelected: boolean;
   value: string;
 };
 

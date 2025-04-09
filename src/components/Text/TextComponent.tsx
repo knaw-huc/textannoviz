@@ -21,7 +21,7 @@ export const TextComponent = (props: TextComponentProps) => {
   function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
     const checkedTextPanels = [...panelsToRender];
 
-    if (event.checked) {
+    if (event.isSelected) {
       checkedTextPanels.push(event.value);
     } else {
       checkedTextPanels.splice(checkedTextPanels.indexOf(event.value), 1);
