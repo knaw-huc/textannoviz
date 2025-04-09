@@ -1,4 +1,3 @@
-import { Skeleton } from "primereact/skeleton";
 import { useState } from "react";
 import { Annotation } from "./components/Annotations/Annotation.tsx";
 import { Footer } from "./components/Footer/Footer";
@@ -64,10 +63,12 @@ export const Detail = (props: DetailProps) => {
           />
         </>
       ) : (
-        <div className="flex flex-col gap-2 pl-2 pt-2">
-          <Skeleton width="16rem" borderRadius="8px" className="h-4" />
-          <Skeleton width="24rem" borderRadius="8px" className="h-4" />
-          <Skeleton width="12rem" borderRadius="8px" className="h-4" />
+        <div className="flex flex-col gap-2 pl-4 pt-4">
+          <div className="grid w-1/5 animate-pulse gap-2">
+            <div className="col-span-6 h-4 rounded-xl bg-gray-200"></div>
+            <div className="col-span-8 h-4 rounded-xl bg-gray-200"></div>
+            <div className="col-span-4 h-4 rounded-xl bg-gray-200"></div>
+          </div>
         </div>
       )}
     </>
