@@ -177,6 +177,16 @@ export type SearchQuery = {
   terms: Terms;
 };
 
+export type DetailParams = {
+  /**
+   * Remember last search result when navigating away from a search result
+   * on the detail page, to be able to navigate to next/prev search result
+   *
+   * Is empty string when not needed
+   */
+  lastSearchResult: string;
+};
+
 export type FacetEntry = [FacetName, Facet];
 export type IndexName = string;
 export type ElasticIndices = Record<IndexName, FacetTypes>;
