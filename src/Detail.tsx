@@ -7,6 +7,7 @@ import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { useInitSearch } from "./components/Search/useInitSearch.ts";
+import { SkeletonLoader } from "./components/common/SkeletonLoader.tsx";
 
 interface DetailProps {
   project: string;
@@ -46,7 +47,7 @@ export const Detail = (props: DetailProps) => {
             <TextComponent
               panelsToRender={props.config.defaultTextPanels}
               allPossiblePanels={props.config.allPossibleTextPanels}
-              isLoading={isLoadingDetail}
+              isLoading={true}
             />
             {showAnnotationPanel ? (
               <Annotation isLoading={isLoadingDetail} />
@@ -63,13 +64,7 @@ export const Detail = (props: DetailProps) => {
           />
         </>
       ) : (
-        <div className="flex flex-col gap-2 pl-4 pt-4">
-          <div className="grid w-1/5 animate-pulse gap-2">
-            <div className="col-span-6 h-4 rounded-xl bg-gray-200"></div>
-            <div className="col-span-8 h-4 rounded-xl bg-gray-200"></div>
-            <div className="col-span-4 h-4 rounded-xl bg-gray-200"></div>
-          </div>
-        </div>
+        <SkeletonLoader />
       )}
     </>
   );
