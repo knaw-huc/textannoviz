@@ -86,8 +86,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 }
 
 export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
-  const { registerFootnotes, activeFootnote, setActiveFootnote } =
-    useTextStore();
+  const { activeFootnote, setActiveFootnote } = useTextStore();
   const { setActiveSidebarTab } = useDetailViewStore();
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
@@ -97,10 +96,13 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const footnoteId = marker.body.metadata.target.split("#")[1];
 
   useEffect(() => {
-    if (ref.current) {
-      registerFootnotes(footnoteId, ref.current);
+    if (!ref.current || !footnoteId) {
+      return;
     }
-  }, [footnoteId, registerFootnotes]);
+    if (footnoteId === activeFootnote) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [footnoteId, activeFootnote]);
 
   function spanClickHandler(footnoteId: string) {
     setActiveFootnote(footnoteId);

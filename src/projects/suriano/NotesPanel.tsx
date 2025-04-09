@@ -13,8 +13,7 @@ type NotesPanelProps = {
 
 export function NotesPanel(props: NotesPanelProps) {
   const textPanels = useTextStore().views;
-  const { scrollToFootnote, activeFootnote, setActiveFootnote } =
-    useTextStore();
+  const { activeFootnote, setActiveFootnote } = useTextStore();
 
   if (!textPanels) return null;
   const notesView = textPanels["notes"];
@@ -32,7 +31,6 @@ export function NotesPanel(props: NotesPanelProps) {
   });
 
   const footnoteButtonPressHandler = (footnoteId: string) => {
-    scrollToFootnote(footnoteId);
     setActiveFootnote(footnoteId);
   };
 
