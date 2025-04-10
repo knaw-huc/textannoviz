@@ -38,7 +38,7 @@ export type TranslatinSearchResultsBody = {
   pubPlace: string;
   pubYear: string;
   publisher: string;
-  titleExpanded: string;
+  titleShort: string;
   _hits: {
     text: string[];
   };

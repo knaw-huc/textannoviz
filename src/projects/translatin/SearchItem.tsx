@@ -19,7 +19,7 @@ export const SearchItem = (
       >
         <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full cursor-pointer divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
           <div className="p-4 font-semibold">
-            {`${props.result.author}, ${props.result.titleExpanded}. ${props.result.pubPlace}, ${props.result.publisher}, ${props.result.pubYear}`}
+            {`${props.result.author}, ${props.result.titleShort}. ${props.result.pubPlace}, ${props.result.publisher}, ${props.result.pubYear}`}
           </div>
           {props.result._hits?.text.map((hit, index) => (
             <div key={index} className="hover:bg-brand1Grey-50 w-full p-4">
