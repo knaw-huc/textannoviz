@@ -12,8 +12,9 @@ import {
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import "../project.css";
+import { SearchInfoPage } from "../SearchInfoPage";
 import { SearchItem } from "../SearchItem";
-import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
+import { englishTranslatinLabels } from "./englishTranslatinLabels";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
@@ -74,20 +75,21 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     MetadataPanel,
     SearchItem,
     AnnotationButtons,
+    SearchInfoPage,
   },
   highlightedAnnotationTypes: projectHighlightedTypes,
 
   getHighlightCategory: getHighlightCategory,
 
-  selectedLanguage: "nl",
-  languages: [{ code: "nl", labels: dutchTranslatinLabels }],
+  selectedLanguage: "en",
+  languages: [{ code: "en", labels: englishTranslatinLabels }],
   defaultKeywordAggsToRender: [
     "author",
-    "firstEdition",
+    "titleShort",
     "genre",
+    "firstEdition",
     "pubYear",
     "pubPlace",
     "publisher",
-    "titleExpanded",
   ],
 } as ProjectSpecificConfig);
