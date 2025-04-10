@@ -24,7 +24,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:Bibl",
     // "tei:Body",
     // "tei:Date",
-    // "tei:Div",
+    "tei:Div",
     "tei:Drama",
     // "tei:Editor",
     // "tei:Emph",
@@ -46,7 +46,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:PublicationStmt",
     // "tei:Publisher",
     // "tei:Quote",
-    // "tei:Ref",
+    "tei:Ref",
     // "tei:Resp",
     // "tei:RespStmt",
     // "tei:SourceDesc",
@@ -81,4 +81,13 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
 
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
+  defaultKeywordAggsToRender: [
+    "author",
+    "firstEdition",
+    "genre",
+    "pubYear",
+    "pubPlace",
+    "publisher",
+    "titleExpanded",
+  ],
 } as ProjectSpecificConfig);
