@@ -32,7 +32,7 @@ export const Header = (props: HeaderProps) => {
                 title="Homepage"
                 rel="noreferrer"
                 href="/"
-                className="hover:text-brand1-100 text-inherit no-underline hover:underline"
+                className="hover:text-brand1-900 text-inherit no-underline hover:underline"
               >
                 {projectConfig.headerTitle}
               </a>
