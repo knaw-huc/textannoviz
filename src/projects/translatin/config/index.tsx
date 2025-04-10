@@ -98,6 +98,10 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
       order: "keyAsc",
     },
     {
+      facetName: "titleShort",
+      order: "keyAsc",
+    },
+    {
       facetName: "pubPlace",
       order: "keyAsc",
     },
