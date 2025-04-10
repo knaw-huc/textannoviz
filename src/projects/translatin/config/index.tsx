@@ -50,6 +50,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     // MetadataPanel: Empty,
     SearchItem,
     AnnotationButtons,
+    SearchInfoPage,
   },
   highlightedAnnotationTypes: projectHighlightedTypes,
 
