@@ -92,4 +92,14 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     "pubPlace",
     "publisher",
   ],
+  overrideDefaultAggs: [
+    {
+      facetName: "author",
+      order: "keyAsc",
+    },
+    {
+      facetName: "pubPlace",
+      order: "keyAsc",
+    },
+  ],
 } as ProjectSpecificConfig);
