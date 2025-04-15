@@ -68,6 +68,8 @@ export type VanGoghSearchResultsBody = {
   location: string;
   msid: string;
   period: string;
+  letterId: string;
+  viewType: string;
   _hits: {
     text: string[];
   };

@@ -107,7 +107,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
 
-  elasticIndexName: "vangogh",
+  elasticIndexName: "vg2",
   initialDateFrom: "1600-01-01",
   initialDateTo: "2000-01-01",
   initialRangeFrom: "0",
@@ -119,8 +119,14 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,
   showToggleTextPanels: true,
-  showSearchResultsOnInfoPage: true,
-  defaultKeywordAggsToRender: ["correspondent", "location", "period", "sender"],
+  showSearchResultsOnInfoPage: false,
+  defaultKeywordAggsToRender: [
+    "correspondent",
+    "location",
+    "period",
+    "sender",
+    "viewType",
+  ],
   components: {
     SearchItem,
     MetadataPanel,
