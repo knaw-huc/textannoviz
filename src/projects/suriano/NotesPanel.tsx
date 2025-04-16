@@ -5,7 +5,7 @@ import {
   isNoteBody,
   NoteBody,
 } from "../../model/AnnoRepoAnnotation";
-import { useTextStore } from "../../stores/text";
+import { useTextStore } from "../../stores/text/text-store.ts";
 
 type NotesPanelProps = {
   annotations: AnnoRepoAnnotation[];

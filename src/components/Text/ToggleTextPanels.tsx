@@ -7,7 +7,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { useTextStore } from "../../stores/text";
+import { useTextStore } from "../../stores/text/text-store.ts";
 
 type ToggleTextPanelsProps = {
   textPanelsCheckboxHandler: (event: CheckboxChangeEvent) => void;

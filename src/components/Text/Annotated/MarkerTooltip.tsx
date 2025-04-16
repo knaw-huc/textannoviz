@@ -6,7 +6,7 @@ import {
 } from "../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { useTextStore } from "../../../stores/text.ts";
+import { useTextStore } from "../../../stores/text/text-store.ts";
 import { Optional } from "../../../utils/Optional.ts";
 import { SpanTooltipButton } from "../../common/SpanTooltipButton.tsx";
 import { MarkerSegment } from "./AnnotationModel.ts";

@@ -3,14 +3,14 @@ import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { CanvasTarget } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { useDetailViewStore } from "../../../stores/detail-view.ts";
+import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";
 import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
-import { useTextStore } from "../../../stores/text.ts";
+import { useTextStore } from "../../../stores/text/text-store.ts";
 import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
 import { TooltipMarkerButton } from "./MarkerTooltip.tsx";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";

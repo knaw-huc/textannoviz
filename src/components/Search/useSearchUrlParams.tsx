@@ -4,7 +4,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { useTextStore } from "../../stores/text.ts";
+import { useTextStore } from "../../stores/text/text-store.ts";
 import {
   cleanUrlParams,
   encodeSearchQuery,
