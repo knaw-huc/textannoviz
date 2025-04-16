@@ -16,12 +16,20 @@ import {
   setProjectNameSelector,
   useProjectStore,
 } from "./stores/project";
+import { getViteEnvVars } from "./utils/viteEnvVars.ts";
 
+const { projectName, routerBasename, prodMode } = getViteEnvVars();
 const { project, config } = selectProjectConfig();
 const router = await createRouter();
 
-async function fetchExternalConfig(): Promise<ExternalConfig | null> {
-  const response = await fetch("/config");
+async function fetchExternalConfig(
+  basePath: string,
+): Promise<ExternalConfig | null> {
+  const configUrl = `${
+    basePath.endsWith("/") ? basePath : basePath + "/"
+  }config`;
+
+  const response = await fetch(configUrl);
   if (!response.ok) {
     return null;
   }
@@ -29,8 +37,8 @@ async function fetchExternalConfig(): Promise<ExternalConfig | null> {
   return response.json();
 }
 
-if (import.meta.env.PROD && config.useExternalConfig === true) {
-  const externalConfig = await fetchExternalConfig();
+if (prodMode && config.useExternalConfig === true) {
+  const externalConfig = await fetchExternalConfig(routerBasename);
 
   if (externalConfig) {
     const {
@@ -106,18 +114,15 @@ async function createRouter() {
         ],
       },
     ],
-    { basename: import.meta.env["VITE_ROUTER_BASENAME"] ?? "/" },
+    { basename: routerBasename ?? "/" },
   );
 }
 
 function selectProjectConfig() {
-  const projectEnvVar = "VITE_PROJECT";
-  const project: ProjectName = import.meta.env[projectEnvVar];
+  const project: ProjectName = projectName;
   const config: ProjectConfig = projectConfigs[project];
   if (!config) {
-    throw new Error(
-      `No project config defined for ${projectEnvVar}=${project}`,
-    );
+    throw new Error(`No project config defined for ${project}`);
   }
   return { project, config };
 }
