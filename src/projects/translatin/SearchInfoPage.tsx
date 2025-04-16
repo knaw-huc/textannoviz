@@ -41,7 +41,7 @@ export const SearchInfoPage = () => {
       <p className="mb-4 mt-4 block" style={{ maxWidth: "50em" }}>
         Please cite this resource using the full reference, including the URL.
         For example: Gnapheus, Acolastus (1529),
-        https://edition.translatin.huygens.knaw.nl
+        https://app.translatin.huygens.knaw.nl
       </p>
     </div>
   );
