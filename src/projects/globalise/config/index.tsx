@@ -50,6 +50,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   showInputFacet: true,
   inputFacetOptions: "invNr",
   showFacetFilter: false,
+  useExternalConfig: true,
   components: {
     AnnotationButtons,
     Help,
