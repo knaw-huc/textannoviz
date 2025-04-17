@@ -1,15 +1,12 @@
 import merge from "lodash/merge";
+
 import logo from "../../../assets/logo-correspondense-of-Suriano.png";
+import { Empty } from "../../../components/Empty.tsx";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { AnnotationButtons } from "../AnnotationButtons";
-import { MetadataPanel } from "../MetadataPanel";
-import { SearchItem } from "../SearchItem";
-import { englishSurianoLabels } from "./englishSurianoLabels";
-
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
   getAnnotationCategory,
@@ -21,10 +18,12 @@ import {
   projectPageMarkerAnnotationTypes,
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
-import { SearchInfoPage } from "../SearchInfoPage.tsx";
-import { Empty } from "../../../components/Empty.tsx";
-
+import { AnnotationButtons } from "../AnnotationButtons";
+import { MetadataPanel } from "../MetadataPanel";
 import projectCss from "../project.css?inline";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { SearchItem } from "../SearchItem";
+import { englishSurianoLabels } from "./englishSurianoLabels";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",

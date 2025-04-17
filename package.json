@@ -29,6 +29,7 @@
     "@spectrum-icons/workflow": "^4.2.11",
     "@types/qs": "^6.9.18",
     "framer-motion": "^11.0.8",
+    "globals": "^16.0.0",
     "immer": "^9.0.21",
     "js-base64": "^3.7.7",
     "lodash": "^4.17.21",
@@ -49,6 +50,10 @@
   "devDependencies": {
     "@blueprintjs/core": "^3.53.0",
     "@blueprintjs/icons": "^3.32.0",
+    "@eslint/compat": "^1.2.7",
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.22.0",
+    "@stylistic/eslint-plugin-js": "^4.2.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.11.23",
@@ -58,10 +63,11 @@
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.17",
     "esbuild": "^0.18.20",
-    "eslint": "^8.57.0",
+    "eslint": "^9.22.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.35",
@@ -75,7 +81,7 @@
     "vitest": "^3.0.6"
   },
   "lint-staged": {
-    "**/*.{js,ts,tsx}": "eslint --cache --fix",
+    "**/*.{js,ts,tsx}": "eslint --cache --fix ",
     "**/*.{js,ts,tsx,css,md}": "prettier --write"
   }
 }

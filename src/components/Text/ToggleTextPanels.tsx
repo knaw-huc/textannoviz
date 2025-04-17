@@ -1,6 +1,7 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import React from "react";
+
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   projectConfigSelector,

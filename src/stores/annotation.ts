@@ -1,4 +1,5 @@
 import { create, StateCreator } from "zustand";
+
 import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation";
 
 export type AnnotationsSlice = {

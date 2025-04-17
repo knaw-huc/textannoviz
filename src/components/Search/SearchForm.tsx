@@ -3,6 +3,9 @@ import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import React from "react";
 import type { Key, Selection } from "react-aria-components";
+import { toast } from "react-toastify";
+
+import { FacetEntry, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
   translateSelector,
@@ -20,18 +23,16 @@ import { SearchQueryHistory } from "./SearchQueryHistory.tsx";
 import { ShowLessButton } from "./ShowLessButton.tsx";
 import { ShowMoreButton } from "./ShowMoreButton.tsx";
 import { SliderFacet } from "./SliderFacet.tsx";
-import { removeTerm } from "./util/removeTerm.ts";
-import { FacetEntry, SearchQuery } from "../../model/Search.ts";
-import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
-import { toast } from "react-toastify";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
+import { removeTerm } from "./util/removeTerm.ts";
+import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
 
-interface SearchFormProps {
+type SearchFormProps = {
   onSearch: (toFirstPage: boolean) => void;
   keywordFacets: FacetEntry[];
   searchQuery: SearchQuery;
   updateAggs: (query: SearchQuery) => void;
-}
+};
 
 const searchFormClasses =
   "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";

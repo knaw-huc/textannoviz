@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { GlobaliseSearchResultsBody } from "../../model/Search.ts";
 
-import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
+import { GlobaliseSearchResultsBody } from "../../model/Search.ts";
+import { SearchItemProps } from "../../model/SearchItemProps.ts";
 
 export const SearchItem = (
   props: SearchItemProps<GlobaliseSearchResultsBody>,

@@ -5,11 +5,11 @@ import {
   type TextFieldProps,
 } from "react-aria-components";
 
-interface TextFieldComponentProps extends TextFieldProps {
+type TextFieldComponentProps = {
   label?: string;
   width?: string;
   labelStyling?: string;
-}
+} & TextFieldProps;
 
 export function TextFieldComponent({
   label,

@@ -9,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
+
 import { HitsYear } from "./Histogram";
 
 type LineChartHistorgramProps = {

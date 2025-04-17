@@ -2,13 +2,13 @@ import { CheckIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import type { CheckboxGroupProps, CheckboxProps } from "react-aria-components";
 import { Button, Checkbox, CheckboxGroup, Label } from "react-aria-components";
+
 import { HelpTooltip } from "./HelpTooltip.tsx";
 import { SortAlphaAscIcon } from "./icons/SortAlphaAscIcon";
 import { SortAlphaDescIcon } from "./icons/SortAlphaDescIcon";
 import { SortNumDescIcon } from "./icons/SortNumDescIcon";
 
-interface CheckboxGroupComponentProps
-  extends Omit<CheckboxGroupProps, "children"> {
+type CheckboxGroupComponentProps = {
   children?: React.ReactNode;
   translatedLabel?: string;
   helpLabel?: string;
@@ -16,7 +16,7 @@ interface CheckboxGroupComponentProps
   sortIconClickHandler: (agg: string, order: string) => void;
   facetLength: number;
   sortOrder: string | undefined;
-}
+} & Omit<CheckboxGroupProps, "children">;
 
 type SortOrder = "countDesc" | "keyAsc" | "keyDesc";
 export function CheckboxGroupComponent({
@@ -86,10 +86,10 @@ export function CheckboxGroupComponent({
   );
 }
 
-interface CheckboxComponentProps extends Omit<CheckboxProps, "children"> {
+type CheckboxComponentProps = {
   onChange: () => void;
   children?: React.ReactNode;
-}
+} & Omit<CheckboxProps, "children">;
 
 export function CheckboxComponent(props: CheckboxComponentProps) {
   const { children, isSelected } = props;

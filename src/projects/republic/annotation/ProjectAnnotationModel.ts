@@ -1,8 +1,9 @@
+import _ from "lodash";
+
 import {
   AnnoRepoBody,
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation.ts";
-import _ from "lodash";
 
 export const projectEntityTypes = ["Entity", "DateOccurrence"];
 

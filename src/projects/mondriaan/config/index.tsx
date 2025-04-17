@@ -1,4 +1,5 @@
 import merge from "lodash/merge";
+
 import logo from "../../../assets/logo-mondrian-papers.png";
 import {
   ProjectConfig,

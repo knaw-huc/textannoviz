@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
+
 import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
@@ -14,8 +15,8 @@ import { SearchForm } from "./SearchForm.tsx";
 import { SearchLoadingSpinner } from "./SearchLoadingSpinner.tsx";
 import { SearchResults, SearchResultsColumn } from "./SearchResults.tsx";
 import { useInitSearch } from "./useInitSearch.ts";
-import { useSearchResults } from "./useSearchResults.tsx";
 import { useIsDefaultQuery } from "./useIsDefaultQuery.ts";
+import { useSearchResults } from "./useSearchResults.tsx";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 export const Search = () => {

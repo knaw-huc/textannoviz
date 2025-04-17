@@ -1,8 +1,8 @@
 import { AnnoRepoAnnotation, TeiRsBody } from "../../model/AnnoRepoAnnotation";
 
-interface GetAnnotationItemContentProps {
+type GetAnnotationItemContentProps = {
   annotation: AnnoRepoAnnotation;
-}
+};
 
 export const AnnotationItemContent = (props: GetAnnotationItemContentProps) => {
   function renderAnnotationItemContent() {
@@ -49,10 +49,10 @@ export const AnnotationItemContent = (props: GetAnnotationItemContentProps) => {
       default:
         return props.annotation.body.metadata
           ? Object.entries(props.annotation.body.metadata).map(
-              ([key, value], i) => {
-                return <li key={i}>{`${key}: ${value}`}</li>;
-              },
-            )
+            ([key, value], i) => {
+              return <li key={i}>{`${key}: ${value}`}</li>;
+            },
+          )
           : null;
     }
   }

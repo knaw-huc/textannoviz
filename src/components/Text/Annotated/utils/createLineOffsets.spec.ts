@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
-import {
-  createMarkerLineOffsets,
-  createAnnotationLineOffsets,
-} from "./createLineOffsets.ts";
-import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
+
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
+import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
+import {
+  createAnnotationLineOffsets,
+  createMarkerLineOffsets,
+} from "./createLineOffsets.ts";
 
 describe("createLineOffsets", () => {
   it("excludes end character", () => {

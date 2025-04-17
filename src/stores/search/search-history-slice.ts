@@ -1,7 +1,8 @@
-import { StateCreator } from "zustand";
-import { SearchQuery } from "../../model/Search.ts";
-import { createJSONStorage, persist } from "zustand/middleware";
 import _ from "lodash";
+import { StateCreator } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+
+import { SearchQuery } from "../../model/Search.ts";
 
 export type Timestamp = number;
 export type DatedSearchQuery = {

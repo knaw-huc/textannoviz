@@ -7,13 +7,14 @@ import {
   SearchField,
   type SearchFieldProps,
 } from "react-aria-components";
+
 import { HelpTooltip } from "./HelpTooltip.tsx";
 
-interface SearchFieldComponentProps extends SearchFieldProps {
+type SearchFieldComponentProps = {
   label?: string;
   helpLabel?: string;
   placeholder?: string;
-}
+} & SearchFieldProps;
 
 export function SearchFieldComponent({
   label,

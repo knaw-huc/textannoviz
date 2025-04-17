@@ -5,7 +5,7 @@ export type Iiif = {
   canvasIds: string[];
 };
 
-export interface Broccoli {
+export type Broccoli = {
   request: {
     projectId: string;
     bodyId: string;
@@ -17,7 +17,7 @@ export interface Broccoli {
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
   views: Record<string, BroccoliTextGeneric>;
-}
+};
 
 export type BroccoliRelativeAnno = {
   bodyId: string;
@@ -31,7 +31,7 @@ export type BroccoliRelativeAnno = {
   };
 };
 
-export interface BroccoliTextGeneric {
+export type BroccoliTextGeneric = {
   lines: string[];
   locations: {
     relativeTo: {
@@ -40,9 +40,9 @@ export interface BroccoliTextGeneric {
     };
     annotations: BroccoliRelativeAnno[];
   };
-}
+};
 
-export interface BroccoliBodyIdResult {
+export type BroccoliBodyIdResult = {
   request: {
     projectId: string;
     bodyType: string;
@@ -50,4 +50,4 @@ export interface BroccoliBodyIdResult {
     includedResults: string[];
   };
   bodyId: string;
-}
+};

@@ -1,10 +1,11 @@
 import { useEffect } from "react";
+
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { createSearchParams } from "./createSearchParams.tsx";
 import { useSearchStore } from "../../stores/search/search-store.ts";
+import { createSearchParams } from "./createSearchParams.tsx";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 /**

@@ -1,4 +1,5 @@
 import merge from "lodash/merge";
+
 import logo from "../../../assets/G-1.png";
 import {
   ProjectConfig,

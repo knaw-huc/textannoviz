@@ -1,16 +1,17 @@
+import { omit, pick } from "lodash";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+
 import { DetailParams, SearchParams, SearchQuery } from "../../model/Search.ts";
+import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
+import { removeDefaultProps } from "../../utils/UrlParamUtils.ts";
 import {
   blankDetailParams,
   blankParams,
   blankSearchParams,
   SearchUrlState,
 } from "./createSearchParams.tsx";
-import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
-import { removeDefaultProps } from "../../utils/UrlParamUtils.ts";
 import { createUrlStorage } from "./createUrlStorage.ts";
-import { omit, pick } from "lodash";
 
 type SearchUrlParamsState = {
   searchQuery: SearchQuery;

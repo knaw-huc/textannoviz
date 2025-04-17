@@ -1,5 +1,6 @@
 import _, { debounce } from "lodash";
 import React from "react";
+
 import { Facet, SearchQuery, Terms } from "../../model/Search.ts";
 import {
   projectNameSelector,

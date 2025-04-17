@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
-import {
-  line,
-  offsetsByCharIndex,
-} from "../test/resources/dummyLogicalTextAnnotations.ts";
+
 import {
   AnnotationBody,
   MarkerSegment,
   NestedAnnotationSegment,
 } from "../AnnotationModel.ts";
+import {
+  line,
+  offsetsByCharIndex,
+} from "../test/resources/dummyLogicalTextAnnotations.ts";
 import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
 
 describe("AnnotationSegmenter", () => {

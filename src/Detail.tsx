@@ -1,18 +1,19 @@
 import { Skeleton } from "primereact/skeleton";
 import { useState } from "react";
+
 import { Annotation } from "./components/Annotations/Annotation.tsx";
+import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { Footer } from "./components/Footer/Footer";
 import { Mirador } from "./components/Mirador/Mirador";
+import { useInitSearch } from "./components/Search/useInitSearch.ts";
 import { TextComponent } from "./components/Text/TextComponent";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
-import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
-import { useInitSearch } from "./components/Search/useInitSearch.ts";
 
-interface DetailProps {
+type DetailProps = {
   project: string;
   config: ProjectConfig;
-}
+};
 
 export const Detail = (props: DetailProps) => {
   const [showSearchResults, setShowSearchResults] = useState(false);

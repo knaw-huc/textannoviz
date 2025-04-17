@@ -1,5 +1,6 @@
 import mirador from "mirador-knaw-huc-mui5";
 import React from "react";
+
 import { iiifAnn } from "../../model/AnnoRepoAnnotation";
 import { Iiif } from "../../model/Broccoli";
 import { MiradorConfig } from "../../model/MiradorConfig";

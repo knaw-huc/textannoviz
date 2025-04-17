@@ -1,13 +1,14 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+
 import { SearchResult } from "../../model/Search.ts";
 import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import { usePagination } from "../../utils/usePagination.tsx";
-import { useSearchResults } from "../Search/useSearchResults.tsx";
-import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
-import { FooterLink } from "./FooterLink.tsx";
 import { getUrlParams } from "../../utils/UrlParamUtils.ts";
+import { usePagination } from "../../utils/usePagination.tsx";
+import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
+import { useSearchResults } from "../Search/useSearchResults.tsx";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
+import { FooterLink } from "./FooterLink.tsx";
 
 export function DetailSearchResultsNavigation() {
   const translate = useProjectStore(translateSelector);

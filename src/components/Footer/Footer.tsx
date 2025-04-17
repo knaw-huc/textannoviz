@@ -7,6 +7,7 @@ import {
   Popover,
   Switch,
 } from "react-aria-components";
+
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
