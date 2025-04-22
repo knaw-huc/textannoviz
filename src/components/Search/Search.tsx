@@ -27,7 +27,9 @@ export const Search = () => {
     useUrlSearchParamsStore();
   const { isInitSearch, isLoadingSearch } = useSearchStore();
 
-  useInitSearch();
+  useInitSearch({
+    loadDefaultResults: projectConfig.showSearchResultsOnInfoPage,
+  });
 
   const { getSearchResults } = useSearchResults();
   const {
@@ -118,6 +120,12 @@ export const Search = () => {
 
   const { isDefaultQuery } = useIsDefaultQuery();
 
+  // Hide info page when !showSearchResultsOnInfoPage and pressing enter with empty query:
+  const isShowingSearchInfoPage =
+    isInitSearch &&
+    isDefaultQuery &&
+    (!searchResults || projectConfig.showSearchResultsOnInfoPage);
+
   return (
     <React.Fragment>
       {isLoading && <SearchLoadingSpinner />}
@@ -133,7 +141,7 @@ export const Search = () => {
         />
         <SearchResultsColumn>
           {/* Wait for init, to prevent a flicker of info page before results are shown: */}
-          {isInitSearch && isDefaultQuery && (
+          {isShowingSearchInfoPage && (
             <projectConfig.components.SearchInfoPage />
           )}
           {isInitSearch && searchResults && (
