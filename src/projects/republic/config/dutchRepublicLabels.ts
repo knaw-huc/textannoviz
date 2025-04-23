@@ -57,10 +57,11 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   results: "resoluties",
 
   //Metadata panel:
-  name: "Entiteit",
   category: "Categorie",
+  date: "Datum",
   delegates: "Gedeputeerden",
   president: "Voorzitter",
+  name: "Entiteit",
   NO_DATA: "Geen gegevens beschikbaar",
   DELEGATE_LINK: "Link naar entiteitenbrowser",
 
@@ -84,14 +85,15 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
 
   FULL_TEXT_SEARCH_HELP:
     "Zoek naar termen of namen die voorkomen in de resoluties. \n" +
-    "- Maak gebruik van wildcards (‘*’ voor meer, ‘?’ voor één karakter) om varianten te vinden.\n" +
-    "- Plaats ‘~1’ of ‘~2’ achter de term als het resultaat 1 of 2 tekens mag afwijken.\n" +
+    "- Maak gebruik van wildcards ('*' voor meer, '?' voor één karakter) om varianten te vinden.\n" +
+    "- Plaats '~1' of '~2' achter de term als het resultaat 1 of 2 tekens mag afwijken.\n" +
     "- Gebruik Booleaanse operatoren voor termen die samen in één resolutie moeten voorkomen (OR (standaard), AND, NOT).\n" +
     "- Zet meerdere termen die naast elkaar moeten voorkomen tussen dubbele aanhalingstekens.",
-  SEARCH_HISTORY_HELP: "Geeft een overzicht van de zoekacties in deze sessie.",
+  SEARCH_HISTORY_HELP: "Geeft een overzicht van jouw laatste tien zoekacties.",
   SHOW_CONTEXT_HELP:
     "Toont naar keuze meer of minder omliggende tekst bij een zoekterm in een resolutie.",
-  SLIDER_FACET_HELP: "Filter op resoluties van een bepaalde woordomvang.",
+  SLIDER_FACET_HELP:
+    "Filter op resoluties die een bepaald aantal woorden bevatten.",
   FILTER_FACETS_HELP: "Hiermee kun je filters tonen of verbergen.",
   DELEGATE_ID_HELP: "Filter op identificatienummer aanwezige gedeputeerden.",
   DELEGATE_NAME_HELP: "Filter op achternaam van aanwezige gedeputeerden.",
@@ -122,7 +124,7 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
   RESOLUTION_TYPE_HELP:
     "Het bestand omvat gewone (ordinaris), geheime (secreet) en speciale resoluties (over bijzondere onderwerpen).",
   TEXT_TYPE_HELP:
-    "Het bestand omvat handgeschreven ordinaris (1576-1702), secrete (1576-1796) en speciale resoluties (1576-1796), en gedrukte ordinaris resoluties (1703-1796).",
+    "Het bestand omvat handgeschreven ordinaris (1576-1702), secrete (1576-1796) en speciale resoluties (1576-1796), evenals gedrukte ordinaris resoluties (1703-1796).",
   SESSION_WEEKDAY_HELP:
     "Filter op dag van de week waarop resoluties werden genomen.",
   SORT_BY_HELP: "Pas de sorteervolgorde van de resultaten aan.",

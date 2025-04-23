@@ -17,6 +17,7 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
+import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -126,7 +127,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   selectedLanguage: "nl",
   languages: [
     { code: "nl", labels: dutchRepublicLabels },
-    // { code: "en", labels: englishRepublicLabels },
+    { code: "en", labels: englishRepublicLabels },
   ],
   mirador: {
     showTopMenuButton: true,
