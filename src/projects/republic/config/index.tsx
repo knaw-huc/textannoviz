@@ -19,6 +19,7 @@ import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { Any } from "../../../utils/Any.ts";
 import projectCss from "../project.css?inline";
+import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -128,7 +129,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   defaultLanguage: "nl",
   languages: [
     { code: "nl", labels: dutchRepublicLabels },
-    // { code: "en", labels: englishRepublicLabels },
+    { code: "en", labels: englishRepublicLabels },
   ],
   mirador: {
     showTopMenuButton: true,
