@@ -6,7 +6,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { NotesPanel } from "../../suriano/NotesPanel";
+import { NotesPanel } from "../NotesPanel";
 import {
   getAnnotationCategory,
   getHighlightCategory,
@@ -58,7 +58,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:Label",
     // "tei:Licence",
     // "tei:List",
-    // "tei:ListAnnotation",
+    "tei:ListAnnotation",
     // "tei:ListBibl",
     // "tei:ListObject",
     // "tei:ListPerson",
@@ -156,7 +156,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
       ],
     },
   ],
-  allPossibleTextPanels: ["self", "textOrig", "textTrans"],
+  allPossibleTextPanels: ["self", "textOrig", "textTrans", "textNotes"],
   defaultTextPanels: ["textOrig"],
   projectCss: projectCss,
 } as ProjectSpecificConfig);
