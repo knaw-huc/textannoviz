@@ -1,13 +1,16 @@
 import mirador from "mirador-knaw-huc-mui5";
+import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { CanvasTarget } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
+import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";
 import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import { useTextStore } from "../../../stores/text/text-store.ts";
 import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
 import { TooltipMarkerButton } from "./MarkerTooltip.tsx";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
@@ -83,11 +86,39 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 }
 
 export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
+  const { activeFootnote, setActiveFootnote } = useTextStore();
+  const { setActiveSidebarTab } = useDetailViewStore();
+  const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
   const classNames: string[] = [];
   classNames.push(...createTooltipMarkerClasses(marker));
+
+  const footnoteId = marker.body.metadata.target.split("#")[1];
+
+  useEffect(() => {
+    if (!ref.current || !footnoteId) {
+      return;
+    }
+    if (footnoteId === activeFootnote) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [footnoteId, activeFootnote]);
+
+  function spanClickHandler(footnoteId: string) {
+    setActiveFootnote(footnoteId);
+    setActiveSidebarTab("notes");
+  }
+
   return (
-    <span className={classNames.join(" ")}>
+    <span
+      ref={ref}
+      className={`${classNames.join(
+        " ",
+      )} transition-all duration-300 ease-in-out ${
+        activeFootnote === footnoteId ? "bg-brand2-300" : "bg-white"
+      }`}
+      onClick={() => spanClickHandler(footnoteId)}
+    >
       <TooltipMarkerButton clickedMarker={marker}>
         {/*TODO: move to project config*/}
         {marker.body.metadata.n ?? "*"}
