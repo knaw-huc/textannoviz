@@ -1,7 +1,8 @@
 import { ProjectConfig } from "../../model/ProjectConfig.ts";
-import { SearchParams } from "../../model/Search.ts";
+import { DetailParams, SearchParams, SearchQuery } from "../../model/Search.ts";
+import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
 
-export const defaultSearchParams: SearchParams = {
+export const blankSearchParams: SearchParams = {
   indexName: "",
   fragmentSize: 100,
   from: 0,
@@ -10,9 +11,25 @@ export const defaultSearchParams: SearchParams = {
   sortOrder: "desc",
 };
 
+export const blankDetailParams: DetailParams = {
+  lastSearchResult: "",
+};
+
+export type SearchUrlState = Partial<
+  SearchParams & {
+    query: Partial<SearchQuery>;
+  } & DetailParams
+>;
+
+export const blankParams: SearchUrlState = {
+  ...blankSearchParams,
+  query: blankSearchQuery,
+  ...blankDetailParams,
+};
+
 export function createSearchParams(props: { projectConfig: ProjectConfig }) {
   return {
-    ...defaultSearchParams,
+    ...blankSearchParams,
     ...props.projectConfig.overrideDefaultSearchParams,
   };
 }

@@ -77,6 +77,7 @@ export default function App() {
 function Layout() {
   return (
     <>
+      <style>{config.projectCss}</style>
       <Header projectConfig={config} />
       <Outlet />
     </>
@@ -84,26 +85,29 @@ function Layout() {
 }
 
 async function createRouter() {
-  return createBrowserRouter([
-    {
-      element: <Layout />,
-      errorElement: <ErrorPage />,
-      children: [
-        {
-          path: "/",
-          element: <Search />,
-        },
-        {
-          path: detailTier2Path,
-          element: <Detail project={project} config={config} />,
-        },
-        {
-          path: "help",
-          element: <Help project={project} config={config} />,
-        },
-      ],
-    },
-  ]);
+  return createBrowserRouter(
+    [
+      {
+        element: <Layout />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: "/",
+            element: <Search />,
+          },
+          {
+            path: detailTier2Path,
+            element: <Detail project={project} config={config} />,
+          },
+          {
+            path: "help",
+            element: <Help project={project} config={config} />,
+          },
+        ],
+      },
+    ],
+    { basename: import.meta.env["VITE_ROUTER_BASENAME"] ?? "/" },
+  );
 }
 
 function selectProjectConfig() {

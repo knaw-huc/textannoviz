@@ -1,6 +1,6 @@
 {
   "name": "textannoviz",
-  "version": "0.16.6",
+  "version": "0.16.7",
   "description": "",
   "private": true,
   "type": "module",
@@ -27,12 +27,14 @@
   "dependencies": {
     "@heroicons/react": "^2.1.1",
     "@spectrum-icons/workflow": "^4.2.11",
+    "@types/qs": "^6.9.18",
     "framer-motion": "^11.0.8",
     "immer": "^9.0.21",
     "js-base64": "^3.7.7",
     "lodash": "^4.17.21",
     "mirador-knaw-huc-mui5": "^3.3.1",
     "primereact": "^10.5.1",
+    "qs": "^6.14.0",
     "react": "^18.2.0",
     "react-aria-components": "^1.2.1",
     "react-dom": "^18.2.0",
@@ -70,7 +72,7 @@
     "vite": "^4.5.2",
     "vite-plugin-checker": "^0.6.4",
     "vite-plugin-html-injection": "^1.4.2",
-    "vitest": "^1.6.0"
+    "vitest": "^3.0.6"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": "eslint --cache --fix",

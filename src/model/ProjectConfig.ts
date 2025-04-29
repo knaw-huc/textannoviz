@@ -36,6 +36,7 @@ export type ProjectConfig = SearchConfig &
     showNotesTab: boolean;
 
     components: ComponentsConfig;
+    projectCss: string;
   };
 
 type FacsimileConfig = {
