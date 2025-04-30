@@ -245,7 +245,7 @@ export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
   };
 };
 
-export type VanGoghTtLetterBodyBody = AnnoRepoBodyBase & {
+export type IsraelsTfLetterBody = AnnoRepoBodyBase & {
   metadata: {
     type: string;
     correspondent: string;
@@ -257,8 +257,8 @@ export type VanGoghTtLetterBodyBody = AnnoRepoBodyBase & {
     msid: string;
     period: string;
     periodlong: string;
-    prevLetterBody: string;
-    nextLetterBody: string;
+    prevLetter: string;
+    nextLetter: string;
   };
 };
 

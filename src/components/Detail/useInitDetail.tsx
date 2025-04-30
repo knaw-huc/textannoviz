@@ -83,7 +83,11 @@ export function useInitDetail() {
       const annotations = result.anno;
       const views = result.views;
 
-      if (projectName === "suriano" || projectName === "vangogh") {
+      if (
+        projectName === "suriano" ||
+        projectName === "vangogh" ||
+        projectName === "israels"
+      ) {
         const tfFileId =
           projectName === "suriano"
             ? bodyId.replace("letter_body", "file")

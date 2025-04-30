@@ -3,8 +3,8 @@ import React from "react";
 import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
-import { VanGoghTfLetterBody } from "../../model/AnnoRepoAnnotation";
-import { useAnnotationStore } from "../../stores/annotation";
+import { IsraelsTfLetterBody } from "../../model/AnnoRepoAnnotation.ts";
+import { useAnnotationStore } from "../../stores/annotation.ts";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;
@@ -17,9 +17,9 @@ export function AnnotationButtons() {
     (annotation) => annotation.body.id === params.tier2,
   );
 
-  const nextLetter = (currentAnnotation?.body as VanGoghTfLetterBody)?.metadata
+  const nextLetter = (currentAnnotation?.body as IsraelsTfLetterBody)?.metadata
     .nextLetter;
-  const prevLetter = (currentAnnotation?.body as VanGoghTfLetterBody)?.metadata
+  const prevLetter = (currentAnnotation?.body as IsraelsTfLetterBody)?.metadata
     .prevLetter;
 
   React.useEffect(() => {

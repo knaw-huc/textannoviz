@@ -1,0 +1,142 @@
+import merge from "lodash/merge";
+import logo from "../../../assets/logo-republic-temp.png";
+import { TabRecipes } from "../../../components/Detail/TabRecipes";
+import {
+  ProjectConfig,
+  ProjectSpecificConfig,
+} from "../../../model/ProjectConfig";
+import { defaultConfig } from "../../default/config";
+import { NotesPanel } from "../NotesPanel";
+import {
+  getAnnotationCategory,
+  getHighlightCategory,
+  projectEntityTypes,
+  projectHighlightedTypes,
+  projectPageMarkerAnnotationTypes,
+  projectTooltipMarkerAnnotationTypes,
+} from "../annotation/ProjectAnnotationModel";
+import { AnnotationButtons } from "../AnnotationButtons";
+import { ArtworksTab } from "../ArtworksTab";
+import { MetadataPanel } from "../MetadataPanel";
+import projectCss from "../project.css?inline";
+import { SearchItem } from "../SearchItem";
+import { englishIsraelsLabels } from "./englishIsraelsLabels";
+
+export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
+  id: "israels",
+  broccoliUrl: "https://preview.dev.diginfra.org/broccoli",
+  relativeTo: "tf:Letter",
+  annotationTypesToInclude: [
+    "tei:AltIdentifier",
+    // "tei:Availability",
+    // "tei:Body",
+    // "tei:CorrespAction",
+    // "tei:CorrespDesc",
+    // "tei:Country",
+    // "tei:Date",
+    "tei:Div",
+    // "tei:Facsimile",
+    // "tei:Figure",
+    // "tei:FileDesc",
+    "tei:Graphic",
+    "tei:Head",
+    "tei:Hi",
+    // "tei:Idno",
+    // "tei:Institution",
+    // "tei:L",
+    // "tei:Lg",
+    // "tei:Licence",
+    "tei:ListAnnotation",
+    // "tei:MsDesc",
+    // "tei:MsIdentifier",
+    // "tei:Name",
+    "tei:Note",
+    // "tei:ObjectDesc",
+    // "tei:P",
+    // "tei:PhysDesc",
+    // "tei:PlaceName",
+    // "tei:ProfileDesc",
+    "tei:Ptr",
+    // "tei:PubPlace",
+    // "tei:PublicationStmt",
+    // "tei:Publisher",
+    // "tei:Quote",
+    // "tei:Ref",
+    "tei:Rs",
+    // "tei:Seg",
+    // "tei:Settlement",
+    // "tei:SourceDesc",
+    // "tei:Space",
+    // "tei:StandOff",
+    // "tei:Surface",
+    // "tei:TeiHeader",
+    // "tei:Text",
+    // "tei:Title",
+    // "tei:TitleStmt",
+    // "tei:Zone",
+    "tf:File",
+    "tf:Letter",
+    "tf:Page",
+    // "tt:LetterBody",
+  ],
+  showAnnotations: true,
+  highlightedAnnotationTypes: projectHighlightedTypes,
+  tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
+  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  entityAnnotationTypes: projectEntityTypes,
+  getAnnotationCategory: getAnnotationCategory,
+  getHighlightCategory: getHighlightCategory,
+
+  elasticIndexName: "israels",
+  initialDateFrom: "1600-01-01",
+  initialDateTo: "2000-01-01",
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
+  maxRange: 30000,
+  logoImageUrl: logo,
+  headerColor: "bg-brand1-100 text-brand1-700",
+  headerTitle: "Brieven van Isaac Israëls",
+  showSearchResultsButtonFooter: false,
+  useExternalConfig: true,
+  showToggleTextPanels: true,
+  showSearchResultsOnInfoPage: true,
+  defaultKeywordAggsToRender: [
+    "correspondent",
+    "location",
+    "period",
+    "sender",
+    "viewType",
+  ],
+  components: {
+    SearchItem,
+    MetadataPanel,
+    AnnotationButtons,
+    NotesPanel,
+    ArtworksTab,
+  },
+  selectedLanguage: "en",
+  zoomAnnoMirador: true,
+  languages: [{ code: "en", labels: englishIsraelsLabels }],
+  detailPanels: [
+    {
+      name: "facs-text",
+      tabs: [TabRecipes.facsTab, TabRecipes.textTab],
+    },
+    {
+      name: "text-facs",
+      tabs: [TabRecipes.textTab, TabRecipes.facsTab],
+    },
+    {
+      name: "metadata-webannos",
+      tabs: [
+        TabRecipes.metadataTab,
+        TabRecipes.notesTab,
+        TabRecipes.artworksTab,
+        TabRecipes.webAnnoTab,
+      ],
+    },
+  ],
+  allPossibleTextPanels: ["self", "textOrig", "textTrans", "textNotes"],
+  defaultTextPanels: ["textOrig"],
+  projectCss: projectCss,
+} as ProjectSpecificConfig);

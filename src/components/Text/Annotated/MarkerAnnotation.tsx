@@ -108,7 +108,8 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   }
 
   //TODO: Note numbers should always come from the same data point
-  const vanGoghNoteNumber = marker.body.metadata.target.match(/[^-]+$/)?.[0];
+  const vanGoghNoteNumber = marker.body.metadata.target.match(/[^.]+$/)?.[0];
+  console.log(vanGoghNoteNumber);
   return (
     <span
       ref={ref}
