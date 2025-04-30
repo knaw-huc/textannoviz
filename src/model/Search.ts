@@ -75,6 +75,24 @@ export type VanGoghSearchResultsBody = {
   };
 };
 
+export type IsraelsSearchResultsBody = {
+  _id: string;
+  correspondent: string;
+  sender: string;
+  institution: string;
+  location: string;
+  msid: string;
+  period: string;
+  letterId: string;
+  viewType: string;
+  _hits: {
+    originalText: string[];
+    translatedText: string[];
+    notesText: string[];
+    text: string[]; //TODO: remove
+  };
+};
+
 export type GlobaliseSearchResultsBody = {
   _id: string;
   document: string;

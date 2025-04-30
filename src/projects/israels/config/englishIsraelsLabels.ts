@@ -18,4 +18,9 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   self: "Letter",
   textOrig: "Main text",
   textTrans: "Translated text",
+
+  //Search item
+  originalText: "Edited text",
+  translatedText: "Translation",
+  notesText: "Editorial notes",
 });

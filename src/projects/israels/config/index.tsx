@@ -41,7 +41,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     "tei:Graphic",
     "tei:Head",
     "tei:Hi",
-    // "tei:Idno",
+    "tei:Idno",
     // "tei:Institution",
     // "tei:L",
     // "tei:Lg",
@@ -100,13 +100,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   useExternalConfig: true,
   showToggleTextPanels: true,
   showSearchResultsOnInfoPage: true,
-  defaultKeywordAggsToRender: [
-    "correspondent",
-    "location",
-    "period",
-    "sender",
-    "viewType",
-  ],
+  defaultKeywordAggsToRender: ["location", "period", "file"],
   components: {
     SearchItem,
     MetadataPanel,
@@ -136,7 +130,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
       ],
     },
   ],
-  allPossibleTextPanels: ["self", "textOrig", "textTrans", "textNotes"],
+  allPossibleTextPanels: ["textOrig", "textTrans", "textNotes"],
   defaultTextPanels: ["textOrig"],
   projectCss: projectCss,
 } as ProjectSpecificConfig);

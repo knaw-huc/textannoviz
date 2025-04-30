@@ -8,6 +8,7 @@ import { Language, LanguageCode } from "./Language.ts";
 import { MiradorConfig } from "./MiradorConfig.ts";
 import {
   GlobaliseSearchResultsBody,
+  IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
   RepublicSearchResultBody,
   SearchParams,
@@ -82,7 +83,8 @@ export type ComponentsConfig = {
       | MondriaanSearchResultsBody
       | GlobaliseSearchResultsBody
       | SurianoSearchResultsBody
-      | VanGoghSearchResultsBody;
+      | VanGoghSearchResultsBody
+      | IsraelsSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
