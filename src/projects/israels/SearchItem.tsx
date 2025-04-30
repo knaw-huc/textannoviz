@@ -36,14 +36,6 @@ export const SearchItem = (
           className="hover:text-brand1-600 active:text-brand1-700 cursor-pointer text-inherit no-underline"
         >
           <div className="p-4 font-semibold">{searchItemTitle}</div>
-          {/* {props.result._hits?.text.map((hit, index) => (
-            <div key={index} className="hover:bg-brand1Grey-50 w-full p-4">
-              <div
-                className="mb-1 font-serif text-base"
-                dangerouslySetInnerHTML={{ __html: hit }}
-              />
-            </div>
-          ))} */}
         </Link>
         {props.result._hits
           ? Object.entries(props.result._hits).map(([viewType, hit]) => {
