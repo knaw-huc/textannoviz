@@ -38,16 +38,19 @@ export const SearchItem = (
           <div className="p-4 font-semibold">{searchItemTitle}</div>
         </Link>
         {props.result._hits
-          ? Object.entries(props.result._hits).map(([viewType, hit]) => {
+          ? Object.entries(props.result._hits).map(([viewType, hits]) => {
               return (
                 <li key={viewType} className="w-full p-4">
                   <div className="mb-1 font-semibold">
                     {translateProject(viewType)}:
                   </div>
-                  <div
-                    className="mb-1 font-serif text-base"
-                    dangerouslySetInnerHTML={{ __html: hit }}
-                  ></div>
+                  {hits.map((hit, index) => (
+                    <li
+                      className="mb-1 ml-4 list-disc font-serif text-base"
+                      dangerouslySetInnerHTML={{ __html: hit }}
+                      key={index}
+                    ></li>
+                  ))}
                 </li>
               );
             })
