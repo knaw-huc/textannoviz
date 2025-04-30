@@ -16,10 +16,9 @@ export const SearchItem = (
     year: "numeric",
   };
 
-  const formattedDate = new Date(props.result.period).toLocaleDateString(
-    "en-GB",
-    dateOptions,
-  );
+  const formattedDate = props.result.period
+    ? new Date(props.result.period).toLocaleDateString("en-GB", dateOptions)
+    : "No date";
 
   const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}. ${props.result.location}, ${formattedDate}`;
 
