@@ -94,7 +94,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-100 text-brand1-700",
+  headerColor: "bg-neutral-50 text-black border-b border-neutral-400",
   headerTitle: "Brieven van Isaac Israëls",
   showSearchResultsButtonFooter: false,
   useExternalConfig: true,

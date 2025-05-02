@@ -42,7 +42,7 @@ export const Footer = (props: FooterProps) => {
   );
 
   return (
-    <footer className="border-brand1Grey-100 drop-shadow-top fixed bottom-0 w-full border-t bg-white text-sm text-neutral-500">
+    <footer className="fixed bottom-0 left-0 right-0 flex justify-between border-t border-neutral-400 bg-neutral-50 p-3">
       <div className="mx-auto flex w-full flex-col justify-between lg:flex-row">
         <div className="flex w-full flex-row justify-start gap-8 lg:w-max">
           <DetailSearchResultsNavigation />

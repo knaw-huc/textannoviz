@@ -1,10 +1,10 @@
-import { CheckboxChangeEvent } from "primereact/checkbox";
+// import { CheckboxChangeEvent } from "primereact/checkbox";
 import { Skeleton } from "primereact/skeleton";
 import React from "react";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+// import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text";
 import { TextPanels } from "./TextPanels";
-import { ToggleTextPanels } from "./ToggleTextPanels";
+// import { ToggleTextPanels } from "./ToggleTextPanels";
 
 type TextComponentProps = {
   panelsToRender: string[];
@@ -17,19 +17,19 @@ export const TextComponent = (props: TextComponentProps) => {
     props.panelsToRender,
   );
   const textPanels = useTextStore((state) => state.views);
-  const projectConfig = useProjectStore(projectConfigSelector);
+  // const projectConfig = useProjectStore(projectConfigSelector);
 
-  function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
-    const checkedTextPanels = [...panelsToRender];
+  // function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
+  //   const checkedTextPanels = [...panelsToRender];
 
-    if (event.checked) {
-      checkedTextPanels.push(event.value);
-    } else {
-      checkedTextPanels.splice(checkedTextPanels.indexOf(event.value), 1);
-    }
+  //   if (event.checked) {
+  //     checkedTextPanels.push(event.value);
+  //   } else {
+  //     checkedTextPanels.splice(checkedTextPanels.indexOf(event.value), 1);
+  //   }
 
-    setPanelsToRender(checkedTextPanels);
-  }
+  //   setPanelsToRender(checkedTextPanels);
+  // }
 
   function closePanelHandler(panelToClose: string) {
     setPanelsToRender(
@@ -38,24 +38,18 @@ export const TextComponent = (props: TextComponentProps) => {
   }
 
   return (
-    <div className="flex h-full w-full grow flex-col self-stretch">
-      <div className="sr-only">
+    <div className="flex h-auto justify-center overflow-y-hidden p-6">
+      {/* <div className="sr-only">
         <h1>Resolutie</h1>
-      </div>
+      </div> */}
 
-      {projectConfig.showToggleTextPanels ? (
+      {/* {projectConfig.showToggleTextPanels ? (
         <ToggleTextPanels
           textPanelsCheckboxHandler={textPanelsCheckboxHandler}
           panels={panelsToRender}
         />
-      ) : null}
-      <div
-        className={`${
-          projectConfig.showToggleTextPanels
-            ? "h-[calc(100vh-150px)]"
-            : "h-[calc(100vh-100px)]"
-        } flex flex-row overflow-auto`}
-      >
+      ) : null} */}
+      <div className="flex w-full flex-col overflow-y-scroll pb-40">
         {textPanels && !props.isLoading ? (
           <TextPanels
             panels={panelsToRender}

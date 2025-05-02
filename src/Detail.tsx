@@ -1,11 +1,14 @@
 import { Skeleton } from "primereact/skeleton";
 import { useState } from "react";
-import { Panels } from "./components/Detail/Panels.tsx";
+// import { Panels } from "./components/Detail/Panels.tsx";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { Footer } from "./components/Footer/Footer";
 import { useInitSearch } from "./components/Search/useInitSearch.ts";
 import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
+import { Annotation } from "./components/Annotations/Annotation.tsx";
+import { Mirador } from "./components/Mirador/Mirador.tsx";
+import { TextComponent } from "./components/Text/TextComponent.tsx";
 
 interface DetailProps {
   project: string;
@@ -18,7 +21,7 @@ export const Detail = (props: DetailProps) => {
   const [showAnnotationPanel, setShowAnnotationPanel] = useState(
     props.config.defaultShowMetadataPanel,
   );
-  const { isInitDetail } = useInitDetail();
+  const { isInitDetail, isLoadingDetail } = useInitDetail();
 
   useInitSearch();
 
@@ -40,8 +43,23 @@ export const Detail = (props: DetailProps) => {
     <>
       {isInitDetail && isInitSearch ? (
         <>
-          <main className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
-            <Panels />
+          <main
+            className="mx-auto grid w-full grow overflow-y-scroll"
+            style={{
+              gridTemplateColumns:
+                "minmax(550px, auto) minmax(300px, 650px) minmax(300px, 400px)",
+              justifyContent: "stretch",
+            }}
+          >
+            {showIiifViewer && props.config.showMirador ? <Mirador /> : null}
+            <TextComponent
+              panelsToRender={props.config.defaultTextPanels}
+              allPossiblePanels={props.config.allPossibleTextPanels}
+              isLoading={isLoadingDetail}
+            />
+            {showAnnotationPanel ? (
+              <Annotation isLoading={isLoadingDetail} />
+            ) : null}
           </main>
           <Footer
             showIiifViewerHandler={showIiifViewerHandler}

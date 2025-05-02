@@ -139,7 +139,7 @@ export function Mirador() {
   return (
     <div
       id="mirador"
-      className="bg-brand1Grey-50 sticky top-0 hidden h-[calc(100vh-137px)] w-full grow self-stretch overflow-auto lg:flex"
+      className="relative flex h-[calc(100vh-137px)] w-full grow flex-col items-center justify-center p-1"
     />
   );
 }

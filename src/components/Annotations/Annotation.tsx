@@ -20,7 +20,7 @@ export function Annotation(props: AnnotationProps) {
   const translate = useProjectStore(translateSelector);
 
   return (
-    <div className="border-brand1Grey-100 relative hidden w-3/12 grow self-stretch border-x md:block">
+    <div className="relative flex h-full justify-self-stretch border-l border-neutral-400 2xl:border-r">
       <Tabs
         selectedKey={activeSidebarTab}
         onSelectionChange={(key) => setActiveSidebarTab(key)}
