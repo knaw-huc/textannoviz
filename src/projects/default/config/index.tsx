@@ -48,6 +48,7 @@ export const defaultConfig: DefaultProjectConfig = {
   showNewSearchButton: true,
   allowCloseTextPanel: false,
   showWebAnnoTab: true,
+  showNotesTab: false,
   showHistogram: false,
   useExternalConfig: false,
   visualizeAnnosMirador: false,
@@ -75,6 +76,8 @@ export const defaultConfig: DefaultProjectConfig = {
     SearchInfoPage: Placeholder,
     SearchItem: SearchItem,
     BrowseScanButtons: Empty,
+    NotesPanel: Placeholder,
+    ArtworksTab: Placeholder,
   },
   selectedLanguage: "en",
   languages: [
@@ -89,4 +92,5 @@ export const defaultConfig: DefaultProjectConfig = {
   },
   showSearchResultsOnInfoPage: false,
   projectCss: "",
+  detailPanels: [],
 };
