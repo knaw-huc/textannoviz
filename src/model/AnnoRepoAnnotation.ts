@@ -254,7 +254,7 @@ export type IsraelsTfLetterBody = AnnoRepoBodyBase & {
     institution: string;
     letterid: string;
     location: string;
-    msid: string;
+    msId: string;
     period: string;
     periodlong: string;
     prevLetter: string;
