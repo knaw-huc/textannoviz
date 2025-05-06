@@ -8,13 +8,8 @@ import { HelpTooltip } from "../common/HelpTooltip.tsx";
 import { DetailSearchResultsNavigation } from "./DetailSearchResultsNavigation.tsx";
 
 type FooterProps = {
-  showIiifViewerHandler: () => void;
   showAnnotationPanelHandler: () => void;
-  showSearchResultsHandler: () => void;
-  showSearchResultsDisabled: boolean;
-  facsimileShowState: boolean;
   panelShowState: boolean;
-  searchResultsShowState: boolean;
 };
 
 export const Footer = (props: FooterProps) => {

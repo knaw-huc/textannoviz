@@ -16,8 +16,6 @@ interface DetailProps {
 }
 
 export const Detail = (props: DetailProps) => {
-  const [showSearchResults, setShowSearchResults] = useState(false);
-  const [showIiifViewer, setShowIiifViewer] = useState(true);
   const [showAnnotationPanel, setShowAnnotationPanel] = useState(
     props.config.defaultShowMetadataPanel,
   );
@@ -25,18 +23,10 @@ export const Detail = (props: DetailProps) => {
 
   useInitSearch();
 
-  const { searchResults, isInitSearch } = useSearchStore();
-
-  function showIiifViewerHandler() {
-    setShowIiifViewer(!showIiifViewer);
-  }
+  const { isInitSearch } = useSearchStore();
 
   function showAnnotationPanelHandler() {
     setShowAnnotationPanel(!showAnnotationPanel);
-  }
-
-  function showSearchResultsHandler() {
-    setShowSearchResults(!showSearchResults);
   }
 
   return (
@@ -51,7 +41,7 @@ export const Detail = (props: DetailProps) => {
               justifyContent: "stretch",
             }}
           >
-            {showIiifViewer && props.config.showMirador ? <Mirador /> : null}
+            {props.config.showMirador ? <Mirador /> : null}
             <TextComponent
               panelsToRender={props.config.defaultTextPanels}
               allPossiblePanels={props.config.allPossibleTextPanels}
@@ -62,13 +52,8 @@ export const Detail = (props: DetailProps) => {
             ) : null}
           </main>
           <Footer
-            showIiifViewerHandler={showIiifViewerHandler}
             showAnnotationPanelHandler={showAnnotationPanelHandler}
-            showSearchResultsHandler={showSearchResultsHandler}
-            showSearchResultsDisabled={searchResults === undefined}
-            facsimileShowState={showIiifViewer}
             panelShowState={showAnnotationPanel}
-            searchResultsShowState={showSearchResults}
           />
         </>
       ) : (
