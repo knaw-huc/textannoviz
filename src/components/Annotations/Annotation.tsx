@@ -19,28 +19,25 @@ export function Annotation(props: AnnotationProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 
+  const tabStyling =
+    "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-xs font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
+
   return (
     <div className="relative flex h-full justify-self-stretch border-l border-neutral-400 2xl:border-r">
       <Tabs
         selectedKey={activeSidebarTab}
         onSelectionChange={(key) => setActiveSidebarTab(key)}
-        className="flex h-[calc(100vh-100px)] flex-col overflow-auto"
+        className="sticky top-0 flex w-full flex-col gap-4"
       >
         <TabList
           aria-label="annotation-panel"
-          className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"
+          className="flex w-full gap-4 border-b border-neutral-600 bg-neutral-50 px-6 pt-6"
         >
-          <Tab
-            id="metadata"
-            className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
-          >
+          <Tab id="metadata" className={tabStyling}>
             {translate("METADATA")}
           </Tab>
           {projectConfig.showWebAnnoTab && (
-            <Tab
-              id="webannos"
-              className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
-            >
+            <Tab id="webannos" className={tabStyling}>
               {translate("WEB_ANNOTATIONS")}
             </Tab>
           )}
@@ -53,13 +50,13 @@ export function Annotation(props: AnnotationProps) {
             </Tab>
           )}
         </TabList>
-        <TabPanel id="metadata" className="text-brand1-800 h-full p-5">
+        <TabPanel id="metadata" className="flex flex-col gap-6 px-6 pt-6">
           {annotations.length > 0 && !props.isLoading ? (
             <projectConfig.components.MetadataPanel annotations={annotations} />
           ) : null}
         </TabPanel>
         {projectConfig.showWebAnnoTab && (
-          <TabPanel id="webannos" className="text-brand1-800 p-5">
+          <TabPanel id="webannos" className="flex flex-col gap-6 px-6 pt-6">
             <>
               <div className="flex">
                 <AnnotationFilter />
