@@ -1,36 +1,48 @@
 import {
   AnnoRepoAnnotation,
-  TfLetterBody,
+  IsraelsTfLetterBody,
 } from "../../model/AnnoRepoAnnotation";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { gridOneColumn } from "../../utils/gridOneColumn";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
+const letterNumRegex = /\d+/g;
+
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
-  const translateProject = useProjectStore(translateProjectSelector);
   const letterAnno = props.annotations.find(
     (anno) => anno.body.type === "tf:Letter",
   );
 
+  const idno = (letterAnno?.body as IsraelsTfLetterBody).metadata.file;
+  const msId = (letterAnno?.body as IsraelsTfLetterBody).metadata.msId;
+
+  const letterNum = idno.match(letterNumRegex)?.[0];
+
+  const labelStyling = "text-neutral-500 uppercase text-sm";
+
   return (
     <>
       <ul className="m-0 list-none p-0">
-        {letterAnno &&
-          Object.entries((letterAnno.body as TfLetterBody).metadata).map(
-            ([key, value], index) => (
-              <li className="mb-8" key={index}>
-                <div className="grid grid-cols-1">
-                  <strong>{translateProject(key)}</strong>
-                  {value}
-                </div>
-              </li>
-            ),
-          )}
+        {letterAnno ? (
+          <>
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>Letter: </div>
+                {letterNum}
+              </div>
+            </li>
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>Inventory number: </div>
+                VGM, {msId}
+              </div>
+            </li>
+          </>
+        ) : (
+          "No metadata"
+        )}
       </ul>
     </>
   );
