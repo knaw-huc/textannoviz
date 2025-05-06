@@ -55,6 +55,7 @@ export default defineConfig(({ mode }) => {
         typescript: true,
         overlay: {
           initialIsOpen: false,
+          position: "tr",
         },
       }),
       htmlInjectionPluginConfig &&
