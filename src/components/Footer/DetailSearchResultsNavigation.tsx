@@ -82,6 +82,43 @@ export function DetailSearchResultsNavigation() {
   return (
     <>
       <FooterLink
+        onClick={() => navigateDetail(`/?${getUrlParams()}`)}
+        classes={[
+          "flex items-center border border-stone-400 rounded-full *:py-2 *:px-1 *:lg:p-2 bg-white text-sm no-underline",
+        ]}
+      >
+        <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-700" />{" "}
+        Search
+      </FooterLink>
+      <div className="relative flex items-center rounded-l-full border border-stone-400 bg-white text-sm no-underline *:px-1 *:py-2 *:lg:p-2">
+        <FooterLink
+          classes={["border-r border-stone-400"]}
+          onClick={handlePrevResultClick}
+          disabled={
+            !foundResultId || (!hasPrevResult(resultIndex) && !hasPrevPage())
+          }
+        >
+          &lt; {translate("PREV")}
+        </FooterLink>
+        <div className="border-r">
+          <button className="flex items-center gap-1">Navigeer brieven</button>
+        </div>
+        <div className="border-r text-neutral-500">
+          <strong>35</strong>
+          <span> / 200</span>
+        </div>
+        <FooterLink
+          classes={["rounded-r-full flex items-center gap-1"]}
+          onClick={handleNextResultClick}
+          disabled={
+            !foundResultId ||
+            (!hasNextResult(resultIndex, searchResults) && !hasNextPage())
+          }
+        >
+          {translate("NEXT")} &gt;
+        </FooterLink>
+      </div>
+      {/* <FooterLink
         classes={["pl-10"]}
         onClick={handlePrevResultClick}
         disabled={
@@ -102,7 +139,7 @@ export function DetailSearchResultsNavigation() {
         }
       >
         {translate("NEXT")} &gt;
-      </FooterLink>
+      </FooterLink> */}
     </>
   );
 }

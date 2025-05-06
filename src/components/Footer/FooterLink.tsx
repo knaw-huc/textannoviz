@@ -12,12 +12,8 @@ export function FooterLink(
   if (props.classes) {
     btnClasses.push(...props.classes);
   }
-  const textClasses = ["text-inherit", "no-underline"];
   if (props.disabled) {
     btnClasses.push("text-neutral-300");
-  } else {
-    btnClasses.push("text-neutral-500");
-    textClasses.push("hover:text-brand1-600", "active:text-brand1-700");
   }
 
   return (
@@ -26,9 +22,7 @@ export function FooterLink(
       className={btnClasses.join(" ")}
       onPress={props.onClick}
     >
-      <span aria-disabled={props.disabled} className={textClasses.join(" ")}>
-        {props.children}
-      </span>
+      <span aria-disabled={props.disabled}>{props.children}</span>
     </Button>
   );
 }
