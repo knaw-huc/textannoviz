@@ -87,7 +87,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
 
-  elasticIndexName: "israels",
+  elasticIndexName: "isr2",
   initialDateFrom: "1600-01-01",
   initialDateTo: "2000-01-01",
   initialRangeFrom: "0",
