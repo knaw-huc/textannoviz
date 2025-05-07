@@ -40,18 +40,20 @@ export const SearchItem = (
         {props.result._hits
           ? Object.entries(props.result._hits).map(([viewType, hits]) => {
               return (
-                <li key={viewType} className="w-full p-4">
+                <div key={viewType} className="w-full p-4">
                   <div className="mb-1 font-semibold">
                     {translateProject(viewType)}:
                   </div>
-                  {hits.map((hit, index) => (
-                    <li
-                      className="mb-1 ml-4 list-disc font-serif text-base"
-                      dangerouslySetInnerHTML={{ __html: hit }}
-                      key={index}
-                    ></li>
-                  ))}
-                </li>
+                  <ul className="ml-4 list-disc">
+                    {hits.map((hit, index) => (
+                      <li
+                        className="mb-1 ml-4 list-disc font-serif text-base"
+                        dangerouslySetInnerHTML={{ __html: hit }}
+                        key={index}
+                      />
+                    ))}
+                  </ul>
+                </div>
               );
             })
           : null}
