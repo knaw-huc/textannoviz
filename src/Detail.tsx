@@ -1,5 +1,4 @@
 import { Skeleton } from "primereact/skeleton";
-import { useState } from "react";
 // import { Panels } from "./components/Detail/Panels.tsx";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { Footer } from "./components/Footer/Footer";
@@ -16,18 +15,11 @@ interface DetailProps {
 }
 
 export const Detail = (props: DetailProps) => {
-  const [showAnnotationPanel, setShowAnnotationPanel] = useState(
-    props.config.defaultShowMetadataPanel,
-  );
   const { isInitDetail, isLoadingDetail } = useInitDetail();
 
   useInitSearch();
 
   const { isInitSearch } = useSearchStore();
-
-  function showAnnotationPanelHandler() {
-    setShowAnnotationPanel(!showAnnotationPanel);
-  }
 
   return (
     <>
@@ -47,14 +39,9 @@ export const Detail = (props: DetailProps) => {
               allPossiblePanels={props.config.allPossibleTextPanels}
               isLoading={isLoadingDetail}
             />
-            {showAnnotationPanel ? (
-              <Annotation isLoading={isLoadingDetail} />
-            ) : null}
+            <Annotation isLoading={isLoadingDetail} />
           </main>
-          <Footer
-            showAnnotationPanelHandler={showAnnotationPanelHandler}
-            panelShowState={showAnnotationPanel}
-          />
+          <Footer />
         </>
       ) : (
         <div className="flex flex-col gap-2 pl-2 pt-2">
