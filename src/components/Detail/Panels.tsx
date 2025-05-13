@@ -6,7 +6,7 @@ export const Panels = () => {
   return (
     <>
       {projectConfig.detailPanels.map((panel, index) => (
-        <Panel key={index} tabsToRender={panel.tabs} panelName={panel.name} />
+        <Panel key={index} panelToRender={panel.tabs} panelName={panel.name} />
       ))}
     </>
   );

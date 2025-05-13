@@ -1,5 +1,5 @@
 type PanelProps = {
-  tabsToRender: {
+  panelToRender: {
     title: string;
     content: JSX.Element;
   };
@@ -7,5 +7,5 @@ type PanelProps = {
 };
 
 export const Panel = (props: PanelProps) => {
-  return <div id={props.panelName}>{props.tabsToRender.content}</div>;
+  return <div id={props.panelName}>{props.panelToRender.content}</div>;
 };
