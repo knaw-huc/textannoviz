@@ -1,6 +1,5 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
-import { TabRecipes } from "../../../components/Detail/TabRecipes";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -21,6 +20,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
+import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -113,24 +113,23 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   languages: [{ code: "en", labels: englishIsraelsLabels }],
   detailPanels: [
     {
-      name: "facs-text",
-      tabs: [TabRecipes.facsTab, TabRecipes.textTab],
+      name: "facs",
+      tabs: PanelTemplates.facsPanel,
     },
     {
-      name: "text-facs",
-      tabs: [TabRecipes.textTab, TabRecipes.facsTab],
+      name: "textOrig",
+      tabs: PanelTemplates.origTextPanel,
     },
     {
-      name: "metadata-webannos",
-      tabs: [
-        TabRecipes.metadataTab,
-        TabRecipes.notesTab,
-        TabRecipes.artworksTab,
-        TabRecipes.webAnnoTab,
-      ],
+      name: "textTrans",
+      tabs: PanelTemplates.transTextPanel,
+    },
+    {
+      name: "metadata",
+      tabs: PanelTemplates.metadataPanel,
     },
   ],
-  allPossibleTextPanels: ["textOrig", "textTrans", "textNotes"],
-  defaultTextPanels: ["textOrig"],
+  allPossibleTextPanels: ["textOrig", "textTrans"],
+  defaultTextPanels: "textOrig",
   projectCss: projectCss,
 } as ProjectSpecificConfig);

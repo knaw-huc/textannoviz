@@ -3,19 +3,20 @@ import { Skeleton } from "primereact/skeleton";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { Footer } from "./components/Footer/Footer";
 import { useInitSearch } from "./components/Search/useInitSearch.ts";
-import { ProjectConfig } from "./model/ProjectConfig";
+// import { ProjectConfig } from "./model/ProjectConfig";
 import { useSearchStore } from "./stores/search/search-store";
-import { Annotation } from "./components/Annotations/Annotation.tsx";
-import { Mirador } from "./components/Mirador/Mirador.tsx";
-import { TextComponent } from "./components/Text/TextComponent.tsx";
+// import { Annotation } from "./components/Annotations/Annotation.tsx";
+// import { Mirador } from "./components/Mirador/Mirador.tsx";
+// import { TextComponent } from "./components/Text/TextComponent.tsx";
+import { Panels } from "./components/Detail/Panels.tsx";
 
-interface DetailProps {
-  project: string;
-  config: ProjectConfig;
-}
+// interface DetailProps {
+//   project: string;
+//   config: ProjectConfig;
+// }
 
-export const Detail = (props: DetailProps) => {
-  const { isInitDetail, isLoadingDetail } = useInitDetail();
+export const Detail = () => {
+  const { isInitDetail } = useInitDetail();
 
   useInitSearch();
 
@@ -33,13 +34,13 @@ export const Detail = (props: DetailProps) => {
               justifyContent: "stretch",
             }}
           >
-            {props.config.showMirador ? <Mirador /> : null}
+            {/* {props.config.showMirador ? <Mirador /> : null}
             <TextComponent
-              panelsToRender={props.config.defaultTextPanels}
-              allPossiblePanels={props.config.allPossibleTextPanels}
+              viewToRender={props.config.defaultTextPanels}
               isLoading={isLoadingDetail}
             />
-            <Annotation isLoading={isLoadingDetail} />
+            <Annotation isLoading={isLoadingDetail} /> */}
+            <Panels />
           </main>
           <Footer />
         </>

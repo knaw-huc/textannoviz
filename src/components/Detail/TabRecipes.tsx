@@ -12,7 +12,7 @@ export const TabRecipes = {
   },
   textTab: {
     title: "Text",
-    content: <TextComponentTab />,
+    content: <TextComponentTab viewToRender="self" />,
   },
   metadataTab: {
     title: "Metadata",

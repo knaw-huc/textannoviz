@@ -31,7 +31,7 @@ export const defaultConfig: DefaultProjectConfig = {
   isEntity: isEntity,
 
   allPossibleTextPanels: ["self"],
-  defaultTextPanels: ["self"],
+  defaultTextPanels: "self",
   showSearchSortBy: true,
   showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,

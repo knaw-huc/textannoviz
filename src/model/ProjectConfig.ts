@@ -41,7 +41,7 @@ export type ProjectConfig = SearchConfig &
       tabs: {
         title: string;
         content: JSX.Element;
-      }[];
+      };
     }[];
 
     components: ComponentsConfig;
@@ -93,7 +93,7 @@ export type ComponentsConfig = {
 
 type TextConfig = {
   allPossibleTextPanels: string[];
-  defaultTextPanels: string[];
+  defaultTextPanels: string;
   showToggleTextPanels: boolean;
   allowCloseTextPanel: boolean;
 };

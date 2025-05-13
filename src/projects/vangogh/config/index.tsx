@@ -1,6 +1,6 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
-import { TabRecipes } from "../../../components/Detail/TabRecipes";
+// import { TabRecipes } from "../../../components/Detail/TabRecipes";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -137,26 +137,26 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   selectedLanguage: "en",
   zoomAnnoMirador: true,
   languages: [{ code: "en", labels: englishVanGoghLabels }],
-  detailPanels: [
-    {
-      name: "facs-text",
-      tabs: [TabRecipes.facsTab, TabRecipes.textTab],
-    },
-    {
-      name: "text-facs",
-      tabs: [TabRecipes.textTab, TabRecipes.facsTab],
-    },
-    {
-      name: "metadata-webannos",
-      tabs: [
-        TabRecipes.metadataTab,
-        TabRecipes.notesTab,
-        TabRecipes.artworksTab,
-        TabRecipes.webAnnoTab,
-      ],
-    },
-  ],
+  // detailPanels: [
+  //   {
+  //     name: "facs-text",
+  //     tabs: [TabRecipes.facsTab, TabRecipes.textTab],
+  //   },
+  //   {
+  //     name: "text-facs",
+  //     tabs: [TabRecipes.textTab, TabRecipes.facsTab],
+  //   },
+  //   {
+  //     name: "metadata-webannos",
+  //     tabs: [
+  //       TabRecipes.metadataTab,
+  //       TabRecipes.notesTab,
+  //       TabRecipes.artworksTab,
+  //       TabRecipes.webAnnoTab,
+  //     ],
+  //   },
+  // ],
   allPossibleTextPanels: ["self", "textOrig", "textTrans", "textNotes"],
-  defaultTextPanels: ["textOrig"],
+  defaultTextPanels: "textOrig",
   projectCss: projectCss,
 } as ProjectSpecificConfig);

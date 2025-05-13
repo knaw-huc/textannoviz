@@ -10,7 +10,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
-import { TabRecipes } from "../../../components/Detail/TabRecipes.tsx";
+// import { TabRecipes } from "../../../components/Detail/TabRecipes.tsx";
 import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
@@ -128,18 +128,18 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     sortOrder: "asc",
   },
   projectCss: projectCss,
-  detailPanels: [
-    {
-      name: "facs-text",
-      tabs: [TabRecipes.facsTab, TabRecipes.textTab],
-    },
-    {
-      name: "text-facs",
-      tabs: [TabRecipes.textTab, TabRecipes.facsTab],
-    },
-    {
-      name: "metadata-webannos",
-      tabs: [TabRecipes.metadataTab, TabRecipes.webAnnoTab],
-    },
-  ],
+  // detailPanels: [
+  //   {
+  //     name: "facs-text",
+  //     tabs: [TabRecipes.facsTab, TabRecipes.textTab],
+  //   },
+  //   {
+  //     name: "text-facs",
+  //     tabs: [TabRecipes.textTab, TabRecipes.facsTab],
+  //   },
+  //   {
+  //     name: "metadata-webannos",
+  //     tabs: [TabRecipes.metadataTab, TabRecipes.webAnnoTab],
+  //   },
+  // ],
 } as ProjectSpecificConfig);

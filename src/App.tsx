@@ -105,7 +105,7 @@ async function createRouter() {
           },
           {
             path: detailTier2Path,
-            element: <Detail project={project} config={config} />,
+            element: <Detail />,
           },
           {
             path: "help",
