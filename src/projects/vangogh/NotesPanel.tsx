@@ -1,5 +1,5 @@
 import { AnnotatedText } from "../../components/Text/Annotated/AnnotatedText";
-import { useTextStore } from "../../stores/text";
+import { useTextStore } from "../../stores/text/text-store";
 
 export const NotesPanel = () => {
   const textPanels = useTextStore().views;
