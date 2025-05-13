@@ -19,7 +19,7 @@ export const TextComponent = (props: TextComponentProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
 
   return (
-    <div className="flex h-auto justify-center overflow-y-hidden p-6">
+    <div className="flex h-auto justify-center overflow-y-hidden border-r p-6">
       {/* <div className="sr-only">
         <h1>Resolutie</h1>
       </div> */}

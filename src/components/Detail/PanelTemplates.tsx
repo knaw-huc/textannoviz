@@ -1,5 +1,5 @@
+import { Annotation } from "../Annotations/Annotation";
 import { Mirador } from "../Mirador/Mirador";
-import { MetadataTab } from "./MetadataTab";
 import { TextComponentTab } from "./TextComponentTab";
 
 export const PanelTemplates = {
@@ -17,6 +17,6 @@ export const PanelTemplates = {
   },
   metadataPanel: {
     title: "Metadata panel",
-    content: <MetadataTab />,
+    content: <Annotation isLoading={false} />,
   },
 };
