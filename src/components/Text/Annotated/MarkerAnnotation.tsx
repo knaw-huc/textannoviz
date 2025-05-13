@@ -3,14 +3,14 @@ import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { CanvasTarget } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { useDetailViewStore } from "../../../stores/detail-view.ts";
+import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";
 import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
-import { useTextStore } from "../../../stores/text.ts";
+import { useTextStore } from "../../../stores/text/text-store.ts";
 import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
 import { TooltipMarkerButton } from "./MarkerTooltip.tsx";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
@@ -86,8 +86,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 }
 
 export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
-  const { registerFootnotes, activeFootnote, setActiveFootnote } =
-    useTextStore();
+  const { activeFootnote, setActiveFootnote } = useTextStore();
   const { setActiveSidebarTab } = useDetailViewStore();
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
@@ -97,10 +96,13 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const footnoteId = marker.body.metadata.target.split("#")[1];
 
   useEffect(() => {
-    if (ref.current) {
-      registerFootnotes(footnoteId, ref.current);
+    if (!ref.current || !footnoteId) {
+      return;
     }
-  }, [footnoteId, registerFootnotes]);
+    if (footnoteId === activeFootnote) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [footnoteId, activeFootnote]);
 
   function spanClickHandler(footnoteId: string) {
     setActiveFootnote(footnoteId);

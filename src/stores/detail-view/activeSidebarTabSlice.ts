@@ -1,12 +1,12 @@
 import { Key } from "react-aria-components";
-import { create, StateCreator } from "zustand";
+import { StateCreator } from "zustand";
 
 export type ActiveSidebarTabSlice = {
   activeSidebarTab: Key;
   setActiveSidebarTab: (newActiveSidebarTab: Key) => void;
 };
 
-const createActiveSidebarTabSlice: StateCreator<
+export const createActiveSidebarTabSlice: StateCreator<
   ActiveSidebarTabSlice,
   [],
   [],
@@ -16,7 +16,3 @@ const createActiveSidebarTabSlice: StateCreator<
   setActiveSidebarTab: (newActiveSidebarTab) =>
     set(() => ({ activeSidebarTab: newActiveSidebarTab })),
 });
-
-export const useDetailViewStore = create<ActiveSidebarTabSlice>()((...a) => ({
-  ...createActiveSidebarTabSlice(...a),
-}));

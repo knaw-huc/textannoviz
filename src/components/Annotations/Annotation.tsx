@@ -1,6 +1,6 @@
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useDetailViewStore } from "../../stores/detail-view";
+import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import {
   projectConfigSelector,
   translateSelector,

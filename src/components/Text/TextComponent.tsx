@@ -1,5 +1,5 @@
 import { Skeleton } from "primereact/skeleton";
-import { useTextStore } from "../../stores/text";
+import { useTextStore } from "../../stores/text/text-store.ts";
 import { AnnotatedText } from "./Annotated/AnnotatedText";
 import {
   projectConfigSelector,
