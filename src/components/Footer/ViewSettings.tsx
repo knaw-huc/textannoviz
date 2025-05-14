@@ -51,22 +51,16 @@ export const ViewSettings = () => {
         <div className="rounded-l-full border-x italic text-neutral-500">
           View
         </div>
-        <button className="hidden items-center gap-1 border-r md:flex">
-          Facsimile
-        </button>
-        {projectConfig.allPossibleTextPanels.map((textPanel) => (
+        {projectConfig.detailPanels.map((detailPanel) => (
           <button
-            id={`b-${textPanel}`}
-            onClick={() => handlePanelVisibility(textPanel)}
+            id={`b-${detailPanel.name}`}
+            key={detailPanel.name}
+            onClick={() => handlePanelVisibility(detailPanel.name)}
             className="hidden gap-1 border-r md:flex"
-            key={textPanel}
           >
-            {translateProject(textPanel)}
+            {translateProject(detailPanel.name)}
           </button>
         ))}
-        <button className="hidden items-center gap-1 border-r md:flex">
-          Info
-        </button>
         <button className="hidden items-center gap-1 rounded-r-full border-r md:flex">
           Settings
         </button>
