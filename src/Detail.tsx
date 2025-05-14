@@ -27,6 +27,7 @@ export const Detail = () => {
       {isInitDetail && isInitSearch ? (
         <>
           <main
+            id="panelsContainer"
             className="mx-auto grid w-full grow overflow-y-scroll"
             style={{
               gridTemplateColumns:

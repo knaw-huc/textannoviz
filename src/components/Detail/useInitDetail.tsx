@@ -10,6 +10,7 @@ import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
 import { useDetailNavigation } from "./useDetailNavigation.tsx";
+import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -27,6 +28,7 @@ export function useInitDetail() {
   const { setCurrentCanvas } = useMiradorStore();
   const { setAnnotations } = useAnnotationStore();
   const { setViews } = useTextStore();
+  const { setActivePanels } = useDetailViewStore();
 
   const { tier2 } = useDetailNavigation().getDetailParams();
   const [prevTier2, setPrevTier2] = useState(tier2);
@@ -116,6 +118,7 @@ export function useInitDetail() {
       setCurrentCanvas(result.iiif.canvasIds[0]);
       setAnnotations(annotations);
       setViews(views);
+      setActivePanels(projectConfig.detailPanels);
 
       setLoading(false);
       setInitDetail(true);

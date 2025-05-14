@@ -1,3 +1,5 @@
+import React from "react";
+import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -7,6 +9,41 @@ import {
 export const ViewSettings = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
+  const { activePanels, setActivePanels } = useDetailViewStore();
+
+  function handlePanelVisibility(panelName: string) {
+    const newActivePanels = activePanels.map((activePanel) => {
+      if (activePanel.name === panelName) {
+        activePanel.visible = !activePanel.visible;
+        return activePanel;
+      }
+      return activePanel;
+    });
+    setActivePanels(newActivePanels);
+  }
+
+  React.useEffect(() => {
+    const containerStyle: string[] = [];
+    activePanels.forEach((activePanel) => {
+      const buttonDoc = document.getElementById(`b-${activePanel.name}`);
+      const doc = document.getElementById(activePanel.name);
+
+      if (activePanel.visible) {
+        doc?.setAttribute("style", "");
+        buttonDoc?.setAttribute("style", "");
+        containerStyle.push(activePanel.size);
+      } else {
+        doc?.setAttribute("style", "display: none");
+        buttonDoc?.setAttribute("style", "background-color: #F5EDED");
+      }
+    });
+
+    const panelContainerDoc = document.getElementById("panelsContainer");
+    panelContainerDoc?.setAttribute(
+      "style",
+      `grid-template-columns: ${containerStyle.join(" ")}`,
+    );
+  }, [activePanels]);
 
   return (
     <div>
@@ -18,7 +55,12 @@ export const ViewSettings = () => {
           Facsimile
         </button>
         {projectConfig.allPossibleTextPanels.map((textPanel) => (
-          <button className="hidden gap-1 border-r md:flex" key={textPanel}>
+          <button
+            id={`b-${textPanel}`}
+            onClick={() => handlePanelVisibility(textPanel)}
+            className="hidden gap-1 border-r md:flex"
+            key={textPanel}
+          >
             {translateProject(textPanel)}
           </button>
         ))}

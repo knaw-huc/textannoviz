@@ -38,8 +38,9 @@ export type ProjectConfig = SearchConfig &
 
     detailPanels: {
       name: string;
-      tabs: {
-        title: string;
+      visible: boolean;
+      size: string;
+      panel: {
         content: JSX.Element;
       };
     }[];
