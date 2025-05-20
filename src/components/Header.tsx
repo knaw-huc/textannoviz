@@ -1,4 +1,5 @@
 import { ProjectConfig } from "../model/ProjectConfig";
+import { getViteEnvVars } from "../utils/viteEnvVars.ts";
 import { LanguageMenu } from "./LanguageMenu.tsx";
 
 type HeaderProps = {
@@ -7,6 +8,8 @@ type HeaderProps = {
 
 export const Header = (props: HeaderProps) => {
   const { projectConfig } = props;
+
+  const { routerBasename } = getViteEnvVars();
 
   return (
     <header className={projectConfig.headerColor}>
@@ -31,7 +34,7 @@ export const Header = (props: HeaderProps) => {
               <a
                 title="Homepage"
                 rel="noreferrer"
-                href="/"
+                href={routerBasename}
                 className="hover:text-brand1-900 text-inherit no-underline hover:underline"
               >
                 {projectConfig.headerTitle}
