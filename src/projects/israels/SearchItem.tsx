@@ -25,6 +25,9 @@ export const SearchItem = (
     ? new Date(props.result.period).toLocaleDateString("en-GB", dateOptions)
     : "No date";
 
+  const letterNumRegex = /\d+/g;
+  const letterNum = props.result.file.match(letterNumRegex);
+
   const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}. ${props.result.location}, ${formattedDate}`;
 
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
@@ -35,7 +38,12 @@ export const SearchItem = (
           to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
           className="hover:text-brand1-600 active:text-brand1-700 cursor-pointer text-inherit no-underline"
         >
-          <div className="p-4 font-semibold">{searchItemTitle}</div>
+          <div className="flex flex-col p-4">
+            <div className="font-semibold">{searchItemTitle}</div>
+            <div className="text-brand1Grey-500 italic">
+              Letter number: {letterNum}
+            </div>
+          </div>
         </Link>
         {props.result._hits
           ? Object.entries(props.result._hits).map(([viewType, hits]) => {

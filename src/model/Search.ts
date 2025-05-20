@@ -81,7 +81,7 @@ export type IsraelsSearchResultsBody = {
   sender: string;
   institution: string;
   location: string;
-  msid: string;
+  file: string;
   period: string;
   letterId: string;
   viewType: string;
