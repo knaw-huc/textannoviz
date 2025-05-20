@@ -137,7 +137,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
       panel: PanelTemplates.metadataPanel,
     },
   ],
-  allPossibleTextPanels: ["textOrig", "textTrans"],
+  allPossibleTextPanels: ["textOrig", "textTrans", "textNotes"],
   defaultTextPanels: "textOrig",
   projectCss: projectCss,
 } as ProjectSpecificConfig);
