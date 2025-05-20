@@ -4,8 +4,9 @@ import { useTextStore } from "../../stores/text/text-store";
 export const NotesPanel = () => {
   const textPanels = useTextStore().views;
 
-  const noteText = textPanels!["textNotes"];
-  console.log(noteText);
+  if (!textPanels) return;
+
+  const noteText = textPanels["textNotes"];
 
   return (
     <div role="textpanel">
