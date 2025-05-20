@@ -42,10 +42,7 @@ export function Annotation(props: AnnotationProps) {
             </Tab>
           )}
           {projectConfig.showNotesTab && (
-            <Tab
-              id="notes"
-              className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
-            >
+            <Tab id="notes" className={tabStyling}>
               Notes
             </Tab>
           )}
@@ -73,7 +70,7 @@ export function Annotation(props: AnnotationProps) {
           </TabPanel>
         )}
         {projectConfig.showNotesTab && (
-          <TabPanel id="notes" className="text-brand1-800 p-5">
+          <TabPanel id="notes" className="flex flex-col gap-6 px-6 pt-6">
             {annotations.length > 0 && !props.isLoading ? (
               <projectConfig.components.NotesPanel annotations={annotations} />
             ) : null}
