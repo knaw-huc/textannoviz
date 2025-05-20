@@ -101,6 +101,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   showToggleTextPanels: true,
   showSearchResultsOnInfoPage: true,
   defaultKeywordAggsToRender: ["location", "period", "file"],
+  showNotesTab: true,
   components: {
     SearchItem,
     MetadataPanel,
