@@ -61,7 +61,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     // "tei:PublicationStmt",
     // "tei:Publisher",
     // "tei:Quote",
-    // "tei:Ref",
+    "tei:Ref",
     "tei:Rs",
     // "tei:Seg",
     // "tei:Settlement",
