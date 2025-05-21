@@ -100,6 +100,9 @@ export function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {
     noteLines[0].length,
   );
   const lastLine = noteLines.length - 1;
-  noteLines[lastLine] = noteLines[lastLine].slice(0, noteOffsets.end.offset);
+  noteLines[lastLine] = noteLines[lastLine].slice(
+    0,
+    noteOffsets.end.offset! + 1,
+  );
   return noteLines;
 }

@@ -293,8 +293,10 @@ export type NoteBody = AnnoRepoBodyBase & {
   "tf:textfabricNode": string;
   metadata: {
     "tei:id": string;
+    "tei:type": string;
     lang: string;
     type: "tt:NoteMetadata";
+    n: string;
   };
 };
 
