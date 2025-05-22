@@ -6,5 +6,9 @@ type PanelProps = {
 };
 
 export const Panel = (props: PanelProps) => {
-  return <div id={props.panelName}>{props.panelToRender.content}</div>;
+  return (
+    <div className="contents" id={props.panelName}>
+      {props.panelToRender.content}
+    </div>
+  );
 };
