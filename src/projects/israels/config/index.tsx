@@ -21,6 +21,7 @@ import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
+import { EntitySummary } from "../annotation/EntitySummary";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -108,6 +109,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
     NotesPanel,
     ArtworksTab,
+    EntitySummary,
   },
   selectedLanguage: "en",
   zoomAnnoMirador: true,
