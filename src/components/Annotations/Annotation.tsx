@@ -36,14 +36,14 @@ export function Annotation(props: AnnotationProps) {
           <Tab id="metadata" className={tabStyling}>
             {translate("METADATA")}
           </Tab>
-          {projectConfig.showWebAnnoTab && (
-            <Tab id="webannos" className={tabStyling}>
-              {translate("WEB_ANNOTATIONS")}
-            </Tab>
-          )}
           {projectConfig.showNotesTab && (
             <Tab id="notes" className={tabStyling}>
               Notes
+            </Tab>
+          )}
+          {projectConfig.showWebAnnoTab && (
+            <Tab id="webannos" className={tabStyling}>
+              {translate("WEB_ANNOTATIONS")}
             </Tab>
           )}
         </TabList>
