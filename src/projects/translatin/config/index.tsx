@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
+import logo from "../../../assets/logo-translatin-transp.png";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -66,8 +66,8 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-100 text-brand1-800",
-  headerTitle: "TRANSLATIN",
+  headerColor: "bg-brand1-700 text-brand1-100",
+  headerTitle: "",
   showSearchResultsButtonFooter: false,
   showMirador: false,
   showAnnotations: true,
