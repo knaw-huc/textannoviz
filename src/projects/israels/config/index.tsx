@@ -118,24 +118,28 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     {
       name: "facs",
       visible: true,
+      disabled: false,
       size: "minmax(550px, auto)",
       panel: PanelTemplates.facsPanel,
     },
     {
       name: "textOrig",
       visible: true,
+      disabled: false,
       size: "minmax(300px, 650px)",
       panel: PanelTemplates.origTextPanel,
     },
     {
       name: "textTrans",
       visible: true,
+      disabled: false,
       size: "minmax(300px, 650px)",
       panel: PanelTemplates.transTextPanel,
     },
     {
       name: "metadata",
       visible: true,
+      disabled: false,
       size: "minmax(300px, 400px)",
       panel: PanelTemplates.metadataPanel,
     },

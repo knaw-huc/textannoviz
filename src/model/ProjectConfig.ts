@@ -40,6 +40,7 @@ export type ProjectConfig = SearchConfig &
       name: string;
       visible: boolean;
       size: string;
+      disabled: boolean;
       panel: {
         content: JSX.Element;
       };

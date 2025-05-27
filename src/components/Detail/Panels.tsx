@@ -25,10 +25,11 @@ export const Panels = () => {
       const newActivePanels = activePanels.map((panel) => {
         const isVisible = (() => {
           if (queries.mqSM.matches) {
-            console.log(panel.name);
             return panel.name === projectConfig.detailPanels[1]?.name;
           }
           if (queries.mqMD.matches) {
+            //Button kijkt naar project config, niet Zustand store
+            if (!panel.visible) return panel.disabled === true;
             return (
               panel.name === projectConfig.detailPanels[1]?.name ||
               panel.name ===
