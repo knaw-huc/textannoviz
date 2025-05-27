@@ -1,16 +1,14 @@
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
-import { skipEmptyValues } from "../../../utils/skipEmptyValues.ts";
-import { Base64 } from "js-base64";
 import {
   entityCategoryToAgg,
   isDateEntity,
   isEntityEntity,
 } from "./ProjectAnnotationModel.ts";
-import { QUERY } from "../../../components/Search/SearchUrlParams.ts";
 import { SearchQuery } from "../../../model/Search.ts";
 import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+import { encodeObject } from "../../../utils/UrlParamUtils.ts";
 
-export function toEntitySearchQuery(anno: AnnoRepoBodyBase): URLSearchParams {
+export function toEntitySearchQuery(anno: AnnoRepoBodyBase): string {
   if (isDateEntity(anno)) {
     return createSearchQueryParam(toDateEntityQueryParams(anno.metadata.date));
   } else if (isEntityEntity(anno)) {
@@ -52,11 +50,6 @@ function toEntityTerms(
   };
 }
 
-function createSearchQueryParam(queryWithEntity: Partial<SearchQuery>) {
-  const params = new URLSearchParams();
-  params.set(
-    QUERY,
-    Base64.encode(JSON.stringify(queryWithEntity, skipEmptyValues)),
-  );
-  return params;
+function createSearchQueryParam(queryWithEntity: Partial<SearchQuery>): string {
+  return encodeObject({ query: queryWithEntity });
 }
