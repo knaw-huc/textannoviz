@@ -101,7 +101,14 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   useExternalConfig: true,
   showToggleTextPanels: true,
   showSearchResultsOnInfoPage: true,
-  defaultKeywordAggsToRender: ["location", "period", "file"],
+  defaultKeywordAggsToRender: [
+    "location",
+    "period",
+    "file",
+    "persons",
+    "artworksNL",
+    "artworksEN",
+  ],
   showNotesTab: true,
   components: {
     SearchItem,
