@@ -109,6 +109,13 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     "artworksNL",
     "artworksEN",
   ],
+  overrideDefaultAggs: [
+    {
+      facetName: "persons",
+      order: "keyAsc",
+      size: 9999,
+    },
+  ],
   showNotesTab: true,
   components: {
     SearchItem,
