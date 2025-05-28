@@ -144,7 +144,8 @@ export function KeywordFacet(props: {
             </div>
           );
         })}
-        {projectName === "republic" && facetLength > 10 ? (
+        {projectName === "republic" ||
+        (projectName === "israels" && facetLength > 10) ? (
           //TODO: make generic
           <span className="pl-2 text-sm text-neutral-500">
             {Math.min(maxFacetItemsVisible, facetLength)} van {facetLength}{" "}
@@ -152,15 +153,20 @@ export function KeywordFacet(props: {
             {maxFacetItemsVisible < facetLength ? (
               <>
                 Gebruik de zoekbalk om door alle {facetLength} items te zoeken.
-                In de{" "}
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://entiteiten.goetgevonden.nl"
-                >
-                  entiteitenbrowser
-                </a>{" "}
-                kun je alle entiteiten vinden.
+                {projectName === "republic" ? (
+                  <>
+                    {" "}
+                    In de{" "}
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://entiteiten.goetgevonden.nl"
+                    >
+                      entiteitenbrowser
+                    </a>{" "}
+                    kun je alle entiteiten vinden.
+                  </>
+                ) : null}
               </>
             ) : null}
           </span>
