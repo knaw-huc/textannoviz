@@ -123,7 +123,7 @@ export const Search = () => {
       {isLoading && <SearchLoadingSpinner />}
       <div
         id="searchContainer"
-        className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
+        className="mx-auto flex w-full grow flex-row content-stretch items-stretch self-stretch"
       >
         <SearchForm
           onSearch={handleNewSearch}
