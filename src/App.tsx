@@ -111,6 +111,10 @@ async function createRouter() {
             path: "help",
             element: <Help project={project} config={config} />,
           },
+          ...config.routes.map((route) => ({
+            path: route.path,
+            element: route.element,
+          })),
         ],
       },
     ],

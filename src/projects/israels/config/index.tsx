@@ -22,6 +22,7 @@ import { SearchItem } from "../SearchItem";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummary } from "../annotation/EntitySummary";
+import { Persons } from "../Persons";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -161,4 +162,14 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   allPossibleTextPanels: ["textOrig", "textTrans", "textNotes"],
   defaultTextPanels: "textOrig",
   projectCss: projectCss,
+  routes: [
+    {
+      path: "persons",
+      element: <Persons />,
+    },
+    {
+      path: "artworks",
+      element: <div>Artworks</div>,
+    },
+  ],
 } as ProjectSpecificConfig);

@@ -48,6 +48,11 @@ export type ProjectConfig = SearchConfig &
 
     components: ComponentsConfig;
     projectCss: string;
+
+    routes: {
+      path: string;
+      element: JSX.Element;
+    }[];
   };
 
 type FacsimileConfig = {
