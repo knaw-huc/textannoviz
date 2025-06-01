@@ -18,9 +18,12 @@ type Person = {
   }[];
   birth: {
     when?: string;
+    cert?: string;
   };
   death: {
     when?: string;
+    cert?: string;
+    notBefore?: string;
   };
   displayLabel: string;
   sortLabel: string;
@@ -44,6 +47,12 @@ export function Persons() {
 
     fetchPersons().then((persons) => {
       if (!persons) return;
+      persons.sort((a, b) =>
+        a.displayLabel.localeCompare(b.displayLabel, "en", {
+          sensitivity: "base",
+          ignorePunctuation: true,
+        }),
+      );
       setPersons(persons);
     });
   }, []);
@@ -63,8 +72,9 @@ export function Persons() {
         <div className="max-w-[800px] rounded bg-neutral-50 p-5" key={index}>
           <div className="font-bold">{per.displayLabel}</div>
           <div>
-            {per.birth?.when ?? "Undefined in data"}-
-            {per.death?.when ?? "Undefined in data"}
+            {/* TODO: deze elementen nog beter stylen. Onzekerheid beter weergeven, net als de `notBefore`. */}
+            {per.birth?.when || per.birth?.cert}-
+            {per.death?.when || per.death?.cert || per.death?.notBefore}
           </div>
         </div>
       ))}
