@@ -36,28 +36,19 @@ export function Persons() {
   const [persons, setPersons] = React.useState<Person[]>();
 
   React.useEffect(() => {
-    async function fetchPersons(): Promise<Person[] | null> {
-      const response = await fetch(
-        "https://preview.dev.diginfra.org/files/00000000000000000000000b/apparatus/bio-entities.json",
-      );
-      if (!response.ok) {
-        const error = await response.json();
-        toast(`${error.message}`, { type: "error" });
-        return null;
-      }
-      return await response.json();
-    }
-
-    fetchPersons().then((persons) => {
-      if (!persons) return;
-      persons.sort((a, b) =>
+    async function initPersons() {
+      const newPersons = await fetchPersons();
+      if (!newPersons) return;
+      newPersons.sort((a, b) =>
         a.displayLabel.localeCompare(b.displayLabel, "en", {
           sensitivity: "base",
           ignorePunctuation: true,
         }),
       );
-      setPersons(persons);
-    });
+      setPersons(newPersons);
+    }
+
+    initPersons();
   }, []);
 
   function searchPerson(per: Person) {
@@ -101,4 +92,16 @@ export function Persons() {
       ))}
     </div>
   );
+}
+
+async function fetchPersons(): Promise<Person[] | null> {
+  const response = await fetch(
+    "https://preview.dev.diginfra.org/files/00000000000000000000000b/apparatus/bio-entities.json",
+  );
+  if (!response.ok) {
+    const error = await response.json();
+    toast(`${error.message}`, { type: "error" });
+    return null;
+  }
+  return await response.json();
 }
