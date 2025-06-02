@@ -1,5 +1,8 @@
 import React from "react";
 import { toast } from "react-toastify";
+import { SearchQuery } from "../../model/Search";
+import { encodeObject } from "../../utils/UrlParamUtils";
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
 type Person = {
   id: string;
@@ -57,7 +60,16 @@ export function Persons() {
     });
   }, []);
 
-  console.log(persons);
+  function searchPerson(per: Person) {
+    const query: Partial<SearchQuery> = {
+      terms: {
+        persons: [per.sortLabel],
+      },
+    };
+
+    const encodedQuery = encodeObject({ query: query });
+    window.open(`/?${encodedQuery}`, "_blank");
+  }
 
   return (
     <div
@@ -70,7 +82,16 @@ export function Persons() {
     >
       {persons?.map((per, index) => (
         <div className="max-w-[800px] rounded bg-neutral-50 p-5" key={index}>
-          <div className="font-bold">{per.displayLabel}</div>
+          <div className="flex flex-row items-center justify-between">
+            <div className="w-fit font-bold">{per.displayLabel}</div>
+            {/* TODO: SVG wordt kleiner wanneer `displayLabel` langer is dan 1 regel */}
+            <MagnifyingGlassIcon
+              aria-hidden
+              className="h-4 w-4 cursor-pointer text-gray-500"
+              onClick={() => searchPerson(per)}
+            />
+          </div>
+
           <div>
             {/* TODO: deze elementen nog beter stylen. Onzekerheid beter weergeven, net als de `notBefore`. */}
             {per.birth?.when || per.birth?.cert}-
