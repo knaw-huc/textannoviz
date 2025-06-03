@@ -1,5 +1,8 @@
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import { toast } from "react-toastify";
+import { SearchQuery } from "../../model/Search";
+import { encodeObject } from "../../utils/UrlParamUtils";
 
 type Artwork = {
   source: string;
@@ -47,6 +50,17 @@ export function Artworks() {
     initArtworks();
   }, []);
 
+  function searchArtwork(artw: Artwork) {
+    const query: Partial<SearchQuery> = {
+      terms: {
+        artworksNL: [artw.head[0].text],
+      },
+    };
+
+    const encodedQuery = encodeObject({ query: query });
+    window.open(`/?${encodedQuery}`, "_blank");
+  }
+
   return (
     <>
       <h1 className="pl-8">Artworks</h1>
@@ -62,6 +76,13 @@ export function Artworks() {
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
                 {artw.head[0].text}
+              </div>
+              <div className="flex flex-row items-center justify-end gap-1">
+                <MagnifyingGlassIcon
+                  aria-hidden
+                  className="h-4 w-4 cursor-pointer"
+                  onClick={() => searchArtwork(artw)}
+                />
               </div>
             </div>
             <div>{artw.idno ? `idno: ${artw.idno}` : null}</div>
