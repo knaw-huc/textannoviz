@@ -5,7 +5,7 @@ type Artwork = {
   source: string;
   corresp: string;
   id: string;
-  idno: string;
+  idno?: string;
   head: {
     lang: string;
     text: string;
@@ -64,6 +64,7 @@ export function Artworks() {
                 {artw.head[0].text}
               </div>
             </div>
+            <div>{artw.idno ? `idno: ${artw.idno}` : null}</div>
           </div>
         ))}
       </div>
