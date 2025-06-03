@@ -66,10 +66,6 @@ export function Persons() {
     window.open(`/?${encodedQuery}`, "_blank");
   }
 
-  function moreInfoPerson(link: string) {
-    window.open(link, "_blank");
-  }
-
   return (
     <>
       <h1 className="pl-8">Persons</h1>
@@ -94,7 +90,7 @@ export function Persons() {
                   ? per.source.split(" ").map((src, index) => (
                       <span
                         className="flex cursor-pointer items-center"
-                        onClick={() => moreInfoPerson(src)}
+                        onClick={() => window.open(src, "_blank")}
                         key={index}
                       >
                         <HelpIcon />
