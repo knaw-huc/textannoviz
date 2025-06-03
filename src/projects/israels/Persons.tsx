@@ -67,9 +67,7 @@ export function Persons() {
   }
 
   function moreInfoPerson(link: string) {
-    //Some links look like "https://rkd.nl/artists/108502 http://vocab.getty.edu/ulan/500212765 https://www.wikidata.org/wiki/Q16867", so those are split on whitespace and then the first is opened in a new window
-    const splitLink = link.split(" ");
-    window.open(splitLink[0], "_blank");
+    window.open(link, "_blank");
   }
 
   return (
@@ -90,14 +88,17 @@ export function Persons() {
             </div>
             {/* TODO: SVG wordt kleiner wanneer `displayLabel` langer is dan 1 regel */}
             <div className="flex flex-row items-center justify-end gap-1">
-              {per.source ? (
-                <span
-                  className="flex cursor-pointer items-center"
-                  onClick={() => moreInfoPerson(per.source!)}
-                >
-                  <HelpIcon />
-                </span>
-              ) : null}
+              {per.source
+                ? per.source.split(" ").map((src, index) => (
+                    <span
+                      className="flex cursor-pointer items-center"
+                      onClick={() => moreInfoPerson(src)}
+                      key={index}
+                    >
+                      <HelpIcon />
+                    </span>
+                  ))
+                : null}
 
               <MagnifyingGlassIcon
                 aria-hidden
