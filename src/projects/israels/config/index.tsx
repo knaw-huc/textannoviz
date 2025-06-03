@@ -23,6 +23,7 @@ import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummary } from "../annotation/EntitySummary";
 import { Persons } from "../Persons";
+import { Artworks } from "../Artworks";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -169,7 +170,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     },
     {
       path: "artworks",
-      element: <div>Artworks</div>,
+      element: <Artworks />,
     },
   ],
 } as ProjectSpecificConfig);
