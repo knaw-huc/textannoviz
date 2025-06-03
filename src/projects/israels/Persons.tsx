@@ -71,50 +71,53 @@ export function Persons() {
   }
 
   return (
-    <div
-      style={{
-        gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
-      }}
-      className="grid gap-6 p-2"
-    >
-      {persons?.map((per, index) => (
-        <div
-          className="h-36 max-w-[800px] rounded bg-neutral-50 p-5"
-          key={index}
-        >
-          <div className="flex flex-row items-center">
-            <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
-              {per.displayLabel}
-            </div>
-            {/* TODO: SVG wordt kleiner wanneer `displayLabel` langer is dan 1 regel */}
-            <div className="flex flex-row items-center justify-end gap-1">
-              {per.source
-                ? per.source.split(" ").map((src, index) => (
-                    <span
-                      className="flex cursor-pointer items-center"
-                      onClick={() => moreInfoPerson(src)}
-                      key={index}
-                    >
-                      <HelpIcon />
-                    </span>
-                  ))
-                : null}
+    <>
+      <h1 className="pl-8">Persons</h1>
+      <div
+        style={{
+          gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
+        }}
+        className="grid gap-6 px-8 pb-8"
+      >
+        {persons?.map((per, index) => (
+          <div
+            className="h-36 max-w-[800px] rounded bg-neutral-50 p-5"
+            key={index}
+          >
+            <div className="flex flex-row items-center">
+              <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
+                {per.displayLabel}
+              </div>
+              {/* TODO: SVG wordt kleiner wanneer `displayLabel` langer is dan 1 regel */}
+              <div className="flex flex-row items-center justify-end gap-1">
+                {per.source
+                  ? per.source.split(" ").map((src, index) => (
+                      <span
+                        className="flex cursor-pointer items-center"
+                        onClick={() => moreInfoPerson(src)}
+                        key={index}
+                      >
+                        <HelpIcon />
+                      </span>
+                    ))
+                  : null}
 
-              <MagnifyingGlassIcon
-                aria-hidden
-                className="h-4 w-4 cursor-pointer"
-                onClick={() => searchPerson(per)}
-              />
+                <MagnifyingGlassIcon
+                  aria-hidden
+                  className="h-4 w-4 cursor-pointer"
+                  onClick={() => searchPerson(per)}
+                />
+              </div>
+            </div>
+            <div>
+              {/* TODO: deze elementen nog beter stylen. Onzekerheid beter weergeven, net als de `notBefore`. */}
+              {per.birth?.when || per.birth?.cert}-
+              {per.death?.when || per.death?.cert || per.death?.notBefore}
             </div>
           </div>
-          <div>
-            {/* TODO: deze elementen nog beter stylen. Onzekerheid beter weergeven, net als de `notBefore`. */}
-            {per.birth?.when || per.birth?.cert}-
-            {per.death?.when || per.death?.cert || per.death?.notBefore}
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
 
