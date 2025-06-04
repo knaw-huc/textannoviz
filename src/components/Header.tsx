@@ -1,4 +1,5 @@
 import { ProjectConfig } from "../model/ProjectConfig";
+import { firstLetterToUppercase } from "../utils/firstLetterToUppercase.ts";
 import { getViteEnvVars } from "../utils/viteEnvVars.ts";
 import { LanguageMenu } from "./LanguageMenu.tsx";
 
@@ -43,6 +44,20 @@ export const Header = (props: HeaderProps) => {
           </div>
         </div>
         <projectConfig.components.HelpLink />
+        <div className="flex grow flex-row items-center justify-end gap-6">
+          {projectConfig.routes.map((route, index) => (
+            <nav key={index} className="flex flex-row items-center">
+              <a
+                rel="noreferrer"
+                className="text-inherit no-underline hover:underline"
+                href={route.path}
+              >
+                {firstLetterToUppercase(route.path)}
+              </a>
+            </nav>
+          ))}
+        </div>
+
         <LanguageMenu />
       </div>
     </header>
