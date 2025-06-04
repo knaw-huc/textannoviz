@@ -37,8 +37,10 @@ type Artwork = {
   }[];
 };
 
+type Artworks = Artwork[];
+
 export function Artworks() {
-  const [artworks, setArtworks] = React.useState<Artwork[]>();
+  const [artworks, setArtworks] = React.useState<Artworks>();
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -100,7 +102,7 @@ export function Artworks() {
 }
 
 //TODO: generiek maken om zowel personen als kunstwerken aan te kunnen. URL verhuizen naar project config en deze dan aan de functie meegeven?
-async function fetchArtworks(signal: AbortSignal): Promise<Artwork[] | null> {
+async function fetchArtworks(signal: AbortSignal): Promise<Artworks | null> {
   const response = await fetch(
     "https://preview.dev.diginfra.org/files/00000000000000000000000b/apparatus/artwork-entities.json",
     { signal },
