@@ -123,6 +123,7 @@ export function Persons() {
   );
 }
 
+//TODO: generiek maken om zowel personen als kunstwerken aan te kunnen. URL verhuizen naar project config en deze dan aan de functie meegeven?
 async function fetchPersons(signal: AbortSignal): Promise<Person[] | null> {
   const response = await fetch(
     "https://preview.dev.diginfra.org/files/00000000000000000000000b/apparatus/bio-entities.json",
