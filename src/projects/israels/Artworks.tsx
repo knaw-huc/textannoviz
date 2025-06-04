@@ -3,6 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
+import { handleAbort } from "../../utils/handleAbort";
 
 type Artwork = {
   source: string;
@@ -40,14 +41,19 @@ export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artwork[]>();
 
   React.useEffect(() => {
-    async function initArtworks() {
-      const newArtworks = await fetchArtworks();
+    const aborter = new AbortController();
+    async function initArtworks(aborter: AbortController) {
+      const newArtworks = await fetchArtworks(aborter.signal);
       if (!newArtworks) return;
 
       setArtworks(newArtworks);
     }
 
-    initArtworks();
+    initArtworks(aborter).catch(handleAbort);
+
+    return () => {
+      aborter.abort();
+    };
   }, []);
 
   function searchArtwork(artw: Artwork) {
@@ -93,9 +99,10 @@ export function Artworks() {
   );
 }
 
-async function fetchArtworks(): Promise<Artwork[] | null> {
+async function fetchArtworks(signal: AbortSignal): Promise<Artwork[] | null> {
   const response = await fetch(
     "https://preview.dev.diginfra.org/files/00000000000000000000000b/apparatus/artwork-entities.json",
+    { signal },
   );
   if (!response.ok) {
     const error = await response.json();

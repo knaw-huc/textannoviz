@@ -4,6 +4,7 @@ import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { HelpIcon } from "../../components/common/icons/HelpIcon";
+import { handleAbort } from "../../utils/handleAbort";
 
 type Person = {
   id: string;
@@ -38,8 +39,9 @@ export function Persons() {
   const [persons, setPersons] = React.useState<Person[]>();
 
   React.useEffect(() => {
-    async function initPersons() {
-      const newPersons = await fetchPersons();
+    const aborter = new AbortController();
+    async function initPersons(aborter: AbortController) {
+      const newPersons = await fetchPersons(aborter.signal);
       if (!newPersons) return;
 
       newPersons.sort((a, b) =>
@@ -52,7 +54,11 @@ export function Persons() {
       setPersons(newPersons);
     }
 
-    initPersons();
+    initPersons(aborter).catch(handleAbort);
+
+    return () => {
+      aborter.abort();
+    };
   }, []);
 
   function searchPerson(per: Person) {
@@ -117,9 +123,10 @@ export function Persons() {
   );
 }
 
-async function fetchPersons(): Promise<Person[] | null> {
+async function fetchPersons(signal: AbortSignal): Promise<Person[] | null> {
   const response = await fetch(
     "https://preview.dev.diginfra.org/files/00000000000000000000000b/apparatus/bio-entities.json",
+    { signal },
   );
   if (!response.ok) {
     const error = await response.json();
