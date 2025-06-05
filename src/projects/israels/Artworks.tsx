@@ -4,40 +4,10 @@ import { toast } from "react-toastify";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { handleAbort } from "../../utils/handleAbort";
-
-type Artwork = {
-  source: string;
-  corresp: string;
-  id: string;
-  idno?: string;
-  head: {
-    lang: string;
-    text: string;
-  }[];
-  date: {
-    type: string;
-    text: string;
-  };
-  relation: {
-    name: string;
-    ref: string;
-  };
-  graphic: {
-    url: string;
-  };
-  measure: {
-    commodity: string;
-    unit: string;
-    quantity: string;
-  }[];
-  note: {
-    type: string;
-    lang: string;
-    text: string;
-  }[];
-};
-
-type Artworks = Artwork[];
+import {
+  type Artwork,
+  type Artworks,
+} from "./annotation/ProjectAnnotationModel";
 
 export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artworks>();

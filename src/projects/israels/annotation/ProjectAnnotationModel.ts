@@ -2,6 +2,82 @@ import get from "lodash/get";
 import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation";
 
+export type Artwork = {
+  source: string;
+  corresp: string;
+  id: string;
+  idno?: string;
+  head: ArtworkHead[];
+  date: ArtworkDate;
+  relation: ArtworkRelation;
+  graphic: ArtworkGraphic;
+  measure: ArtworkMeasure[];
+  note: ArtworkNote[];
+};
+
+type ArtworkHead = {
+  lang: string;
+  text: string;
+};
+
+type ArtworkDate = {
+  type: string;
+  text: string;
+};
+
+type ArtworkRelation = {
+  name: string;
+  ref: string;
+};
+
+type ArtworkGraphic = {
+  url: string;
+};
+
+type ArtworkMeasure = {
+  commodity: string;
+  unit: string;
+  quantity: string;
+};
+
+type ArtworkNote = {
+  type: string;
+  lang: string;
+  text: string;
+};
+
+export type Artworks = Artwork[];
+
+export type Person = {
+  id: string;
+  sex: string;
+  source?: string;
+  persName: PersonPersName[];
+  birth: PersonBirth;
+  death: PersonDeath;
+  displayLabel: string;
+  sortLabel: string;
+};
+
+type PersonPersName = {
+  full: string;
+  forename: string;
+  addName?: string;
+  surname: string[] | { type: string; text: string };
+  nameLink?: string;
+};
+
+type PersonBirth = {
+  when?: string;
+  cert?: string;
+};
+
+type PersonDeath = PersonBirth & {
+  notBefore?: string;
+};
+
+export type Persons = Person[];
+
 const teiHi = "tei:Hi";
 const teiHead = "tei:Head";
 const teiRs = "tei:Rs";

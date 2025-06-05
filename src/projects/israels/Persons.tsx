@@ -5,37 +5,7 @@ import { encodeObject } from "../../utils/UrlParamUtils";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
-
-type Person = {
-  id: string;
-  sex: string;
-  source?: string;
-  persName: {
-    full: string;
-    forename: string;
-    addName?: string;
-    surname:
-      | string[]
-      | {
-          type: string;
-          text: string;
-        };
-    nameLink?: string;
-  }[];
-  birth: {
-    when?: string;
-    cert?: string;
-  };
-  death: {
-    when?: string;
-    cert?: string;
-    notBefore?: string;
-  };
-  displayLabel: string;
-  sortLabel: string;
-};
-
-type Persons = Person[];
+import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
 
 export function Persons() {
   const [persons, setPersons] = React.useState<Persons>();
