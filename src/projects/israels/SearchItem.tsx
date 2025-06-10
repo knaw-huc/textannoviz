@@ -28,7 +28,7 @@ export const SearchItem = (
   const letterNumRegex = /\d+/g;
   const letterNum = props.result.file.match(letterNumRegex);
 
-  const searchItemTitle = `Letter from ${props.result.sender} to ${props.result.correspondent}. ${props.result.location}, ${formattedDate}`;
+  const searchItemTitle = `${props.result.sender} to ${props.result.correspondent}. ${props.result.location}, ${formattedDate}`;
 
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
