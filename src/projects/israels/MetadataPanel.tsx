@@ -8,7 +8,7 @@ type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
-const letterNumRegex = /\d+/g;
+// const letterNumRegex = /\d+/g;
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const letterAnno = props.annotations.find(
@@ -18,7 +18,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const idno = (letterAnno?.body as IsraelsTfLetterBody).metadata.file;
   const msId = (letterAnno?.body as IsraelsTfLetterBody).metadata.msId;
 
-  const letterNum = idno.match(letterNumRegex)?.[0];
+  // const letterNum = idno.match(letterNumRegex)?.[0];
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
@@ -30,7 +30,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
             <li className="mb-8">
               <div className={gridOneColumn}>
                 <div className={labelStyling}>Letter: </div>
-                {letterNum}
+                {idno}
               </div>
             </li>
             <li className="mb-8">
