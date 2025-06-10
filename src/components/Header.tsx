@@ -12,6 +12,8 @@ export const Header = (props: HeaderProps) => {
 
   const { routerBasename } = getViteEnvVars();
 
+  console.log(routerBasename);
+
   return (
     <header className={projectConfig.headerColor}>
       <div className="mx-auto flex w-full flex-row">
@@ -50,7 +52,9 @@ export const Header = (props: HeaderProps) => {
               <a
                 rel="noreferrer"
                 className="text-inherit no-underline hover:underline"
-                href={`${routerBasename}/${route.path}`}
+                href={`${routerBasename === "/" ? "" : routerBasename}/${
+                  route.path
+                }`}
               >
                 {firstLetterToUppercase(route.path)}
               </a>
