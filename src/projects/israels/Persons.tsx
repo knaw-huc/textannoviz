@@ -17,7 +17,7 @@ export function Persons() {
       if (!newPersons) return;
 
       newPersons.sort((a, b) =>
-        a.displayLabel.localeCompare(b.displayLabel, "en", {
+        a.sortLabel.localeCompare(b.sortLabel, "en", {
           sensitivity: "base",
           ignorePunctuation: true,
         }),
