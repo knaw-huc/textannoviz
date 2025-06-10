@@ -18,7 +18,12 @@ export function Artworks() {
       const newArtworks = await fetchArtworks(aborter.signal);
       if (!newArtworks) return;
 
-      //sort artworks
+      newArtworks.sort((a, b) =>
+        a.head[0].text.localeCompare(b.head[0].text, "en", {
+          sensitivity: "base",
+          ignorePunctuation: true,
+        }),
+      );
 
       setArtworks(newArtworks);
     }
