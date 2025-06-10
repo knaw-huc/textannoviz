@@ -60,7 +60,7 @@ export function Persons() {
           >
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
-                {per.displayLabel}
+                {per.sortLabel}
               </div>
               {/* TODO: SVG wordt kleiner wanneer `displayLabel` langer is dan 1 regel */}
               <div className="flex flex-row items-center justify-end gap-1">
