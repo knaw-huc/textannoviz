@@ -19,11 +19,11 @@ export const TextComponent = (props: TextComponentProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
 
   return (
-    <div className="flex h-auto justify-center overflow-y-hidden border-r p-6">
+    <div className="flex h-auto justify-center overflow-y-hidden border-r px-6 xl:px-10">
       {/* <div className="sr-only">
         <h1>Resolutie</h1>
       </div> */}
-      <div className="flex w-full flex-col overflow-y-scroll pb-40">
+      <div className="flex w-full flex-col overflow-y-scroll pb-40 pt-4">
         <span
           className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500"
           tabIndex={0}
@@ -32,7 +32,7 @@ export const TextComponent = (props: TextComponentProps) => {
         </span>
         {textViews && !props.isLoading ? (
           <div className="flex justify-center">
-            <div className="prose max-w-[450px]" role="textpanel">
+            <div className="prose max-w-[550px]" role="textpanel">
               {projectConfig.showAnnotations ? (
                 <AnnotatedText
                   text={textViews[props.viewToRender]}

@@ -31,7 +31,7 @@ export function Annotation(props: AnnotationProps) {
       >
         <TabList
           aria-label="annotation-panel"
-          className="flex w-full gap-4 border-b border-neutral-600 bg-neutral-50 px-6 pt-6"
+          className="flex w-full gap-4 border-b border-neutral-600 bg-neutral-100 px-6 pt-6"
         >
           <Tab id="metadata" className={tabStyling}>
             {translate("METADATA")}

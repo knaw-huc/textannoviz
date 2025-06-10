@@ -31,7 +31,7 @@ export const Detail = () => {
             className="mx-auto grid w-full grow overflow-y-scroll"
             style={{
               gridTemplateColumns:
-                "minmax(550px, auto) minmax(300px, 650px) minmax(300px, 650px) minmax(300px, 400px)",
+                "minmax(300px, 650px) minmax(300px, 750px) minmax(300px, 750px) minmax(300px, 400px)",
               justifyContent: "stretch",
             }}
           >

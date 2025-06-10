@@ -18,6 +18,8 @@ export function Artworks() {
       const newArtworks = await fetchArtworks(aborter.signal);
       if (!newArtworks) return;
 
+      //sort artworks
+
       setArtworks(newArtworks);
     }
 
