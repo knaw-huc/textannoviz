@@ -115,7 +115,20 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     {
       facetName: "persons",
       order: "keyAsc",
-      size: 9999,
+      size: 200,
+    },
+    {
+      facetName: "artworksNL",
+      size: 200,
+    },
+    {
+      facetName: "artworksEN",
+      size: 200,
+    },
+    {
+      facetName: "file",
+      order: "keyAsc",
+      size: 200,
     },
   ],
   showNotesTab: true,
