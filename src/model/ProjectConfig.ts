@@ -134,6 +134,7 @@ type SearchConfig = {
   overrideDefaultSearchParams: Partial<SearchParams>;
   allowEmptyStringSearch: boolean;
   showFacetFilter: boolean;
+  searchSorting: { name: string; value: string }[];
 };
 
 type AnnotationConfig = {

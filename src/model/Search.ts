@@ -175,7 +175,7 @@ export type SearchQueryRequestBody =
   | Record<string, never>;
 export const ASC = "asc";
 export const DESC = "desc";
-export type SortOrder = "desc" | "asc";
+export type SortOrder = "desc" | "asc" | string;
 
 export type SearchParams = {
   indexName: string;

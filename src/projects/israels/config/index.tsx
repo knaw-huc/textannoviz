@@ -24,6 +24,7 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummary } from "../annotation/EntitySummary";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
+import { ASC, DESC } from "../../../model/Search";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -186,4 +187,12 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
       element: <Artworks />,
     },
   ],
+  searchSorting: [
+    { name: "Letter number (ascending)", value: `file-${ASC}` },
+    { name: "Letter number (descending)", value: `file-${DESC}` },
+  ],
+  overrideDefaultSearchParams: {
+    sortBy: "file",
+    sortOrder: "asc",
+  },
 } as ProjectSpecificConfig);

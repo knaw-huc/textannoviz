@@ -3,6 +3,7 @@ import type { Key } from "react-aria-components";
 import { toast } from "react-toastify";
 import { ASC, DESC, FacetName, SortOrder } from "../../model/Search.ts";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   translateSelector,
   useProjectStore,
@@ -33,11 +34,18 @@ export const SearchSorting = (props: SearchSortByProps) => {
   const BY_DATE = props.dateFacet;
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
-  const options = [
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const baseOptions = [
     { name: translate("RELEVANCE"), value: `${BY_SCORE}-${DESC}` },
-    { name: translate("DATE_ASC"), value: `${BY_DATE}-${ASC}` },
-    { name: translate("DATE_DESC"), value: `${BY_DATE}-${DESC}` },
+    ...(BY_DATE
+      ? [
+          { name: translate("DATE_ASC"), value: `${BY_DATE}-${ASC}` },
+          { name: translate("DATE_DESC"), value: `${BY_DATE}-${DESC}` },
+        ]
+      : []),
   ];
+
+  const options = [...baseOptions, ...projectConfig.searchSorting];
 
   const defaultSorting: Sorting = { field: BY_SCORE, order: DESC };
   const [selectedKey, setSelectedKey] = React.useState<Key>(
@@ -51,10 +59,13 @@ export const SearchSorting = (props: SearchSortByProps) => {
   function handleSorting(key: Key) {
     setSelectedKey(key);
     const [selectedField, selectedOrder] = (key as string).split(SEPARATOR);
+
+    const newSorting: Sorting = { field: selectedField, order: selectedOrder };
+
     if (selectedField === BY_DATE) {
       handleDateSorting(selectedOrder as SortOrder);
     } else {
-      props.onSort(defaultSorting);
+      props.onSort(newSorting);
     }
   }
 

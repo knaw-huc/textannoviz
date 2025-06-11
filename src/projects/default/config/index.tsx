@@ -94,4 +94,5 @@ export const defaultConfig: DefaultProjectConfig = {
   projectCss: "",
   detailPanels: [],
   routes: [],
+  searchSorting: [],
 };
