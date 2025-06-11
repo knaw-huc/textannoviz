@@ -12,8 +12,6 @@ export const Header = (props: HeaderProps) => {
 
   const { routerBasename } = getViteEnvVars();
 
-  console.log(routerBasename);
-
   return (
     <header className={projectConfig.headerColor}>
       <div className="mx-auto flex w-full flex-row">
