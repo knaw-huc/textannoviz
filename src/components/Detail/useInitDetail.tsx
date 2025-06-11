@@ -95,9 +95,10 @@ export function useInitDetail() {
             ? bodyId.replace("letter_body", "file")
             : bodyId.replace("letter_body", "letter");
         console.warn("Add suriano notes panel by " + tfFileId);
+
         const withNotes = await fetchBroccoliScanWithOverlap(
           tfFileId,
-          ["tei:Note"],
+          ["tei:Note", "tei:Hi", "tei:Rs", "tei:Ref"],
           ["anno", "text"],
           "self",
           relativeTo,

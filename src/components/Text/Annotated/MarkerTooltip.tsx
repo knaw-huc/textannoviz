@@ -10,6 +10,7 @@ import { useTextStore } from "../../../stores/text/text-store.ts";
 import { Optional } from "../../../utils/Optional.ts";
 import { SpanTooltipButton } from "../../common/SpanTooltipButton.tsx";
 import { MarkerSegment } from "./AnnotationModel.ts";
+import { AnnotatedText } from "./AnnotatedText.tsx";
 
 // Detail.tsx performs an additional broccoli call to retrieve notes:
 export const NOTES_VIEW = "notes";
@@ -48,7 +49,7 @@ export function MarkerTooltip(props: FootnoteModalProps) {
           <path d="M0 0 L4 4 L8 0" />
         </svg>
       </OverlayArrow>
-      <div>{tooltipBody}</div>
+      <AnnotatedText text={tooltipBody} showDetail={false} />
     </Tooltip>
   );
 }
@@ -79,8 +80,32 @@ function getTooltipBody(
   }
   const noteBodyId = note.body.id;
   const lines = createNoteLines(notesView, noteBodyId);
-  const noteBody = lines.join("");
-  return noteBody;
+
+  const lineIndex = notesView.lines.indexOf(lines[0]);
+
+  const annos = notesView.locations.annotations
+    .filter((anno) => anno.start.line === lineIndex)
+    .map((anno) => ({
+      bodyId: anno.bodyId,
+      start: {
+        line: 0,
+        offset: anno.start.offset,
+      },
+      end: {
+        line: 0,
+        offset: anno.end.offset,
+      },
+    }));
+
+  const locs = {
+    relativeTo: notesView.locations.relativeTo,
+    annotations: annos,
+  };
+
+  return {
+    lines: lines,
+    locations: locs,
+  };
 }
 
 export function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {
