@@ -44,7 +44,7 @@ export const Header = (props: HeaderProps) => {
           </div>
         </div>
         <projectConfig.components.HelpLink />
-        <div className="flex grow flex-row items-center justify-end gap-4">
+        <div className="flex grow flex-row items-center justify-end gap-4 pr-4">
           {projectConfig.routes.map((route, index) => (
             <nav key={index} className="flex flex-row items-center">
               <a
