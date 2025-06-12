@@ -9,7 +9,7 @@ export const NotesPanel = () => {
   const dutchNotes = textPanels["textNotes"]?.["nl"];
   const englishNotes = textPanels["textNotes"]?.["en"];
 
-  if (!dutchNotes || !englishNotes)
+  if (!dutchNotes && !englishNotes)
     return <div>This letter contains no notes.</div>;
 
   return (
