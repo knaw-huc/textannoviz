@@ -22,6 +22,8 @@ export function Annotation(props: AnnotationProps) {
   const tabStyling =
     "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-xs font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
 
+  const tabPanelStyling = "flex flex-col gap-6 overflow-auto px-6 pt-6";
+
   return (
     <div className="relative flex h-full justify-self-stretch overflow-hidden border-l border-neutral-400 2xl:border-r">
       <Tabs
@@ -47,16 +49,13 @@ export function Annotation(props: AnnotationProps) {
             </Tab>
           )}
         </TabList>
-        <TabPanel id="metadata" className="flex flex-col gap-6 px-6 pt-6">
+        <TabPanel id="metadata" className={tabPanelStyling}>
           {annotations.length > 0 && !props.isLoading ? (
             <projectConfig.components.MetadataPanel annotations={annotations} />
           ) : null}
         </TabPanel>
         {projectConfig.showWebAnnoTab && (
-          <TabPanel
-            id="webannos"
-            className="flex flex-col gap-6 overflow-auto px-6 pt-6"
-          >
+          <TabPanel id="webannos" className={tabPanelStyling}>
             <>
               <div className="flex">
                 <AnnotationFilter />
@@ -73,10 +72,7 @@ export function Annotation(props: AnnotationProps) {
           </TabPanel>
         )}
         {projectConfig.showNotesTab && (
-          <TabPanel
-            id="notes"
-            className="flex flex-col gap-6 overflow-y-auto px-6 pt-6"
-          >
+          <TabPanel id="notes" className={tabPanelStyling}>
             {annotations.length > 0 && !props.isLoading ? (
               <projectConfig.components.NotesPanel annotations={annotations} />
             ) : null}
