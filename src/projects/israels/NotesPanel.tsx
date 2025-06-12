@@ -1,15 +1,20 @@
 import { AnnotatedText } from "../../components/Text/Annotated/AnnotatedText";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 
 export const NotesPanel = () => {
   const views = useTextStore((state) => state.views);
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const textNotes = views?.["textNotes"];
   const notes = textNotes?.[interfaceLang];
 
-  if (!notes) return <div>This letter contains no notes.</div>;
+  if (!notes) return <div>{translateProject("NO_NOTES")}</div>;
 
   return (
     <div role="notespanel" className="flex flex-col" key={interfaceLang}>

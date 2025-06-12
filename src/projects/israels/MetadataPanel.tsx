@@ -3,7 +3,11 @@ import {
   AnnoRepoAnnotation,
   IsraelsTfLetterBody,
 } from "../../model/AnnoRepoAnnotation";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 
@@ -16,6 +20,7 @@ type RenderMetadataPanelProps = {
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useTextStore().views;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const letterAnno = props.annotations.find(
     (anno) => anno.body.type === "tf:Letter",
@@ -36,20 +41,26 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
           <>
             <li className="mb-8">
               <div className={gridOneColumn}>
-                <div className={labelStyling}>Letter: </div>
+                <div className={labelStyling}>
+                  {translateProject("letter")}:{" "}
+                </div>
                 {idno}
               </div>
             </li>
             <li className="mb-8">
               <div className={gridOneColumn}>
-                <div className={labelStyling}>Inventory number: </div>
+                <div className={labelStyling}>
+                  {translateProject("invNr")}:{" "}
+                </div>
                 VGM, {msId}
               </div>
             </li>
             {typedNoteText ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
-                  <div className={labelStyling}>Additional information: </div>
+                  <div className={labelStyling}>
+                    {translateProject("addInfo")}:{" "}
+                  </div>
                   <AnnotatedText
                     text={typedNoteText}
                     showDetail={false}
@@ -60,7 +71,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
             ) : null}
           </>
         ) : (
-          "No metadata"
+          translateProject("NO_DATA")
         )}
       </ul>
     </>

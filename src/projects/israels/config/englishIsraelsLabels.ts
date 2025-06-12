@@ -27,4 +27,14 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   originalText: "Edited text",
   translatedText: "Translation",
   notesText: "Editorial notes",
+
+  //Metadata panel
+  NO_NOTES: "This letter contains no notes.",
+  letter: "Letter",
+  invNr: "Shelfmark",
+  addInfo: "Additional information",
+  NO_DATA: "No metadata",
+
+  //Metadata panel titles
+  notes: "Notes",
 });
