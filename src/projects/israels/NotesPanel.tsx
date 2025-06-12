@@ -10,32 +10,33 @@ export const NotesPanel = () => {
   const englishNotes = textPanels["textNotes"]["en"];
 
   return (
-    <div role="notespanel">
-      {Object.entries(dutchNotes)
-        .map(([footNoteNumber, dutchNote], index) => {
-          const englishNote = englishNotes[footNoteNumber];
-          return [
-            <div key={`dutch-${index}`} className="flex flex-row">
-              <span className="mr-4 text-sm text-neutral-500">
-                {footNoteNumber}.{" "}
-              </span>
-              <div className="mb-4 text-sm">
-                <AnnotatedText text={dutchNote} showDetail={false} />
-              </div>
-            </div>,
-            englishNote && (
-              <div key={`english-${index}`} className="flex flex-row">
-                <span className="mr-4 text-sm text-neutral-500">
-                  {footNoteNumber}.{" "}
-                </span>
-                <div className="mb-4 text-sm">
-                  <AnnotatedText text={englishNote} showDetail={false} />
-                </div>
-              </div>
-            ),
-          ];
-        })
-        .flat()}
+    <div role="notespanel" className="flex flex-col">
+      <div className="mb-2 font-bold">Dutch notes</div>
+      {Object.entries(dutchNotes).map(
+        ([dutchFootnoteNumber, dutchNote], index) => (
+          <div key={index} className="flex flex-row">
+            <span className="mr-4 text-sm text-neutral-500">
+              {dutchFootnoteNumber}.{" "}
+            </span>
+            <div className="mb-4 text-sm">
+              <AnnotatedText text={dutchNote} showDetail={false} />
+            </div>
+          </div>
+        ),
+      )}
+      <div className="mb-2 font-bold">English notes</div>
+      {Object.entries(englishNotes).map(
+        ([englishFootnoteNumber, englishNote], index) => (
+          <div key={index} className="flex flex-row">
+            <span className="mr-4 text-sm text-neutral-500">
+              {englishFootnoteNumber}.{" "}
+            </span>
+            <div className="mb-4 text-sm">
+              <AnnotatedText text={englishNote} showDetail={false} />
+            </div>
+          </div>
+        ),
+      )}
     </div>
   );
 };
