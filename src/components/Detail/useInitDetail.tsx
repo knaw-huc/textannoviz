@@ -8,7 +8,7 @@ import {
 import { useTextStore } from "../../stores/text/text-store.ts";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
-import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
+// import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
 import { useDetailNavigation } from "./useDetailNavigation.tsx";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
 
@@ -85,11 +85,8 @@ export function useInitDetail() {
       const annotations = result.anno;
       const views = result.views;
 
-      if (
-        projectName === "suriano" ||
-        projectName === "vangogh" ||
-        projectName === "israels"
-      ) {
+      //TODO: remove this code. However, this can only be removed if the footnotes of these projects are formatted in the same was as Israels
+      if (projectName === "suriano" || projectName === "vangogh") {
         const tfFileId =
           projectName === "suriano"
             ? bodyId.replace("letter_body", "file")
@@ -109,7 +106,7 @@ export function useInitDetail() {
           return;
         }
         annotations.push(...withNotes.anno);
-        views[NOTES_VIEW] = withNotes.views.self;
+        // views[NOTES_VIEW] = withNotes.views.self;
       }
 
       setStore({

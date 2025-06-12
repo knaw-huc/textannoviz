@@ -3,8 +3,9 @@ import { OverlayArrow, Tooltip } from "react-aria-components";
 import {
   AnnoRepoAnnotation,
   isNoteBody,
+  NoteBody,
 } from "../../../model/AnnoRepoAnnotation.ts";
-import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
+import { BroccoliTextGeneric, ViewLang } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { useTextStore } from "../../../stores/text/text-store.ts";
 import { Optional } from "../../../utils/Optional.ts";
@@ -41,7 +42,11 @@ type FootnoteModalProps = PropsWithChildren<{
 export function MarkerTooltip(props: FootnoteModalProps) {
   const annotations = useAnnotationStore().annotations;
   const textPanels = useTextStore((state) => state.views);
-  const tooltipBody = getTooltipBody(textPanels, props, annotations);
+  const tooltipBody = getTooltipBody(
+    textPanels?.["textNotes"],
+    props,
+    annotations,
+  );
   return (
     <Tooltip {...props}>
       <OverlayArrow>
@@ -56,7 +61,7 @@ export function MarkerTooltip(props: FootnoteModalProps) {
 
 // TODO: move to project config
 function getTooltipBody(
-  textPanels: Record<string, BroccoliTextGeneric> | undefined,
+  textPanels: Record<ViewLang, Record<string, BroccoliTextGeneric>> | undefined,
   props: {
     clickedMarker: MarkerSegment;
   } & {
@@ -74,38 +79,21 @@ function getTooltipBody(
   if (!note) {
     throw new Error(`No note found for marker ${noteTargetId}`);
   }
-  const notesView = textPanels[NOTES_VIEW];
+
+  const noteLanguage = (note.body as NoteBody).metadata.lang as ViewLang;
+
+  const notesView = textPanels[noteLanguage];
   if (!notesView) {
     throw new Error("No `notes` text panel found");
   }
-  const noteBodyId = note.body.id;
-  const lines = createNoteLines(notesView, noteBodyId);
 
-  const lineIndex = notesView.lines.indexOf(lines[0]);
+  const noteNumber = (note.body as NoteBody).metadata.n;
 
-  const annos = notesView.locations.annotations
-    .filter((anno) => anno.start.line === lineIndex)
-    .map((anno) => ({
-      bodyId: anno.bodyId,
-      start: {
-        line: 0,
-        offset: anno.start.offset,
-      },
-      end: {
-        line: 0,
-        offset: anno.end.offset,
-      },
-    }));
+  if (!noteNumber) {
+    throw new Error(`No note number for ${note.body.id}`);
+  }
 
-  const locs = {
-    relativeTo: notesView.locations.relativeTo,
-    annotations: annos,
-  };
-
-  return {
-    lines: lines,
-    locations: locs,
-  };
+  return notesView[noteNumber];
 }
 
 export function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {

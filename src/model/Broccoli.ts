@@ -20,8 +20,7 @@ export interface Broccoli {
     text: Record<ViewLang, BroccoliTextGeneric>;
     textNotes: Record<ViewLang, Record<string, BroccoliTextGeneric>>;
     typedNotes: Record<ViewLang, BroccoliTextGeneric>;
-    //TODO: what is the model of `self`?
-    self: Record<ViewLang, BroccoliTextGeneric>;
+    self: BroccoliTextGeneric;
   };
 }
 
