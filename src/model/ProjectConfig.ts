@@ -94,7 +94,7 @@ export type ComponentsConfig = {
       | IsraelsSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
-  NotesPanel: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
+  NotesPanel: () => JSX.Element;
   ArtworksTab: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
 };
 

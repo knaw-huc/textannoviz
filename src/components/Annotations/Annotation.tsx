@@ -74,7 +74,7 @@ export function Annotation(props: AnnotationProps) {
         {projectConfig.showNotesTab && (
           <TabPanel id="notes" className={tabPanelStyling}>
             {annotations.length > 0 && !props.isLoading ? (
-              <projectConfig.components.NotesPanel annotations={annotations} />
+              <projectConfig.components.NotesPanel />
             ) : null}
           </TabPanel>
         )}

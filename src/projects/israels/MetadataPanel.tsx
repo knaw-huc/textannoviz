@@ -3,6 +3,7 @@ import {
   AnnoRepoAnnotation,
   IsraelsTfLetterBody,
 } from "../../model/AnnoRepoAnnotation";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 
@@ -14,6 +15,7 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useTextStore().views;
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const letterAnno = props.annotations.find(
     (anno) => anno.body.type === "tf:Letter",
@@ -22,10 +24,8 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const idno = (letterAnno?.body as IsraelsTfLetterBody).metadata.file;
   const msId = (letterAnno?.body as IsraelsTfLetterBody).metadata.msId;
 
-  const dutchTypesNotes = textViews?.["typedNotes"]["nl"];
-  const englishTypesNotes = textViews?.["typedNotes"]["en"];
-
-  // const letterNum = idno.match(letterNumRegex)?.[0];
+  const typedNotes = textViews?.["typedNotes"];
+  const typedNoteText = typedNotes?.[interfaceLang];
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
@@ -46,23 +46,15 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 VGM, {msId}
               </div>
             </li>
-            {dutchTypesNotes ? (
+            {typedNoteText ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
-                  <div className={labelStyling}>
-                    Additional information (Dutch):{" "}
-                  </div>
-                  <AnnotatedText text={dutchTypesNotes} showDetail={false} />
-                </div>
-              </li>
-            ) : null}
-            {englishTypesNotes ? (
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <div className={labelStyling}>
-                    Additional information (English):{" "}
-                  </div>
-                  <AnnotatedText text={englishTypesNotes} showDetail={false} />
+                  <div className={labelStyling}>Additional information: </div>
+                  <AnnotatedText
+                    text={typedNoteText}
+                    showDetail={false}
+                    key={interfaceLang}
+                  />
                 </div>
               </li>
             ) : null}
