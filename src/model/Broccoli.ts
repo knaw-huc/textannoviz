@@ -17,9 +17,15 @@ export interface Broccoli {
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
   views: {
-    [key: string]: Record<string, BroccoliTextGeneric>;
+    text: Record<ViewLang, BroccoliTextGeneric>;
+    textNotes: Record<ViewLang, Record<string, BroccoliTextGeneric>>;
+    typedNotes: Record<ViewLang, BroccoliTextGeneric>;
+    //TODO: what is the model of `self`?
+    self: Record<ViewLang, BroccoliTextGeneric>;
   };
 }
+
+export type ViewLang = "nl" | "en";
 
 export type BroccoliRelativeAnno = {
   bodyId: string;

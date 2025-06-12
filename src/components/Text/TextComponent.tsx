@@ -7,6 +7,7 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
+import { ViewLang } from "../../model/Broccoli.ts";
 
 type TextComponentProps = {
   viewToRender: string;
@@ -18,7 +19,7 @@ export const TextComponent = (props: TextComponentProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const [view, lang] = props.viewToRender.split(".");
+  const [view, lang] = props.viewToRender.split(".") as ["text", ViewLang];
 
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r px-6 xl:px-10">
