@@ -16,8 +16,8 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
 
   //Text panel titles
   self: "Letter",
-  textOrig: "Main text",
-  textTrans: "Translated text",
+  "text.nl": "Main text",
+  "text.en": "Translated text",
 
   //panels
   facs: "Facsimile",

@@ -153,14 +153,14 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
       panel: PanelTemplates.facsPanel,
     },
     {
-      name: "textOrig",
+      name: "text.nl",
       visible: true,
       disabled: false,
       size: "minmax(300px, 750px)",
       panel: PanelTemplates.origTextPanel,
     },
     {
-      name: "textTrans",
+      name: "text.en",
       visible: true,
       disabled: false,
       size: "minmax(300px, 750px)",
