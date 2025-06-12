@@ -6,8 +6,11 @@ export const NotesPanel = () => {
 
   if (!textPanels) return;
 
-  const dutchNotes = textPanels["textNotes"]["nl"];
-  const englishNotes = textPanels["textNotes"]["en"];
+  const dutchNotes = textPanels["textNotes"]?.["nl"];
+  const englishNotes = textPanels["textNotes"]?.["en"];
+
+  if (!dutchNotes || !englishNotes)
+    return <div>This letter contains no notes.</div>;
 
   return (
     <div role="notespanel" className="flex flex-col">
