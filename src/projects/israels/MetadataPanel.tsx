@@ -1,7 +1,9 @@
+import { AnnotatedText } from "../../components/Text/Annotated/AnnotatedText";
 import {
   AnnoRepoAnnotation,
   IsraelsTfLetterBody,
 } from "../../model/AnnoRepoAnnotation";
+import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 
 type RenderMetadataPanelProps = {
@@ -11,12 +13,17 @@ type RenderMetadataPanelProps = {
 // const letterNumRegex = /\d+/g;
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
+  const textViews = useTextStore().views;
+
   const letterAnno = props.annotations.find(
     (anno) => anno.body.type === "tf:Letter",
   );
 
   const idno = (letterAnno?.body as IsraelsTfLetterBody).metadata.file;
   const msId = (letterAnno?.body as IsraelsTfLetterBody).metadata.msId;
+
+  const dutchTypesNotes = textViews?.["typedNotes"]["nl"];
+  const englishTypesNotes = textViews?.["typedNotes"]["en"];
 
   // const letterNum = idno.match(letterNumRegex)?.[0];
 
@@ -39,6 +46,26 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 VGM, {msId}
               </div>
             </li>
+            {dutchTypesNotes ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    Additional information (Dutch):{" "}
+                  </div>
+                  <AnnotatedText text={dutchTypesNotes} showDetail={false} />
+                </div>
+              </li>
+            ) : null}
+            {englishTypesNotes ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    Additional information (English):{" "}
+                  </div>
+                  <AnnotatedText text={englishTypesNotes} showDetail={false} />
+                </div>
+              </li>
+            ) : null}
           </>
         ) : (
           "No metadata"
