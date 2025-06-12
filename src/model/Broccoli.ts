@@ -16,7 +16,9 @@ export interface Broccoli {
   iiif: Iiif;
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
-  views: Record<string, BroccoliTextGeneric>;
+  views: {
+    [key: string]: Record<string, BroccoliTextGeneric>;
+  };
 }
 
 export type BroccoliRelativeAnno = {

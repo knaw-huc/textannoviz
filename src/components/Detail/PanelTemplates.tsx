@@ -7,10 +7,10 @@ export const PanelTemplates = {
     content: <Mirador />,
   },
   origTextPanel: {
-    content: <TextComponentTab viewToRender="textOrig" />,
+    content: <TextComponentTab viewToRender="text.nl" />,
   },
   transTextPanel: {
-    content: <TextComponentTab viewToRender="textTrans" />,
+    content: <TextComponentTab viewToRender="text.en" />,
   },
   metadataPanel: {
     content: <Annotation isLoading={false} />,

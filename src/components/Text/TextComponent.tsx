@@ -18,6 +18,8 @@ export const TextComponent = (props: TextComponentProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
+  const [view, lang] = props.viewToRender.split(".");
+
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r px-6 xl:px-10">
       {/* <div className="sr-only">
@@ -35,11 +37,11 @@ export const TextComponent = (props: TextComponentProps) => {
             <div className="prose max-w-[550px]" role="textpanel">
               {projectConfig.showAnnotations ? (
                 <AnnotatedText
-                  text={textViews[props.viewToRender]}
+                  text={textViews[view][lang]}
                   showDetail={false}
                 />
               ) : (
-                <TextHighlighting text={textViews[props.viewToRender]} />
+                <TextHighlighting text={textViews[view][lang]} />
               )}
             </div>
           </div>
