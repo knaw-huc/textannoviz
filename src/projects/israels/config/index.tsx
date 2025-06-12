@@ -25,6 +25,7 @@ import { EntitySummary } from "../annotation/EntitySummary";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
 import { ASC, DESC } from "../../../model/Search";
+import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -143,7 +144,10 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   },
   selectedLanguage: "en",
   zoomAnnoMirador: true,
-  languages: [{ code: "en", labels: englishIsraelsLabels }],
+  languages: [
+    { code: "nl", labels: dutchIsraelsLabels },
+    { code: "en", labels: englishIsraelsLabels },
+  ],
   detailPanels: [
     {
       name: "facs",
