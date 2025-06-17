@@ -26,8 +26,8 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     (anno) => anno.body.type === "tf:Letter",
   );
 
-  const idno = (letterAnno?.body as IsraelsTfLetterBody).metadata.file;
-  const msId = (letterAnno?.body as IsraelsTfLetterBody).metadata.msId;
+  const idno = (letterAnno?.body as IsraelsTfLetterBody)?.metadata.file;
+  const msId = (letterAnno?.body as IsraelsTfLetterBody)?.metadata.msId;
 
   const typedNotes = textViews?.["typedNotes"];
   const typedNoteText = typedNotes?.[interfaceLang];
