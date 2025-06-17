@@ -15,8 +15,6 @@ type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
-// const letterNumRegex = /\d+/g;
-
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useTextStore().views;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
