@@ -1,7 +1,7 @@
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
 export type Iiif = {
-  manifest: string;
+  manifest: string | null;
   canvasIds: string[];
 };
 
