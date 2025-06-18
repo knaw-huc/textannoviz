@@ -1,7 +1,7 @@
 import mirador from "mirador-knaw-huc-mui5";
 import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
-import { CanvasTarget } from "../../../model/AnnoRepoAnnotation.ts";
+import { CanvasTarget, NoteBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";
 import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
@@ -88,12 +88,16 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { activeFootnote, setActiveFootnote } = useTextStore();
   const { setActiveSidebarTab } = useDetailViewStore();
+  const { ptrToNoteAnnosMap } = useAnnotationStore();
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
   const classNames: string[] = [];
   classNames.push(...createTooltipMarkerClasses(marker));
 
   const footnoteId = marker.body.metadata.target.split("#")[1];
+  const footnote = ptrToNoteAnnosMap.get(marker.body.metadata.target);
+
+  console.log(footnote);
 
   useEffect(() => {
     if (!ref.current || !footnoteId) {
@@ -110,7 +114,8 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   }
 
   //TODO: Note numbers should always come from the same data point
-  const vanGoghNoteNumber = marker.body.metadata.target.match(/[^.]+$/)?.[0];
+  // const vanGoghNoteNumber = marker.body.metadata.target.match(/[^.]+$/)?.[0];
+  const footnoteNumber = (footnote?.body as NoteBody).metadata.n;
   return (
     <span
       ref={ref}
@@ -123,7 +128,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
     >
       <TooltipMarkerButton clickedMarker={marker}>
         {/*TODO: move to project config*/}
-        {(marker.body.metadata.n || vanGoghNoteNumber) ?? "*"}
+        {(marker.body.metadata.n || footnoteNumber) ?? "*"}
       </TooltipMarkerButton>
     </span>
   );

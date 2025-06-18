@@ -2,7 +2,6 @@ import { PropsWithChildren } from "react";
 import { OverlayArrow, Tooltip } from "react-aria-components";
 import {
   AnnoRepoAnnotation,
-  isNoteBody,
   NoteBody,
 } from "../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliTextGeneric, ViewLang } from "../../../model/Broccoli.ts";
@@ -40,12 +39,12 @@ type FootnoteModalProps = PropsWithChildren<{
 }>;
 
 export function MarkerTooltip(props: FootnoteModalProps) {
-  const annotations = useAnnotationStore().annotations;
+  const { ptrToNoteAnnosMap } = useAnnotationStore();
   const textPanels = useTextStore((state) => state.views);
   const tooltipBody = getTooltipBody(
     textPanels?.["textNotes"],
     props,
-    annotations,
+    ptrToNoteAnnosMap,
   );
   return (
     <Tooltip {...props}>
@@ -67,15 +66,15 @@ function getTooltipBody(
   } & {
     children?: React.ReactNode | undefined;
   },
-  annotations: AnnoRepoAnnotation[],
+  ptrToNoteAnnosMap: Map<string, AnnoRepoAnnotation>,
 ) {
   if (!textPanels) {
     throw new Error(`No text panels found`);
   }
-  const noteTargetId = props.clickedMarker.body.metadata.target.split("#")[1];
-  const note = annotations.find(
-    (a) => isNoteBody(a.body) && a.body.metadata["tei:id"] === noteTargetId,
-  );
+  const noteTargetId = props.clickedMarker.body.metadata.target;
+
+  const note = ptrToNoteAnnosMap.get(noteTargetId);
+
   if (!note) {
     throw new Error(`No note found for marker ${noteTargetId}`);
   }

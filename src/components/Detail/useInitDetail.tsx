@@ -11,6 +11,10 @@ import { handleAbort } from "../../utils/handleAbort.tsx";
 // import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
 import { useDetailNavigation } from "./useDetailNavigation.tsx";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
+import {
+  AnnoRepoAnnotation,
+  NoteBody,
+} from "../../model/AnnoRepoAnnotation.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -26,7 +30,7 @@ export function useInitDetail() {
 
   const { setStore } = useMiradorStore();
   const { setCurrentCanvas } = useMiradorStore();
-  const { setAnnotations } = useAnnotationStore();
+  const { setAnnotations, setPtrToNoteAnnosMap } = useAnnotationStore();
   const { setViews } = useTextStore();
   const { setActivePanels } = useDetailViewStore();
 
@@ -115,6 +119,22 @@ export function useInitDetail() {
       });
       setCurrentCanvas(result.iiif.canvasIds[0]);
       setAnnotations(annotations);
+
+      //TODO: Note anno type to project config
+      if (annotations.some((anno) => anno.body.type === "tei:Note")) {
+        const ptrToNoteAnnos = new Map<string, AnnoRepoAnnotation>();
+
+        const noteAnnos = annotations.filter(
+          (anno) => anno.body.type === "tei:Note",
+        );
+        noteAnnos.forEach((noteAnno) => {
+          const targetId = (noteAnno.body as NoteBody).metadata["tei:id"];
+          ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
+        });
+
+        setPtrToNoteAnnosMap(new Map(ptrToNoteAnnos));
+      }
+
       setViews(views);
       setActivePanels(projectConfig.detailPanels);
 
