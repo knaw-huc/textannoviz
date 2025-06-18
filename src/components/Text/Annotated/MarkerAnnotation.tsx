@@ -97,8 +97,6 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const footnoteId = marker.body.metadata.target.split("#")[1];
   const footnote = ptrToNoteAnnosMap.get(marker.body.metadata.target);
 
-  console.log(footnote);
-
   useEffect(() => {
     if (!ref.current || !footnoteId) {
       return;
