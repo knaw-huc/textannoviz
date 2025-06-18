@@ -9,8 +9,12 @@ import {
 import { QUERY } from "../../../components/Search/SearchUrlParams.ts";
 import { SearchQuery } from "../../../model/Search.ts";
 import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 
-export function toEntitySearchQuery(anno: AnnoRepoBodyBase): URLSearchParams {
+export function toEntitySearchQuery(
+  anno: AnnoRepoBodyBase,
+  projectConfig: ProjectConfig,
+): URLSearchParams {
   if (isDateEntity(anno)) {
     return createSearchQueryParam(toDateEntityQueryParams(anno.metadata.date));
   } else if (isEntityEntity(anno)) {
@@ -19,6 +23,7 @@ export function toEntitySearchQuery(anno: AnnoRepoBodyBase): URLSearchParams {
         anno.metadata.category,
         anno.metadata.name,
         anno.metadata.entityID,
+        projectConfig,
       ),
     );
   } else {
@@ -37,8 +42,10 @@ function toEntityTerms(
   annoCategory: string,
   name: string,
   id: string,
+  projectConfig: ProjectConfig,
 ): Partial<SearchQuery> {
-  const entityAgg = entityCategoryToAgg[toEntityCategory(annoCategory)];
+  const entityAgg =
+    entityCategoryToAgg[toEntityCategory(projectConfig, annoCategory)];
 
   if (!annoCategory) {
     throw new Error("Unknown entity category " + annoCategory);

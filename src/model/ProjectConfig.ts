@@ -1,4 +1,5 @@
 import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
+import { Any } from "../utils/Any.ts";
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,
@@ -183,6 +184,8 @@ type AnnotationConfig = {
    * but that cannot be clicked on
    */
   highlightedAnnotationTypes: string[];
+
+  annoToEntityCategory: Any;
 
   getAnnotationCategory: CategoryGetter;
   getHighlightCategory: CategoryGetter;

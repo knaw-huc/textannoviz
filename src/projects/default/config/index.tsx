@@ -95,4 +95,5 @@ export const defaultConfig: DefaultProjectConfig = {
   detailPanels: [],
   routes: [],
   searchSorting: [],
+  annoToEntityCategory: "",
 };

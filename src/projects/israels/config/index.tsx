@@ -26,6 +26,7 @@ import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
 import { ASC, DESC } from "../../../model/Search";
 import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
+import { Any } from "../../../utils/Any";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -200,4 +201,17 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     sortBy: "file",
     sortOrder: "asc",
   },
+  annoToEntityCategory: {
+    COM: "COM",
+    DAT: "DAT",
+    HOE: "HOE",
+    LOC: "LOC",
+    ORG: "ORG",
+
+    /**
+     * PER can also be named PERS
+     */
+    PER: "PER",
+    PERS: "PER",
+  } as Any,
 } as ProjectSpecificConfig);

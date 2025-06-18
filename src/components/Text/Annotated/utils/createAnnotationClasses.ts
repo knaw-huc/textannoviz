@@ -7,14 +7,16 @@ import {
   NestedAnnotationSegment,
   Segment,
 } from "../AnnotationModel.ts";
-import { Any } from "../../../../utils/Any.ts";
-import { CategoryGetter } from "../../../../model/ProjectConfig.ts";
+import {
+  CategoryGetter,
+  ProjectConfig,
+} from "../../../../model/ProjectConfig.ts";
 
 export function createAnnotationClasses(
   segment: Segment,
   annotation: NestedAnnotationSegment,
   entityTypes: string[],
-  getEntityCategory: CategoryGetter,
+  projectConfig: ProjectConfig,
 ): string[] {
   const classes = [];
   classes.push(
@@ -24,8 +26,8 @@ export function createAnnotationClasses(
     "depth-" + annotation.depth,
   );
   if (entityTypes.includes(annotation.body.type)) {
-    const category = getEntityCategory(annotation.body);
-    classes.push(toEntityClassname(category));
+    const category = projectConfig.getAnnotationCategory(annotation.body);
+    classes.push(toEntityClassname(projectConfig, category));
   }
   classes.push(...createStartEndClasses(segment, annotation));
   return classes.map(normalizeClassname);
@@ -67,34 +69,27 @@ function createStartEndClasses(
   return classes.map(normalizeClassname);
 }
 
-// TODO: move to project config
-const annoToEntityCategory = {
-  COM: "COM",
-  DAT: "DAT",
-  HOE: "HOE",
-  LOC: "LOC",
-  ORG: "ORG",
-
-  /**
-   * PER can also be named PERS
-   */
-  PER: "PER",
-  PERS: "PER",
-} as Any;
-
 const unknownCategory = "UNKNOWN";
 
-export function toEntityClassname(annotationCategory?: string) {
+export function toEntityClassname(
+  projectConfig: ProjectConfig,
+  annotationCategory?: string,
+) {
   return normalizeClassname(
-    `annotated-${toEntityCategory(annotationCategory)}`,
+    `annotated-${toEntityCategory(projectConfig, annotationCategory)}`,
   );
 }
 
-export function toEntityCategory(annotationCategory?: string) {
+export function toEntityCategory(
+  projectConfig: ProjectConfig,
+  annotationCategory?: string,
+) {
   if (!annotationCategory) {
     return unknownCategory;
   }
-  return annoToEntityCategory[annotationCategory] ?? unknownCategory;
+  return (
+    projectConfig.annoToEntityCategory[annotationCategory] ?? unknownCategory
+  );
 }
 
 export function normalizeClassname(annotationCategory: string) {

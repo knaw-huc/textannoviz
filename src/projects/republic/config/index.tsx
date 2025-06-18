@@ -17,6 +17,7 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
+import { Any } from "../../../utils/Any.ts";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -132,4 +133,17 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     showTopMenuButton: true,
     showWindowSideBar: true,
   },
+  annoToEntityCategory: {
+    COM: "COM",
+    DAT: "DAT",
+    HOE: "HOE",
+    LOC: "LOC",
+    ORG: "ORG",
+
+    /**
+     * PER can also be named PERS
+     */
+    PER: "PER",
+    PERS: "PER",
+  } as Any,
 } as ProjectSpecificConfig);

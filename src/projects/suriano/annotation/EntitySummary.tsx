@@ -12,10 +12,14 @@ import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const translateProject = useProjectStore(translateProjectSelector);
+  const projectConfig = useProjectStore(projectConfigSelector);
   const { getAnnotationCategory } = useProjectStore(projectConfigSelector);
   const { body } = props;
 
-  const entityCategory = toEntityCategory(getAnnotationCategory(body));
+  const entityCategory = toEntityCategory(
+    projectConfig,
+    getAnnotationCategory(body),
+  );
   const entityClassname = toEntityClassname(entityCategory);
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
