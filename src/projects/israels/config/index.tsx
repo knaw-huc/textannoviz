@@ -202,16 +202,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     sortOrder: "asc",
   },
   annoToEntityCategory: {
-    COM: "COM",
-    DAT: "DAT",
-    HOE: "HOE",
-    LOC: "LOC",
-    ORG: "ORG",
-
-    /**
-     * PER can also be named PERS
-     */
+    person: "PER",
     PER: "PER",
-    PERS: "PER",
   } as Any,
 } as ProjectSpecificConfig);
