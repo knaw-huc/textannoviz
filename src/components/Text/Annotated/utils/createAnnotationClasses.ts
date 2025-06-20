@@ -73,7 +73,7 @@ const unknownCategory = "UNKNOWN";
 
 export function toEntityClassname(
   projectConfig: ProjectConfig,
-  annotationCategory?: string,
+  annotationCategory: string,
 ) {
   return normalizeClassname(
     `annotated-${toEntityCategory(projectConfig, annotationCategory)}`,
@@ -82,7 +82,7 @@ export function toEntityClassname(
 
 export function toEntityCategory(
   projectConfig: ProjectConfig,
-  annotationCategory?: string,
+  annotationCategory: string,
 ) {
   if (!annotationCategory) {
     return unknownCategory;

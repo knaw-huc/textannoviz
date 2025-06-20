@@ -37,4 +37,9 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
 
   //Metadata panel titles
   notes: "Notes",
+
+  //Visualised annotation categories
+  PER: "person",
+  ART: "artwork",
+  REF: "reference",
 });

@@ -28,7 +28,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
     projectConfig,
     getAnnotationCategory(body),
   );
-  const entityClassname = toEntityClassname(entityCategory);
+  const entityClassname = toEntityClassname(projectConfig, entityCategory);
 
   const handleEntityBrowseClick = () => {
     if (isEntityEntity(props.body)) {

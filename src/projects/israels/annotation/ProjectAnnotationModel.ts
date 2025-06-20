@@ -110,13 +110,19 @@ export const isEntity = (
   return projectEntityTypes.includes(toTest.type);
 };
 
+export const isPersonEntity = (
+  toTest: Persons | Artworks,
+): toTest is IsraelsTeiRsPersonRef => {
+  return Array.isArray(toTest) && toTest.length > 0 && "persName" in toTest[0];
+};
+
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === teiHi) {
-    return get(annoRepoBody, "metadata.rend");
+    return get(annoRepoBody, "metadata.rend") ?? "unknown";
   } else if (annoRepoBody.type === teiHead) {
     return normalizeClassname(teiHead);
   } else if (annoRepoBody.type === teiRs) {
-    return get(annoRepoBody, "metadata.tei:type");
+    return get(annoRepoBody, "metadata.tei:type") ?? "unknown";
   } else if (annoRepoBody.type === teiRef) {
     return normalizeClassname(teiRef);
   } else {

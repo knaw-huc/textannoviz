@@ -46,7 +46,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
       (entity) =>
         toEntityCategory(
           projectConfig,
-          (entity.body as ProjectEntityBody).metadata.category,
+          (entity.body as ProjectEntityBody).metadata.category ?? "unknown",
         ) === category,
     );
   }

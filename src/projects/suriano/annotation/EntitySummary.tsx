@@ -20,7 +20,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
     projectConfig,
     getAnnotationCategory(body),
   );
-  const entityClassname = toEntityClassname(entityCategory);
+  const entityClassname = toEntityClassname(projectConfig, entityCategory);
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
       <div className={`${entityClassname} annotationMarker italic`}>
