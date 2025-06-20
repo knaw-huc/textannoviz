@@ -10,9 +10,9 @@ import {
 } from "../../../stores/project";
 import { EntitySummaryDetails } from "./EntitySummaryDetails";
 import { getAnnotationCategory } from "./ProjectAnnotationModel";
+import { toEntitySearchQuery } from "./toEntitySearchQuery";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
-  console.log(props);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
@@ -22,6 +22,11 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   );
 
   const entityClassname = toEntityClassname(projectConfig, entityCategory);
+
+  const handleEntitySearchClick = () => {
+    const query = toEntitySearchQuery(props.body, projectConfig);
+    window.open(`/?${query}`, "_blank");
+  };
 
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
@@ -33,7 +38,10 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
       </>
       <div className="flex gap-4">
         <div>
-          <button className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200">
+          <button
+            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
+            onClick={handleEntitySearchClick}
+          >
             {translateProject("SEARCH_CATEGORY")}{" "}
             {translateProject(entityCategory)}
           </button>

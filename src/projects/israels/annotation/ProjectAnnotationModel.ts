@@ -140,3 +140,7 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
     return "unknown";
   }
 }
+
+export const entityCategoryToAgg: Record<string, string> = {
+  PER: "persons",
+};
