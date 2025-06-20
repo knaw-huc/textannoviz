@@ -81,7 +81,7 @@ export function Artworks() {
 //TODO: generiek maken om zowel personen als kunstwerken aan te kunnen. URL verhuizen naar project config en deze dan aan de functie meegeven?
 async function fetchArtworks(signal: AbortSignal): Promise<Artworks | null> {
   const response = await fetch(
-    "https://preview.dev.diginfra.org/files/00000000000000000000000b/apparatus/artwork-entities.json",
+    "https://preview.dev.diginfra.org/files/israels/apparatus/artwork-entities.json",
     { signal },
   );
   if (!response.ok) {
