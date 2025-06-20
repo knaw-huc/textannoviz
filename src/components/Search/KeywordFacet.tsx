@@ -1,6 +1,6 @@
-import _, { debounce } from "lodash";
+import _, { debounce, groupBy } from "lodash";
 import React from "react";
-import { Facet, SearchQuery, Terms } from "../../model/Search.ts";
+import { Facet, FacetName, SearchQuery, Terms } from "../../model/Search.ts";
 import {
   projectNameSelector,
   translateProjectSelector,
@@ -12,6 +12,8 @@ import {
 } from "../common/CheckboxGroupComponent.tsx";
 import { FacetItemsFilter } from "./FacetItemsFilter.tsx";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
+
+type FacetEntry = [FacetName, number];
 
 export function KeywordFacet(props: {
   facetName: string;
@@ -32,9 +34,7 @@ export function KeywordFacet(props: {
   const [selected, setSelected] = React.useState<string[]>(
     props.selectedFacets[props.facetName] ?? [],
   );
-  const [filteredFacets, setFilteredFacets] = React.useState<Facet>(
-    props.facet,
-  );
+  const [filteredFacets, setFilteredFacets] = React.useState<FacetEntry[]>([]);
   const [filterValue, setFilterValue] = React.useState<string>("");
 
   const sortOrder = searchQuery.aggs?.find(
@@ -42,22 +42,23 @@ export function KeywordFacet(props: {
   )?.order;
 
   const maxFacetItemsVisible = 100;
-  const slicedFacetItems =
-    facetLength > maxFacetItemsVisible
-      ? Object.entries(filteredFacets).slice(0, maxFacetItemsVisible)
-      : Object.entries(filteredFacets);
 
   React.useEffect(() => {
-    const filterFacetItems = (value: string) => {
-      return Object.fromEntries(
-        Object.entries(props.facet).filter(([facetValueName]) =>
-          facetValueName.toLowerCase().includes(value.toLowerCase()),
-        ),
-      );
-    };
+    const entries = Object.entries(props.facet);
+    const selectedFacets = props.selectedFacets[props.facetName] || [];
+    const { true: selected, false: notSelected } = groupBy(entries, ([name]) =>
+      selectedFacets.includes(name),
+    );
 
-    setFilteredFacets(filterFacetItems(filterValue));
-  }, [props.facet, filterValue]);
+    const filtered = notSelected.filter(([facetValueName]) =>
+      facetValueName.toLowerCase().includes(filterValue.toLowerCase()),
+    );
+    const sliced =
+      filtered.length > maxFacetItemsVisible
+        ? filtered.slice(0, maxFacetItemsVisible)
+        : filtered;
+    setFilteredFacets([...(selected || []), ...sliced]);
+  }, [props.facet, filterValue, props.selectedFacets, props.facetName]);
 
   function checkboxChangeHandler(newSelected: string[]) {
     setSelected(newSelected);
@@ -114,7 +115,7 @@ export function KeywordFacet(props: {
         <FacetItemsFilter
           inputFilterOnChangeHandler={inputFilterOnChangeHandler}
         />
-        {slicedFacetItems.map(([facetValueName, facetValueCount], index) => {
+        {filteredFacets.map(([facetValueName, facetValueCount], index) => {
           const isSelected =
             !!props.selectedFacets[props.facetName]?.includes(facetValueName);
           const facetOptionKey = `${props.facetName}-${facetValueName}`;
