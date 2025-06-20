@@ -116,6 +116,11 @@
     @apply border-t-annotation-dat500 bg-none;
   }
 
+  /* Israels */
+  .fullNestedAnnotation .depth-2.annotated-art {
+    @apply bg-[#F0ECF7];
+  }
+
   .fullNestedAnnotation .depth-2.start-annotation {
     @apply before:-top-6 before:-translate-y-6;
   }
@@ -226,6 +231,15 @@
   }
   .closedNestedAnnotation .annotated-segment > .annotated-dat {
     @apply bg-annotation-dat100;
+  }
+
+  /* Israels */
+  .closedNestedAnnotation .annotated-segment > .annotated-art {
+    @apply bg-[#F0ECF7];
+  }
+
+  .closedNestedAnnotation .annotated-segment > .annotated-ref {
+    @apply bg-[#afddff];
   }
 
   .depth-1.start-annotation {

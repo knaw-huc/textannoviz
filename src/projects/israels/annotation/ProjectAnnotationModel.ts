@@ -96,7 +96,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   } else if (annoRepoBody.type === teiRs) {
     return get(annoRepoBody, "metadata.tei:type");
   } else if (annoRepoBody.type === teiRef) {
-    return "PER";
+    return normalizeClassname(teiRef);
   } else {
     return "unknown";
   }

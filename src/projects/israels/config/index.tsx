@@ -203,6 +203,8 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   },
   annoToEntityCategory: {
     person: "PER",
+    artwork: "ART",
+    "tei-ref": "REF",
     PER: "PER",
   } as Any,
 } as ProjectSpecificConfig);
