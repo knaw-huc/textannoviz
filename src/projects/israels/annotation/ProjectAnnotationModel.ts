@@ -1,6 +1,9 @@
 import get from "lodash/get";
 import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
-import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation";
+import {
+  AnnoRepoBody,
+  AnnoRepoBodyBase,
+} from "../../../model/AnnoRepoAnnotation";
 
 export type Artwork = {
   source: string;
@@ -78,7 +81,20 @@ type PersonDeath = PersonBirth & {
 
 export type Persons = Person[];
 
-const teiHi = "tei:Hi";
+export type IsraelsTeiRsBody = AnnoRepoBodyBase & {
+  metadata: {
+    type: string;
+    "tei:type": string;
+    ref: IsraelsTeiRsPersonRef | IsraelsTeiRsArtworkRef;
+  };
+};
+
+export type IsraelsTeiRsPersonRef = Persons;
+export type IsraelsTeiRsArtworkRef = Artworks;
+
+export type IsraelsEntityBody = IsraelsTeiRsBody;
+
+export const teiHi = "tei:Hi";
 const teiHead = "tei:Head";
 const teiRs = "tei:Rs";
 const teiRef = "tei:Ref";
@@ -87,6 +103,12 @@ export const projectEntityTypes = [teiRs, teiRef];
 export const projectHighlightedTypes = [teiHi, teiHead];
 export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
 export const projectPageMarkerAnnotationTypes = ["tf:Page"];
+
+export const isEntity = (
+  toTest: AnnoRepoBodyBase,
+): toTest is IsraelsEntityBody => {
+  return projectEntityTypes.includes(toTest.type);
+};
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === teiHi) {

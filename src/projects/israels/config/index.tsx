@@ -9,6 +9,7 @@ import { NotesPanel } from "../NotesPanel";
 import {
   getAnnotationCategory,
   getHighlightCategory,
+  isEntity,
   projectEntityTypes,
   projectHighlightedTypes,
   projectPageMarkerAnnotationTypes,
@@ -93,6 +94,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   entityAnnotationTypes: projectEntityTypes,
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
+  isEntity: isEntity,
 
   elasticIndexName: "israels",
   initialDateFrom: "1600-01-01",
