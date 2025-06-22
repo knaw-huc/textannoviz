@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .highlight-italics {
   font-style: italic;
 }
@@ -19,4 +23,16 @@
 
 .highlight-blockletter {
   text-transform: uppercase;
+}
+
+.closedNestedAnnotation .annotated-segment > .annotated-art {
+  @apply bg-[#F0ECF7];
+}
+
+.closedNestedAnnotation .annotated-segment > .annotated-ref {
+  @apply bg-[#afddff];
+}
+
+.fullNestedAnnotation .depth-2.annotated-art {
+  @apply bg-[#F0ECF7];
 }
