@@ -9,6 +9,7 @@ import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
 
 export function Persons() {
   const [persons, setPersons] = React.useState<Persons>();
+  const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -33,6 +34,21 @@ export function Persons() {
     };
   }, []);
 
+  React.useEffect(() => {
+    if (!persons) return;
+    const persId = window.location.hash.split("#")[1];
+    if (!persId) return;
+    const element = personRefs.current[persId];
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      element.classList.add("bg-[#FFCE01]");
+      const timeout = setTimeout(() => {
+        element.classList.remove("bg-[#FFCE01]");
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [persons]);
+
   function searchPerson(per: Person) {
     const query: Partial<SearchQuery> = {
       terms: {
@@ -53,10 +69,13 @@ export function Persons() {
         }}
         className="grid gap-6 px-8 pb-8"
       >
-        {persons?.map((per, index) => (
+        {persons?.map((per) => (
           <div
-            className="h-36 max-w-[800px] rounded bg-neutral-50 p-5"
-            key={index}
+            className="h-36 max-w-[800px] rounded bg-neutral-50 p-5 transition-colors duration-500"
+            key={per.id}
+            ref={(el) => {
+              personRefs.current[per.id] = el;
+            }}
           >
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">

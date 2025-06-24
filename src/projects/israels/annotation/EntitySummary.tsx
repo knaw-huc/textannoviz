@@ -9,7 +9,11 @@ import {
   useProjectStore,
 } from "../../../stores/project";
 import { EntitySummaryDetails } from "./EntitySummaryDetails";
-import { getAnnotationCategory } from "./ProjectAnnotationModel";
+import {
+  getAnnotationCategory,
+  isEntity,
+  isPersonEntity,
+} from "./ProjectAnnotationModel";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
@@ -26,6 +30,13 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const handleEntitySearchClick = () => {
     const query = toEntitySearchQuery(props.body, projectConfig);
     window.open(`/?${query}`, "_blank");
+  };
+
+  const handleMoreInfoClick = () => {
+    if (isEntity(props.body) && isPersonEntity(props.body.metadata.ref)) {
+      const persId = props.body.metadata.ref[0].id;
+      window.open(`/persons#${persId}`);
+    }
   };
 
   return (
@@ -52,7 +63,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         <div>
           <button
             className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-            onClick={() => window.open("/persons")}
+            onClick={handleMoreInfoClick}
           >
             {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
             {translateProject(entityCategory)}
