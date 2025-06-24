@@ -21,6 +21,8 @@
   text-transform: uppercase;
 }
 
+/* Israels specific styling for AnnotatedText component */
+
 .closedNestedAnnotation .annotated-segment > .annotated-art {
   @apply bg-[#F0ECF7];
 }
