@@ -30,8 +30,10 @@ type ArtworkDate = {
 
 type ArtworkRelation = {
   name: string;
-  ref: string;
+  ref: ArtworkRelationRef;
 };
+
+type ArtworkRelationRef = Person;
 
 type ArtworkGraphic = {
   url: string;
@@ -44,7 +46,7 @@ type ArtworkMeasure = {
 };
 
 type ArtworkNote = {
-  type: string;
+  "tei:type": string;
   lang: string;
   text: string;
 };
@@ -114,6 +116,12 @@ export const isPersonEntity = (
   toTest: Persons | Artworks,
 ): toTest is IsraelsTeiRsPersonRef => {
   return Array.isArray(toTest) && toTest.length > 0 && "persName" in toTest[0];
+};
+
+export const isArtworkEntity = (
+  toTest: Persons | Artworks,
+): toTest is IsraelsTeiRsArtworkRef => {
+  return Array.isArray(toTest) && toTest.length > 0 && "graphic" in toTest[0];
 };
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
