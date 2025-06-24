@@ -41,11 +41,13 @@ export function Persons() {
     const element = personRefs.current[persId];
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
-      element.classList.add("bg-[#FFCE01]");
+      element.style.setProperty("background-color", "#FFCE01", "important");
       const timeout = setTimeout(() => {
-        element.classList.remove("bg-[#FFCE01]");
+        element.style.removeProperty("background-color");
       }, 2000);
-      return () => clearTimeout(timeout);
+      return () => {
+        clearTimeout(timeout);
+      };
     }
   }, [persons]);
 
