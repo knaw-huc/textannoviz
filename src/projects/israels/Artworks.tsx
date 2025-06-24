@@ -11,6 +11,7 @@ import {
 
 export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artworks>();
+  const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -35,6 +36,23 @@ export function Artworks() {
     };
   }, []);
 
+  React.useEffect(() => {
+    if (!artworks) return;
+    const artwId = window.location.hash.split("#")[1];
+    if (!artwId) return;
+    const element = artworkRefs.current[artwId];
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      element.style.setProperty("background-color", "#FFCE01", "important");
+      const timeout = setTimeout(() => {
+        element.style.removeProperty("background-color");
+      }, 2000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [artworks]);
+
   function searchArtwork(artw: Artwork) {
     const query: Partial<SearchQuery> = {
       terms: {
@@ -57,6 +75,9 @@ export function Artworks() {
           <div
             key={index}
             className="h-36 max-w-[800px] rounded bg-neutral-50 p-5"
+            ref={(el) => {
+              artworkRefs.current[artw.id] = el;
+            }}
           >
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">

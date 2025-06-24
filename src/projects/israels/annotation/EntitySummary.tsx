@@ -11,6 +11,7 @@ import {
 import { EntitySummaryDetails } from "./EntitySummaryDetails";
 import {
   getAnnotationCategory,
+  isArtworkEntity,
   isEntity,
   isPersonEntity,
 } from "./ProjectAnnotationModel";
@@ -36,6 +37,11 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
     if (isEntity(props.body) && isPersonEntity(props.body.metadata.ref)) {
       const persId = props.body.metadata.ref[0].id;
       window.open(`/persons#${persId}`);
+    }
+
+    if (isEntity(props.body) && isArtworkEntity(props.body.metadata.ref)) {
+      const artwId = props.body.metadata.ref[0].id;
+      window.open(`/artworks#${artwId}`);
     }
   };
 
