@@ -85,6 +85,7 @@ export type IsraelsSearchResultsBody = {
   period: string;
   letterId: string;
   viewType: string;
+  type: string;
   _hits: {
     originalText: string[];
     translatedText: string[];
