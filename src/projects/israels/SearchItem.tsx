@@ -28,7 +28,16 @@ export const SearchItem = (
   const letterNumRegex = /\d+/g;
   const letterNum = props.result.file.match(letterNumRegex);
 
-  const searchItemTitle = `${props.result.sender} to ${props.result.correspondent}. ${props.result.location}, ${formattedDate}`;
+  let searchItemTitle: string;
+  if (props.result.type === "letter") {
+    searchItemTitle = `${props.result.sender} ${translateProject("to")} ${
+      props.result.correspondent
+    }. ${props.result.location}, ${formattedDate}`;
+  } else if (props.result.type === "intro") {
+    searchItemTitle = translateProject("intro");
+  } else {
+    searchItemTitle = translateProject("UNKNOWN");
+  }
 
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
@@ -40,9 +49,11 @@ export const SearchItem = (
         >
           <div className="flex flex-col p-4">
             <div className="font-semibold">{searchItemTitle}</div>
-            <div className="text-brand1Grey-500 italic">
-              Letter number: {letterNum}
-            </div>
+            {props.result.type === "letter" ? (
+              <div className="text-brand1Grey-500 italic">
+                Letter number: {letterNum}
+              </div>
+            ) : null}
           </div>
         </Link>
         {props.result._hits
