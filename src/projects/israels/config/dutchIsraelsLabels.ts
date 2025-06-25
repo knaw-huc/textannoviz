@@ -27,6 +27,9 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   originalText: "Geëditeerde tekst",
   translatedText: "Vertaling",
   notesText: "Redactionele noten",
+  intro: "Introductie",
+  UNKNOWN: "Onbekend document type",
+  to: "aan",
 
   //Metadata panel
   NO_NOTES: "Deze brief bevat geen noten.",

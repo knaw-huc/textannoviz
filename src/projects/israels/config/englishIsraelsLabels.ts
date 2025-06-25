@@ -27,6 +27,9 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   originalText: "Edited text",
   translatedText: "Translation",
   notesText: "Editorial notes",
+  intro: "Introduction",
+  UNKNOWN: "Unknown document type",
+  to: "to",
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
