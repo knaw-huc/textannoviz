@@ -133,10 +133,12 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
 
 export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { marker } = props;
+  console.log(marker);
   return (
-    <span className="inserted-text">
-      {/*TODO: move to project config*/}
-      {marker.body.metadata.facs ?? ""}
-    </span>
+    <br />
+    // <span className="inserted-text">
+    //   {/*TODO: move to project config*/}
+    //   {marker.body.metadata.facs ?? ""}
+    // </span>
   );
 }

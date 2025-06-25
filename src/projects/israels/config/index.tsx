@@ -12,6 +12,7 @@ import {
   isEntity,
   projectEntityTypes,
   projectHighlightedTypes,
+  projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel";
@@ -92,6 +93,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   entityAnnotationTypes: projectEntityTypes,
+  insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
   isEntity: isEntity,

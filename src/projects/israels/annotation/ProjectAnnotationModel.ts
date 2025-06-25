@@ -106,6 +106,8 @@ export const projectHighlightedTypes = [teiHi, teiHead];
 export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
 export const projectPageMarkerAnnotationTypes = ["tf:Page"];
 
+export const projectInsertTextMarkerAnnotationTypes = ["tei:Space"];
+
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
 ): toTest is IsraelsEntityBody => {
