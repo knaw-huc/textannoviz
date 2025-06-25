@@ -1,0 +1,45 @@
+import { Checkbox, CheckboxGroup, Label } from "react-aria-components";
+import { CheckIcon } from "@heroicons/react/16/solid";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import React from "react";
+import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore";
+
+export const SelectSearchInTextViews = () => {
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const [selected, setSelected] = React.useState<string[]>(
+    projectConfig.viewsToSearchIn,
+  );
+  const { updateSearchQuery } = useUrlSearchParamsStore();
+
+  React.useEffect(() => {
+    updateSearchQuery({ searchInTextView: selected });
+  }, [selected]);
+
+  return (
+    <CheckboxGroup value={selected} onChange={setSelected}>
+      <Label className="font-semibold">Search in</Label>
+      {/* TODO: This can also be done on basis of result of /indices and then filter on all fields with type 'text'? */}
+      {projectConfig.viewsToSearchIn.map((view, index) => (
+        <Checkbox
+          className="flex items-center gap-2 pb-1 pl-2 pt-1 transition"
+          key={index}
+          value={view}
+        >
+          {({ isSelected }) => (
+            <>
+              <div
+                className={`${
+                  isSelected ? "bg-brand2-600 border-brand2-600" : ""
+                } flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition`}
+              >
+                {isSelected && <CheckIcon className="h-5 w-5 text-white" />}
+              </div>
+              {/* TODO: add to translation map */}
+              {view}
+            </>
+          )}
+        </Checkbox>
+      ))}
+    </CheckboxGroup>
+  );
+};

@@ -160,6 +160,7 @@ type Aggs = Record<FacetName, FacetAgg>;
 export type SearchQueryRequestBody =
   | {
       text?: string;
+      textViews?: string[];
       terms: Terms;
       aggs?: Aggs;
       date?: {
@@ -199,6 +200,7 @@ export type SearchQuery = {
   rangeFrom: string;
   rangeTo: string;
   fullText: string;
+  searchInTextView?: string[];
   terms: Terms;
 };
 

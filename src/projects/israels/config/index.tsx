@@ -211,4 +211,11 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     "tei-ref": "REF",
     PER: "PER",
   } as Any,
+  viewsToSearchIn: [
+    "originalText",
+    "translatedText",
+    "notesText",
+    "introOriginalText",
+    "introTranslatedText",
+  ],
 } as ProjectSpecificConfig);

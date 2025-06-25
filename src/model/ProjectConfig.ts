@@ -136,6 +136,7 @@ type SearchConfig = {
   allowEmptyStringSearch: boolean;
   showFacetFilter: boolean;
   searchSorting: { name: string; value: string }[];
+  viewsToSearchIn: string[];
 };
 
 type AnnotationConfig = {

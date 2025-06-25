@@ -96,4 +96,5 @@ export const defaultConfig: DefaultProjectConfig = {
   routes: [],
   searchSorting: [],
   annoToEntityCategory: "",
+  viewsToSearchIn: [],
 };
