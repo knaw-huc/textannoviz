@@ -1,3 +1,4 @@
+import { MarkerSegment } from "../components/Text/Annotated/AnnotationModel.ts";
 import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
 import {
@@ -97,6 +98,7 @@ export type ComponentsConfig = {
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
   ArtworksTab: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
+  InsertMarkerAnnotation: (props: { marker: MarkerSegment }) => JSX.Element;
 };
 
 type TextConfig = {

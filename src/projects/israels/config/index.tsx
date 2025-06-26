@@ -29,6 +29,7 @@ import { Artworks } from "../Artworks";
 import { ASC, DESC } from "../../../model/Search";
 import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { Any } from "../../../utils/Any";
+import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -147,6 +148,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     NotesPanel,
     ArtworksTab,
     EntitySummary,
+    InsertMarkerAnnotation,
   },
   selectedLanguage: "en",
   zoomAnnoMirador: true,

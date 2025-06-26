@@ -132,13 +132,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
 }
 
 export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
+  const projectConfig = useProjectStore(projectConfigSelector);
   const { marker } = props;
-  console.log(marker);
-  return (
-    <br />
-    // <span className="inserted-text">
-    //   {/*TODO: move to project config*/}
-    //   {marker.body.metadata.facs ?? ""}
-    // </span>
-  );
+  return <projectConfig.components.InsertMarkerAnnotation marker={marker} />;
 }
