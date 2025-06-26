@@ -212,10 +212,11 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     PER: "PER",
   } as Any,
   viewsToSearchIn: [
-    "originalText",
-    "translatedText",
-    "notesText",
+    "letterOriginalText",
+    "letterTranslatedText",
+    "letterNotesText",
     "introOriginalText",
     "introTranslatedText",
+    "introNotesText",
   ],
 } as ProjectSpecificConfig);
