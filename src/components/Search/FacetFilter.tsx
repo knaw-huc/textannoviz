@@ -42,7 +42,7 @@ export function FacetFilter(props: FacetFilterProps) {
   return (
     <>
       <Button
-        className="bg-brand1-100 hover:bg-brand1-200 pressed:bg-brand1-300 text-brand1-700 hover:text-brand1-900 fill-brand1-700 hover:fill-brand1-900 flex w-fit flex-row items-center rounded px-2 py-2 text-sm outline-none"
+        className="bg-brand2-100 hover:bg-brand2-200 pressed:bg-brand2-300 text-brand2-700 hover:text-brand2-900 fill-brand2-700 hover:fill-brand2-900 flex w-fit flex-row items-center rounded px-2 py-2 text-sm outline-none"
         onPress={() => setIsOpen(!isOpen)}
       >
         {translate("FILTER_FACETS")}{" "}
