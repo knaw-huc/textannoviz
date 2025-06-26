@@ -25,6 +25,7 @@ export const englishLabels: Labels = {
   RESULTS: "Results",
   FILTERS: "Filters",
   FILTER_FACETS: "Filter facets",
+  facetInputFilterPlaceholder: "Search in facet",
 
   SHOW_MORE: "More",
   SHOW_LESS: "Less",

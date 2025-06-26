@@ -25,6 +25,7 @@ export type Labels = {
   FILTER_FACETS: string;
   SHOW_MORE: string;
   SHOW_LESS: string;
+  facetInputFilterPlaceholder: string;
 
   RESET_DATE: string;
   LINE_CHART: string;
