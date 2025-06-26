@@ -27,6 +27,7 @@ export const dutchLabels: Labels = {
   FILTER_FACETS: "Filter facetten",
   SHOW_MORE: "Meer",
   SHOW_LESS: "Minder",
+  facetInputFilterPlaceholder: "Zoek in facet",
 
   RESET_DATE: "Reset datum",
   LINE_CHART: "Lijndiagram",
