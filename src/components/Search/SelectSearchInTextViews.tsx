@@ -1,11 +1,16 @@
 import { Checkbox, CheckboxGroup, Label } from "react-aria-components";
 import { CheckIcon } from "@heroicons/react/16/solid";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 import React from "react";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore";
 
 export const SelectSearchInTextViews = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
   const [selected, setSelected] = React.useState<string[]>(
     projectConfig.viewsToSearchIn,
   );
@@ -34,8 +39,7 @@ export const SelectSearchInTextViews = () => {
               >
                 {isSelected && <CheckIcon className="h-5 w-5 text-white" />}
               </div>
-              {/* TODO: add to translation map */}
-              {view}
+              {translateProject(view)}
             </>
           )}
         </Checkbox>
