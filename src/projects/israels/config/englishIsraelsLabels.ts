@@ -24,10 +24,12 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   metadata: "Info",
 
   //Search item
-  originalText: "Edited text",
-  translatedText: "Translation",
-  notesText: "Editorial notes",
-  intro: "Introduction",
+  letterOriginalText: "Edited text (letter)",
+  letterTranslatedText: "Translation (letter)",
+  letterNotesText: "Editorial notes (letter)",
+  introOriginalText: "Edited text (intro)",
+  introTranslatedText: "Translation (intro)",
+  introNotesText: "Editorial notes (intro)",
   UNKNOWN: "Unknown document type",
   to: "to",
 

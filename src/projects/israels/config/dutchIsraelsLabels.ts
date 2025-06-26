@@ -24,10 +24,12 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   metadata: "Info",
 
   //Search item
-  originalText: "Geëditeerde tekst",
-  translatedText: "Vertaling",
-  notesText: "Redactionele noten",
-  intro: "Introductie",
+  letterOriginalText: "Geëditeerde tekst (brief)",
+  letterTranslatedText: "Vertaling (brief)",
+  letterNotesText: "Redactionele noten (brief)",
+  introOriginalText: "Geëditeerde tekst (inleiding)",
+  introTranslatedText: "Vertaling (inleiding)",
+  introNotesText: "Redactionele noten (inleiding)",
   UNKNOWN: "Onbekend document type",
   to: "aan",
 
