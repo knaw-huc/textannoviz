@@ -2,7 +2,7 @@ import { CheckboxChangeEvent } from "primereact/checkbox";
 import { Skeleton } from "primereact/skeleton";
 import React from "react";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
-import { useTextStore } from "../../stores/text";
+import { useTextStore } from "../../stores/text/text-store.ts";
 import { TextPanels } from "./TextPanels";
 import { ToggleTextPanels } from "./ToggleTextPanels";
 
