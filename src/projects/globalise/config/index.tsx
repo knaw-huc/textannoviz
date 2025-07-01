@@ -40,7 +40,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   logoHref: "https://globalise.huygens.knaw.nl",
   showSearchQueryHistory: false,
   showDateFacets: false,
-  showKeywordFacets: false,
+  showKeywordFacets: true,
   showSelectedFilters: true,
   showNewSearchButton: false,
   allowCloseTextPanel: false,
@@ -68,4 +68,5 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   mirador: {
     showWindowSideBar: true,
   },
+  defaultKeywordAggsToRender: ["lang"],
 } as ProjectSpecificConfig);
