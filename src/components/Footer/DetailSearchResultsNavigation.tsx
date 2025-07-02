@@ -28,6 +28,9 @@ export function DetailSearchResultsNavigation() {
     ? searchResults.results.findIndex((r) => r._id === foundResultId)
     : -1;
 
+  //resultIndex is zero indexed
+  const currentSearchResultNumber = resultIndex + 1 + searchParams.from;
+
   async function handleNextResultClick() {
     if (!searchResults || !foundResultId) {
       return null;
@@ -101,11 +104,13 @@ export function DetailSearchResultsNavigation() {
           &lt; {translate("PREV")}
         </FooterLink>
         <div className="border-r">
-          <button className="flex items-center gap-1">Navigeer brieven</button>
+          <button className="flex items-center gap-1">
+            Navigeer zoekresultaten
+          </button>
         </div>
         <div className="border-r text-neutral-500">
-          <strong>35</strong>
-          <span> / 200</span>
+          <strong>{currentSearchResultNumber}</strong>
+          <span> / {searchResults.total.value}</span>
         </div>
         <FooterLink
           classes={["rounded-r-full flex items-center gap-1"]}
