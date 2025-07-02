@@ -221,4 +221,5 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     "introTranslatedText",
     "introNotesText",
   ],
+  showMiradorNavigationButtons: true,
 } as ProjectSpecificConfig);
