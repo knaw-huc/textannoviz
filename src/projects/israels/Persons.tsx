@@ -6,15 +6,17 @@ import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
 import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
+import { getViteEnvVars } from "../../utils/viteEnvVars";
 
 export function Persons() {
   const [persons, setPersons] = React.useState<Persons>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
+  const { israelsPersonsUrl } = getViteEnvVars();
 
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initPersons(aborter: AbortController) {
-      const newPersons = await fetchPersons(aborter.signal);
+      const newPersons = await fetchPersons(israelsPersonsUrl, aborter.signal);
       if (!newPersons) return;
 
       newPersons.sort((a, b) =>
@@ -117,11 +119,11 @@ export function Persons() {
 }
 
 //TODO: generiek maken om zowel personen als kunstwerken aan te kunnen. URL verhuizen naar project config en deze dan aan de functie meegeven?
-async function fetchPersons(signal: AbortSignal): Promise<Persons | null> {
-  const response = await fetch(
-    "https://preview.dev.diginfra.org/files/israels/apparatus/bio-entities.json",
-    { signal },
-  );
+async function fetchPersons(
+  url: string,
+  signal: AbortSignal,
+): Promise<Persons | null> {
+  const response = await fetch(url, { signal });
   if (!response.ok) {
     const error = await response.json();
     toast(`${error.message}`, { type: "error" });

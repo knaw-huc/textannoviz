@@ -8,19 +8,26 @@ import {
   type Artwork,
   type Artworks,
 } from "./annotation/ProjectAnnotationModel";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import { getViteEnvVars } from "../../utils/viteEnvVars";
 
 export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artworks>();
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const { israelsArtworksUrl } = getViteEnvVars();
 
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initArtworks(aborter: AbortController) {
-      const newArtworks = await fetchArtworks(aborter.signal);
+      const newArtworks = await fetchArtworks(
+        israelsArtworksUrl,
+        aborter.signal,
+      );
       if (!newArtworks) return;
 
       newArtworks.sort((a, b) =>
-        a.head[0].text.localeCompare(b.head[0].text, "en", {
+        a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
           sensitivity: "base",
           ignorePunctuation: true,
         }),
@@ -56,7 +63,7 @@ export function Artworks() {
   function searchArtwork(artw: Artwork) {
     const query: Partial<SearchQuery> = {
       terms: {
-        artworksNL: [artw.head[0].text],
+        artworksNL: [artw.head[interfaceLang]],
       },
     };
 
@@ -81,7 +88,7 @@ export function Artworks() {
           >
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
-                {artw.head[0].text}
+                {artw.head[interfaceLang]}
               </div>
               <div className="flex flex-row items-center justify-end gap-1">
                 <MagnifyingGlassIcon
@@ -100,11 +107,11 @@ export function Artworks() {
 }
 
 //TODO: generiek maken om zowel personen als kunstwerken aan te kunnen. URL verhuizen naar project config en deze dan aan de functie meegeven?
-async function fetchArtworks(signal: AbortSignal): Promise<Artworks | null> {
-  const response = await fetch(
-    "https://preview.dev.diginfra.org/files/israels/apparatus/artwork-entities.json",
-    { signal },
-  );
+async function fetchArtworks(
+  url: string,
+  signal: AbortSignal,
+): Promise<Artworks | null> {
+  const response = await fetch(url, { signal });
   if (!response.ok) {
     const error = await response.json();
     toast(`${error.message}`, { type: "error" });

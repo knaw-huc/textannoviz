@@ -4,24 +4,22 @@ import {
   AnnoRepoBody,
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
+import { ViewLang } from "../../../model/Broccoli";
 
 export type Artwork = {
   source: string;
   corresp: string;
   id: string;
   idno?: string;
-  head: ArtworkHead[];
+  head: ArtworkHead;
   date: ArtworkDate;
   relation: ArtworkRelation;
   graphic: ArtworkGraphic;
   measure: ArtworkMeasure[];
-  note: ArtworkNote[];
+  note: ArtworkNote;
 };
 
-type ArtworkHead = {
-  lang: string;
-  text: string;
-};
+type ArtworkHead = Record<ViewLang, string>;
 
 type ArtworkDate = {
   type: string;
@@ -45,11 +43,7 @@ type ArtworkMeasure = {
   quantity: string;
 };
 
-type ArtworkNote = {
-  "tei:type": string;
-  lang: string;
-  text: string;
-};
+type ArtworkNote = Record<ViewLang, Record<string, string>>;
 
 export type Artworks = Artwork[];
 

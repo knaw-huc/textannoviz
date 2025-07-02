@@ -1,5 +1,9 @@
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
 import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project";
+import {
   Artworks,
   isArtworkEntity,
   isEntity,
@@ -32,30 +36,39 @@ const PersonEntity = (props: { person: Persons }) => {
 
 const ArtworkEntity = (props: { artwork: Artworks }) => {
   const { artwork } = props;
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+
   return (
     <div>
-      <p className="font-bold">{artwork[0].head[1].text}</p>
+      <p className="font-bold">{artwork[0].head[interfaceLang]}</p>
       <p>Date: {artwork[0].date.text}</p>
       <p>Artist: {artwork[0].relation.ref.sortLabel}</p>
       <p>
         Size: {artwork[0].measure[0].quantity} x{" "}
         {artwork[0].measure[1].quantity} {artwork[0].measure[0].unit}
       </p>
-      <p>Support: {artwork[0].note[1].text}</p>
+      <p>
+        Support:{" "}
+        {Object.entries(artwork[0].note[interfaceLang])
+          .filter(([key]) => key === "technical")
+          .map(([, value], index) => (
+            <span key={index}>{value}</span>
+          ))}
+      </p>
       <p>
         Collection:{" "}
-        {artwork[0].note
-          .filter((note) => note["tei:type"] === "collection")
-          .map((note, index) => (
-            <span key={index}>{note.text}</span>
+        {Object.entries(artwork[0].note[interfaceLang])
+          .filter(([key]) => key === "collection")
+          .map(([, value], index) => (
+            <span key={index}>{value}</span>
           ))}
       </p>
       <p>
         Credits:{" "}
-        {artwork[0].note
-          .filter((note) => note["tei:type"] === "creditline")
-          .map((note, index) => (
-            <span key={index}>{note.text}</span>
+        {Object.entries(artwork[0].note[interfaceLang])
+          .filter(([key]) => key === "creditline")
+          .map(([, value], index) => (
+            <span key={index}>{value}</span>
           ))}
       </p>
     </div>
