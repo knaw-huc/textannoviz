@@ -50,7 +50,7 @@ export function CheckboxGroupComponent({
                 className={`${
                   props.sortOrder === "keyAsc"
                     ? "fill-black"
-                    : "fill-brand2-500"
+                    : "fill-brand2-700"
                 } outline-none transition hover:fill-black`}
               >
                 <SortAlphaAscIcon />
@@ -61,7 +61,7 @@ export function CheckboxGroupComponent({
                 className={`${
                   props.sortOrder === "keyDesc"
                     ? "fill-black"
-                    : "fill-brand2-500"
+                    : "fill-brand2-700"
                 } outline-none transition hover:fill-black`}
               >
                 <SortAlphaDescIcon />
@@ -72,7 +72,7 @@ export function CheckboxGroupComponent({
                 className={`${
                   props.sortOrder === "countDesc"
                     ? "fill-black"
-                    : "fill-brand2-500"
+                    : "fill-brand2-700"
                 } outline-none transition hover:fill-black`}
               >
                 <SortNumDescIcon />
