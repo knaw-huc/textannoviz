@@ -1,5 +1,7 @@
 .env*
 !.env.example
+!.env.development
+!.env.production
 node_modules
 dist
 build
