@@ -45,6 +45,11 @@ export function Annotation(props: AnnotationProps) {
               {translateProject("notes")}
             </Tab>
           )}
+          {projectConfig.showArtworksTab && (
+            <Tab id="artworks" className={tabStyling}>
+              Artworks
+            </Tab>
+          )}
           {projectConfig.showWebAnnoTab && (
             <Tab id="webannos" className={tabStyling}>
               {translate("WEB_ANNOTATIONS")}
@@ -77,6 +82,13 @@ export function Annotation(props: AnnotationProps) {
           <TabPanel id="notes" className={tabPanelStyling}>
             {annotations.length > 0 && !props.isLoading ? (
               <projectConfig.components.NotesPanel />
+            ) : null}
+          </TabPanel>
+        )}
+        {projectConfig.showArtworksTab && (
+          <TabPanel id="artworks" className={tabPanelStyling}>
+            {annotations.length > 0 && !props.isLoading ? (
+              <projectConfig.components.ArtworksTab />
             ) : null}
           </TabPanel>
         )}

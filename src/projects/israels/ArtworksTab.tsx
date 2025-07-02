@@ -1,17 +1,16 @@
-import { AnnoRepoAnnotation, TeiRsBody } from "../../model/AnnoRepoAnnotation";
+import { useAnnotationStore } from "../../stores/annotation";
+import { IsraelsTeiRsBody } from "./annotation/ProjectAnnotationModel";
 
-type VanGoghArtworksTabProps = {
-  annotations: AnnoRepoAnnotation[];
-};
+export const ArtworksTab = () => {
+  const annotations = useAnnotationStore().annotations;
 
-export const ArtworksTab = (props: VanGoghArtworksTabProps) => {
-  const personAnnos = props.annotations.filter((anno) => {
+  const artworkAnnos = annotations.filter((anno) => {
     return (
       anno.body.type === "tei:Rs" &&
-      (anno.body as TeiRsBody).metadata.type === "person"
+      (anno.body as IsraelsTeiRsBody).metadata["tei:type"] === "artwork"
     );
   });
-  console.log(personAnnos);
+  console.log(artworkAnnos);
 
-  return <div>Persons</div>;
+  return <div>Artworks</div>;
 };

@@ -141,6 +141,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     },
   ],
   showNotesTab: true,
+  showArtworksTab: true,
   components: {
     SearchItem,
     MetadataPanel,

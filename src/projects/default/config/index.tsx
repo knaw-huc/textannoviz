@@ -49,6 +49,7 @@ export const defaultConfig: DefaultProjectConfig = {
   allowCloseTextPanel: false,
   showWebAnnoTab: true,
   showNotesTab: false,
+  showArtworksTab: false,
   showHistogram: false,
   useExternalConfig: false,
   visualizeAnnosMirador: false,

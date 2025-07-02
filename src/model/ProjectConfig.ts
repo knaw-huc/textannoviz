@@ -37,6 +37,7 @@ export type ProjectConfig = SearchConfig &
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
     showNotesTab: boolean;
+    showArtworksTab: boolean;
 
     detailPanels: {
       name: string;
@@ -97,7 +98,7 @@ export type ComponentsConfig = {
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
-  ArtworksTab: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;
+  ArtworksTab: () => JSX.Element;
   InsertMarkerAnnotation: (props: { marker: MarkerSegment }) => JSX.Element;
 };
 
