@@ -16,7 +16,6 @@ import {
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel";
 import { AnnotationButtons } from "../AnnotationButtons";
-import { ArtworksTab } from "../ArtworksTab";
 import { MetadataPanel } from "../MetadataPanel";
 import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
@@ -132,7 +131,6 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
     MetadataPanel,
     AnnotationButtons,
     NotesPanel,
-    ArtworksTab,
   },
   selectedLanguage: "en",
   zoomAnnoMirador: true,
