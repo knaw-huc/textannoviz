@@ -90,7 +90,7 @@ export type IsraelsTeiRsArtworkRef = Artworks;
 
 export type IsraelsEntityBody = IsraelsTeiRsBody;
 
-export const teiHi = "tei:Hi";
+const teiHi = "tei:Hi";
 const teiHead = "tei:Head";
 const teiRs = "tei:Rs";
 const teiRef = "tei:Ref";
