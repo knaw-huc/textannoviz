@@ -22,7 +22,7 @@ export type Artwork = {
 type ArtworkHead = Record<ViewLang, string>;
 
 type ArtworkDate = {
-  type: string;
+  "tei:type": string;
   text: string;
 };
 
