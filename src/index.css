@@ -412,7 +412,6 @@ div[role="textpanel"] > *:last-child {
 .query-delete,
 .query-date {
   font-size: 0.9em;
-  color: #ccc;
 }
 
 .query-delete {
@@ -437,11 +436,9 @@ div[role="textpanel"] > *:last-child {
 }
 
 .query-date {
-  color: #ccc;
 }
 
 .query-delete {
-  color: #ccc;
   float: right;
   &:hover {
     text-decoration: underline;
