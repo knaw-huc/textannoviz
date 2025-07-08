@@ -323,6 +323,7 @@ export type MarkerBody = AnnoRepoBodyBase & {
     facs?: string;
     n?: string;
     target: string;
+    url?: string;
   };
 };
 
