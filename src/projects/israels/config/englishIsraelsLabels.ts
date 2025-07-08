@@ -27,7 +27,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   letterOriginalText: "Edited text (letter)",
   letterTranslatedText: "Translation (letter)",
   letterNotesText: "Editorial notes (letter)",
-  introOriginalText: "Edited text (intro)",
+  introOriginalText: "Text (intro)",
   introTranslatedText: "Translation (intro)",
   introNotesText: "Editorial notes (intro)",
   UNKNOWN: "Unknown document type",

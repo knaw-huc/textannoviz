@@ -27,7 +27,7 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   letterOriginalText: "Geëditeerde tekst (brief)",
   letterTranslatedText: "Vertaling (brief)",
   letterNotesText: "Redactionele noten (brief)",
-  introOriginalText: "Geëditeerde tekst (inleiding)",
+  introOriginalText: "Tekst (inleiding)",
   introTranslatedText: "Vertaling (inleiding)",
   introNotesText: "Redactionele noten (inleiding)",
   UNKNOWN: "Onbekend document type",
