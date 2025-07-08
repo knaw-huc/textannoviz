@@ -14,8 +14,11 @@ import {
   isArtworkEntity,
   isEntity,
   isPersonEntity,
+  IsraelsTeiRefBody,
 } from "./ProjectAnnotationModel";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
+
+const LETTER_TEMPLATE = "urn:israels:letter:";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -29,8 +32,16 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const entityClassname = toEntityClassname(projectConfig, entityCategory);
 
   const handleEntitySearchClick = () => {
-    const query = toEntitySearchQuery(props.body, projectConfig);
-    window.open(`/?${query}`, "_blank");
+    if (props.body.type !== "tei:Ref") {
+      const query = toEntitySearchQuery(props.body, projectConfig);
+      //TODO: VITE ROUTER BASE TOEVOEGEN
+      window.open(`/?${query}`, "_blank");
+    } else {
+      const newTier2 =
+        LETTER_TEMPLATE +
+        (props.body as IsraelsTeiRefBody).metadata.target.split(".")[0];
+      window.open(`/detail/${newTier2}`, "_blank");
+    }
   };
 
   const handleMoreInfoClick = () => {

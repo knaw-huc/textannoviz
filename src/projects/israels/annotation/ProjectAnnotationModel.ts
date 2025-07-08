@@ -90,6 +90,13 @@ export type IsraelsTeiRsArtworkRef = Artworks;
 
 export type IsraelsEntityBody = IsraelsTeiRsBody;
 
+export type IsraelsTeiRefBody = AnnoRepoBodyBase & {
+  metadata: {
+    target: string;
+    type: string;
+  };
+};
+
 const teiHi = "tei:Hi";
 const teiHead = "tei:Head";
 const teiRs = "tei:Rs";
@@ -102,7 +109,7 @@ export const projectPageMarkerAnnotationTypes = ["tf:Page"];
 
 export const projectInsertTextMarkerAnnotationTypes = [
   "tei:Space",
-  "tei:Figure",
+  "tei:Graphic",
 ];
 
 export const isEntity = (
