@@ -13,7 +13,7 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
     return (
       <img
         src={`${props.marker.body.metadata.url}/full/400,/0/default.jpg`}
-        alt="logo"
+        alt="REPLACE ME!"
       />
     );
   }
