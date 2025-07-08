@@ -8,6 +8,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project";
+import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { EntitySummaryDetails } from "./EntitySummaryDetails";
 import {
   getAnnotationCategory,
@@ -24,6 +25,8 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
+  const { routerBasename } = getViteEnvVars();
+
   const entityCategory = toEntityCategory(
     projectConfig,
     getAnnotationCategory(props.body),
@@ -34,25 +37,34 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const handleEntitySearchClick = () => {
     if (props.body.type !== "tei:Ref") {
       const query = toEntitySearchQuery(props.body, projectConfig);
-      //TODO: VITE ROUTER BASE TOEVOEGEN
-      window.open(`/?${query}`, "_blank");
+      window.open(
+        `${routerBasename === "/" ? "" : routerBasename}/?${query}`,
+        "_blank",
+      );
     } else {
       const newTier2 =
         LETTER_TEMPLATE +
         (props.body as IsraelsTeiRefBody).metadata.target.split(".")[0];
-      window.open(`/detail/${newTier2}`, "_blank");
+      window.open(
+        `${routerBasename === "/" ? "" : routerBasename}/detail/${newTier2}`,
+        "_blank",
+      );
     }
   };
 
   const handleMoreInfoClick = () => {
     if (isEntity(props.body) && isPersonEntity(props.body.metadata.ref)) {
       const persId = props.body.metadata.ref[0].id;
-      window.open(`/persons#${persId}`);
+      window.open(
+        `${routerBasename === "/" ? "" : routerBasename}/persons#${persId}`,
+      );
     }
 
     if (isEntity(props.body) && isArtworkEntity(props.body.metadata.ref)) {
       const artwId = props.body.metadata.ref[0].id;
-      window.open(`/artworks#${artwId}`);
+      window.open(
+        `${routerBasename === "/" ? "" : routerBasename}/artworks#${artwId}`,
+      );
     }
   };
 
