@@ -30,3 +30,7 @@
 .fullNestedAnnotation .depth-2.annotated-art {
   @apply bg-[#F0ECF7];
 }
+
+.fullNestedAnnotation .depth-1.annotated-ref {
+  @apply bg-[#afddff];
+}
