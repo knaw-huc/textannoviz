@@ -1,5 +1,5 @@
 import mirador from "mirador-knaw-huc-mui5";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { CanvasTarget, NoteBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
@@ -16,6 +16,7 @@ import { TooltipMarkerButton } from "./MarkerTooltip.tsx";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
 import { SegmentBody } from "./SegmentBody.tsx";
 import { createTooltipMarkerClasses } from "./utils/createAnnotationClasses.ts";
+import { useMiradorStore } from "../../../stores/mirador.ts";
 
 export function MarkerAnnotation(
   props: Pick<NestedAnnotationProps, "segment">,
@@ -42,10 +43,13 @@ export function MarkerAnnotation(
 }
 
 export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
+  const [doZoom, setDoZoom] = React.useState(false);
   const annotations = useAnnotationStore().annotations;
   const miradorStore = useInternalMiradorStore().miradorStore;
   const projectName = useProjectStore().projectName;
   const translateProject = useProjectStore(translateProjectSelector);
+
+  const currentCanvas = useMiradorStore().currentCanvas;
 
   const pageAnno = annotations.find(
     (anno) => props.marker.body.id === anno.body.id,
@@ -55,9 +59,61 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
     .filter((t) => t.type === "Canvas")
     .map((t) => t.source)[0];
 
+  const region = (pageAnno?.target as CanvasTarget[])
+    .filter((t) => t.type === "Canvas")
+    .flatMap((t) =>
+      Array.isArray(t.selector)
+        ? t.selector
+            .filter(
+              (sel): sel is { type: "iiif:ImageApiSelector"; region: string } =>
+                sel.type === "iiif:ImageApiSelector" && "region" in sel,
+            )
+            .map((sel) => sel.region)
+        : [],
+    );
+
+  const [x, y, w, h] = region[0].split(",").map(Number);
+  const boxToZoom = { x, y, width: w, height: h };
+  const zoomCenter = {
+    x: boxToZoom.x + boxToZoom.width / 2,
+    y: boxToZoom.y + boxToZoom.height / 2,
+  };
+
+  const miradorZoom = boxToZoom.width + boxToZoom.height / 2;
+
+  React.useEffect(() => {
+    if (canvas === currentCanvas) {
+      if (doZoom) {
+        miradorStore.dispatch(
+          mirador.actions.updateViewport(projectName, {
+            x: zoomCenter.x,
+            y: zoomCenter.y,
+            zoom: 1.5 / miradorZoom,
+            flip: false,
+            rotation: 0,
+          }),
+        );
+        setDoZoom(false);
+      }
+    }
+  }, [currentCanvas]);
+
   function pageBreakClickHandler() {
     if (canvas.length > 0) {
-      miradorStore.dispatch(mirador.actions.setCanvas(projectName, canvas));
+      if (currentCanvas === canvas) {
+        miradorStore.dispatch(
+          mirador.actions.updateViewport(projectName, {
+            x: zoomCenter.x,
+            y: zoomCenter.y,
+            zoom: 1.5 / miradorZoom,
+            flip: false,
+            rotation: 0,
+          }),
+        );
+      } else {
+        miradorStore.dispatch(mirador.actions.setCanvas(projectName, canvas));
+        setDoZoom(true);
+      }
     }
   }
 
