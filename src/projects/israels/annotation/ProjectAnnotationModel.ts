@@ -56,6 +56,7 @@ export type Person = {
   death: PersonDeath;
   displayLabel: string;
   sortLabel: string;
+  note?: Record<ViewLang, Record<string, string>>;
 };
 
 type PersonPersName = {

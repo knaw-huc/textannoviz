@@ -7,11 +7,14 @@ import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
 import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 
 export function Persons() {
   const [persons, setPersons] = React.useState<Persons>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { israelsPersonsUrl } = getViteEnvVars();
+
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -111,6 +114,7 @@ export function Persons() {
               {per.birth?.when || per.birth?.cert}-
               {per.death?.when || per.death?.cert || per.death?.notBefore}
             </div>
+            <div>{per.note?.[interfaceLang].shortdesc}</div>
           </div>
         ))}
       </div>
