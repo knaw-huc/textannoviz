@@ -16,6 +16,7 @@ export function createSearchQuery(props: {
     dateTo: projectConfig.initialDateTo,
     rangeFrom: projectConfig.initialRangeFrom,
     rangeTo: projectConfig.initialRangeTo,
+    searchInTextView: projectConfig.viewsToSearchIn,
     aggs,
   };
   if (!_.isEmpty(dateFacets)) {
