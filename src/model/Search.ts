@@ -200,7 +200,7 @@ export type SearchQuery = {
   rangeFrom: string;
   rangeTo: string;
   fullText: string;
-  searchInTextView?: string[];
+  searchInTextView: string[];
   terms: Terms;
 };
 

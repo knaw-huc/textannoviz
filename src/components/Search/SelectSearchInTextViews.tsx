@@ -7,6 +7,7 @@ import {
 } from "../../stores/project";
 import React from "react";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore";
+import { useSearchStore } from "../../stores/search/search-store";
 
 export const SelectSearchInTextViews = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -15,10 +16,14 @@ export const SelectSearchInTextViews = () => {
     projectConfig.viewsToSearchIn,
   );
   const { updateSearchQuery } = useUrlSearchParamsStore();
+  const { isInitSearch } = useSearchStore();
 
   React.useEffect(() => {
-    updateSearchQuery({ searchInTextView: selected });
-  }, [selected]);
+    //Only update the search query once the search interface is initialised.
+    if (isInitSearch) {
+      updateSearchQuery({ searchInTextView: selected });
+    }
+  }, [selected, isInitSearch]);
 
   return (
     <CheckboxGroup value={selected} onChange={setSelected}>
