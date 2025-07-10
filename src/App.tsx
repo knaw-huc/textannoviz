@@ -86,7 +86,7 @@ function Layout() {
   return (
     <>
       <style>{config.projectCss}</style>
-      <Header projectConfig={config} />
+      <Header />
       <Outlet />
     </>
   );

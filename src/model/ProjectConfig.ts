@@ -100,6 +100,7 @@ export type ComponentsConfig = {
   NotesPanel: () => JSX.Element;
   ArtworksTab: () => JSX.Element;
   InsertMarkerAnnotation: (props: { marker: MarkerSegment }) => JSX.Element;
+  Header: () => JSX.Element;
 };
 
 type TextConfig = {
