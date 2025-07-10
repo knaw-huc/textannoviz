@@ -31,6 +31,7 @@ import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { SearchInfoPage } from "../SearchInfoPage";
+import { Header } from "../Header";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -152,6 +153,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     EntitySummary,
     InsertMarkerAnnotation,
     SearchInfoPage,
+    Header,
   },
   selectedLanguage: "en",
   zoomAnnoMirador: true,
