@@ -39,7 +39,7 @@ export const Header = () => {
               routerBasename === "/" ? "" : routerBasename
             }/detail/${introId}`}
           >
-            {translateProject("intro")}
+            {translateProject("introHeader")}
           </a>
           {projectConfig.routes.map((route, index) => (
             <a
