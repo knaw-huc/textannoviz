@@ -5,12 +5,15 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { useLocation } from "react-router-dom";
+import { matchPath, useLocation } from "react-router-dom";
+import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const location = useLocation();
+
+  const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
 
   const { routerBasename } = getViteEnvVars();
 
@@ -61,7 +64,7 @@ export const Header = () => {
       {/* Hide <div> when not on detail page */}
       <div
         className={`col-span-3 flex items-center justify-center border-b border-neutral-400 bg-white p-4 text-center sm:col-span-4 lg:col-span-3 ${
-          !location.pathname.includes("detail") ? "hidden" : ""
+          !isOnDetailPage ? "hidden" : ""
         }`}
       >
         <h4>
