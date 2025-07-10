@@ -139,7 +139,7 @@ export function Mirador() {
   return (
     <div
       id="mirador"
-      className="relative flex h-[calc(100vh-137px)] w-full grow flex-col items-center justify-center p-1"
+      className="relative flex h-[calc(100vh-193px)] w-full grow flex-col items-center justify-center p-1"
     />
   );
 }
