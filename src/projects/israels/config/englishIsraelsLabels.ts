@@ -48,4 +48,8 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   PER: "person",
   ART: "artwork",
   REF: "reference",
+
+  //Header
+  persons: "Persons",
+  artworks: "Artworks",
 });

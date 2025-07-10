@@ -43,4 +43,13 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
 
   //Metadata panel titles
   notes: "Noten",
+
+  //Visualised annotation categories
+  PER: "persoon",
+  ART: "kunstwerk",
+  REF: "referentie",
+
+  //Header
+  persons: "Personen",
+  artworks: "Kunstwerken",
 });
