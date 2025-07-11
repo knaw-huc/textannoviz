@@ -38,42 +38,42 @@ export function CheckboxGroupComponent({
       className="bg-brand2-50 relative flex flex-col gap-2 rounded pb-2"
     >
       <>
-        <div className="border-brand2-100 bg-brand2-100 sticky top-0 z-10 flex h-12 flex-col items-start rounded-t border-b-2">
+        <div className="border-brand2-100 sticky top-0 z-10 flex h-12 flex-col items-start rounded-t border-b">
           <div className="flex h-12 w-full flex-row items-center pr-2">
             <Label className="w-full pl-3 font-semibold">
               {translatedLabel}
               <HelpTooltip label={helpLabel} />
             </Label>
-            <div className="flex flex-row gap-1">
+            <div className="gap- flex flex-row">
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyAsc")}
                 className={`${
                   props.sortOrder === "keyAsc"
-                    ? "fill-black"
-                    : "fill-brand2-700"
-                } outline-none transition hover:fill-black`}
+                    ? "bg-brand2-500 fill-white"
+                    : "fill-neutral-600 hover:fill-black"
+                } rounded p-1 outline-none transition`}
               >
                 <SortAlphaAscIcon />
               </Button>
-              <span className="text-brand2-400 text-2xl"> | </span>
+
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyDesc")}
                 className={`${
                   props.sortOrder === "keyDesc"
-                    ? "fill-black"
-                    : "fill-brand2-700"
-                } outline-none transition hover:fill-black`}
+                    ? "bg-brand2-500 fill-white"
+                    : "fill-neutral-600 hover:fill-black"
+                } rounded p-1 outline-none transition`}
               >
                 <SortAlphaDescIcon />
               </Button>
-              <span className="text-brand2-400 text-2xl"> | </span>
+
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "countDesc")}
                 className={`${
                   props.sortOrder === "countDesc"
-                    ? "fill-black"
-                    : "fill-brand2-700"
-                } outline-none transition hover:fill-black`}
+                    ? "bg-brand2-500 fill-white"
+                    : "fill-neutral-600 hover:fill-black"
+                } rounded p-1 outline-none transition`}
               >
                 <SortNumDescIcon />
               </Button>
