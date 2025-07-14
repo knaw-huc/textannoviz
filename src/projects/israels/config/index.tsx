@@ -115,6 +115,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   showToggleTextPanels: true,
   showSearchResultsOnInfoPage: true,
   defaultKeywordAggsToRender: [
+    "type",
     "location",
     "period",
     "file",
