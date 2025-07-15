@@ -1,3 +1,5 @@
+import { ViewLang } from "./Broccoli";
+
 export type SessionBody = AnnoRepoBodyBase & {
   metadata: {
     inventoryNum: number;
@@ -259,6 +261,7 @@ export type IsraelsTfLetterBody = AnnoRepoBodyBase & {
     periodlong: string;
     prevLetter: string;
     nextLetter: string;
+    title: Record<ViewLang, string>;
   };
 };
 
