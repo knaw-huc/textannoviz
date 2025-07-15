@@ -6,33 +6,24 @@ import { QUERY } from "../../components/Search/SearchUrlParams.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { encodeObject } from "../../utils/UrlParamUtils.ts";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-// import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 
 export const SearchItem = (
   props: SearchItemProps<IsraelsSearchResultsBody>,
 ) => {
   const translateProject = useProjectStore(translateProjectSelector);
-  const dateOptions: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  };
-
-  const formattedDate = props.result.period
-    ? new Date(props.result.period).toLocaleDateString("en-GB", dateOptions)
-    : "No date";
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const letterNumRegex = /\d+/g;
   const letterNum = props.result.file.match(letterNumRegex);
 
   let searchItemTitle: string;
   if (props.result.type === "letter") {
-    searchItemTitle = `${props.result.sender} ${translateProject("to")} ${
-      props.result.correspondent
-    }. ${props.result.location}, ${formattedDate}`;
+    searchItemTitle =
+      interfaceLang === "nl" ? props.result.titleNL : props.result.titleEN;
   } else if (props.result.type === "intro") {
     searchItemTitle = translateProject("intro");
   } else {
