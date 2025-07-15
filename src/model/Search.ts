@@ -86,6 +86,8 @@ export type IsraelsSearchResultsBody = {
   letterId: string;
   viewType: string;
   type: string;
+  titleEN: string;
+  titleNL: string;
   _hits: {
     originalText: string[];
     translatedText: string[];
