@@ -5,6 +5,7 @@ import { SearchQuery } from "../../../model/Search";
 import { encodeObject } from "../../../utils/UrlParamUtils";
 import {
   entityCategoryToAgg,
+  isArtworkEntity,
   isEntity,
   isPersonEntity,
 } from "./ProjectAnnotationModel";
@@ -21,6 +22,14 @@ export function toEntitySearchQuery(
         projectConfig,
       ),
     );
+  } else if (isEntity(anno) && isArtworkEntity(anno.metadata.ref)) {
+    return createSearchQueryParam(
+      toEntityTerms(
+        anno.metadata["tei:type"],
+        anno.metadata.ref[0].head[projectConfig.selectedLanguage],
+        projectConfig,
+      ),
+    );
   } else {
     throw new Error("Unknown entity " + JSON.stringify(anno));
   }
@@ -34,11 +43,21 @@ function toEntityTerms(
   const entityAgg =
     entityCategoryToAgg[toEntityCategory(projectConfig, annoCategory)];
 
-  return {
-    terms: {
-      [entityAgg]: [searchString],
-    },
-  };
+  if (annoCategory === "artwork") {
+    return {
+      terms: {
+        [`${entityAgg}${projectConfig.selectedLanguage.toUpperCase()}`]: [
+          searchString,
+        ],
+      },
+    };
+  } else {
+    return {
+      terms: {
+        [entityAgg]: [searchString],
+      },
+    };
+  }
 }
 
 function createSearchQueryParam(queryWithEntity: Partial<SearchQuery>): string {

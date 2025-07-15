@@ -158,4 +158,5 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
 
 export const entityCategoryToAgg: Record<string, string> = {
   PER: "persons",
+  ART: "artworks",
 };
