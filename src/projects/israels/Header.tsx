@@ -7,10 +7,16 @@ import {
 } from "../../stores/project.ts";
 import { matchPath, useLocation } from "react-router-dom";
 import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
+import { useAnnotationStore } from "../../stores/annotation.ts";
+import { IsraelsTfLetterBody } from "../../model/AnnoRepoAnnotation.ts";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
+  const annotations = useAnnotationStore().annotations;
+
+  const interfaceLang = projectConfig.selectedLanguage;
+
   const location = useLocation();
 
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
@@ -18,6 +24,8 @@ export const Header = () => {
   const { routerBasename } = getViteEnvVars();
 
   const introId = "urn:israels:file:intro";
+
+  const letterAnno = annotations.find((anno) => anno.body.type === "tf:Letter");
 
   return (
     <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_80px_50px] lg:grid-cols-[auto_auto_80px]">
@@ -63,18 +71,25 @@ export const Header = () => {
       </div>
       {/* Hide <div> when not on detail page */}
       <div
-        className={`col-span-3 flex items-center justify-center border-b border-neutral-400 bg-white p-4 text-center sm:col-span-4 lg:col-span-3 ${
+        className={`col-span-3 flex items-center justify-center gap-2 border-b border-neutral-400 bg-white p-4 text-center sm:col-span-4 lg:col-span-3 ${
           !isOnDetailPage ? "hidden" : ""
         }`}
       >
         <h4>
-          REPLACE ME!
+          {letterAnno &&
+            (letterAnno?.body as IsraelsTfLetterBody).metadata.title[
+              interfaceLang
+            ]}{" "}
           <br className="md:hidden" />
           {/* <span className="text-sm font-normal text-neutral-600">
             <span className="mx-1 inline-block">—</span>
             brief 35
           </span> */}
         </h4>
+        <div className="text-neutral-600">
+          {letterAnno &&
+            "(" + (letterAnno?.body as IsraelsTfLetterBody).metadata.file + ")"}
+        </div>
       </div>
     </header>
   );
