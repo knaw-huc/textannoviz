@@ -35,8 +35,8 @@ import { Header } from "../Header";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
-  // broccoliUrl: "https://preview.dev.diginfra.org/broccoli",
-  broccoliUrl: "http://localhost:8040/broccoli",
+  broccoliUrl: "https://preview.dev.diginfra.org/broccoli",
+  //broccoliUrl: "http://localhost:8040/broccoli",
   relativeTo: "tf:Letter",
   annotationTypesToInclude: [
     "tei:AltIdentifier",
