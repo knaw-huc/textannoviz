@@ -44,7 +44,7 @@ export function CheckboxGroupComponent({
               {translatedLabel}
               <HelpTooltip label={helpLabel} />
             </Label>
-            <div className="gap- flex flex-row">
+            <div className="flex flex-row gap-1">
               <Button
                 onPress={() => sortIconClickHandler(dataLabel, "keyAsc")}
                 className={`${
