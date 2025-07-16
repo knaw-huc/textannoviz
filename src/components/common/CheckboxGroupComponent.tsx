@@ -102,7 +102,7 @@ export function CheckboxComponent(props: CheckboxComponentProps) {
       <div
         aria-label="filter on "
         className={`${
-          isSelected ? "bg-brand2-600 border-brand2-600" : ""
+          isSelected ? "bg-brand2-500 border-brand2-500" : ""
         } flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition`}
       >
         {isSelected && <CheckIcon className="h-5 w-5 text-white" />}
