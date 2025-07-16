@@ -14,7 +14,7 @@ import { getViteEnvVars } from "../../utils/viteEnvVars";
 export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artworks>();
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
   const { israelsArtworksUrl } = getViteEnvVars();
 
   React.useEffect(() => {

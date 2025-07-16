@@ -58,7 +58,7 @@ export function translateProjectSelector(state: ProjectConfigSlice) {
 
 function labelsSelector(state: ProjectConfigSlice): Record<string, string> {
   const config = projectConfigSelector(state);
-  const selectedLanguage = config.selectedLanguage;
+  const selectedLanguage = config.defaultLanguage;
   const translation = config.languages.find((l) => l.code === selectedLanguage);
   if (!translation) {
     throw new Error(

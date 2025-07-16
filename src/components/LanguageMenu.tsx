@@ -8,6 +8,7 @@ import {
 } from "../stores/project.ts";
 import { LANGUAGE } from "./Search/SearchUrlParams.ts";
 
+//TODO: move state of languages from project config to Zustand store
 export function LanguageMenu() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const languages = projectConfig.languages;
@@ -18,14 +19,14 @@ export function LanguageMenu() {
     initLanguageFromUrl();
     function initLanguageFromUrl() {
       const urlLanguage = searchParams.get(LANGUAGE);
-      if (!urlLanguage || urlLanguage === projectConfig.selectedLanguage) {
+      if (!urlLanguage || urlLanguage === projectConfig.defaultLanguage) {
         return;
       }
       if (!isValidLanguageCode(urlLanguage)) {
         return;
       }
       const newConfig = { ...projectConfig };
-      newConfig.selectedLanguage = urlLanguage;
+      newConfig.defaultLanguage = urlLanguage;
       setProjectConfig(newConfig);
     }
   }, [searchParams]);
@@ -41,12 +42,12 @@ export function LanguageMenu() {
             <LanguageIcon
               key={l.code}
               code={l.code}
-              selected={projectConfig.selectedLanguage === l.code}
+              selected={projectConfig.defaultLanguage === l.code}
               onClick={(code) => {
                 searchParams.set(LANGUAGE, code);
                 setSearchParams(searchParams);
                 const newConfig = { ...projectConfig };
-                newConfig.selectedLanguage = code;
+                newConfig.defaultLanguage = code;
                 setProjectConfig(projectConfig);
               }}
             />

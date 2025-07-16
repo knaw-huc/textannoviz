@@ -9,7 +9,7 @@ import {
 
 export const ArtworksTab = () => {
   const annotations = useAnnotationStore().annotations;
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
 
   const artworkAnnos = annotations.reduce<
     { body: IsraelsTeiRsBody & { metadata: { ref: Artworks } } }[]

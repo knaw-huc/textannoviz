@@ -50,6 +50,6 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchItem,
   },
 
-  selectedLanguage: "nl",
+  defaultLanguage: "nl",
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
 } as ProjectSpecificConfig);

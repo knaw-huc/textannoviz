@@ -8,7 +8,7 @@ import { useTextStore } from "../../stores/text/text-store";
 
 export const NotesPanel = () => {
   const views = useTextStore((state) => state.views);
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
   const textNotes = views?.["textNotes"];

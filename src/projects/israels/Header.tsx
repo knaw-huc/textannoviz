@@ -15,7 +15,7 @@ export const Header = () => {
   const translateProject = useProjectStore(translateProjectSelector);
   const annotations = useAnnotationStore().annotations;
 
-  const interfaceLang = projectConfig.selectedLanguage;
+  const interfaceLang = projectConfig.defaultLanguage;
 
   const location = useLocation();
 

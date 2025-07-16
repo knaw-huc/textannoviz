@@ -24,7 +24,7 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
     classes.push(
       props.showDetails
         ? "fullNestedAnnotation"
-        : `closedNestedAnnotation ${projectConfig.selectedLanguage}`,
+        : `closedNestedAnnotation ${projectConfig.defaultLanguage}`,
     );
   }
   return (

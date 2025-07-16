@@ -156,7 +156,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchInfoPage,
     Header,
   },
-  selectedLanguage: "en",
+  defaultLanguage: "en",
   zoomAnnoMirador: true,
   languages: [
     { code: "nl", labels: dutchIsraelsLabels },

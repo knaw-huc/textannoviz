@@ -36,7 +36,7 @@ const PersonEntity = (props: { person: Persons }) => {
 
 const ArtworkEntity = (props: { artwork: Artworks }) => {
   const { artwork } = props;
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
 
   return (
     <div>

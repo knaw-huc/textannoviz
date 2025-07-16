@@ -14,7 +14,7 @@ export function Persons() {
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { israelsPersonsUrl } = getViteEnvVars();
 
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
 
   React.useEffect(() => {
     const aborter = new AbortController();

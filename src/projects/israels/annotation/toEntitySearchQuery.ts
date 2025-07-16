@@ -26,7 +26,7 @@ export function toEntitySearchQuery(
     return createSearchQueryParam(
       toEntityTerms(
         anno.metadata["tei:type"],
-        anno.metadata.ref[0].head[projectConfig.selectedLanguage],
+        anno.metadata.ref[0].head[projectConfig.defaultLanguage],
         projectConfig,
       ),
     );
@@ -46,7 +46,7 @@ function toEntityTerms(
   if (annoCategory === "artwork") {
     return {
       terms: {
-        [`${entityAgg}${projectConfig.selectedLanguage.toUpperCase()}`]: [
+        [`${entityAgg}${projectConfig.defaultLanguage.toUpperCase()}`]: [
           searchString,
         ],
       },

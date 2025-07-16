@@ -132,7 +132,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
     NotesPanel,
   },
-  selectedLanguage: "en",
+  defaultLanguage: "en",
   zoomAnnoMirador: true,
   languages: [{ code: "en", labels: englishVanGoghLabels }],
   // detailPanels: [

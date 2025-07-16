@@ -120,7 +120,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     NotesPanel,
   },
 
-  selectedLanguage: "en",
+  defaultLanguage: "en",
   languages: [{ code: "en", labels: englishSurianoLabels }],
   showSearchResultsOnInfoPage: true,
   overrideDefaultSearchParams: {

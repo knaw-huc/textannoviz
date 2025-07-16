@@ -17,7 +17,7 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useTextStore().views;
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
   const letterAnno = props.annotations.find(

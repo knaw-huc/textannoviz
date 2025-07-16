@@ -58,7 +58,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchInfoPage,
     SearchItem,
   },
-  selectedLanguage: "en",
+  defaultLanguage: "en",
   languages: [
     {
       code: "en",
