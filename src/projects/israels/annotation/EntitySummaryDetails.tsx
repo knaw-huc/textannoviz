@@ -42,11 +42,15 @@ const ArtworkEntity = (props: { artwork: Artworks }) => {
     <div>
       <p className="font-bold">{artwork[0].head[interfaceLang]}</p>
       <p>Date: {artwork[0].date.text}</p>
-      <p>Artist: {artwork[0].relation.ref.sortLabel}</p>
-      <p>
-        Size: {artwork[0].measure[0].quantity} x{" "}
-        {artwork[0].measure[1].quantity} {artwork[0].measure[0].unit}
-      </p>
+      {artwork[0].relation ? (
+        <p>Artist: {artwork[0].relation.ref.sortLabel}</p>
+      ) : null}
+      {artwork[0].measure ? (
+        <p>
+          Size: {artwork[0].measure[0].quantity} x{" "}
+          {artwork[0].measure[1].quantity} {artwork[0].measure[0].unit}
+        </p>
+      ) : null}
       <p>
         Support:{" "}
         {Object.entries(artwork[0].note[interfaceLang])

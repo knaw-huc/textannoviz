@@ -13,9 +13,9 @@ export type Artwork = {
   idno?: string;
   head: ArtworkHead;
   date: ArtworkDate;
-  relation: ArtworkRelation;
+  relation?: ArtworkRelation;
   graphic: ArtworkGraphic;
-  measure: ArtworkMeasure[];
+  measure?: ArtworkMeasure[];
   note: ArtworkNote;
 };
 
