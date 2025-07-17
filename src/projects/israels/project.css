@@ -34,3 +34,28 @@
 .fullNestedAnnotation .depth-1.annotated-ref {
   @apply bg-[#afddff];
 }
+
+/* Israels bibliography styling */
+.rend_italics {
+  font-style: italic;
+}
+
+.rend_indent {
+  margin-bottom: 2rem;
+}
+
+.list_gloss,
+.listBibl {
+  margin-bottom: 2rem;
+  margin-left: 1rem;
+}
+
+.label {
+  font-weight: bold;
+  margin-left: -1rem;
+}
+
+.title_m,
+.title_j {
+  font-style: italic;
+}

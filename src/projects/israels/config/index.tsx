@@ -32,6 +32,7 @@ import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
+import { Bibliography } from "../Bibliography";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -203,6 +204,10 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     {
       path: "artworks",
       element: <Artworks />,
+    },
+    {
+      path: "bibliography",
+      element: <Bibliography />,
     },
   ],
   searchSorting: [

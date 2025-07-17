@@ -53,4 +53,5 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   persons: "Persons",
   artworks: "Artworks",
   introHeader: "About this edition",
+  bibliography: "Bibliography",
 });
