@@ -26,8 +26,12 @@ export const SearchInfoPage = () => {
         </div>
 
         <div className="my-8 flex flex-col gap-8 md:flex-row md:items-end">
-          <img src={logoVGM} className="h-24" alt="logo" />
-          <img src={logoHuygens} className="h-16" alt="logo" />
+          <div>
+            <img src={logoVGM} className="h-24" alt="logo" />
+          </div>
+          <div>
+            <img src={logoHuygens} className="h-16" alt="logo" />
+          </div>
         </div>
       </div>
     </div>
