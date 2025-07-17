@@ -7,7 +7,7 @@ import {
 import { ViewLang } from "../../../model/Broccoli";
 
 export type Artwork = {
-  source: string;
+  source: string[];
   corresp: string;
   id: string;
   idno?: string;
@@ -50,7 +50,7 @@ export type Artworks = Artwork[];
 export type Person = {
   id: string;
   sex: string;
-  source?: string;
+  source?: string[];
   persName: PersonPersName[];
   birth: PersonBirth;
   death: PersonDeath;

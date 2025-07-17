@@ -91,7 +91,7 @@ export function Persons() {
               {/* TODO: SVG wordt kleiner wanneer `displayLabel` langer is dan 1 regel */}
               <div className="flex flex-row items-center justify-end gap-1">
                 {per.source
-                  ? per.source.split(" ").map((src, index) => (
+                  ? per.source.map((src, index) => (
                       <span
                         className="flex cursor-pointer items-center"
                         onClick={() => window.open(src, "_blank")}
