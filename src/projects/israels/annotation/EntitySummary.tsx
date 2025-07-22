@@ -82,21 +82,31 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
             className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
             onClick={handleEntitySearchClick}
           >
-            {translateProject("SEARCH_CATEGORY")}{" "}
-            {translateProject(entityCategory)}
+            {props.body.type === "tei:Ref" ? (
+              <>{translateProject("NAV_TO_LETTER")}</>
+            ) : (
+              <>
+                {translateProject("SEARCH_CATEGORY")}{" "}
+                {translateProject(entityCategory)}
+              </>
+            )}
           </button>
-          <div className="mt-2 italic text-neutral-600">
-            {translateProject("WARNING_NEW_SEARCH")}
-          </div>
+          {props.body.type !== "tei:Ref" && (
+            <div className="mt-2 italic text-neutral-600">
+              {translateProject("WARNING_NEW_SEARCH")}
+            </div>
+          )}
         </div>
         <div>
-          <button
-            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-            onClick={handleMoreInfoClick}
-          >
-            {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
-            {translateProject(entityCategory)}
-          </button>
+          {props.body.type !== "tei:Ref" && (
+            <button
+              className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
+              onClick={handleMoreInfoClick}
+            >
+              {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
+              {translateProject(entityCategory)}
+            </button>
+          )}
         </div>
       </div>
     </li>
