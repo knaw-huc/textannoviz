@@ -93,7 +93,17 @@ export type IsraelsEntityBody = IsraelsTeiRsBody;
 
 export type IsraelsTeiRefBody = AnnoRepoBodyBase & {
   metadata: {
-    target: string;
+    target:
+      | string
+      | {
+          id: string;
+          label: string;
+          title: {
+            level: string;
+            text: string;
+          }[];
+          text: string;
+        }[];
     type: string;
   };
 };
