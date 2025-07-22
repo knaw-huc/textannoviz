@@ -32,8 +32,6 @@ export const Header = () => {
       <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
         <a
           title="Homepage"
-          rel="noreferrer"
-          target="_blank"
           href={routerBasename}
           className="flex flex-col text-inherit no-underline"
         >
