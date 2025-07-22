@@ -42,9 +42,11 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         "_blank",
       );
     } else {
-      const newTier2 =
-        LETTER_TEMPLATE +
-        (props.body as IsraelsTeiRefBody).metadata.target.split(".")[0];
+      let newTier2 = "";
+      const target = (props.body as IsraelsTeiRefBody).metadata.target;
+      if (typeof target === "string") {
+        newTier2 = LETTER_TEMPLATE + target.split(".")[0];
+      }
       window.open(
         `${routerBasename === "/" ? "" : routerBasename}/detail/${newTier2}`,
         "_blank",
@@ -82,7 +84,9 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
             className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
             onClick={handleEntitySearchClick}
           >
-            {props.body.type === "tei:Ref" ? (
+            {props.body.type === "tei:Ref" &&
+            typeof (props.body as IsraelsTeiRefBody).metadata.target ===
+              "string" ? (
               <>{translateProject("NAV_TO_LETTER")}</>
             ) : (
               <>
@@ -98,7 +102,8 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
           )}
         </div>
         <div>
-          {props.body.type !== "tei:Ref" && (
+          {typeof (props.body as IsraelsTeiRefBody).metadata.target !==
+            "string" && (
             <button
               className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
               onClick={handleMoreInfoClick}
