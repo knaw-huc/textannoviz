@@ -11,17 +11,16 @@ export const ArtworksTab = () => {
   const annotations = useAnnotationStore().annotations;
   const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
 
-  const artworkAnnos = annotations.reduce<
-    { body: IsraelsTeiRsBody & { metadata: { ref: Artworks } } }[]
-  >((acc, anno) => {
+  const artworkAnnos = annotations.reduce<Artworks>((acc, anno) => {
     if (isArtworkAnno(anno)) {
       const artworkAnno = anno as unknown as {
         body: IsraelsTeiRsBody & { metadata: { ref: Artworks } };
       };
-      const id = artworkAnno.body.metadata.ref[0].id;
-      if (!acc.some((a) => a.body.metadata.ref[0].id === id)) {
-        acc.push(artworkAnno);
-      }
+      artworkAnno.body.metadata.ref.forEach((artw) => {
+        if (!acc.some((a) => a.id === artw.id)) {
+          acc.push(artw);
+        }
+      });
     }
     return acc;
   }, []);
@@ -31,13 +30,11 @@ export const ArtworksTab = () => {
   return (
     <>
       {artworkAnnos.map((artwork) => (
-        <ul key={artwork.body.id}>
+        <ul key={artwork.id}>
           <li>
-            <div className="font-bold">
-              {artwork.body.metadata.ref[0].head[interfaceLang]}
-            </div>
+            <div className="font-bold">{artwork.head[interfaceLang]}</div>
             <div>
-              <span>{artwork.body.metadata.ref[0].date.text}</span>
+              <span>{artwork.date.text}</span>
             </div>
           </li>
         </ul>
