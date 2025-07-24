@@ -2,10 +2,12 @@ import React from "react";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { Panel } from "./Panel";
+import { useMiradorStore } from "../../stores/mirador";
 
 export const Panels = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { activePanels, setActivePanels } = useDetailViewStore();
+  const iiif = useMiradorStore().iiif;
 
   React.useEffect(() => {
     const queries = {
@@ -77,9 +79,18 @@ export const Panels = () => {
 
   return (
     <>
-      {projectConfig.detailPanels.map((panel, index) => (
-        <Panel key={index} panelToRender={panel.panel} panelName={panel.name} />
-      ))}
+      {projectConfig.detailPanels.map((panel, index) => {
+        if (index === 0 && !iiif?.manifest) {
+          return null;
+        }
+        return (
+          <Panel
+            key={index}
+            panelToRender={panel.panel}
+            panelName={panel.name}
+          />
+        );
+      })}
     </>
   );
 };
