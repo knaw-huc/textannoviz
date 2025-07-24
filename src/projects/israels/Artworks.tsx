@@ -15,7 +15,7 @@ export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artworks>();
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
-  const { israelsArtworksUrl } = getViteEnvVars();
+  const { israelsArtworksUrl, routerBasename } = getViteEnvVars();
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -63,12 +63,15 @@ export function Artworks() {
   function searchArtwork(artw: Artwork) {
     const query: Partial<SearchQuery> = {
       terms: {
-        artworksNL: [artw.head[interfaceLang]],
+        [`artworks${interfaceLang.toUpperCase()}`]: [artw.head[interfaceLang]],
       },
     };
 
     const encodedQuery = encodeObject({ query: query });
-    window.open(`/?${encodedQuery}`, "_blank");
+    window.open(
+      `${routerBasename === "/" ? "" : routerBasename}/?${encodedQuery}`,
+      "_blank",
+    );
   }
 
   return (
