@@ -28,7 +28,7 @@ export const Detail = () => {
         <>
           <main
             id="panelsContainer"
-            className="mx-auto grid w-full grow overflow-y-scroll"
+            className="mx-auto grid w-full grow justify-center overflow-y-scroll"
             style={{
               gridTemplateColumns:
                 "minmax(300px, 650px) minmax(300px, 750px) minmax(300px, 750px) minmax(300px, 400px)",
