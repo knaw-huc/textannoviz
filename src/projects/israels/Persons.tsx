@@ -12,7 +12,7 @@ import { projectConfigSelector, useProjectStore } from "../../stores/project";
 export function Persons() {
   const [persons, setPersons] = React.useState<Persons>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
-  const { israelsPersonsUrl } = getViteEnvVars();
+  const { israelsPersonsUrl, routerBasename } = getViteEnvVars();
 
   const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
 
@@ -64,7 +64,10 @@ export function Persons() {
     };
 
     const encodedQuery = encodeObject({ query: query });
-    window.open(`/?${encodedQuery}`, "_blank");
+    window.open(
+      `${routerBasename === "/" ? "" : routerBasename}/?${encodedQuery}`,
+      "_blank",
+    );
   }
 
   return (
