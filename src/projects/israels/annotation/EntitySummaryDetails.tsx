@@ -23,6 +23,7 @@ export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
 };
 
 const PersonEntity = (props: { persons: Persons }) => {
+  //FIXME: this adds all persons together with only 1 search button. This happens because it's 1 annotation with multiple persons in the body.metadata.ref. In other projects, every entity had it's own annotation.
   const { persons } = props;
   return (
     <>
