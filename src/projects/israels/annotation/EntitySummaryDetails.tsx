@@ -13,7 +13,7 @@ import {
 
 export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
   if (isEntity(props.body) && isPersonEntity(props.body.metadata.ref)) {
-    return <PersonEntity person={props.body.metadata.ref} />;
+    return <PersonEntity persons={props.body.metadata.ref} />;
   }
 
   if (isEntity(props.body) && isArtworkEntity(props.body.metadata.ref)) {
@@ -22,15 +22,19 @@ export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
   return null;
 };
 
-const PersonEntity = (props: { person: Persons }) => {
-  const { person } = props;
+const PersonEntity = (props: { persons: Persons }) => {
+  const { persons } = props;
   return (
-    <div>
-      <p className="font-bold">{person[0].sortLabel}</p>
-      <p>
-        {person[0].birth.when}-{person[0].death.when}
-      </p>
-    </div>
+    <>
+      {persons.map((pers) => (
+        <div key={pers.id}>
+          <p className="font-bold">{pers.sortLabel}</p>
+          <p>
+            {pers.birth.when}-{pers.death.when}
+          </p>
+        </div>
+      ))}
+    </>
   );
 };
 
