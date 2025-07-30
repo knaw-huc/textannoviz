@@ -1,13 +1,11 @@
 import React from "react";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import {
-  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
 
 export const ViewSettings = () => {
-  const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const { activePanels, setActivePanels } = useDetailViewStore();
 
@@ -51,7 +49,7 @@ export const ViewSettings = () => {
         <div className="rounded-l-full border-x italic text-neutral-500">
           View
         </div>
-        {projectConfig.detailPanels.map((detailPanel) => (
+        {activePanels.map((detailPanel) => (
           <button
             id={`b-${detailPanel.name}`}
             key={detailPanel.name}
