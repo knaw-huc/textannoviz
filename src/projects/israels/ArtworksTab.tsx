@@ -32,9 +32,11 @@ export const ArtworksTab = () => {
       {artworkAnnos.map((artwork) => (
         <ul key={artwork.id}>
           <li>
+            <img src={`${artwork.graphic.url}/full/200,/0/default.jpg`} />
             <div className="font-bold">{artwork.head[interfaceLang]}</div>
             <div>
-              <span>{artwork.date.text}</span>
+              <div>{artwork.relation?.ref.displayLabel}</div>
+              <div>{artwork.date.text}</div>
             </div>
           </li>
         </ul>
