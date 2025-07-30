@@ -1,6 +1,7 @@
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
 import {
   projectConfigSelector,
+  translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project";
 import {
@@ -42,6 +43,7 @@ const PersonEntity = (props: { persons: Persons }) => {
 const ArtworkEntity = (props: { artworks: Artworks }) => {
   const { artworks } = props;
   const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
+  const translateProject = useProjectStore(translateProjectSelector);
 
   return (
     <>
@@ -49,18 +51,22 @@ const ArtworkEntity = (props: { artworks: Artworks }) => {
         <div key={artwork.id} className="flex">
           <div className="flex flex-col justify-start">
             <p className="font-bold">{artwork.head[interfaceLang]}</p>
-            <p>Date: {artwork.date.text}</p>
+            <p>
+              {translateProject("date")}: {artwork.date.text}
+            </p>
             {artwork.relation ? (
-              <p>Artist: {artwork.relation.ref.sortLabel}</p>
+              <p>
+                {translateProject("artist")}: {artwork.relation.ref.sortLabel}
+              </p>
             ) : null}
             {artwork.measure ? (
               <p>
-                Size: {artwork.measure[0].quantity} x{" "}
+                {translateProject("size")}: {artwork.measure[0].quantity} x{" "}
                 {artwork.measure[1].quantity} {artwork.measure[0].unit}
               </p>
             ) : null}
             <p>
-              Support:{" "}
+              {translateProject("support")}:{" "}
               {Object.entries(artwork.note[interfaceLang])
                 .filter(([key]) => key === "technical")
                 .map(([, value], index) => (
@@ -68,7 +74,7 @@ const ArtworkEntity = (props: { artworks: Artworks }) => {
                 ))}
             </p>
             <p>
-              Collection:{" "}
+              {translateProject("collection")}:{" "}
               {Object.entries(artwork.note[interfaceLang])
                 .filter(([key]) => key === "collection")
                 .map(([, value], index) => (
@@ -76,7 +82,7 @@ const ArtworkEntity = (props: { artworks: Artworks }) => {
                 ))}
             </p>
             <p>
-              Credits:{" "}
+              {translateProject("credits")}:{" "}
               {Object.entries(artwork.note[interfaceLang])
                 .filter(([key]) => key === "creditline")
                 .map(([, value], index) => (

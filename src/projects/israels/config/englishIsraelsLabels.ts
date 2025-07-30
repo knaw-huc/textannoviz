@@ -57,4 +57,12 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
 
   //Entity summary
   NAV_TO_LETTER: "Navigate to letter",
+
+  //Entity labels
+  artist: "Artist",
+  date: "Date",
+  size: "Dimensions",
+  support: "Medium",
+  collection: "Collection",
+  credits: "Credits",
 });

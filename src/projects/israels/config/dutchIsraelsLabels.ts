@@ -57,4 +57,12 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
 
   //Entity summary
   NAV_TO_LETTER: "Navigeer naar brief",
+
+  //Entity labels
+  artist: "Kunstenaar",
+  date: "Datering",
+  size: "Afmetingen",
+  support: "Medium",
+  collection: "Collectie",
+  credits: "Verantwoording",
 });

@@ -8,7 +8,11 @@ import {
   type Artwork,
   type Artworks,
 } from "./annotation/ProjectAnnotationModel";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
 
 export function Artworks() {
@@ -16,6 +20,7 @@ export function Artworks() {
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).defaultLanguage;
   const { israelsArtworksUrl, routerBasename } = getViteEnvVars();
+  const translateProject = useProjectStore(translateProjectSelector);
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -104,14 +109,20 @@ export function Artworks() {
               </div>
             </div>
             {artw.relation?.label ? (
-              <div>Artist: {artw.relation.label}</div>
+              <div>
+                {translateProject("artist")}: {artw.relation.label}
+              </div>
             ) : null}
-            <div>Date: {artw.date.text}</div>
+            <div>
+              {translateProject("date")}: {artw.date.text}
+            </div>
             <div>
               {Object.entries(artw.note[interfaceLang])
                 .filter(([key]) => key === "creditline")
                 .map(([, value], index) => (
-                  <span key={index}>Credit line: {value}</span>
+                  <span key={index}>
+                    {translateProject("credits")}: {value}
+                  </span>
                 ))}
             </div>
             <div className="pt-4">
