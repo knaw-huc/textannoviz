@@ -54,15 +54,15 @@ export const ViewSettings = () => {
             id={`b-${detailPanel.name}`}
             key={detailPanel.name}
             onClick={() => handlePanelVisibility(detailPanel.name)}
-            className="hidden gap-1 border-r disabled:cursor-not-allowed disabled:text-neutral-400 md:flex"
+            className="hidden gap-1 border-r last:rounded-r-full disabled:cursor-not-allowed disabled:text-neutral-400 md:flex"
             disabled={detailPanel.disabled}
           >
             {translateProject(detailPanel.name)}
           </button>
         ))}
-        <button className="hidden items-center gap-1 rounded-r-full border-r md:flex">
+        {/* <button className="hidden items-center gap-1 rounded-r-full border-r md:flex">
           Settings
-        </button>
+        </button> */}
       </div>
     </div>
   );
