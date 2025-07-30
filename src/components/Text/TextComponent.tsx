@@ -22,11 +22,11 @@ export const TextComponent = (props: TextComponentProps) => {
   const [view, lang] = props.viewToRender.split(".") as ["text", ViewLang];
 
   return (
-    <div className="flex h-auto justify-center overflow-y-hidden border-r px-6 xl:px-10">
+    <div className="flex h-auto justify-center overflow-y-hidden border-r">
       {/* <div className="sr-only">
         <h1>Resolutie</h1>
       </div> */}
-      <div className="flex w-full flex-col overflow-y-scroll pb-40 pt-4">
+      <div className="flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10">
         <span
           className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500"
           tabIndex={0}
