@@ -30,8 +30,6 @@ export const Panels = () => {
             return panel.name === projectConfig.detailPanels[1]?.name;
           }
           if (queries.mqMD.matches) {
-            //Button kijkt naar project config, niet Zustand store
-            if (!panel.visible) return panel.disabled === true;
             return (
               panel.name === projectConfig.detailPanels[1]?.name ||
               panel.name ===
