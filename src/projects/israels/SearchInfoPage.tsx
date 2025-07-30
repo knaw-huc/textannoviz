@@ -3,7 +3,7 @@ import logoVGM from "../../assets/logo-vgm.png";
 
 export const SearchInfoPage = () => {
   return (
-    <div className="border-brand1Grey-100 bg-brand2-500 -mx-10 mb-20 flex -translate-y-16 items-center justify-center border-b px-10 py-24 pb-8 2xl:min-h-[75vh]">
+    <div className="border-brand1Grey-100 -mx-10 mb-20 flex -translate-y-16 items-center justify-center border-b bg-[#FFCE01] px-10 py-24 pb-8 2xl:min-h-[75vh]">
       <div className="mx-auto w-full max-w-4xl ">
         <h1 className="">Isaac Israëls’s letters to Jo van Gogh-Bonger </h1>
 
