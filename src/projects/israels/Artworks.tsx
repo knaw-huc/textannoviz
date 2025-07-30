@@ -79,8 +79,6 @@ export function Artworks() {
     );
   }
 
-  console.log(artworks);
-
   return (
     <>
       <h1 className="pl-8">Artworks</h1>
