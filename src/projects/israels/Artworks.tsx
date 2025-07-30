@@ -74,6 +74,8 @@ export function Artworks() {
     );
   }
 
+  console.log(artworks);
+
   return (
     <>
       <h1 className="pl-8">Artworks</h1>
@@ -84,7 +86,7 @@ export function Artworks() {
         {artworks?.map((artw, index) => (
           <div
             key={index}
-            className="h-36 max-w-[800px] rounded bg-neutral-50 p-5"
+            className=" h-auto max-w-[800px] rounded bg-neutral-50 p-5"
             ref={(el) => {
               artworkRefs.current[artw.id] = el;
             }}
@@ -101,7 +103,20 @@ export function Artworks() {
                 />
               </div>
             </div>
-            <div>{artw.idno ? `idno: ${artw.idno}` : null}</div>
+            {artw.relation?.label ? (
+              <div>Artist: {artw.relation.label}</div>
+            ) : null}
+            <div>Date: {artw.date.text}</div>
+            <div>
+              {Object.entries(artw.note[interfaceLang])
+                .filter(([key]) => key === "creditline")
+                .map(([, value], index) => (
+                  <span key={index}>Credit line: {value}</span>
+                ))}
+            </div>
+            <div className="pt-4">
+              <img src={`${artw.graphic.url}/full/200,/0/default.jpg`} />
+            </div>
           </div>
         ))}
       </div>
