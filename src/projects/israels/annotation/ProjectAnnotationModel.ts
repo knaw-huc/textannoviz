@@ -29,6 +29,7 @@ type ArtworkDate = {
 type ArtworkRelation = {
   name: string;
   ref: ArtworkRelationRef;
+  label?: string;
 };
 
 type ArtworkRelationRef = Person;
