@@ -65,4 +65,7 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   support: "Medium",
   collection: "Collectie",
   credits: "Verantwoording",
+
+  //Search info page
+  SCROLL_TO_LETTERS: "Ontdek de brieven",
 });

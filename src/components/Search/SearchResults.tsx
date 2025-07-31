@@ -153,7 +153,10 @@ export function SearchResults(props: SearchResultsProps) {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
+      <div
+        id="search-results"
+        className="flex flex-col items-center justify-between gap-2 md:flex-row"
+      >
         <span className="font-semibold">
           {resultStartEnd
             ? `${resultStartEnd} ${

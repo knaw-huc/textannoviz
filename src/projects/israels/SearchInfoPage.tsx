@@ -1,7 +1,21 @@
+import { Button } from "react-aria-components";
 import logoHuygens from "../../assets/logo-huygens.png";
 import logoVGM from "../../assets/logo-vgm.png";
+import {
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 
 export const SearchInfoPage = () => {
+  const translateProject = useProjectStore(translateProjectSelector);
+
+  function scrollToSearchResultsButtonHandler() {
+    const target = document.getElementById("search-results");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <div className="border-brand1Grey-100 -mx-10 mb-20 flex -translate-y-16 items-center justify-center border-b bg-[#FFCE01] px-10 py-24 pb-8 2xl:min-h-[75vh]">
       <div className="mx-auto w-full max-w-4xl ">
@@ -33,6 +47,12 @@ export const SearchInfoPage = () => {
             <img src={logoHuygens} className="h-16" alt="logo" />
           </div>
         </div>
+        <Button
+          className="rounded bg-yellow-500 p-2 outline-none"
+          onPress={scrollToSearchResultsButtonHandler}
+        >
+          {translateProject("SCROLL_TO_LETTERS")} {String.fromCharCode(9663)}
+        </Button>
       </div>
     </div>
   );

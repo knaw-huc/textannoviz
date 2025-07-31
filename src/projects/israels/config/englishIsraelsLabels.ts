@@ -65,4 +65,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   support: "Medium",
   collection: "Collection",
   credits: "Credits",
+
+  //Search info page
+  SCROLL_TO_LETTERS: "Explore the letters",
 });
