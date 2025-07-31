@@ -12,7 +12,6 @@ import {
 } from "../../../stores/project.ts";
 import { useTextStore } from "../../../stores/text/text-store.ts";
 import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
-import { TooltipMarkerButton } from "./MarkerTooltip.tsx";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
 import { SegmentBody } from "./SegmentBody.tsx";
 import { createTooltipMarkerClasses } from "./utils/createAnnotationClasses.ts";
@@ -179,10 +178,16 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
       }`}
       onClick={() => spanClickHandler(footnoteId)}
     >
-      <TooltipMarkerButton clickedMarker={marker}>
-        {/*TODO: move to project config*/}
-        {(marker.body.metadata.n || footnoteNumber) ?? "*"}
-      </TooltipMarkerButton>
+      {/* 31-07-2025: footnote tooltips are disabled for now.
+        - The tooltips cannot be triggered via touch devices
+        - The placement of the tooltip is messed up when entities are marked via the AnnotatedText component
+        - It's impossible to click on marked entities in the tooltip
+        - Solution: migrate from tooltips to popovers?
+      */}
+      {/* <TooltipMarkerButton clickedMarker={marker}> */}
+      {/*TODO: move to project config*/}
+      {(marker.body.metadata.n || footnoteNumber) ?? "*"}
+      {/* </TooltipMarkerButton> */}
     </span>
   );
 }
