@@ -50,14 +50,23 @@ export function KeywordFacet(props: {
       selectedFacets.includes(name),
     );
 
-    const filtered = notSelected.filter(([facetValueName]) =>
-      facetValueName.toLowerCase().includes(filterValue.toLowerCase()),
-    );
-    const sliced =
-      filtered.length > maxFacetItemsVisible
-        ? filtered.slice(0, maxFacetItemsVisible)
-        : filtered;
-    setFilteredFacets([...(selected || []), ...sliced]);
+    /*
+      - notSelected can be undefined when ALL facet items are selected
+      - if notSelected is NOT undefined, it should set the filtered facets to both selected and sliced items
+      - if notSelected is undefined, it should only set the filtered facets to the selected items
+    */
+    if (notSelected) {
+      const filtered = notSelected.filter(([facetValueName]) =>
+        facetValueName.toLowerCase().includes(filterValue.toLowerCase()),
+      );
+      const sliced =
+        filtered.length > maxFacetItemsVisible
+          ? filtered.slice(0, maxFacetItemsVisible)
+          : filtered;
+      setFilteredFacets([...(selected || []), ...sliced]);
+    } else {
+      setFilteredFacets([...(selected || [])]);
+    }
   }, [props.facet, filterValue, props.selectedFacets, props.facetName]);
 
   function checkboxChangeHandler(newSelected: string[]) {

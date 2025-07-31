@@ -32,7 +32,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   introNotesText: "Editorial notes (intro)",
   UNKNOWN: "Unknown document type",
   to: "to",
-  intro: "Introduction",
+  intro: "About this edition",
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
