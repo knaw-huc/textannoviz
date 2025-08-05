@@ -1,5 +1,5 @@
 import mirador from "mirador-knaw-huc-mui5";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { toast } from "react-toastify";
 import { CanvasTarget, NoteBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
@@ -149,34 +149,24 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const classNames: string[] = [];
   classNames.push(...createTooltipMarkerClasses(marker));
 
-  const footnoteId = marker.body.metadata.target.split("#")[1];
   const footnote = ptrToNoteAnnosMap.get(marker.body.metadata.target);
+  //TODO: Note numbers should always come from the same data point
+  const footnoteNumber = (footnote?.body as NoteBody).metadata.n;
 
-  useEffect(() => {
-    if (!ref.current || !footnoteId) {
-      return;
-    }
-    if (footnoteId === activeFootnote) {
-      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }, [footnoteId, activeFootnote]);
-
-  function spanClickHandler(footnoteId: string) {
-    setActiveFootnote(footnoteId);
+  function spanClickHandler(footnoteNumber: string) {
+    setActiveFootnote(footnoteNumber);
     setActiveSidebarTab("notes");
   }
 
-  //TODO: Note numbers should always come from the same data point
-  const footnoteNumber = (footnote?.body as NoteBody).metadata.n;
   return (
     <span
       ref={ref}
       className={`${classNames.join(
         " ",
       )} transition-all duration-300 ease-in-out ${
-        activeFootnote === footnoteId ? "bg-brand2-300" : "bg-white"
+        activeFootnote === footnoteNumber ? "bg-[#FFCE01]" : "bg-white"
       }`}
-      onClick={() => spanClickHandler(footnoteId)}
+      onClick={() => spanClickHandler(footnoteNumber)}
     >
       {/* 31-07-2025: footnote tooltips are disabled for now.
         - The tooltips cannot be triggered via touch devices

@@ -2,7 +2,7 @@ import { StateCreator } from "zustand";
 
 export type FootnoteSlice = {
   activeFootnote: string;
-  setActiveFootnote: (footnoteId: string) => void;
+  setActiveFootnote: (footnoteNumber: string) => void;
   resetActiveFootnote: () => void;
 };
 
@@ -14,8 +14,8 @@ export const createFootnoteSlice: StateCreator<
 > = (set) => ({
   activeFootnote: "",
 
-  setActiveFootnote: (footnoteId) => {
-    set(() => ({ activeFootnote: footnoteId }));
+  setActiveFootnote: (footnoteNumber) => {
+    set(() => ({ activeFootnote: footnoteNumber }));
   },
 
   resetActiveFootnote() {
