@@ -71,4 +71,5 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
 
   //Help labels
   SEARCH_IN_HELP: "PLACEHOLDER",
+  LANG_MENU_HELP: "PLACEHOLDER",
 });

@@ -32,7 +32,7 @@ export const Header = () => {
     : translateProject("intro");
 
   return (
-    <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_80px_50px] lg:grid-cols-[auto_auto_80px]">
+    <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_110px]">
       <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
         <a
           title="Homepage"

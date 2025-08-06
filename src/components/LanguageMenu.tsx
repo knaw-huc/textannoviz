@@ -4,13 +4,16 @@ import { LanguageCode, isValidLanguageCode } from "../model/Language.ts";
 import {
   projectConfigSelector,
   setProjectConfigSelector,
+  translateProjectSelector,
   useProjectStore,
 } from "../stores/project.ts";
 import { LANGUAGE } from "./Search/SearchUrlParams.ts";
+import { HelpTooltip } from "./common/HelpTooltip.tsx";
 
 //TODO: move state of languages from project config to Zustand store
 export function LanguageMenu() {
   const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
   const languages = projectConfig.languages;
   const setProjectConfig = useProjectStore(setProjectConfigSelector);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -53,6 +56,7 @@ export function LanguageMenu() {
             />
           ))
           .reduce((prev, curr) => [prev, " | ", curr])}
+      <HelpTooltip label={translateProject("LANG_MENU_HELP")} />
     </div>
   );
 }
