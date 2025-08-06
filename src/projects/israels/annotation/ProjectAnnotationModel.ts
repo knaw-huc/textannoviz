@@ -109,6 +109,16 @@ export type IsraelsTeiRefBody = AnnoRepoBodyBase & {
   };
 };
 
+export type IsraelsTeiHeadBody = AnnoRepoBodyBase & {
+  metadata: {
+    type: string;
+    inFigure?: string;
+    corresp: string;
+    "tei:id": string;
+    n: string;
+  };
+};
+
 const teiHi = "tei:Hi";
 const teiHead = "tei:Head";
 const teiRs = "tei:Rs";
@@ -160,7 +170,13 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === teiHi) {
     return get(annoRepoBody, "metadata.rend");
   } else if (annoRepoBody.type === teiHead) {
-    return normalizeClassname(teiHead);
+    const headBody = annoRepoBody as IsraelsTeiHeadBody;
+    //There can be heads without a metadata block
+    if (headBody.metadata?.inFigure?.length) {
+      return "caption";
+    } else {
+      return normalizeClassname(teiHead);
+    }
   } else {
     console.warn("Could not find highlight category", annoRepoBody);
     return "unknown";
