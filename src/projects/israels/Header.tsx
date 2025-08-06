@@ -27,6 +27,10 @@ export const Header = () => {
 
   const letterAnno = annotations.find((anno) => anno.body.type === "tf:Letter");
 
+  const letterTitle = letterAnno
+    ? (letterAnno?.body as IsraelsTfLetterBody).metadata.title?.[interfaceLang]
+    : translateProject("intro");
+
   return (
     <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_80px_50px] lg:grid-cols-[auto_auto_80px]">
       <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
@@ -74,11 +78,7 @@ export const Header = () => {
         }`}
       >
         <h4>
-          {letterAnno &&
-            (letterAnno?.body as IsraelsTfLetterBody).metadata.title[
-              interfaceLang
-            ]}{" "}
-          <br className="md:hidden" />
+          {letterTitle} <br className="md:hidden" />
           {/* <span className="text-sm font-normal text-neutral-600">
             <span className="mx-1 inline-block">—</span>
             brief 35
