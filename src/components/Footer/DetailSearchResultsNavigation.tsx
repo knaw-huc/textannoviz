@@ -93,9 +93,9 @@ export function DetailSearchResultsNavigation() {
         <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-700" />{" "}
         Search
       </FooterLink>
-      <div className="relative flex items-center rounded-l-full border border-stone-400 bg-white text-sm no-underline *:px-1 *:py-2 *:lg:p-2">
+      <div className="relative flex items-center border border-stone-400 bg-white text-sm no-underline *:px-1 *:py-2 first-of-type:rounded-l-full last-of-type:rounded-r-full *:lg:p-2">
         <FooterLink
-          classes={["border-r border-stone-400"]}
+          classes={["border-r"]}
           onClick={handlePrevResultClick}
           disabled={
             !foundResultId || (!hasPrevResult(resultIndex) && !hasPrevPage())
@@ -113,7 +113,6 @@ export function DetailSearchResultsNavigation() {
           <span> / {searchResults.total.value}</span>
         </div>
         <FooterLink
-          classes={["rounded-r-full flex items-center gap-1"]}
           onClick={handleNextResultClick}
           disabled={
             !foundResultId ||
