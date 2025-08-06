@@ -68,4 +68,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
 
   //Search info page
   SCROLL_TO_LETTERS: "Explore the letters",
+
+  //Help labels
+  SEARCH_IN_HELP: "PLACEHOLDER",
 });

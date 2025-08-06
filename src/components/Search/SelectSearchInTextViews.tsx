@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore";
 import { useSearchStore } from "../../stores/search/search-store";
+import { HelpTooltip } from "../common/HelpTooltip";
 
 export const SelectSearchInTextViews = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -27,7 +28,10 @@ export const SelectSearchInTextViews = () => {
 
   return (
     <CheckboxGroup value={selected} onChange={setSelected}>
-      <Label className="font-semibold">Search in</Label>
+      <Label className="font-semibold">
+        Search in
+        <HelpTooltip label={translateProject("SEARCH_IN_HELP")} />
+      </Label>
       {/* TODO: This can also be done on basis of result of /indices and then filter on all fields with type 'text'? */}
       {projectConfig.viewsToSearchIn.map((view, index) => (
         <Checkbox
