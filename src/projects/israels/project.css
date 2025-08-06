@@ -3,8 +3,18 @@
 }
 
 .highlight-tei-head {
-  font-size: 0.8em;
+  font-size: 1.17rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
   display: block;
+}
+
+.highlight-caption {
+  font-size: 0.8rem;
+  /* margin-bottom: 1rem; */
+  /* display: block; */
 }
 
 .highlight-super {
@@ -14,6 +24,10 @@
 
 .highlight-blockletter {
   text-transform: uppercase;
+}
+
+img {
+  margin-bottom: 0 !important;
 }
 
 /* Israels specific styling for AnnotatedText component */
