@@ -4,6 +4,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
+import { HelpTooltip } from "../common/HelpTooltip";
 
 export const ViewSettings = () => {
   const translateProject = useProjectStore(translateProjectSelector);
@@ -45,9 +46,10 @@ export const ViewSettings = () => {
 
   return (
     <div>
-      <div className="flex items-center *:border-y *:border-stone-500 *:bg-white *:px-1 *:py-2 *:text-sm *:md:p-2">
+      <div className="flex *:border-y *:border-stone-500 *:bg-white *:px-1 *:py-2 *:text-sm *:md:p-2">
         <div className="rounded-l-full border-x italic text-neutral-500">
           View
+          <HelpTooltip label={translateProject("VIEW_HELP")} />
         </div>
         {activePanels.map((detailPanel) => (
           <button

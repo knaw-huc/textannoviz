@@ -72,4 +72,5 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   //Help labels
   SEARCH_IN_HELP: "PLACEHOLDER",
   LANG_MENU_HELP: "PLACEHOLDER",
+  VIEW_HELP: "PLACEHOLDER",
 });
