@@ -17,6 +17,15 @@
   /* display: block; */
 }
 
+.highlight-tei-label {
+  float: left;
+  width: 125px;
+}
+
+.highlight-tei-item {
+  overflow: hidden;
+}
+
 .highlight-super {
   vertical-align: super;
   font-size: 0.7em;
