@@ -79,10 +79,6 @@ export const Header = () => {
       >
         <h4>
           {letterTitle} <br className="md:hidden" />
-          {/* <span className="text-sm font-normal text-neutral-600">
-            <span className="mx-1 inline-block">—</span>
-            brief 35
-          </span> */}
         </h4>
         <div className="text-neutral-600">
           {letterAnno &&
