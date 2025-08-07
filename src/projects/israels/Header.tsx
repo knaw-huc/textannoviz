@@ -5,7 +5,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { matchPath, useLocation } from "react-router-dom";
+import { matchPath, useLocation, useParams } from "react-router-dom";
 import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { IsraelsTfLetterBody } from "../../model/AnnoRepoAnnotation.ts";
@@ -14,6 +14,7 @@ export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const annotations = useAnnotationStore().annotations;
+  const params = useParams();
 
   const interfaceLang = projectConfig.defaultLanguage;
 
@@ -27,9 +28,11 @@ export const Header = () => {
 
   const letterAnno = annotations.find((anno) => anno.body.type === "tf:Letter");
 
-  const letterTitle = letterAnno
-    ? (letterAnno?.body as IsraelsTfLetterBody).metadata.title?.[interfaceLang]
-    : translateProject("intro");
+  const letterTitle =
+    (letterAnno?.body as IsraelsTfLetterBody)?.metadata?.title?.[
+      interfaceLang
+    ] ||
+    (params.tier2 === introId && translateProject("intro"));
 
   return (
     <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_110px]">
