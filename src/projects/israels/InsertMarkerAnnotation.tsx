@@ -1,4 +1,5 @@
 import { MarkerSegment } from "../../components/Text/Annotated/AnnotationModel";
+import { IsraelsTeiHeadBody } from "./annotation/ProjectAnnotationModel";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment;
@@ -16,6 +17,15 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
         alt="Possible XML error!"
       />
     );
+  }
+
+  if (props.marker.body.type === "tei:Head") {
+    const headAnno = props.marker.body as unknown as IsraelsTeiHeadBody;
+    if (!headAnno.metadata?.inFigure?.length) {
+      if (headAnno.metadata?.n) {
+        return <>{headAnno.metadata.n}. </>;
+      }
+    }
   }
 
   return null;

@@ -134,6 +134,7 @@ export const projectPageMarkerAnnotationTypes = ["tf:Page"];
 export const projectInsertTextMarkerAnnotationTypes = [
   "tei:Space",
   "tei:Graphic",
+  "tei:Head",
 ];
 
 export const isEntity = (
