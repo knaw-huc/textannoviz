@@ -67,6 +67,10 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   credits: "Credits",
 
   //Search info page
+  INFO_TITLE: "Isaac Israëls’s letters to Jo van Gogh-Bonger",
+  EDITED_BY: "Edited by Hans Luijten",
+  P1: "This edition includes the more than 100 letters the artist Isaac Israëls (1865–1934) wrote to Jo van Gogh-Bonger (1862–1925). Jo was married to Vincent van Gogh’s brother Theo and, following both brothers’ demise, took responsibility for preserving their legacy.",
+  P2: "Israëls writes with great candour and verve about art, literature, music, love and friendship. He had a keen interest in Jo and her tribulations and enjoyed their time together. But he was also fascinated by Vincent’s work, as he frequently expresses in his letters.",
   SCROLL_TO_LETTERS: "Explore the letters",
 
   //Help labels
