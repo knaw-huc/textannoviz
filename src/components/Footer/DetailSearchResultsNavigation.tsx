@@ -1,6 +1,10 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { SearchResult } from "../../model/Search.ts";
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import {
+  translateProjectSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
@@ -11,6 +15,7 @@ import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 
 export function DetailSearchResultsNavigation() {
   const translate = useProjectStore(translateSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
   const { findResultId, navigateDetail } = useDetailNavigation();
   const { searchParams, searchQuery } = useUrlSearchParamsStore();
   const { searchResults, searchFacetTypes, setSearchResults } =
@@ -105,7 +110,7 @@ export function DetailSearchResultsNavigation() {
         </FooterLink>
         <div className="border-r">
           <button className="flex items-center gap-1">
-            Navigeer zoekresultaten
+            {translateProject("NAVIGATE_SEARCH_RESULTS")}
           </button>
         </div>
         <div className="border-r text-neutral-500">

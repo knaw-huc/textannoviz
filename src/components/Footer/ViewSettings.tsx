@@ -21,6 +21,11 @@ export const ViewSettings = () => {
     setActivePanels(newActivePanels);
   }
 
+  // const el = document.getElementById("mirador");
+  // if (el) {
+  //   console.log(el.offsetParent);
+  // }
+
   React.useEffect(() => {
     const containerStyle: string[] = [];
     activePanels.forEach((activePanel) => {

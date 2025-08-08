@@ -23,6 +23,9 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   facs: "Facsimile",
   metadata: "Info",
 
+  //Footer
+  NAVIGATE_SEARCH_RESULTS: "Navigate search results",
+
   //Search item
   letterOriginalText: "Edited text (letter)",
   letterTranslatedText: "Translation (letter)",
