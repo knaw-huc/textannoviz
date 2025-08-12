@@ -16,7 +16,7 @@ export const Header = () => {
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
 
-  const interfaceLang = projectConfig.defaultLanguage;
+  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
 
   const location = useLocation();
 

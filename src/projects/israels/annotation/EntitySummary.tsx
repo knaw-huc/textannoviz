@@ -24,6 +24,7 @@ const LETTER_TEMPLATE = "urn:israels:letter:";
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
+  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
 
   const { routerBasename } = getViteEnvVars();
 
@@ -36,7 +37,11 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
 
   const handleEntitySearchClick = () => {
     if (props.body.type !== "tei:Ref") {
-      const query = toEntitySearchQuery(props.body, projectConfig);
+      const query = toEntitySearchQuery(
+        props.body,
+        projectConfig,
+        interfaceLang,
+      );
       window.open(
         `${routerBasename === "/" ? "" : routerBasename}/?${query}`,
         "_blank",

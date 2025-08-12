@@ -1,5 +1,6 @@
 import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation";
+import { LanguageCode } from "../../../model/Language";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { SearchQuery } from "../../../model/Search";
 import { encodeObject } from "../../../utils/UrlParamUtils";
@@ -13,6 +14,7 @@ import {
 export function toEntitySearchQuery(
   anno: AnnoRepoBodyBase,
   projectConfig: ProjectConfig,
+  interfaceLang: LanguageCode,
 ): string {
   if (isEntity(anno) && isPersonEntity(anno.metadata.ref)) {
     return createSearchQueryParam(
@@ -20,14 +22,16 @@ export function toEntitySearchQuery(
         anno.metadata["tei:type"],
         anno.metadata.ref[0].sortLabel,
         projectConfig,
+        interfaceLang,
       ),
     );
   } else if (isEntity(anno) && isArtworkEntity(anno.metadata.ref)) {
     return createSearchQueryParam(
       toEntityTerms(
         anno.metadata["tei:type"],
-        anno.metadata.ref[0].head[projectConfig.defaultLanguage],
+        anno.metadata.ref[0].head[interfaceLang],
         projectConfig,
+        interfaceLang,
       ),
     );
   } else {
@@ -39,6 +43,7 @@ function toEntityTerms(
   annoCategory: string,
   searchString: string,
   projectConfig: ProjectConfig,
+  interfaceLang: LanguageCode,
 ): Partial<SearchQuery> {
   const entityAgg =
     entityCategoryToAgg[toEntityCategory(projectConfig, annoCategory)];
@@ -46,9 +51,7 @@ function toEntityTerms(
   if (annoCategory === "artwork") {
     return {
       terms: {
-        [`${entityAgg}${projectConfig.defaultLanguage.toUpperCase()}`]: [
-          searchString,
-        ],
+        [`${entityAgg}${interfaceLang.toUpperCase()}`]: [searchString],
       },
     };
   } else {

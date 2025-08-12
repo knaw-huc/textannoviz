@@ -1,6 +1,7 @@
 import { create, StateCreator } from "zustand";
 import { Labels } from "../model/Labels.ts";
 import { ProjectConfig } from "../model/ProjectConfig";
+import { LanguageCode } from "../model/Language.ts";
 
 export type ProjectSlice = {
   projectName: string;
@@ -14,7 +15,16 @@ export type ProjectConfigSlice = {
   ) => void;
 };
 
-export type ProjectStore = ProjectSlice & ProjectConfigSlice;
+//TODO: move to separate store?
+export type InterfaceLanguageSlice = {
+  interfaceLanguage: LanguageCode;
+  setInterfaceLanguage: (newInterfaceLanguage: LanguageCode) => void;
+};
+
+export type ProjectStore = ProjectSlice &
+  ProjectConfigSlice &
+  InterfaceLanguageSlice;
+
 const createProjectSlice: StateCreator<ProjectStore, [], [], ProjectSlice> = (
   set,
 ) => ({
@@ -36,12 +46,24 @@ const createProjectConfigSlice: StateCreator<
     set(() => ({ projectConfig: newProjectConfig })),
 });
 
+const createInterfaceLanguageSlice: StateCreator<
+  ProjectStore,
+  [],
+  [],
+  InterfaceLanguageSlice
+> = (set) => ({
+  interfaceLanguage: "en",
+  setInterfaceLanguage: (newInterfaceLanguage) =>
+    set(() => ({ interfaceLanguage: newInterfaceLanguage })),
+});
+
 export const useProjectStore = create<ProjectStore>()((...a) => ({
   ...createProjectSlice(...a),
   ...createProjectConfigSlice(...a),
+  ...createInterfaceLanguageSlice(...a),
 }));
 
-export function translateSelector(state: ProjectConfigSlice) {
+export function translateSelector(state: ProjectStore) {
   const labels = labelsSelector(state);
   return (key: keyof Labels) => labels?.[key] ?? key;
 }
@@ -51,20 +73,25 @@ export function translateSelector(state: ProjectConfigSlice) {
  * allowing a project to provide translations
  * for custom elements like facets and custom components
  */
-export function translateProjectSelector(state: ProjectConfigSlice) {
+export function translateProjectSelector(state: ProjectStore) {
   const labels = labelsSelector(state);
   return (key: string) => labels?.[key] ?? key;
 }
 
-function labelsSelector(state: ProjectConfigSlice): Record<string, string> {
+function labelsSelector(state: ProjectStore): Record<string, string> {
   const config = projectConfigSelector(state);
-  const selectedLanguage = config.defaultLanguage;
-  const translation = config.languages.find((l) => l.code === selectedLanguage);
+  const { interfaceLanguage } = state;
+
+  const translation = config.languages.find(
+    (l) => l.code === interfaceLanguage,
+  );
+
   if (!translation) {
     throw new Error(
-      `No translation found for selected language ${selectedLanguage}`,
+      `No translation found for selected language ${interfaceLanguage}`,
     );
   }
+
   return translation.labels;
 }
 
