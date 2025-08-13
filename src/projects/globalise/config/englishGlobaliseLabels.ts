@@ -10,6 +10,7 @@ export const englishGlobaliseLabels = Object.assign({}, englishLabels, {
   invNr: "inv. nr.",
   INPUT_FACET_EMPTY_WARNING:
     "No inventory no. was specified. Please specify an inventory number(s).",
+  langLabel: "Language (label)",
 
   // text panel titles:
   self: "Full text",
