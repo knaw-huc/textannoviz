@@ -1,14 +1,13 @@
 import { ProjectConfig } from "../../model/ProjectConfig.ts";
-import { FacetEntry, NamedFacetAgg, SearchQuery } from "../../model/Search.ts";
-import _ from "lodash";
+import { NamedFacetAgg, SearchQuery } from "../../model/Search.ts";
 import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
 
 export function createSearchQuery(props: {
   projectConfig: ProjectConfig;
   aggs?: NamedFacetAgg[];
-  dateFacets?: FacetEntry[];
+  dateFacet?: string;
 }): SearchQuery {
-  const { projectConfig, aggs, dateFacets } = props;
+  const { projectConfig, aggs, dateFacet } = props;
 
   const configuredSearchQuery = {
     ...blankSearchQuery,
@@ -19,8 +18,8 @@ export function createSearchQuery(props: {
     searchInTextView: projectConfig.viewsToSearchIn,
     aggs,
   };
-  if (!_.isEmpty(dateFacets)) {
-    configuredSearchQuery.dateFacet = dateFacets?.[0]?.[0];
+  if (dateFacet?.length) {
+    configuredSearchQuery.dateFacet = dateFacet;
   }
   if (projectConfig.showSliderFacets) {
     configuredSearchQuery.rangeFacet = "text.tokenCount";
