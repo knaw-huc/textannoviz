@@ -11,9 +11,11 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
   }
 
   if (props.marker.body.type === "tei:Graphic") {
+    const maxWidth = props.marker.body.metadata.width ?? "400";
+    const width = Math.min(parseInt(maxWidth), 400);
     return (
       <img
-        src={`${props.marker.body.metadata.url}/full/400,/0/default.jpg`}
+        src={`${props.marker.body.metadata.url}/full/${width},/0/default.jpg`}
         alt="Possible XML error!"
       />
     );
