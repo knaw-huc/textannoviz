@@ -36,6 +36,8 @@ type ArtworkRelationRef = Person;
 
 type ArtworkGraphic = {
   url: string;
+  width: string;
+  height: string;
 };
 
 type ArtworkMeasure = {
