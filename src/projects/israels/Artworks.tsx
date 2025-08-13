@@ -123,7 +123,12 @@ export function Artworks() {
                 ))}
             </div>
             <div className="pt-4">
-              <img src={`${artw.graphic.url}/full/200,/0/default.jpg`} />
+              <img
+                src={`${artw.graphic.url}/full/${Math.min(
+                  parseInt(artw.graphic.width),
+                  200,
+                )},/0/default.jpg`}
+              />
             </div>
           </div>
         ))}
