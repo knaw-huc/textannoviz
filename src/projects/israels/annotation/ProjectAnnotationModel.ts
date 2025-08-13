@@ -125,9 +125,16 @@ const teiRs = "tei:Rs";
 const teiRef = "tei:Ref";
 const teiItem = "tei:Item";
 const teiLabel = "tei:Label";
+const teiQuote = "tei:Quote";
 
 export const projectEntityTypes = [teiRs, teiRef];
-export const projectHighlightedTypes = [teiHi, teiHead, teiItem, teiLabel];
+export const projectHighlightedTypes = [
+  teiHi,
+  teiHead,
+  teiItem,
+  teiLabel,
+  teiQuote,
+];
 export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
 export const projectPageMarkerAnnotationTypes = ["tf:Page"];
 
@@ -184,6 +191,8 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
     return normalizeClassname(teiLabel);
   } else if (annoRepoBody.type === teiItem) {
     return normalizeClassname(teiItem);
+  } else if (annoRepoBody.type === teiQuote) {
+    return normalizeClassname(teiQuote);
   } else {
     console.warn("Could not find highlight category", annoRepoBody);
     return "unknown";

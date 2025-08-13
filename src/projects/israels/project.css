@@ -21,6 +21,10 @@
   float: left;
   width: 125px;
 }
+.highlight-tei-quote {
+  text-align: right;
+  /* display: block; */
+}
 
 .highlight-tei-item {
   overflow: hidden;
