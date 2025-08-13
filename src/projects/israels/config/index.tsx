@@ -105,8 +105,8 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   isEntity: isEntity,
 
   elasticIndexName: "israels",
-  initialDateFrom: "1600-01-01",
-  initialDateTo: "2000-01-01",
+  initialDateFrom: "1891-01-01",
+  initialDateTo: "1924-12-31",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,
