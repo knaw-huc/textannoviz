@@ -42,6 +42,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   showDateFacets: false,
   showKeywordFacets: false,
   showSelectedFilters: true,
+  showTopSearchPagination: true,
   showNewSearchButton: false,
   allowCloseTextPanel: false,
   allowEmptyStringSearch: false,

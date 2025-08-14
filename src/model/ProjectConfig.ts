@@ -124,6 +124,7 @@ type SearchConfig = {
   showKeywordFacets: boolean;
   showSliderFacets: boolean;
   showFragmenter: boolean;
+  showTopSearchPagination: boolean;
   histogramFacet: string;
   showInputFacet: boolean;
   inputFacetOptions: string;

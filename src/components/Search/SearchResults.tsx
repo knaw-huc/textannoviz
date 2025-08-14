@@ -206,18 +206,19 @@ export function SearchResults(props: SearchResultsProps) {
           </div>
         )}
 
-        {searchResults.results.length >= 1 && (
-          <div className="flex w-full flex-row justify-end">
-            <SearchPagination
-              onPrevPageClick={handleSelectPrevPageClick}
-              onNextPageClick={handleSelectNextPageClick}
-              pageNumber={pageNumber}
-              searchResult={searchResults}
-              elasticSize={pageSize}
-              onJumpToPage={handleJumpToPage}
-            />
-          </div>
-        )}
+        {searchResults.results.length >= 1 &&
+          projectConfig.showTopSearchPagination && (
+            <div className="flex w-full flex-row justify-end">
+              <SearchPagination
+                onPrevPageClick={handleSelectPrevPageClick}
+                onNextPageClick={handleSelectNextPageClick}
+                pageNumber={pageNumber}
+                searchResult={searchResults}
+                elasticSize={pageSize}
+                onJumpToPage={handleJumpToPage}
+              />
+            </div>
+          )}
       </div>
       {projectConfig.showHistogram && searchResults.results.length >= 1 ? (
         <>
