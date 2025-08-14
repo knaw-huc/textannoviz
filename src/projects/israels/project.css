@@ -11,10 +11,18 @@
   /* display: block; */
 }
 
+.segmented-line:has(.highlight-tei-head) {
+  margin-bottom: 1rem;
+}
+
 .highlight-caption {
   font-size: 0.8rem;
   /* margin-bottom: 1rem; */
   /* display: block; */
+}
+
+.segmented-line:has(.highlight-caption) {
+  margin-bottom: 1.5rem;
 }
 
 .highlight-tei-label {
