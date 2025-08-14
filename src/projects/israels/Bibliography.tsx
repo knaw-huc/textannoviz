@@ -28,6 +28,23 @@ export const Bibliography = () => {
     };
   }, [interfaceLang, israelsBiblENUrl, israelsBiblNLUrl]);
 
+  React.useEffect(() => {
+    if (!content) return;
+    const biblId = window.location.hash.split("#")[1];
+    if (!biblId) return;
+    const element = document.getElementById(biblId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      element.style.setProperty("background-color", "#FFCE01", "important");
+      const timeout = setTimeout(() => {
+        element.style.removeProperty("background-color");
+      }, 2000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [content]);
+
   return content ? (
     <main
       className="ml-auto mr-auto mt-0 max-w-[640px]"
