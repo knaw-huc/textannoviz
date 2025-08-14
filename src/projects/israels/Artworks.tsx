@@ -122,6 +122,11 @@ export function Artworks() {
                   </span>
                 ))}
             </div>
+            {Object.entries(artw.note[interfaceLang])
+              .filter(([key]) => key === "photocredits")
+              .map(([, value], index) =>
+                value.length ? <span key={index}>{value}</span> : null,
+              )}
             <div className="pt-4">
               <img
                 src={`${artw.graphic.url}/full/${Math.min(
