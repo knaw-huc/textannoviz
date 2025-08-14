@@ -50,6 +50,7 @@ if (prodMode && config.useExternalConfig === true) {
       maxRange,
       broccoliUrl,
       annotationTypesToInclude,
+      showWebAnnoTab,
     } = externalConfig;
 
     config.elasticIndexName = indexName;
@@ -61,6 +62,9 @@ if (prodMode && config.useExternalConfig === true) {
     if (broccoliUrl) config.broccoliUrl = broccoliUrl;
     if (annotationTypesToInclude)
       config.annotationTypesToInclude = annotationTypesToInclude;
+    if (typeof showWebAnnoTab === "boolean") {
+      config.showWebAnnoTab = showWebAnnoTab;
+    }
   }
 }
 

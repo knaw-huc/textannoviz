@@ -117,6 +117,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   useExternalConfig: true,
   showToggleTextPanels: true,
   showSearchResultsOnInfoPage: true,
+  showWebAnnoTab: true,
   defaultKeywordAggsToRender: [
     "type",
     "location",

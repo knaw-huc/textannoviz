@@ -7,4 +7,5 @@ export type ExternalConfig = {
   maxRange?: number;
   broccoliUrl?: string;
   annotationTypesToInclude?: string[];
+  showWebAnnoTab?: boolean;
 };
