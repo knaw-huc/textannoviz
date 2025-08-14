@@ -73,6 +73,17 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         `${routerBasename === "/" ? "" : routerBasename}/artworks#${artwId}`,
       );
     }
+
+    const target = (props.body as IsraelsTeiRefBody).metadata.target;
+    if (Array.isArray(target)) {
+      const biblTarget = target;
+      const biblId = biblTarget[0].id;
+      window.open(
+        `${
+          routerBasename === "/" ? "" : routerBasename
+        }/bibliography#${biblId}`,
+      );
+    }
   };
 
   return (
@@ -83,23 +94,28 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         </div>
         <EntitySummaryDetails body={props.body} />
       </>
-      <div className="flex gap-4">
+      <div className="flex">
         <div>
-          <button
-            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-            onClick={handleEntitySearchClick}
-          >
-            {props.body.type === "tei:Ref" &&
-            typeof (props.body as IsraelsTeiRefBody).metadata.target ===
-              "string" ? (
-              <>{translateProject("NAV_TO_LETTER")}</>
-            ) : (
-              <>
-                {translateProject("SEARCH_CATEGORY")}{" "}
-                {translateProject(entityCategory)}
-              </>
-            )}
-          </button>
+          {props.body.type === "tei:Ref" &&
+          typeof (props.body as IsraelsTeiRefBody).metadata.target ===
+            "object" ? null : (
+            <button
+              className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
+              onClick={handleEntitySearchClick}
+            >
+              {props.body.type === "tei:Ref" &&
+              typeof (props.body as IsraelsTeiRefBody).metadata.target ===
+                "string" ? (
+                <>{translateProject("NAV_TO_LETTER")}</>
+              ) : (
+                <>
+                  {translateProject("SEARCH_CATEGORY")}{" "}
+                  {translateProject(entityCategory)}
+                </>
+              )}
+            </button>
+          )}
+
           {props.body.type !== "tei:Ref" && (
             <div className="mt-2 italic text-neutral-600">
               {translateProject("WARNING_NEW_SEARCH")}
