@@ -11,7 +11,7 @@ export const Panels = () => {
 
   React.useEffect(() => {
     const queries = {
-      mqSM: window.matchMedia("(min-width: 640px) and (max-width: 768px)"),
+      mqSM: window.matchMedia("(min-width: 1px) and (max-width: 768px)"),
       mqMD: window.matchMedia("(min-width: 768px) and (max-width: 1024px)"),
       mqLG: window.matchMedia("(min-width: 1024px) and (max-width: 1280px)"),
       mqXL: window.matchMedia("(min-width: 1280px) and (max-width: 1536px)"),
