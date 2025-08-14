@@ -46,6 +46,7 @@ export const defaultConfig: DefaultProjectConfig = {
   showKeywordFacets: true,
   showSliderFacets: false,
   showSelectedFilters: true,
+  showFragmenter: true,
   showNewSearchButton: true,
   allowCloseTextPanel: false,
   showWebAnnoTab: true,

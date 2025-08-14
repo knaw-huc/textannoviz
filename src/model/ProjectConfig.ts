@@ -123,6 +123,7 @@ type SearchConfig = {
   showDateFacets: boolean;
   showKeywordFacets: boolean;
   showSliderFacets: boolean;
+  showFragmenter: boolean;
   histogramFacet: string;
   showInputFacet: boolean;
   inputFacetOptions: string;
