@@ -10,6 +10,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
+import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
   getAnnotationCategory,
@@ -21,8 +22,8 @@ import {
   projectPageMarkerAnnotationTypes,
   projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
-import { Empty } from "../../../components/Empty.tsx";
 
 import projectCss from "../project.css?inline";
 
@@ -31,6 +32,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
   relativeTo: "tf:File",
   showWebAnnoTab: false,
+  showNotesTab: true,
   annotationTypesToInclude: [
     // "EntityMetadata",
     // "tei:Author",
@@ -114,6 +116,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
     SearchInfoPage,
     HelpLink: Empty,
+    NotesPanel,
   },
 
   selectedLanguage: "en",
