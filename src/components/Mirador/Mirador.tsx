@@ -131,15 +131,15 @@ export function Mirador() {
       clearAnnosMirador(miradorStore);
     }
 
-    if (showSvgsAnnosMirador && miradorStore) {
-      renderAnnosMirador(miradorStore);
-    }
+    // if (showSvgsAnnosMirador && miradorStore) {
+    //   renderAnnosMirador(miradorStore);
+    // }
   }, [showSvgsAnnosMirador]);
 
   return (
     <div
       id="mirador"
-      className="bg-brand1Grey-50 sticky top-0 hidden h-[calc(100vh-100px)] w-7/12 grow self-stretch overflow-auto lg:flex"
+      className="bg-brand1Grey-50 sticky top-0 hidden h-[calc(100vh-137px)] w-full grow self-stretch overflow-auto lg:flex"
     />
   );
 }

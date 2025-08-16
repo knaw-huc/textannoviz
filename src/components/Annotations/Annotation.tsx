@@ -1,5 +1,6 @@
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 import { useAnnotationStore } from "../../stores/annotation";
+import { useDetailViewStore } from "../../stores/detail-view";
 import {
   projectConfigSelector,
   translateSelector,
@@ -13,13 +14,18 @@ type AnnotationProps = {
 };
 
 export function Annotation(props: AnnotationProps) {
-  const annotations = useAnnotationStore((state) => state.annotations);
+  const { annotations } = useAnnotationStore();
+  const { activeSidebarTab, setActiveSidebarTab } = useDetailViewStore();
   const projectConfig = useProjectStore(projectConfigSelector);
   const translate = useProjectStore(translateSelector);
 
   return (
     <div className="border-brand1Grey-100 relative hidden w-3/12 grow self-stretch border-x md:block">
-      <Tabs className="flex h-[calc(100vh-100px)] flex-col overflow-auto">
+      <Tabs
+        selectedKey={activeSidebarTab}
+        onSelectionChange={(key) => setActiveSidebarTab(key)}
+        className="flex h-[calc(100vh-100px)] flex-col overflow-auto"
+      >
         <TabList
           aria-label="annotation-panel"
           className="border-brand1Grey-100 sticky top-0 flex w-full border-b bg-white text-sm text-neutral-600"
@@ -36,6 +42,14 @@ export function Annotation(props: AnnotationProps) {
               className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
             >
               {translate("WEB_ANNOTATIONS")}
+            </Tab>
+          )}
+          {projectConfig.showNotesTab && (
+            <Tab
+              id="notes"
+              className="aria-selected:bg-brand1Grey-100 hover:bg-brand1Grey-50 px-4 py-2 outline-none transition-colors duration-200 hover:cursor-pointer"
+            >
+              Notes
             </Tab>
           )}
         </TabList>
@@ -59,6 +73,13 @@ export function Annotation(props: AnnotationProps) {
                 <div className="font-bold">No web annotations</div>
               )}
             </>
+          </TabPanel>
+        )}
+        {projectConfig.showNotesTab && (
+          <TabPanel id="notes" className="text-brand1-800 p-5">
+            {annotations.length > 0 && !props.isLoading ? (
+              <projectConfig.components.NotesPanel annotations={annotations} />
+            ) : null}
           </TabPanel>
         )}
       </Tabs>
