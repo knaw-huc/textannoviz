@@ -182,7 +182,7 @@ export function SearchResults(props: SearchResultsProps) {
           )}
         </div>
       </div>
-      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10">
+      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-4">
         {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
           <div className="flex w-full flex-row items-center justify-start">
             <div className="grid grid-cols-4 items-center gap-2">
