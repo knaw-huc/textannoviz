@@ -92,13 +92,13 @@ export function DetailSearchResultsNavigation() {
       <FooterLink
         onClick={() => navigateDetail(`/?${getUrlParams()}`)}
         classes={[
-          "flex items-center border border-stone-400 rounded-full *:py-2 *:px-1 *:lg:p-2 bg-white text-sm no-underline",
+          "flex items-center border border-stone-500 rounded-full *:px-1 bg-white text-sm no-underline",
         ]}
       >
         <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-700" />{" "}
         Search
       </FooterLink>
-      <div className="relative flex items-center border border-stone-400 bg-white text-sm no-underline *:px-1 *:py-2 first-of-type:rounded-l-full last-of-type:rounded-r-full *:lg:p-2">
+      <div className="relative flex items-center border border-stone-500 bg-white text-sm no-underline *:px-1 *:py-2 first-of-type:rounded-l-full last-of-type:rounded-r-full">
         <FooterLink
           classes={["border-r"]}
           onClick={handlePrevResultClick}
