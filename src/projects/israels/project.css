@@ -5,20 +5,16 @@
 .highlight-tei-head {
   font-size: 1.17rem;
   font-weight: bold;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
   text-align: center;
-  /* display: block; */
 }
 
 .segmented-line:has(.highlight-tei-head) {
   margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .highlight-caption {
   font-size: 0.8rem;
-  /* margin-bottom: 1rem; */
-  /* display: block; */
 }
 
 .segmented-line:has(.highlight-caption) {
@@ -29,9 +25,10 @@
   float: left;
   width: 125px;
 }
-.highlight-tei-quote {
+
+.segmented-line:has(.highlight-tei-quote) {
   text-align: right;
-  /* display: block; */
+  margin-bottom: 1rem;
 }
 
 .highlight-tei-item {
