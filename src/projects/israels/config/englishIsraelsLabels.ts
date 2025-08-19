@@ -36,6 +36,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   UNKNOWN: "Unknown document type",
   to: "to",
   intro: "About this edition",
+  LET_NUM: "Letter number",
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",

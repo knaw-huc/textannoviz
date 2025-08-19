@@ -41,7 +41,7 @@ export const SearchItem = (
             <div className="font-semibold">{searchItemTitle}</div>
             {props.result.type === "letter" ? (
               <div className="text-brand1Grey-600 italic">
-                Letter number: {letterNum}
+                {translateProject("LET_NUM")}: {letterNum}
               </div>
             ) : null}
           </div>
