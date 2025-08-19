@@ -1,4 +1,3 @@
-import { Button } from "react-aria-components";
 import logoHuygens from "../../assets/logo-huygens.png";
 import logoVGM from "../../assets/logo-vgm.png";
 import {
@@ -9,15 +8,8 @@ import {
 export const SearchInfoPage = () => {
   const translateProject = useProjectStore(translateProjectSelector);
 
-  function scrollToSearchResultsButtonHandler() {
-    const target = document.getElementById("search-results");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-
   return (
-    <div className="border-brand1Grey-100 -mx-10 mb-20 flex -translate-y-16 items-center justify-center border-b bg-[#FFCE01] px-10 py-24 pb-8 2xl:min-h-[75vh]">
+    <div className="border-brand1Grey-100 -mx-10 -mb-10 flex -translate-y-16 border-b bg-[#FFCE01] px-10 py-8">
       <div className="mx-auto w-full max-w-4xl ">
         <h1>{translateProject("INFO_TITLE")}</h1>
 
@@ -30,18 +22,12 @@ export const SearchInfoPage = () => {
 
         <div className="my-8 flex flex-col gap-8 md:flex-row md:items-end">
           <div>
-            <img src={logoVGM} className="h-24" alt="logo" />
+            <img src={logoVGM} className="h-20" alt="logo" />
           </div>
           <div>
-            <img src={logoHuygens} className="h-16" alt="logo" />
+            <img src={logoHuygens} className="h-14" alt="logo" />
           </div>
         </div>
-        <Button
-          className="rounded bg-yellow-500 p-2 outline-none"
-          onPress={scrollToSearchResultsButtonHandler}
-        >
-          {translateProject("SCROLL_TO_LETTERS")} {String.fromCharCode(9663)}
-        </Button>
       </div>
     </div>
   );
