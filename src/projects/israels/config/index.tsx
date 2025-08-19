@@ -118,7 +118,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   showToggleTextPanels: true,
   showSearchResultsOnInfoPage: true,
   showWebAnnoTab: true,
-  showFragmenter: false,
+  showFragmenter: true,
   defaultKeywordAggsToRender: [
     "type",
     "location",
