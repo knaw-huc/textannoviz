@@ -109,8 +109,8 @@ export const EnglishHelp = () => {
       </p>
       <h4 className="mb-4 mt-4">Multiple Keywords</h4>
       <p className="text-justify">
-        Entering multiple words (e.g.: exhibition sketches) will return results
-        containing either or both terms.
+        Entering multiple words (e.g.: <i>exhibition sketches</i>) will return
+        results containing either or both terms.
       </p>
       <h4 className="mb-4 mt-4">Boolean Operators</h4>
       <p className="mb-4 text-justify">
@@ -267,7 +267,267 @@ export const EnglishHelp = () => {
 export const DutchHelp = () => {
   return (
     <div>
-      <h2>Welkom bij de brieven van Isaac Israëls aan Jo van Gogh-Bonger</h2>
+      <h1>Welkom bij de brieven van Isaac Israëls aan Jo van Gogh-Bonger</h1>
+      <p className="text-justify">
+        In deze uitgave kunt u 103 brieven bekijken, en daarnaast inleidende
+        teksten met achtergrondinformatie over de brieven en de uitgave. Elke
+        brief bevat een transcriptie, een Engelse vertaling, facsimile&#39;s,
+        redactionele aantekeningen en contextuele metadata. U kunt de materialen
+        doorzoeken, bladeren en filteren op basis van uw onderzoeksvragen of
+        nieuwsgierigheid.
+      </p>
+      <h2>Inhoud van de uitgave</h2>
+      <p className="text-justify">
+        De editie bevat 103 brieven en een document ‘Over deze editie’, met een
+        inleiding, colofon, verantwoording en dankbetuigingen.
+      </p>
+      <h2>Navigeren door de editie</h2>
+      <p className="mb-4 text-justify">
+        De openingspagina van de editie bevat een menubalk, een titelpagina, een
+        zijpaneel met zoek- en filteropties en een overzicht van de brieven. Als
+        u op een brief klikt, gaat u naar de detailpagina.
+      </p>
+      <p className="text-justify">
+        In de interface geven ⓘ-pictogrammen korte uitleg over het gebruik van
+        de verschillende onderdelen.
+      </p>
+      <h2>Vrij zoeken en facetten gebruiken</h2>
+      <p className="mb-4 text-justify">
+        U kunt de editie op twee manieren verkennen: door middel van zoeken op
+        vrije tekst en door middel van facets die documenten selecteren op basis
+        van metagegevens.
+      </p>
+      <p className="mb-4 text-justify">
+        De zoekinterface heeft de volgende eigenschappen:
+      </p>
+      <ul className="list-disc text-justify">
+        <li className="ml-8">
+          U kunt uw zoekopdracht filteren om alleen de originele tekst, de
+          vertaling of de opmerkingen van zowel de brieven als de inleiding te
+          selecteren.
+        </li>
+        <li className="ml-8">
+          U kunt ervoor kiezen om een kleiner of groter fragment van de tekst
+          rondom de zoekresultaten weer te geven. Zo kunt u de relevantie van
+          een resultaat bepalen voordat u de volledige pagina opent.
+        </li>
+        <li className="ml-8">
+          U kunt uw zoekgeschiedenis bekijken om eerdere zoekopdrachten opnieuw
+          te bekijken.
+        </li>
+      </ul>
+      <h3>Vrije zoekopdracht</h3>
+      <p className="mb-4 text-justify">
+        Typ een of meer trefwoorden in de zoekbalk om de bijbehorende inhoud te
+        vinden. Dit levert resultaten op uit:
+      </p>
+      <ul className="list-disc text-justify">
+        <li className="ml-8">de hoofdtekst</li>
+        <li className="ml-8">de Engelse vertaling</li>
+        <li className="ml-8">de redactionele opmerkingen</li>
+      </ul>
+      <h3>Filteren met facetten</h3>
+      <p className="mb-4 text-justify">
+        Gebruik de facetten om de resultaten op categorie te verfijnen. U kunt
+        meerdere facetten tegelijk gebruiken. De ⓘ-informatieknoppen naast elke
+        facet bieden extra hulp.
+      </p>
+      <p className="mb-4 text-justify">Beschikbare facetten:</p>
+      <ul className="mb-4 list-disc text-justify">
+        <li className="ml-8">Documenttype</li>
+        <li className="ml-8">Periode</li>
+        <li className="ml-8">Personen</li>
+        <li className="ml-8">Locatie</li>
+        <li className="ml-8">Kunstwerken</li>
+        <li className="ml-8">Document</li>
+      </ul>
+      <p className="text-justify">
+        U kunt facetwaarden in- en uitschakelen door het selectievakje naast
+        elke waarde aan te vinken. Als u meerdere waarden selecteert, worden
+        alle documenten geselecteerd waarin een of beide geselecteerde waarden
+        voorkomen. U kunt facetwaarden alfabetisch (A–Z of Z–A) of op frequentie
+        (het aantal documenten dat uit een zoekopdracht voor die waarde
+        resulteert) sorteren.
+      </p>
+      <h3>
+        Hulp bij geavanceerd zoeken: trefwoorden, operatoren en jokertekens
+      </h3>
+      <p className="mb-4 text-justify">
+        De editie ondersteunt zowel eenvoudige als complexe zoekopdrachten met
+        behulp van trefwoorden, Booleaanse operatoren en jokertekens.
+      </p>
+      <h4 className="mb-4">Basiszoekopdracht op trefwoord</h4>
+      <p className="mb-4 text-justify">
+        Typ een woord om overeenkomsten te vinden. Zoekopdrachten zijn niet
+        hoofdlettergevoelig. Koppeltekens worden door de zoekmachine als spaties
+        behandeld.
+      </p>
+      <p className="text-justify">
+        Bijvoorbeeld: <i>Vincent</i> vindt alle verwijzingen naar Vincent
+      </p>
+      <h4 className="mb-4 mt-4">Meerdere trefwoorden</h4>
+      <p className="text-justify">
+        Als u meerdere woorden invoert (bijvoorbeeld:{" "}
+        <i>tentoonstelling schetsen</i>), worden resultaten weergegeven die een
+        van beide of beide termen bevatten.
+      </p>
+      <h4 className="mb-4 mt-4">Booleaanse operatoren</h4>
+      <p className="mb-4 text-justify">
+        Gebruik AND, OR en NOT (in hoofdletters) om de resultaten te verfijnen:
+      </p>
+      <ul className="mb-4 list-disc text-justify">
+        <li className="ml-8">
+          <i>kunst AND galerie</i>: geeft brieven weer die beide termen bevatten
+        </li>
+        <li className="ml-8">
+          <i>schilderij OR tekening</i>: geeft brieven weer die een van beide
+          woorden bevatten
+        </li>
+        <li className="ml-8">
+          <i>Den Haag NOT Amsterdam</i>: verwijzingen naar Den Haag, met
+          uitsluiting van Amsterdam
+        </li>
+      </ul>
+      <h4 className="mb-4 mt-4">Jokertekens</h4>
+      <p className="mb-4 text-justify">Gebruik:</p>
+      <ul className="mb-4 list-disc text-justify">
+        <li className="ml-8">
+          * om meerdere tekens te vervangen: <i>paint*</i> komt overeen met
+          paint, painter, paintings
+        </li>
+        <li className="ml-8">
+          ? voor een enkel teken: <i>?atch</i> komt overeen met catch, watch
+        </li>
+      </ul>
+      <h4 className="mb-4 mt-4">Exacte zinnen</h4>
+      <p className="text-justify">
+        Gebruik dubbele aanhalingstekens om naar exacte uitdrukkingen te zoeken:
+        <i>&quot;beste Jo&quot;</i>, <i>&quot;Van Gogh Museum&quot;</i>
+      </p>
+      <h4 className="mb-4 mt-4">Fuzzy matching</h4>
+      <p className="text-justify">
+        Voeg een tilde ~ en een getal toe om spellingsvariaties toe te staan:{" "}
+        <i>Israëls~1</i> komt overeen met Israels
+      </p>
+      <h4 className="mb-4 mt-4">Zoekopdrachten combineren</h4>
+      <p className="mb-4 text-justify">
+        U kunt zoekopdrachten groeperen met behulp van haakjes:
+      </p>
+      <ul className="mb-4 list-disc text-justify">
+        <li className="ml-8">(kunst OR kunstenaar) AND Parijs</li>
+        <li className="ml-8">(paint* OR draw*) NOT oil</li>
+      </ul>
+      <h2>De documentenlijst sorteren</h2>
+      <p className="mb-4 text-justify">
+        U kunt de documentenlijst op de volgende manieren sorteren:
+      </p>
+      <ol className="mb-4 list-decimal text-justify">
+        <li className="ml-8">
+          Op briefnummer (oplopend of aflopend): de brieven zijn genummerd en
+          met deze optie kunt u ze in numerieke volgorde bekijken.
+        </li>
+        <li className="ml-8">Op datum (oplopend of aflopend)</li>
+        <li className="ml-8">
+          Op relevantie: op basis van hoe goed een document overeenkomt met uw
+          zoekopdracht. De relevantie wordt berekend aan de hand van factoren
+          zoals de frequentie van trefwoorden en de locatie van overeenkomsten.
+        </li>
+      </ol>
+      <h2>Documenten bekijken</h2>
+      <p className="mb-4 text-justify">
+        De gedetailleerde paginaweergave toont:
+      </p>
+      <ul className="mb-4 list-disc text-justify">
+        <li className="ml-8">De titel van het document</li>
+        <li className="ml-8">Een zoombaar facsimile</li>
+        <li className="ml-8">De originele tekst</li>
+        <li className="ml-8">Een Engelse vertaling</li>
+        <li className="ml-8">
+          Metadata, zoals een brief-ID, signatuur en contextuele informatie
+        </li>
+        <li className="ml-8">Notities</li>
+        <li className="ml-8">
+          Een paneel met de kunstwerken waarnaar in de tekst wordt verwezen
+        </li>
+      </ul>
+      <p className="mb-4 text-justify">
+        U kunt met het menu View rechtsonder bepalen welke elementen zichtbaar
+        zijn (tekst, vertaling, facsimile, metagegevens). Uitgeschakelde items
+        worden roodbruin.
+      </p>
+      <p className="mb-4 text-justify">U kunt facsimile&#39;s:</p>
+      <ul className="mb-4 list-disc text-justify">
+        <li className="ml-8">in- of uitzomen (+, –)</li>
+        <li className="ml-8">
+          resetten met het pictogram voor het resetten van de zoom
+        </li>
+        <li className="ml-8">
+          doorbladeren met de pijltjes links/rechts (als er meerdere
+          facsimilepagina&#39;s beschikbaar zijn voor een brief)
+        </li>
+      </ul>
+      <p className="text-justify">
+        U kunt een facsimile activeren door op de knop ‘Show facsimile’ in de
+        transcriptie te klikken.
+      </p>
+      <h3>Personen en kunstwerken</h3>
+      <p className="mb-4 text-justify">
+        Namen van personen en titels van kunstwerken die in de tekst worden
+        genoemd, zijn gemarkeerd met respectievelijk gele en paarse
+        pictogrammen. Klik op het pictogram om:
+      </p>
+      <ul className="mb-4 list-disc text-justify">
+        <li className="ml-8">
+          Gedetailleerde informatie over de persoon of het kunstwerk te bekijken
+        </li>
+        <li className="ml-8">
+          Te zoeken naar andere verwijzingen naar deze persoon of kunstwerk in
+          de collectie
+        </li>
+      </ul>
+      <h2>Taal van de interface en menu&#39;s</h2>
+      <ul className="list-disc text-justify">
+        <li className="ml-8">
+          Gebruik de taalschakelaar in de rechterbovenhoek om te schakelen
+          tussen Nederlands en Engels. Deze schakelaar is van toepassing op
+          zowel de gebruikersinterface (menu&#39;s, knoppen, labels) als de
+          inhoud van de editie.
+        </li>
+        <li className="ml-8">Het menu rechtsboven biedt toegang tot:</li>
+      </ul>
+      <ol className="mb-4 list-decimal text-justify">
+        <li className="ml-16">
+          De inleidende teksten van de editie (‘Over deze editie’)
+        </li>
+        <li className="ml-16">
+          Lijsten van alle personen, kunstwerken en de bibliografie
+        </li>
+      </ol>
+      <h2>Navigeren tussen documenten</h2>
+      <p className="mb-4 text-justify">
+        Gebruik de knoppen Volgende en Vorige linksonder op de pagina om tussen
+        documenten in de huidige set zoekresultaten te navigeren, volgens de
+        door u geselecteerde sorteervolgorde.
+      </p>
+      <p className="text-justify">
+        Als uw zoekopdracht bijvoorbeeld specifieke brieven oplevert,
+        bijvoorbeeld brieven 11, 34 en 37, navigeert u rechtstreeks van brief 11
+        naar 34 en vervolgens naar 37, waarbij u brieven die niet aan uw
+        zoekopdracht voldoen overslaat.
+      </p>
+      <h2>Toegankelijkheid en beperkingen</h2>
+      <p className="text-justify">
+        De huidige versie van de site is niet geoptimaliseerd voor mobiele
+        apparaten. Op tablets wordt de lay-out grotendeels correct weergegeven,
+        maar sommige functies werken niet zoals bedoeld.
+      </p>
+      <h2>Contact</h2>
+      <p className="text-justify">
+        Voor opmerkingen over de inhoud van deze site of als u problemen
+        ondervindt bij het raadplegen ervan, kunt u een e-mail sturen naar{" "}
+        <a href="mailto:research@vangoghmuseum.nl">research@vangoghmuseum.nl</a>
+        .
+      </p>
     </div>
   );
 };
