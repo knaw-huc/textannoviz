@@ -69,6 +69,13 @@ export const Header = () => {
               {translateProject(route.path)}
             </a>
           ))}
+          <a
+            className="text-inherit no-underline hover:underline"
+            rel="noreferrer"
+            href={`${routerBasename === "/" ? "" : routerBasename}/help`}
+          >
+            Help
+          </a>
         </nav>
       </div>
       <div className="hidden items-center justify-center border-b border-neutral-400 sm:flex">

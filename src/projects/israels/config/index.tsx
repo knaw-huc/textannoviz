@@ -33,6 +33,7 @@ import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
 import { Bibliography } from "../Bibliography";
+import { Help } from "../Help";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -160,6 +161,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     InsertMarkerAnnotation,
     SearchInfoPage,
     Header,
+    Help,
   },
   defaultLanguage: "en",
   zoomAnnoMirador: true,
