@@ -3,7 +3,6 @@ import { dutchLabels } from "../../default/config/dutchLabels";
 export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   //Search facet titles + metadata panel titles
   institution: "Collectie-houdende instelling",
-  period: "Periode",
   msid: "Signatuur",
   location: "Locatie",
   correspondent: "Correspondent",
@@ -11,6 +10,7 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   letterid: "Briefnummer",
   periodlong: "Periode (lang)",
   type: "Type",
+  artworksEN: "Kunstwerken",
 
   facetInputFilterPlaceholder: "Zoek in facet",
 

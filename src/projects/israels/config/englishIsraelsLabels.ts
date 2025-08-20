@@ -3,14 +3,14 @@ import { englishLabels } from "../../default/config/englishLabels";
 export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   //Search facet titles + metadata panel titles
   institution: "Institution",
-  period: "Period",
   msid: "Shelfmark",
   location: "Location",
   correspondent: "Correspondent",
-  file: "File",
+  file: "Letter number",
   letterid: "Letter ID",
   periodlong: "Period (long)",
   type: "Type",
+  artworksEN: "Artworks",
 
   facetInputFilterPlaceholder: "Search in facet",
 
