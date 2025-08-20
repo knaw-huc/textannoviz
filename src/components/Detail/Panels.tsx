@@ -26,18 +26,6 @@ export const Panels = () => {
 
       const newActivePanels = activePanels.map((panel) => {
         const isVisible = (() => {
-          //TODO: clean this up. This is now a hack to disable Mirador when there is no IIIF manifest. This entire logic should be refactored in the future.
-          if (!iiif?.manifest) {
-            return (
-              panel.name === projectConfig.detailPanels[1]?.name ||
-              panel.name === projectConfig.detailPanels[2]?.name ||
-              panel.name ===
-                projectConfig.detailPanels[
-                  projectConfig.detailPanels.length - 1
-                ]?.name
-            );
-          }
-
           if (queries.mqSM.matches) {
             return panel.name === projectConfig.detailPanels[1]?.name;
           }
@@ -50,6 +38,21 @@ export const Panels = () => {
                 ]?.name
             );
           }
+
+          //TODO: clean this up. This is now a hack to disable Mirador when there is no IIIF manifest. This entire logic should be refactored in the future.
+          if (
+            queries.mqLG.matches ||
+            (queries.mqXL.matches && !iiif?.manifest)
+          ) {
+            return (
+              panel.name === projectConfig.detailPanels[1]?.name ||
+              panel.name ===
+                projectConfig.detailPanels[
+                  projectConfig.detailPanels.length - 1
+                ]?.name
+            );
+          }
+
           if (queries.mqLG.matches || queries.mqXL.matches) {
             return (
               panel.name === projectConfig.detailPanels[0]?.name ||
@@ -60,6 +63,19 @@ export const Panels = () => {
                 ]?.name
             );
           }
+
+          //TODO: clean this up. This is now a hack to disable Mirador when there is no IIIF manifest. This entire logic should be refactored in the future.
+          if (queries.mq2XL.matches && !iiif?.manifest) {
+            return (
+              panel.name === projectConfig.detailPanels[1]?.name ||
+              panel.name === projectConfig.detailPanels[2]?.name ||
+              panel.name ===
+                projectConfig.detailPanels[
+                  projectConfig.detailPanels.length - 1
+                ]?.name
+            );
+          }
+
           if (queries.mq2XL.matches) {
             return true;
           }
