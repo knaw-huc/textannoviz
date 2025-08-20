@@ -47,9 +47,9 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    // esbuild: {
-    //   drop: ["console"],
-    // },
+    esbuild: {
+      drop: ["console"],
+    },
     plugins: [
       react(),
       checker({ typescript: true }),
