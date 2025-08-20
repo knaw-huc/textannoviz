@@ -6,7 +6,8 @@ if [[
   || -z $PROJECT \
   || -z $TITLE \
   || -z $TAG \
-  || -z $ROUTER_BASENAME
+  || -z $ROUTER_BASENAME \
+  || -z $MODE
 ]]; then
   echo 'missing required env vars'
   exit 1
@@ -19,7 +20,7 @@ sed \
   .env.example \
   > .env
 
-docker build -t $TAG --platform=linux/amd64 -f deploy/Dockerfile-deploy .
+docker build -t $TAG --platform=linux/amd64 -f deploy/Dockerfile-$MODE .
 
 docker push $TAG
 
