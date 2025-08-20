@@ -18,6 +18,7 @@ export const SearchInfoPage = () => {
         <div className="flex max-w-3xl flex-col gap-6">
           <p>{translateProject("P1")}</p>
           <p>{translateProject("P2")}</p>
+          <p>© 2025 Van Gogh Museum</p>
         </div>
 
         <div className="my-8 flex flex-col gap-8 md:flex-row md:items-end">
