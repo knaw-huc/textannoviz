@@ -126,7 +126,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     "period",
     "file",
     "persons",
-    "artworksNL",
+    // "artworksNL",
     "artworksEN",
   ],
   overrideDefaultAggs: [
