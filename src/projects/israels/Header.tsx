@@ -42,8 +42,8 @@ export const Header = () => {
           href={routerBasename}
           className="flex flex-col text-inherit no-underline"
         >
-          <span>De brieven van </span>
-          <strong>Isaac Israëls</strong>
+          <strong>{translateProject("TITLE_PT_1")}</strong>
+          <strong>{translateProject("TITLE_PT_2")}</strong>
         </a>
       </div>
       <div className="flex items-center justify-end border-b border-neutral-400">

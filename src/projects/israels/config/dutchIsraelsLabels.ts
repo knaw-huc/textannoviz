@@ -58,6 +58,8 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   artworks: "Kunstwerken",
   introHeader: "Over deze editie",
   bibliography: "Bibliografie",
+  TITLE_PT_1: "De brieven van Isaac Israëls aan",
+  TITLE_PT_2: "Jo van Gogh-Bonger",
 
   //Entity summary
   NAV_TO_LETTER: "Navigeer naar brief",
