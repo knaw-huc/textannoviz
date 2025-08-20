@@ -108,4 +108,6 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
     "Hiermee kunt u de lengte van het tekstfragment rond de treffers in de zoekresultaten instellen, zodat u de relevantie kunt beoordelen voordat u een document opent.",
   FILTER_FACETS_HELP:
     "Gebruik facetten (bijv. personen, locatie) om uw resultaten te verfijnen. Meerdere facetten en waarden kunnen worden gecombineerd.",
+  SEARCH_HISTORY_HELP:
+    "Toont de laatste tien zoekopdrachten uitgevoerd in deze browser. Een klik op een zoekopdracht voert hem opnieuw uit. Het is ook mogelijk een zoekopdracht uit de geschiedenis te verwijderen.",
 });

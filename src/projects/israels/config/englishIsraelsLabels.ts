@@ -108,4 +108,6 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
     "Allows you to set the length of the text snippet around each keyword hit in the search results, helping you judge relevance before opening a document.",
   FILTER_FACETS_HELP:
     "Use facets (e.g., Persons, Location) to narrow down your results. Multiple facets and values can be combined.",
+  SEARCH_HISTORY_HELP:
+    "Shows the last ten searches executed on this browser. Clicking a search re-executes it. It is also possible to remove a previous search from the history.",
 });
