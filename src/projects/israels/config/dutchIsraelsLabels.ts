@@ -14,6 +14,8 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
 
   facetInputFilterPlaceholder: "Zoek in facet",
 
+  SEARCH_IN: "Zoek in",
+
   //Text panel titles
   self: "Brief",
   "text.nl": "Originele tekst",

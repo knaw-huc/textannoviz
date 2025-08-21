@@ -29,7 +29,7 @@ export const SelectSearchInTextViews = () => {
   return (
     <CheckboxGroup value={selected} onChange={setSelected}>
       <Label className="font-semibold">
-        Search in
+        {translateProject("SEARCH_IN")}
         <HelpTooltip label={translateProject("SEARCH_IN_HELP")} />
       </Label>
       {/* TODO: This can also be done on basis of result of /indices and then filter on all fields with type 'text'? */}
