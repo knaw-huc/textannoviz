@@ -16,6 +16,9 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
 
   SEARCH_IN: "Zoek in",
 
+  page: "Pagina",
+  SHOW_PAGE: "Pagina tonen",
+
   //Text panel titles
   self: "Brief",
   "text.nl": "Originele tekst",
@@ -27,6 +30,7 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
 
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
+  SEARCH: "Zoek",
 
   //Search item
   letterOriginalText: "Geëditeerde tekst (brief)",

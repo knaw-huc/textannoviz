@@ -96,7 +96,7 @@ export function DetailSearchResultsNavigation() {
         ]}
       >
         <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-700" />{" "}
-        Search
+        {translateProject("SEARCH")}
       </FooterLink>
       <div className="relative flex items-center border border-stone-500 bg-white text-sm no-underline *:px-1 *:py-2 first-of-type:rounded-l-full last-of-type:rounded-r-full">
         <FooterLink

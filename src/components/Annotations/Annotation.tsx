@@ -47,7 +47,7 @@ export function Annotation(props: AnnotationProps) {
           )}
           {projectConfig.showArtworksTab && (
             <Tab id="artworks" className={tabStyling}>
-              Artworks
+              {translateProject("artworks")}
             </Tab>
           )}
           {projectConfig.showWebAnnoTab && (

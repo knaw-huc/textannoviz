@@ -127,7 +127,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
         >
           ←
           <span className="hidden transition group-hover:inline-block ">
-            Show facsimile
+            {translateProject("SHOW_PAGE")}
           </span>
         </button>
         <div className="border2 inline-flex rounded border-neutral-200 bg-white px-2 py-1  ">
