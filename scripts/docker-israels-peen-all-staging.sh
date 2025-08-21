@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export VERSION=$(npm pkg get version | tr -d \")
+export VERSION=$(npm pkg get version | tr -d \")-staging
 export DOCKER_DOMAIN=registry.diginfra.net/tt
 export PROJECT=israels
 export TITLE="Textannoviz - Israëls"
