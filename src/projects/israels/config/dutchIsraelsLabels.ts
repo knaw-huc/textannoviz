@@ -37,6 +37,7 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   to: "aan",
   intro: "Over deze editie",
   LET_NUM: "Briefnummer",
+  results: "resultaten",
 
   //Metadata panel
   NO_NOTES: "Deze brief bevat geen noten.",

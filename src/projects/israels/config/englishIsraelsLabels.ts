@@ -37,6 +37,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   to: "to",
   intro: "About this edition",
   LET_NUM: "Letter number",
+  results: "results",
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
