@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createSearchHighlightOffsets } from "./createSearchHighlightOffsets.ts";
 
-describe("createLineSearchOffsets", () => {
+describe(createSearchHighlightOffsets.name, () => {
   it("creates search annotation", () => {
     const body = "aa bb cc";
     const regex = /bb/g;

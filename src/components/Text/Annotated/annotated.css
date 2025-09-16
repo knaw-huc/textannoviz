@@ -13,7 +13,7 @@
 @layer components {
   /* nested annotations markup */
 
-  .segmented-line {
+  .segmented-text {
     display: block;
   }
 

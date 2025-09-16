@@ -18,9 +18,9 @@ import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * An {@link AnnotationOffset} (start or end) marks the boundary between two segments,
- * all offsets together result in a line split up into a list of {@link Segment}s.
- * A Segment also contains a list of annotations that apply to that line segment.
- * When a line segment contains no annotations, the segment annotation list will be empty.
+ * all offsets together result in a text split up into a list of {@link Segment}s.
+ * A Segment also contains a list of annotations that apply to that text segment.
+ * When a text segment contains no annotations, the segment annotation list will be empty.
  */
 export class AnnotationSegmenter {
   /**
@@ -55,7 +55,7 @@ export class AnnotationSegmenter {
   private segments: Segment[] = [];
 
   constructor(
-    private line: string,
+    private body: string,
     private allOffsetsAtCharIndex: OffsetsByCharIndex[],
   ) {
     this.endOffsets = this.allOffsetsAtCharIndex
@@ -90,23 +90,23 @@ export class AnnotationSegmenter {
     if (!nextOffsets) {
       return [];
     }
-    const segmentBody = this.line.slice(
+    const segmentBody = this.body.slice(
       offsetsAtCharIndex.charIndex,
       nextOffsets.charIndex,
     );
     if (!segmentBody) {
       return [];
     }
-    return [this.createSegmentFromLine(segmentBody)];
+    return [this.createTextSegment(segmentBody)];
   }
 
   private handleAnnotationlessStart() {
     const firstCharIndex = this.allOffsetsAtCharIndex[0]?.charIndex;
-    const lineStartsWithAnnotation = firstCharIndex === 0;
-    if (!lineStartsWithAnnotation) {
+    const textStartsWithAnnotation = firstCharIndex === 0;
+    if (!textStartsWithAnnotation) {
       this.segments.push({
         index: 0,
-        body: this.line.slice(0, firstCharIndex),
+        body: this.body.slice(0, firstCharIndex),
         annotations: [],
       });
     }
@@ -123,13 +123,13 @@ export class AnnotationSegmenter {
     const lastAnnotatedChar = lastOffsets?.charIndex;
 
     // End offset excludes last char, so no .length-1:
-    const lastChar = this.line.length;
+    const lastChar = this.body.length;
 
-    const lineEndsWithAnnotation = lastAnnotatedChar === lastChar;
-    if (!lineEndsWithAnnotation) {
+    const textEndsWithAnnotation = lastAnnotatedChar === lastChar;
+    if (!textEndsWithAnnotation) {
       this.segments.push({
         index: 0,
-        body: this.line.slice(lastAnnotatedChar, lastChar),
+        body: this.body.slice(lastAnnotatedChar, lastChar),
         annotations: [],
       });
     }
@@ -157,10 +157,10 @@ export class AnnotationSegmenter {
     );
   }
 
-  private createSegmentFromLine(lineFromCurrentToNextOffset: string): Segment {
+  private createTextSegment(textFromCurrentToNextOffset: string): Segment {
     return {
       index: this.segments.length,
-      body: lineFromCurrentToNextOffset,
+      body: textFromCurrentToNextOffset,
       annotations: [...this.currentAnnotationSegments],
     };
   }

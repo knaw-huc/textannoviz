@@ -1,6 +1,6 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { SegmentedLine } from "./SegmentedLine.tsx";
+import { SegmentedText } from "./SegmentedText.tsx";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import "./annotated.css";
 import {
@@ -8,10 +8,10 @@ import {
   useProjectStore,
 } from "../../../stores/project.ts";
 import {
-  createAnnotationLineOffsets,
-  createMarkerLineOffsets,
-} from "./utils/createLineOffsets.ts";
-import { LineOffsets } from "./AnnotationModel.ts";
+  createAnnotationTextOffsets,
+  createMarkerTextOffsets,
+} from "./utils/createTextOffsets.ts";
+import { TextOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 
@@ -31,11 +31,11 @@ type TextHighlightingProps = {
  *   - grouped annotations share a group with ID
  * - Depth: the number of levels that an annotation is nested in parent annotations or overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
- * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
- * - Offset: start or end character index of an annotation in a line
+ * - Text: piece of annotated text as received from broccoli, as found in the body of {@link BroccoliTextGeneric}
+ * - Offset: start or end character index of an annotation in a text
  *   - begin index marks first character to include
- *   - end index marks first character to exclude (note: see {@link LineOffsets})
- * - Segment: piece of line or annotation uninterrupted by annotation offsets
+ *   - end index marks first character to exclude (note: see {@link TextOffsets})
+ * - Segment: piece of text or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
   const {
@@ -52,14 +52,14 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const textBody = props.text.body;
   const relativeAnnotations = props.text.locations.annotations;
   // No offsets when no relative annotations
-  const offsets: LineOffsets[] = [];
+  const offsets: TextOffsets[] = [];
 
   const nestedAnnotationTypes = [...entityAnnotationTypes];
   if (relativeAnnotations.length) {
     const nestedAnnotations = annotations
       .filter((a) => nestedAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
-        createAnnotationLineOffsets(
+        createAnnotationTextOffsets(
           annotation,
           relativeAnnotations,
           "annotation",
@@ -69,7 +69,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     const highlightedAnnotations = annotations
       .filter((a) => highlightedAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
-        createAnnotationLineOffsets(
+        createAnnotationTextOffsets(
           annotation,
           relativeAnnotations,
           "highlight",
@@ -90,12 +90,12 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     ...annotations
       .filter((a) => markerAnnotations.includes(a.body.type))
       .map((annotation) =>
-        createMarkerLineOffsets(annotation, relativeAnnotations),
+        createMarkerTextOffsets(annotation, relativeAnnotations),
       ),
   );
   return (
     <div>
-      <SegmentedLine line={textBody} offsets={offsets} />
+      <SegmentedText body={textBody} offsets={offsets} />
     </div>
   );
 };

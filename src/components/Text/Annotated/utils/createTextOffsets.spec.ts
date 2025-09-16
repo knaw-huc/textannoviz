@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
-  createMarkerLineOffsets,
-  createAnnotationLineOffsets,
-} from "./createLineOffsets.ts";
+  createMarkerTextOffsets,
+  createAnnotationTextOffsets,
+} from "./createTextOffsets.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
-describe("createLineOffsets", () => {
+describe("createTextOffsets", () => {
   it("excludes end character", () => {
     const annotation = {
       id: "https://annorepo.republic-caf.diginfra.org/w3c/republic-2024.05.17/4406d529-6ed2-45fc-ba99-2f5bc1da6997",
@@ -44,7 +44,7 @@ describe("createLineOffsets", () => {
         end: 194,
       },
     ];
-    const result = createAnnotationLineOffsets(
+    const result = createAnnotationTextOffsets(
       annotation,
       positionsRelativeToView,
       "annotation",
@@ -72,7 +72,7 @@ describe("createLineOffsets", () => {
         start: 5,
       } as BroccoliRelativeAnno,
     ];
-    const result = createMarkerLineOffsets(annotation, positionsRelativeToView);
+    const result = createMarkerTextOffsets(annotation, positionsRelativeToView);
     expect(result.body.id).toEqual("urn:foo:ptr:1978932");
     expect(result.type).toEqual("marker");
     expect(result.startChar).toEqual(5);

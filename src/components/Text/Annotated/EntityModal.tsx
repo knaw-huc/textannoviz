@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 
 import { StyledText } from "../StyledText.tsx";
-import { LineSegmentsViewer } from "./LineSegmentsViewer.tsx";
+import { TextSegmentsViewer } from "./TextSegmentsViewer.tsx";
 import _ from "lodash";
 import {
   GroupedSegments,
@@ -49,7 +49,7 @@ export function EntityModal(props: EntityModalProps) {
   return (
     <ScrollableModal>
       <StyledText panel="text-modal">
-        <LineSegmentsViewer
+        <TextSegmentsViewer
           segments={clickedGroup.segments}
           groupId={clickedGroup.id}
           showDetails={true}

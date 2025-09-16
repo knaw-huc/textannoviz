@@ -1,12 +1,12 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { LineOffsets } from "../AnnotationModel.ts";
+import { TextOffsets } from "../AnnotationModel.ts";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
-export function createAnnotationLineOffsets(
+export function createAnnotationTextOffsets(
   annotation: AnnoRepoAnnotation,
   allRelativePositions: BroccoliRelativeAnno[],
   type: "annotation" | "highlight",
-): LineOffsets {
+): TextOffsets {
   const relativePosition = getPositionRelativeToView(
     allRelativePositions,
     annotation,
@@ -24,10 +24,10 @@ export function createAnnotationLineOffsets(
 /**
  * Mark start of page using end offset
  */
-export function createMarkerLineOffsets(
+export function createMarkerTextOffsets(
   annotation: AnnoRepoAnnotation,
   allRelativePositions: BroccoliRelativeAnno[],
-): LineOffsets {
+): TextOffsets {
   const relativePosition = getPositionRelativeToView(
     allRelativePositions,
     annotation,

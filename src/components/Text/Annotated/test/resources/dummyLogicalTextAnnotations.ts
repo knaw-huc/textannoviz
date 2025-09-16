@@ -1,13 +1,13 @@
 import {
   AnnotationBody,
   OffsetsByCharIndex,
-  LineOffsets,
+  TextOffsets,
 } from "../../AnnotationModel.ts";
 
 /**
  * aa<anno1>bb<anno2><anno3>cc</anno2></anno1>dd</anno3>ee
  */
-export const line = "aabbccddee";
+export const body = "aabbccddee";
 
 /**
  * Annotated sections:
@@ -17,7 +17,7 @@ export const line = "aabbccddee";
  * dd (6,7) -> anno3
  * ee (8,9) -> none
  */
-export const annotations: LineOffsets[] = [
+export const annotations: TextOffsets[] = [
   {
     type: "annotation",
     body: { id: "anno1" } as AnnotationBody,

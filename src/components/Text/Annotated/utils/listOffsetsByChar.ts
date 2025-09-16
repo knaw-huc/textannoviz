@@ -2,16 +2,16 @@ import _ from "lodash";
 import {
   AnnotationOffset,
   OffsetsByCharIndex,
-  LineOffsets,
+  TextOffsets,
 } from "../AnnotationModel.ts";
 
 /**
  * List all start and end offsets of annotations per character index
  *
- * Excluding last character (see note {@link LineOffsets})
+ * Excluding last character (see note {@link TextOffsets})
  */
 export function listOffsetsByChar(
-  offsets: LineOffsets[],
+  offsets: TextOffsets[],
 ): OffsetsByCharIndex[] {
   const annotationPositions = new Map<number, AnnotationOffset[]>();
   for (const offset of offsets) {
