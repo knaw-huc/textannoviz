@@ -1,12 +1,10 @@
-import * as _ from "lodash";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { LineOffsets } from "../AnnotationModel.ts";
+import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
 export function createAnnotationLineOffsets(
   annotation: AnnoRepoAnnotation,
-  allRelativePositions: BroccoliViewPosition[],
-  lines: string[],
+  allRelativePositions: BroccoliRelativeAnno[],
   type: "annotation" | "highlight",
 ): LineOffsets {
   const relativePosition = getPositionRelativeToView(
@@ -14,19 +12,12 @@ export function createAnnotationLineOffsets(
     annotation,
   );
 
-  let endChar;
-  if (_.has(relativePosition.end, "offset")) {
-    endChar = relativePosition.end.offset! + 1;
-  } else {
-    endChar = lines[relativePosition.end.line].length;
-  }
-
+  // TODO: still +1 needed?
   return {
     type,
     body: annotation.body,
-    lineIndex: relativePosition.start.line,
-    startChar: relativePosition.start.offset ?? 0,
-    endChar,
+    startChar: relativePosition.start ?? 0,
+    endChar: relativePosition.end,
   };
 }
 
@@ -35,24 +26,23 @@ export function createAnnotationLineOffsets(
  */
 export function createMarkerLineOffsets(
   annotation: AnnoRepoAnnotation,
-  allRelativePositions: BroccoliViewPosition[],
+  allRelativePositions: BroccoliRelativeAnno[],
 ): LineOffsets {
   const relativePosition = getPositionRelativeToView(
     allRelativePositions,
     annotation,
   );
-  const startChar = relativePosition.start.offset ?? 0;
+  const startChar = relativePosition.start ?? 0;
   return {
     type: "marker",
     body: annotation.body,
-    lineIndex: relativePosition.start.line,
     startChar,
     endChar: startChar,
   };
 }
 
 function getPositionRelativeToView(
-  positionsRelativeToView: BroccoliViewPosition[],
+  positionsRelativeToView: BroccoliRelativeAnno[],
   annotation: AnnoRepoAnnotation,
 ) {
   const positionRelativeToView = positionsRelativeToView.find(

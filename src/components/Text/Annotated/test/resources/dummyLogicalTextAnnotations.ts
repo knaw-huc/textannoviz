@@ -21,21 +21,18 @@ export const annotations: LineOffsets[] = [
   {
     type: "annotation",
     body: { id: "anno1" } as AnnotationBody,
-    lineIndex: 0,
     startChar: 2,
     endChar: 6,
   },
   {
     type: "annotation",
     body: { id: "anno2" } as AnnotationBody,
-    lineIndex: 0,
     startChar: 4,
     endChar: 6,
   },
   {
     type: "annotation",
     body: { id: "anno3" } as AnnotationBody,
-    lineIndex: 0,
     startChar: 4,
     endChar: 8,
   },

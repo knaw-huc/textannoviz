@@ -3,8 +3,8 @@ import {
   createMarkerLineOffsets,
   createAnnotationLineOffsets,
 } from "./createLineOffsets.ts";
-import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
+import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
 describe("createLineOffsets", () => {
   it("excludes end character", () => {
@@ -36,27 +36,17 @@ describe("createLineOffsets", () => {
         },
       ],
     } as AnnoRepoAnnotation;
-    const positionsRelativeToView: BroccoliViewPosition[] = [
+    const positionsRelativeToView: BroccoliRelativeAnno[] = [
       {
         bodyId:
           "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
-        start: {
-          line: 0,
-          offset: 162,
-        },
-        end: {
-          line: 0,
-          offset: 193,
-        },
+        start: 162,
+        end: 194,
       },
-    ];
-    const lines = [
-      "Synde ter vergaderinge gelesen de rekest van weduwe van wylen den Capn. Willem Bouwensz keert de koe om te hebben betalinge van twee ordonnantien die sy aen t' Collegie ter admt. tot Rotterdam ten achteren staet.",
     ];
     const result = createAnnotationLineOffsets(
       annotation,
       positionsRelativeToView,
-      lines,
       "annotation",
     );
     expect(result.body.id).toEqual(
@@ -76,14 +66,11 @@ describe("createLineOffsets", () => {
         metadata: {},
       },
     } as unknown as AnnoRepoAnnotation;
-    const positionsRelativeToView: BroccoliViewPosition[] = [
+    const positionsRelativeToView: BroccoliRelativeAnno[] = [
       {
         bodyId: "urn:foo:ptr:1978932",
-        start: {
-          line: 0,
-          offset: 5,
-        },
-      } as BroccoliViewPosition,
+        start: 5,
+      } as BroccoliRelativeAnno,
     ];
     const result = createMarkerLineOffsets(annotation, positionsRelativeToView);
     expect(result.body.id).toEqual("urn:foo:ptr:1978932");

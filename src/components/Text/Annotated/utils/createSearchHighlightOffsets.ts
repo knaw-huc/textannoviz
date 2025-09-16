@@ -1,26 +1,22 @@
 import { LineOffsets, HighlightBody } from "../AnnotationModel.ts";
 
 export function createSearchHighlightOffsets(
-  lines: string[],
+  body: string,
   regex: RegExp | undefined,
 ): LineOffsets[] {
   const annotations: LineOffsets[] = [];
   if (!regex) {
     return annotations;
   }
-  for (let i = 0; i < lines.length; i++) {
-    annotations.push(...createSearchAnnotation(lines, i, regex));
-  }
+  annotations.push(...createSearchAnnotation(body, regex));
   return annotations;
 }
 
 function createSearchAnnotation(
-  lines: string[],
-  index: number,
+  body: string,
   regex: RegExp,
 ): LineOffsets<HighlightBody>[] {
-  const line = lines[index];
-  const matches = findStartEndChars(line, regex);
+  const matches = findStartEndChars(body, regex);
   return matches.map((startEndChars, i) => {
     return {
       type: "highlight",
@@ -28,7 +24,6 @@ function createSearchAnnotation(
         id: `search-highlight-${i + 1}`,
         type: "search",
       },
-      lineIndex: index,
       startChar: startEndChars[0],
       endChar: startEndChars[1],
     };

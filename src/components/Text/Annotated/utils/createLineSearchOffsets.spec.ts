@@ -3,9 +3,9 @@ import { createSearchHighlightOffsets } from "./createSearchHighlightOffsets.ts"
 
 describe("createLineSearchOffsets", () => {
   it("creates search annotation", () => {
-    const lines = ["aa bb cc"];
+    const body = "aa bb cc";
     const regex = /bb/g;
-    const result = createSearchHighlightOffsets(lines, regex);
+    const result = createSearchHighlightOffsets(body, regex);
     expect(result[0].type).toEqual("highlight");
     expect(result[0].body.type).toEqual("search");
     expect(result[0].startChar).toEqual(3);

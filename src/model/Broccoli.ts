@@ -21,18 +21,12 @@ export interface Broccoli {
 
 export type BroccoliRelativeAnno = {
   bodyId: string;
-  start: {
-    line: number;
-    offset?: number;
-  };
-  end: {
-    line: number;
-    offset?: number;
-  };
+  start: number;
+  end: number;
 };
 
 export interface BroccoliTextGeneric {
-  lines: string[];
+  body: string;
   locations: {
     relativeTo: {
       bodyType: string;

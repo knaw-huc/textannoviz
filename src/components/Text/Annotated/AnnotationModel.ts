@@ -54,7 +54,6 @@ export type WithTypeAndBody<T extends AnnotationBody> = {
  */
 export type LineOffsets<T extends AnnotationBody = AnnotationBody> =
   WithTypeAndBody<T> & {
-    lineIndex: number;
     startChar: number;
 
     /**

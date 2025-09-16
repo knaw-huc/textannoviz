@@ -1,18 +1,12 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-// import { createSearchRegex } from "../createSearchRegex.tsx";
 import { SegmentedLine } from "./SegmentedLine.tsx";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
-// import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import "./annotated.css";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
-import {
-  AnnoRepoAnnotation,
-  isLogicalTextAnchorTarget,
-} from "../../../model/AnnoRepoAnnotation.ts";
 import {
   createAnnotationLineOffsets,
   createMarkerLineOffsets,
@@ -55,34 +49,29 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
-  const lines = props.text.lines;
-
+  const textBody = props.text.body;
   const relativeAnnotations = props.text.locations.annotations;
   // No offsets when no relative annotations
   const offsets: LineOffsets[] = [];
 
-  const singleLineAnnotations = annotations.filter(withTargetInSingleLine);
-
   const nestedAnnotationTypes = [...entityAnnotationTypes];
   if (relativeAnnotations.length) {
-    const nestedAnnotations = singleLineAnnotations
+    const nestedAnnotations = annotations
       .filter((a) => nestedAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
         createAnnotationLineOffsets(
           annotation,
           relativeAnnotations,
-          lines,
           "annotation",
         ),
       );
     offsets.push(...nestedAnnotations);
-    const highlightedAnnotations = singleLineAnnotations
+    const highlightedAnnotations = annotations
       .filter((a) => highlightedAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
         createAnnotationLineOffsets(
           annotation,
           relativeAnnotations,
-          lines,
           "highlight",
         ),
       );
@@ -90,7 +79,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   }
 
   const searchHighlight = createSearchRegex(searchTerms, tier2);
-  offsets.push(...createSearchHighlightOffsets(lines, searchHighlight));
+  offsets.push(...createSearchHighlightOffsets(textBody, searchHighlight));
 
   const markerAnnotations = [
     ...tooltipMarkerAnnotationTypes,
@@ -106,30 +95,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   );
   return (
     <div>
-      {props.text.lines.map((line, index) => (
-        <SegmentedLine
-          key={index}
-          line={line}
-          offsets={offsets.filter((a) => a.lineIndex === index)}
-        />
-      ))}
+      <SegmentedLine line={textBody} offsets={offsets} />
     </div>
   );
 };
-
-function withTargetInSingleLine(a: AnnoRepoAnnotation) {
-  if (!Array.isArray(a.target)) {
-    return false;
-  }
-  const textAnchorSelector = a.target.find(isLogicalTextAnchorTarget);
-  if (!textAnchorSelector) {
-    return false;
-  }
-  if (textAnchorSelector.selector.start !== textAnchorSelector.selector.end) {
-    console.debug(
-      `Ignoring annotation that spans multiple lines: ${a.body.id}`,
-    );
-    return false;
-  }
-  return true;
-}
