@@ -39,8 +39,8 @@ type TextHighlightingProps = {
  *   (when two annotations overlap, the second annotation has a depth of 2)
  * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
  * - Offset: start or end character index of an annotation in a line
- *   - start index marks first character to include
- *   - stop index marks first character to exclude
+ *   - begin index marks first character to include
+ *   - end index marks first character to exclude (note: see {@link LineOffsets})
  * - Segment: piece of line or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {

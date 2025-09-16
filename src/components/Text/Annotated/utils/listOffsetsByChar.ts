@@ -8,7 +8,7 @@ import {
 /**
  * List all start and end offsets of annotations per character index
  *
- * Excluding last character (see note {@link AnnotationOffsets})
+ * Excluding last character (see note {@link LineOffsets})
  */
 export function listOffsetsByChar(
   offsets: LineOffsets[],
