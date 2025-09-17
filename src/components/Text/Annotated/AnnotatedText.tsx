@@ -94,7 +94,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
       ),
   );
   return (
-    <div>
+    <div className="whitespace-pre-wrap">
       <SegmentedText body={textBody} offsets={offsets} />
     </div>
   );
