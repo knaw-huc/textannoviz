@@ -14,6 +14,7 @@ import {
 import { TextOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
+import uniq from "lodash/uniq";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -45,7 +46,15 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     entityAnnotationTypes,
     highlightedAnnotationTypes,
   } = useProjectStore(projectConfigSelector);
-  const annotations = useAnnotationStore().annotations;
+  const typesToInclude = uniq([
+    ...entityAnnotationTypes,
+    ...highlightedAnnotationTypes,
+    ...tooltipMarkerAnnotationTypes,
+    ...insertTextMarkerAnnotationTypes,
+  ]);
+  const annotations = useAnnotationStore().annotations.filter((a) =>
+    typesToInclude.includes(a.body.type),
+  );
 
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
