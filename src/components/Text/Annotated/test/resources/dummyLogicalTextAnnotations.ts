@@ -21,19 +21,19 @@ export const annotations: TextOffsets[] = [
   {
     type: "annotation",
     body: { id: "anno1" } as AnnotationBody,
-    startChar: 2,
+    beginChar: 2,
     endChar: 6,
   },
   {
     type: "annotation",
     body: { id: "anno2" } as AnnotationBody,
-    startChar: 4,
+    beginChar: 4,
     endChar: 6,
   },
   {
     type: "annotation",
     body: { id: "anno3" } as AnnotationBody,
-    startChar: 4,
+    beginChar: 4,
     endChar: 8,
   },
 ];

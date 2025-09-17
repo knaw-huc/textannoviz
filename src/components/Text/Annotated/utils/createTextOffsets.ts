@@ -16,7 +16,7 @@ export function createAnnotationTextOffsets(
   return {
     type,
     body: annotation.body,
-    startChar: relativePosition.start ?? 0,
+    beginChar: relativePosition.begin ?? 0,
     endChar: relativePosition.end,
   };
 }
@@ -32,11 +32,11 @@ export function createMarkerTextOffsets(
     allRelativePositions,
     annotation,
   );
-  const startChar = relativePosition.start ?? 0;
+  const startChar = relativePosition.begin ?? 0;
   return {
     type: "marker",
     body: annotation.body,
-    startChar,
+    beginChar: startChar,
     endChar: startChar,
   };
 }

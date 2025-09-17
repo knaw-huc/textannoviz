@@ -24,7 +24,7 @@ function createSearchAnnotation(
         id: `search-highlight-${i + 1}`,
         type: "search",
       },
-      startChar: startEndChars[0],
+      beginChar: startEndChars[0],
       endChar: startEndChars[1],
     };
   });

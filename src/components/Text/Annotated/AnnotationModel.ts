@@ -54,7 +54,7 @@ export type WithTypeAndBody<T extends AnnotationBody> = {
  */
 export type TextOffsets<T extends AnnotationBody = AnnotationBody> =
   WithTypeAndBody<T> & {
-    startChar: number;
+    beginChar: number;
 
     /**
      * Excluding last character (see note {@link TextOffsets})

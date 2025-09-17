@@ -40,7 +40,7 @@ describe("createTextOffsets", () => {
       {
         bodyId:
           "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
-        start: 162,
+        begin: 162,
         end: 194,
       },
     ];
@@ -52,7 +52,7 @@ describe("createTextOffsets", () => {
     expect(result.body.id).toEqual(
       "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
     );
-    expect(result.startChar).toEqual(162);
+    expect(result.beginChar).toEqual(162);
     expect(result.endChar).toEqual(194);
   });
 
@@ -69,13 +69,13 @@ describe("createTextOffsets", () => {
     const positionsRelativeToView: BroccoliRelativeAnno[] = [
       {
         bodyId: "urn:foo:ptr:1978932",
-        start: 5,
+        begin: 5,
       } as BroccoliRelativeAnno,
     ];
     const result = createMarkerTextOffsets(annotation, positionsRelativeToView);
     expect(result.body.id).toEqual("urn:foo:ptr:1978932");
     expect(result.type).toEqual("marker");
-    expect(result.startChar).toEqual(5);
+    expect(result.beginChar).toEqual(5);
     expect(result.endChar).toEqual(5);
   });
 });

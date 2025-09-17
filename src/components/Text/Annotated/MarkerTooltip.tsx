@@ -88,5 +88,5 @@ function createNoteBody(view: BroccoliTextGeneric, noteBodyId: string) {
   if (!noteOffsets) {
     throw new Error(`No relative note found for ${noteBodyId}`);
   }
-  return view.body.slice(noteOffsets.start, noteOffsets.end);
+  return view.body.slice(noteOffsets.begin, noteOffsets.end);
 }

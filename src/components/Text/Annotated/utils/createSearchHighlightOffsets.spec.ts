@@ -8,7 +8,7 @@ describe(createSearchHighlightOffsets.name, () => {
     const result = createSearchHighlightOffsets(body, regex);
     expect(result[0].type).toEqual("highlight");
     expect(result[0].body.type).toEqual("search");
-    expect(result[0].startChar).toEqual(3);
+    expect(result[0].beginChar).toEqual(3);
     expect(result[0].endChar).toEqual(5);
   });
 });

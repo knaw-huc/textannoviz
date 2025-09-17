@@ -21,7 +21,7 @@ export interface Broccoli {
 
 export type BroccoliRelativeAnno = {
   bodyId: string;
-  start: number;
+  begin: number;
   end: number;
 };
 
