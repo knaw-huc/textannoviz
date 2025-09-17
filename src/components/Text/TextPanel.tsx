@@ -7,6 +7,7 @@ import {
 } from "../../stores/project";
 import { AnnotatedText } from "./Annotated/AnnotatedText.tsx";
 import { StyledText } from "./StyledText.tsx";
+import { TextHighlighting } from "./TextHighlighting.tsx";
 
 type TextPanelProps = {
   panel: string;
@@ -42,7 +43,7 @@ export const TextPanel = (props: TextPanelProps) => {
         {projectConfig.showAnnotations ? (
           <AnnotatedText text={props.text} showDetail={false} />
         ) : (
-          <>TODO: Reimplement TextHighlighting with two coordinates?</>
+          <TextHighlighting text={props.text} />
         )}
       </div>
     </StyledText>
