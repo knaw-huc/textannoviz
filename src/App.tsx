@@ -86,7 +86,6 @@ async function selectProjectConfig() {
 
   if (prodMode) {
     const externalConfig = await fetchExternalConfig(routerBasename);
-    console.log(externalConfig);
 
     if (externalConfig) {
       const {
