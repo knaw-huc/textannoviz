@@ -7,7 +7,12 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
-import { ViewLang } from "../../model/Broccoli.ts";
+import {
+  BroccoliTextGeneric,
+  ViewLang,
+  Broccoli,
+} from "../../model/Broccoli.ts";
+import React from "react";
 
 type TextComponentProps = {
   viewToRender: string;
@@ -19,7 +24,24 @@ export const TextComponent = (props: TextComponentProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const [view, lang] = props.viewToRender.split(".") as ["text", ViewLang];
+  const [view, lang] = props.viewToRender.split(".") as [
+    keyof Broccoli["views"],
+    ViewLang,
+  ];
+
+  const text: BroccoliTextGeneric | undefined = React.useMemo(() => {
+    const candidate = textViews?.[view];
+    if (!candidate) return;
+
+    if (
+      typeof candidate === "object" &&
+      candidate !== null &&
+      lang in candidate
+    ) {
+      return (candidate as Record<string, BroccoliTextGeneric>)[lang];
+    }
+    return candidate as BroccoliTextGeneric;
+  }, [textViews, view, lang]);
 
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r">
@@ -33,16 +55,13 @@ export const TextComponent = (props: TextComponentProps) => {
         >
           {translateProject(`${props.viewToRender}`)}
         </span>
-        {textViews && !props.isLoading ? (
+        {text && !props.isLoading ? (
           <div className="flex justify-center">
             <div className="prose max-w-[550px]" role="textpanel">
               {projectConfig.showAnnotations ? (
-                <AnnotatedText
-                  text={textViews[view][lang]}
-                  showDetail={false}
-                />
+                <AnnotatedText text={text} showDetail={false} />
               ) : (
-                <TextHighlighting text={textViews[view][lang]} />
+                <TextHighlighting text={text} />
               )}
             </div>
           </div>
