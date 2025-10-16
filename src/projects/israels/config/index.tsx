@@ -34,6 +34,7 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
 import { Bibliography } from "../Bibliography";
 import { Help } from "../Help";
+import { TextPanels } from "../TextPanels";
 
 export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
@@ -182,14 +183,14 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
       visible: true,
       disabled: false,
       size: "minmax(300px, 750px)",
-      panel: PanelTemplates.origTextPanel,
+      panel: TextPanels.origTextPanel,
     },
     {
       name: "text.en",
       visible: true,
       disabled: false,
       size: "minmax(300px, 750px)",
-      panel: PanelTemplates.transTextPanel,
+      panel: TextPanels.transTextPanel,
     },
     {
       name: "metadata",
