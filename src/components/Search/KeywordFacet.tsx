@@ -154,8 +154,8 @@ export function KeywordFacet(props: {
             </div>
           );
         })}
-        {projectName === "republic" ||
-        (projectName === "israels" && facetLength > 10) ? (
+        {(projectName === "republic" || projectName === "israels") &&
+        facetLength > 10 ? (
           //TODO: make generic
           <span className="pl-2 text-sm text-neutral-500">
             {Math.min(maxFacetItemsVisible, facetLength)} van {facetLength}{" "}
