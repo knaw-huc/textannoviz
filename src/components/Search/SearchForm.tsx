@@ -293,7 +293,6 @@ export function SearchForm(props: SearchFormProps) {
 
       {projectConfig.showFragmenter && (
         <div className="w-full max-w-[450px]">
-          {/* TODO: 14082025 > Fragmenter is currently broken in Broccoli? */}
           <FragmenterSelection
             onChange={updateFragmenter}
             value={searchParams.fragmentSize}
