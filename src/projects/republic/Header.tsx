@@ -54,7 +54,7 @@ export const Header = () => {
         </nav>
       </div>
 
-      <div className="hidden items-center justify-center border-b border-neutral-400 sm:flex">
+      <div className="hidden items-center justify-center sm:flex">
         <LanguageMenu />
       </div>
       {isOnDetailPage ? <DetailPageInfoHeader /> : null}
