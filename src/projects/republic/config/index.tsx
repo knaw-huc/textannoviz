@@ -22,6 +22,7 @@ import projectCss from "../project.css?inline";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
 import { TextPanels } from "../TextPanels.tsx";
+import { Header } from "../Header.tsx";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -127,6 +128,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
     HelpLink,
     SearchInfoPage,
+    Header,
   },
   defaultLanguage: "nl",
   languages: [
