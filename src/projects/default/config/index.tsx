@@ -103,4 +103,5 @@ export const defaultConfig: DefaultProjectConfig = {
   searchSorting: [],
   annoToEntityCategory: "",
   viewsToSearchIn: [],
+  showSearchInTextViews: false,
 };

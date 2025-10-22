@@ -272,9 +272,11 @@ export function SearchForm(props: SearchFormProps) {
         </div>
       )}
 
-      <div className="w-full max-w-[450px]">
-        <SelectSearchInTextViews />
-      </div>
+      {projectConfig.showSearchInTextViews && (
+        <div className="w-full max-w-[450px]">
+          <SelectSearchInTextViews />
+        </div>
+      )}
 
       {searchResults && projectConfig.showNewSearchButton && (
         <NewSearchButton />

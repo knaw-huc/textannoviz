@@ -240,4 +240,5 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     "introNotesText",
   ],
   showMiradorNavigationButtons: true,
+  showSearchInTextViews: true,
 } as ProjectSpecificConfig);

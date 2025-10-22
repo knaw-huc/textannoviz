@@ -143,6 +143,7 @@ type SearchConfig = {
   showFacetFilter: boolean;
   searchSorting: { name: string; value: string }[];
   viewsToSearchIn: string[];
+  showSearchInTextViews: boolean;
 };
 
 type AnnotationConfig = {
