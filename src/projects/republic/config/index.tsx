@@ -120,7 +120,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     "roleName",
   ],
   showFacetFilter: true,
-  showWebAnnoTab: false,
+  showWebAnnoTab: true,
   components: {
     EntitySummary,
     MetadataPanel,

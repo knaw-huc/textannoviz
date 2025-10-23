@@ -167,6 +167,9 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
         activeFootnote === footnoteNumber ? "bg-[#FFCE01]" : "bg-white"
       }`}
       onClick={() => spanClickHandler(footnoteNumber)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={() => spanClickHandler(footnoteNumber)}
     >
       {/* 31-07-2025: footnote tooltips are disabled for now.
         - The tooltips cannot be triggered via touch devices

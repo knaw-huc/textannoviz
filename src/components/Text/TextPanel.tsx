@@ -21,10 +21,7 @@ export const TextPanel = (props: TextPanelProps) => {
 
   return (
     <>
-      <span
-        className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500"
-        tabIndex={0}
-      >
+      <span className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500">
         {translateProject(`${props.panel}`)}
       </span>
 
@@ -38,6 +35,8 @@ export const TextPanel = (props: TextPanelProps) => {
       )}
 
       <div className="flex justify-center">
+        {/* TODO 23102025: Use one of the pre-defined ARIA roles */}
+        {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <div className="prose max-w-[450px]" role="textpanel">
           {projectConfig.showAnnotations ? (
             <AnnotatedText text={props.text} showDetail={false} />

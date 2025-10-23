@@ -26,7 +26,7 @@ export const SearchItem = (
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
-      <li className="mb-3 text-base" tabIndex={0}>
+      <li className="mb-3 text-base">
         <span className="font-semibold">
           {firstLetterToUppercase(props.result.viewType)}
         </span>

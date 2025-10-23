@@ -37,6 +37,8 @@ export const ArtworksTab = () => {
                 parseInt(artwork.graphic.width),
                 200,
               )},/0/default.jpg`}
+              alt={artwork.head[interfaceLang]}
+              loading="lazy"
             />
             <div className="font-bold">{artwork.head[interfaceLang]}</div>
             <div>

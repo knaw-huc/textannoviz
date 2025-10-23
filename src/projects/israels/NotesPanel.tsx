@@ -26,6 +26,8 @@ export const NotesPanel = () => {
   if (!notes) return <div>{translateProject("NO_NOTES")}</div>;
 
   return (
+    //TODO 23102025: Use one of the pre-defined ARIA roles
+    //eslint-disable-next-line jsx-a11y/aria-role
     <div role="notespanel" className="flex flex-col" key={interfaceLang}>
       {Object.entries(notes).map(([footnoteNumber, note]) => (
         <div

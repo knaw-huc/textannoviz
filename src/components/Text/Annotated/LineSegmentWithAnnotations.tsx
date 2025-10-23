@@ -22,6 +22,11 @@ export function LineSegmentWithAnnotations(
   return (
     <span
       className="annotated-segment"
+      role="button"
+      tabIndex={0}
+      onKeyDown={() =>
+        props.onClickSegment && props.onClickSegment(props.segment)
+      }
       onClick={() =>
         props.onClickSegment && props.onClickSegment(props.segment)
       }

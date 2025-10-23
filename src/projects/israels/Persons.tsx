@@ -8,6 +8,7 @@ import { handleAbort } from "../../utils/handleAbort";
 import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
 import { useProjectStore } from "../../stores/project";
+import { Button } from "react-aria-components";
 
 export function Persons() {
   const [persons, setPersons] = React.useState<Persons>();
@@ -95,13 +96,13 @@ export function Persons() {
               <div className="flex flex-row items-center justify-end gap-1">
                 {per.source
                   ? per.source.map((src, index) => (
-                      <span
-                        className="flex cursor-pointer items-center"
-                        onClick={() => window.open(src, "_blank")}
+                      <Button
+                        className="flex items-center"
+                        onPress={() => window.open(src, "_blank")}
                         key={index}
                       >
                         <HelpIcon />
-                      </span>
+                      </Button>
                     ))
                   : null}
 

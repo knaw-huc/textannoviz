@@ -90,7 +90,10 @@ const ArtworkEntity = (props: { artworks: Artworks }) => {
             </p>
           </div>
           <div className="flex grow justify-end pb-4">
-            <img src={`${artwork.graphic.url}/full/200,/0/default.jpg`} />
+            <img
+              src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
+              alt={artwork.head[interfaceLang]}
+            />
           </div>
         </div>
       ))}

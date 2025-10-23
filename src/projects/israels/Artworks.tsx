@@ -133,6 +133,8 @@ export function Artworks() {
                   parseInt(artw.graphic.width),
                   200,
                 )},/0/default.jpg`}
+                alt={artw.head[interfaceLang]}
+                loading="lazy"
               />
             </div>
           </div>

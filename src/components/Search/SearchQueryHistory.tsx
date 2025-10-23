@@ -48,14 +48,17 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
                   <span className="query-date text-neutral-500">
                     {formatQueryDate(entry.date)}
                   </span>
-                  <span
+                  <Button
                     className="query-delete p-1 text-xl text-neutral-500"
-                    onClick={() => removeFromHistory(entry.date)}
+                    onPress={() => removeFromHistory(entry.date)}
                   >
                     &#10006;
-                  </span>
+                  </Button>
                   <div
                     onClick={() => props.goToQuery(query)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => props.goToQuery(query)}
                     className="search-query cursor-pointer hover:underline"
                   >
                     {query.fullText && (
