@@ -166,6 +166,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   },
   defaultLanguage: "en",
   zoomAnnoMirador: true,
+  miradorZoomRatio: 1.5,
   languages: [
     { code: "nl", labels: dutchIsraelsLabels },
     { code: "en", labels: englishIsraelsLabels },

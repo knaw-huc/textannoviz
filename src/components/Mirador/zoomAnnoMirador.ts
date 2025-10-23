@@ -37,7 +37,7 @@ export function zoomAnnoMirador(
           x: zoomCoords.zoomCenter.x,
           y: zoomCoords.zoomCenter.y,
           //TODO: reset to 0.75 or make configurable per project
-          zoom: 1.5 / zoomCoords.miradorZoom,
+          zoom: projectConfig.miradorZoomRatio / zoomCoords.miradorZoom,
           flip: false,
           rotation: 0,
         }),

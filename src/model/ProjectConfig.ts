@@ -63,6 +63,7 @@ type FacsimileConfig = {
   showSettingsMenuFooter: boolean;
   defaultShowMetadataPanel: boolean;
   zoomAnnoMirador: boolean;
+  miradorZoomRatio: number;
   showMirador: boolean;
   showMiradorNavigationButtons: boolean;
   pageAnnotation: string;

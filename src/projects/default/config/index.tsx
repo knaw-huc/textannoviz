@@ -40,6 +40,7 @@ export const defaultConfig: DefaultProjectConfig = {
   defaultShowMetadataPanel: true,
   showToggleTextPanels: false,
   zoomAnnoMirador: false,
+  miradorZoomRatio: 0.75,
   logoHref: "/",
   showSearchQueryHistory: true,
   showDateFacets: true,
