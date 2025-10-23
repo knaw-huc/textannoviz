@@ -52,7 +52,7 @@ const createInterfaceLanguageSlice: StateCreator<
   [],
   InterfaceLanguageSlice
 > = (set) => ({
-  interfaceLanguage: "en",
+  interfaceLanguage: "nl",
   setInterfaceLanguage: (newInterfaceLanguage) =>
     set(() => ({ interfaceLanguage: newInterfaceLanguage })),
 });
