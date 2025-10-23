@@ -12,13 +12,14 @@ import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
   relativeTo: "tl:Manifestation",
+  broccoliUrl: "http://localhost:8082",
   annotationTypesToInclude: [
     // "pagexml:Line",
     // "pagexml:Page",
     // "pagexml:Region",
     "tl:Manifestation",
   ],
-  elasticIndexName: "manifestations",
+  elasticIndexName: "translatin",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
   initialRangeFrom: "0",
