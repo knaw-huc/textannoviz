@@ -1,23 +1,23 @@
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
-import { getViteEnvVars } from "../../utils/viteEnvVars.ts";
 import { LanguageMenu } from "../../components/LanguageMenu.tsx";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { matchPath, useLocation } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { ResolutionBody } from "../../model/AnnoRepoAnnotation.ts";
 import { monthNumberToString } from "../../utils/monthNumberToString.ts";
+import { Button } from "react-aria-components";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
 
-  const { routerBasename } = getViteEnvVars();
-
   const location = useLocation();
+
+  const navigate = useNavigate();
 
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
 
@@ -25,30 +25,22 @@ export const Header = () => {
     <header
       className={`grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_110px] ${projectConfig.headerColor}`}
     >
-      <div className="flex flex-col px-6 py-2">
-        <a
-          title="Homepage"
-          rel="noreferrer"
-          target="_blank"
-          href={projectConfig.logoHref}
-        >
+      <div className="flex w-fit flex-col px-6 py-2">
+        <Button onPress={() => navigate("/")}>
           <img src={projectConfig.logoImageUrl} className="h-12" alt="logo" />
-        </a>
+        </Button>
       </div>
       <div className="flex items-center justify-end">
         <nav className="mr-4 hidden flex-row gap-4 *:no-underline lg:flex">
           <projectConfig.components.HelpLink />
           {projectConfig.routes.map((route, index) => (
             <nav key={index} className="flex flex-row items-center">
-              <a
-                rel="noreferrer"
+              <Button
                 className="text-inherit no-underline hover:underline"
-                href={`${routerBasename === "/" ? "" : routerBasename}/${
-                  route.path
-                }`}
+                onPress={() => navigate(`/${route.path}`)}
               >
                 {firstLetterToUppercase(route.path)}
-              </a>
+              </Button>
             </nav>
           ))}
         </nav>

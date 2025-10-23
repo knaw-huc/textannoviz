@@ -1,15 +1,16 @@
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
-import { getViteEnvVars } from "../../utils/viteEnvVars.ts";
 import { LanguageMenu } from "../../components/LanguageMenu.tsx";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import { useNavigate } from "react-router-dom";
+import { Button } from "react-aria-components";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
 
-  const { routerBasename } = getViteEnvVars();
+  const navigate = useNavigate();
 
   return (
     <header className={projectConfig.headerColor}>
@@ -17,44 +18,33 @@ export const Header = () => {
         <div className="flex flex-row items-center justify-start">
           <div className="flex flex-row items-center justify-start gap-3 px-6 py-3">
             <div className="flex h-12 items-center justify-center">
-              <a
-                title="Homepage"
-                rel="noreferrer"
-                target="_blank"
-                href={projectConfig.logoHref}
-              >
+              <Button onPress={() => navigate(projectConfig.logoHref)}>
+                {" "}
                 <img
                   src={projectConfig.logoImageUrl}
                   className="h-12"
                   alt="logo"
                 />
-              </a>
+              </Button>
             </div>
-            <span>
-              <a
-                title="Homepage"
-                rel="noreferrer"
-                href={routerBasename}
-                className="hover:text-brand1-900 text-inherit no-underline hover:underline"
-              >
-                {projectConfig.headerTitle}
-              </a>
-            </span>
+            <Button
+              className="hover:text-brand1-900 text-inherit no-underline hover:underline"
+              onPress={() => navigate("/")}
+            >
+              {projectConfig.headerTitle}
+            </Button>
           </div>
         </div>
         <projectConfig.components.HelpLink />
         <div className="flex grow flex-row items-center justify-end gap-4 pr-4">
           {projectConfig.routes.map((route, index) => (
             <nav key={index} className="flex flex-row items-center">
-              <a
-                rel="noreferrer"
+              <Button
                 className="text-inherit no-underline hover:underline"
-                href={`${routerBasename === "/" ? "" : routerBasename}/${
-                  route.path
-                }`}
+                onPress={() => navigate(`/${route.path}`)}
               >
                 {firstLetterToUppercase(route.path)}
-              </a>
+              </Button>
             </nav>
           ))}
         </div>
