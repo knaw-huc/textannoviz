@@ -36,7 +36,6 @@ export function zoomAnnoMirador(
         mirador.actions.updateViewport(`${projectConfig.id}`, {
           x: zoomCoords.zoomCenter.x,
           y: zoomCoords.zoomCenter.y,
-          //TODO: reset to 0.75 or make configurable per project
           zoom: projectConfig.miradorZoomRatio / zoomCoords.miradorZoom,
           flip: false,
           rotation: 0,
