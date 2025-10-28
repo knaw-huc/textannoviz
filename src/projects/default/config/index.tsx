@@ -86,7 +86,7 @@ export const defaultConfig: DefaultProjectConfig = {
     InsertMarkerAnnotation: Empty,
     Header: Header,
   },
-  defaultLanguage: "en",
+  selectedLanguage: "en",
   languages: [
     {
       code: "en",

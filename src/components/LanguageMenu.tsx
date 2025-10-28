@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { LanguageCode, isValidLanguageCode } from "../model/Language.ts";
 import {
   projectConfigSelector,
+  setProjectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../stores/project.ts";
@@ -14,23 +15,22 @@ export function LanguageMenu() {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const languages = projectConfig.languages;
-  const { interfaceLanguage, setInterfaceLanguage } = useProjectStore((s) => ({
-    interfaceLanguage: s.interfaceLanguage,
-    setInterfaceLanguage: s.setInterfaceLanguage,
-  }));
+  const setProjectConfig = useProjectStore(setProjectConfigSelector);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     initLanguageFromUrl();
     function initLanguageFromUrl() {
       const urlLanguage = searchParams.get(LANGUAGE);
-      if (!urlLanguage || urlLanguage === interfaceLanguage) {
+      if (!urlLanguage || urlLanguage === projectConfig.selectedLanguage) {
         return;
       }
       if (!isValidLanguageCode(urlLanguage)) {
         return;
       }
-      setInterfaceLanguage(urlLanguage);
+      const newConfig = { ...projectConfig };
+      newConfig.selectedLanguage = urlLanguage;
+      setProjectConfig(newConfig);
     }
   }, [searchParams]);
 
@@ -45,11 +45,13 @@ export function LanguageMenu() {
             <LanguageIcon
               key={l.code}
               code={l.code}
-              selected={interfaceLanguage === l.code}
+              selected={projectConfig.selectedLanguage === l.code}
               onClick={(code) => {
                 searchParams.set(LANGUAGE, code);
                 setSearchParams(searchParams);
-                setInterfaceLanguage(code);
+                const newConfig = { ...projectConfig };
+                newConfig.selectedLanguage = code;
+                setProjectConfig(projectConfig);
               }}
             />
           ))

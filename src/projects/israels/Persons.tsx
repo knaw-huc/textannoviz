@@ -7,7 +7,7 @@ import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
 import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
-import { useProjectStore } from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { Button } from "react-aria-components";
 
 export function Persons() {
@@ -15,7 +15,7 @@ export function Persons() {
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { israelsPersonsUrl, routerBasename } = getViteEnvVars();
 
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   React.useEffect(() => {
     const aborter = new AbortController();

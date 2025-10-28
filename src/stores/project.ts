@@ -1,7 +1,6 @@
 import { create, StateCreator } from "zustand";
 import { Labels } from "../model/Labels.ts";
 import { ProjectConfig } from "../model/ProjectConfig";
-import { LanguageCode } from "../model/Language.ts";
 
 export type ProjectSlice = {
   projectName: string;
@@ -15,15 +14,7 @@ export type ProjectConfigSlice = {
   ) => void;
 };
 
-//TODO: move to separate store?
-export type InterfaceLanguageSlice = {
-  interfaceLanguage: LanguageCode;
-  setInterfaceLanguage: (newInterfaceLanguage: LanguageCode) => void;
-};
-
-export type ProjectStore = ProjectSlice &
-  ProjectConfigSlice &
-  InterfaceLanguageSlice;
+export type ProjectStore = ProjectSlice & ProjectConfigSlice;
 
 const createProjectSlice: StateCreator<ProjectStore, [], [], ProjectSlice> = (
   set,
@@ -46,24 +37,12 @@ const createProjectConfigSlice: StateCreator<
     set(() => ({ projectConfig: newProjectConfig })),
 });
 
-const createInterfaceLanguageSlice: StateCreator<
-  ProjectStore,
-  [],
-  [],
-  InterfaceLanguageSlice
-> = (set) => ({
-  interfaceLanguage: "nl",
-  setInterfaceLanguage: (newInterfaceLanguage) =>
-    set(() => ({ interfaceLanguage: newInterfaceLanguage })),
-});
-
 export const useProjectStore = create<ProjectStore>()((...a) => ({
   ...createProjectSlice(...a),
   ...createProjectConfigSlice(...a),
-  ...createInterfaceLanguageSlice(...a),
 }));
 
-export function translateSelector(state: ProjectStore) {
+export function translateSelector(state: ProjectConfigSlice) {
   const labels = labelsSelector(state);
   return (key: keyof Labels) => labels?.[key] ?? key;
 }
@@ -78,17 +57,14 @@ export function translateProjectSelector(state: ProjectStore) {
   return (key: string) => labels?.[key] ?? key;
 }
 
-function labelsSelector(state: ProjectStore): Record<string, string> {
+function labelsSelector(state: ProjectConfigSlice): Record<string, string> {
   const config = projectConfigSelector(state);
-  const { interfaceLanguage } = state;
-
-  const translation = config.languages.find(
-    (l) => l.code === interfaceLanguage,
-  );
+  const selectedLanguage = config.selectedLanguage;
+  const translation = config.languages.find((l) => l.code === selectedLanguage);
 
   if (!translation) {
     throw new Error(
-      `No translation found for selected language ${interfaceLanguage}`,
+      `No translation found for selected language ${selectedLanguage}`,
     );
   }
 

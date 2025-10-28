@@ -130,7 +130,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchInfoPage,
     Header,
   },
-  defaultLanguage: "nl",
+  selectedLanguage: "nl",
   languages: [
     { code: "nl", labels: dutchRepublicLabels },
     { code: "en", labels: englishRepublicLabels },

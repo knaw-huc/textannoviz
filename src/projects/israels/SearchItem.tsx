@@ -6,6 +6,7 @@ import { QUERY } from "../../components/Search/SearchUrlParams.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { encodeObject } from "../../utils/UrlParamUtils.ts";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
@@ -14,7 +15,7 @@ export const SearchItem = (
   props: SearchItemProps<IsraelsSearchResultsBody>,
 ) => {
   const translateProject = useProjectStore(translateProjectSelector);
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const letterNumRegex = /\d+/g;
   const letterNum = props.result.file.match(letterNumRegex);

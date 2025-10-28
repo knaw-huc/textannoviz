@@ -1,5 +1,5 @@
 import { useAnnotationStore } from "../../stores/annotation";
-import { useProjectStore } from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { Any } from "../../utils/Any";
 import {
   Artworks,
@@ -9,7 +9,7 @@ import {
 
 export const ArtworksTab = () => {
   const annotations = useAnnotationStore().annotations;
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const artworkAnnos = annotations.reduce<Artworks>((acc, anno) => {
     if (isArtworkAnno(anno)) {

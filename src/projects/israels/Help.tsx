@@ -1,7 +1,7 @@
-import { useProjectStore } from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 
 export const Help = () => {
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   return (
     <div className="ml-auto mr-auto mt-0 max-w-[640px]">
       {interfaceLang === "nl" ? <DutchHelp /> : <EnglishHelp />}

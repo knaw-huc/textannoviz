@@ -164,7 +164,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     Header,
     Help,
   },
-  defaultLanguage: "en",
+  selectedLanguage: "en",
   zoomAnnoMirador: true,
   miradorZoomRatio: 1.5,
   languages: [

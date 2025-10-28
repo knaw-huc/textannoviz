@@ -24,7 +24,7 @@ const LETTER_TEMPLATE = "urn:israels:letter:";
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = projectConfig.selectedLanguage;
 
   const { routerBasename } = getViteEnvVars();
 

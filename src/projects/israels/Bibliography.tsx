@@ -2,12 +2,12 @@ import React from "react";
 import { toast } from "react-toastify";
 import { handleAbort } from "../../utils/handleAbort";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
-import { useProjectStore } from "../../stores/project";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 
 export const Bibliography = () => {
   const [content, setContent] = React.useState<string>();
 
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const { israelsBiblENUrl, israelsBiblNLUrl } = getViteEnvVars();
 

@@ -31,7 +31,7 @@ export type ProjectConfig = SearchConfig &
     headerTitle: string;
     logoHref: string;
     headerColor: string;
-    defaultLanguage: LanguageCode;
+    selectedLanguage: LanguageCode;
     languages: Language[];
     useExternalConfig: boolean;
     visualizeAnnosMirador: boolean;

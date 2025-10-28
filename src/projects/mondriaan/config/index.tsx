@@ -128,7 +128,7 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
     MetadataPanel,
     SearchItem,
   },
-  defaultLanguage: "en",
+  selectedLanguage: "en",
   languages: [
     {
       code: "en",

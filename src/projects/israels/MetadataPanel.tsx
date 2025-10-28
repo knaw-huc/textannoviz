@@ -4,6 +4,7 @@ import {
   IsraelsTfLetterBody,
 } from "../../model/AnnoRepoAnnotation";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
@@ -16,7 +17,7 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useTextStore().views;
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
   const letterAnno = props.annotations.find(

@@ -9,6 +9,7 @@ import {
   type Artworks,
 } from "./annotation/ProjectAnnotationModel";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
@@ -17,7 +18,7 @@ import { getViteEnvVars } from "../../utils/viteEnvVars";
 export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artworks>();
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const { israelsArtworksUrl, routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
 

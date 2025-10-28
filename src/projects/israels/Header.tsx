@@ -22,7 +22,7 @@ export const Header = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const interfaceLang = useProjectStore((s) => s.interfaceLanguage);
+  const interfaceLang = projectConfig.selectedLanguage;
 
   const location = useLocation();
 
