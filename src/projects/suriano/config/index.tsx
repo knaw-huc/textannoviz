@@ -25,10 +25,8 @@ import {
 } from "../annotation/ProjectAnnotationModel.ts";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
-import { TextPanels } from "../TextPanels.tsx";
 
 import projectCss from "../project.css?inline";
-import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -130,27 +128,4 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     sortOrder: "asc",
   },
   projectCss: projectCss,
-  detailPanels: [
-    {
-      name: "facs",
-      visible: true,
-      disabled: false,
-      size: "minmax(300px, 650px)",
-      panel: PanelTemplates.facsPanel,
-    },
-    {
-      name: "text.self",
-      visible: true,
-      disabled: false,
-      size: "minmax(300px, 750px)",
-      panel: TextPanels.self,
-    },
-    {
-      name: "metadata",
-      visible: true,
-      disabled: false,
-      size: "minmax(300px, 400px)",
-      panel: PanelTemplates.metadataPanel,
-    },
-  ],
 } as ProjectSpecificConfig);

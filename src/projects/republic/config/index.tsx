@@ -20,8 +20,6 @@ import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { Any } from "../../../utils/Any.ts";
 import projectCss from "../project.css?inline";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
-import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
-import { TextPanels } from "../TextPanels.tsx";
 import { Header } from "../Header.tsx";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
@@ -153,27 +151,4 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     PERS: "PER",
   } as Any,
   projectCss: projectCss,
-  detailPanels: [
-    {
-      name: "facs",
-      visible: true,
-      disabled: false,
-      size: "minmax(300px, 650px)",
-      panel: PanelTemplates.facsPanel,
-    },
-    {
-      name: "text.self",
-      visible: true,
-      disabled: false,
-      size: "minmax(300px, 750px)",
-      panel: TextPanels.self,
-    },
-    {
-      name: "metadata",
-      visible: true,
-      disabled: false,
-      size: "minmax(300px, 400px)",
-      panel: PanelTemplates.metadataPanel,
-    },
-  ],
 } as ProjectSpecificConfig);
