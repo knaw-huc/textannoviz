@@ -33,7 +33,7 @@ export const SearchItem = (
 
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
-      <li className="mb-3 text-base" tabIndex={0}>
+      <li className="mb-3 text-base">
         {translateProject(props.result.sessionWeekday)}{" "}
         <span className="font-semibold">
           {props.result.sessionDay}{" "}

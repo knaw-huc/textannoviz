@@ -25,6 +25,7 @@ import { FacetEntry, SearchQuery } from "../../model/Search.ts";
 import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
 import { toast } from "react-toastify";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
+import { SelectSearchInTextViews } from "./SelectSearchInTextViews.tsx";
 
 interface SearchFormProps {
   onSearch: (toFirstPage: boolean) => void;
@@ -271,6 +272,12 @@ export function SearchForm(props: SearchFormProps) {
         </div>
       )}
 
+      {projectConfig.showSearchInTextViews && (
+        <div className="w-full max-w-[450px]">
+          <SelectSearchInTextViews />
+        </div>
+      )}
+
       {searchResults && projectConfig.showNewSearchButton && (
         <NewSearchButton />
       )}
@@ -284,12 +291,14 @@ export function SearchForm(props: SearchFormProps) {
         </div>
       )}
 
-      <div className="w-full max-w-[450px]">
-        <FragmenterSelection
-          onChange={updateFragmenter}
-          value={searchParams.fragmentSize}
-        />
-      </div>
+      {projectConfig.showFragmenter && (
+        <div className="w-full max-w-[450px]">
+          <FragmenterSelection
+            onChange={updateFragmenter}
+            value={searchParams.fragmentSize}
+          />
+        </div>
+      )}
 
       {projectConfig.showDateFacets && searchQuery.dateFacet && (
         <DateFacet

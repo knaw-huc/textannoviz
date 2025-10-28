@@ -19,12 +19,16 @@ import { ProvenanceButton } from "./ProvenanceButton.tsx";
 import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
+  const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const { getAnnotationCategory } = useProjectStore(projectConfigSelector);
   const { body } = props;
 
-  const entityCategory = toEntityCategory(getAnnotationCategory(body));
-  const entityClassname = toEntityClassname(entityCategory);
+  const entityCategory = toEntityCategory(
+    projectConfig,
+    getAnnotationCategory(body),
+  );
+  const entityClassname = toEntityClassname(projectConfig, entityCategory);
 
   const handleEntityBrowseClick = () => {
     if (isEntityEntity(props.body)) {
@@ -42,7 +46,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   };
 
   const handleEntitySearchClick = () => {
-    const query = toEntitySearchQuery(props.body);
+    const query = toEntitySearchQuery(props.body, projectConfig);
     window.open(`/?${query}`, "_blank");
   };
 

@@ -5,16 +5,30 @@ export function observeMiradorStore(
   windowId: string,
   onCanvasChange: (canvasId: string) => void,
 ) {
-  let currentValue: string | undefined;
+  let currentCanvas: string | undefined;
+  let currentCoords:
+    | {
+        flip: boolean;
+        rotation: number;
+        x: number;
+        y: number;
+        zoom: number;
+      }
+    | null
+    | undefined;
 
   function handleCanvasChange() {
-    const previousValue = currentValue;
-    currentValue = store.getState().windows[windowId].canvasId;
+    const previousCanvas = currentCanvas;
+    currentCoords = store.getState().viewers[windowId];
 
-    if (!previousValue) return;
+    if (currentCoords) {
+      currentCanvas = store.getState().windows[windowId].canvasId;
 
-    if (currentValue && previousValue !== currentValue) {
-      onCanvasChange(currentValue);
+      if (!previousCanvas) return;
+
+      if (currentCanvas && previousCanvas !== currentCanvas) {
+        onCanvasChange(currentCanvas);
+      }
     }
   }
 

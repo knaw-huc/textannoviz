@@ -2,10 +2,12 @@ import React from "react";
 import { Button } from "react-aria-components";
 import {
   projectConfigSelector,
+  translateProjectSelector,
   translateSelector,
   useProjectStore,
 } from "../../stores/project.ts";
 import { ArrowRotateLeft } from "../common/icons/ArrowRotateLeft.tsx";
+import { HelpTooltip } from "../common/HelpTooltip.tsx";
 
 type DateFacetProps = {
   dateTo: string;
@@ -18,6 +20,7 @@ type DateFacetProps = {
 export function DateFacet(props: DateFacetProps) {
   const translate = useProjectStore(translateSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
   function resetClickHandler() {
     const newDates = {
@@ -47,6 +50,7 @@ export function DateFacet(props: DateFacetProps) {
         <form>
           <label htmlFor="start" className="font-semibold">
             {translate("DATE_FROM")}
+            <HelpTooltip label={translateProject("DATE_HELP")} />
           </label>
           <input
             className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"

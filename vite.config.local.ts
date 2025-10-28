@@ -8,6 +8,7 @@ import { createHtmlPlugin } from "vite-plugin-html";
 import { htmlInjectionPlugin } from "vite-plugin-html-injection";
 import globaliseHtmlInjectionPluginConfig from "./src/projects/globalise/config/htmlInjectionPluginConfig.json";
 import republicHtmlInjectionPluginConfig from "./src/projects/republic/config/htmlInjectionPluginConfig.json";
+import israelsHtmlInjectionPluginConfig from "./src/projects/israels/config/htmlInjectionPluginConfig.json";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -40,6 +41,10 @@ export default defineConfig(({ mode }) => {
     case "vangogh":
       tailwindConfig = "tailwind.config.vangogh.js";
       break;
+    case "israels":
+      tailwindConfig = "tailwind.config.israels.js";
+      htmlInjectionPluginConfig = israelsHtmlInjectionPluginConfig;
+      break;
     default:
       tailwindConfig = "tailwind.default.config.js";
   }
@@ -52,6 +57,7 @@ export default defineConfig(({ mode }) => {
         typescript: true,
         overlay: {
           initialIsOpen: false,
+          position: "tl",
         },
       }),
       htmlInjectionPluginConfig &&

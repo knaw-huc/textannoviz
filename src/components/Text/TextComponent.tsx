@@ -1,67 +1,69 @@
-import { CheckboxChangeEvent } from "primereact/checkbox";
 import { Skeleton } from "primereact/skeleton";
+import { useTextStore } from "../../stores/text/text-store.ts";
+import { AnnotatedText } from "./Annotated/AnnotatedText";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
+import { TextHighlighting } from "./TextHighlighting";
+import {
+  BroccoliTextGeneric,
+  ViewLang,
+  Broccoli,
+} from "../../model/Broccoli.ts";
 import React from "react";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
-import { useTextStore } from "../../stores/text";
-import { TextPanels } from "./TextPanels";
-import { ToggleTextPanels } from "./ToggleTextPanels";
 
 type TextComponentProps = {
-  panelsToRender: string[];
-  allPossiblePanels: string[];
+  viewToRender: string;
   isLoading: boolean;
 };
 
 export const TextComponent = (props: TextComponentProps) => {
-  const [panelsToRender, setPanelsToRender] = React.useState(
-    props.panelsToRender,
-  );
-  const textPanels = useTextStore((state) => state.views);
+  const textViews = useTextStore((state) => state.views);
   const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useProjectStore(translateProjectSelector);
 
-  function textPanelsCheckboxHandler(event: CheckboxChangeEvent) {
-    const checkedTextPanels = [...panelsToRender];
+  const [view, lang] = props.viewToRender.split(".") as [
+    keyof Broccoli["views"],
+    ViewLang,
+  ];
 
-    if (event.checked) {
-      checkedTextPanels.push(event.value);
-    } else {
-      checkedTextPanels.splice(checkedTextPanels.indexOf(event.value), 1);
+  const text: BroccoliTextGeneric | undefined = React.useMemo(() => {
+    const candidate = textViews?.[view];
+    if (!candidate) return;
+
+    if (
+      typeof candidate === "object" &&
+      candidate !== null &&
+      lang in candidate
+    ) {
+      return (candidate as Record<string, BroccoliTextGeneric>)[lang];
     }
-
-    setPanelsToRender(checkedTextPanels);
-  }
-
-  function closePanelHandler(panelToClose: string) {
-    setPanelsToRender(
-      panelsToRender?.filter((panel) => panel !== panelToClose),
-    );
-  }
+    return candidate as BroccoliTextGeneric;
+  }, [textViews, view, lang]);
 
   return (
-    <div className="flex h-full w-6/12 grow flex-col self-stretch">
-      <div className="sr-only">
+    <div className="flex h-auto justify-center overflow-y-hidden border-r">
+      {/* <div className="sr-only">
         <h1>Resolutie</h1>
-      </div>
-
-      {projectConfig.showToggleTextPanels ? (
-        <ToggleTextPanels
-          textPanelsCheckboxHandler={textPanelsCheckboxHandler}
-          panels={panelsToRender}
-        />
-      ) : null}
-      <div
-        className={`${
-          projectConfig.showToggleTextPanels
-            ? "h-[calc(100vh-150px)]"
-            : "h-[calc(100vh-100px)]"
-        } flex flex-row overflow-auto`}
-      >
-        {textPanels && !props.isLoading ? (
-          <TextPanels
-            panels={panelsToRender}
-            text={textPanels}
-            closePanelHandler={closePanelHandler}
-          />
+      </div> */}
+      <div className="flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10">
+        <span className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500">
+          {translateProject(`${props.viewToRender}`)}
+        </span>
+        {text && !props.isLoading ? (
+          <div className="flex justify-center">
+            {/* TODO 23102025: Use one of the pre-defined ARIA roles */}
+            {/* eslint-disable-next-line jsx-a11y/aria-role */}
+            <div className="prose max-w-[550px]" role="textpanel">
+              {projectConfig.showAnnotations ? (
+                <AnnotatedText text={text} showDetail={false} />
+              ) : (
+                <TextHighlighting text={text} />
+              )}
+            </div>
+          </div>
         ) : (
           <div className="flex flex-col gap-2 pl-2 pt-2">
             <Skeleton width="16rem" borderRadius="8px" className="h-4" />

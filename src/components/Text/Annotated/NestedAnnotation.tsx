@@ -36,7 +36,7 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
         props.segment,
         toRender,
         nestedAnnotationTypes,
-        projectConfig.getAnnotationCategory,
+        projectConfig,
       ).join(" ")}
     >
       {toNest.length ? (

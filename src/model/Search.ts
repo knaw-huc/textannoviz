@@ -68,8 +68,31 @@ export type VanGoghSearchResultsBody = {
   location: string;
   msid: string;
   period: string;
+  letterId: string;
+  viewType: string;
   _hits: {
     text: string[];
+  };
+};
+
+export type IsraelsSearchResultsBody = {
+  _id: string;
+  correspondent: string;
+  sender: string;
+  institution: string;
+  location: string;
+  file: string;
+  period: string;
+  letterId: string;
+  viewType: string;
+  type: string;
+  titleEN: string;
+  titleNL: string;
+  _hits: {
+    originalText: string[];
+    translatedText: string[];
+    notesText: string[];
+    text: string[]; //TODO: remove
   };
 };
 
@@ -139,6 +162,7 @@ type Aggs = Record<FacetName, FacetAgg>;
 export type SearchQueryRequestBody =
   | {
       text?: string;
+      textViews?: string[];
       terms: Terms;
       aggs?: Aggs;
       date?: {
@@ -155,7 +179,7 @@ export type SearchQueryRequestBody =
   | Record<string, never>;
 export const ASC = "asc";
 export const DESC = "desc";
-export type SortOrder = "desc" | "asc";
+export type SortOrder = "desc" | "asc" | string;
 
 export type SearchParams = {
   indexName: string;
@@ -178,6 +202,7 @@ export type SearchQuery = {
   rangeFrom: string;
   rangeTo: string;
   fullText: string;
+  searchInTextView: string[];
   terms: Terms;
 };
 

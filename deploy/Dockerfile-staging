@@ -8,7 +8,7 @@ RUN npm ci --force
 
 COPY . .
 RUN npm test
-RUN npm run build
+RUN npm run build:staging
 
 FROM nginx:stable-alpine-slim
 COPY --from=build /textannoviz/dist /usr/share/nginx/html

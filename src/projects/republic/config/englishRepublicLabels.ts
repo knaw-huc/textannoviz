@@ -81,9 +81,18 @@ export const englishRepublicLabels = Object.assign({}, englishLabels, {
 
   ENTITIES: "Entities",
 
+  //Text panel titles
+  "text.self": "Text",
+
+  //panels
+  facs: "Facsimile",
+  metadata: "Info",
+
   //Footer
   prevResolution: "Previous resolution",
   nextResolution: "Next resolution",
+  NAVIGATE_SEARCH_RESULTS: "Navigate search results",
+  SEARCH: "Search",
 
   FULL_TEXT_SEARCH_HELP:
     "Search for terms or names that appear in the resolutions \n" +

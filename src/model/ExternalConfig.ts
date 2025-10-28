@@ -1,4 +1,7 @@
+import { ProjectName } from "../projects/projectConfigs";
+
 export type ExternalConfig = {
+  projectName: ProjectName;
   indexName: string;
   initialDateFrom?: string;
   initialDateTo?: string;
@@ -7,4 +10,5 @@ export type ExternalConfig = {
   maxRange?: number;
   broccoliUrl?: string;
   annotationTypesToInclude?: string[];
+  showWebAnnoTab?: boolean;
 };

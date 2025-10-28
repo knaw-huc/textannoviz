@@ -17,7 +17,10 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
+import { Any } from "../../../utils/Any.ts";
+import projectCss from "../project.css?inline";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
+import { Header } from "../Header.tsx";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -123,6 +126,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
     HelpLink,
     SearchInfoPage,
+    Header,
   },
   selectedLanguage: "nl",
   languages: [
@@ -133,4 +137,18 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     showTopMenuButton: true,
     showWindowSideBar: true,
   },
+  annoToEntityCategory: {
+    COM: "COM",
+    DAT: "DAT",
+    HOE: "HOE",
+    LOC: "LOC",
+    ORG: "ORG",
+
+    /**
+     * PER can also be named PERS
+     */
+    PER: "PER",
+    PERS: "PER",
+  } as Any,
+  projectCss: projectCss,
 } as ProjectSpecificConfig);

@@ -9,7 +9,7 @@ The `main` branch is the most up-to-date branch. Clone this branch if you want t
 - Install dependencies
 
   ```
-  npm install --force
+  npm ci --force
   ```
 
   Note: The `--force` is necessary due to Mirador depending on an older version of React.

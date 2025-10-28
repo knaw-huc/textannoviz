@@ -1,8 +1,8 @@
 import mirador from "mirador-knaw-huc-mui5";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { Iiif } from "../../model/Broccoli";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import { zoomCoordsMirador } from "../../utils/zoomCoordsMirador";
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 
 export function zoomAnnoMirador(
   bodyId: string,
@@ -36,7 +36,7 @@ export function zoomAnnoMirador(
         mirador.actions.updateViewport(`${projectConfig.id}`, {
           x: zoomCoords.zoomCenter.x,
           y: zoomCoords.zoomCenter.y,
-          zoom: 0.75 / zoomCoords.miradorZoom,
+          zoom: projectConfig.miradorZoomRatio / zoomCoords.miradorZoom,
           flip: false,
           rotation: 0,
         }),

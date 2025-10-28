@@ -1,3 +1,5 @@
+import { ViewLang } from "./Broccoli";
+
 export type SessionBody = AnnoRepoBodyBase & {
   metadata: {
     inventoryNum: number;
@@ -228,6 +230,41 @@ export type SurianoLetterBody = AnnoRepoBodyBase & {
   };
 };
 
+export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
+  metadata: {
+    type: string;
+    correspondent: string;
+    sender: string;
+    file: string;
+    institution: string;
+    letterid: string;
+    location: string;
+    msid: string;
+    period: string;
+    periodlong: string;
+    prevLetter: string;
+    nextLetter: string;
+  };
+};
+
+export type IsraelsTfLetterBody = AnnoRepoBodyBase & {
+  metadata: {
+    type: string;
+    correspondent: string;
+    sender: string;
+    file: string;
+    institution: string;
+    letterid: string;
+    location: string;
+    msId: string;
+    period: string;
+    periodlong: string;
+    prevLetter: string;
+    nextLetter: string;
+    title: Record<ViewLang, string>;
+  };
+};
+
 export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {
     document: string;
@@ -259,8 +296,10 @@ export type NoteBody = AnnoRepoBodyBase & {
   "tf:textfabricNode": string;
   metadata: {
     "tei:id": string;
+    "tei:type": string;
     lang: string;
     type: "tt:NoteMetadata";
+    n: string;
   };
 };
 
@@ -281,12 +320,15 @@ export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
 
 // TODO: move to project config
 export type MarkerBody = AnnoRepoBodyBase & {
-  type: "tei:Ptr";
+  type: string;
   "tf:textfabricNode": string;
   metadata: {
     facs?: string;
     n?: string;
     target: string;
+    url?: string;
+    width?: string;
+    height: string;
   };
 };
 

@@ -1,7 +1,7 @@
 import { AnnoRepoAnnotation } from "./AnnoRepoAnnotation";
 
 export type Iiif = {
-  manifest: string;
+  manifest: string | null;
   canvasIds: string[];
 };
 
@@ -16,8 +16,15 @@ export interface Broccoli {
   iiif: Iiif;
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
-  views: Record<string, BroccoliTextGeneric>;
+  views: {
+    text: Record<ViewLang, BroccoliTextGeneric>;
+    textNotes: Record<ViewLang, Record<string, BroccoliTextGeneric>>;
+    typedNotes: Record<ViewLang, BroccoliTextGeneric>;
+    self: BroccoliTextGeneric;
+  };
 }
+
+export type ViewLang = "nl" | "en";
 
 export type BroccoliRelativeAnno = {
   bodyId: string;

@@ -12,8 +12,10 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   periodlong: "Period (long)",
   type: "Type",
 
+  facetInputFilterPlaceholder: "Search in facet",
+
   //Text panel titles
-  self: "Debug text",
+  self: "Letter",
   textOrig: "Main text",
   textTrans: "Translated text",
 });

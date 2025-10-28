@@ -5,11 +5,16 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { useTextStore } from "../../stores/text.ts";
+import { useTextStore } from "../../stores/text/text-store.ts";
 import { fetchBroccoliScanWithOverlap } from "../../utils/broccoli.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
-import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
+// import { NOTES_VIEW } from "../Text/Annotated/MarkerTooltip.tsx";
 import { useDetailNavigation } from "./useDetailNavigation.tsx";
+import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
+import {
+  AnnoRepoAnnotation,
+  NoteBody,
+} from "../../model/AnnoRepoAnnotation.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -25,8 +30,9 @@ export function useInitDetail() {
 
   const { setStore } = useMiradorStore();
   const { setCurrentCanvas } = useMiradorStore();
-  const { setAnnotations } = useAnnotationStore();
+  const { setAnnotations, setPtrToNoteAnnosMap } = useAnnotationStore();
   const { setViews } = useTextStore();
+  const { setActivePanels } = useDetailViewStore();
 
   const { tier2 } = useDetailNavigation().getDetailParams();
   const [prevTier2, setPrevTier2] = useState(tier2);
@@ -83,12 +89,17 @@ export function useInitDetail() {
       const annotations = result.anno;
       const views = result.views;
 
-      if (projectName === "suriano") {
-        const tfFileId = bodyId.replace("letter_body", "file");
+      //TODO: remove this code. However, this can only be removed if the footnotes of these projects are formatted in the same was as Israels
+      if (projectName === "suriano" || projectName === "vangogh") {
+        const tfFileId =
+          projectName === "suriano"
+            ? bodyId.replace("letter_body", "file")
+            : bodyId.replace("letter_body", "letter");
         console.warn("Add suriano notes panel by " + tfFileId);
+
         const withNotes = await fetchBroccoliScanWithOverlap(
           tfFileId,
-          ["tei:Note"],
+          ["tei:Note", "tei:Hi", "tei:Rs", "tei:Ref"],
           ["anno", "text"],
           "self",
           relativeTo,
@@ -99,7 +110,7 @@ export function useInitDetail() {
           return;
         }
         annotations.push(...withNotes.anno);
-        views[NOTES_VIEW] = withNotes.views.self;
+        // views[NOTES_VIEW] = withNotes.views.self;
       }
 
       setStore({
@@ -108,7 +119,24 @@ export function useInitDetail() {
       });
       setCurrentCanvas(result.iiif.canvasIds[0]);
       setAnnotations(annotations);
+
+      //TODO: Note anno type to project config
+      if (annotations.some((anno) => anno.body.type === "tei:Note")) {
+        const ptrToNoteAnnos = new Map<string, AnnoRepoAnnotation>();
+
+        const noteAnnos = annotations.filter(
+          (anno) => anno.body.type === "tei:Note",
+        );
+        noteAnnos.forEach((noteAnno) => {
+          const targetId = (noteAnno.body as NoteBody).metadata["tei:id"];
+          ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
+        });
+
+        setPtrToNoteAnnosMap(new Map(ptrToNoteAnnos));
+      }
+
       setViews(views);
+      setActivePanels(projectConfig.detailPanels);
 
       setLoading(false);
       setInitDetail(true);

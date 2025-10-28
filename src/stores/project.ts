@@ -15,6 +15,7 @@ export type ProjectConfigSlice = {
 };
 
 export type ProjectStore = ProjectSlice & ProjectConfigSlice;
+
 const createProjectSlice: StateCreator<ProjectStore, [], [], ProjectSlice> = (
   set,
 ) => ({
@@ -51,7 +52,7 @@ export function translateSelector(state: ProjectConfigSlice) {
  * allowing a project to provide translations
  * for custom elements like facets and custom components
  */
-export function translateProjectSelector(state: ProjectConfigSlice) {
+export function translateProjectSelector(state: ProjectStore) {
   const labels = labelsSelector(state);
   return (key: string) => labels?.[key] ?? key;
 }
@@ -60,11 +61,13 @@ function labelsSelector(state: ProjectConfigSlice): Record<string, string> {
   const config = projectConfigSelector(state);
   const selectedLanguage = config.selectedLanguage;
   const translation = config.languages.find((l) => l.code === selectedLanguage);
+
   if (!translation) {
     throw new Error(
       `No translation found for selected language ${selectedLanguage}`,
     );
   }
+
   return translation.labels;
 }
 

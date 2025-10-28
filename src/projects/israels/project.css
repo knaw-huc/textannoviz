@@ -1,0 +1,92 @@
+.highlight-italics {
+  font-style: italic;
+}
+
+.highlight-tei-head {
+  font-size: 1.17rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.segmented-line:has(.highlight-tei-head) {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.highlight-caption {
+  font-size: 0.8rem;
+}
+
+.segmented-line:has(.highlight-caption) {
+  margin-bottom: 1.5rem;
+}
+
+.highlight-tei-label {
+  float: left;
+  width: 125px;
+}
+
+.segmented-line:has(.highlight-tei-quote) {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.highlight-tei-item {
+  overflow: hidden;
+}
+
+.highlight-super {
+  vertical-align: super;
+  font-size: 0.7em;
+}
+
+.highlight-blockletter {
+  text-transform: uppercase;
+}
+
+img {
+  margin-bottom: 0 !important;
+}
+
+/* Israels specific styling for AnnotatedText component */
+
+.closedNestedAnnotation .annotated-segment > .annotated-art {
+  @apply bg-[#F0ECF7];
+}
+
+.closedNestedAnnotation .annotated-segment > .annotated-ref {
+  @apply bg-[#afddff];
+}
+
+.fullNestedAnnotation .depth-2.annotated-art {
+  @apply bg-[#F0ECF7];
+}
+
+.fullNestedAnnotation .depth-1.annotated-ref {
+  @apply bg-[#afddff];
+}
+
+/* Israels bibliography styling */
+.rend_italics {
+  font-style: italic;
+}
+
+.rend_indent {
+  margin-bottom: 2rem;
+}
+
+.list_gloss,
+.listBibl {
+  margin-bottom: 2rem;
+  margin-left: 1rem;
+}
+
+.label {
+  font-weight: bold;
+  margin-left: -1rem;
+}
+
+.title_m,
+.title_j {
+  font-style: italic;
+}

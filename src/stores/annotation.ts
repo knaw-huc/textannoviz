@@ -5,6 +5,14 @@ export type AnnotationsSlice = {
   annotations: AnnoRepoAnnotation[];
   setAnnotations: (newAnnotations: AnnotationsSlice["annotations"]) => void;
 };
+
+export type PtrToNoteAnnosSlice = {
+  ptrToNoteAnnosMap: Map<string, AnnoRepoAnnotation>;
+  setPtrToNoteAnnosMap: (
+    newPtrToNoteAnnosMap: PtrToNoteAnnosSlice["ptrToNoteAnnosMap"],
+  ) => void;
+};
+
 export type AnnotationTypesToIncludeSlice = {
   annotationTypesToInclude: string[];
   setAnnotationTypesToInclude: (
@@ -70,14 +78,27 @@ const createShowSvgsAnnosMiradorSlice: StateCreator<
     set(() => ({ showSvgsAnnosMirador: newShowSvgsAnnosMirador })),
 });
 
+const createPtrToNoteAnnosMapSlice: StateCreator<
+  PtrToNoteAnnosSlice,
+  [],
+  [],
+  PtrToNoteAnnosSlice
+> = (set) => ({
+  ptrToNoteAnnosMap: new Map<string, AnnoRepoAnnotation>(),
+  setPtrToNoteAnnosMap: (newPtrToNoteAnnosMap) =>
+    set(() => ({ ptrToNoteAnnosMap: new Map(newPtrToNoteAnnosMap) })),
+});
+
 export const useAnnotationStore = create<
   AnnotationsSlice &
     AnnotationTypesToIncludeSlice &
     AnnotationTypesToHighlightSlice &
-    ShowSvgsAnnosMiradorSlice
+    ShowSvgsAnnosMiradorSlice &
+    PtrToNoteAnnosSlice
 >()((...a) => ({
   ...createAnnotationSlice(...a),
   ...createAnnotationTypesToIncluceSlice(...a),
   ...createAnnotationTypesToHighlightSlice(...a),
   ...createShowSvgsAnnosMiradorSlice(...a),
+  ...createPtrToNoteAnnosMapSlice(...a),
 }));

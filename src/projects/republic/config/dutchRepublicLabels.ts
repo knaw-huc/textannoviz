@@ -79,9 +79,18 @@ export const dutchRepublicLabels = Object.assign({}, dutchLabels, {
 
   ENTITIES: "Entiteiten",
 
+  //Text panel titles
+  "text.self": "Tekst",
+
+  //panels
+  facs: "Facsimile",
+  metadata: "Info",
+
   //Footer
   prevResolution: "Vorige resolutie",
   nextResolution: "Volgende resolutie",
+  NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
+  SEARCH: "Zoek",
 
   FULL_TEXT_SEARCH_HELP:
     "Zoek naar termen of namen die voorkomen in de resoluties. \n" +

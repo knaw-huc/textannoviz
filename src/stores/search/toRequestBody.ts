@@ -10,6 +10,10 @@ export function toRequestBody(query: SearchQuery): SearchQueryRequestBody {
     searchQuery.text = query.fullText;
   }
 
+  if (query.searchInTextView?.length && query.fullText) {
+    searchQuery.textViews = query.searchInTextView;
+  }
+
   searchQuery.terms = query.terms;
 
   if (query.dateFacet) {
