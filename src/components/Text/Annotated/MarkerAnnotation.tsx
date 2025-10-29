@@ -47,40 +47,18 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   const miradorStore = useInternalMiradorStore().miradorStore;
   const projectName = useProjectStore().projectName;
   const translateProject = useProjectStore(translateProjectSelector);
+  const zoomAnnoMirador = useProjectStore(
+    projectConfigSelector,
+  ).zoomAnnoMirador;
 
   const currentCanvas = useMiradorStore().currentCanvas;
 
-  const pageAnno = annotations.find(
-    (anno) => props.marker.body.id === anno.body.id,
-  );
-
-  const canvas = (pageAnno?.target as CanvasTarget[])
-    .filter((t) => t.type === "Canvas")
-    .map((t) => t.source)[0];
-
-  const region = (pageAnno?.target as CanvasTarget[])
-    .filter((t) => t.type === "Canvas")
-    .flatMap((t) =>
-      Array.isArray(t.selector)
-        ? t.selector
-            .filter(
-              (sel): sel is { type: "iiif:ImageApiSelector"; region: string } =>
-                sel.type === "iiif:ImageApiSelector" && "region" in sel,
-            )
-            .map((sel) => sel.region)
-        : [],
-    );
-
-  const [x, y, w, h] = region[0].split(",").map(Number);
-  const boxToZoom = { x, y, width: w, height: h };
-  const zoomCenter = {
-    x: boxToZoom.x + boxToZoom.width / 2,
-    y: boxToZoom.y + boxToZoom.height / 2,
-  };
-
-  const miradorZoom = boxToZoom.width + boxToZoom.height / 2;
+  const { canvas, zoomConfig } = getCanvasAndZoomConfig();
+  const { zoomCenter, miradorZoom } = zoomConfig;
 
   React.useEffect(() => {
+    if (!zoomAnnoMirador) return;
+
     if (canvas === currentCanvas) {
       if (doZoom) {
         miradorStore.dispatch(
@@ -100,6 +78,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   function pageBreakClickHandler() {
     if (canvas.length > 0) {
       if (currentCanvas === canvas) {
+        if (!zoomAnnoMirador) return;
         miradorStore.dispatch(
           mirador.actions.updateViewport(projectName, {
             x: zoomCenter.x,
@@ -114,6 +93,52 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
         setDoZoom(true);
       }
     }
+  }
+
+  function getCanvasAndZoomConfig() {
+    const pageAnno = annotations.find(
+      (anno) => props.marker.body.id === anno.body.id,
+    );
+
+    const canvas = (pageAnno?.target as CanvasTarget[])
+      .filter((t) => t.type === "Canvas")
+      .map((t) => t.source)[0];
+
+    const region = (pageAnno?.target as CanvasTarget[])
+      .filter((t) => t.type === "Canvas")
+      .flatMap((t) =>
+        Array.isArray(t.selector)
+          ? t.selector
+              .filter(
+                (
+                  sel,
+                ): sel is { type: "iiif:ImageApiSelector"; region: string } =>
+                  sel.type === "iiif:ImageApiSelector" && "region" in sel,
+              )
+              .map((sel) => sel.region)
+          : [],
+      );
+
+    const regionStr = region[0];
+    const [x, y, w, h] = regionStr
+      ? regionStr.split(",").map(Number)
+      : [0, 0, 0, 0];
+    const boxToZoom = { x, y, width: w, height: h };
+    const zoomCenter = {
+      x: boxToZoom.x + boxToZoom.width / 2,
+      y: boxToZoom.y + boxToZoom.height / 2,
+    };
+
+    const miradorZoom = Math.max(boxToZoom.width + boxToZoom.height / 2, 1);
+
+    return {
+      canvas,
+      zoomConfig: {
+        ...boxToZoom,
+        zoomCenter,
+        miradorZoom,
+      },
+    };
   }
 
   const pageNumber = props.marker.body.metadata.n;
