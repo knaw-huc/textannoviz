@@ -54,14 +54,8 @@ function getPositionRelativeToView(
     // );
     return {
       bodyId: annotation.body.id,
-      start: {
-        line: -1,
-        offset: -1,
-      },
-      end: {
-        line: -1,
-        offset: -1,
-      },
+      begin: -1,
+      end: -1,
     };
   }
   return positionRelativeToView;
