@@ -9,7 +9,8 @@ type MetadataPanelProps = {
 
 export const MetadataPanel = (props: MetadataPanelProps) => {
   const manifestationAnno = props.annotations.find(
-    (anno) => anno.body.type === "tl:Manifestation",
+    // TODO: where to find metadata?
+    (anno) => anno.body.type === "Document",
   );
 
   return (

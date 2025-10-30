@@ -5,19 +5,20 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
+import { Empty } from "../../../components/Empty.tsx";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
-  relativeTo: "tl:Manifestation",
+  // TODO: where to find metadata?
+  relativeTo: "Document",
   broccoliUrl: "http://localhost:8082",
   annotationTypesToInclude: [
     // "pagexml:Line",
     // "pagexml:Page",
     // "pagexml:Region",
-    "tl:Manifestation",
+    "Document",
   ],
   elasticIndexName: "translatin",
   initialDateFrom: "1500-01-01",
@@ -47,10 +48,13 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     "publisher",
   ],
   components: {
-    MetadataPanel,
+    // TODO:
+    // MetadataPanel,
+    MetadataPanel: Empty,
     SearchItem,
   },
 
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
+  viewsToSearchIn: ["playView"],
 } as ProjectSpecificConfig);
