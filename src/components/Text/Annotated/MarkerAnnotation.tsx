@@ -1,6 +1,6 @@
 import mirador from "mirador-knaw-huc-mui5";
 import React, { useRef } from "react";
-import { toast } from "react-toastify";
+import { toast } from "../../../utils/toast.ts";
 import { CanvasTarget, NoteBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";

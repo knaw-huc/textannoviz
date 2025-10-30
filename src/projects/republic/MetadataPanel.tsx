@@ -26,7 +26,7 @@ import {
 } from "./annotation/ProjectAnnotationModel";
 import { SearchQuery } from "../../model/Search.ts";
 import { ProvenanceButton } from "./annotation/ProvenanceButton.tsx";
-import { toast } from "react-toastify";
+import { toast } from "../../utils/toast.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
