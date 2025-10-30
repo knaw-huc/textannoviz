@@ -17,6 +17,7 @@ export const blankSearchQuery: SearchQuery = {
   rangeFrom: "",
   rangeTo: "",
   fullText: "",
+  searchInTextView: [],
   terms: {},
 };
 

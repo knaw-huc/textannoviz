@@ -85,4 +85,11 @@ export type Labels = {
   TOGGLE_INFO_HELP: string;
 
   OCCURRENCES_PER_YEAR: string;
+
+  //Footer
+  NAVIGATE_SEARCH_RESULTS: string;
+  SEARCH: string;
+  "text.self": string;
+  facs: string;
+  metadata: string;
 };

@@ -1,12 +1,13 @@
 {
   "name": "textannoviz",
-  "version": "0.16.8",
+  "version": "0.17.5",
   "description": "",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "vite serve --config vite.config.local.ts",
-    "build": "vite build --config vite.config.prod.ts",
+    "build:prod": "vite build --config vite.config.prod.ts",
+    "build:staging": "vite build --mode staging --config vite.config.prod.ts",
     "preview": "vite preview",
     "prepare": "husky install",
     "test": "vitest run",
@@ -20,7 +21,10 @@
     "docker:build-push:republic-prod": "./scripts/docker-republic-prod-all.sh",
     "docker:build-push:suriano": "./scripts/docker-suriano-all.sh",
     "docker:build-push:translatin": "./scripts/docker-translatin-all.sh",
-    "docker:build-push:vangogh": "./scripts/docker-vangogh-all.sht"
+    "docker:build-push:vangogh": "./scripts/docker-vangogh-all.sh",
+    "docker:build-push:vangogh-peen": "./scripts/docker-vangogh-peen-all.sh",
+    "docker:build-push:israels-peen-prod": "./scripts/docker-israels-peen-all-prod.sh",
+    "docker:build-push:israels-peen-staging": "./scripts/docker-israels-peen-all-staging.sh"
   },
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
@@ -60,6 +64,7 @@
     "esbuild": "^0.18.20",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",

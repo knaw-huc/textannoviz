@@ -97,7 +97,7 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
     "title",
     "postalData",
   ],
-  defaultTextPanels: ["textOrig", "textTrans"],
+  defaultTextPanels: "textOrig",
   annotationTypesToHighlight: ["tei:Rs"],
   showToggleTextPanels: true,
   logoImageUrl: logo,

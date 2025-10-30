@@ -1,15 +1,16 @@
 import { PropsWithChildren } from "react";
-import { MarkerSegment } from "./AnnotationModel.ts";
-import { Optional } from "../../../utils/Optional.ts";
-import { useAnnotationStore } from "../../../stores/annotation.ts";
+import { OverlayArrow, Tooltip } from "react-aria-components";
 import {
   AnnoRepoAnnotation,
-  isNoteBody,
+  NoteBody,
 } from "../../../model/AnnoRepoAnnotation.ts";
-import { useTextStore } from "../../../stores/text.ts";
-import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
-import { OverlayArrow, Tooltip } from "react-aria-components";
+import { BroccoliTextGeneric, ViewLang } from "../../../model/Broccoli.ts";
+import { useAnnotationStore } from "../../../stores/annotation.ts";
+import { useTextStore } from "../../../stores/text/text-store.ts";
+import { Optional } from "../../../utils/Optional.ts";
 import { SpanTooltipButton } from "../../common/SpanTooltipButton.tsx";
+import { MarkerSegment } from "./AnnotationModel.ts";
+import { AnnotatedText } from "./AnnotatedText.tsx";
 
 // Detail.tsx performs an additional broccoli call to retrieve notes:
 export const NOTES_VIEW = "notes";
@@ -38,9 +39,13 @@ type FootnoteModalProps = PropsWithChildren<{
 }>;
 
 export function MarkerTooltip(props: FootnoteModalProps) {
-  const annotations = useAnnotationStore().annotations;
+  const { ptrToNoteAnnosMap } = useAnnotationStore();
   const textPanels = useTextStore((state) => state.views);
-  const tooltipBody = getTooltipBody(textPanels, props, annotations);
+  const tooltipBody = getTooltipBody(
+    textPanels?.["textNotes"],
+    props,
+    ptrToNoteAnnosMap,
+  );
   return (
     <Tooltip {...props}>
       <OverlayArrow>
@@ -48,45 +53,43 @@ export function MarkerTooltip(props: FootnoteModalProps) {
           <path d="M0 0 L4 4 L8 0" />
         </svg>
       </OverlayArrow>
-      <div>{tooltipBody}</div>
+      <AnnotatedText text={tooltipBody} showDetail={false} />
     </Tooltip>
   );
 }
 
 // TODO: move to project config
 function getTooltipBody(
-  textPanels: Record<string, BroccoliTextGeneric> | undefined,
+  textPanels: Record<ViewLang, Record<string, BroccoliTextGeneric>> | undefined,
   props: {
     clickedMarker: MarkerSegment;
   } & {
     children?: React.ReactNode | undefined;
   },
-  annotations: AnnoRepoAnnotation[],
+  ptrToNoteAnnosMap: Map<string, AnnoRepoAnnotation>,
 ) {
   if (!textPanels) {
     throw new Error(`No text panels found`);
   }
-  const noteTargetId = props.clickedMarker.body.metadata.target.split("#")[1];
-  const note = annotations.find(
-    (a) => isNoteBody(a.body) && a.body.metadata["tei:id"] === noteTargetId,
-  );
+  const noteTargetId = props.clickedMarker.body.metadata.target;
+
+  const note = ptrToNoteAnnosMap.get(noteTargetId);
+
   if (!note) {
     throw new Error(`No note found for marker ${noteTargetId}`);
   }
-  const notesView = textPanels[NOTES_VIEW];
+
+  const noteLanguage = (note.body as NoteBody).metadata.lang as ViewLang;
+
+  const notesView = textPanels[noteLanguage];
   if (!notesView) {
     throw new Error("No `notes` text panel found");
   }
-  const noteBodyId = note.body.id;
-  return createNoteBody(notesView, noteBodyId);
-}
+  const noteNumber = (note.body as NoteBody).metadata.n;
 
-function createNoteBody(view: BroccoliTextGeneric, noteBodyId: string) {
-  const noteOffsets = view.locations.annotations.find(
-    (a) => a.bodyId === noteBodyId,
-  );
-  if (!noteOffsets) {
-    throw new Error(`No relative note found for ${noteBodyId}`);
+  if (!noteNumber) {
+    throw new Error(`No note number for ${note.body.id}`);
   }
-  return view.body.slice(noteOffsets.begin, noteOffsets.end);
+
+  return notesView[noteNumber];
 }

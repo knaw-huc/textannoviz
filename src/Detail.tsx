@@ -1,67 +1,49 @@
 import { Skeleton } from "primereact/skeleton";
-import { useState } from "react";
-import { Annotation } from "./components/Annotations/Annotation.tsx";
-import { Footer } from "./components/Footer/Footer";
-import { Mirador } from "./components/Mirador/Mirador";
-import { TextComponent } from "./components/Text/TextComponent";
-import { ProjectConfig } from "./model/ProjectConfig";
-import { useSearchStore } from "./stores/search/search-store";
+// import { Panels } from "./components/Detail/Panels.tsx";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
+import { Footer } from "./components/Footer/Footer";
 import { useInitSearch } from "./components/Search/useInitSearch.ts";
+// import { ProjectConfig } from "./model/ProjectConfig";
+import { useSearchStore } from "./stores/search/search-store";
+// import { Annotation } from "./components/Annotations/Annotation.tsx";
+// import { Mirador } from "./components/Mirador/Mirador.tsx";
+// import { TextComponent } from "./components/Text/TextComponent.tsx";
+import { Panels } from "./components/Detail/Panels.tsx";
 
-interface DetailProps {
-  project: string;
-  config: ProjectConfig;
-}
+// interface DetailProps {
+//   project: string;
+//   config: ProjectConfig;
+// }
 
-export const Detail = (props: DetailProps) => {
-  const [showSearchResults, setShowSearchResults] = useState(false);
-  const [showIiifViewer, setShowIiifViewer] = useState(true);
-  const [showAnnotationPanel, setShowAnnotationPanel] = useState(
-    props.config.defaultShowMetadataPanel,
-  );
-  const { isInitDetail, isLoadingDetail } = useInitDetail();
+export const Detail = () => {
+  const { isInitDetail } = useInitDetail();
 
   useInitSearch();
 
-  const { searchResults, isInitSearch } = useSearchStore();
-
-  function showIiifViewerHandler() {
-    setShowIiifViewer(!showIiifViewer);
-  }
-
-  function showAnnotationPanelHandler() {
-    setShowAnnotationPanel(!showAnnotationPanel);
-  }
-
-  function showSearchResultsHandler() {
-    setShowSearchResults(!showSearchResults);
-  }
+  const { isInitSearch } = useSearchStore();
 
   return (
     <>
       {isInitDetail && isInitSearch ? (
         <>
-          <main className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch">
-            {showIiifViewer && props.config.showMirador ? <Mirador /> : null}
+          <main
+            id="panelsContainer"
+            className="mx-auto grid w-full grow justify-center overflow-y-scroll"
+            style={{
+              gridTemplateColumns:
+                "minmax(300px, 650px) minmax(300px, 750px) minmax(300px, 750px) minmax(300px, 400px)",
+              justifyContent: "stretch",
+            }}
+          >
+            {/* {props.config.showMirador ? <Mirador /> : null}
             <TextComponent
-              panelsToRender={props.config.defaultTextPanels}
-              allPossiblePanels={props.config.allPossibleTextPanels}
+              viewToRender={props.config.defaultTextPanels}
               isLoading={isLoadingDetail}
             />
-            {showAnnotationPanel ? (
-              <Annotation isLoading={isLoadingDetail} />
-            ) : null}
+            <Annotation isLoading={isLoadingDetail} /> */}
+            <Panels />
           </main>
-          <Footer
-            showIiifViewerHandler={showIiifViewerHandler}
-            showAnnotationPanelHandler={showAnnotationPanelHandler}
-            showSearchResultsHandler={showSearchResultsHandler}
-            showSearchResultsDisabled={searchResults === undefined}
-            facsimileShowState={showIiifViewer}
-            panelShowState={showAnnotationPanel}
-            searchResultsShowState={showSearchResults}
-          />
+          <Footer />
         </>
       ) : (
         <div className="flex flex-col gap-2 pl-2 pt-2">

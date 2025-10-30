@@ -16,45 +16,11 @@ import {
   setProjectNameSelector,
   useProjectStore,
 } from "./stores/project";
+import { getViteEnvVars } from "./utils/viteEnvVars.ts";
 
-const { project, config } = selectProjectConfig();
+const { projectName, routerBasename, prodMode } = getViteEnvVars();
+const { project, config } = await selectProjectConfig();
 const router = await createRouter();
-
-async function fetchExternalConfig(): Promise<ExternalConfig | null> {
-  const response = await fetch("/config");
-  if (!response.ok) {
-    return null;
-  }
-
-  return response.json();
-}
-
-if (import.meta.env.PROD && config.useExternalConfig === true) {
-  const externalConfig = await fetchExternalConfig();
-
-  if (externalConfig) {
-    const {
-      indexName,
-      initialDateFrom,
-      initialDateTo,
-      initialRangeFrom,
-      initialRangeTo,
-      maxRange,
-      broccoliUrl,
-      annotationTypesToInclude,
-    } = externalConfig;
-
-    config.elasticIndexName = indexName;
-    if (initialDateFrom) config.initialDateFrom = initialDateFrom;
-    if (initialDateTo) config.initialDateTo = initialDateTo;
-    if (initialRangeFrom) config.initialRangeFrom = initialRangeFrom;
-    if (initialRangeTo) config.initialRangeTo = initialRangeTo;
-    if (maxRange) config.maxRange = maxRange;
-    if (broccoliUrl) config.broccoliUrl = broccoliUrl;
-    if (annotationTypesToInclude)
-      config.annotationTypesToInclude = annotationTypesToInclude;
-  }
-}
 
 export default function App() {
   const setAnnotationTypesToInclude = useAnnotationStore(
@@ -78,7 +44,7 @@ function Layout() {
   return (
     <>
       <style>{config.projectCss}</style>
-      <Header projectConfig={config} />
+      <Header />
       <Outlet />
     </>
   );
@@ -97,27 +63,76 @@ async function createRouter() {
           },
           {
             path: detailTier2Path,
-            element: <Detail project={project} config={config} />,
+            element: <Detail />,
           },
           {
             path: "help",
             element: <Help project={project} config={config} />,
           },
+          ...config.routes.map((route) => ({
+            path: route.path,
+            element: route.element,
+          })),
         ],
       },
     ],
-    { basename: import.meta.env["VITE_ROUTER_BASENAME"] ?? "/" },
+    { basename: routerBasename ?? "/" },
   );
 }
 
-function selectProjectConfig() {
-  const projectEnvVar = "VITE_PROJECT";
-  const project: ProjectName = import.meta.env[projectEnvVar];
-  const config: ProjectConfig = projectConfigs[project];
-  if (!config) {
-    throw new Error(
-      `No project config defined for ${projectEnvVar}=${project}`,
-    );
+async function selectProjectConfig() {
+  let project: ProjectName | undefined = undefined;
+  let config: ProjectConfig | undefined = undefined;
+
+  if (prodMode) {
+    const externalConfig = await fetchExternalConfig(routerBasename);
+
+    if (externalConfig) {
+      const {
+        projectName: externalProjectName,
+        indexName,
+        initialDateFrom,
+        initialDateTo,
+        initialRangeFrom,
+        initialRangeTo,
+        maxRange,
+        broccoliUrl,
+        annotationTypesToInclude,
+      } = externalConfig;
+      project = externalProjectName;
+      config = projectConfigs[project];
+      if (indexName) config.elasticIndexName = indexName;
+      if (initialDateFrom) config.initialDateFrom = initialDateFrom;
+      if (initialDateTo) config.initialDateTo = initialDateTo;
+      if (initialRangeFrom) config.initialRangeFrom = initialRangeFrom;
+      if (initialRangeTo) config.initialRangeTo = initialRangeTo;
+      if (maxRange) config.maxRange = maxRange;
+      if (broccoliUrl) config.broccoliUrl = broccoliUrl;
+      if (annotationTypesToInclude)
+        config.annotationTypesToInclude = annotationTypesToInclude;
+    }
+  } else {
+    project = projectName;
+    config = projectConfigs[project];
+  }
+
+  if (!config || !project) {
+    throw new Error(`No project config defined for ${project}`);
   }
   return { project, config };
+}
+
+async function fetchExternalConfig(
+  basePath: string,
+): Promise<ExternalConfig | null> {
+  const configUrl = `${
+    basePath.endsWith("/") ? basePath : basePath + "/"
+  }config`;
+
+  const response = await fetch(configUrl);
+  if (!response.ok) {
+    return null;
+  }
+
+  return response.json();
 }

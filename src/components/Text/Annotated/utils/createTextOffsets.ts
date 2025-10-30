@@ -49,9 +49,20 @@ function getPositionRelativeToView(
     (p) => p.bodyId === annotation.body.id,
   );
   if (!positionRelativeToView) {
-    throw new Error(
-      `No relative position found for annotation ${annotation?.body?.id}`,
-    );
+    // throw new Error(
+    //   `No relative position found for annotation ${annotation?.body?.id}`,
+    // );
+    return {
+      bodyId: annotation.body.id,
+      start: {
+        line: -1,
+        offset: -1,
+      },
+      end: {
+        line: -1,
+        offset: -1,
+      },
+    };
   }
   return positionRelativeToView;
 }

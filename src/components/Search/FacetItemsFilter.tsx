@@ -12,7 +12,7 @@ export const FacetItemsFilter = (props: FacetItemsFilterProps) => {
 
   return (
     <input
-      className="ml-2 mr-2 h-8 rounded-md border px-2 py-1.5 text-sm text-gray-800 outline outline-0 focus-within:border-black"
+      className="ml-2 mr-2 h-8 rounded-md border border-neutral-400 px-2 py-1.5 text-sm text-gray-800 placeholder:italic placeholder:text-neutral-500 focus-within:border-black"
       onChange={(event) =>
         props.inputFilterOnChangeHandler(event.currentTarget.value)
       }

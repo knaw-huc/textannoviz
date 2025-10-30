@@ -1,9 +1,12 @@
+import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
 import { Empty } from "../../../components/Empty.tsx";
 import { Placeholder } from "../../../components/Placeholder.tsx";
 import { DefaultProjectConfig } from "../../../model/ProjectConfig.ts";
 import { AnnotationItem } from "../AnnotationItem.tsx";
 import { AnnotationItemContent } from "../AnnotationItemContent.tsx";
+import { Header } from "../Header.tsx";
 import { SearchItem } from "../SearchItem.tsx";
+import { TextPanels } from "../TextPanels.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
@@ -31,7 +34,7 @@ export const defaultConfig: DefaultProjectConfig = {
   isEntity: isEntity,
 
   allPossibleTextPanels: ["self"],
-  defaultTextPanels: ["self"],
+  defaultTextPanels: "self",
   showSearchSortBy: true,
   showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,
@@ -39,15 +42,20 @@ export const defaultConfig: DefaultProjectConfig = {
   defaultShowMetadataPanel: true,
   showToggleTextPanels: false,
   zoomAnnoMirador: false,
+  miradorZoomRatio: 0.75,
   logoHref: "/",
   showSearchQueryHistory: true,
   showDateFacets: true,
   showKeywordFacets: true,
   showSliderFacets: false,
   showSelectedFilters: true,
+  showFragmenter: true,
+  showTopSearchPagination: false,
   showNewSearchButton: true,
   allowCloseTextPanel: false,
   showWebAnnoTab: true,
+  showNotesTab: false,
+  showArtworksTab: false,
   showHistogram: false,
   useExternalConfig: false,
   visualizeAnnosMirador: false,
@@ -75,6 +83,10 @@ export const defaultConfig: DefaultProjectConfig = {
     SearchInfoPage: Placeholder,
     SearchItem: SearchItem,
     BrowseScanButtons: Empty,
+    NotesPanel: Placeholder,
+    ArtworksTab: Placeholder,
+    InsertMarkerAnnotation: Empty,
+    Header: Header,
   },
   selectedLanguage: "en",
   languages: [
@@ -89,4 +101,32 @@ export const defaultConfig: DefaultProjectConfig = {
   },
   showSearchResultsOnInfoPage: false,
   projectCss: "",
+  detailPanels: [
+    {
+      name: "facs",
+      visible: true,
+      disabled: false,
+      size: "minmax(300px, 650px)",
+      panel: PanelTemplates.facsPanel,
+    },
+    {
+      name: "text.self",
+      visible: true,
+      disabled: false,
+      size: "minmax(300px, 750px)",
+      panel: TextPanels.self,
+    },
+    {
+      name: "metadata",
+      visible: true,
+      disabled: false,
+      size: "minmax(300px, 400px)",
+      panel: PanelTemplates.metadataPanel,
+    },
+  ],
+  routes: [],
+  searchSorting: [],
+  annoToEntityCategory: "",
+  viewsToSearchIn: [],
+  showSearchInTextViews: false,
 };

@@ -60,7 +60,7 @@ export function SelectItemComponent(props: ListBoxItemProps) {
   return (
     <ListBoxItem
       {...props}
-      className="focus:bg-brand2-600 group flex cursor-default select-none items-center gap-2 rounded px-4 py-2 outline-none focus:text-white"
+      className="focus:bg-brand2-500 group flex cursor-default select-none items-center gap-2 rounded px-4 py-2 outline-none focus:text-white"
     >
       {({ isSelected }) => (
         <>

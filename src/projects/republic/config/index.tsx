@@ -17,6 +17,10 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
+import { Any } from "../../../utils/Any.ts";
+import projectCss from "../project.css?inline";
+import { englishRepublicLabels } from "./englishRepublicLabels.ts";
+import { Header } from "../Header.tsx";
 
 export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "republic",
@@ -48,7 +52,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
 
   pageAnnotation: "Page",
   showPrevNextScanButtons: true,
-  elasticIndexName: "republic-2024.11.30",
+  elasticIndexName: "republic-2025-05-01",
   initialDateFrom: "1576-08-04",
   initialDateTo: "1796-03-01",
   initialRangeFrom: "0",
@@ -122,14 +126,29 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     AnnotationButtons,
     HelpLink,
     SearchInfoPage,
+    Header,
   },
   selectedLanguage: "nl",
   languages: [
     { code: "nl", labels: dutchRepublicLabels },
-    // { code: "en", labels: englishRepublicLabels },
+    { code: "en", labels: englishRepublicLabels },
   ],
   mirador: {
     showTopMenuButton: true,
     showWindowSideBar: true,
   },
+  annoToEntityCategory: {
+    COM: "COM",
+    DAT: "DAT",
+    HOE: "HOE",
+    LOC: "LOC",
+    ORG: "ORG",
+
+    /**
+     * PER can also be named PERS
+     */
+    PER: "PER",
+    PERS: "PER",
+  } as Any,
+  projectCss: projectCss,
 } as ProjectSpecificConfig);

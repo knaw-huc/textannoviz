@@ -8,24 +8,28 @@ export function createDefaultAggs(
   const defaultOrder = "countDesc";
   const defaultSize = 10;
 
-  return Object.keys(facetTypes).map((agg) => {
-    const newAgg = {
-      facetName: agg,
-      order: "countDesc",
-      size: 10,
-    };
+  return Object.entries(facetTypes)
+    .map(([agg, type]) => {
+      if (type === "date") return;
 
-    const override = projectConfig.overrideDefaultAggs.find(
-      (override) => override.facetName === agg,
-    );
+      const newAgg = {
+        facetName: agg,
+        order: "countDesc",
+        size: 10,
+      };
 
-    if (override) {
-      Object.assign(newAgg, {
-        order: override.order ?? defaultOrder,
-        size: override.size ?? defaultSize,
-      });
-    }
+      const override = projectConfig.overrideDefaultAggs.find(
+        (override) => override.facetName === agg,
+      );
 
-    return newAgg;
-  });
+      if (override) {
+        Object.assign(newAgg, {
+          order: override.order ?? defaultOrder,
+          size: override.size ?? defaultSize,
+        });
+      }
+
+      return newAgg;
+    })
+    .filter(Boolean) as NamedFacetAgg[];
 }

@@ -88,4 +88,11 @@ export const dutchLabels: Labels = {
   TOGGLE_INFO_HELP: "",
 
   OCCURRENCES_PER_YEAR: "Voorkomens per jaar",
+
+  //Footer
+  NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
+  SEARCH: "Zoek",
+  "text.self": "Tekst",
+  facs: "Facsimile",
+  metadata: "Info",
 };

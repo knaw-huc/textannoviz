@@ -153,7 +153,10 @@ export function SearchResults(props: SearchResultsProps) {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
+      <div
+        id="search-results"
+        className="flex flex-col items-center justify-between gap-2 md:flex-row"
+      >
         <span className="font-semibold">
           {resultStartEnd
             ? `${resultStartEnd} ${
@@ -179,7 +182,7 @@ export function SearchResults(props: SearchResultsProps) {
           )}
         </div>
       </div>
-      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-8">
+      <div className="border-brand1Grey-100 -mx-10 my-8 flex flex-row items-center border-b px-10 pb-4">
         {projectConfig.showSelectedFilters && !isEmpty(searchQuery.terms) && (
           <div className="flex w-full flex-row items-center justify-start">
             <div className="grid grid-cols-4 items-center gap-2">
@@ -203,18 +206,19 @@ export function SearchResults(props: SearchResultsProps) {
           </div>
         )}
 
-        {searchResults.results.length >= 1 && (
-          <div className="flex w-full flex-row justify-end">
-            <SearchPagination
-              onPrevPageClick={handleSelectPrevPageClick}
-              onNextPageClick={handleSelectNextPageClick}
-              pageNumber={pageNumber}
-              searchResult={searchResults}
-              elasticSize={pageSize}
-              onJumpToPage={handleJumpToPage}
-            />
-          </div>
-        )}
+        {searchResults.results.length >= 1 &&
+          projectConfig.showTopSearchPagination && (
+            <div className="flex w-full flex-row justify-end">
+              <SearchPagination
+                onPrevPageClick={handleSelectPrevPageClick}
+                onNextPageClick={handleSelectNextPageClick}
+                pageNumber={pageNumber}
+                searchResult={searchResults}
+                elasticSize={pageSize}
+                onJumpToPage={handleJumpToPage}
+              />
+            </div>
+          )}
       </div>
       {projectConfig.showHistogram && searchResults.results.length >= 1 ? (
         <>

@@ -1,12 +1,16 @@
+import { MarkerSegment } from "../components/Text/Annotated/AnnotationModel.ts";
 import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
+import { Any } from "../utils/Any.ts";
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,
   AnnoRepoBodyBase,
 } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
+import { MiradorConfig } from "./MiradorConfig.ts";
 import {
   GlobaliseSearchResultsBody,
+  IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
   RepublicSearchResultBody,
   SearchParams,
@@ -15,7 +19,6 @@ import {
   TranslatinSearchResultsBody,
   VanGoghSearchResultsBody,
 } from "./Search.ts";
-import { MiradorConfig } from "./MiradorConfig.ts";
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
@@ -33,9 +36,26 @@ export type ProjectConfig = SearchConfig &
     useExternalConfig: boolean;
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
+    showNotesTab: boolean;
+    showArtworksTab: boolean;
+
+    detailPanels: {
+      name: string;
+      visible: boolean;
+      size: string;
+      disabled: boolean;
+      panel: {
+        content: JSX.Element;
+      };
+    }[];
 
     components: ComponentsConfig;
     projectCss: string;
+
+    routes: {
+      path: string;
+      element: JSX.Element;
+    }[];
   };
 
 type FacsimileConfig = {
@@ -43,6 +63,7 @@ type FacsimileConfig = {
   showSettingsMenuFooter: boolean;
   defaultShowMetadataPanel: boolean;
   zoomAnnoMirador: boolean;
+  miradorZoomRatio: number;
   showMirador: boolean;
   showMiradorNavigationButtons: boolean;
   pageAnnotation: string;
@@ -73,14 +94,19 @@ export type ComponentsConfig = {
       | MondriaanSearchResultsBody
       | GlobaliseSearchResultsBody
       | SurianoSearchResultsBody
-      | VanGoghSearchResultsBody;
+      | VanGoghSearchResultsBody
+      | IsraelsSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
+  NotesPanel: () => JSX.Element;
+  ArtworksTab: () => JSX.Element;
+  InsertMarkerAnnotation: (props: { marker: MarkerSegment }) => JSX.Element;
+  Header: () => JSX.Element;
 };
 
 type TextConfig = {
   allPossibleTextPanels: string[];
-  defaultTextPanels: string[];
+  defaultTextPanels: string;
   showToggleTextPanels: boolean;
   allowCloseTextPanel: boolean;
 };
@@ -98,6 +124,8 @@ type SearchConfig = {
   showDateFacets: boolean;
   showKeywordFacets: boolean;
   showSliderFacets: boolean;
+  showFragmenter: boolean;
+  showTopSearchPagination: boolean;
   histogramFacet: string;
   showInputFacet: boolean;
   inputFacetOptions: string;
@@ -114,6 +142,9 @@ type SearchConfig = {
   overrideDefaultSearchParams: Partial<SearchParams>;
   allowEmptyStringSearch: boolean;
   showFacetFilter: boolean;
+  searchSorting: { name: string; value: string }[];
+  viewsToSearchIn: string[];
+  showSearchInTextViews: boolean;
 };
 
 type AnnotationConfig = {
@@ -162,6 +193,8 @@ type AnnotationConfig = {
    * but that cannot be clicked on
    */
   highlightedAnnotationTypes: string[];
+
+  annoToEntityCategory: Any;
 
   getAnnotationCategory: CategoryGetter;
   getHighlightCategory: CategoryGetter;

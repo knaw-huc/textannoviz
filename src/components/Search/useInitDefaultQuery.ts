@@ -15,6 +15,7 @@ import {
   useSearchStore,
 } from "../../stores/search/search-store.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
+import { getDateFacetName } from "../../stores/search/getDateFacetName.ts";
 
 /**
  * The default query used when pressing enter in the full text input field
@@ -69,16 +70,12 @@ export function useInitDefaultQuery() {
         "keyword",
       );
 
-      const newDateFacets = filterFacetsByType(
-        newFacetTypes,
-        newFacets,
-        "date",
-      );
+      const dateFacet = getDateFacetName(newFacetTypes);
 
       const newDefaultQuery = createSearchQuery({
         projectConfig,
         aggs: newAggs,
-        dateFacets: newDateFacets,
+        dateFacet: dateFacet,
       });
 
       setSearchFacetTypes(newFacetTypes);

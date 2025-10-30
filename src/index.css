@@ -7,12 +7,32 @@
     @apply text-blue-600 underline hover:text-blue-800;
   }
 
+  h1 {
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
+  h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+
   h3 {
     @apply mb-4 mt-4 block text-lg font-bold;
   }
 
   h4 {
-    @apply mb-5 mt-5 block font-bold;
+    @apply font-bold;
   }
 }
 
@@ -392,7 +412,6 @@ div[role="textpanel"] > *:last-child {
 .query-delete,
 .query-date {
   font-size: 0.9em;
-  color: #ccc;
 }
 
 .query-delete {
@@ -417,11 +436,9 @@ div[role="textpanel"] > *:last-child {
 }
 
 .query-date {
-  color: #ccc;
 }
 
 .query-delete {
-  color: #ccc;
   float: right;
   &:hover {
     text-decoration: underline;

@@ -12,6 +12,7 @@
 
 @layer components {
   /* nested annotations markup */
+  /* See project specific stylesheets for project specific annotation styling */
 
   .segmented-text {
     display: block;
@@ -40,31 +41,6 @@
     @apply before:content-[url('/src/assets/icon-annotation-person.svg')];
   }
 
-  .annotated-hoe.start-annotation,
-  .annotated-hoe.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-hoedanigheid.svg')];
-  }
-
-  .annotated-org.start-annotation,
-  .annotated-org.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-organisation.svg')];
-  }
-
-  .annotated-dat.start-annotation,
-  .annotated-dat.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-date.svg')];
-  }
-
-  .annotated-com.start-annotation,
-  .annotated-com.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-commision.svg')];
-  }
-
-  .annotated-loc.start-annotation,
-  .annotated-loc.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-location.svg')];
-  }
-
   /* show levels */
   .fullNestedAnnotation .annotated-segment {
     @apply relative;
@@ -77,21 +53,6 @@
   .fullNestedAnnotation .depth-1.annotated-per {
     @apply bg-annotation-per500/10;
   }
-  .fullNestedAnnotation .depth-1.annotated-hoe {
-    @apply bg-annotation-hoe500/10;
-  }
-  .fullNestedAnnotation .depth-1.annotated-com {
-    @apply bg-annotation-com500/10;
-  }
-  .fullNestedAnnotation .depth-1.annotated-loc {
-    @apply bg-annotation-loc500/10;
-  }
-  .fullNestedAnnotation .depth-1.annotated-org {
-    @apply bg-annotation-org500/10;
-  }
-  .fullNestedAnnotation .depth-1.annotated-dat {
-    @apply bg-annotation-dat500/10;
-  }
 
   /* layer 2 */
   .fullNestedAnnotation .depth-2 {
@@ -99,21 +60,6 @@
   }
   .fullNestedAnnotation .depth-2.annotated-per {
     @apply border-t-annotation-per500 bg-none;
-  }
-  .fullNestedAnnotation .depth-2.annotated-hoe {
-    @apply border-t-annotation-hoe500 bg-none;
-  }
-  .fullNestedAnnotation .depth-2.annotated-com {
-    @apply border-t-annotation-com500 bg-none;
-  }
-  .fullNestedAnnotation .depth-2.annotated-loc {
-    @apply border-t-annotation-loc500 bg-none;
-  }
-  .fullNestedAnnotation .depth-2.annotated-org {
-    @apply border-t-annotation-org500 bg-none;
-  }
-  .fullNestedAnnotation .depth-2.annotated-dat {
-    @apply border-t-annotation-dat500 bg-none;
   }
 
   .fullNestedAnnotation .depth-2.start-annotation {
@@ -127,21 +73,7 @@
   .fullNestedAnnotation .depth-3.annotated-per {
     @apply border-b-annotation-per500 bg-none;
   }
-  .fullNestedAnnotation .depth-3.annotated-hoe {
-    @apply border-b-annotation-hoe500 bg-none;
-  }
-  .fullNestedAnnotation .depth-3.annotated-com {
-    @apply border-b-annotation-com500 bg-none;
-  }
-  .fullNestedAnnotation .depth-3.annotated-loc {
-    @apply border-b-annotation-loc500 bg-none;
-  }
-  .fullNestedAnnotation .depth-3.annotated-org {
-    @apply border-b-annotation-org500 bg-none;
-  }
-  .fullNestedAnnotation .depth-3.annotated-dat {
-    @apply border-b-annotation-dat500 bg-none;
-  }
+
   .fullNestedAnnotation .depth-3.start-annotation {
     @apply before:-top-5 before:translate-y-7;
   }
@@ -152,21 +84,6 @@
   }
   .fullNestedAnnotation .depth-4.annotated-per {
     @apply border-t-annotation-per500 bg-none;
-  }
-  .fullNestedAnnotation .annotated-segment .depth-4.annotated-hoe {
-    @apply border-t-annotation-hoe500 bg-none;
-  }
-  .fullNestedAnnotation .annotated-segment .depth-4.annotated-com {
-    @apply border-t-annotation-com500 bg-none;
-  }
-  .fullNestedAnnotation .depth-4.annotated-loc {
-    @apply border-t-annotation-loc500 bg-none;
-  }
-  .fullNestedAnnotation .depth-4.annotated-org {
-    @apply border-t-annotation-org500 bg-none;
-  }
-  .fullNestedAnnotation .depth-4.annotated-dat {
-    @apply border-t-annotation-dat500 bg-none;
   }
 
   .fullNestedAnnotation .depth-4.start-annotation {
@@ -180,21 +97,7 @@
   .fullNestedAnnotation .depth-5.annotated-per {
     @apply border-b-annotation-per500 bg-none;
   }
-  .fullNestedAnnotation .depth-5.annotated-hoe {
-    @apply border-b-annotation-hoe500 bg-none;
-  }
-  .fullNestedAnnotation .depth-5.annotated-com {
-    @apply border-b-annotation-com500 bg-none;
-  }
-  .fullNestedAnnotation .depth-5.annotated-loc {
-    @apply border-b-annotation-loc500 bg-none;
-  }
-  .fullNestedAnnotation .depth-5.annotated-org {
-    @apply border-b-annotation-org500 bg-none;
-  }
-  .fullNestedAnnotation .depth-5.annotated-dat {
-    @apply border-b-annotation-dat500 bg-none;
-  }
+
   .fullNestedAnnotation .depth-5.start-annotation {
     @apply before:-top-5 before:translate-y-10;
   }
@@ -211,21 +114,6 @@
   }
   .closedNestedAnnotation .annotated-segment > .annotated-per {
     @apply bg-annotation-per100 hover:bg-annotation-per500/30;
-  }
-  .closedNestedAnnotation .annotated-segment > .annotated-hoe {
-    @apply bg-annotation-hoe100;
-  }
-  .closedNestedAnnotation .annotated-segment > .annotated-com {
-    @apply bg-annotation-com100;
-  }
-  .closedNestedAnnotation .annotated-segment > .annotated-loc {
-    @apply bg-annotation-loc100;
-  }
-  .closedNestedAnnotation .annotated-segment > .annotated-org {
-    @apply bg-annotation-org100;
-  }
-  .closedNestedAnnotation .annotated-segment > .annotated-dat {
-    @apply bg-annotation-dat100;
   }
 
   .depth-1.start-annotation {

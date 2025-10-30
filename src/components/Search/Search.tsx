@@ -49,7 +49,13 @@ export const Search = () => {
     if (!isDirty) {
       return;
     }
-    const nextRequest = { ...searchQuery, ...searchParams };
+
+    /*
+      - using a shallow clone ({ ...searchQuery, ...searchParams }) causes prevRequest to be the same as nextRequest once the first request is done, i.e., in every request after the first request, prevRequest and nextRequest are equal to each other.
+      - using a deep clone fixes this issue; now both top-level and nested objects and arrays are rebuild every time, so no more old references
+    */
+    const nextRequest = _.cloneDeep({ ...searchQuery, ...searchParams });
+
     if (_.isEqual(prevRequest, nextRequest)) {
       return;
     }
@@ -123,7 +129,7 @@ export const Search = () => {
       {isLoading && <SearchLoadingSpinner />}
       <div
         id="searchContainer"
-        className="mx-auto flex h-full w-full grow flex-row content-stretch items-stretch self-stretch"
+        className="mx-auto flex w-full grow flex-row content-stretch items-stretch self-stretch"
       >
         <SearchForm
           onSearch={handleNewSearch}

@@ -1,12 +1,12 @@
-import { create, StateCreator } from "zustand";
-import { Broccoli } from "../model/Broccoli";
+import { StateCreator } from "zustand";
+import { Broccoli } from "../../model/Broccoli";
 
 export type TextPanelsSlice = {
   views: Broccoli["views"] | undefined;
   setViews: (newViews: TextPanelsSlice["views"]) => void;
 };
 
-const createTextPanelsSlice: StateCreator<
+export const createTextPanelsSlice: StateCreator<
   TextPanelsSlice,
   [],
   [],
@@ -15,7 +15,3 @@ const createTextPanelsSlice: StateCreator<
   views: undefined,
   setViews: (newViews) => set(() => ({ views: newViews })),
 });
-
-export const useTextStore = create<TextPanelsSlice>()((...a) => ({
-  ...createTextPanelsSlice(...a),
-}));

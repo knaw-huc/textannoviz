@@ -32,7 +32,7 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
     <>
       <Button
         onPress={() => setOpen(!isOpen)}
-        className="bg-brand2-100 text-brand2-700 hover:text-brand2-900 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-200 rounded px-2 py-2 text-sm outline-none"
+        className="bg-brand2-100 hover:bg-brand2-50 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-500 rounded px-2 py-2 text-sm text-black outline-none transition hover:text-black"
         isDisabled={!searchQueryHistory.length}
       >
         {translate("SEARCH_HISTORY")}{" "}
@@ -45,17 +45,20 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
               const query = entry.query;
               return (
                 <li key={index} className="mb-4">
-                  <span className="query-date">
+                  <span className="query-date text-neutral-500">
                     {formatQueryDate(entry.date)}
                   </span>
-                  <span
-                    className="query-delete"
-                    onClick={() => removeFromHistory(entry.date)}
+                  <Button
+                    className="query-delete p-1 text-xl text-neutral-500"
+                    onPress={() => removeFromHistory(entry.date)}
                   >
-                    [x]
-                  </span>
+                    &#10006;
+                  </Button>
                   <div
                     onClick={() => props.goToQuery(query)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => props.goToQuery(query)}
                     className="search-query cursor-pointer hover:underline"
                   >
                     {query.fullText && (

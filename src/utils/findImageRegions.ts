@@ -12,7 +12,7 @@ export function findImageRegions(
 ): RegExpMatchArray | null {
   const target = annotation.target as CanvasTarget[];
   const imageCoords = target
-    .filter((t) => t.source.includes(canvasId))
+    .filter((t) => t.source.includes(canvasId) && t.selector)
     .flatMap(
       (t) =>
         t.selector &&

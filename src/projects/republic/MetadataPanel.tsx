@@ -12,6 +12,7 @@ import {
   SessionBody,
 } from "../../model/AnnoRepoAnnotation";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
@@ -33,6 +34,7 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
+  const projectConfig = useProjectStore(projectConfigSelector);
 
   const params = useParams();
   const entities = props.annotations.filter(
@@ -43,7 +45,8 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     return entities.filter(
       (entity) =>
         toEntityCategory(
-          (entity.body as ProjectEntityBody).metadata.category,
+          projectConfig,
+          (entity.body as ProjectEntityBody).metadata.category ?? "unknown",
         ) === category,
     );
   }
@@ -193,7 +196,7 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
         {resolution ? (
           <li className="mb-8">
             <div className={gridOneColumn}>
-              <strong>Datum: </strong>
+              <strong>{translateProject("date")}: </strong>
               {translateProject(
                 (resolution.body as SessionBody)?.metadata.sessionWeekday,
               )}{" "}

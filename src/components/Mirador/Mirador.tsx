@@ -131,15 +131,15 @@ export function Mirador() {
       clearAnnosMirador(miradorStore);
     }
 
-    if (showSvgsAnnosMirador && miradorStore) {
-      renderAnnosMirador(miradorStore);
-    }
+    // if (showSvgsAnnosMirador && miradorStore) {
+    //   renderAnnosMirador(miradorStore);
+    // }
   }, [showSvgsAnnosMirador]);
 
   return (
     <div
       id="mirador"
-      className="bg-brand1Grey-50 sticky top-0 hidden h-[calc(100vh-100px)] w-7/12 grow self-stretch overflow-auto lg:flex"
+      className="relative flex h-[calc(100vh-186px)] w-full grow flex-col items-center justify-center p-1"
     />
   );
 }
@@ -150,7 +150,7 @@ const createMiradorConfig = (
   config: MiradorConfig = defaultMiradorConfig,
 ) => {
   const newConfig = config;
-  newConfig.windows[0].manifestId = iiif.manifest;
+  newConfig.windows[0].manifestId = iiif.manifest ?? "";
   newConfig.windows[0].canvasId = iiif.canvasIds[0];
   newConfig.windows[0].id = project.id;
   newConfig.window.allowWindowSideBar = project.mirador.showWindowSideBar;
