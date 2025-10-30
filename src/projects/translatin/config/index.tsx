@@ -56,5 +56,4 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
 
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
-  viewsToSearchIn: ["playView"],
 } as ProjectSpecificConfig);
