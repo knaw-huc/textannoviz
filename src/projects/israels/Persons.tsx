@@ -106,11 +106,12 @@ export function Persons() {
                     ))
                   : null}
 
-                <MagnifyingGlassIcon
-                  aria-hidden
-                  className="h-4 w-4 cursor-pointer"
-                  onClick={() => searchPerson(per)}
-                />
+                <Button onPress={() => searchPerson(per)}>
+                  <MagnifyingGlassIcon
+                    aria-hidden
+                    className="h-4 w-4 cursor-pointer"
+                  />
+                </Button>
               </div>
             </div>
             <div>
