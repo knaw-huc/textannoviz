@@ -82,7 +82,7 @@ export function Artworks() {
 
   return (
     <>
-      <h1 className="pl-8">Artworks</h1>
+      <h1 className="pl-8">{translateProject("artworks")}</h1>
       <div
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
         className="grid gap-6 px-8 pb-8"

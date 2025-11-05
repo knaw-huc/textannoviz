@@ -71,7 +71,7 @@ export const Header = () => {
             className="text-inherit no-underline hover:underline"
             onPress={() => navigate("/help")}
           >
-            Help
+            {translateProject("help")}
           </Button>
         </nav>
       </div>

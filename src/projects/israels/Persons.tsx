@@ -7,13 +7,18 @@ import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
 import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
+import {
+  projectConfigSelector,
+  translateProjectSelector,
+  useProjectStore,
+} from "../../stores/project";
 import { Button } from "react-aria-components";
 
 export function Persons() {
   const [persons, setPersons] = React.useState<Persons>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { israelsPersonsUrl, routerBasename } = getViteEnvVars();
+  const translateProject = useProjectStore(translateProjectSelector);
 
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
@@ -73,7 +78,7 @@ export function Persons() {
 
   return (
     <>
-      <h1 className="pl-8">Persons</h1>
+      <h1 className="pl-8">{translateProject("persons")}</h1>
       <div
         style={{
           gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
