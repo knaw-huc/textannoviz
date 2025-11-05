@@ -5,9 +5,11 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
+import { Empty } from "../../../components/Empty.tsx";
+import { projectHighlightedTypes } from "../annotation/ProjectAnnotationModel.ts";
+import projectCss from "../project.css?inline";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
@@ -15,17 +17,19 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   broccoliUrl: "http://localhost:8082",
   annotationTypesToInclude: [
     "Document",
-    "Dataset",
-    "Division",
-    "Head",
-    "Highlight",
-    "List",
-    "ListItem",
-    "Note",
-    "Page",
-    "Paragraph",
-    "Quote",
-    "Reference",
+    ...projectHighlightedTypes,
+    // TODO: what other types to render?
+    // "Dataset",
+    // "Division",
+    // "Head",
+    // "Highlight",
+    // "List",
+    // "ListItem",
+    // "Note",
+    // "Page",
+    // "Paragraph",
+    // "Quote",
+    // "Reference",
   ],
   elasticIndexName: "translatin",
   initialDateFrom: "1500-01-01",
@@ -55,10 +59,18 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     "publisher",
   ],
   components: {
-    MetadataPanel,
+    // TODO:
+    // MetadataPanel,
+    MetadataPanel: Empty,
     SearchItem,
   },
 
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
+
+  showAnnotations: true,
+  highlightedAnnotationTypes: projectHighlightedTypes,
+  getHighlightCategory: (anno) => anno.type,
+  getAnnotationCategory: (anno) => anno.type,
+  projectCss: projectCss,
 } as ProjectSpecificConfig);

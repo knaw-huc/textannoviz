@@ -1,0 +1,11 @@
+.highlight-head {
+  font-weight: bold;
+}
+.highlight-highlight {
+  color: #aaa;
+  text-decoration: underline;
+}
+.highlight-quote {
+  font-style: italic;
+  padding-left: 1em;
+}
