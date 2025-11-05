@@ -77,7 +77,7 @@ const EnglishSearchInfo = () => {
         spelling in the Dutch Republic.
       </p>
       <p className="mb-4 mt-4 block">
-        Therefore, when using the &apos;free search&apos; field, make us of{" "}
+        Therefore, when using the &apos;free search&apos; field, make use of{" "}
         <a
           target="_blank"
           href="https://goetgevonden.nl/en/using-the-application/free-search-in-the-text/"
