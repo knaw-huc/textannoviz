@@ -12,6 +12,7 @@ import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { getUrlParams } from "../../utils/UrlParamUtils.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
+import { useTextStore } from "../../stores/text/text-store.ts";
 
 export function DetailSearchResultsNavigation() {
   const translate = useProjectStore(translateSelector);
@@ -23,6 +24,7 @@ export function DetailSearchResultsNavigation() {
   const { hasNextPage, getNextFrom, hasPrevPage, getPrevFrom } =
     usePagination();
   const { getSearchResults } = useSearchResults();
+  const resetActiveFootnote = useTextStore((s) => s.resetActiveFootnote);
 
   if (!searchResults) {
     return null;
@@ -42,6 +44,7 @@ export function DetailSearchResultsNavigation() {
     }
     if (hasNextResult(resultIndex, searchResults)) {
       const newResultId = searchResults.results[resultIndex + 1]._id;
+      resetActiveFootnote();
       navigateDetail(`/detail/${newResultId}`);
       return;
     }
@@ -57,6 +60,7 @@ export function DetailSearchResultsNavigation() {
 
     if (hasPrevResult(resultIndex)) {
       const newResultId = searchResults.results[resultIndex - 1]._id;
+      resetActiveFootnote();
       navigateDetail(`/detail/${newResultId}`);
       return;
     }
