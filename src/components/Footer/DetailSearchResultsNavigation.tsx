@@ -84,6 +84,7 @@ export function DetailSearchResultsNavigation() {
       newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
     setSearchResults(newSearchResults.results);
+    resetActiveFootnote();
     navigateDetail({
       path: `/detail/${newResultId}`,
       from: newFrom,
