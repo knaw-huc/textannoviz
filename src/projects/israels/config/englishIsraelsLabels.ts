@@ -47,6 +47,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
+  NO_ARTWORKS: "No artworks in this letter.",
   letter: "Letter",
   invNr: "Shelfmark",
   addInfo: "Additional information",
@@ -67,6 +68,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   bibliography: "Bibliography",
   TITLE_PT_1: "Isaac Israëls’s letters to",
   TITLE_PT_2: "Jo van Gogh-Bonger",
+  help: "Help",
 
   //Entity summary
   NAV_TO_LETTER: "Navigate to letter",

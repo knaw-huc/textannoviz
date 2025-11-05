@@ -14,6 +14,7 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
+import { Button } from "react-aria-components";
 
 export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artworks>();
@@ -81,7 +82,7 @@ export function Artworks() {
 
   return (
     <>
-      <h1 className="pl-8">Artworks</h1>
+      <h1 className="pl-8">{translateProject("artworks")}</h1>
       <div
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
         className="grid gap-6 px-8 pb-8"
@@ -99,11 +100,12 @@ export function Artworks() {
                 {artw.head[interfaceLang]}
               </div>
               <div className="flex flex-row items-center justify-end gap-1">
-                <MagnifyingGlassIcon
-                  aria-hidden
-                  className="h-4 w-4 cursor-pointer"
-                  onClick={() => searchArtwork(artw)}
-                />
+                <Button onPress={() => searchArtwork(artw)}>
+                  <MagnifyingGlassIcon
+                    aria-hidden
+                    className="h-4 w-4 cursor-pointer"
+                  />
+                </Button>
               </div>
             </div>
             {artw.relation?.label ? (
