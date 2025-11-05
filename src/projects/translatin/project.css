@@ -1,9 +1,12 @@
 .highlight-head {
   font-weight: bold;
 }
-.highlight-highlight {
-  color: #aaa;
+.highlight-speaker {
+  color: #777;
   text-decoration: underline;
+}
+.highlight-bold {
+  font-weight: bold;
 }
 .highlight-quote {
   font-style: italic;

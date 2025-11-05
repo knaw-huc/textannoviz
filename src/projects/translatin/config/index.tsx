@@ -10,6 +10,7 @@ import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
 import { Empty } from "../../../components/Empty.tsx";
 import { projectHighlightedTypes } from "../annotation/ProjectAnnotationModel.ts";
 import projectCss from "../project.css?inline";
+import { isHighlightBody } from "../../../model/AnnoRepoAnnotation.ts";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
@@ -70,7 +71,8 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
 
   showAnnotations: true,
   highlightedAnnotationTypes: projectHighlightedTypes,
-  getHighlightCategory: (anno) => anno.type,
+  getHighlightCategory: (body) =>
+    isHighlightBody(body) ? body.style : body.type,
   getAnnotationCategory: (anno) => anno.type,
   projectCss: projectCss,
 } as ProjectSpecificConfig);

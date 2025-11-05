@@ -347,13 +347,23 @@ export type AnnoRepoBody =
   | MarkerBody
   | NoteBody
   | HiBody
-  | HeadBody;
+  | HeadBody
+  | HighlightBody;
 
 export type HeadBody = {
   id: string;
   type: "Head";
   elementName: "head";
 };
+
+export type HighlightBody = {
+  id: string;
+  type: "Highlight";
+  style: string;
+};
+export function isHighlightBody(toTest: AnnoRepoBody): toTest is HighlightBody {
+  return toTest.type === "Highlight";
+}
 
 export type ImageTarget = {
   type: "Image";
