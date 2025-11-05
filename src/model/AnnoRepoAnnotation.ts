@@ -1,26 +1,24 @@
 import { ViewLang } from "./Broccoli";
 
 export type SessionBody = AnnoRepoBodyBase & {
-  metadata: {
-    inventoryNum: number;
-    isWorkday: boolean;
-    linesIncludeRestDay: boolean;
-    resolutionIds: [];
-    sessionDate: string;
-    sessionDay: number;
-    sessionMonth: number;
-    sessionNum: number;
-    sessionWeekday: string;
-    sessionYear: number;
-    textPageNum: number[];
-    delegates: {
-      delegateID: string;
-      name: string;
-      province: string;
-      president: boolean;
-      detailsUrl: string;
-    }[];
-  };
+  inventoryNum: number;
+  isWorkday: boolean;
+  linesIncludeRestDay: boolean;
+  resolutionIds: [];
+  sessionDate: string;
+  sessionDay: number;
+  sessionMonth: number;
+  sessionNum: number;
+  sessionWeekday: string;
+  sessionYear: number;
+  textPageNum: number[];
+  delegates: {
+    delegateID: string;
+    name: string;
+    province: string;
+    president: boolean;
+    detailsUrl: string;
+  }[];
 };
 
 export type ResolutionBody = AnnoRepoBodyBase & {
@@ -283,9 +281,7 @@ export type PxPageBody = AnnoRepoBodyBase & {
 export type AnnoRepoBodyBase = {
   id: string;
   type: string;
-  metadata: {
-    category?: string;
-  };
+  category?: string;
 };
 
 export type EntityDetail = { label: string; value: string };
@@ -350,7 +346,14 @@ export type AnnoRepoBody =
   | TfLetterBody
   | MarkerBody
   | NoteBody
-  | HiBody;
+  | HiBody
+  | HeadBody;
+
+export type HeadBody = {
+  id: string;
+  type: "Head";
+  elementName: "head";
+};
 
 export type ImageTarget = {
   type: "Image";

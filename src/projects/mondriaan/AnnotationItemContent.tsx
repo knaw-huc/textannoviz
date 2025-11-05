@@ -47,12 +47,10 @@ export const AnnotationItemContent = (props: GetAnnotationItemContentProps) => {
           );
         }
       default:
-        return props.annotation.body.metadata
-          ? Object.entries(props.annotation.body.metadata).map(
-              ([key, value], i) => {
-                return <li key={i}>{`${key}: ${value}`}</li>;
-              },
-            )
+        return props.annotation.body
+          ? Object.entries(props.annotation.body).map(([key, value], i) => {
+              return <li key={i}>{`${key}: ${value}`}</li>;
+            })
           : null;
     }
   }

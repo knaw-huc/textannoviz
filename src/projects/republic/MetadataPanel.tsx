@@ -46,7 +46,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
       (entity) =>
         toEntityCategory(
           projectConfig,
-          (entity.body as ProjectEntityBody).metadata.category ?? "unknown",
+          (entity.body as ProjectEntityBody).category ?? "unknown",
         ) === category,
     );
   }
@@ -96,7 +96,7 @@ function DelegatesMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
     (annotation) => annotation.body.type === "Session",
   );
 
-  const delegates = (session?.body as SessionBody).metadata.delegates.map(
+  const delegates = (session?.body as SessionBody).delegates.map(
     (delegate) => delegate,
   );
 
@@ -198,7 +198,7 @@ function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
             <div className={gridOneColumn}>
               <strong>{translateProject("date")}: </strong>
               {translateProject(
-                (resolution.body as SessionBody)?.metadata.sessionWeekday,
+                (resolution.body as SessionBody)?.sessionWeekday,
               )}{" "}
               {(resolution.body as ResolutionBody).metadata.sessionDay}{" "}
               {

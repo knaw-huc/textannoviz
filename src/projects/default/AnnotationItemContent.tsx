@@ -7,12 +7,10 @@ type AnnotationItemContentProps = {
 export const AnnotationItemContent = (props: AnnotationItemContentProps) => {
   return (
     <>
-      {props.annotation.body.metadata
-        ? Object.entries(props.annotation.body.metadata).map(
-            ([key, value], index) => {
-              return <li key={index}>{`${key}: ${value}`}</li>;
-            },
-          )
+      {props.annotation.body
+        ? Object.entries(props.annotation.body).map(([key, value], index) => {
+            return <li key={index}>{`${key}: ${value}`}</li>;
+          })
         : null}
     </>
   );
