@@ -178,20 +178,18 @@ export type TeiRegBody = AnnoRepoBodyBase & {
 };
 
 export type TfLetterBody = AnnoRepoBodyBase & {
-  metadata: {
-    correspondent: string;
-    country: string;
-    file: string;
-    institution: string;
-    letterid: string;
-    location: string;
-    msid: string;
-    period: string;
-    periodlong: string;
-    sender: string;
-    type: string;
-    folder: string;
-  };
+  correspondent: string;
+  country: string;
+  file: string;
+  institution: string;
+  letterid: string;
+  location: string;
+  msid: string;
+  period: string;
+  periodlong: string;
+  sender: string;
+  type: string;
+  folder: string;
 };
 
 export type SurianoTfFileBody = AnnoRepoBodyBase & {

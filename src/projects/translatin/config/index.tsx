@@ -7,10 +7,10 @@ import {
 import { defaultConfig } from "../../default/config";
 import { SearchItem } from "../SearchItem";
 import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
-import { Empty } from "../../../components/Empty.tsx";
 import { projectHighlightedTypes } from "../annotation/ProjectAnnotationModel.ts";
 import projectCss from "../project.css?inline";
 import { isHighlightBody } from "../../../model/AnnoRepoAnnotation.ts";
+import { MetadataPanel } from "../MetadataPanel.tsx";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
@@ -61,8 +61,8 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   components: {
     // TODO:
-    // MetadataPanel,
-    MetadataPanel: Empty,
+    MetadataPanel,
+    // MetadataPanel: Empty,
     SearchItem,
   },
 
