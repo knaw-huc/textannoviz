@@ -8,7 +8,7 @@ import { ViewLang } from "../../../model/Broccoli";
 
 export type Artwork = {
   source: string[];
-  type: string;
+  type: "ill" | "art";
   corresp: string;
   id: string;
   idno?: string;
