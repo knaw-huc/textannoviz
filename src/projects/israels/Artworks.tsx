@@ -32,14 +32,18 @@ export function Artworks() {
       );
       if (!newArtworks) return;
 
-      newArtworks.sort((a, b) =>
+      const filteredArtworks = newArtworks.filter(
+        (artw) => artw.type !== "ill",
+      );
+
+      filteredArtworks.sort((a, b) =>
         a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
           sensitivity: "base",
           ignorePunctuation: true,
         }),
       );
 
-      setArtworks(newArtworks);
+      setArtworks(filteredArtworks);
     }
 
     initArtworks(aborter).catch(handleAbort);
