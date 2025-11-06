@@ -48,8 +48,11 @@ const ArtworkEntity = (props: { artworks: Artworks }) => {
   return (
     <>
       {artworks.map((artwork) => (
-        <div key={artwork.id} className="flex">
-          <div className="flex flex-col justify-start">
+        <div
+          key={artwork.id}
+          className="flex items-start justify-between gap-4"
+        >
+          <div className="flex max-w-[500px] flex-col justify-start">
             <p className="font-bold">{artwork.head[interfaceLang]}</p>
             <p>
               {translateProject("date")}: {artwork.date.text}
@@ -90,10 +93,11 @@ const ArtworkEntity = (props: { artworks: Artworks }) => {
                 ))}
             </p>
           </div>
-          <div className="flex grow justify-end pb-4">
+          <div className="flex items-start justify-end">
             <img
               src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
               alt={artwork.head[interfaceLang]}
+              className="h-auto w-[200px] object-contain"
             />
           </div>
         </div>
