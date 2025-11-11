@@ -85,7 +85,6 @@ function getTooltipBody(
   if (!notesView) {
     throw new Error("No `notes` text panel found");
   }
-
   const noteNumber = (note.body as NoteBody).metadata.n;
 
   if (!noteNumber) {
@@ -93,28 +92,4 @@ function getTooltipBody(
   }
 
   return notesView[noteNumber];
-}
-
-export function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {
-  const noteOffsets = view.locations.annotations.find(
-    (a) => a.bodyId === noteBodyId,
-  );
-  if (!noteOffsets) {
-    throw new Error(`No relative note found for ${noteBodyId}`);
-  }
-  const noteLines = view.lines.slice(
-    noteOffsets.start.line,
-    // Broccoli end includes last element:
-    noteOffsets.end.line + 1,
-  );
-  noteLines[0] = noteLines[0].slice(
-    noteOffsets.start.offset,
-    noteLines[0].length,
-  );
-  const lastLine = noteLines.length - 1;
-  noteLines[lastLine] = noteLines[lastLine].slice(
-    0,
-    noteOffsets.end.offset! + 1,
-  );
-  return noteLines;
 }

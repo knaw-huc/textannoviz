@@ -1,26 +1,22 @@
-import { LineOffsets, HighlightBody } from "../AnnotationModel.ts";
+import { TextOffsets, HighlightBody } from "../AnnotationModel.ts";
 
 export function createSearchHighlightOffsets(
-  lines: string[],
+  body: string,
   regex: RegExp | undefined,
-): LineOffsets[] {
-  const annotations: LineOffsets[] = [];
+): TextOffsets[] {
+  const annotations: TextOffsets[] = [];
   if (!regex) {
     return annotations;
   }
-  for (let i = 0; i < lines.length; i++) {
-    annotations.push(...createSearchAnnotation(lines, i, regex));
-  }
+  annotations.push(...createSearchAnnotation(body, regex));
   return annotations;
 }
 
 function createSearchAnnotation(
-  lines: string[],
-  index: number,
+  body: string,
   regex: RegExp,
-): LineOffsets<HighlightBody>[] {
-  const line = lines[index];
-  const matches = findStartEndChars(line, regex);
+): TextOffsets<HighlightBody>[] {
+  const matches = findStartEndChars(body, regex);
   return matches.map((startEndChars, i) => {
     return {
       type: "highlight",
@@ -28,8 +24,7 @@ function createSearchAnnotation(
         id: `search-highlight-${i + 1}`,
         type: "search",
       },
-      lineIndex: index,
-      startChar: startEndChars[0],
+      beginChar: startEndChars[0],
       endChar: startEndChars[1],
     };
   });
@@ -38,13 +33,13 @@ function createSearchAnnotation(
 type StartEndChar = [number, number];
 
 /**
- * Find start and end character indexes of regex matches in line
+ * Find start and end character indexes of regex matches in text
  * Source: https://stackoverflow.com/a/7236973/2938059
  */
-function findStartEndChars(line: string, regex: RegExp): StartEndChar[] {
+function findStartEndChars(text: string, regex: RegExp): StartEndChar[] {
   const matches: StartEndChar[] = [];
   let match: RegExpExecArray | null;
-  while ((match = regex.exec(line))) {
+  while ((match = regex.exec(text))) {
     matches.push([regex.lastIndex - match[0].length, regex.lastIndex]);
   }
   return matches;

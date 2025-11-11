@@ -9,13 +9,14 @@ type MetadataPanelProps = {
 
 export const MetadataPanel = (props: MetadataPanelProps) => {
   const manifestationAnno = props.annotations.find(
-    (anno) => anno.body.type === "tl:Manifestation",
+    // TODO: where to find metadata?
+    (anno) => anno.body.type === "Document",
   );
 
   return (
     <>
       <ul className="m-0 list-none p-0">
-        {Object.entries((manifestationAnno?.body as TfLetterBody).metadata).map(
+        {Object.entries(manifestationAnno?.body as TfLetterBody).map(
           ([key, value], index) => (
             <li className="mb-8" key={index}>
               <div className="grid grid-cols-1">

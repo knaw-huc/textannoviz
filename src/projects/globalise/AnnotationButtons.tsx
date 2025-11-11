@@ -1,7 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import mirador from "mirador-knaw-huc-mui5";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "../../utils/toast.ts";
 import { PxPageBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";

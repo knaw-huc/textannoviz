@@ -5,15 +5,15 @@ import {
 import { isNestedAnnotationSegment, Segment } from "./AnnotationModel.ts";
 
 export type OnClickSegment = (value: Segment | undefined) => void;
-export type LineSegmentWithAnnotationsProps = Omit<
+export type TextSegmentWithAnnotationsProps = Omit<
   NestedAnnotationProps,
   "toNest"
 > & {
   onClickSegment?: OnClickSegment;
 };
 
-export function LineSegmentWithAnnotations(
-  props: LineSegmentWithAnnotationsProps,
+export function TextSegmentWithAnnotations(
+  props: TextSegmentWithAnnotationsProps,
 ) {
   const nestedAnnotations = props.segment.annotations.filter(
     isNestedAnnotationSegment,

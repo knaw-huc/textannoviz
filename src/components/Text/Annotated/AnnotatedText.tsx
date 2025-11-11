@@ -1,25 +1,20 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-// import { createSearchRegex } from "../createSearchRegex.tsx";
-import { SegmentedLine } from "./SegmentedLine.tsx";
+import { SegmentedText } from "./SegmentedText.tsx";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
-// import { useDetailUrlParams } from "./utils/useDetailUrlParams.tsx";
 import "./annotated.css";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
 import {
-  AnnoRepoAnnotation,
-  isLogicalTextAnchorTarget,
-} from "../../../model/AnnoRepoAnnotation.ts";
-import {
-  createAnnotationLineOffsets,
-  createMarkerLineOffsets,
-} from "./utils/createLineOffsets.ts";
-import { LineOffsets } from "./AnnotationModel.ts";
+  createAnnotationTextOffsets,
+  createMarkerTextOffsets,
+} from "./utils/createTextOffsets.ts";
+import { TextOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
+import uniq from "lodash/uniq";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -37,11 +32,11 @@ type TextHighlightingProps = {
  *   - grouped annotations share a group with ID
  * - Depth: the number of levels that an annotation is nested in parent annotations or overlapping annotations
  *   (when two annotations overlap, the second annotation has a depth of 2)
- * - Line: piece of annotated text as received from broccoli, a broccoli 'line' can also contain a logical text
- * - Offset: start or end character index of an annotation in a line
- *   - start index marks first character to include
- *   - stop index marks first character to exclude
- * - Segment: piece of line or annotation uninterrupted by annotation offsets
+ * - Text: piece of annotated text as received from broccoli, as found in the body of {@link BroccoliTextGeneric}
+ * - Offset: start or end character index of an annotation in a text
+ *   - begin index marks first character to include
+ *   - end index marks first character to exclude (note: see {@link TextOffsets})
+ * - Segment: piece of text or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
   const {
@@ -51,38 +46,41 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     entityAnnotationTypes,
     highlightedAnnotationTypes,
   } = useProjectStore(projectConfigSelector);
-  const annotations = useAnnotationStore().annotations;
+  const typesToInclude = uniq([
+    ...entityAnnotationTypes,
+    ...highlightedAnnotationTypes,
+    ...tooltipMarkerAnnotationTypes,
+    ...insertTextMarkerAnnotationTypes,
+  ]);
+  const annotations = useAnnotationStore().annotations.filter((a) =>
+    typesToInclude.includes(a.body.type),
+  );
 
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
-  const lines = props.text.lines;
-
+  const textBody = props.text.body;
   const relativeAnnotations = props.text.locations.annotations;
   // No offsets when no relative annotations
-  const offsets: LineOffsets[] = [];
-
-  const singleLineAnnotations = annotations.filter(withTargetInSingleLine);
+  const offsets: TextOffsets[] = [];
 
   const nestedAnnotationTypes = [...entityAnnotationTypes];
   if (relativeAnnotations.length) {
-    const nestedAnnotations = singleLineAnnotations
+    const nestedAnnotations = annotations
       .filter((a) => nestedAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
-        createAnnotationLineOffsets(
+        createAnnotationTextOffsets(
           annotation,
           relativeAnnotations,
-          lines,
           "annotation",
         ),
       );
     offsets.push(...nestedAnnotations);
-    const highlightedAnnotations = singleLineAnnotations
+    const highlightedAnnotations = annotations
       .filter((a) => highlightedAnnotationTypes.includes(a.body.type))
       .map((annotation) =>
-        createAnnotationLineOffsets(
+        createAnnotationTextOffsets(
           annotation,
           relativeAnnotations,
-          lines,
           "highlight",
         ),
       );
@@ -90,7 +88,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   }
 
   const searchHighlight = createSearchRegex(searchTerms, tier2);
-  offsets.push(...createSearchHighlightOffsets(lines, searchHighlight));
+  offsets.push(...createSearchHighlightOffsets(textBody, searchHighlight));
 
   const markerAnnotations = [
     ...tooltipMarkerAnnotationTypes,
@@ -101,35 +99,12 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     ...annotations
       .filter((a) => markerAnnotations.includes(a.body.type))
       .map((annotation) =>
-        createMarkerLineOffsets(annotation, relativeAnnotations),
+        createMarkerTextOffsets(annotation, relativeAnnotations),
       ),
   );
   return (
-    <div>
-      {props.text.lines.map((line, index) => (
-        <SegmentedLine
-          key={index}
-          line={line}
-          offsets={offsets.filter((a) => a.lineIndex === index)}
-        />
-      ))}
+    <div className="whitespace-pre-wrap">
+      <SegmentedText body={textBody} offsets={offsets} />
     </div>
   );
 };
-
-function withTargetInSingleLine(a: AnnoRepoAnnotation) {
-  if (!Array.isArray(a.target)) {
-    return false;
-  }
-  const textAnchorSelector = a.target.find(isLogicalTextAnchorTarget);
-  if (!textAnchorSelector) {
-    return false;
-  }
-  if (textAnchorSelector.selector.start !== textAnchorSelector.selector.end) {
-    console.debug(
-      `Ignoring annotation that spans multiple lines: ${a.body.id}`,
-    );
-    return false;
-  }
-  return true;
-}

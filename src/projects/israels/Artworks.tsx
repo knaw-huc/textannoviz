@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import React from "react";
-import { toast } from "react-toastify";
+import { toast } from "../../utils/toast.ts";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { handleAbort } from "../../utils/handleAbort";

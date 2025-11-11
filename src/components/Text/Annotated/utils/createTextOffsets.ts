@@ -1,58 +1,48 @@
-import * as _ from "lodash";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
-import { LineOffsets } from "../AnnotationModel.ts";
+import { TextOffsets } from "../AnnotationModel.ts";
+import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
-export function createAnnotationLineOffsets(
+export function createAnnotationTextOffsets(
   annotation: AnnoRepoAnnotation,
-  allRelativePositions: BroccoliViewPosition[],
-  lines: string[],
+  allRelativePositions: BroccoliRelativeAnno[],
   type: "annotation" | "highlight",
-): LineOffsets {
+): TextOffsets {
   const relativePosition = getPositionRelativeToView(
     allRelativePositions,
     annotation,
   );
 
-  let endChar;
-  if (_.has(relativePosition.end, "offset")) {
-    endChar = relativePosition.end.offset! + 1;
-  } else {
-    endChar = lines[relativePosition.end.line].length;
-  }
-
+  // TODO: still +1 needed?
   return {
     type,
     body: annotation.body,
-    lineIndex: relativePosition.start.line,
-    startChar: relativePosition.start.offset ?? 0,
-    endChar,
+    beginChar: relativePosition.begin ?? 0,
+    endChar: relativePosition.end,
   };
 }
 
 /**
  * Mark start of page using end offset
  */
-export function createMarkerLineOffsets(
+export function createMarkerTextOffsets(
   annotation: AnnoRepoAnnotation,
-  allRelativePositions: BroccoliViewPosition[],
-): LineOffsets {
+  allRelativePositions: BroccoliRelativeAnno[],
+): TextOffsets {
   const relativePosition = getPositionRelativeToView(
     allRelativePositions,
     annotation,
   );
-  const startChar = relativePosition.start.offset ?? 0;
+  const startChar = relativePosition.begin ?? 0;
   return {
     type: "marker",
     body: annotation.body,
-    lineIndex: relativePosition.start.line,
-    startChar,
+    beginChar: startChar,
     endChar: startChar,
   };
 }
 
 function getPositionRelativeToView(
-  positionsRelativeToView: BroccoliViewPosition[],
+  positionsRelativeToView: BroccoliRelativeAnno[],
   annotation: AnnoRepoAnnotation,
 ) {
   const positionRelativeToView = positionsRelativeToView.find(
@@ -64,14 +54,8 @@ function getPositionRelativeToView(
     // );
     return {
       bodyId: annotation.body.id,
-      start: {
-        line: -1,
-        offset: -1,
-      },
-      end: {
-        line: -1,
-        offset: -1,
-      },
+      begin: -1,
+      end: -1,
     };
   }
   return positionRelativeToView;

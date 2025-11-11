@@ -23,7 +23,7 @@ import { SliderFacet } from "./SliderFacet.tsx";
 import { removeTerm } from "./util/removeTerm.ts";
 import { FacetEntry, SearchQuery } from "../../model/Search.ts";
 import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
-import { toast } from "react-toastify";
+import { toast } from "../../utils/toast.ts";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 import { SelectSearchInTextViews } from "./SelectSearchInTextViews.tsx";
 

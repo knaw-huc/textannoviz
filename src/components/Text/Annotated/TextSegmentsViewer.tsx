@@ -1,13 +1,13 @@
-import { LineSegment } from "./LineSegment.tsx";
+import { TextSegment } from "./TextSegment.tsx";
 import { Segment } from "./AnnotationModel.ts";
-import { OnClickSegment } from "./LineSegmentWithAnnotations.tsx";
+import { OnClickSegment } from "./TextSegmentWithAnnotations.tsx";
 import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
 
-export type LineSegmentsViewerProps = {
+export type TextSegmentsViewerProps = {
   segments: Segment[];
   showDetails: boolean;
   clickedSegment?: Segment;
@@ -15,10 +15,10 @@ export type LineSegmentsViewerProps = {
   groupId?: number;
 };
 
-export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
+export function TextSegmentsViewer(props: TextSegmentsViewerProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
 
-  const classes = ["line-segment"];
+  const classes = ["text-segment"];
   const isPartOfAnnotationGroup = _.isNumber(props.groupId);
   if (isPartOfAnnotationGroup) {
     classes.push(
@@ -30,7 +30,7 @@ export function LineSegmentsViewer(props: LineSegmentsViewerProps) {
   return (
     <span className={classes.join(" ")}>
       {props.segments.map((segment, i) => (
-        <LineSegment
+        <TextSegment
           key={i}
           segment={segment}
           clickedSegment={props.clickedSegment}

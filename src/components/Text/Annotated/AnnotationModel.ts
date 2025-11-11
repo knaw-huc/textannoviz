@@ -47,18 +47,17 @@ export type WithTypeAndBody<T extends AnnotationBody> = {
 };
 
 /**
- * Annotation with offsets relative to line
+ * Annotation with offsets relative to text
  *
  * Note: end offset excludes last character, as found in the body ID,
- * but not in line with the char index as returned by broccoli (which includes the last char)
+ * and as returned by broccoli, now using textsurf
  */
-export type LineOffsets<T extends AnnotationBody = AnnotationBody> =
+export type TextOffsets<T extends AnnotationBody = AnnotationBody> =
   WithTypeAndBody<T> & {
-    lineIndex: number;
-    startChar: number;
+    beginChar: number;
 
     /**
-     * Excluding last character (see note {@link LineOffsets})
+     * Excluding last character (see note {@link TextOffsets})
      */
     endChar: number;
   };
@@ -163,7 +162,7 @@ export function isMarkerSegment(
 }
 
 /**
- * Segment of a line with its text and the annotations that apply
+ * Segment of a text with its text and the annotations that apply
  */
 export type Segment = {
   index: number;

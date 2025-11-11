@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from "./toast.ts";
 import { ProjectConfig } from "../model/ProjectConfig";
 import {
   ElasticIndices,
