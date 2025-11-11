@@ -1,3 +1,4 @@
+import { LetterAnno } from "../projects/brederode/annotation/ProjectAnnotationModel";
 import { ViewLang } from "./Broccoli";
 
 export type SessionBody = AnnoRepoBodyBase & {
@@ -346,7 +347,8 @@ export type AnnoRepoBody =
   | NoteBody
   | HiBody
   | HeadBody
-  | HighlightBody;
+  | HighlightBody
+  | LetterAnno;
 
 export type HeadBody = {
   id: string;
