@@ -12,7 +12,6 @@ export function createAnnotationTextOffsets(
     annotation,
   );
 
-  // TODO: still +1 needed?
   return {
     type,
     body: annotation.body,
