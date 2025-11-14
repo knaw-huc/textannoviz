@@ -38,6 +38,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   showMirador: false,
   useExternalConfig: true,
+  showSearchResultsOnInfoPage: true,
   defaultKeywordAggsToRender: [
     "sender",
     "recipient",
