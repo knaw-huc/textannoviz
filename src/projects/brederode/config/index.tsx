@@ -34,7 +34,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
   maxRange: 30000,
   logoImageUrl: logo,
   headerColor: "bg-brand1-100 text-brand1-800",
-  headerTitle: "Brederode",
+  headerTitle: "The Correspondence of Pieter Cornelisz Brederode (1602–1637)",
   showSearchResultsButtonFooter: false,
   showMirador: false,
   useExternalConfig: true,
