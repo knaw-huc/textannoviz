@@ -133,6 +133,7 @@ export type BrederodeSearchResultsBody = {
   recipient: string;
   sender: string;
   toLocation: string;
+  title: string;
   _hits: {
     letterText: string[];
     text: string[]; //TODO: remove
