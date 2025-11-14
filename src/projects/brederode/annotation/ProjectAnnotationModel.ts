@@ -9,3 +9,6 @@ export type LetterAnno = AnnoRepoBodyBase & {
   url: string;
   shelfmark: string;
 };
+
+const page = "Page";
+export const projectPageMarkerAnnotationTypes = [page];
