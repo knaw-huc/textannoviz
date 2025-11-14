@@ -54,6 +54,12 @@ export const MetadataPanel = (props: MetadataPanelProps) => {
           </div>
         </li>
         <li className="mb-8">
+          <strong>Shelfmark</strong>
+          <div className={gridOneColumn}>
+            {(letterAnno?.body as LetterAnno).shelfmark}
+          </div>
+        </li>
+        <li className="mb-8">
           <strong>Link to EMLO</strong>
           <div className={gridOneColumn}>
             <a

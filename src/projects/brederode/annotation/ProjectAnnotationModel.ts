@@ -7,4 +7,5 @@ export type LetterAnno = AnnoRepoBodyBase & {
   fromLocation: string;
   toLocation: string;
   url: string;
+  shelfmark: string;
 };
