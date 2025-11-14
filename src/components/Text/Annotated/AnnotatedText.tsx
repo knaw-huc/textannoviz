@@ -51,6 +51,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     ...highlightedAnnotationTypes,
     ...tooltipMarkerAnnotationTypes,
     ...insertTextMarkerAnnotationTypes,
+    ...pageMarkerAnnotationTypes,
   ]);
   const annotations = useAnnotationStore().annotations.filter((a) =>
     typesToInclude.includes(a.body.type),
