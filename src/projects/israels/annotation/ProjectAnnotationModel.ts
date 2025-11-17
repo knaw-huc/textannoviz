@@ -82,11 +82,9 @@ type PersonDeath = PersonBirth & {
 export type Persons = Person[];
 
 export type IsraelsTeiRsBody = AnnoRepoBodyBase & {
-  metadata: {
-    type: string;
-    "tei:type": string;
-    ref: IsraelsTeiRsPersonRef | IsraelsTeiRsArtworkRef;
-  };
+  type: string;
+  "tei:type": string;
+  ref: IsraelsTeiRsPersonRef | IsraelsTeiRsArtworkRef;
 };
 
 export type IsraelsTeiRsPersonRef = Persons;
@@ -95,20 +93,18 @@ export type IsraelsTeiRsArtworkRef = Artworks;
 export type IsraelsEntityBody = IsraelsTeiRsBody;
 
 export type IsraelsTeiRefBody = AnnoRepoBodyBase & {
-  metadata: {
-    target:
-      | string
-      | {
-          id: string;
-          label: string;
-          title: {
-            level: string;
-            text: string;
-          }[];
+  target:
+    | string
+    | {
+        id: string;
+        label: string;
+        title: {
+          level: string;
           text: string;
         }[];
-    type: string;
-  };
+        text: string;
+      }[];
+  type: string;
 };
 
 export type IsraelsTeiHeadBody = AnnoRepoBodyBase & {
@@ -120,23 +116,18 @@ export type IsraelsTeiHeadBody = AnnoRepoBodyBase & {
     n: string;
   };
 };
+// ["Dataset","Division","Document","Entity","Head","Highlight","Letter","Line","List","ListItem","Note","Page","Paragraph","Picture","Quote","Reference","Whitespace"]
+const teiHi = "Highlight";
+const teiHead = "Head";
+const teiRs = "Entity";
+const teiRef = "Reference";
+const teiItem = "ListItem";
+// TODO: what should this be?
+// const teiLabel = "tei:Label";
+const teiQuote = "Quote";
 
-const teiHi = "tei:Hi";
-const teiHead = "tei:Head";
-const teiRs = "tei:Rs";
-const teiRef = "tei:Ref";
-const teiItem = "tei:Item";
-const teiLabel = "tei:Label";
-const teiQuote = "tei:Quote";
-
-export const projectEntityTypes = [teiRs, teiRef];
-export const projectHighlightedTypes = [
-  teiHi,
-  teiHead,
-  teiItem,
-  teiLabel,
-  teiQuote,
-];
+export const projectEntityTypes = [teiRs];
+export const projectHighlightedTypes = [teiHi, teiHead, teiItem, teiQuote];
 export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
 export const projectPageMarkerAnnotationTypes = ["tf:Page"];
 
@@ -170,7 +161,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   } else if (annoRepoBody.type === teiHead) {
     return normalizeClassname(teiHead);
   } else if (annoRepoBody.type === teiRs) {
-    return get(annoRepoBody, "metadata.tei:type") ?? "unknown";
+    return get(annoRepoBody, "tei:type") ?? "unknown";
   } else if (annoRepoBody.type === teiRef) {
     return normalizeClassname(teiRef);
   } else {
@@ -189,8 +180,8 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
     } else {
       return normalizeClassname(teiHead);
     }
-  } else if (annoRepoBody.type === teiLabel) {
-    return normalizeClassname(teiLabel);
+    // } else if (annoRepoBody.type === teiLabel) {
+    //   return normalizeClassname(teiLabel);
   } else if (annoRepoBody.type === teiItem) {
     return normalizeClassname(teiItem);
   } else if (annoRepoBody.type === teiQuote) {

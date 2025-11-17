@@ -85,11 +85,15 @@ export function toEntityCategory(
   annotationCategory: string,
 ) {
   if (!annotationCategory) {
+    console.warn(`No annotation category: ${annotationCategory}`);
     return unknownCategory;
   }
-  return (
-    projectConfig.annoToEntityCategory[annotationCategory] ?? unknownCategory
-  );
+  const annoCategory = projectConfig.annoToEntityCategory[annotationCategory];
+  if (!annoCategory) {
+    console.warn(`Unknown annotation category: ${annotationCategory}`);
+    return unknownCategory;
+  }
+  return annoCategory;
 }
 
 export function normalizeClassname(annotationCategory: string) {

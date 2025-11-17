@@ -16,20 +16,20 @@ export function toEntitySearchQuery(
   projectConfig: ProjectConfig,
   interfaceLang: LanguageCode,
 ): string {
-  if (isEntity(anno) && isPersonEntity(anno.metadata.ref)) {
+  if (isEntity(anno) && isPersonEntity(anno.ref)) {
     return createSearchQueryParam(
       toEntityTerms(
-        anno.metadata["tei:type"],
-        anno.metadata.ref[0].sortLabel,
+        anno["tei:type"],
+        anno.ref[0].sortLabel,
         projectConfig,
         interfaceLang,
       ),
     );
-  } else if (isEntity(anno) && isArtworkEntity(anno.metadata.ref)) {
+  } else if (isEntity(anno) && isArtworkEntity(anno.ref)) {
     return createSearchQueryParam(
       toEntityTerms(
-        anno.metadata["tei:type"],
-        anno.metadata.ref[0].head[interfaceLang],
+        anno["tei:type"],
+        anno.ref[0].head[interfaceLang],
         projectConfig,
         interfaceLang,
       ),

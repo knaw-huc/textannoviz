@@ -6,6 +6,7 @@ import {
 } from "../../stores/project";
 import { Any } from "../../utils/Any";
 import {
+  Artwork,
   Artworks,
   isArtworkEntity,
   IsraelsTeiRsBody,
@@ -19,11 +20,11 @@ export const ArtworksTab = () => {
   const artworkAnnos = annotations.reduce<Artworks>((acc, anno) => {
     if (isArtworkAnno(anno)) {
       const artworkAnno = anno as unknown as {
-        body: IsraelsTeiRsBody & { metadata: { ref: Artworks } };
+        body: IsraelsTeiRsBody & { ref: Artworks };
       };
-      artworkAnno.body.metadata.ref.forEach((artw) => {
+      artworkAnno.body.ref.forEach((artw) => {
         if (!acc.some((a) => a.id === artw.id)) {
-          acc.push(artw);
+          acc.push(artw as Artwork);
         }
       });
     }
@@ -62,7 +63,7 @@ function isArtworkAnno(
 ): anno is { body: IsraelsTeiRsBody & { metadata: { ref: Artworks } } } {
   return (
     anno.body.type === "tei:Rs" &&
-    (anno.body as IsraelsTeiRsBody).metadata["tei:type"] === "artwork" &&
-    isArtworkEntity((anno.body as IsraelsTeiRsBody).metadata.ref)
+    (anno.body as IsraelsTeiRsBody)["tei:type"] === "artwork" &&
+    isArtworkEntity((anno.body as IsraelsTeiRsBody).ref)
   );
 }

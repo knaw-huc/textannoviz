@@ -13,18 +13,18 @@ import {
 } from "./ProjectAnnotationModel";
 
 export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
-  if (isEntity(props.body) && isPersonEntity(props.body.metadata.ref)) {
-    return <PersonEntity persons={props.body.metadata.ref} />;
+  if (isEntity(props.body) && isPersonEntity(props.body.ref)) {
+    return <PersonEntity persons={props.body.ref} />;
   }
 
-  if (isEntity(props.body) && isArtworkEntity(props.body.metadata.ref)) {
-    return <ArtworkEntity artworks={props.body.metadata.ref} />;
+  if (isEntity(props.body) && isArtworkEntity(props.body.ref)) {
+    return <ArtworkEntity artworks={props.body.ref} />;
   }
   return null;
 };
 
 const PersonEntity = (props: { persons: Persons }) => {
-  //FIXME: this adds all persons together with only 1 search button. This happens because it's 1 annotation with multiple persons in the body.metadata.ref. In other projects, every entity had it's own annotation.
+  //FIXME: this adds all persons together with only 1 search button. This happens because it's 1 annotation with multiple persons in the body(.metadata).ref. In other projects, every entity had it's own annotation.
   const { persons } = props;
   return (
     <>

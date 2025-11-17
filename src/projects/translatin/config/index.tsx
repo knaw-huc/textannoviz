@@ -69,6 +69,9 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
 
+  viewsToSearchIn: ["playText"],
+  showSearchInTextViews: true,
+
   showAnnotations: true,
   highlightedAnnotationTypes: projectHighlightedTypes,
   getHighlightCategory: (body) =>

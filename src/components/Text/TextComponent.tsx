@@ -24,24 +24,28 @@ export const TextComponent = (props: TextComponentProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const [view, lang] = props.viewToRender.split(".") as [
-    keyof Broccoli["views"],
-    ViewLang,
-  ];
+  const [
+    view,
+    // TODO: revert
+    // lang
+  ] = props.viewToRender.split(".") as [keyof Broccoli["views"], ViewLang];
 
   const text: BroccoliTextGeneric | undefined = React.useMemo(() => {
     const candidate = textViews?.[view];
     if (!candidate) return;
 
     if (
-      typeof candidate === "object" &&
-      candidate !== null &&
-      lang in candidate
+      typeof candidate === "object"
+      // TODO: revert
+      // && candidate !== null
+      // && lang in candidate
     ) {
-      return (candidate as Record<string, BroccoliTextGeneric>)[lang];
+      // TODO: revert
+      // return (candidate as Record<string, BroccoliTextGeneric>)[lang];
+      return Object.values(candidate)[0] as BroccoliTextGeneric;
     }
     return candidate as BroccoliTextGeneric;
-  }, [textViews, view, lang]);
+  }, [textViews, view]);
 
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r">
