@@ -244,22 +244,38 @@ export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
 };
 
 export type IsraelsTfLetterBody = AnnoRepoBodyBase & {
-  metadata: {
-    type: string;
-    correspondent: string;
-    sender: string;
-    file: string;
-    institution: string;
-    letterid: string;
-    location: string;
-    msId: string;
-    period: string;
-    periodlong: string;
-    prevLetter: string;
-    nextLetter: string;
-    title: Record<ViewLang, string>;
-  };
+  type: string;
+  correspondent: string;
+  sender: string;
+  n: string;
+  institution: string;
+  letterid: string;
+  location: string;
+  identifier: string;
+  period: string;
+  periodlong: string;
+  prevLetter: string;
+  nextLetter: string;
+  title: Record<ViewLang, string>;
 };
+
+export function isIsraelsLetterBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is IsraelsTfLetterBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "Letter";
+}
+
+export function findIsraelsLetterBody(
+  annotations: AnnoRepoAnnotation[],
+): IsraelsTfLetterBody | undefined {
+  const found = annotations.find((anno) => anno.body.type === "Letter");
+  if (isIsraelsLetterBody(found?.body)) {
+    return found.body;
+  }
+}
 
 export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {
@@ -359,6 +375,7 @@ export type HighlightBody = {
   type: "Highlight";
   style: string;
 };
+
 export function isHighlightBody(toTest: AnnoRepoBody): toTest is HighlightBody {
   return toTest.type === "Highlight";
 }
