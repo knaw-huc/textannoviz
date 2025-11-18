@@ -11,10 +11,7 @@ import { normalizeClassname } from "./Annotated/utils/createAnnotationClasses.ts
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
 };
-/**
- * TODO: Test with data
- * TODO: Fix collectClasses?
- */
+
 export const TextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
@@ -107,7 +104,6 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     }
   }
 
-  // TODO: how to test this?
   return (
     <>
       <div className="whitespace-pre-wrap leading-loose">
