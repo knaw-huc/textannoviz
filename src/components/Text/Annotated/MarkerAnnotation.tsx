@@ -141,7 +141,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
     };
   }
 
-  const pageNumber = props.marker.body.metadata.n;
+  const pageNumber = props.marker.body.n;
   return (
     <div className="mt-20 border-t border-neutral-100">
       <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-600">
@@ -174,7 +174,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const classNames: string[] = [];
   classNames.push(...createTooltipMarkerClasses(marker));
 
-  const footnote = ptrToNoteAnnosMap.get(marker.body.metadata.target);
+  const footnote = ptrToNoteAnnosMap.get(marker.body.target);
   //TODO: Note numbers should always come from the same data point
   const footnoteNumber = (footnote?.body as NoteBody).metadata.n;
 
@@ -204,7 +204,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
       */}
       {/* <TooltipMarkerButton clickedMarker={marker}> */}
       {/*TODO: move to project config*/}
-      {(marker.body.metadata.n || footnoteNumber) ?? "*"}
+      {(marker.body.n || footnoteNumber) ?? "*"}
       {/* </TooltipMarkerButton> */}
     </span>
   );

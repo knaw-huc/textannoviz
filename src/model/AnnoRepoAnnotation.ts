@@ -317,14 +317,12 @@ export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
 export type MarkerBody = AnnoRepoBodyBase & {
   type: string;
   "tf:textfabricNode": string;
-  metadata: {
-    facs?: string;
-    n?: string;
-    target: string;
-    url?: string;
-    width?: string;
-    height: string;
-  };
+  n?: string;
+  facs?: string;
+  target: string;
+  url?: string;
+  width?: string;
+  height: string;
 };
 
 export type AnnoRepoBody =
