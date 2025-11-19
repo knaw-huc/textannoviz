@@ -103,6 +103,10 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
         createMarkerTextOffsets(annotation, relativeAnnotations),
       ),
   );
+  console.log("annotations", {
+    annotations,
+    pages: annotations.filter((a) => a.body.type === "Page"),
+  });
   return (
     <div className="whitespace-pre-wrap">
       <SegmentedText body={textBody} offsets={offsets} />

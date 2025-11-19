@@ -126,15 +126,16 @@ export const isLetterReference = (
 ): toTest is LetterReferenceBody =>
   isReference(toTest) && isString(toTest.target);
 
-export type IsraelsTeiHeadBody = AnnoRepoBodyBase & {
-  metadata: {
-    type: string;
-    inFigure?: string;
-    corresp: string;
-    "tei:id": string;
-    n: string;
-  };
+export type HeadBody = AnnoRepoBodyBase & {
+  type: string;
+  inFigure?: string;
+  corresp: string;
+  "tei:id": string;
+  n: string;
 };
+
+export const isHeadBody = (toTest?: AnnoRepoBodyBase): toTest is HeadBody =>
+  !!toTest && toTest.type === "Head";
 
 export type LetterBody = AnnoRepoBodyBase & {
   type: string;
@@ -170,7 +171,7 @@ export function findLetterBody(
 
 // ["Dataset","Division","Document","Entity","Head","Highlight","Letter","Line","List","ListItem","Note","Page","Paragraph","Picture","Quote","Reference","Whitespace"]
 const teiHi = "Highlight";
-const teiHead = "Head";
+const head = "Head";
 const teiRs = "Entity";
 const teiRef = "Reference";
 const teiItem = "ListItem";
@@ -179,7 +180,7 @@ const teiItem = "ListItem";
 const teiQuote = "Quote";
 
 export const projectEntityTypes = [teiRs];
-export const projectHighlightedTypes = [teiHi, teiHead, teiItem, teiQuote];
+export const projectHighlightedTypes = [teiHi, head, teiItem, teiQuote];
 export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
 export const projectPageMarkerAnnotationTypes = ["Page"];
 
@@ -210,8 +211,8 @@ export const isArtworkEntity = (
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === teiHi) {
     return get(annoRepoBody, "metadata.rend") ?? "unknown";
-  } else if (annoRepoBody.type === teiHead) {
-    return normalizeClassname(teiHead);
+  } else if (annoRepoBody.type === head) {
+    return normalizeClassname(head);
   } else if (annoRepoBody.type === teiRs) {
     return get(annoRepoBody, "tei:type") ?? "unknown";
   } else if (annoRepoBody.type === teiRef) {
@@ -224,13 +225,12 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   if (annoRepoBody.type === teiHi) {
     return get(annoRepoBody, "metadata.rend");
-  } else if (annoRepoBody.type === teiHead) {
-    const headBody = annoRepoBody as IsraelsTeiHeadBody;
+  } else if (isHeadBody(annoRepoBody)) {
     //There can be heads without a metadata block
-    if (headBody.metadata?.inFigure?.length) {
+    if (annoRepoBody.inFigure?.length) {
       return "caption";
     } else {
-      return normalizeClassname(teiHead);
+      return normalizeClassname(head);
     }
     // } else if (annoRepoBody.type === teiLabel) {
     //   return normalizeClassname(teiLabel);

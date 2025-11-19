@@ -176,7 +176,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
 
   const footnote = ptrToNoteAnnosMap.get(marker.body.target);
   //TODO: Note numbers should always come from the same data point
-  const footnoteNumber = (footnote?.body as NoteBody).metadata.n;
+  const footnoteNumber = (footnote?.body as NoteBody).n;
 
   function spanClickHandler(footnoteNumber: string) {
     setActiveFootnote(footnoteNumber);

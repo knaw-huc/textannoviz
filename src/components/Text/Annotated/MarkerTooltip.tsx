@@ -79,13 +79,13 @@ function getTooltipBody(
     throw new Error(`No note found for marker ${noteTargetId}`);
   }
 
-  const noteLanguage = (note.body as NoteBody).metadata.lang as ViewLang;
+  const noteLanguage = (note.body as NoteBody).lang as ViewLang;
 
   const notesView = textPanels[noteLanguage];
   if (!notesView) {
     throw new Error("No `notes` text panel found");
   }
-  const noteNumber = (note.body as NoteBody).metadata.n;
+  const noteNumber = (note.body as NoteBody).n;
 
   if (!noteNumber) {
     throw new Error(`No note number for ${note.body.id}`);

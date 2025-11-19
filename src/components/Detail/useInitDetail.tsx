@@ -128,7 +128,7 @@ export function useInitDetail() {
           (anno) => anno.body.type === "tei:Note",
         );
         noteAnnos.forEach((noteAnno) => {
-          const targetId = (noteAnno.body as NoteBody).metadata["tei:id"];
+          const targetId = (noteAnno.body as NoteBody)["tei:id"];
           ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
         });
 
