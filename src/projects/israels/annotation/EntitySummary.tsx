@@ -87,7 +87,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
     }
   };
 
-  // TODO: revert
+  // TODO: find way to check and get correct typing
   const isNavToLetter =
     props.body.type === "tei:Ref" &&
     typeof (props.body as unknown as IsraelsTeiRefBody).target === "string";

@@ -1,8 +1,5 @@
 import { AnnotatedText } from "../../components/Text/Annotated/AnnotatedText";
-import {
-  AnnoRepoAnnotation,
-  findIsraelsLetterBody,
-} from "../../model/AnnoRepoAnnotation";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -10,6 +7,7 @@ import {
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
+import { findIsraelsLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];

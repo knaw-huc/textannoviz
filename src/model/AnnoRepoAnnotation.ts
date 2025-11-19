@@ -1,5 +1,3 @@
-import { ViewLang } from "./Broccoli";
-
 export type SessionBody = AnnoRepoBodyBase & {
   inventoryNum: number;
   isWorkday: boolean;
@@ -242,40 +240,6 @@ export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
     nextLetter: string;
   };
 };
-
-export type IsraelsTfLetterBody = AnnoRepoBodyBase & {
-  type: string;
-  correspondent: string;
-  sender: string;
-  n: string;
-  institution: string;
-  letterid: string;
-  location: string;
-  identifier: string;
-  period: string;
-  periodlong: string;
-  prevLetter: string;
-  nextLetter: string;
-  title: Record<ViewLang, string>;
-};
-
-export function isIsraelsLetterBody(
-  toTest?: AnnoRepoBodyBase,
-): toTest is IsraelsTfLetterBody {
-  if (!toTest) {
-    return false;
-  }
-  return toTest.type === "Letter";
-}
-
-export function findIsraelsLetterBody(
-  annotations: AnnoRepoAnnotation[],
-): IsraelsTfLetterBody | undefined {
-  const found = annotations.find((anno) => anno.body.type === "Letter");
-  if (isIsraelsLetterBody(found?.body)) {
-    return found.body;
-  }
-}
 
 export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {

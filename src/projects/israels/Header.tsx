@@ -12,8 +12,8 @@ import {
 } from "react-router-dom";
 import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
-import { findIsraelsLetterBody } from "../../model/AnnoRepoAnnotation.ts";
 import { Button } from "react-aria-components";
+import { findIsraelsLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);

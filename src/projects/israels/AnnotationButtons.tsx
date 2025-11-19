@@ -3,8 +3,8 @@ import React from "react";
 import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
-import { isIsraelsLetterBody } from "../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
+import { isIsraelsLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;
