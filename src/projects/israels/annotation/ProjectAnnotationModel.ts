@@ -93,7 +93,7 @@ export type IsraelsTeiRsArtworkRef = Artworks;
 
 export type IsraelsEntityBody = IsraelsTeiRsBody;
 
-export type IsraelsTeiRefBody = AnnoRepoBodyBase & {
+export type ReferenceBody = AnnoRepoBodyBase & {
   target:
     | string
     | {
@@ -108,6 +108,17 @@ export type IsraelsTeiRefBody = AnnoRepoBodyBase & {
   type: string;
 };
 
+export function isReferenceBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is ReferenceBody {
+  if (!toTest) {
+    return false;
+  }
+  const result = toTest.type === "Reference";
+  console.log("Is reference?", toTest.type);
+  return result;
+}
+
 export type IsraelsTeiHeadBody = AnnoRepoBodyBase & {
   metadata: {
     type: string;
@@ -117,6 +128,39 @@ export type IsraelsTeiHeadBody = AnnoRepoBodyBase & {
     n: string;
   };
 };
+
+export type LetterBody = AnnoRepoBodyBase & {
+  type: string;
+  correspondent: string;
+  sender: string;
+  n: string;
+  institution: string;
+  letterid: string;
+  location: string;
+  identifier: string;
+  period: string;
+  periodlong: string;
+  prevLetter: string;
+  nextLetter: string;
+  title: Record<ViewLang, string>;
+};
+
+export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "Letter";
+}
+
+export function findLetterBody(
+  annotations: AnnoRepoAnnotation[],
+): LetterBody | undefined {
+  const found = annotations.find((anno) => anno.body.type === "Letter");
+  if (isLetterBody(found?.body)) {
+    return found.body;
+  }
+}
+
 // ["Dataset","Division","Document","Entity","Head","Highlight","Letter","Line","List","ListItem","Note","Page","Paragraph","Picture","Quote","Reference","Whitespace"]
 const teiHi = "Highlight";
 const teiHead = "Head";
@@ -197,37 +241,3 @@ export const entityCategoryToAgg: Record<string, string> = {
   PER: "persons",
   ART: "artworks",
 };
-
-export type IsraelsLetterBody = AnnoRepoBodyBase & {
-  type: string;
-  correspondent: string;
-  sender: string;
-  n: string;
-  institution: string;
-  letterid: string;
-  location: string;
-  identifier: string;
-  period: string;
-  periodlong: string;
-  prevLetter: string;
-  nextLetter: string;
-  title: Record<ViewLang, string>;
-};
-
-export function isIsraelsLetterBody(
-  toTest?: AnnoRepoBodyBase,
-): toTest is IsraelsLetterBody {
-  if (!toTest) {
-    return false;
-  }
-  return toTest.type === "Letter";
-}
-
-export function findIsraelsLetterBody(
-  annotations: AnnoRepoAnnotation[],
-): IsraelsLetterBody | undefined {
-  const found = annotations.find((anno) => anno.body.type === "Letter");
-  if (isIsraelsLetterBody(found?.body)) {
-    return found.body;
-  }
-}

@@ -13,7 +13,7 @@ import {
 import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { Button } from "react-aria-components";
-import { findIsraelsLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import { findLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -30,7 +30,7 @@ export const Header = () => {
 
   const introId = "urn:israels:file:intro";
 
-  const letterAnnoBody = findIsraelsLetterBody(annotations);
+  const letterAnnoBody = findLetterBody(annotations);
 
   const letterTitle =
     letterAnnoBody?.title?.[interfaceLang] ||

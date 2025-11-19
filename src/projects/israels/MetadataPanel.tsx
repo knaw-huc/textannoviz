@@ -7,7 +7,7 @@ import {
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
-import { findIsraelsLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import { findLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -18,7 +18,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const letterAnnoBody = findIsraelsLetterBody(props.annotations);
+  const letterAnnoBody = findLetterBody(props.annotations);
 
   const { n, identifier } = letterAnnoBody ?? {};
 
