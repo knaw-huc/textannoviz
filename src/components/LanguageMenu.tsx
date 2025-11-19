@@ -30,6 +30,7 @@ export function LanguageMenu() {
       }
       const newConfig = { ...projectConfig };
       newConfig.selectedLanguage = urlLanguage;
+      document.documentElement.lang = urlLanguage;
       setProjectConfig(newConfig);
     }
   }, [searchParams]);
@@ -51,6 +52,7 @@ export function LanguageMenu() {
                 setSearchParams(searchParams);
                 const newConfig = { ...projectConfig };
                 newConfig.selectedLanguage = code;
+                document.documentElement.lang = code;
                 setProjectConfig(projectConfig);
               }}
             />
