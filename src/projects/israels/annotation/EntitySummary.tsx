@@ -1,3 +1,4 @@
+import { isPlainObject, isString } from "lodash";
 import {
   toEntityCategory,
   toEntityClassname,
@@ -15,13 +16,14 @@ import {
   isArtworkEntity,
   isEntity,
   isPersonEntity,
-  IsraelsTeiRefBody,
+  isReferenceBody,
 } from "./ProjectAnnotationModel";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 
 const LETTER_TEMPLATE = "urn:israels:letter:";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
+  const { body } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
   const interfaceLang = projectConfig.selectedLanguage;
@@ -30,81 +32,53 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
 
   const entityCategory = toEntityCategory(
     projectConfig,
-    getAnnotationCategory(props.body),
+    getAnnotationCategory(body),
   );
 
   const entityClassname = toEntityClassname(projectConfig, entityCategory);
 
   const handleEntitySearchClick = () => {
-    if (props.body.type !== "tei:Ref") {
-      const query = toEntitySearchQuery(
-        props.body,
-        projectConfig,
-        interfaceLang,
-      );
-      window.open(
-        `${routerBasename === "/" ? "" : routerBasename}/?${query}`,
-        "_blank",
-      );
+    const basePath = routerBasename === "/" ? "" : routerBasename;
+
+    if (isReferenceBody(body)) {
+      const newTier2 = isString(body.target)
+        ? LETTER_TEMPLATE + body.target.split(".")[0]
+        : "";
+      window.open(`${basePath}/detail/${newTier2}`, "_blank");
     } else {
-      let newTier2 = "";
-      const target = (props.body as unknown as IsraelsTeiRefBody).target;
-      if (typeof target === "string") {
-        newTier2 = LETTER_TEMPLATE + target.split(".")[0];
-      }
-      window.open(
-        `${routerBasename === "/" ? "" : routerBasename}/detail/${newTier2}`,
-        "_blank",
-      );
+      const query = toEntitySearchQuery(body, projectConfig, interfaceLang);
+      window.open(`${basePath}/?${query}`, "_blank");
     }
   };
 
   const handleMoreInfoClick = () => {
-    if (isEntity(props.body) && isPersonEntity(props.body.ref)) {
-      const persId = props.body.ref[0].id;
-      window.open(
-        `${routerBasename === "/" ? "" : routerBasename}/persons#${persId}`,
-      );
+    const basePath = routerBasename === "/" ? "" : routerBasename;
+    if (isEntity(body) && isPersonEntity(body.ref)) {
+      const id = body.ref[0].id;
+      window.open(`${basePath}/persons#${id}`);
     }
-
-    if (isEntity(props.body) && isArtworkEntity(props.body.ref)) {
-      const artwId = props.body.ref[0].id;
-      window.open(
-        `${routerBasename === "/" ? "" : routerBasename}/artworks#${artwId}`,
-      );
+    if (isEntity(body) && isArtworkEntity(body.ref)) {
+      const id = body.ref[0].id;
+      window.open(`${basePath}/artworks#${id}`);
     }
-
-    // TODO: revert
-    const target = (props.body as unknown as IsraelsTeiRefBody).target;
-    if (Array.isArray(target)) {
-      const biblTarget = target;
-      const biblId = biblTarget[0].id;
-      window.open(
-        `${
-          routerBasename === "/" ? "" : routerBasename
-        }/bibliography#${biblId}`,
-      );
+    if (isReferenceBody(body) && Array.isArray(body.target)) {
+      const id = body.target[0].id;
+      window.open(`${basePath}/bibliography#${id}`);
     }
   };
 
-  // TODO: find way to check and get correct typing
-  const isNavToLetter =
-    props.body.type === "tei:Ref" &&
-    typeof (props.body as unknown as IsraelsTeiRefBody).target === "string";
+  const isNavToLetter = isReferenceBody(body) && isString(body.target);
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
       <>
         <div className={`${entityClassname} annotationMarker italic`}>
           {translateProject(entityCategory)}
         </div>
-        <EntitySummaryDetails body={props.body} />
+        <EntitySummaryDetails body={body} />
       </>
       <div className="flex">
         <div>
-          {props.body.type === "tei:Ref" &&
-          // TODO: revert
-          typeof (props.body as unknown as IsraelsTeiRefBody).target ===
-            "object" ? null : (
+          {isReferenceBody(body) && isPlainObject(body.target) ? null : (
             <button
               className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
               onClick={handleEntitySearchClick}
@@ -120,26 +94,22 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
             </button>
           )}
 
-          {props.body.type !== "tei:Ref" && (
+          {!isReferenceBody(body) && (
             <div className="mt-2 italic text-neutral-600">
               {translateProject("WARNING_NEW_SEARCH")}
             </div>
           )}
         </div>
         <div>
-          {
-            // TODO: revert
-            typeof (props.body as unknown as IsraelsTeiRefBody).target !==
-              "string" && (
-              <button
-                className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-                onClick={handleMoreInfoClick}
-              >
-                {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
-                {translateProject(entityCategory)}
-              </button>
-            )
-          }
+          {!isNavToLetter && (
+            <button
+              className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
+              onClick={handleMoreInfoClick}
+            >
+              {translateProject("MORE_INFO_ON_CATEGORY")}{" "}
+              {translateProject(entityCategory)}
+            </button>
+          )}
         </div>
       </div>
     </li>

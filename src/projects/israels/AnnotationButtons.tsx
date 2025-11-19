@@ -4,7 +4,7 @@ import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 import { useAnnotationStore } from "../../stores/annotation.ts";
-import { isIsraelsLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import { isLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;
@@ -18,7 +18,7 @@ export function AnnotationButtons() {
   )?.body;
 
   const { nextLetter, prevLetter } =
-    (isIsraelsLetterBody(currentBody) && currentBody) || {};
+    (isLetterBody(currentBody) && currentBody) || {};
 
   React.useEffect(() => {
     setIsNextButtonDisabled(!nextLetter || nextLetter === params.tier2);
