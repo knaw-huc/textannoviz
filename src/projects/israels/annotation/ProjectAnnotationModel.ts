@@ -6,6 +6,7 @@ import {
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
 import { ViewLang } from "../../../model/Broccoli";
+import { isArray, isString } from "lodash";
 
 export type Artwork = {
   source: string[];
@@ -93,31 +94,37 @@ export type IsraelsTeiRsArtworkRef = Artworks;
 
 export type IsraelsEntityBody = IsraelsTeiRsBody;
 
-export type ReferenceBody = AnnoRepoBodyBase & {
-  target:
-    | string
-    | {
-        id: string;
-        label: string;
-        title: {
-          level: string;
-          text: string;
-        }[];
-        text: string;
-      }[];
-  type: string;
-};
+type LetterTarget = string;
+type BibliographyTarget = {
+  id: string;
+  label: string;
+  title: {
+    level: string;
+    text: string;
+  }[];
+  text: string;
+}[];
 
-export function isReferenceBody(
+export type ReferenceBody = LetterReferenceBody | BibliographyReferenceBody;
+export const isReference = (
   toTest?: AnnoRepoBodyBase,
-): toTest is ReferenceBody {
-  if (!toTest) {
-    return false;
-  }
-  const result = toTest.type === "Reference";
-  console.log("Is reference?", toTest.type);
-  return result;
-}
+): toTest is ReferenceBody => !!toTest && toTest.type === "Reference";
+export type BibliographyReferenceBody = AnnoRepoBodyBase & {
+  target: BibliographyTarget;
+  type: "Reference";
+};
+export const isBibliographyReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody =>
+  isReference(toTest) && isArray(toTest.target);
+export type LetterReferenceBody = AnnoRepoBodyBase & {
+  target: LetterTarget;
+  type: "Reference";
+};
+export const isLetterReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is LetterReferenceBody =>
+  isReference(toTest) && isString(toTest.target);
 
 export type IsraelsTeiHeadBody = AnnoRepoBodyBase & {
   metadata: {
@@ -174,7 +181,7 @@ const teiQuote = "Quote";
 export const projectEntityTypes = [teiRs];
 export const projectHighlightedTypes = [teiHi, teiHead, teiItem, teiQuote];
 export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
-export const projectPageMarkerAnnotationTypes = ["tf:Page"];
+export const projectPageMarkerAnnotationTypes = ["Page"];
 
 export const projectInsertTextMarkerAnnotationTypes = [
   "tei:Space",

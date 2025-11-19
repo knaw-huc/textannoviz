@@ -1,4 +1,3 @@
-import { isPlainObject, isString } from "lodash";
 import {
   toEntityCategory,
   toEntityClassname,
@@ -14,9 +13,11 @@ import { EntitySummaryDetails } from "./EntitySummaryDetails";
 import {
   getAnnotationCategory,
   isArtworkEntity,
+  isBibliographyReference,
   isEntity,
+  isLetterReference,
   isPersonEntity,
-  isReferenceBody,
+  isReference,
 } from "./ProjectAnnotationModel";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 
@@ -40,8 +41,8 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const handleEntitySearchClick = () => {
     const basePath = routerBasename === "/" ? "" : routerBasename;
 
-    if (isReferenceBody(body)) {
-      const newTier2 = isString(body.target)
+    if (isReference(body)) {
+      const newTier2 = isLetterReference(body)
         ? LETTER_TEMPLATE + body.target.split(".")[0]
         : "";
       window.open(`${basePath}/detail/${newTier2}`, "_blank");
@@ -61,13 +62,12 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
       const id = body.ref[0].id;
       window.open(`${basePath}/artworks#${id}`);
     }
-    if (isReferenceBody(body) && Array.isArray(body.target)) {
+    if (isBibliographyReference(body)) {
       const id = body.target[0].id;
       window.open(`${basePath}/bibliography#${id}`);
     }
   };
 
-  const isNavToLetter = isReferenceBody(body) && isString(body.target);
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
       <>
@@ -78,12 +78,12 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
       </>
       <div className="flex">
         <div>
-          {isReferenceBody(body) && isPlainObject(body.target) ? null : (
+          {!isBibliographyReference(body) && (
             <button
               className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
               onClick={handleEntitySearchClick}
             >
-              {isNavToLetter ? (
+              {isLetterReference(body) ? (
                 <>{translateProject("NAV_TO_LETTER")}</>
               ) : (
                 <>
@@ -94,14 +94,14 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
             </button>
           )}
 
-          {!isReferenceBody(body) && (
+          {!isReference(body) && (
             <div className="mt-2 italic text-neutral-600">
               {translateProject("WARNING_NEW_SEARCH")}
             </div>
           )}
         </div>
         <div>
-          {!isNavToLetter && (
+          {!isLetterReference(body) && (
             <button
               className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
               onClick={handleMoreInfoClick}
