@@ -51,6 +51,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     ...highlightedAnnotationTypes,
     ...tooltipMarkerAnnotationTypes,
     ...insertTextMarkerAnnotationTypes,
+    ...pageMarkerAnnotationTypes,
   ]);
   const annotations = useAnnotationStore().annotations.filter((a) =>
     typesToInclude.includes(a.body.type),
@@ -102,6 +103,10 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
         createMarkerTextOffsets(annotation, relativeAnnotations),
       ),
   );
+  console.log("annotations", {
+    annotations,
+    pages: annotations.filter((a) => a.body.type === "Page"),
+  });
   return (
     <div className="whitespace-pre-wrap">
       <SegmentedText body={textBody} offsets={offsets} />
