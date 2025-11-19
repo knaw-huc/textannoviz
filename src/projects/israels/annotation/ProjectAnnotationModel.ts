@@ -1,6 +1,7 @@
 import get from "lodash/get";
 import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
 import {
+  AnnoRepoAnnotation,
   AnnoRepoBody,
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
@@ -196,3 +197,37 @@ export const entityCategoryToAgg: Record<string, string> = {
   PER: "persons",
   ART: "artworks",
 };
+
+export type IsraelsLetterBody = AnnoRepoBodyBase & {
+  type: string;
+  correspondent: string;
+  sender: string;
+  n: string;
+  institution: string;
+  letterid: string;
+  location: string;
+  identifier: string;
+  period: string;
+  periodlong: string;
+  prevLetter: string;
+  nextLetter: string;
+  title: Record<ViewLang, string>;
+};
+
+export function isIsraelsLetterBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is IsraelsLetterBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "Letter";
+}
+
+export function findIsraelsLetterBody(
+  annotations: AnnoRepoAnnotation[],
+): IsraelsLetterBody | undefined {
+  const found = annotations.find((anno) => anno.body.type === "Letter");
+  if (isIsraelsLetterBody(found?.body)) {
+    return found.body;
+  }
+}
