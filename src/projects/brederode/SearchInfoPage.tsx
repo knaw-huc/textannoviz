@@ -4,7 +4,7 @@ export const SearchInfoPage = () => {
       <div className="mx-auto w-full max-w-4xl">
         <div className="flex max-w-3xl flex-col gap-4 text-justify">
           <h1 className="mb-1 text-left">
-            The Correspondence of Pieter Cornelisz Brederode (1602-1637)
+            The Correspondence of Pieter Cornelisz Brederode (1602–1637)
           </h1>
           <p>
             Between 1602 and 1625, Pieter Cornelisz Brederode served the States
