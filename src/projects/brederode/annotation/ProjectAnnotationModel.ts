@@ -8,6 +8,7 @@ export type LetterAnno = AnnoRepoBodyBase & {
   toLocation: string;
   url: string;
   shelfmark: string;
+  title: string;
 };
 
 const page = "Page";

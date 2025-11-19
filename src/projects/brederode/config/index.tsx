@@ -10,6 +10,7 @@ import { englishBrederodeLabels } from "./englishBrederodeLabels";
 import { MetadataPanel } from "../MetadataPanel";
 import { projectPageMarkerAnnotationTypes } from "../annotation/ProjectAnnotationModel";
 import { SearchInfoPage } from "../SearchInfoPage";
+import { Header } from "../Header";
 
 export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "brederode",
@@ -27,6 +28,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchItem,
     MetadataPanel,
     SearchInfoPage,
+    Header,
   },
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   elasticIndexName: "brederode",
