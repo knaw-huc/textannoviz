@@ -8,60 +8,87 @@ import {
 import { ViewLang } from "../../../model/Broccoli";
 import { isArray, isString } from "lodash";
 
-export type Artwork = {
-  source: string[];
-  corresp: string;
-  id: string;
-  idno?: string;
-  head: ArtworkHead;
-  date: ArtworkDate;
-  relation?: ArtworkRelation;
-  graphic: ArtworkGraphic;
-  measure?: ArtworkMeasure[];
-  note: ArtworkNote;
+export type ArtworkBody = AnnoRepoBodyBase & {
+  type: "Entity";
+  elementName: "rs";
+  "tei:type": "artwork";
+  "tei:ref": ArtworkTeiRef;
 };
-
-type ArtworkHead = Record<ViewLang, string>;
-
-type ArtworkDate = {
+export type Artwork = ArtworkTeiRef;
+type ArtworkTeiRef = {
+  id: string;
   "tei:type": string;
-  text: string;
+  corresp: string;
+  head: {
+    nl: string;
+    en: string;
+  };
+  date: {
+    "tei:type": string;
+    text: string;
+  };
+  relation: {
+    name: string;
+    ref: {
+      id: string;
+      gender: string;
+      source: string[];
+      persName: Array<{
+        full: string;
+        forename: string;
+        nameLink: string;
+        surname: string[];
+      }>;
+      birth: {
+        when: string;
+      };
+      death: {
+        when: string;
+      };
+      displayLabel: string;
+      sortLabel: string;
+    };
+  };
+  graphic: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  measure: {
+    commodity: string;
+    unit: string;
+    quantity: string;
+  }[];
+  note: {
+    nl: {
+      technical: string;
+      creditline: string;
+      collection: string;
+    };
+    en: {
+      technical: string;
+      creditline: string;
+      collection: string;
+    };
+  };
 };
 
-type ArtworkRelation = {
-  name: string;
-  ref: ArtworkRelationRef;
-  label?: string;
+export type PersonBody = AnnoRepoBodyBase & {
+  type: "Entity";
+  elementName: "rs";
+  "tei:type": "person";
+  "tei:ref": PersonTeiRef;
 };
-
-type ArtworkRelationRef = Person;
-
-type ArtworkGraphic = {
-  url: string;
-  width: string;
-  height: string;
-};
-
-type ArtworkMeasure = {
-  commodity: string;
-  unit: string;
-  quantity: string;
-};
-
-type ArtworkNote = Record<ViewLang, Record<string, string>>;
-
-export type Artworks = Artwork[];
-
-export type Person = {
+export type Person = PersonTeiRef;
+export type PersonTeiRef = {
   id: string;
-  sex: string;
-  source?: string[];
+  gender: string;
+  source: string[];
   persName: PersonPersName[];
   birth: PersonBirth;
   death: PersonDeath;
   displayLabel: string;
   sortLabel: string;
-  note?: Record<ViewLang, Record<string, string>>;
 };
 
 type PersonPersName = {
@@ -81,18 +108,7 @@ type PersonDeath = PersonBirth & {
   notBefore?: string;
 };
 
-export type Persons = Person[];
-
-export type IsraelsTeiRsBody = AnnoRepoBodyBase & {
-  type: string;
-  "tei:type": string;
-  ref: IsraelsTeiRsPersonRef | IsraelsTeiRsArtworkRef;
-};
-
-export type IsraelsTeiRsPersonRef = Persons;
-export type IsraelsTeiRsArtworkRef = Artworks;
-
-export type IsraelsEntityBody = IsraelsTeiRsBody;
+export type IsraelsEntityBody = PersonBody | ArtworkBody;
 
 type LetterTarget = string;
 type BibliographyTarget = {
@@ -109,6 +125,7 @@ export type ReferenceBody = LetterReferenceBody | BibliographyReferenceBody;
 export const isReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is ReferenceBody => !!toTest && toTest.type === "Reference";
+
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   target: BibliographyTarget;
   type: "Reference";
@@ -117,6 +134,7 @@ export const isBibliographyReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is BibliographyReferenceBody =>
   isReference(toTest) && isArray(toTest.target);
+
 export type LetterReferenceBody = AnnoRepoBodyBase & {
   target: LetterTarget;
   type: "Reference";
@@ -172,18 +190,20 @@ export function findLetterBody(
 // ["Dataset","Division","Document","Entity","Head","Highlight","Letter","Line","List","ListItem","Note","Page","Paragraph","Picture","Quote","Reference","Whitespace"]
 const teiHi = "Highlight";
 const head = "Head";
-const teiRs = "Entity";
+const entity = "Entity";
 const teiRef = "Reference";
 const teiItem = "ListItem";
 // TODO: what should this be?
 // const teiLabel = "tei:Label";
 const teiQuote = "Quote";
 
-export const projectEntityTypes = [teiRs];
+export const projectEntityTypes = [entity];
 export const projectHighlightedTypes = [teiHi, head, teiItem, teiQuote];
+// TODO: use peenless equivalent
 export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
 export const projectPageMarkerAnnotationTypes = ["Page"];
 
+// TODO: use peenless equivalent
 export const projectInsertTextMarkerAnnotationTypes = [
   "tei:Space",
   "tei:Graphic",
@@ -196,16 +216,18 @@ export const isEntity = (
   return projectEntityTypes.includes(toTest.type);
 };
 
-export const isPersonEntity = (
-  toTest: Persons | Artworks,
-): toTest is IsraelsTeiRsPersonRef => {
-  return Array.isArray(toTest) && toTest.length > 0 && "persName" in toTest[0];
+export const isPerson = (toTest: AnnoRepoBodyBase): toTest is PersonBody => {
+  if (!isEntity(toTest)) {
+    return false;
+  }
+  return toTest["tei:type"] === "person";
 };
 
-export const isArtworkEntity = (
-  toTest: Persons | Artworks,
-): toTest is IsraelsTeiRsArtworkRef => {
-  return Array.isArray(toTest) && toTest.length > 0 && "graphic" in toTest[0];
+export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
+  if (!isEntity(toTest)) {
+    return false;
+  }
+  return toTest["tei:type"] === "artwork";
 };
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
@@ -213,7 +235,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
     return get(annoRepoBody, "metadata.rend") ?? "unknown";
   } else if (annoRepoBody.type === head) {
     return normalizeClassname(head);
-  } else if (annoRepoBody.type === teiRs) {
+  } else if (annoRepoBody.type === entity) {
     return get(annoRepoBody, "tei:type") ?? "unknown";
   } else if (annoRepoBody.type === teiRef) {
     return normalizeClassname(teiRef);

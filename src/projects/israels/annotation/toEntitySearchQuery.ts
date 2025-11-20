@@ -6,9 +6,8 @@ import { SearchQuery } from "../../../model/Search";
 import { encodeObject } from "../../../utils/UrlParamUtils";
 import {
   entityCategoryToAgg,
-  isArtworkEntity,
-  isEntity,
-  isPersonEntity,
+  isArtwork,
+  isPerson,
 } from "./ProjectAnnotationModel";
 
 export function toEntitySearchQuery(
@@ -16,26 +15,26 @@ export function toEntitySearchQuery(
   projectConfig: ProjectConfig,
   interfaceLang: LanguageCode,
 ): string {
-  if (isEntity(anno) && isPersonEntity(anno.ref)) {
+  if (isPerson(anno)) {
     return createSearchQueryParam(
       toEntityTerms(
         anno["tei:type"],
-        anno.ref[0].sortLabel,
+        anno["tei:ref"].id,
         projectConfig,
         interfaceLang,
       ),
     );
-  } else if (isEntity(anno) && isArtworkEntity(anno.ref)) {
+  } else if (isArtwork(anno)) {
     return createSearchQueryParam(
       toEntityTerms(
         anno["tei:type"],
-        anno.ref[0].head[interfaceLang],
+        anno["tei:ref"].head[interfaceLang],
         projectConfig,
         interfaceLang,
       ),
     );
   } else {
-    throw new Error("Unknown entity " + JSON.stringify(anno));
+    throw new Error("Unknown entity: " + JSON.stringify(anno));
   }
 }
 
