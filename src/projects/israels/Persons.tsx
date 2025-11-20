@@ -5,22 +5,19 @@ import { encodeObject } from "../../utils/UrlParamUtils";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
-import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
+import { type Person } from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
 import {
-  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
 import { Button } from "react-aria-components";
 
 export function Persons() {
-  const [persons, setPersons] = React.useState<Persons>();
+  const [persons, setPersons] = React.useState<Person[]>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { israelsPersonsUrl, routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
-
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -124,7 +121,8 @@ export function Persons() {
               {per.birth?.when || per.birth?.cert}-
               {per.death?.when || per.death?.cert || per.death?.notBefore}
             </div>
-            <div>{per.note?.[interfaceLang].shortdesc}</div>
+            {/*TODO: no person note? */}
+            {/*<div>{per.note?.[interfaceLang].shortdesc}</div>*/}
           </div>
         ))}
       </div>
@@ -136,7 +134,7 @@ export function Persons() {
 async function fetchPersons(
   url: string,
   signal: AbortSignal,
-): Promise<Persons | null> {
+): Promise<Person[] | null> {
   const response = await fetch(url, { signal });
   if (!response.ok) {
     const error = await response.json();

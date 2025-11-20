@@ -12,11 +12,10 @@ import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { EntitySummaryDetails } from "./EntitySummaryDetails";
 import {
   getAnnotationCategory,
-  isArtworkEntity,
+  isArtwork,
   isBibliographyReference,
-  isEntity,
   isLetterReference,
-  isPersonEntity,
+  isPerson,
   isReference,
 } from "./ProjectAnnotationModel";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
@@ -54,12 +53,12 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
 
   const handleMoreInfoClick = () => {
     const basePath = routerBasename === "/" ? "" : routerBasename;
-    if (isEntity(body) && isPersonEntity(body.ref)) {
-      const id = body.ref[0].id;
+    if (isPerson(body)) {
+      const id = body["tei:ref"].id;
       window.open(`${basePath}/persons#${id}`);
     }
-    if (isEntity(body) && isArtworkEntity(body.ref)) {
-      const id = body.ref[0].id;
+    if (isArtwork(body)) {
+      const id = body["tei:ref"].id;
       window.open(`${basePath}/artworks#${id}`);
     }
     if (isBibliographyReference(body)) {
