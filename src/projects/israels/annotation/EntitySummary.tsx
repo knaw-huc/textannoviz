@@ -19,6 +19,7 @@ import {
   isReference,
 } from "./ProjectAnnotationModel";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
+import { toast } from "../../../utils/toast.ts";
 
 const LETTER_TEMPLATE = "urn:israels:letter:";
 
@@ -56,14 +57,14 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
     if (isPerson(body)) {
       const id = body["tei:ref"].id;
       window.open(`${basePath}/persons#${id}`);
-    }
-    if (isArtwork(body)) {
+    } else if (isArtwork(body)) {
       const id = body["tei:ref"].id;
       window.open(`${basePath}/artworks#${id}`);
-    }
-    if (isBibliographyReference(body)) {
+    } else if (isBibliographyReference(body)) {
       const id = body.target[0].id;
       window.open(`${basePath}/bibliography#${id}`);
+    } else {
+      toast(`Unknown annotation body: ${body}`);
     }
   };
 
