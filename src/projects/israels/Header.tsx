@@ -28,7 +28,7 @@ export const Header = () => {
 
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
 
-  const introId = "urn:israels:file:intro";
+  const introId = "urn:mace:huc.knaw.nl:israels:intro";
 
   const letterAnnoBody = findLetterBody(annotations);
 
