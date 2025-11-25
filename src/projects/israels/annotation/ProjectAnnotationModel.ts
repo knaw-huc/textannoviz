@@ -194,7 +194,7 @@ const entity = "Entity";
 const teiRef = "Reference";
 const teiItem = "ListItem";
 // TODO: what should this be?
-// const teiLabel = "tei:Label";
+const teiLabel = "Label";
 const teiQuote = "Quote";
 
 export const projectEntityTypes = [entity];
@@ -254,8 +254,8 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
     } else {
       return normalizeClassname(head);
     }
-    // } else if (annoRepoBody.type === teiLabel) {
-    //   return normalizeClassname(teiLabel);
+  } else if (annoRepoBody.type === teiLabel) {
+    return normalizeClassname(teiLabel);
   } else if (annoRepoBody.type === teiItem) {
     return normalizeClassname(teiItem);
   } else if (annoRepoBody.type === teiQuote) {
