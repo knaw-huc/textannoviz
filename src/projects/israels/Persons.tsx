@@ -8,6 +8,7 @@ import { handleAbort } from "../../utils/handleAbort";
 import { type Person } from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
@@ -18,6 +19,8 @@ export function Persons() {
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { israelsPersonsUrl, routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
+
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -31,7 +34,6 @@ export function Persons() {
           ignorePunctuation: true,
         }),
       );
-
       setPersons(newPersons);
     }
 
@@ -121,8 +123,8 @@ export function Persons() {
               {per.birth?.when || per.birth?.cert}-
               {per.death?.when || per.death?.cert || per.death?.notBefore}
             </div>
-            {/*TODO: no person note? */}
-            {/*<div>{per.note?.[interfaceLang].shortdesc}</div>*/}
+            {/*TODO: test person.note exists: */}
+            <div>{per.note?.[interfaceLang].shortdesc}</div>
           </div>
         ))}
       </div>
