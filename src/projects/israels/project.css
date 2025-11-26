@@ -2,13 +2,13 @@
   font-style: italic;
 }
 
-.highlight-tei-head {
+.highlight-head {
   font-size: 1.17rem;
   font-weight: bold;
   text-align: center;
 }
 
-.segmented-line:has(.highlight-tei-head) {
+.segmented-line:has(.highlight-head) {
   margin-bottom: 1rem;
   margin-top: 1rem;
 }
@@ -21,17 +21,17 @@
   margin-bottom: 1.5rem;
 }
 
-.highlight-tei-label {
+.highlight-label {
   float: left;
   width: 125px;
 }
 
-.segmented-line:has(.highlight-tei-quote) {
+.segmented-line:has(.highlight-quote) {
   text-align: right;
   margin-bottom: 1rem;
 }
 
-.highlight-tei-item {
+.highlight-item {
   overflow: hidden;
 }
 
