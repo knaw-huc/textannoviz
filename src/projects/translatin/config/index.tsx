@@ -49,12 +49,8 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     MetadataPanel,
     // MetadataPanel: Empty,
     SearchItem,
-    AnnotationButtons,
-    SearchInfoPage,
   },
   highlightedAnnotationTypes: projectHighlightedTypes,
-
-  getHighlightCategory: getHighlightCategory,
 
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
@@ -62,8 +58,6 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   viewsToSearchIn: ["playText"],
   showSearchInTextViews: true,
 
-  showAnnotations: true,
-  highlightedAnnotationTypes: projectHighlightedTypes,
   getHighlightCategory: (body) =>
     isHighlightBody(body) ? body.style : body.type,
   getAnnotationCategory: (anno) => anno.type,
