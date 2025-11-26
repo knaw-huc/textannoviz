@@ -22,7 +22,7 @@ export const SearchInfoPage = () => {
               rel="noreferrer"
               target="_blank"
             >
-              here
+                <i>Early Modern Letters Online</i> (EMLO)
             </a>{" "}
             or{" "}
             <a
@@ -30,7 +30,7 @@ export const SearchInfoPage = () => {
               rel="noreferrer"
               target="_blank"
             >
-              here
+                <i>Repertoria vertegenwoordigers in Nederland en in het buitenland 1584-1810</i>
             </a>
             ).
           </p>

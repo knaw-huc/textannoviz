@@ -46,7 +46,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
   useExternalConfig: true,
   showSearchResultsOnInfoPage: true,
   overrideDefaultSearchParams: {
-    sortBy: "date",
+    sortBy: "datePublished",
     sortOrder: "asc",
   },
   defaultKeywordAggsToRender: [
