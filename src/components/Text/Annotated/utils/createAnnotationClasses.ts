@@ -97,5 +97,5 @@ export function toEntityCategory(
 }
 
 export function normalizeClassname(annotationCategory: string) {
-  return annotationCategory.toLowerCase().replace(":", "-");
+  return annotationCategory.toLowerCase().replaceAll(":", "-");
 }

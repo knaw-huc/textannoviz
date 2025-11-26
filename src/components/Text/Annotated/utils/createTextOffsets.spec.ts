@@ -36,14 +36,12 @@ describe("createTextOffsets", () => {
         },
       ],
     } as AnnoRepoAnnotation;
-    const positionsRelativeToView: BroccoliRelativeAnno[] = [
-      {
-        bodyId:
-          "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
-        begin: 162,
-        end: 194,
-      },
-    ];
+    const positionsRelativeToView = {
+      bodyId:
+        "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
+      begin: 162,
+      end: 194,
+    };
     const result = createAnnotationTextOffsets(
       annotation,
       positionsRelativeToView,
@@ -66,12 +64,10 @@ describe("createTextOffsets", () => {
         metadata: {},
       },
     } as unknown as AnnoRepoAnnotation;
-    const positionsRelativeToView: BroccoliRelativeAnno[] = [
-      {
-        bodyId: "urn:foo:ptr:1978932",
-        begin: 5,
-      } as BroccoliRelativeAnno,
-    ];
+    const positionsRelativeToView = {
+      bodyId: "urn:foo:ptr:1978932",
+      begin: 5,
+    } as BroccoliRelativeAnno;
     const result = createMarkerTextOffsets(annotation, positionsRelativeToView);
     expect(result.body.id).toEqual("urn:foo:ptr:1978932");
     expect(result.type).toEqual("marker");
