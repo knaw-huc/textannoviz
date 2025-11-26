@@ -211,6 +211,16 @@ export const projectInsertTextMarkerAnnotationTypes = [
   "tei:Head",
 ];
 
+export const projectAnnotationTypesToInclude = [
+  ...new Set([
+    ...projectInsertTextMarkerAnnotationTypes,
+    ...projectPageMarkerAnnotationTypes,
+    ...projectTooltipMarkerAnnotationTypes,
+    ...projectHighlightedTypes,
+    ...projectEntityTypes,
+  ]),
+];
+
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
 ): toTest is IsraelsEntityBody => {
