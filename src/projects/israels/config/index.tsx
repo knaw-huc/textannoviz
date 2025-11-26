@@ -194,8 +194,8 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   overrideDefaultSearchParams: {
     // TODO: sorting by file results in {"code":400,"message":"query param sortBy must be one of [_doc, _score, author, datePublished, editor, identifier, subtitle, title, type]"}
-    // sortBy: "file",
-    // sortOrder: "asc",
+    sortBy: "file",
+    sortOrder: "asc",
   },
   annoToEntityCategory: {
     person: "PER",
