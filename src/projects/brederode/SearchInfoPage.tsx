@@ -88,11 +88,12 @@ export const SearchInfoPage = () => {
           </p>
           <p>
             When citing the letters in this database, please use the following
-            form: Nationaal Archief, 1.01.02, inv. 6016. Brederode to States
+            form (using the relevant metadata of the specific letter):
+              <i>Nationaal Archief, 1.01.02, inv. 6016. Brederode to States
             General, 18 November 1602. In: Helmer Helmers, Romée van Dommele,
-            Bram Buitendijk and Maarten van Gompel The Correspondence of Pieter
-            Cornelisz Brederode (1602–1637) (Amsterdam: Huygens Institute,
-            2025). URL:{" "}
+            Bram Buitendijk, Maarten van Gompel, Hayco de Jong and Sebastiaan van Daalen:
+              The Correspondence of Pieter Cornelisz Brederode (1602–1637)
+              (Amsterdam: Huygens Institute, 2025). URL:{" "}
             <a
               href="https://brederode.huygens.knaw.nl/"
               target="_blank"
@@ -100,7 +101,7 @@ export const SearchInfoPage = () => {
             >
               https://brederode.huygens.knaw.nl/
             </a>
-            .
+              .</i>
           </p>
         </div>
       </div>
