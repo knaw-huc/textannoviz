@@ -26,7 +26,13 @@
   width: 125px;
 }
 
-.segmented-line:has(.highlight-quote) {
+/* Remove annotated-segment [role="button"] pointer cursor: */
+[role="button"]:has(:not(.nested-annotation)) {
+  cursor: default;
+}
+
+.text-segment:has(.highlight-quote) {
+  display: block;
   text-align: right;
   margin-bottom: 1rem;
 }
