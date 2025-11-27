@@ -17,6 +17,7 @@ import { TextOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
+import { isMarker } from "./MarkerAnnotation.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -41,23 +42,16 @@ type TextHighlightingProps = {
  * - Segment: piece of text or annotation uninterrupted by annotation offsets
  */
 export const AnnotatedText = (props: TextHighlightingProps) => {
-  const {
-    tooltipMarkerAnnotationTypes,
-    pageMarkerAnnotationTypes,
-    insertTextMarkerAnnotationTypes,
-    entityAnnotationTypes,
-    highlightedAnnotationTypes,
-  } = useProjectStore(projectConfigSelector);
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const { entityAnnotationTypes, highlightedAnnotationTypes } = projectConfig;
   const typesToInclude = uniq([
     ...entityAnnotationTypes,
     ...highlightedAnnotationTypes,
-    ...tooltipMarkerAnnotationTypes,
-    ...insertTextMarkerAnnotationTypes,
-    ...pageMarkerAnnotationTypes,
   ]);
-  const annotations = useAnnotationStore().annotations.filter((a) =>
-    typesToInclude.includes(a.body.type),
-  );
+  const annotations = useAnnotationStore().annotations.filter((a) => {
+    if (typesToInclude.includes(a.body.type)) return true;
+    if (isMarker(a, projectConfig)) return true;
+  });
   const withRelative: WithRelativePosition[] = annotations
     .map((annotation) => {
       const relativePositions = props.text.locations.annotations;
@@ -91,21 +85,12 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const searchHighlight = createSearchRegex(searchTerms, tier2);
   offsets.push(...createSearchHighlightOffsets(textBody, searchHighlight));
 
-  const markerTypes = [
-    ...tooltipMarkerAnnotationTypes,
-    ...insertTextMarkerAnnotationTypes,
-    ...pageMarkerAnnotationTypes,
-  ];
   const markerAnnotations = withRelative
-    .filter(({ annotation }) => markerTypes.includes(annotation.body.type))
+    .filter(({ annotation }) => isMarker(annotation, projectConfig))
     .map(({ annotation, relative }) =>
       createMarkerTextOffsets(annotation, relative),
     );
   offsets.push(...markerAnnotations);
-  console.log("annotations", {
-    annotations,
-    pages: annotations.filter((a) => a.body.type === "Page"),
-  });
   return (
     <div className="whitespace-pre-wrap">
       <SegmentedText body={textBody} offsets={offsets} />

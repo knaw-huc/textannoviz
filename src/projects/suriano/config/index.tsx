@@ -21,7 +21,6 @@ import {
   projectHighlightedTypes,
   projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
-  projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
@@ -85,7 +84,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   annotationTypesToHighlight: [],
   entityAnnotationTypes: projectEntityTypes,
   highlightedAnnotationTypes: projectHighlightedTypes,
-  tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
+  // TODO: use Reference instead of tei:Ptr
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
 

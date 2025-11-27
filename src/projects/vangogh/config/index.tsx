@@ -13,7 +13,6 @@ import {
   projectEntityTypes,
   projectHighlightedTypes,
   projectPageMarkerAnnotationTypes,
-  projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
@@ -100,7 +99,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   showAnnotations: true,
   highlightedAnnotationTypes: projectHighlightedTypes,
-  tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
+  // TODO: use Reference instead of tei:Ptr
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   entityAnnotationTypes: projectEntityTypes,
   getAnnotationCategory: getAnnotationCategory,

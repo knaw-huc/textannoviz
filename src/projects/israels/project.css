@@ -34,7 +34,19 @@
 .text-segment:has(.highlight-quote) {
   display: block;
   text-align: right;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
+
+  /* Align quote to the right, with enough room for a marker: */
+  &:has(+ .text-segment .marker) {
+    padding-right: 2em;
+
+    & + .text-segment {
+      display: block;
+      float: right;
+      margin-top: -2.5em;
+      clear: none;
+    }
+  }
 }
 
 .highlight-item {

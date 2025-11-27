@@ -125,7 +125,11 @@ type BibliographyTarget = {
   text: string;
 }[];
 
-export type ReferenceBody = LetterReferenceBody | BibliographyReferenceBody;
+export type ReferenceBody =
+  | LetterReferenceBody
+  | BibliographyReferenceBody
+  | NoteReferenceBody;
+
 export const isReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is ReferenceBody => !!toTest && toTest.type === "Reference";
@@ -133,20 +137,45 @@ export const isReference = (
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   target: BibliographyTarget;
   type: "Reference";
+  elementName: string;
 };
 export const isBibliographyReference = (
   toTest?: AnnoRepoBodyBase,
-): toTest is BibliographyReferenceBody =>
-  isReference(toTest) && isArray(toTest.target);
+): toTest is BibliographyReferenceBody => {
+  const result =
+    isReference(toTest) &&
+    isArray((toTest as BibliographyReferenceBody).target);
+  if (result) {
+    console.log("// TODO: isBibliographyReference type?", toTest);
+  }
+  return result;
+};
 
 export type LetterReferenceBody = AnnoRepoBodyBase & {
   target: LetterTarget;
   type: "Reference";
+  elementName: string;
 };
 export const isLetterReference = (
   toTest?: AnnoRepoBodyBase,
-): toTest is LetterReferenceBody =>
-  isReference(toTest) && isString(toTest.target);
+): toTest is LetterReferenceBody => {
+  const result =
+    isReference(toTest) && isString((toTest as LetterReferenceBody).target);
+  if (result) {
+    console.log("// TODO: isLetterReference type?", toTest);
+  }
+  return result;
+};
+
+export type NoteReferenceBody = AnnoRepoBodyBase & {
+  type: "Reference";
+  elementName: "ptr";
+  url: string;
+};
+export const isNoteReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is NoteReferenceBody =>
+  isReference(toTest) && toTest.elementName === "ptr";
 
 export type HeadBody = AnnoRepoBodyBase & {
   type: string;
@@ -195,7 +224,7 @@ export function findLetterBody(
 const teiHi = "Highlight";
 const head = "Head";
 const entity = "Entity";
-const teiRef = "Reference";
+const reference = "Reference";
 const teiItem = "ListItem";
 // TODO: what should this be?
 const teiLabel = "Label";
@@ -203,8 +232,7 @@ const teiQuote = "Quote";
 
 export const projectEntityTypes = [entity];
 export const projectHighlightedTypes = [teiHi, head, teiItem, teiQuote];
-// TODO: use peenless equivalent
-export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
+export const projectTooltipMarkerAnnotationTypes = [reference];
 export const projectPageMarkerAnnotationTypes = ["Page"];
 
 // TODO: use peenless equivalent
@@ -251,8 +279,8 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
     return normalizeClassname(head);
   } else if (annoRepoBody.type === entity) {
     return get(annoRepoBody, "tei:type") ?? "unknown";
-  } else if (annoRepoBody.type === teiRef) {
-    return normalizeClassname(teiRef);
+  } else if (annoRepoBody.type === reference) {
+    return normalizeClassname(reference);
   } else {
     return "unknown";
   }
