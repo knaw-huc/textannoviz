@@ -167,12 +167,13 @@ export const isLetterReference = (
 export type NoteReferenceBody = AnnoRepoBodyBase & {
   type: "Reference";
   elementName: "ptr";
+  "tei:type": "note";
   url: string;
 };
 export const isNoteReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is NoteReferenceBody =>
-  isReference(toTest) && toTest.elementName === "ptr";
+  isReference(toTest) && (toTest as NoteReferenceBody)["tei:type"] === "note";
 
 export type HeadBody = AnnoRepoBodyBase & {
   type: string;
