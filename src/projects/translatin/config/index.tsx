@@ -6,12 +6,12 @@ import {
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
 import { SearchItem } from "../SearchItem";
-import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
 import { projectHighlightedTypes } from "../annotation/ProjectAnnotationModel.ts";
 import projectCss from "../project.css?inline";
 import { isHighlightBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { englishTranslatinLabels } from "./englishTranslatinLabels.ts";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
@@ -45,6 +45,29 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchResultsButtonFooter: false,
   showMirador: false,
   showAnnotations: true,
+  defaultKeywordAggsToRender: [
+    "author",
+    "title",
+    "genre",
+    "firstEdition",
+    "datePublished",
+    "location",
+    "publisher",
+  ],
+  overrideDefaultAggs: [
+    {
+      facetName: "author",
+      order: "keyAsc",
+    },
+    {
+      facetName: "title",
+      order: "keyAsc",
+    },
+    {
+      facetName: "location",
+      order: "keyAsc",
+    },
+  ],
   components: {
     // TODO:
     MetadataPanel,
@@ -54,8 +77,8 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   },
   highlightedAnnotationTypes: projectHighlightedTypes,
 
-  selectedLanguage: "nl",
-  languages: [{ code: "nl", labels: dutchTranslatinLabels }],
+  selectedLanguage: "en",
+  languages: [{ code: "en", labels: englishTranslatinLabels }],
 
   viewsToSearchIn: ["playText"],
 
