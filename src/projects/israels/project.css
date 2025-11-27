@@ -36,7 +36,7 @@
   text-align: right;
   margin-bottom: 1em;
 
-  /* Align quote to the right, with enough room for a marker: */
+  /* Show marker next to quote: */
   &:has(+ .text-segment .marker) {
     padding-right: 2em;
 

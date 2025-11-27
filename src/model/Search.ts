@@ -32,19 +32,16 @@ export interface RepublicSearchResultBody {
 
 export type TranslatinSearchResultsBody = {
   _id: string;
-  bodyType: string;
-  earliest: string;
-  expression: string;
-  form: string;
-  formType: string;
+  author: string;
+  firstEdition: string;
   genre: string;
-  latest: string;
-  latinTitle: string;
-  manifestation: string;
+  location: string;
+  datePublished: string;
+  publisher: string;
   title: string;
-  work: string;
   _hits: {
     text: string[];
+    playText: string[];
   };
 };
 
