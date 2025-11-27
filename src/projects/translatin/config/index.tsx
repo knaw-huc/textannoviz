@@ -11,6 +11,7 @@ import { projectHighlightedTypes } from "../annotation/ProjectAnnotationModel.ts
 import projectCss from "../project.css?inline";
 import { isHighlightBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
@@ -49,6 +50,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     MetadataPanel,
     // MetadataPanel: Empty,
     SearchItem,
+    SearchInfoPage,
   },
   highlightedAnnotationTypes: projectHighlightedTypes,
 
@@ -56,7 +58,6 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   languages: [{ code: "nl", labels: dutchTranslatinLabels }],
 
   viewsToSearchIn: ["playText"],
-  showSearchInTextViews: true,
 
   getHighlightCategory: (body) =>
     isHighlightBody(body) ? body.style : body.type,
