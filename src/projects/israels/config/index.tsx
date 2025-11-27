@@ -15,7 +15,6 @@ import {
   projectHighlightedTypes,
   projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
-  projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { ArtworksTab } from "../ArtworksTab";
@@ -47,6 +46,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     "Division",
     "Document",
     "Letter",
+    "Note",
     ...projectAnnotationTypesToInclude,
     // "Division",
     // "Dataset",
@@ -58,7 +58,6 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     // "Line",
     // "List",
     // "ListItem",
-    // "Note",
     // "Page",
     // "Paragraph",
     // "Picture",
@@ -68,7 +67,6 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   showAnnotations: true,
   highlightedAnnotationTypes: projectHighlightedTypes,
-  tooltipMarkerAnnotationTypes: projectTooltipMarkerAnnotationTypes,
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   entityAnnotationTypes: projectEntityTypes,
   insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,

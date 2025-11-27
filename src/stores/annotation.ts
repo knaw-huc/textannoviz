@@ -1,5 +1,5 @@
 import { create, StateCreator } from "zustand";
-import { AnnoRepoAnnotation } from "../model/AnnoRepoAnnotation";
+import { AnnoRepoAnnotation, NoteBody } from "../model/AnnoRepoAnnotation";
 
 export type AnnotationsSlice = {
   annotations: AnnoRepoAnnotation[];
@@ -7,7 +7,7 @@ export type AnnotationsSlice = {
 };
 
 export type PtrToNoteAnnosSlice = {
-  ptrToNoteAnnosMap: Map<string, AnnoRepoAnnotation>;
+  ptrToNoteAnnosMap: Map<string, AnnoRepoAnnotation<NoteBody>>;
   setPtrToNoteAnnosMap: (
     newPtrToNoteAnnosMap: PtrToNoteAnnosSlice["ptrToNoteAnnosMap"],
   ) => void;
@@ -84,7 +84,7 @@ const createPtrToNoteAnnosMapSlice: StateCreator<
   [],
   PtrToNoteAnnosSlice
 > = (set) => ({
-  ptrToNoteAnnosMap: new Map<string, AnnoRepoAnnotation>(),
+  ptrToNoteAnnosMap: new Map<string, AnnoRepoAnnotation<NoteBody>>(),
   setPtrToNoteAnnosMap: (newPtrToNoteAnnosMap) =>
     set(() => ({ ptrToNoteAnnosMap: new Map(newPtrToNoteAnnosMap) })),
 });

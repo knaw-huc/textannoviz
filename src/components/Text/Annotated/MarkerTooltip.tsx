@@ -79,7 +79,7 @@ function getTooltipBody(
     throw new Error(`No note found for marker ${noteTargetId}`);
   }
 
-  const noteLanguage = (note.body as NoteBody).lang as ViewLang;
+  const noteLanguage = (note.body as NoteBody).language as ViewLang;
 
   const notesView = textPanels[noteLanguage];
   if (!notesView) {

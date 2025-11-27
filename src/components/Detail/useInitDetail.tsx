@@ -13,6 +13,8 @@ import { useDetailNavigation } from "./useDetailNavigation.tsx";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
 import {
   AnnoRepoAnnotation,
+  filterByBodyType,
+  isNoteBody,
   NoteBody,
 } from "../../model/AnnoRepoAnnotation.ts";
 
@@ -121,14 +123,12 @@ export function useInitDetail() {
       setAnnotations(annotations);
 
       //TODO: Note anno type to project config
-      if (annotations.some((anno) => anno.body.type === "tei:Note")) {
-        const ptrToNoteAnnos = new Map<string, AnnoRepoAnnotation>();
+      if (annotations.some((anno) => anno.body.type === "Note")) {
+        const ptrToNoteAnnos = new Map<string, AnnoRepoAnnotation<NoteBody>>();
 
-        const noteAnnos = annotations.filter(
-          (anno) => anno.body.type === "tei:Note",
-        );
+        const noteAnnos = filterByBodyType(annotations, isNoteBody);
         noteAnnos.forEach((noteAnno) => {
-          const targetId = (noteAnno.body as NoteBody)["tei:id"];
+          const targetId = (noteAnno.body as NoteBody)["xml:id"];
           ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
         });
 

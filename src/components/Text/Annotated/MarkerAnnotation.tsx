@@ -1,7 +1,10 @@
 import mirador from "mirador-knaw-huc-mui5";
 import React, { useRef } from "react";
 import { toast } from "../../../utils/toast.ts";
-import { CanvasTarget, NoteBody } from "../../../model/AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  CanvasTarget,
+} from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";
 import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
@@ -16,27 +19,32 @@ import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
 import { SegmentBody } from "./SegmentBody.tsx";
 import { createTooltipMarkerClasses } from "./utils/createAnnotationClasses.ts";
 import { useMiradorStore } from "../../../stores/mirador.ts";
+import { orThrow } from "./utils/orThrow.tsx";
+import { isNoteReference } from "../../../projects/israels/annotation/ProjectAnnotationModel.ts";
+import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 
 export function MarkerAnnotation(
   props: Pick<NestedAnnotationProps, "segment">,
 ) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const pageMarkerTypes = projectConfig.pageMarkerAnnotationTypes;
-  const tooltipTypes = projectConfig.tooltipMarkerAnnotationTypes;
   const insertTextTypes = projectConfig.insertTextMarkerAnnotationTypes;
 
   const marker = props.segment.annotations.find(isMarkerSegment);
 
   if (!marker) {
     return <SegmentBody body={props.segment.body} />;
-  } else if (tooltipTypes.includes(marker.body.type)) {
+  } else if (projectConfig.isToolTipMarker(marker.body)) {
     return <TooltipMarkerAnnotation marker={marker} />;
   } else if (pageMarkerTypes.includes(marker.body.type)) {
     return <PageMarkerAnnotation marker={marker} />;
   } else if (insertTextTypes.includes(marker.body.type)) {
     return <InsertMarkerAnnotation marker={marker} />;
   } else {
-    toast(`Unknown marker ${marker.body.type}`, { type: "error" });
+    toast(
+      `Unknown marker ${marker.body.type}: ${JSON.stringify(marker.body)}`,
+      { type: "error" },
+    );
     return <></>;
   }
 }
@@ -78,7 +86,9 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   function pageBreakClickHandler() {
     if (canvas.length > 0) {
       if (currentCanvas === canvas) {
-        if (!zoomAnnoMirador) return;
+        if (!zoomAnnoMirador) {
+          return;
+        }
         miradorStore.dispatch(
           mirador.actions.updateViewport(projectName, {
             x: zoomCenter.x,
@@ -167,16 +177,20 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
 
 export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { activeFootnote, setActiveFootnote } = useTextStore();
-  const setActiveSidebarTab = useDetailViewStore().setActiveSidebarTab;
-  const ptrToNoteAnnosMap = useAnnotationStore().ptrToNoteAnnosMap;
+  const { setActiveSidebarTab } = useDetailViewStore();
+  const { ptrToNoteAnnosMap } = useAnnotationStore();
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
   const classNames: string[] = [];
+  const noteReference = isNoteReference(marker.body) && marker.body;
+  if (!noteReference) {
+    throw new Error("Expected pointer:" + JSON.stringify(noteReference));
+  }
   classNames.push(...createTooltipMarkerClasses(marker));
-
-  const footnote = ptrToNoteAnnosMap.get(marker.body.target);
+  const noteUrl = noteReference.url;
+  const footnote = ptrToNoteAnnosMap.get(noteUrl) ?? orThrow("No footnote");
   //TODO: Note numbers should always come from the same data point
-  const footnoteNumber = (footnote?.body as NoteBody).n;
+  const footnoteNumber = footnote.body.n;
 
   function spanClickHandler(footnoteNumber: string) {
     setActiveFootnote(footnoteNumber);
@@ -215,3 +229,17 @@ export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { marker } = props;
   return <projectConfig.components.InsertMarkerAnnotation marker={marker} />;
 }
+
+export const isMarker = (
+  annotation: AnnoRepoAnnotation,
+  config: ProjectConfig,
+) => {
+  const type = annotation.body.type;
+  if (config.insertTextMarkerAnnotationTypes.includes(type)) {
+    return true;
+  }
+  if (config.pageMarkerAnnotationTypes.includes(type)) {
+    return true;
+  }
+  return config.isToolTipMarker(annotation.body);
+};
