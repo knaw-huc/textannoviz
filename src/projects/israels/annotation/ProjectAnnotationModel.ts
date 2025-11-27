@@ -14,10 +14,13 @@ export type ArtworkBody = AnnoRepoBodyBase & {
   "tei:type": "artwork";
   "tei:ref": ArtworkTeiRef;
 };
+
 export type Artwork = ArtworkTeiRef;
 type ArtworkTeiRef = {
   id: string;
-  "tei:type": string;
+  // TODO: check if source truely exists in peenless:
+  source: string[];
+  "tei:type": "ill" | "art";
   corresp: string;
   head: {
     nl: string;
