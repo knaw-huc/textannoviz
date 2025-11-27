@@ -35,10 +35,10 @@ export type TranslatinSearchResultsBody = {
   author: string;
   firstEdition: string;
   genre: string;
-  pubPlace: string;
-  pubYear: string;
+  location: string;
+  datePublished: string;
   publisher: string;
-  titleShort: string;
+  title: string;
   _hits: {
     text: string[];
     playText: string[];
