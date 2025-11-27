@@ -41,6 +41,7 @@ export type TranslatinSearchResultsBody = {
   titleShort: string;
   _hits: {
     text: string[];
+    playText: string[];
   };
 };
 

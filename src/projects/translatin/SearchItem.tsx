@@ -21,7 +21,7 @@ export const SearchItem = (
           <div className="p-4 font-semibold">
             {`${props.result.author}, ${props.result.titleShort}. ${props.result.pubPlace}, ${props.result.publisher}, ${props.result.pubYear}`}
           </div>
-          {props.result._hits?.text.map((hit, index) => (
+          {props.result._hits?.playText.map((hit, index) => (
             <div key={index} className="hover:bg-brand1Grey-50 w-full p-4">
               <div
                 className="mb-1 font-serif text-base"
