@@ -7,12 +7,16 @@ export function createAnnotationTextOffsets(
   relativePosition: BroccoliRelativeAnno,
   type: "annotation" | "highlight",
 ): TextOffsets {
-  return {
+  const result = {
     type,
     body: annotation.body,
     beginChar: relativePosition.begin ?? 0,
     endChar: relativePosition.end,
   };
+  if (result.beginChar === result.endChar) {
+    throw new Error("Should not be marker");
+  }
+  return result;
 }
 
 /**

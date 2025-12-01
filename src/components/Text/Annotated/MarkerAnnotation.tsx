@@ -22,6 +22,7 @@ import { useMiradorStore } from "../../../stores/mirador.ts";
 import { orThrow } from "./utils/orThrow.tsx";
 import { isNoteReference } from "../../../projects/israels/annotation/ProjectAnnotationModel.ts";
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
+import { BroccoliRelativeAnno } from "../../../model/Broccoli.ts";
 
 export function MarkerAnnotation(
   props: Pick<NestedAnnotationProps, "segment">,
@@ -243,3 +244,7 @@ export const isMarker = (
   }
   return config.isToolTipMarker(annotation.body);
 };
+
+export function hasMarkerPositions(annotation: BroccoliRelativeAnno) {
+  return annotation.end === annotation.begin;
+}

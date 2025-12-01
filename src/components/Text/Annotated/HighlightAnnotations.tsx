@@ -20,7 +20,6 @@ export function HighlightAnnotations(
   }
   const allHighlightsClasses = [];
   for (const highlight of highlights) {
-    // TODO: should every highlight have its own component?
     allHighlightsClasses.push(
       ...createHighlightClasses(highlight, props.segment, getHighlightCategory),
     );

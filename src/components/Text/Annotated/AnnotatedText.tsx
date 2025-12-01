@@ -17,7 +17,7 @@ import { TextOffsets } from "./AnnotationModel.ts";
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
-import { isMarker } from "./MarkerAnnotation.tsx";
+import { isMarker, hasMarkerPositions } from "./MarkerAnnotation.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -69,6 +69,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   const nestedAnnotationTypes = [...entityAnnotationTypes];
   const nestedAnnotations = withRelative
     .filter((a) => nestedAnnotationTypes.includes(a.annotation.body.type))
+    .filter(({ relative }) => !hasMarkerPositions(relative))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "annotation"),
     );
@@ -77,6 +78,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
     .filter(({ annotation }) =>
       highlightedAnnotationTypes.includes(annotation.body.type),
     )
+    .filter(({ relative }) => !hasMarkerPositions(relative))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "highlight"),
     );
@@ -87,6 +89,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   const markerAnnotations = withRelative
     .filter(({ annotation }) => isMarker(annotation, projectConfig))
+    .filter(({ relative }) => hasMarkerPositions(relative))
     .map(({ annotation, relative }) =>
       createMarkerTextOffsets(annotation, relative),
     );
