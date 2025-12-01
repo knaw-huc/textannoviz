@@ -180,7 +180,7 @@ export type HeadBody = AnnoRepoBodyBase & {
   inFigure?: string;
   corresp: string;
   "tei:id": string;
-  n: string;
+  n?: string;
 };
 
 export const isHeadBody = (toTest?: AnnoRepoBodyBase): toTest is HeadBody =>
