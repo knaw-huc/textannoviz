@@ -23,6 +23,7 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
   }
 
   if (isHeadBody(body)) {
+    // TODO: remove inFigure check, is being converted into a caption:
     if (!body.inFigure?.length) {
       if (body.n) {
         return <>{body.n}. </>;

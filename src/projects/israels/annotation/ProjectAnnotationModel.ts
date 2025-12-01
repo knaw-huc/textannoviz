@@ -238,8 +238,8 @@ export const projectPageMarkerAnnotationTypes = ["Page"];
 
 // TODO: use peenless equivalent
 export const projectInsertTextMarkerAnnotationTypes = [
-  "tei:Space",
-  "tei:Graphic",
+  "Whitespace",
+  "Picture",
   "tei:Head",
 ];
 
