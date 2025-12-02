@@ -9,4 +9,6 @@ export const englishTranslatinLabels = Object.assign({}, englishLabels, {
   datePublished: "Year of publication",
   location: "Place of publication",
   publisher: "Publisher",
+
+  self: "Play text",
 });
