@@ -1,5 +1,5 @@
 import { MarkerSegment } from "../../components/Text/Annotated/AnnotationModel";
-import { isHeadBody } from "./annotation/ProjectAnnotationModel";
+import { isDivision } from "./annotation/ProjectAnnotationModel.ts";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment;
@@ -22,12 +22,11 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
     );
   }
 
-  if (isHeadBody(body)) {
-    // TODO: remove inFigure check, is being converted into a caption:
-    if (!body.inFigure?.length) {
-      if (body.n) {
-        return <>{body.n}. </>;
-      }
+  if (isDivision(body)) {
+    if (body["xml:id"] && body["xml:id"].includes("5.8")) {
+      // TODO: show section number instead of id, waiting for n property?
+      console.log("Division", body);
+      return <span className="highlight-head">{body["xml:id"]}. </span>;
     }
   }
 

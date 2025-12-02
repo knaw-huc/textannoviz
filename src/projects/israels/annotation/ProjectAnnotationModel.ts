@@ -247,8 +247,15 @@ export const projectPageMarkerAnnotationTypes = ["Page"];
 export const projectInsertTextMarkerAnnotationTypes = [
   "Whitespace",
   "Picture",
-  "tei:Head",
+  "Division",
 ];
+export type Division = AnnoRepoBodyBase & {
+  type: "Division";
+  "xml:id": string;
+};
+export const isDivision = (toTest: AnnoRepoBodyBase): toTest is Division => {
+  return toTest.type === "Division";
+};
 
 export const projectAnnotationTypesToInclude = [
   ...new Set([
