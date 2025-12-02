@@ -11,7 +11,7 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
     return <br />;
   }
 
-  if (body.type === "tei:Graphic") {
+  if (body.type === "Picture") {
     const maxWidth = body.width ?? "400";
     const width = Math.min(parseInt(maxWidth), 400);
     return (

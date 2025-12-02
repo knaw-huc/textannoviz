@@ -89,7 +89,6 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
 
   const markerAnnotations = withRelative
     .filter(({ annotation }) => isMarker(annotation, projectConfig))
-    .filter(({ relative }) => hasMarkerPositions(relative))
     .map(({ annotation, relative }) =>
       createMarkerTextOffsets(annotation, relative),
     );
