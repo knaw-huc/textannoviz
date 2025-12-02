@@ -1,5 +1,5 @@
 import { MarkerSegment } from "../../components/Text/Annotated/AnnotationModel";
-import { isDivision } from "./annotation/ProjectAnnotationModel.ts";
+import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment;
@@ -22,12 +22,8 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
     );
   }
 
-  if (isDivision(body)) {
-    if (body["xml:id"]) {
-      // TODO: show section number instead of id, waiting for n property?
-      console.log("Division", body);
-      return <span className="highlight-head">{body["xml:id"]}. </span>;
-    }
+  if (isHeadBody(body) && body.n) {
+    return <span className="highlight-head">{body.n}. </span>;
   }
 
   return null;
