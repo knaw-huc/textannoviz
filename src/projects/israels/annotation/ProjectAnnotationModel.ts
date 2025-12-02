@@ -22,11 +22,18 @@ export const page = "Page";
 export const picture = "Picture";
 export const artwork = "artwork";
 export const person = "person";
+export const note = "Note";
+export const illustration = "ill";
+export const art = "art";
+export const rs = "rs";
+export const pointer = "ptr";
+export const unknown = "unknown";
+export const document = "Document";
 
 export type ArtworkBody = AnnoRepoBodyBase & {
-  type: "Entity";
-  elementName: "rs";
-  "tei:type": "artwork";
+  type: typeof entity;
+  elementName: typeof rs;
+  "tei:type": typeof artwork;
   "tei:ref": ArtworkTeiRef;
 };
 
@@ -35,7 +42,7 @@ type ArtworkTeiRef = {
   id: string;
   // TODO: check if source truely exists in peenless:
   source: string[];
-  "tei:type": "ill" | "art";
+  "tei:type": typeof illustration | typeof art;
   corresp: string;
   head: {
     nl: string;
@@ -92,9 +99,9 @@ type ArtworkTeiRef = {
 };
 
 export type PersonBody = AnnoRepoBodyBase & {
-  type: "Entity";
-  elementName: "rs";
-  "tei:type": "person";
+  type: typeof entity;
+  elementName: typeof rs;
+  "tei:type": typeof person;
   "tei:ref": PersonTeiRef;
 };
 export type Person = PersonTeiRef;
@@ -147,11 +154,11 @@ export type ReferenceBody =
 
 export const isReference = (
   toTest?: AnnoRepoBodyBase,
-): toTest is ReferenceBody => !!toTest && toTest.type === "Reference";
+): toTest is ReferenceBody => !!toTest && toTest.type === reference;
 
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   target: BibliographyTarget;
-  type: "Reference";
+  type: typeof reference;
   elementName: string;
 };
 export const isBibliographyReference = (
@@ -168,7 +175,7 @@ export const isBibliographyReference = (
 
 export type LetterReferenceBody = AnnoRepoBodyBase & {
   target: LetterTarget;
-  type: "Reference";
+  type: typeof reference;
   elementName: string;
 };
 export const isLetterReference = (
@@ -183,18 +190,18 @@ export const isLetterReference = (
 };
 
 export type NoteReferenceBody = AnnoRepoBodyBase & {
-  type: "Reference";
-  elementName: "ptr";
-  "tei:type": "note";
+  type: typeof reference;
+  elementName: typeof pointer;
+  "tei:type": typeof note;
   url: string;
 };
 export const isNoteReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is NoteReferenceBody =>
-  isReference(toTest) && (toTest as NoteReferenceBody)["tei:type"] === "note";
+  isReference(toTest) && (toTest as NoteReferenceBody)["tei:type"] === note;
 
 export type HeadBody = AnnoRepoBodyBase & {
-  type: string;
+  type: typeof head;
   inFigure?: string;
   corresp: string;
   "tei:id": string;
@@ -202,10 +209,10 @@ export type HeadBody = AnnoRepoBodyBase & {
 };
 
 export const isHeadBody = (toTest?: AnnoRepoBodyBase): toTest is HeadBody =>
-  !!toTest && toTest.type === "Head";
+  !!toTest && toTest.type === head;
 
 export type LetterBody = AnnoRepoBodyBase & {
-  type: string;
+  type: typeof letter;
   correspondent: string;
   sender: string;
   n: string;
@@ -230,7 +237,7 @@ export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {
 export function findLetterBody(
   annotations: AnnoRepoAnnotation[],
 ): LetterBody | undefined {
-  const found = annotations.find((anno) => anno.body.type === "Letter");
+  const found = annotations.find((anno) => anno.body.type === letter);
   if (isLetterBody(found?.body)) {
     return found.body;
   }
@@ -277,8 +284,6 @@ export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
   }
   return toTest["tei:type"] === artwork;
 };
-
-const unknown = "unknown";
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
