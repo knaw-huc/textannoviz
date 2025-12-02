@@ -28,10 +28,10 @@ export const person = "person";
 export const picture = "Picture";
 export const quote = "Quote";
 export const reference = "Reference";
-export const teiArtwork = "artwork";
-export const teiNote = "note";
-export const teiIll = "ill";
 export const teiArt = "art";
+export const teiArtwork = "artwork";
+export const teiIll = "ill";
+export const teiNote = "note";
 export const unknown = "unknown";
 
 export type ArtworkBody = AnnoRepoBodyBase & {
