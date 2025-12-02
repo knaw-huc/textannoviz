@@ -7,6 +7,7 @@ import { globaliseConfig } from "./globalise/config";
 import { republicConfig } from "./republic/config";
 import { israelsConfig } from "./israels/config";
 import { brederodeConfig } from "./brederode/config";
+import { bc1900Config } from "./bc1900/config";
 
 export const projectConfigs = {
   vangogh: vangoghConfig,
@@ -18,6 +19,7 @@ export const projectConfigs = {
   republic: republicConfig,
   israels: israelsConfig,
   brederode: brederodeConfig,
+  bc1900: bc1900Config,
 };
 
 export type ProjectName = keyof typeof projectConfigs;

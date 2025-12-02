@@ -25,7 +25,8 @@
     "docker:build-push:vangogh-peen": "./scripts/docker-vangogh-peen-all.sh",
     "docker:build-push:israels-peen-prod": "./scripts/docker-israels-peen-all-prod.sh",
     "docker:build-push:israels-peen-staging": "./scripts/docker-israels-peen-all-staging.sh",
-    "docker:build-push:brederode": "./scripts/docker-brederode-all.sh"
+    "docker:build-push:brederode": "./scripts/docker-brederode-all.sh",
+    "docker:build-push:bc1900": "./scripts/docker-bc1900-all.sh"
   },
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
@@ -62,7 +63,7 @@
     "@typescript-eslint/parser": "^7.8.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.17",
-    "esbuild": "^0.18.20",
+    "esbuild": "^0.26.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
