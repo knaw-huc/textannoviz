@@ -8,6 +8,21 @@ import {
 import { ViewLang } from "../../../model/Broccoli";
 import { isArray, isString } from "lodash";
 
+// ["Dataset","Division","Document","Entity","Head","Highlight","Letter","Line","List","ListItem","Note","Page","Paragraph","Picture","Quote","Reference","Whitespace"]
+export const letter = "Letter";
+export const highlight = "Highlight";
+export const head = "Head";
+export const entity = "Entity";
+export const reference = "Reference";
+export const listItem = "ListItem";
+export const label = "Label";
+export const quote = "Quote";
+export const caption = "Caption";
+export const page = "Page";
+export const picture = "Picture";
+export const artwork = "artwork";
+export const person = "person";
+
 export type ArtworkBody = AnnoRepoBodyBase & {
   type: "Entity";
   elementName: "rs";
@@ -206,7 +221,7 @@ export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {
   if (!toTest) {
     return false;
   }
-  return toTest.type === "Letter";
+  return toTest.type === letter;
 }
 
 export function findLetterBody(
@@ -218,19 +233,7 @@ export function findLetterBody(
   }
 }
 
-// ["Dataset","Division","Document","Entity","Head","Highlight","Letter","Line","List","ListItem","Note","Page","Paragraph","Picture","Quote","Reference","Whitespace"]
-const highlight = "Highlight";
-const head = "Head";
-const entity = "Entity";
-const reference = "Reference";
-const listItem = "ListItem";
-const label = "Label";
-const quote = "Quote";
-const caption = "Caption";
-const page = "Page";
-const picture = "Picture";
-
-export const projectEntityTypes = [entity];
+export const projectEntityTypes = [entity, reference];
 export const projectHighlightedTypes = [
   highlight,
   head,
@@ -262,17 +265,18 @@ export const isPerson = (toTest: AnnoRepoBodyBase): toTest is PersonBody => {
   if (!isEntity(toTest)) {
     return false;
   }
-  return toTest["tei:type"] === "person";
+  return toTest["tei:type"] === person;
 };
 
 export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
   if (!isEntity(toTest)) {
     return false;
   }
-  return toTest["tei:type"] === "artwork";
+  return toTest["tei:type"] === artwork;
 };
 
 const unknown = "unknown";
+
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);

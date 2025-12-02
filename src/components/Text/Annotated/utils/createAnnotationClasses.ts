@@ -75,9 +75,8 @@ export function toEntityClassname(
   projectConfig: ProjectConfig,
   annotationCategory: string,
 ) {
-  return normalizeClassname(
-    `annotated-${toEntityCategory(projectConfig, annotationCategory)}`,
-  );
+  const category = toEntityCategory(projectConfig, annotationCategory);
+  return normalizeClassname(`annotated-${category}`);
 }
 
 export function toEntityCategory(

@@ -15,6 +15,7 @@ import {
   projectHighlightedTypes,
   projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
+  reference,
 } from "../annotation/ProjectAnnotationModel";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { ArtworksTab } from "../ArtworksTab";
@@ -203,7 +204,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   annoToEntityCategory: {
     person: "PER",
     artwork: "ART",
-    "tei-ref": "REF",
+    [reference.toLowerCase()]: "REF",
     PER: "PER",
   } as Any,
   viewsToSearchIn: [
