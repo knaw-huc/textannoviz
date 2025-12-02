@@ -227,10 +227,11 @@ const head = "Head";
 const entity = "Entity";
 const reference = "Reference";
 const listItem = "ListItem";
-// TODO: what should this be?
 const label = "Label";
 const quote = "Quote";
 const caption = "Caption";
+const page = "Page";
+const picture = "Picture";
 
 export const projectEntityTypes = [entity];
 export const projectHighlightedTypes = [
@@ -241,14 +242,8 @@ export const projectHighlightedTypes = [
   caption,
 ];
 export const projectTooltipMarkerAnnotationTypes = [reference];
-export const projectPageMarkerAnnotationTypes = ["Page"];
-
-// TODO: use peenless equivalent
-export const projectInsertTextMarkerAnnotationTypes = [
-  "Whitespace",
-  "Picture",
-  "Head",
-];
+export const projectPageMarkerAnnotationTypes = [page];
+export const projectInsertTextMarkerAnnotationTypes = [picture, head];
 
 export const projectAnnotationTypesToInclude = [
   ...new Set([
