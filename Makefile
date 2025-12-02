@@ -3,7 +3,7 @@ SHELL=/bin/bash
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-.env: .env.example
+.env: | .env.example
 	cp .env.example .env
 
 .make:
