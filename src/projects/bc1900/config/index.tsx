@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
+import logo from "../../../assets/logo-huygens.png";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
