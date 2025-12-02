@@ -28,7 +28,7 @@
 
 /* Remove annotated-segment [role="button"] pointer cursor: */
 [role="button"]:has(:not(.nested-annotation)) {
-  cursor: default;
+  cursor: text;
 }
 
 .text-segment:has(.highlight-quote) {

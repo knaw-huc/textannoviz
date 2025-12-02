@@ -219,17 +219,24 @@ export function findLetterBody(
 }
 
 // ["Dataset","Division","Document","Entity","Head","Highlight","Letter","Line","List","ListItem","Note","Page","Paragraph","Picture","Quote","Reference","Whitespace"]
-const teiHi = "Highlight";
+const highlight = "Highlight";
 const head = "Head";
 const entity = "Entity";
 const reference = "Reference";
-const teiItem = "ListItem";
+const listItem = "ListItem";
 // TODO: what should this be?
-const teiLabel = "Label";
-const teiQuote = "Quote";
+const label = "Label";
+const quote = "Quote";
+const caption = "Caption";
 
 export const projectEntityTypes = [entity];
-export const projectHighlightedTypes = [teiHi, head, teiItem, teiQuote];
+export const projectHighlightedTypes = [
+  highlight,
+  head,
+  listItem,
+  quote,
+  caption,
+];
 export const projectTooltipMarkerAnnotationTypes = [reference];
 export const projectPageMarkerAnnotationTypes = ["Page"];
 
@@ -270,39 +277,28 @@ export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
   return toTest["tei:type"] === "artwork";
 };
 
+const unknown = "unknown";
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
-  if (annoRepoBody.type === teiHi) {
-    return get(annoRepoBody, "metadata.rend") ?? "unknown";
-  } else if (annoRepoBody.type === head) {
-    return normalizeClassname(head);
+  if ([head, reference, caption].includes(annoRepoBody.type)) {
+    return normalizeClassname(annoRepoBody.type);
+  } else if (annoRepoBody.type === highlight) {
+    return get(annoRepoBody, "metadata.rend") ?? unknown;
   } else if (annoRepoBody.type === entity) {
-    return get(annoRepoBody, "tei:type") ?? "unknown";
-  } else if (annoRepoBody.type === reference) {
-    return normalizeClassname(reference);
+    return get(annoRepoBody, "tei:type") ?? unknown;
   } else {
-    return "unknown";
+    console.warn("Could not find annotation category:", annoRepoBody);
+    return unknown;
   }
 }
 
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
-  if (annoRepoBody.type === teiHi) {
+  if ([head, caption, label, listItem, quote].includes(annoRepoBody.type)) {
+    return normalizeClassname(annoRepoBody.type);
+  } else if (annoRepoBody.type === highlight) {
     return get(annoRepoBody, "metadata.rend");
-  } else if (isHeadBody(annoRepoBody)) {
-    //There can be heads without a metadata block
-    if (annoRepoBody.inFigure?.length) {
-      return "caption";
-    } else {
-      return normalizeClassname(head);
-    }
-  } else if (annoRepoBody.type === teiLabel) {
-    return normalizeClassname(teiLabel);
-  } else if (annoRepoBody.type === teiItem) {
-    return normalizeClassname(teiItem);
-  } else if (annoRepoBody.type === teiQuote) {
-    return normalizeClassname(teiQuote);
   } else {
-    console.warn("Could not find highlight category", annoRepoBody);
-    return "unknown";
+    console.warn("Could not find highlight category:", annoRepoBody);
+    return unknown;
   }
 }
 
