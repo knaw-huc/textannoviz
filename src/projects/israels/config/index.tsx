@@ -7,9 +7,14 @@ import {
 import { defaultConfig } from "../../default/config";
 import { NotesPanel } from "../NotesPanel";
 import {
+  artwork,
+  document,
   getAnnotationCategory,
   getHighlightCategory,
   isEntity,
+  letter,
+  note,
+  person,
   projectAnnotationTypesToInclude,
   projectEntityTypes,
   projectHighlightedTypes,
@@ -41,13 +46,13 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "israels",
   // broccoliUrl: "https://preview.dev.diginfra.org/broccoli",
   broccoliUrl: "http://localhost:8082",
-  relativeTo: "Document",
+  relativeTo: document,
   // TODO: pick relevant types:
   annotationTypesToInclude: [
     "Division",
-    "Document",
-    "Letter",
-    "Note",
+    document,
+    letter,
+    note,
     ...projectAnnotationTypesToInclude,
     // "Division",
     // "Dataset",
@@ -202,8 +207,8 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
     sortOrder: "asc",
   },
   annoToEntityCategory: {
-    person: "PER",
-    artwork: "ART",
+    [person]: "PER",
+    [artwork]: "ART",
     [reference.toLowerCase()]: "REF",
     PER: "PER",
   } as Any,
