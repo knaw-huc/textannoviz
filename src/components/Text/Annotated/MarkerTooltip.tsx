@@ -71,7 +71,7 @@ function getTooltipBody(
   if (!textPanels) {
     throw new Error(`No text panels found`);
   }
-  const noteTargetId = props.clickedMarker.body.metadata.target;
+  const noteTargetId = props.clickedMarker.body.target;
 
   const note = ptrToNoteAnnosMap.get(noteTargetId);
 

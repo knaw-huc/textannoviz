@@ -45,6 +45,9 @@ export default defineConfig(({ mode }) => {
       tailwindConfig = "tailwind.config.israels.js";
       htmlInjectionPluginConfig = israelsHtmlInjectionPluginConfig;
       break;
+    case "brederode":
+      tailwindConfig = "tailwind.config.brederode.js";
+      break;
     default:
       tailwindConfig = "tailwind.default.config.js";
   }

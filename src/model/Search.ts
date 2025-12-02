@@ -126,6 +126,20 @@ export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
   };
 };
 
+export type BrederodeSearchResultsBody = {
+  _id: string;
+  datePublished: string;
+  fromLocation: string;
+  recipient: string;
+  sender: string;
+  toLocation: string;
+  title: string;
+  _hits: {
+    letterText: string[];
+    text: string[]; //TODO: remove
+  };
+};
+
 export type FacetType = "date" | "keyword" | "short";
 
 export type FacetTypes = {
