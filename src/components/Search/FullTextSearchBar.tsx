@@ -18,11 +18,7 @@ export function FullTextSearchBar(props: {
   const translateProject = useProjectStore(translateProjectSelector);
 
   function includesTrailingBackslash(value: string): boolean {
-    if (value.charAt(value.length - 1).includes("\\")) {
-      return true;
-    } else {
-      return false;
-    }
+    return value.charAt(value.length - 1).includes("\\");
   }
 
   function submitHandler() {
