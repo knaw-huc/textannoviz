@@ -8,32 +8,36 @@ import {
 import { ViewLang } from "../../../model/Broccoli";
 import { isArray, isString } from "lodash";
 
-// ["Dataset","Division","Document","Entity","Head","Highlight","Letter","Line","List","ListItem","Note","Page","Paragraph","Picture","Quote","Reference","Whitespace"]
-export const letter = "Letter";
-export const highlight = "Highlight";
-export const head = "Head";
-export const entity = "Entity";
-export const reference = "Reference";
-export const listItem = "ListItem";
-export const label = "Label";
-export const quote = "Quote";
+/**
+ * Israels Annotation, element and tei type names
+ */
+
 export const caption = "Caption";
-export const page = "Page";
-export const picture = "Picture";
-export const artwork = "artwork";
-export const person = "person";
-export const note = "Note";
-export const illustration = "ill";
-export const art = "art";
-export const rs = "rs";
-export const pointer = "ptr";
-export const unknown = "unknown";
 export const document = "Document";
+export const elementRs = "rs";
+export const elementPtr = "ptr";
+export const entity = "Entity";
+export const head = "Head";
+export const highlight = "Highlight";
+export const label = "Label";
+export const letter = "Letter";
+export const listItem = "ListItem";
+export const note = "Note";
+export const page = "Page";
+export const person = "person";
+export const picture = "Picture";
+export const quote = "Quote";
+export const reference = "Reference";
+export const teiArtwork = "artwork";
+export const teiNote = "note";
+export const teiIll = "ill";
+export const teiArt = "art";
+export const unknown = "unknown";
 
 export type ArtworkBody = AnnoRepoBodyBase & {
   type: typeof entity;
-  elementName: typeof rs;
-  "tei:type": typeof artwork;
+  elementName: typeof elementRs;
+  "tei:type": typeof teiArtwork;
   "tei:ref": ArtworkTeiRef;
 };
 
@@ -42,7 +46,7 @@ type ArtworkTeiRef = {
   id: string;
   // TODO: check if source truely exists in peenless:
   source: string[];
-  "tei:type": typeof illustration | typeof art;
+  "tei:type": typeof teiIll | typeof teiArt;
   corresp: string;
   head: {
     nl: string;
@@ -100,7 +104,7 @@ type ArtworkTeiRef = {
 
 export type PersonBody = AnnoRepoBodyBase & {
   type: typeof entity;
-  elementName: typeof rs;
+  elementName: typeof elementRs;
   "tei:type": typeof person;
   "tei:ref": PersonTeiRef;
 };
@@ -191,14 +195,14 @@ export const isLetterReference = (
 
 export type NoteReferenceBody = AnnoRepoBodyBase & {
   type: typeof reference;
-  elementName: typeof pointer;
-  "tei:type": typeof note;
+  elementName: typeof elementPtr;
+  "tei:type": typeof teiNote;
   url: string;
 };
 export const isNoteReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is NoteReferenceBody =>
-  isReference(toTest) && (toTest as NoteReferenceBody)["tei:type"] === note;
+  isReference(toTest) && (toTest as NoteReferenceBody)["tei:type"] === teiNote;
 
 export type HeadBody = AnnoRepoBodyBase & {
   type: typeof head;
@@ -282,7 +286,7 @@ export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
   if (!isEntity(toTest)) {
     return false;
   }
-  return toTest["tei:type"] === artwork;
+  return toTest["tei:type"] === teiArtwork;
 };
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {

@@ -7,7 +7,7 @@ import {
 import { defaultConfig } from "../../default/config";
 import { NotesPanel } from "../NotesPanel";
 import {
-  artwork,
+  teiArtwork,
   document,
   getAnnotationCategory,
   getHighlightCategory,
@@ -208,7 +208,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   },
   annoToEntityCategory: {
     [person]: "PER",
-    [artwork]: "ART",
+    [teiArtwork]: "ART",
     [reference.toLowerCase()]: "REF",
     PER: "PER",
   } as Any,
