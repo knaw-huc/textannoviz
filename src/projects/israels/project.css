@@ -67,20 +67,11 @@ img {
 }
 
 /* Israels specific styling for AnnotatedText component */
-
-.closedNestedAnnotation .annotated-segment > .annotated-art {
+/* TODO: Test if we can remove parent selectors? */
+.annotated-art {
   @apply bg-[#F0ECF7];
 }
-
-.closedNestedAnnotation .annotated-segment > .annotated-ref {
-  @apply bg-[#afddff];
-}
-
-.fullNestedAnnotation .depth-2.annotated-art {
-  @apply bg-[#F0ECF7];
-}
-
-.fullNestedAnnotation .depth-1.annotated-ref {
+.annotated-ref {
   @apply bg-[#afddff];
 }
 
