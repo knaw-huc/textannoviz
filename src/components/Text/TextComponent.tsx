@@ -33,11 +33,7 @@ export const TextComponent = (props: TextComponentProps) => {
     const candidate = textViews?.[view];
     if (!candidate) return;
 
-    if (
-      typeof candidate === "object" &&
-      candidate !== null &&
-      lang in candidate
-    ) {
+    if (typeof candidate === "object" && lang in candidate) {
       return (candidate as Record<string, BroccoliTextGeneric>)[lang];
     }
     return candidate as BroccoliTextGeneric;
