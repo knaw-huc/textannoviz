@@ -23,7 +23,7 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
   }
 
   if (isDivision(body)) {
-    if (body["xml:id"] && body["xml:id"].includes("5.8")) {
+    if (body["xml:id"]) {
       // TODO: show section number instead of id, waiting for n property?
       console.log("Division", body);
       return <span className="highlight-head">{body["xml:id"]}. </span>;
