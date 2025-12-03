@@ -2,13 +2,13 @@
   font-style: italic;
 }
 
-.highlight-head {
+.marker-head {
   font-size: 1.17rem;
   font-weight: bold;
   text-align: center;
 }
 
-.segmented-line:has(.highlight-head) {
+.segmented-line:has(.marker-head) {
   margin-bottom: 1rem;
   margin-top: 1rem;
 }
@@ -66,7 +66,7 @@ img {
   margin-bottom: 0 !important;
 }
 
-/* Align hover message for entities with image */
+/* Fix: Align hover message for entities with image */
 .closedNestedAnnotation:has(img) {
   @apply before:-top-[-2em]
   hover:shadow-none;
