@@ -7,6 +7,7 @@ import {
   AnnotationBody,
   MarkerSegment,
   NestedAnnotationSegment,
+  OffsetsByCharIndex,
 } from "../AnnotationModel.ts";
 import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
 
@@ -957,5 +958,66 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].annotations[0].body.id).toEqual("marker1");
     expect(segments[1].body).toBe(" ");
     expect(segments[1].annotations.length).toEqual(0);
+  });
+
+  it("Includes marker segment when indexing segments", () => {
+    const testData = {
+      t: "schetsen.\n\n020 – Isaac Israëls, Vrouwenkop in profiel, 1895. Van Gogh Museum, Amsterdam. (Ill. 14)\n\n049 – Isaac Israëls, Boerin die een juk draagt, 1897",
+      oTest: [
+        {
+          charIndex: 13,
+          offsets: [
+            {
+              charIndex: 13,
+              mark: "start",
+              type: "annotation",
+              body: { id: "id1" },
+            },
+            {
+              charIndex: 13,
+              mark: "start",
+              type: "highlight",
+              body: { id: "id2" },
+            },
+            {
+              charIndex: 13,
+              mark: "start",
+              type: "marker",
+              body: { id: "id3" },
+            },
+            { charIndex: 13, mark: "end", type: "marker", body: { id: "id3" } },
+          ],
+        },
+        {
+          charIndex: 16,
+          offsets: [
+            {
+              charIndex: 16,
+              mark: "end",
+              type: "annotation",
+              body: { id: "id1" },
+            },
+          ],
+        },
+        {
+          charIndex: 100,
+          offsets: [
+            {
+              charIndex: 100,
+              mark: "end",
+              type: "highlight",
+              body: { id: "id2" },
+            },
+          ],
+        },
+      ],
+    };
+    const text = testData.t;
+    const offsets = structuredClone(testData.oTest) as OffsetsByCharIndex[];
+    const segments = new AnnotationSegmenter(text, offsets).segment();
+    const segmentWithMarker = segments[1];
+    expect(segmentWithMarker.index).toBe(1);
+    const segmentAfterMarker = segments[2];
+    expect(segmentAfterMarker.index).toBe(2);
   });
 });
