@@ -66,6 +66,7 @@ img {
   margin-bottom: 0 !important;
 }
 
+/* Align hover message for entities with image */
 .closedNestedAnnotation:has(img) {
   @apply before:-top-[-2em]
   hover:shadow-none;
