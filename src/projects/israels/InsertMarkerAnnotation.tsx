@@ -8,7 +8,7 @@ type InsertMarkerAnnotationProps = {
 export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
   const body = props.marker.body;
   if (body.type === "tei:Space") {
-    return <br />;
+    return <br className="insert-marker" />;
   }
 
   if (body.type === "Picture") {
@@ -16,6 +16,7 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
     const width = Math.min(parseInt(maxWidth), 400);
     return (
       <img
+        className="insert-marker marker-picture"
         src={`${body.url}/full/${width},/0/default.jpg`}
         alt="Possible XML error!"
       />
@@ -23,7 +24,7 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
   }
 
   if (isHeadBody(body) && body.n) {
-    return <span className="highlight-head">{body.n}. </span>;
+    return <span className="insert-marker marker-head">{body.n}. </span>;
   }
 
   return null;
