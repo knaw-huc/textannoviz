@@ -66,6 +66,11 @@ img {
   margin-bottom: 0 !important;
 }
 
+.closedNestedAnnotation:has(img) {
+  @apply before:-top-[-2em]
+  hover:shadow-none;
+}
+
 /* Israels specific styling for AnnotatedText component */
 /* TODO: Test if we can remove parent selectors? */
 .annotated-art {
