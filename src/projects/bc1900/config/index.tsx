@@ -43,10 +43,10 @@ export const bc1900Config: ProjectConfig = merge({}, defaultConfig, {
   showMirador: false,
   useExternalConfig: true,
   showSearchResultsOnInfoPage: true,
-  // overrideDefaultSearchParams: {
-  //   sortBy: "dateSent",
-  //   sortOrder: "asc",
-  // },
+  overrideDefaultSearchParams: {
+    sortBy: "dateSent",
+    sortOrder: "asc",
+  },
   defaultKeywordAggsToRender: ["sender", "recipient", "fromLocation"],
   viewsToSearchIn: ["letterText"],
   selectedLanguage: "nl",
