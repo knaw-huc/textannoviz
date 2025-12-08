@@ -88,7 +88,7 @@ export function Artworks() {
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
         className="grid gap-6 px-8 pb-8"
       >
-        {artworks.map((artw, index) => (
+        {artworks.map((artw: Artwork, index) => (
           <div
             key={index}
             className=" h-auto max-w-[800px] rounded bg-neutral-50 p-5"
@@ -109,7 +109,7 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {artw.relation.ref.displayLabel ? (
+            {artw.relation?.ref.displayLabel ? (
               <div>
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>
