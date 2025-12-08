@@ -42,7 +42,7 @@ type ArtworkTeiRef = {
     "tei:type": string;
     text: string;
   };
-  relation: {
+  relation?: {
     name: string;
     ref: {
       id: string;
