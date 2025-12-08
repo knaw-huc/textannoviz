@@ -2,7 +2,8 @@
   font-style: italic;
 }
 
-.marker-head {
+.marker-head,
+.highlight-head {
   font-size: 1.17rem;
   font-weight: bold;
   text-align: center;
