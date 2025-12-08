@@ -49,6 +49,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
   relativeTo: document,
   // TODO: pick relevant types:
   annotationTypesToInclude: [
+    "Dataset",
     "Division",
     document,
     letter,
