@@ -41,7 +41,11 @@ export function findRelativePosition(
 ): BroccoliRelativeAnno | undefined {
   const found = relativePositions.find((p) => p.bodyId === annotation.body.id);
   if (!found) {
-    console.warn("No relative position found for:", annotation.body.id);
+    /**
+     * A view does not contain relative positions
+     * to all annotations, so this can happen:
+     */
+    return undefined;
   }
   return found;
 }
