@@ -3,7 +3,6 @@ import {
   HighlightSegment,
   isAnnotationHighlightBody,
   isSearchHighlightBody,
-  MarkerSegment,
   NestedAnnotationSegment,
   Segment,
 } from "../AnnotationModel.ts";
@@ -21,7 +20,6 @@ export function createAnnotationClasses(
   const classes = [];
   classes.push(
     "nested-annotation",
-    annotation.body.id,
     "cursor-pointer",
     "depth-" + annotation.depth,
   );
@@ -49,9 +47,9 @@ export function createHighlightClasses(
   return classes.map(normalizeClassname);
 }
 
-export function createTooltipMarkerClasses(marker: MarkerSegment): string[] {
+export function createTooltipMarkerClasses(): string[] {
   const classes = [];
-  classes.push("marker", "cursor-help", marker.body.id);
+  classes.push("marker", "cursor-help");
   return classes.map(normalizeClassname);
 }
 
