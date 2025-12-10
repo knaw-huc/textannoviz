@@ -67,6 +67,11 @@ img {
   margin-bottom: 0 !important;
 }
 
+/* Hide images in the entity modal when grouped together with an entity: */
+.fullNestedAnnotation img {
+  display: none;
+}
+
 /* Fix: Align hover message for entities with image */
 .closedNestedAnnotation:has(img) {
   @apply before:-top-[-2em]
