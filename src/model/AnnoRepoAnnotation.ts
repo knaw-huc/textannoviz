@@ -1,5 +1,4 @@
-import { LetterAnno } from "../projects/brederode/annotation/ProjectAnnotationModel";
-import { ViewLang } from "./Broccoli";
+import { ViewLang } from "./Broccoli.ts";
 
 export type SessionBody = AnnoRepoBodyBase & {
   inventoryNum: number;
@@ -244,24 +243,6 @@ export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
   };
 };
 
-export type IsraelsTfLetterBody = AnnoRepoBodyBase & {
-  metadata: {
-    type: string;
-    correspondent: string;
-    sender: string;
-    file: string;
-    institution: string;
-    letterid: string;
-    location: string;
-    msId: string;
-    period: string;
-    periodlong: string;
-    prevLetter: string;
-    nextLetter: string;
-    title: Record<ViewLang, string>;
-  };
-};
-
 export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {
     document: string;
@@ -287,16 +268,17 @@ export type EntityDetail = { label: string; value: string };
 
 // TODO: move to project config
 export type NoteBody = AnnoRepoBodyBase & {
-  type: "tei:Note";
-  "tf:textfabricNode": string;
-  metadata: {
-    "tei:id": string;
-    "tei:type": string;
-    lang: string;
-    type: "tt:NoteMetadata";
-    n: string;
-  };
+  id: string;
+  type: "Note";
+  subtype: "notes";
+  language: ViewLang;
+  elementName: "note";
+  "xml:id": string;
+  n: "1";
 };
+
+export const isNoteBody = (toTest: AnnoRepoBodyBase): toTest is NoteBody =>
+  toTest.type === "Note";
 
 // TODO: move to project config
 export type HiBody = AnnoRepoBodyBase & {
@@ -305,13 +287,6 @@ export type HiBody = AnnoRepoBodyBase & {
     rend: string;
   };
 };
-
-export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
-  if (!toTest) {
-    return false;
-  }
-  return toTest.type === "tei:Note";
-}
 
 // TODO: move to project config
 export type MarkerBody = AnnoRepoBodyBase & {
@@ -345,8 +320,7 @@ export type AnnoRepoBody =
   | NoteBody
   | HiBody
   | HeadBody
-  | HighlightBody
-  | LetterAnno;
+  | HighlightBody;
 
 export type HeadBody = {
   id: string;
@@ -359,6 +333,7 @@ export type HighlightBody = {
   type: "Highlight";
   style: string;
 };
+
 export function isHighlightBody(toTest: AnnoRepoBody): toTest is HighlightBody {
   return toTest.type === "Highlight";
 }
@@ -436,11 +411,20 @@ export type Target =
   | SvgSelectorTarget
   | CanvasTarget;
 
-export type AnnoRepoAnnotation = {
+export type AnnoRepoAnnotation<T extends object = AnnoRepoBody> = {
   id: string;
-  body: AnnoRepoBody;
+  body: T;
   target: Target | Target[];
 };
+
+export function filterByBodyType<T extends AnnoRepoBody>(
+  annotations: AnnoRepoAnnotation[],
+  bodyGuard: (body: AnnoRepoBody) => body is T, // 🕶️
+): AnnoRepoAnnotation<T>[] {
+  return annotations.filter((a) =>
+    bodyGuard(a.body),
+  ) as AnnoRepoAnnotation<T>[];
+}
 
 export type iiifAnn = {
   "@context": string;

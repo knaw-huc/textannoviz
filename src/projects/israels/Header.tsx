@@ -12,8 +12,8 @@ import {
 } from "react-router-dom";
 import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
-import { IsraelsTfLetterBody } from "../../model/AnnoRepoAnnotation.ts";
 import { Button } from "react-aria-components";
+import { findLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -28,14 +28,12 @@ export const Header = () => {
 
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
 
-  const introId = "urn:israels:file:intro";
+  const introId = "urn:mace:huc.knaw.nl:israels:intro";
 
-  const letterAnno = annotations.find((anno) => anno.body.type === "tf:Letter");
+  const letterAnnoBody = findLetterBody(annotations);
 
   const letterTitle =
-    (letterAnno?.body as IsraelsTfLetterBody)?.metadata?.title?.[
-      interfaceLang
-    ] ||
+    letterAnnoBody?.title?.[interfaceLang] ||
     (params.tier2 === introId && translateProject("intro"));
 
   return (
@@ -88,8 +86,7 @@ export const Header = () => {
           {letterTitle} <br className="md:hidden" />
         </h4>
         <div className="text-neutral-600">
-          {letterAnno &&
-            "(" + (letterAnno?.body as IsraelsTfLetterBody).metadata.file + ")"}
+          {letterAnnoBody && "(" + letterAnnoBody.n + ")"}
         </div>
       </div>
     </header>

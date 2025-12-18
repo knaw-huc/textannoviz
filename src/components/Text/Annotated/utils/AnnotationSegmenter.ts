@@ -3,6 +3,8 @@ import {
   AnnotationGroup,
   AnnotationOffset,
   AnnotationSegment,
+  HighlightBody,
+  HighlightSegment,
   isMarkerAnnotationOffset,
   isNestedAnnotationOffset,
   isNestedAnnotationSegment,
@@ -10,8 +12,6 @@ import {
   MarkerSegment,
   NestedAnnotationSegment,
   OffsetsByCharIndex,
-  HighlightBody,
-  HighlightSegment,
   Segment,
 } from "../AnnotationModel.ts";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
@@ -151,10 +151,8 @@ export class AnnotationSegmenter {
       this.currentAnnotationDepth,
     ])!;
 
-    this.segments.push(
-      ...this.createBodilessMarkerSegments(startOffsets),
-      ...this.createSegmentWithBody(offsetsAtCharIndex, i),
-    );
+    this.segments.push(...this.createMarkerSegments(startOffsets));
+    this.segments.push(...this.createSegmentWithBody(offsetsAtCharIndex, i));
   }
 
   private createTextSegment(textFromCurrentToNextOffset: string): Segment {
@@ -165,9 +163,7 @@ export class AnnotationSegmenter {
     };
   }
 
-  private createBodilessMarkerSegments(
-    startOffsets: AnnotationOffset[],
-  ): Segment[] {
+  private createMarkerSegments(startOffsets: AnnotationOffset[]): Segment[] {
     return startOffsets.filter(isMarkerAnnotationOffset).map((markerOffset) => {
       return {
         index: this.segments.length,

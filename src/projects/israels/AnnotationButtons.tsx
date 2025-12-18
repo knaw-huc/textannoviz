@@ -3,8 +3,8 @@ import React from "react";
 import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
-import { IsraelsTfLetterBody } from "../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
+import { isLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 export function AnnotationButtons() {
   const annotations = useAnnotationStore().annotations;
@@ -13,14 +13,12 @@ export function AnnotationButtons() {
   const [isPrevButtonDisabled, setIsPrevButtonDisabled] = React.useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = React.useState(false);
 
-  const currentAnnotation = annotations.find(
+  const currentBody = annotations.find(
     (annotation) => annotation.body.id === params.tier2,
-  );
+  )?.body;
 
-  const nextLetter = (currentAnnotation?.body as IsraelsTfLetterBody)?.metadata
-    .nextLetter;
-  const prevLetter = (currentAnnotation?.body as IsraelsTfLetterBody)?.metadata
-    .prevLetter;
+  const { nextLetter, prevLetter } =
+    (isLetterBody(currentBody) && currentBody) || {};
 
   React.useEffect(() => {
     setIsNextButtonDisabled(!nextLetter || nextLetter === params.tier2);

@@ -4,26 +4,20 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project";
-import {
-  Artworks,
-  isArtworkEntity,
-  isEntity,
-  isPersonEntity,
-  Persons,
-} from "./ProjectAnnotationModel";
+import { Artwork, isArtwork, isPerson, Person } from "./ProjectAnnotationModel";
 
 export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
-  if (isEntity(props.body) && isPersonEntity(props.body.ref)) {
-    return <PersonEntity persons={props.body.ref} />;
+  if (isPerson(props.body)) {
+    return <PersonEntity persons={[props.body["tei:ref"]]} />;
   }
 
-  if (isEntity(props.body) && isArtworkEntity(props.body.ref)) {
-    return <ArtworkEntity artworks={props.body.ref} />;
+  if (isArtwork(props.body)) {
+    return <ArtworkEntity artworks={[props.body["tei:ref"]]} />;
   }
   return null;
 };
 
-const PersonEntity = (props: { persons: Persons }) => {
+const PersonEntity = (props: { persons: Person[] }) => {
   //FIXME: this adds all persons together with only 1 search button. This happens because it's 1 annotation with multiple persons in the body(.metadata).ref. In other projects, every entity had it's own annotation.
   const { persons } = props;
   return (
@@ -40,7 +34,7 @@ const PersonEntity = (props: { persons: Persons }) => {
   );
 };
 
-const ArtworkEntity = (props: { artworks: Artworks }) => {
+const ArtworkEntity = (props: { artworks: Artwork[] }) => {
   const { artworks } = props;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
@@ -48,8 +42,11 @@ const ArtworkEntity = (props: { artworks: Artworks }) => {
   return (
     <>
       {artworks.map((artwork) => (
-        <div key={artwork.id} className="flex">
-          <div className="flex flex-col justify-start">
+        <div
+          key={artwork.id}
+          className="flex items-start justify-between gap-4"
+        >
+          <div className="flex max-w-[500px] flex-col justify-start">
             <p className="font-bold">{artwork.head[interfaceLang]}</p>
             <p>
               {translateProject("date")}: {artwork.date.text}
@@ -90,10 +87,11 @@ const ArtworkEntity = (props: { artworks: Artworks }) => {
                 ))}
             </p>
           </div>
-          <div className="flex grow justify-end pb-4">
+          <div className="flex items-start justify-end">
             <img
               src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
               alt={artwork.head[interfaceLang]}
+              className="h-auto w-[200px] object-contain"
             />
           </div>
         </div>

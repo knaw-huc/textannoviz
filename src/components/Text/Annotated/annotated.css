@@ -119,6 +119,12 @@
   .depth-1.start-annotation {
     @apply rounded-l;
   }
+  /*Fix: apply rounded borders to nested-annotations starting with a marker: */
+  .annotated-segment:has(.insert-marker)
+    + .annotated-segment
+    .nested-annotation {
+    @apply rounded-l;
+  }
 
   .depth-1.end-annotation {
     @apply rounded-r;

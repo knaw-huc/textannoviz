@@ -4,20 +4,19 @@ import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
 export function createAnnotationTextOffsets(
   annotation: AnnoRepoAnnotation,
-  allRelativePositions: BroccoliRelativeAnno[],
+  relativePosition: BroccoliRelativeAnno,
   type: "annotation" | "highlight",
 ): TextOffsets {
-  const relativePosition = getPositionRelativeToView(
-    allRelativePositions,
-    annotation,
-  );
-
-  return {
+  const result = {
     type,
     body: annotation.body,
     beginChar: relativePosition.begin ?? 0,
     endChar: relativePosition.end,
   };
+  if (result.beginChar === result.endChar) {
+    throw new Error("Should not be marker");
+  }
+  return result;
 }
 
 /**
@@ -25,12 +24,8 @@ export function createAnnotationTextOffsets(
  */
 export function createMarkerTextOffsets(
   annotation: AnnoRepoAnnotation,
-  allRelativePositions: BroccoliRelativeAnno[],
+  relativePosition: BroccoliRelativeAnno,
 ): TextOffsets {
-  const relativePosition = getPositionRelativeToView(
-    allRelativePositions,
-    annotation,
-  );
   const startChar = relativePosition.begin ?? 0;
   return {
     type: "marker",
@@ -40,22 +35,22 @@ export function createMarkerTextOffsets(
   };
 }
 
-function getPositionRelativeToView(
-  positionsRelativeToView: BroccoliRelativeAnno[],
+export function findRelativePosition(
   annotation: AnnoRepoAnnotation,
-) {
-  const positionRelativeToView = positionsRelativeToView.find(
-    (p) => p.bodyId === annotation.body.id,
-  );
-  if (!positionRelativeToView) {
-    // throw new Error(
-    //   `No relative position found for annotation ${annotation?.body?.id}`,
-    // );
-    return {
-      bodyId: annotation.body.id,
-      begin: -1,
-      end: -1,
-    };
+  relativePositions: BroccoliRelativeAnno[],
+): BroccoliRelativeAnno | undefined {
+  const found = relativePositions.find((p) => p.bodyId === annotation.body.id);
+  if (!found) {
+    /**
+     * A view does not contain relative positions
+     * to all annotations, so this can happen:
+     */
+    return undefined;
   }
-  return positionRelativeToView;
+  return found;
 }
+
+export type WithRelativePosition = {
+  annotation: AnnoRepoAnnotation;
+  relative: BroccoliRelativeAnno;
+};

@@ -4,10 +4,7 @@ import { toast } from "../../utils/toast.ts";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { handleAbort } from "../../utils/handleAbort";
-import {
-  type Artwork,
-  type Artworks,
-} from "./annotation/ProjectAnnotationModel";
+import { type Artwork } from "./annotation/ProjectAnnotationModel";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -17,7 +14,7 @@ import { getViteEnvVars } from "../../utils/viteEnvVars";
 import { Button } from "react-aria-components";
 
 export function Artworks() {
-  const [artworks, setArtworks] = React.useState<Artworks>();
+  const [artworks, setArtworks] = React.useState<Artwork[]>([]);
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const { israelsArtworksUrl, routerBasename } = getViteEnvVars();
@@ -32,14 +29,18 @@ export function Artworks() {
       );
       if (!newArtworks) return;
 
-      newArtworks.sort((a, b) =>
+      const filteredArtworks = newArtworks.filter(
+        (artw) => artw["tei:type"] !== "ill",
+      );
+
+      filteredArtworks.sort((a, b) =>
         a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
           sensitivity: "base",
           ignorePunctuation: true,
         }),
       );
 
-      setArtworks(newArtworks);
+      setArtworks(filteredArtworks);
     }
 
     initArtworks(aborter).catch(handleAbort);
@@ -87,7 +88,7 @@ export function Artworks() {
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
         className="grid gap-6 px-8 pb-8"
       >
-        {artworks?.map((artw, index) => (
+        {artworks.map((artw: Artwork, index) => (
           <div
             key={index}
             className=" h-auto max-w-[800px] rounded bg-neutral-50 p-5"
@@ -108,9 +109,9 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {artw.relation?.label ? (
+            {artw.relation?.ref.displayLabel ? (
               <div>
-                {translateProject("artist")}: {artw.relation.label}
+                {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>
             ) : null}
             <div>
@@ -133,7 +134,7 @@ export function Artworks() {
             <div className="pt-4">
               <img
                 src={`${artw.graphic.url}/full/${Math.min(
-                  parseInt(artw.graphic.width),
+                  artw.graphic.width,
                   200,
                 )},/0/default.jpg`}
                 alt={artw.head[interfaceLang]}
@@ -151,7 +152,7 @@ export function Artworks() {
 async function fetchArtworks(
   url: string,
   signal: AbortSignal,
-): Promise<Artworks | null> {
+): Promise<Artwork[] | null> {
   const response = await fetch(url, { signal });
   if (!response.ok) {
     const error = await response.json();

@@ -2,13 +2,14 @@
   font-style: italic;
 }
 
-.highlight-tei-head {
+.marker-head,
+.highlight-head {
   font-size: 1.17rem;
   font-weight: bold;
   text-align: center;
 }
 
-.segmented-line:has(.highlight-tei-head) {
+.segmented-line:has(.marker-head) {
   margin-bottom: 1rem;
   margin-top: 1rem;
 }
@@ -21,17 +22,35 @@
   margin-bottom: 1.5rem;
 }
 
-.highlight-tei-label {
+.highlight-label {
   float: left;
   width: 125px;
 }
 
-.segmented-line:has(.highlight-tei-quote) {
-  text-align: right;
-  margin-bottom: 1rem;
+/* Remove annotated-segment [role="button"] pointer cursor: */
+[role="button"]:has(:not(.nested-annotation)) {
+  cursor: text;
 }
 
-.highlight-tei-item {
+.text-segment:has(.highlight-quote) {
+  display: block;
+  text-align: right;
+  margin-bottom: 1em;
+
+  /* Show marker next to quote: */
+  &:has(+ .text-segment .marker) {
+    padding-right: 2em;
+
+    & + .text-segment {
+      display: block;
+      float: right;
+      margin-top: -2.5em;
+      clear: none;
+    }
+  }
+}
+
+.highlight-item {
   overflow: hidden;
 }
 
@@ -48,21 +67,23 @@ img {
   margin-bottom: 0 !important;
 }
 
+/* Hide images in the entity modal when grouped together with an entity: */
+.fullNestedAnnotation img {
+  display: none;
+}
+
+/* Fix: Align hover message for entities with image */
+.closedNestedAnnotation:has(img) {
+  @apply before:-top-[-2em]
+  hover:shadow-none;
+}
+
 /* Israels specific styling for AnnotatedText component */
-
-.closedNestedAnnotation .annotated-segment > .annotated-art {
+/* TODO: Test if we can remove parent selectors? */
+.annotated-art {
   @apply bg-[#F0ECF7];
 }
-
-.closedNestedAnnotation .annotated-segment > .annotated-ref {
-  @apply bg-[#afddff];
-}
-
-.fullNestedAnnotation .depth-2.annotated-art {
-  @apply bg-[#F0ECF7];
-}
-
-.fullNestedAnnotation .depth-1.annotated-ref {
+.annotated-ref {
   @apply bg-[#afddff];
 }
 
