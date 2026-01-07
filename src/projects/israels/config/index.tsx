@@ -176,12 +176,7 @@ export const israelsConfig: ProjectConfig = merge({}, defaultConfig, {
       panel: PanelTemplates.metadataPanel,
     },
   ],
-  allPossibleTextPanels: [
-    "text",
-    "textNotes",
-    // TODO: remove, replace?
-    // "typedNotes"
-  ],
+  allPossibleTextPanels: ["text", "textNotes", "typedNotes"],
   defaultTextPanels: "text",
   projectCss: projectCss,
   routes: [
