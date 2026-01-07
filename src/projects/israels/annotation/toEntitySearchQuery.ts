@@ -19,7 +19,7 @@ export function toEntitySearchQuery(
     return createSearchQueryParam(
       toEntityTerms(
         anno["tei:type"],
-        anno["tei:ref"].id,
+        anno["tei:ref"].sortLabel,
         projectConfig,
         interfaceLang,
       ),
