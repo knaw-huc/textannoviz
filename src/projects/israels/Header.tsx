@@ -33,7 +33,7 @@ export const Header = () => {
   const letterAnnoBody = findLetterBody(annotations);
 
   const letterTitle =
-    letterAnnoBody?.title?.[interfaceLang] ||
+    letterAnnoBody?.titles?.[interfaceLang] ||
     (params.tier2 === introId && translateProject("intro"));
 
   return (
