@@ -6,7 +6,6 @@ import {
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
 import { ViewLang } from "../../../model/Broccoli";
-import { isArray, isString } from "lodash";
 
 /**
  * Israels Annotation, element and tei type names
@@ -140,17 +139,6 @@ type PersonDeath = PersonBirth & {
 
 export type IsraelsEntityBody = PersonBody | ArtworkBody;
 
-type LetterTarget = string;
-type BibliographyTarget = {
-  id: string;
-  label: string;
-  title: {
-    level: string;
-    text: string;
-  }[];
-  text: string;
-}[];
-
 export type ReferenceBody =
   | LetterReferenceBody
   | BibliographyReferenceBody
@@ -161,8 +149,10 @@ export const isReference = (
 ): toTest is ReferenceBody => !!toTest && toTest.type === reference;
 
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
-  target: BibliographyTarget;
+  id: string;
+  url: string;
   type: typeof reference;
+  subtype: "BibReference";
   elementName: string;
 };
 export const isBibliographyReference = (
@@ -170,26 +160,25 @@ export const isBibliographyReference = (
 ): toTest is BibliographyReferenceBody => {
   const result =
     isReference(toTest) &&
-    isArray((toTest as BibliographyReferenceBody).target);
-  if (result) {
-    console.log("// TODO: isBibliographyReference type?", toTest);
-  }
+    (toTest as BibliographyReferenceBody).subtype === "BibReference";
+
   return result;
 };
 
 export type LetterReferenceBody = AnnoRepoBodyBase & {
-  target: LetterTarget;
+  id: string;
   type: typeof reference;
+  subtype: "LetterReference";
+  url: string;
   elementName: string;
 };
 export const isLetterReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is LetterReferenceBody => {
   const result =
-    isReference(toTest) && isString((toTest as LetterReferenceBody).target);
-  if (result) {
-    console.log("// TODO: isLetterReference type?", toTest);
-  }
+    isReference(toTest) &&
+    (toTest as LetterReferenceBody).subtype === "LetterReference";
+
   return result;
 };
 
