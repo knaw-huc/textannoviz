@@ -18,7 +18,7 @@ import { Panels } from "./components/Detail/Panels.tsx";
 export const Detail = () => {
   const { isInitDetail } = useInitDetail();
 
-  useInitSearch();
+  useInitSearch({ loadDefaultResults: true });
 
   const { isInitSearch } = useSearchStore();
 
