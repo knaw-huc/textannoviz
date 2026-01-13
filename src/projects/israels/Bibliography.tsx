@@ -35,9 +35,9 @@ export const Bibliography = () => {
     const element = document.getElementById(biblId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
-      element.style.setProperty("background-color", "#FFCE01", "important");
+      element.classList.add("bibl-highlight");
       const timeout = setTimeout(() => {
-        element.style.removeProperty("background-color");
+        element.classList.remove("bibl-highlight");
       }, 2000);
       return () => {
         clearTimeout(timeout);
