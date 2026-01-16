@@ -67,7 +67,7 @@ const DetailPageInfoHeader = () => {
   return (
     <div className="col-span-3 flex items-center justify-center gap-2 border-b border-neutral-400 bg-white p-4 text-center text-black sm:col-span-4 lg:col-span-3">
       <div className="font-bold">
-        {isLetterBody(letter.body) && letter.body.titles}
+        {isLetterBody(letter.body) && letter.body.title}
       </div>
     </div>
   );

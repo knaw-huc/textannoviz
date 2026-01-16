@@ -218,6 +218,7 @@ export type LetterBody = AnnoRepoBodyBase & {
   prevLetter: string;
   nextLetter: string;
   titles: Record<ViewLang, string>;
+  title: string;
 };
 
 export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {
