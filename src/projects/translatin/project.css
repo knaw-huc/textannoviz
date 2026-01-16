@@ -4,6 +4,7 @@
 .highlight-speaker {
   color: #777;
   text-decoration: underline;
+  cursor: text;
 }
 .highlight-bold {
   font-weight: bold;
