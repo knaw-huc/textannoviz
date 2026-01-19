@@ -20,7 +20,6 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   annotationTypesToInclude: [
     "Document",
     ...projectHighlightedTypes,
-    // TODO: what other types to render?
     // "Dataset",
     // "Division",
     // "Head",

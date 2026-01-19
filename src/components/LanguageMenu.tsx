@@ -40,25 +40,28 @@ export function LanguageMenu() {
       className="languages ml-4 flex flex-row items-center gap-2"
       aria-label="select language"
     >
-      {languages.length > 1 &&
-        languages
-          .map<ReactNode>((l) => (
-            <LanguageIcon
-              key={l.code}
-              code={l.code}
-              selected={projectConfig.selectedLanguage === l.code}
-              onClick={(code) => {
-                searchParams.set(LANGUAGE, code);
-                setSearchParams(searchParams);
-                const newConfig = { ...projectConfig };
-                newConfig.selectedLanguage = code;
-                document.documentElement.lang = code;
-                setProjectConfig(projectConfig);
-              }}
-            />
-          ))
-          .reduce((prev, curr) => [prev, " | ", curr])}
-      <HelpTooltip label={translateProject("LANG_MENU_HELP")} />
+      {languages.length > 1 && (
+        <>
+          {languages
+            .map<ReactNode>((l) => (
+              <LanguageIcon
+                key={l.code}
+                code={l.code}
+                selected={projectConfig.selectedLanguage === l.code}
+                onClick={(code) => {
+                  searchParams.set(LANGUAGE, code);
+                  setSearchParams(searchParams);
+                  const newConfig = { ...projectConfig };
+                  newConfig.selectedLanguage = code;
+                  document.documentElement.lang = code;
+                  setProjectConfig(projectConfig);
+                }}
+              />
+            ))
+            .reduce((prev, curr) => [prev, " | ", curr])}
+          <HelpTooltip label={translateProject("LANG_MENU_HELP")} />
+        </>
+      )}
     </div>
   );
 }
