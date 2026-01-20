@@ -18,10 +18,8 @@ export type NestedAnnotationProps = {
 
 export function NestedAnnotation(props: NestedAnnotationProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const nestedAnnotationTypes = [
-    ...projectConfig.entityAnnotationTypes,
-    ...projectConfig.highlightedAnnotationTypes,
-  ];
+  // TODO: verify this should not include highlightedAnnotationTypes
+  const nestedAnnotationTypes = [...projectConfig.entityAnnotationTypes];
 
   const nestedAnnotations = props.toNest.filter(isNestedAnnotationSegment);
   const toRender = nestedAnnotations[0];

@@ -14,7 +14,7 @@
   /* nested annotations markup */
   /* See project specific stylesheets for project specific annotation styling */
 
-  .segmented-line {
+  .segmented-text {
     display: block;
   }
 
@@ -117,6 +117,12 @@
   }
 
   .depth-1.start-annotation {
+    @apply rounded-l;
+  }
+  /*Fix: apply rounded borders to nested-annotations starting with a marker: */
+  .annotated-segment:has(.insert-marker)
+    + .annotated-segment
+    .nested-annotation {
     @apply rounded-l;
   }
 

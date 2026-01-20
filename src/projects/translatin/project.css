@@ -1,0 +1,15 @@
+.marker-head {
+  font-weight: bold;
+}
+.highlight-speaker {
+  color: #777;
+  text-decoration: underline;
+  cursor: text;
+}
+.highlight-bold {
+  font-weight: bold;
+}
+.highlight-quote {
+  font-style: italic;
+  padding-left: 1em;
+}

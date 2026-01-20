@@ -28,18 +28,12 @@ export type ViewLang = "nl" | "en";
 
 export type BroccoliRelativeAnno = {
   bodyId: string;
-  start: {
-    line: number;
-    offset?: number;
-  };
-  end: {
-    line: number;
-    offset?: number;
-  };
+  begin: number;
+  end: number;
 };
 
 export interface BroccoliTextGeneric {
-  lines: string[];
+  body: string;
   locations: {
     relativeTo: {
       bodyType: string;

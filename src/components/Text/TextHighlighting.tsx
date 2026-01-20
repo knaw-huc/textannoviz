@@ -15,7 +15,7 @@ type TextHighlightingProps = {
 export const TextHighlighting = (props: TextHighlightingProps) => {
   const annotations = useAnnotationStore((state) => state.annotations);
   const projectName = useProjectStore((state) => state.projectName);
-  const classes = new Map<number, string[]>();
+  const classes = new Array<string>();
   const { highlight, tier2 } = useDetailNavigation().getDetailParams();
   const [annotationsToHighlight, setAnnotationsToHighlight] = React.useState<
     AnnoRepoAnnotation[]
@@ -24,7 +24,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     (state) => state.annotationTypesToHighlight,
   );
 
-  const textLinesToDisplay: string[][] = [[]];
+  const textToDisplay = props.text.body;
 
   React.useEffect(() => {
     const filteredAnnotations = getAnnotationsByTypes(
@@ -34,35 +34,17 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     setAnnotationsToHighlight(filteredAnnotations);
   }, [annotations, annotationTypesToHighlight]);
 
-  props.text.lines.map((token) => {
-    if (token.charAt(0) === "\n") {
-      textLinesToDisplay.push([]);
-    }
-    textLinesToDisplay[textLinesToDisplay.length - 1].push(token);
-  });
-
   if (props.text.locations) {
     props.text.locations.annotations.forEach((it) => {
-      for (
-        let i = Math.max(it.start.line, 0);
-        i <= Math.min(it.end.line, props.text.lines.length - 1);
-        i++
-      ) {
-        if (classes.has(i)) {
-          classes.get(i)?.push(it.bodyId);
-        } else {
-          classes.set(i, [it.bodyId]);
-        }
-      }
+      classes.push(it.bodyId);
     });
   }
 
-  function collectClasses(index: number) {
+  function collectClasses() {
     const collectedClasses = new Set<string>();
     annotationsToHighlight.map((anno) => {
-      const indexClasses = classes.get(index);
-      if (indexClasses?.includes(anno.body.id)) {
-        indexClasses.forEach((indexClass) => collectedClasses.add(indexClass));
+      if (classes.includes(anno.body.id)) {
+        classes.forEach((indexClass) => collectedClasses.add(indexClass));
         annotationTypesToHighlight.map((annoTypeToHighlight) => {
           if (anno.body.type.includes(annoTypeToHighlight)) {
             collectedClasses.add(
@@ -82,10 +64,9 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     return classesAsStr;
   }
 
-  function renderLine(line: string, index: number) {
-    let result = (
-      <span className={collectClasses(index) + "w-fit"}>{line}</span>
-    );
+  function renderLine(line: string) {
+    const classNames = collectClasses();
+    let result = <span className={classNames + "w-fit"}>{line}</span>;
 
     if (highlight && tier2) {
       const regex = createSearchRegex(highlight, tier2)!;
@@ -93,7 +74,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       projectName === "republic" || projectName === "globalise"
         ? (result = (
             <div
-              className={collectClasses(index) + "w-fit"}
+              className={classNames + "w-fit"}
               dangerouslySetInnerHTML={{
                 __html: line.replace(
                   regex,
@@ -104,7 +85,7 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
           ))
         : (result = (
             <span
-              className={collectClasses(index) + "w-fit"}
+              className={classNames + "w-fit"}
               dangerouslySetInnerHTML={{
                 __html: line.replace(
                   regex,
@@ -116,23 +97,19 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
       return result;
     } else {
       if (projectName === "republic" || projectName === "globalise") {
-        return <p className={collectClasses(index) + "m-0 p-0"}>{line}</p>;
+        return <p className={classNames + "m-0 p-0"}>{line}</p>;
       } else {
-        return <span className={collectClasses(index)}>{line}</span>;
+        return <span className={classNames}>{line}</span>;
       }
     }
   }
 
   return (
     <>
-      {textLinesToDisplay.map((lines, index) => (
-        <div key={index} className="leading-loose">
-          {lines.map((line, index) => (
-            <span key={index}>{renderLine(line, index)}</span>
-          ))}
-          {/* Index is reset after each new line (see LL40-45 above). This results in the index no longer being in sync with the start and end of TextRepo. I.e., a person is mentioned on start 9, end 9, it will highlight index 9, even though the index of that array was reset because of a preceding new line. */}
-        </div>
-      ))}
+      <div className="whitespace-pre-wrap leading-loose">
+        <span>{renderLine(textToDisplay)}</span>
+        {/* Index is reset after each new line (see LL40-45 above). This results in the index no longer being in sync with the start and end of TextRepo. I.e., a person is mentioned on start 9, end 9, it will highlight index 9, even though the index of that array was reset because of a preceding new line. */}
+      </div>
     </>
   );
 };

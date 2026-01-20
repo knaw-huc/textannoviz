@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   AnnotationGroup,
   isNestedAnnotationSegment,
-  LineOffsets,
+  TextOffsets,
   Segment,
 } from "./AnnotationModel.ts";
 import { SegmentGroup } from "./SegmentGroup.tsx";
@@ -10,15 +10,15 @@ import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 
-export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
-  const { line, offsets } = props;
+export function SegmentedText(props: { body: string; offsets: TextOffsets[] }) {
+  const { body, offsets } = props;
   const [segments, setSegments] = useState<Segment[]>([]);
 
   const offsetsByChar = listOffsetsByChar(offsets);
   const [clickedSegment, setClickedSegment] = useState<Segment>();
 
   useEffect(() => {
-    const newSegments = new AnnotationSegmenter(line, offsetsByChar).segment();
+    const newSegments = new AnnotationSegmenter(body, offsetsByChar).segment();
     setSegments(newSegments);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -32,7 +32,7 @@ export function SegmentedLine(props: { line: string; offsets: LineOffsets[] }) {
   const clickedGroup = grouped.find((g) => g.id === clickedAnnotationGroup?.id);
 
   return (
-    <span className="segmented-line">
+    <span className="segmented-text">
       {grouped.map((group, i) => (
         <SegmentGroup
           key={i}

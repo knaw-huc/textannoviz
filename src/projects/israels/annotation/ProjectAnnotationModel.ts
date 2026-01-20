@@ -1,60 +1,117 @@
 import get from "lodash/get";
 import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
 import {
+  AnnoRepoAnnotation,
   AnnoRepoBody,
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
 import { ViewLang } from "../../../model/Broccoli";
 
-export type Artwork = {
+/**
+ * Israels Annotation, element and tei type names
+ */
+
+export const caption = "Caption";
+export const document = "Document";
+export const elementRs = "rs";
+export const elementPtr = "ptr";
+export const entity = "Entity";
+export const head = "Head";
+export const highlight = "Highlight";
+export const label = "Label";
+export const letter = "Letter";
+export const listItem = "ListItem";
+export const note = "Note";
+export const page = "Page";
+export const person = "person";
+export const picture = "Picture";
+export const quote = "Quote";
+export const reference = "Reference";
+export const teiArt = "art";
+export const teiArtwork = "artwork";
+export const teiIll = "ill";
+export const teiNote = "note";
+export const unknown = "unknown";
+
+export type ArtworkBody = AnnoRepoBodyBase & {
+  type: typeof entity;
+  elementName: typeof elementRs;
+  "tei:type": typeof teiArtwork;
+  "tei:ref": ArtworkTeiRef;
+};
+
+export type Artwork = ArtworkTeiRef;
+type ArtworkTeiRef = {
+  id: string;
+  // TODO: check if source truely exists in peenless:
   source: string[];
-  type: "ill" | "art";
+  "tei:type": typeof teiIll | typeof teiArt;
   corresp: string;
+  head: {
+    nl: string;
+    en: string;
+  };
+  date: {
+    "tei:type": string;
+    text: string;
+  };
+  relation?: {
+    name: string;
+    ref: {
+      id: string;
+      gender: string;
+      source: string[];
+      persName: Array<{
+        full: string;
+        forename: string;
+        nameLink: string;
+        surname: string[];
+      }>;
+      birth: {
+        when: string;
+      };
+      death: {
+        when: string;
+      };
+      displayLabel: string;
+      sortLabel: string;
+    };
+  };
+  graphic: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  measure: {
+    commodity: string;
+    unit: string;
+    quantity: string;
+  }[];
+  note: {
+    nl: {
+      technical: string;
+      creditline: string;
+      collection: string;
+    };
+    en: {
+      technical: string;
+      creditline: string;
+      collection: string;
+    };
+  };
+};
+
+export type PersonBody = AnnoRepoBodyBase & {
+  type: typeof entity;
+  elementName: typeof elementRs;
+  "tei:type": typeof person;
+  "tei:ref": PersonTeiRef;
+};
+export type Person = PersonTeiRef;
+export type PersonTeiRef = {
   id: string;
-  idno?: string;
-  head: ArtworkHead;
-  date: ArtworkDate;
-  relation?: ArtworkRelation;
-  graphic: ArtworkGraphic;
-  measure?: ArtworkMeasure[];
-  note: ArtworkNote;
-};
-
-type ArtworkHead = Record<ViewLang, string>;
-
-type ArtworkDate = {
-  "tei:type": string;
-  text: string;
-};
-
-type ArtworkRelation = {
-  name: string;
-  ref: ArtworkRelationRef;
-  label?: string;
-};
-
-type ArtworkRelationRef = Person;
-
-type ArtworkGraphic = {
-  url: string;
-  width: string;
-  height: string;
-};
-
-type ArtworkMeasure = {
-  commodity: string;
-  unit: string;
-  quantity: string;
-};
-
-type ArtworkNote = Record<ViewLang, Record<string, string>>;
-
-export type Artworks = Artwork[];
-
-export type Person = {
-  id: string;
-  sex: string;
-  source?: string[];
+  gender: string;
+  source: string[];
   persName: PersonPersName[];
   birth: PersonBirth;
   death: PersonDeath;
@@ -80,71 +137,126 @@ type PersonDeath = PersonBirth & {
   notBefore?: string;
 };
 
-export type Persons = Person[];
+export type IsraelsEntityBody = PersonBody | ArtworkBody;
 
-export type IsraelsTeiRsBody = AnnoRepoBodyBase & {
-  metadata: {
-    type: string;
-    "tei:type": string;
-    ref: IsraelsTeiRsPersonRef | IsraelsTeiRsArtworkRef;
-  };
+export type ReferenceBody =
+  | LetterReferenceBody
+  | BibliographyReferenceBody
+  | NoteReferenceBody;
+
+export const isReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is ReferenceBody => !!toTest && toTest.type === reference;
+
+export type BibliographyReferenceBody = AnnoRepoBodyBase & {
+  id: string;
+  url: string;
+  type: typeof reference;
+  subtype: "BibReference";
+  elementName: string;
+};
+export const isBibliographyReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody => {
+  const result =
+    isReference(toTest) &&
+    (toTest as BibliographyReferenceBody).subtype === "BibReference";
+
+  return result;
 };
 
-export type IsraelsTeiRsPersonRef = Persons;
-export type IsraelsTeiRsArtworkRef = Artworks;
+export type LetterReferenceBody = AnnoRepoBodyBase & {
+  id: string;
+  type: typeof reference;
+  subtype: "LetterReference";
+  url: string;
+  elementName: string;
+};
+export const isLetterReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is LetterReferenceBody => {
+  const result =
+    isReference(toTest) &&
+    (toTest as LetterReferenceBody).subtype === "LetterReference";
 
-export type IsraelsEntityBody = IsraelsTeiRsBody;
-
-export type IsraelsTeiRefBody = AnnoRepoBodyBase & {
-  metadata: {
-    target:
-      | string
-      | {
-          id: string;
-          label: string;
-          title: {
-            level: string;
-            text: string;
-          }[];
-          text: string;
-        }[];
-    type: string;
-  };
+  return result;
 };
 
-export type IsraelsTeiHeadBody = AnnoRepoBodyBase & {
-  metadata: {
-    type: string;
-    inFigure?: string;
-    corresp: string;
-    "tei:id": string;
-    n: string;
-  };
+export type NoteReferenceBody = AnnoRepoBodyBase & {
+  type: typeof reference;
+  elementName: typeof elementPtr;
+  "tei:type": typeof teiNote;
+  url: string;
+};
+export const isNoteReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is NoteReferenceBody =>
+  isReference(toTest) && (toTest as NoteReferenceBody)["tei:type"] === teiNote;
+
+export type HeadBody = AnnoRepoBodyBase & {
+  type: typeof head;
+  inFigure?: string;
+  corresp: string;
+  "tei:id": string;
+  n?: string;
 };
 
-const teiHi = "tei:Hi";
-const teiHead = "tei:Head";
-const teiRs = "tei:Rs";
-const teiRef = "tei:Ref";
-const teiItem = "tei:Item";
-const teiLabel = "tei:Label";
-const teiQuote = "tei:Quote";
+export const isHeadBody = (toTest?: AnnoRepoBodyBase): toTest is HeadBody =>
+  !!toTest && toTest.type === head;
 
-export const projectEntityTypes = [teiRs, teiRef];
+export type LetterBody = AnnoRepoBodyBase & {
+  type: typeof letter;
+  correspondent: string;
+  sender: string;
+  n: string;
+  institution: string;
+  letterid: string;
+  location: string;
+  identifier: string;
+  period: string;
+  periodlong: string;
+  prevLetter: string;
+  nextLetter: string;
+  titles: Record<ViewLang, string>;
+  title: string;
+};
+
+export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === letter;
+}
+
+export function findLetterBody(
+  annotations: AnnoRepoAnnotation[],
+): LetterBody | undefined {
+  const found = annotations.find((anno) => anno.body.type === letter);
+  if (isLetterBody(found?.body)) {
+    return found.body;
+  }
+}
+
+export const projectEntityTypes = [entity, reference];
 export const projectHighlightedTypes = [
-  teiHi,
-  teiHead,
-  teiItem,
-  teiLabel,
-  teiQuote,
+  highlight,
+  head,
+  listItem,
+  quote,
+  caption,
 ];
-export const projectTooltipMarkerAnnotationTypes = ["tei:Ptr"];
-export const projectPageMarkerAnnotationTypes = ["tf:Page"];
+export const projectTooltipMarkerAnnotationTypes = [reference];
+export const projectPageMarkerAnnotationTypes = [page];
+export const projectInsertTextMarkerAnnotationTypes = [picture, head];
 
-export const projectInsertTextMarkerAnnotationTypes = [
-  "tei:Space",
-  "tei:Graphic",
-  "tei:Head",
+export const projectAnnotationTypesToInclude = [
+  ...new Set([
+    ...projectInsertTextMarkerAnnotationTypes,
+    ...projectPageMarkerAnnotationTypes,
+    ...projectTooltipMarkerAnnotationTypes,
+    ...projectHighlightedTypes,
+    ...projectEntityTypes,
+  ]),
 ];
 
 export const isEntity = (
@@ -153,52 +265,41 @@ export const isEntity = (
   return projectEntityTypes.includes(toTest.type);
 };
 
-export const isPersonEntity = (
-  toTest: Persons | Artworks,
-): toTest is IsraelsTeiRsPersonRef => {
-  return Array.isArray(toTest) && toTest.length > 0 && "persName" in toTest[0];
+export const isPerson = (toTest: AnnoRepoBodyBase): toTest is PersonBody => {
+  if (!isEntity(toTest)) {
+    return false;
+  }
+  return toTest["tei:type"] === person;
 };
 
-export const isArtworkEntity = (
-  toTest: Persons | Artworks,
-): toTest is IsraelsTeiRsArtworkRef => {
-  return Array.isArray(toTest) && toTest.length > 0 && "graphic" in toTest[0];
+export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
+  if (!isEntity(toTest)) {
+    return false;
+  }
+  return toTest["tei:type"] === teiArtwork;
 };
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
-  if (annoRepoBody.type === teiHi) {
-    return get(annoRepoBody, "metadata.rend") ?? "unknown";
-  } else if (annoRepoBody.type === teiHead) {
-    return normalizeClassname(teiHead);
-  } else if (annoRepoBody.type === teiRs) {
-    return get(annoRepoBody, "metadata.tei:type") ?? "unknown";
-  } else if (annoRepoBody.type === teiRef) {
-    return normalizeClassname(teiRef);
+  if ([head, reference, caption].includes(annoRepoBody.type)) {
+    return normalizeClassname(annoRepoBody.type);
+  } else if (annoRepoBody.type === highlight) {
+    return get(annoRepoBody, "metadata.rend") ?? unknown;
+  } else if (annoRepoBody.type === entity) {
+    return get(annoRepoBody, "tei:type") ?? unknown;
   } else {
-    return "unknown";
+    console.warn("Could not find annotation category:", annoRepoBody);
+    return unknown;
   }
 }
 
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
-  if (annoRepoBody.type === teiHi) {
+  if ([head, caption, label, listItem, quote].includes(annoRepoBody.type)) {
+    return normalizeClassname(annoRepoBody.type);
+  } else if (annoRepoBody.type === highlight) {
     return get(annoRepoBody, "metadata.rend");
-  } else if (annoRepoBody.type === teiHead) {
-    const headBody = annoRepoBody as IsraelsTeiHeadBody;
-    //There can be heads without a metadata block
-    if (headBody.metadata?.inFigure?.length) {
-      return "caption";
-    } else {
-      return normalizeClassname(teiHead);
-    }
-  } else if (annoRepoBody.type === teiLabel) {
-    return normalizeClassname(teiLabel);
-  } else if (annoRepoBody.type === teiItem) {
-    return normalizeClassname(teiItem);
-  } else if (annoRepoBody.type === teiQuote) {
-    return normalizeClassname(teiQuote);
   } else {
-    console.warn("Could not find highlight category", annoRepoBody);
-    return "unknown";
+    console.warn("Could not find highlight category:", annoRepoBody);
+    return unknown;
   }
 }
 

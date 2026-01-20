@@ -4,27 +4,21 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project";
-import {
-  Artworks,
-  isArtworkEntity,
-  isEntity,
-  isPersonEntity,
-  Persons,
-} from "./ProjectAnnotationModel";
+import { Artwork, isArtwork, isPerson, Person } from "./ProjectAnnotationModel";
 
 export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
-  if (isEntity(props.body) && isPersonEntity(props.body.metadata.ref)) {
-    return <PersonEntity persons={props.body.metadata.ref} />;
+  if (isPerson(props.body)) {
+    return <PersonEntity persons={[props.body["tei:ref"]]} />;
   }
 
-  if (isEntity(props.body) && isArtworkEntity(props.body.metadata.ref)) {
-    return <ArtworkEntity artworks={props.body.metadata.ref} />;
+  if (isArtwork(props.body)) {
+    return <ArtworkEntity artworks={[props.body["tei:ref"]]} />;
   }
   return null;
 };
 
-const PersonEntity = (props: { persons: Persons }) => {
-  //FIXME: this adds all persons together with only 1 search button. This happens because it's 1 annotation with multiple persons in the body.metadata.ref. In other projects, every entity had it's own annotation.
+const PersonEntity = (props: { persons: Person[] }) => {
+  //FIXME: this adds all persons together with only 1 search button. This happens because it's 1 annotation with multiple persons in the body(.metadata).ref. In other projects, every entity had it's own annotation.
   const { persons } = props;
   return (
     <>
@@ -40,7 +34,7 @@ const PersonEntity = (props: { persons: Persons }) => {
   );
 };
 
-const ArtworkEntity = (props: { artworks: Artworks }) => {
+const ArtworkEntity = (props: { artworks: Artwork[] }) => {
   const { artworks } = props;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);

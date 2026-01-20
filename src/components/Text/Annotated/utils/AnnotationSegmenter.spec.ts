@@ -1,25 +1,26 @@
 import { describe, expect, it } from "vitest";
 import {
-  line,
+  body,
   offsetsByCharIndex,
 } from "../test/resources/dummyLogicalTextAnnotations.ts";
 import {
   AnnotationBody,
   MarkerSegment,
   NestedAnnotationSegment,
+  OffsetsByCharIndex,
 } from "../AnnotationModel.ts";
 import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
 
 describe("AnnotationSegmenter", () => {
   it("starts with segment of text without annotations when no annotation found", () => {
-    const result = new AnnotationSegmenter(line, offsetsByCharIndex).segment();
+    const result = new AnnotationSegmenter(body, offsetsByCharIndex).segment();
     expect(result[0].body).toEqual("aa");
     expect(result[0].annotations).toEqual([]);
   });
 
   it("creates segment of text with annotation", () => {
     const segments = new AnnotationSegmenter(
-      line,
+      body,
       offsetsByCharIndex,
     ).segment();
 
@@ -32,7 +33,7 @@ describe("AnnotationSegmenter", () => {
 
   it("creates segment of text with multiple annotations", () => {
     const segments = new AnnotationSegmenter(
-      line,
+      body,
       offsetsByCharIndex,
     ).segment();
     expect(segments[2].body).toEqual("cc");
@@ -50,7 +51,7 @@ describe("AnnotationSegmenter", () => {
 
   it("ends with segment of text without annotations when no annotation found", () => {
     const segments = new AnnotationSegmenter(
-      line,
+      body,
       offsetsByCharIndex,
     ).segment();
     expect(segments[4].body).toEqual("ee");
@@ -304,7 +305,7 @@ describe("AnnotationSegmenter", () => {
     expect(abc.group.maxDepth).toEqual(3);
   });
 
-  it("creates new group after annotation-less part of line", () => {
+  it("creates new group after annotation-less part of text", () => {
     // <a>aa</a>bb<c>cc</c>
     const segments = new AnnotationSegmenter("aabbcc", [
       {
@@ -894,7 +895,7 @@ describe("AnnotationSegmenter", () => {
     expect(segments[1].annotations[0].body.id).toEqual("marker1");
   });
 
-  it("creates one line segment when empty line contains marker", () => {
+  it("creates one text segment when empty text contains marker", () => {
     // [marker1]
     const segments = new AnnotationSegmenter("", [
       {
@@ -925,7 +926,7 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].annotations[0].body.id).toEqual("marker1");
   });
 
-  it("creates two line segments when single space contains marker at char 0", () => {
+  it("creates two text segments when single space contains marker at char 0", () => {
     // [marker1]<space>
     const segments = new AnnotationSegmenter(" ", [
       {
@@ -957,5 +958,66 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].annotations[0].body.id).toEqual("marker1");
     expect(segments[1].body).toBe(" ");
     expect(segments[1].annotations.length).toEqual(0);
+  });
+
+  it("Includes marker segment when indexing segments", () => {
+    const testData = {
+      t: "schetsen.\n\n020 – Isaac Israëls, Vrouwenkop in profiel, 1895. Van Gogh Museum, Amsterdam. (Ill. 14)\n\n049 – Isaac Israëls, Boerin die een juk draagt, 1897",
+      oTest: [
+        {
+          charIndex: 13,
+          offsets: [
+            {
+              charIndex: 13,
+              mark: "start",
+              type: "annotation",
+              body: { id: "id1" },
+            },
+            {
+              charIndex: 13,
+              mark: "start",
+              type: "highlight",
+              body: { id: "id2" },
+            },
+            {
+              charIndex: 13,
+              mark: "start",
+              type: "marker",
+              body: { id: "id3" },
+            },
+            { charIndex: 13, mark: "end", type: "marker", body: { id: "id3" } },
+          ],
+        },
+        {
+          charIndex: 16,
+          offsets: [
+            {
+              charIndex: 16,
+              mark: "end",
+              type: "annotation",
+              body: { id: "id1" },
+            },
+          ],
+        },
+        {
+          charIndex: 100,
+          offsets: [
+            {
+              charIndex: 100,
+              mark: "end",
+              type: "highlight",
+              body: { id: "id2" },
+            },
+          ],
+        },
+      ],
+    };
+    const text = testData.t;
+    const offsets = structuredClone(testData.oTest) as OffsetsByCharIndex[];
+    const segments = new AnnotationSegmenter(text, offsets).segment();
+    const segmentWithMarker = segments[1];
+    expect(segmentWithMarker.index).toBe(1);
+    const segmentAfterMarker = segments[2];
+    expect(segmentAfterMarker.index).toBe(2);
   });
 });

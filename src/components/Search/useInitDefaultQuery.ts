@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { getElasticIndices } from "../../utils/broccoli.ts";
-import { toast } from "react-toastify";
+import { toast } from "../../utils/toast.ts";
 import { createAggs } from "./util/createAggs.ts";
 import { getFacets } from "./util/getFacets.ts";
 import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";

@@ -21,7 +21,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     <>
       <ul className="m-0 list-none p-0">
         {letterAnno &&
-          Object.entries((letterAnno.body as TfLetterBody).metadata).map(
+          Object.entries(letterAnno.body as TfLetterBody).map(
             ([key, value], index) => (
               <li className="mb-8" key={index}>
                 <div className="grid grid-cols-1">

@@ -1,11 +1,11 @@
 import React from "react";
-import { toast } from "react-toastify";
+import { toast } from "../../utils/toast.ts";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
-import { type Person, type Persons } from "./annotation/ProjectAnnotationModel";
+import { type Person } from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
 import {
   projectConfigSelector,
@@ -15,7 +15,7 @@ import {
 import { Button } from "react-aria-components";
 
 export function Persons() {
-  const [persons, setPersons] = React.useState<Persons>();
+  const [persons, setPersons] = React.useState<Person[]>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { israelsPersonsUrl, routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
@@ -34,7 +34,6 @@ export function Persons() {
           ignorePunctuation: true,
         }),
       );
-
       setPersons(newPersons);
     }
 
@@ -124,6 +123,7 @@ export function Persons() {
               {per.birth?.when || per.birth?.cert}-
               {per.death?.when || per.death?.cert || per.death?.notBefore}
             </div>
+            {/*TODO: test person.note exists: */}
             <div>{per.note?.[interfaceLang].shortdesc}</div>
           </div>
         ))}
@@ -136,7 +136,7 @@ export function Persons() {
 async function fetchPersons(
   url: string,
   signal: AbortSignal,
-): Promise<Persons | null> {
+): Promise<Person[] | null> {
   const response = await fetch(url, { signal });
   if (!response.ok) {
     const error = await response.json();

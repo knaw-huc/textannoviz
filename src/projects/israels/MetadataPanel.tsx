@@ -1,8 +1,5 @@
 import { AnnotatedText } from "../../components/Text/Annotated/AnnotatedText";
-import {
-  AnnoRepoAnnotation,
-  IsraelsTfLetterBody,
-} from "../../model/AnnoRepoAnnotation";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -10,6 +7,7 @@ import {
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
+import { findLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -20,12 +18,9 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const letterAnno = props.annotations.find(
-    (anno) => anno.body.type === "tf:Letter",
-  );
+  const letterAnnoBody = findLetterBody(props.annotations);
 
-  const idno = (letterAnno?.body as IsraelsTfLetterBody)?.metadata.file;
-  const msId = (letterAnno?.body as IsraelsTfLetterBody)?.metadata.msId;
+  const { n, identifier } = letterAnnoBody ?? {};
 
   const typedNotes = textViews?.["typedNotes"];
   const typedNoteText = typedNotes?.[interfaceLang];
@@ -35,14 +30,14 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   return (
     <>
       <ul className="m-0 list-none p-0">
-        {letterAnno ? (
+        {letterAnnoBody ? (
           <>
             <li className="mb-8">
               <div className={gridOneColumn}>
                 <div className={labelStyling}>
                   {translateProject("letter")}:{" "}
                 </div>
-                {idno}
+                {n}
               </div>
             </li>
             <li className="mb-8">
@@ -50,7 +45,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("invNr")}:{" "}
                 </div>
-                VGM, {msId}
+                VGM, {identifier}
               </div>
             </li>
             {typedNoteText ? (

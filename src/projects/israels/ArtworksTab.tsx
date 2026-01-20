@@ -4,28 +4,19 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
-import { Any } from "../../utils/Any";
-import {
-  Artworks,
-  isArtworkEntity,
-  IsraelsTeiRsBody,
-} from "./annotation/ProjectAnnotationModel";
+import { Artwork, isArtwork } from "./annotation/ProjectAnnotationModel";
 
 export const ArtworksTab = () => {
   const annotations = useAnnotationStore().annotations;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const artworkAnnos = annotations.reduce<Artworks>((acc, anno) => {
-    if (isArtworkAnno(anno)) {
-      const artworkAnno = anno as unknown as {
-        body: IsraelsTeiRsBody & { metadata: { ref: Artworks } };
-      };
-      artworkAnno.body.metadata.ref.forEach((artw) => {
-        if (!acc.some((a) => a.id === artw.id)) {
-          acc.push(artw);
-        }
-      });
+  const artworkAnnos = annotations.reduce<Artwork[]>((acc, anno) => {
+    if (isArtwork(anno.body)) {
+      const artwork = anno.body["tei:ref"];
+      if (!acc.some((a) => a.id === artwork.id)) {
+        acc.push(artwork);
+      }
     }
     return acc;
   }, []);
@@ -39,7 +30,7 @@ export const ArtworksTab = () => {
           <li>
             <img
               src={`${artwork.graphic.url}/full/${Math.min(
-                parseInt(artwork.graphic.width),
+                artwork.graphic.width,
                 200,
               )},/0/default.jpg`}
               alt={artwork.head[interfaceLang]}
@@ -56,13 +47,3 @@ export const ArtworksTab = () => {
     </>
   );
 };
-
-function isArtworkAnno(
-  anno: Any,
-): anno is { body: IsraelsTeiRsBody & { metadata: { ref: Artworks } } } {
-  return (
-    anno.body.type === "tei:Rs" &&
-    (anno.body as IsraelsTeiRsBody).metadata["tei:type"] === "artwork" &&
-    isArtworkEntity((anno.body as IsraelsTeiRsBody).metadata.ref)
-  );
-}

@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
-  createMarkerLineOffsets,
-  createAnnotationLineOffsets,
-} from "./createLineOffsets.ts";
-import { BroccoliViewPosition } from "../../BroccoliViewPosition.ts";
+  createMarkerTextOffsets,
+  createAnnotationTextOffsets,
+} from "./createTextOffsets.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
+import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
-describe("createLineOffsets", () => {
+describe("createTextOffsets", () => {
   it("excludes end character", () => {
     const annotation = {
       id: "https://annorepo.republic-caf.diginfra.org/w3c/republic-2024.05.17/4406d529-6ed2-45fc-ba99-2f5bc1da6997",
@@ -36,33 +36,21 @@ describe("createLineOffsets", () => {
         },
       ],
     } as AnnoRepoAnnotation;
-    const positionsRelativeToView: BroccoliViewPosition[] = [
-      {
-        bodyId:
-          "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
-        start: {
-          line: 0,
-          offset: 162,
-        },
-        end: {
-          line: 0,
-          offset: 193,
-        },
-      },
-    ];
-    const lines = [
-      "Synde ter vergaderinge gelesen de rekest van weduwe van wylen den Capn. Willem Bouwensz keert de koe om te hebben betalinge van twee ordonnantien die sy aen t' Collegie ter admt. tot Rotterdam ten achteren staet.",
-    ];
-    const result = createAnnotationLineOffsets(
+    const positionsRelativeToView = {
+      bodyId:
+        "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
+      begin: 162,
+      end: 194,
+    };
+    const result = createAnnotationTextOffsets(
       annotation,
       positionsRelativeToView,
-      lines,
       "annotation",
     );
     expect(result.body.id).toEqual(
       "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
     );
-    expect(result.startChar).toEqual(162);
+    expect(result.beginChar).toEqual(162);
     expect(result.endChar).toEqual(194);
   });
 
@@ -76,19 +64,14 @@ describe("createLineOffsets", () => {
         metadata: {},
       },
     } as unknown as AnnoRepoAnnotation;
-    const positionsRelativeToView: BroccoliViewPosition[] = [
-      {
-        bodyId: "urn:foo:ptr:1978932",
-        start: {
-          line: 0,
-          offset: 5,
-        },
-      } as BroccoliViewPosition,
-    ];
-    const result = createMarkerLineOffsets(annotation, positionsRelativeToView);
+    const positionsRelativeToView = {
+      bodyId: "urn:foo:ptr:1978932",
+      begin: 5,
+    } as BroccoliRelativeAnno;
+    const result = createMarkerTextOffsets(annotation, positionsRelativeToView);
     expect(result.body.id).toEqual("urn:foo:ptr:1978932");
     expect(result.type).toEqual("marker");
-    expect(result.startChar).toEqual(5);
+    expect(result.beginChar).toEqual(5);
     expect(result.endChar).toEqual(5);
   });
 });

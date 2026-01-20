@@ -1,33 +1,30 @@
 import { MarkerSegment } from "../../components/Text/Annotated/AnnotationModel";
-import { IsraelsTeiHeadBody } from "./annotation/ProjectAnnotationModel";
+import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment;
 };
 
 export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
-  if (props.marker.body.type === "tei:Space") {
-    return <br />;
+  const body = props.marker.body;
+  if (body.type === "tei:Space") {
+    return <br className="insert-marker" />;
   }
 
-  if (props.marker.body.type === "tei:Graphic") {
-    const maxWidth = props.marker.body.metadata.width ?? "400";
+  if (body.type === "Picture") {
+    const maxWidth = body.width ?? "400";
     const width = Math.min(parseInt(maxWidth), 400);
     return (
       <img
-        src={`${props.marker.body.metadata.url}/full/${width},/0/default.jpg`}
+        className="insert-marker marker-picture"
+        src={`${body.url}/full/${width},/0/default.jpg`}
         alt="Possible XML error!"
       />
     );
   }
 
-  if (props.marker.body.type === "tei:Head") {
-    const headAnno = props.marker.body as unknown as IsraelsTeiHeadBody;
-    if (!headAnno.metadata?.inFigure?.length) {
-      if (headAnno.metadata?.n) {
-        return <>{headAnno.metadata.n}. </>;
-      }
-    }
+  if (isHeadBody(body) && body.n) {
+    return <span className="insert-marker marker-head">{body.n}. </span>;
   }
 
   return null;

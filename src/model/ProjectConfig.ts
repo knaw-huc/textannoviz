@@ -9,6 +9,7 @@ import {
 import { Language, LanguageCode } from "./Language.ts";
 import { MiradorConfig } from "./MiradorConfig.ts";
 import {
+  BrederodeSearchResultsBody,
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
@@ -19,6 +20,7 @@ import {
   TranslatinSearchResultsBody,
   VanGoghSearchResultsBody,
 } from "./Search.ts";
+import { NoteReferenceBody } from "../projects/israels/annotation/ProjectAnnotationModel.ts";
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
@@ -95,7 +97,8 @@ export type ComponentsConfig = {
       | GlobaliseSearchResultsBody
       | SurianoSearchResultsBody
       | VanGoghSearchResultsBody
-      | IsraelsSearchResultsBody;
+      | IsraelsSearchResultsBody
+      | BrederodeSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
@@ -171,10 +174,18 @@ type AnnotationConfig = {
    * i.e. when `showAnnotations === false`
    */
   annotationTypesToHighlight: string[];
+
   /**
    * Show tooltip with note
    */
   tooltipMarkerAnnotationTypes: string[];
+
+  /**
+   * @see {@link tooltipMarkerAnnotationTypes}
+   * annotation.body.type is not enough to determine if a Reference is a Note Reference:
+   */
+  isToolTipMarker: (toTest: AnnoRepoBodyBase) => toTest is NoteReferenceBody;
+
   /**
    * Insert additional text into main text
    */

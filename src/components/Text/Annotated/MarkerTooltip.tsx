@@ -71,7 +71,7 @@ function getTooltipBody(
   if (!textPanels) {
     throw new Error(`No text panels found`);
   }
-  const noteTargetId = props.clickedMarker.body.metadata.target;
+  const noteTargetId = props.clickedMarker.body.target;
 
   const note = ptrToNoteAnnosMap.get(noteTargetId);
 
@@ -79,42 +79,17 @@ function getTooltipBody(
     throw new Error(`No note found for marker ${noteTargetId}`);
   }
 
-  const noteLanguage = (note.body as NoteBody).metadata.lang as ViewLang;
+  const noteLanguage = (note.body as NoteBody).language as ViewLang;
 
   const notesView = textPanels[noteLanguage];
   if (!notesView) {
     throw new Error("No `notes` text panel found");
   }
-
-  const noteNumber = (note.body as NoteBody).metadata.n;
+  const noteNumber = (note.body as NoteBody).n;
 
   if (!noteNumber) {
     throw new Error(`No note number for ${note.body.id}`);
   }
 
   return notesView[noteNumber];
-}
-
-export function createNoteLines(view: BroccoliTextGeneric, noteBodyId: string) {
-  const noteOffsets = view.locations.annotations.find(
-    (a) => a.bodyId === noteBodyId,
-  );
-  if (!noteOffsets) {
-    throw new Error(`No relative note found for ${noteBodyId}`);
-  }
-  const noteLines = view.lines.slice(
-    noteOffsets.start.line,
-    // Broccoli end includes last element:
-    noteOffsets.end.line + 1,
-  );
-  noteLines[0] = noteLines[0].slice(
-    noteOffsets.start.offset,
-    noteLines[0].length,
-  );
-  const lastLine = noteLines.length - 1;
-  noteLines[lastLine] = noteLines[lastLine].slice(
-    0,
-    noteOffsets.end.offset! + 1,
-  );
-  return noteLines;
 }

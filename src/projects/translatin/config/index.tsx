@@ -1,13 +1,17 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
+import logo from "../../../assets/logo-translatin-transp.png";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
-import { dutchTranslatinLabels } from "./dutchTranslatinLabels";
+import { projectHighlightedTypes } from "../annotation/ProjectAnnotationModel.ts";
+import projectCss from "../project.css?inline";
+import { isHighlightBody } from "../../../model/AnnoRepoAnnotation.ts";
+import { MetadataPanel } from "../MetadataPanel.tsx";
+import { SearchInfoPage } from "../SearchInfoPage.tsx";
+import { englishTranslatinLabels } from "./englishTranslatinLabels.ts";
 
 export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "translatin",
@@ -15,17 +19,18 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   broccoliUrl: "http://localhost:8082",
   annotationTypesToInclude: [
     "Document",
-    "Dataset",
-    "Division",
-    "Head",
-    "Highlight",
-    "List",
-    "ListItem",
-    "Note",
-    "Page",
-    "Paragraph",
-    "Quote",
-    "Reference",
+    ...projectHighlightedTypes,
+    // "Dataset",
+    // "Division",
+    // "Head",
+    // "Highlight",
+    // "List",
+    // "ListItem",
+    // "Note",
+    // "Page",
+    // "Paragraph",
+    // "Quote",
+    // "Reference",
   ],
   elasticIndexName: "translatin",
   initialDateFrom: "1500-01-01",
@@ -34,31 +39,50 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-100 text-brand1-800",
-  headerTitle: "TRANSLATIN",
+  headerColor: "bg-brand1-700 text-brand1-100",
+  headerTitle: "",
   showSearchResultsButtonFooter: false,
+  showMirador: false,
+  showAnnotations: true,
   defaultKeywordAggsToRender: [
-    "bodyType",
-    "latinTitle",
-    "earliest",
-    "latest",
-    "manifestation",
-    "expression",
-    "form",
-    "formType",
-    "title",
-    "work",
-    "genre",
-    "subgenre",
     "author",
-    "publisherPlace",
+    "title",
+    "genre",
+    "firstEdition",
+    "datePublished",
+    "location",
     "publisher",
   ],
+  overrideDefaultAggs: [
+    {
+      facetName: "author",
+      order: "keyAsc",
+    },
+    {
+      facetName: "title",
+      order: "keyAsc",
+    },
+    {
+      facetName: "location",
+      order: "keyAsc",
+    },
+  ],
   components: {
+    // TODO:
     MetadataPanel,
+    // MetadataPanel: Empty,
     SearchItem,
+    SearchInfoPage,
   },
+  highlightedAnnotationTypes: projectHighlightedTypes,
 
-  selectedLanguage: "nl",
-  languages: [{ code: "nl", labels: dutchTranslatinLabels }],
+  selectedLanguage: "en",
+  languages: [{ code: "en", labels: englishTranslatinLabels }],
+
+  viewsToSearchIn: ["playText"],
+
+  getHighlightCategory: (body) =>
+    isHighlightBody(body) ? body.style : body.type,
+  getAnnotationCategory: (anno) => anno.type,
+  projectCss: projectCss,
 } as ProjectSpecificConfig);

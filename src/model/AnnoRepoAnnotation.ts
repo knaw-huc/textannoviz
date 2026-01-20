@@ -1,26 +1,24 @@
-import { ViewLang } from "./Broccoli";
+import { ViewLang } from "./Broccoli.ts";
 
 export type SessionBody = AnnoRepoBodyBase & {
-  metadata: {
-    inventoryNum: number;
-    isWorkday: boolean;
-    linesIncludeRestDay: boolean;
-    resolutionIds: [];
-    sessionDate: string;
-    sessionDay: number;
-    sessionMonth: number;
-    sessionNum: number;
-    sessionWeekday: string;
-    sessionYear: number;
-    textPageNum: number[];
-    delegates: {
-      delegateID: string;
-      name: string;
-      province: string;
-      president: boolean;
-      detailsUrl: string;
-    }[];
-  };
+  inventoryNum: number;
+  isWorkday: boolean;
+  linesIncludeRestDay: boolean;
+  resolutionIds: [];
+  sessionDate: string;
+  sessionDay: number;
+  sessionMonth: number;
+  sessionNum: number;
+  sessionWeekday: string;
+  sessionYear: number;
+  textPageNum: number[];
+  delegates: {
+    delegateID: string;
+    name: string;
+    province: string;
+    president: boolean;
+    detailsUrl: string;
+  }[];
 };
 
 export type ResolutionBody = AnnoRepoBodyBase & {
@@ -180,20 +178,18 @@ export type TeiRegBody = AnnoRepoBodyBase & {
 };
 
 export type TfLetterBody = AnnoRepoBodyBase & {
-  metadata: {
-    correspondent: string;
-    country: string;
-    file: string;
-    institution: string;
-    letterid: string;
-    location: string;
-    msid: string;
-    period: string;
-    periodlong: string;
-    sender: string;
-    type: string;
-    folder: string;
-  };
+  correspondent: string;
+  country: string;
+  file: string;
+  institution: string;
+  letterid: string;
+  location: string;
+  msid: string;
+  period: string;
+  periodlong: string;
+  sender: string;
+  type: string;
+  folder: string;
 };
 
 export type SurianoTfFileBody = AnnoRepoBodyBase & {
@@ -247,24 +243,6 @@ export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
   };
 };
 
-export type IsraelsTfLetterBody = AnnoRepoBodyBase & {
-  metadata: {
-    type: string;
-    correspondent: string;
-    sender: string;
-    file: string;
-    institution: string;
-    letterid: string;
-    location: string;
-    msId: string;
-    period: string;
-    periodlong: string;
-    prevLetter: string;
-    nextLetter: string;
-    title: Record<ViewLang, string>;
-  };
-};
-
 export type DocumentBody = AnnoRepoBodyBase & {
   metadata: {
     document: string;
@@ -283,25 +261,24 @@ export type PxPageBody = AnnoRepoBodyBase & {
 export type AnnoRepoBodyBase = {
   id: string;
   type: string;
-  metadata: {
-    category?: string;
-  };
+  category?: string;
 };
 
 export type EntityDetail = { label: string; value: string };
 
 // TODO: move to project config
 export type NoteBody = AnnoRepoBodyBase & {
-  type: "tei:Note";
-  "tf:textfabricNode": string;
-  metadata: {
-    "tei:id": string;
-    "tei:type": string;
-    lang: string;
-    type: "tt:NoteMetadata";
-    n: string;
-  };
+  id: string;
+  type: "Note";
+  subtype: "notes";
+  language: ViewLang;
+  elementName: "note";
+  "xml:id": string;
+  n: "1";
 };
+
+export const isNoteBody = (toTest: AnnoRepoBodyBase): toTest is NoteBody =>
+  toTest.type === "Note";
 
 // TODO: move to project config
 export type HiBody = AnnoRepoBodyBase & {
@@ -311,25 +288,16 @@ export type HiBody = AnnoRepoBodyBase & {
   };
 };
 
-export function isNoteBody(toTest: AnnoRepoBody): toTest is NoteBody {
-  if (!toTest) {
-    return false;
-  }
-  return toTest.type === "tei:Note";
-}
-
 // TODO: move to project config
 export type MarkerBody = AnnoRepoBodyBase & {
   type: string;
   "tf:textfabricNode": string;
-  metadata: {
-    facs?: string;
-    n?: string;
-    target: string;
-    url?: string;
-    width?: string;
-    height: string;
-  };
+  n?: string;
+  facs?: string;
+  target: string;
+  url?: string;
+  width?: string;
+  height: string;
 };
 
 export type AnnoRepoBody =
@@ -350,7 +318,25 @@ export type AnnoRepoBody =
   | TfLetterBody
   | MarkerBody
   | NoteBody
-  | HiBody;
+  | HiBody
+  | HeadBody
+  | HighlightBody;
+
+export type HeadBody = {
+  id: string;
+  type: "Head";
+  elementName: "head";
+};
+
+export type HighlightBody = {
+  id: string;
+  type: "Highlight";
+  style: string;
+};
+
+export function isHighlightBody(toTest: AnnoRepoBody): toTest is HighlightBody {
+  return toTest.type === "Highlight";
+}
 
 export type ImageTarget = {
   type: "Image";
@@ -425,11 +411,20 @@ export type Target =
   | SvgSelectorTarget
   | CanvasTarget;
 
-export type AnnoRepoAnnotation = {
+export type AnnoRepoAnnotation<T extends object = AnnoRepoBody> = {
   id: string;
-  body: AnnoRepoBody;
+  body: T;
   target: Target | Target[];
 };
+
+export function filterByBodyType<T extends AnnoRepoBody>(
+  annotations: AnnoRepoAnnotation[],
+  bodyGuard: (body: AnnoRepoBody) => body is T, // 🕶️
+): AnnoRepoAnnotation<T>[] {
+  return annotations.filter((a) =>
+    bodyGuard(a.body),
+  ) as AnnoRepoAnnotation<T>[];
+}
 
 export type iiifAnn = {
   "@context": string;
