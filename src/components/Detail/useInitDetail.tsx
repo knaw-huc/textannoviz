@@ -92,7 +92,7 @@ export function useInitDetail() {
       const views = result.views;
 
       //TODO: remove this code. However, this can only be removed if the footnotes of these projects are formatted in the same was as Israels
-      if (projectName === "suriano" || projectName === "vangogh") {
+      if (projectName === "suriano") {
         const tfFileId =
           projectName === "suriano"
             ? bodyId.replace("letter_body", "file")
