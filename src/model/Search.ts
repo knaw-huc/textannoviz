@@ -63,12 +63,17 @@ export type VanGoghSearchResultsBody = {
   sender: string;
   institution: string;
   location: string;
-  msid: string;
+  file: string;
   period: string;
   letterId: string;
   viewType: string;
+  type: string;
+  title: string;
   _hits: {
-    text: string[];
+    originalText: string[];
+    translatedText: string[];
+    notesText: string[];
+    text: string[]; //TODO: remove
   };
 };
 

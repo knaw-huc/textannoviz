@@ -1,33 +1,31 @@
 import { Link } from "react-router-dom";
-import { IsraelsSearchResultsBody } from "../../model/Search.ts";
+import { VanGoghSearchResultsBody } from "../../model/Search.ts";
 
 import _ from "lodash";
 import { QUERY } from "../../components/Search/SearchUrlParams.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { encodeObject } from "../../utils/UrlParamUtils.ts";
 import {
-  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
 
 export const SearchItem = (
-  props: SearchItemProps<IsraelsSearchResultsBody>,
+  props: SearchItemProps<VanGoghSearchResultsBody>,
 ) => {
   const translateProject = useProjectStore(translateProjectSelector);
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const letterNum = props.result.file;
 
-  let searchItemTitle: string;
-  if (props.result.type === "letter") {
-    searchItemTitle =
-      interfaceLang === "nl" ? props.result.titleNL : props.result.titleEN;
-  } else if (props.result.type === "intro") {
-    searchItemTitle = translateProject("intro");
-  } else {
-    searchItemTitle = translateProject("UNKNOWN");
-  }
+  const searchItemTitle = props.result.title;
+  // if (props.result.type === "letter") {
+  //   searchItemTitle =
+  //     interfaceLang === "nl" ? props.result.titleNL : props.result.titleEN;
+  // } else if (props.result.type === "intro") {
+  //   searchItemTitle = translateProject("intro");
+  // } else {
+  //   searchItemTitle = translateProject("UNKNOWN");
+  // }
 
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
