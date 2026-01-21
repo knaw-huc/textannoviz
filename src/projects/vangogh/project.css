@@ -2,17 +2,129 @@
   font-style: italic;
 }
 
-.highlight-tei-head {
-  font-size: 0.8em;
+.marker-head,
+.highlight-head {
+  font-size: 1.17rem;
   font-weight: bold;
-  color: #aaa;
   text-align: center;
+}
+
+.segmented-line:has(.marker-head) {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.highlight-caption {
+  font-size: 0.8rem;
+}
+
+.segmented-line:has(.highlight-caption) {
+  margin-bottom: 1.5rem;
+}
+
+.highlight-label {
+  float: left;
+  width: 125px;
+}
+
+/* Remove annotated-segment [role="button"] pointer cursor: */
+[role="button"]:has(:not(.nested-annotation)) {
+  cursor: text;
+}
+
+.text-segment:has(.highlight-quote) {
   display: block;
-  line-height: 5em;
-  text-transform: uppercase;
+  text-align: right;
+  margin-bottom: 1em;
+
+  /* Show marker next to quote: */
+  &:has(+ .text-segment .marker) {
+    padding-right: 2em;
+
+    & + .text-segment {
+      display: block;
+      float: right;
+      margin-top: -2.5em;
+      clear: none;
+    }
+  }
+}
+
+.highlight-item {
+  overflow: hidden;
 }
 
 .highlight-super {
   vertical-align: super;
   font-size: 0.7em;
+}
+
+.highlight-blockletter {
+  text-transform: uppercase;
+}
+
+img {
+  margin-bottom: 0 !important;
+}
+
+/* Hide images in the entity modal when grouped together with an entity: */
+.fullNestedAnnotation img {
+  display: none;
+}
+
+/* Fix: Align hover message for entities with image */
+.closedNestedAnnotation:has(img) {
+  @apply before:-top-[-2em]
+  hover:shadow-none;
+}
+
+/* Israels specific styling for AnnotatedText component */
+/* TODO: Test if we can remove parent selectors? */
+.annotated-art {
+  @apply bg-[#F0ECF7];
+}
+.annotated-ref {
+  @apply bg-[#afddff];
+}
+
+/* Israels bibliography styling */
+.rend_italics {
+  font-style: italic;
+}
+
+.rend_indent {
+  margin-bottom: 2rem;
+}
+
+.list_gloss,
+.listBibl {
+  margin-bottom: 2rem;
+  margin-left: 1rem;
+}
+
+.label {
+  font-weight: bold;
+  margin-left: -1rem;
+}
+
+.bibl-highlight {
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bibl-highlight::before {
+  content: "";
+  position: absolute;
+  left: -1rem; /* cover the negative margin used by .label */
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #ffce01;
+  z-index: -1;
+}
+
+.title_m,
+.title_j {
+  font-style: italic;
 }
