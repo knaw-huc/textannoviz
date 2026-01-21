@@ -5,7 +5,10 @@ import { encodeObject } from "../../utils/UrlParamUtils";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
-import { type Person } from "./annotation/ProjectAnnotationModel";
+import {
+  PersonLifespan,
+  type Person,
+} from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
 import {
   projectConfigSelector,
@@ -34,6 +37,7 @@ export function Persons() {
           ignorePunctuation: true,
         }),
       );
+      console.log(newPersons);
       setPersons(newPersons);
     }
 
@@ -73,6 +77,13 @@ export function Persons() {
       `${routerBasename === "/" ? "" : routerBasename}/?${encodedQuery}`,
       "_blank",
     );
+  }
+
+  function formatDate(
+    lifespan: PersonLifespan | undefined,
+  ): string | undefined {
+    if (!lifespan?.when?.startsWith("-")) return lifespan?.when;
+    return lifespan.when.split("-")[1] + " " + translateProject("BC");
   }
 
   return (
@@ -120,8 +131,10 @@ export function Persons() {
             </div>
             <div>
               {/* TODO: deze elementen nog beter stylen. Onzekerheid beter weergeven, net als de `notBefore`. */}
-              {per.birth?.when || per.birth?.cert}-
-              {per.death?.when || per.death?.cert || per.death?.notBefore}
+              {formatDate(per.birth) || per.birth?.cert}
+              {interfaceLang === "en" ? "–" : "-"}
+              {formatDate(per.death) || per.death?.cert || per.death?.notBefore}
+              {per.id}
             </div>
             {/*TODO: test person.note exists: */}
             <div>{per.note?.[interfaceLang].shortdesc}</div>
