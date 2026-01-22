@@ -1,7 +1,6 @@
 import { AnnotatedText } from "../../components/Text/Annotated/AnnotatedText";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import {
-  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
@@ -15,7 +14,6 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useTextStore().views;
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
   const letterAnnoBody = findLetterBody(props.annotations);
@@ -23,7 +21,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const { n, identifier } = letterAnnoBody ?? {};
 
   const typedNotes = textViews?.["typedNotes"];
-  const typedNoteText = typedNotes?.[interfaceLang];
+  const typedNoteText = typedNotes?.["en"];
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
@@ -54,11 +52,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                   <div className={labelStyling}>
                     {translateProject("addInfo")}:{" "}
                   </div>
-                  <AnnotatedText
-                    text={typedNoteText}
-                    showDetail={false}
-                    key={interfaceLang}
-                  />
+                  <AnnotatedText text={typedNoteText} showDetail={false} />
                 </div>
               </li>
             ) : null}
