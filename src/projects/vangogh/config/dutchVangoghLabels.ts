@@ -82,10 +82,10 @@ export const dutchVangoghLabels = Object.assign({}, dutchLabels, {
   credits: "Verantwoording",
 
   //Search info page
-  INFO_TITLE: "De brieven van Isaac Israëls aan Jo van Gogh-Bonger",
-  EDITED_BY: "Bezorgd door Hans Luijten",
-  P1: "Deze editie bevat de ruim honderd brieven van de kunstenaar Isaac Israëls (1865-1934) aan Jo van Gogh-Bonger (1862-1925). Jo was getrouwd met Vincent van Goghs broer Theo en zij zorgde na hun overlijden voor de nalatenschap van de broers.",
-  P2: "Israëls schrijft openhartig en vol verve over kunst, literatuur, muziek, liefde en vriendschap. Hij had grote belangstelling voor Jo en haar wederwaardigheden, en genoot van hun samenzijn. Maar hij was ook geïnteresseerd in het werk van Vincent en daar geeft hij herhaaldelijk blijk van.",
+  INFO_TITLE: "De brieven van Vincent van Gogh",
+  EDITED_BY: "",
+  P1: "",
+  P2: "",
   SCROLL_TO_LETTERS: "Ontdek de brieven",
 
   //Help labels
