@@ -15,7 +15,7 @@ import {
 import React from "react";
 
 type TextComponentProps = {
-  viewToRender: string;
+  viewToRender: string | string[];
   isLoading: boolean;
 };
 
@@ -24,24 +24,30 @@ export const TextComponent = (props: TextComponentProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const [view, lang] = props.viewToRender.split(".") as [
-    keyof Broccoli["views"],
-    ViewLang,
-  ];
-
   const text: BroccoliTextGeneric | undefined = React.useMemo(() => {
-    const candidate = textViews?.[view];
-    if (!candidate) return;
+    const viewsToTry = Array.isArray(props.viewToRender)
+      ? props.viewToRender
+      : [props.viewToRender];
 
-    if (
-      typeof candidate === "object" &&
-      candidate !== null &&
-      lang in candidate
-    ) {
-      return (candidate as Record<string, BroccoliTextGeneric>)[lang];
+    for (const viewStr of viewsToTry) {
+      const [view, lang] = viewStr.split(".") as [
+        keyof Broccoli["views"],
+        ViewLang,
+      ];
+
+      const candidate = textViews?.[view];
+      if (!candidate) continue;
+
+      if (
+        typeof candidate === "object" &&
+        candidate !== null &&
+        lang in candidate
+      ) {
+        return (candidate as Record<string, BroccoliTextGeneric>)[lang];
+      }
     }
-    return candidate as BroccoliTextGeneric;
-  }, [textViews, view, lang]);
+    return undefined;
+  }, [textViews, props.viewToRender]);
 
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r">
