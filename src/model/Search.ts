@@ -137,6 +137,22 @@ export type BrederodeSearchResultsBody = {
   };
 };
 
+export type BC1900SearchResultsBody = {
+  _id: string;
+  datePublished: string;
+  dateSent: string;
+  fromLocation: string;
+  recipient: string;
+  sender: string;
+  title: string;
+  editor: string;
+  publisher: string;
+  _hits: {
+    letterText: string[];
+    text: string[]; //TODO: remove
+  };
+};
+
 export type FacetType = "date" | "keyword" | "short";
 
 export type FacetTypes = {

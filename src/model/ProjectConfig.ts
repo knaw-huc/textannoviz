@@ -9,6 +9,7 @@ import {
 import { Language, LanguageCode } from "./Language.ts";
 import { MiradorConfig } from "./MiradorConfig.ts";
 import {
+  BC1900SearchResultsBody,
   BrederodeSearchResultsBody,
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
@@ -98,6 +99,7 @@ export type ComponentsConfig = {
       | SurianoSearchResultsBody
       | VanGoghSearchResultsBody
       | IsraelsSearchResultsBody
+      | BC1900SearchResultsBody
       | BrederodeSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
