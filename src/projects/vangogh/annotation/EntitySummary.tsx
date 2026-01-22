@@ -21,7 +21,7 @@ import {
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 import { toast } from "../../../utils/toast.ts";
 
-const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:israels:";
+const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:vangogh:";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
