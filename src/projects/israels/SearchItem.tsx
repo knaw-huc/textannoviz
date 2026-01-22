@@ -17,8 +17,7 @@ export const SearchItem = (
   const translateProject = useProjectStore(translateProjectSelector);
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
-  const letterNumRegex = /\d+/g;
-  const letterNum = props.result.file.match(letterNumRegex);
+  const letterNum = props.result.file;
 
   let searchItemTitle: string;
   if (props.result.type === "letter") {

@@ -98,6 +98,7 @@ async function selectProjectConfig() {
         maxRange,
         broccoliUrl,
         annotationTypesToInclude,
+        showWebAnnoTab,
       } = externalConfig;
       project = externalProjectName;
       config = projectConfigs[project];
@@ -110,6 +111,9 @@ async function selectProjectConfig() {
       if (broccoliUrl) config.broccoliUrl = broccoliUrl;
       if (annotationTypesToInclude)
         config.annotationTypesToInclude = annotationTypesToInclude;
+      if (typeof showWebAnnoTab === "boolean") {
+        config.showWebAnnoTab = showWebAnnoTab;
+      }
     }
   } else {
     project = projectName;

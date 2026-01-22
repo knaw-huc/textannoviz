@@ -21,7 +21,7 @@ import {
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 import { toast } from "../../../utils/toast.ts";
 
-const LETTER_TEMPLATE = "urn:israels:letter:";
+const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:israels:";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
@@ -43,7 +43,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
 
     if (isReference(body)) {
       const newTier2 = isLetterReference(body)
-        ? LETTER_TEMPLATE + body.target.split(".")[0]
+        ? LETTER_TEMPLATE + body.url.split(".")[0]
         : "";
       window.open(`${basePath}/detail/${newTier2}`, "_blank");
     } else {
@@ -61,7 +61,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
       const id = body["tei:ref"].id;
       window.open(`${basePath}/artworks#${id}`);
     } else if (isBibliographyReference(body)) {
-      const id = body.target[0].id;
+      const id = body.url.split("#")[1];
       window.open(`${basePath}/bibliography#${id}`);
     } else {
       toast(`Unknown annotation body: ${body}`);

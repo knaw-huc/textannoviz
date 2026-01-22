@@ -8,7 +8,7 @@ import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { Button } from "react-aria-components";
-import { LetterAnno } from "./annotation/ProjectAnnotationModel.ts";
+import { isLetterBody } from "../israels/annotation/ProjectAnnotationModel.ts";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -66,7 +66,9 @@ const DetailPageInfoHeader = () => {
   if (!letter) return null;
   return (
     <div className="col-span-3 flex items-center justify-center gap-2 border-b border-neutral-400 bg-white p-4 text-center text-black sm:col-span-4 lg:col-span-3">
-      <div className="font-bold">{(letter.body as LetterAnno).title}</div>
+      <div className="font-bold">
+        {isLetterBody(letter.body) && letter.body.title}
+      </div>
     </div>
   );
 };
