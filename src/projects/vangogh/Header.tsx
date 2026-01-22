@@ -22,8 +22,6 @@ export const Header = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const interfaceLang = projectConfig.selectedLanguage;
-
   const location = useLocation();
 
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
@@ -33,7 +31,7 @@ export const Header = () => {
   const letterAnnoBody = findLetterBody(annotations);
 
   const letterTitle =
-    letterAnnoBody?.titles?.[interfaceLang] ||
+    letterAnnoBody?.title ||
     (params.tier2 === introId && translateProject("intro"));
 
   return (
