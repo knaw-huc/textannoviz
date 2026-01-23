@@ -26,7 +26,7 @@ export const SearchInfoPage = () => {
         <div className="flex max-w-3xl flex-col gap-6 text-justify">
           <p>{translateProject("P1")}</p>
           <p>{translateProject("P2")}</p>
-          <p>© 2025 Van Gogh Museum, Amsterdam</p>
+          <p>© 2026 Van Gogh Museum, Amsterdam</p>
         </div>
 
         <div className="my-8 flex max-w-3xl items-start justify-between md:items-end">
