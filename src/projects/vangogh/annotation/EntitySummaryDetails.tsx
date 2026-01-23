@@ -1,6 +1,6 @@
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
 import {
-  projectConfigSelector,
+  // projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project";
@@ -36,7 +36,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
 
 const ArtworkEntity = (props: { artworks: Artwork[] }) => {
   const { artworks } = props;
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  // const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
   return (
@@ -47,10 +47,10 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
           className="flex items-start justify-between gap-4"
         >
           <div className="flex max-w-[500px] flex-col justify-start">
-            <p className="font-bold">{artwork.head[interfaceLang]}</p>
-            <p>
+            <p className="font-bold">{artwork.head.text}</p>
+            {/* <p>
               {translateProject("date")}: {artwork.date.text}
-            </p>
+            </p> */}
             {artwork.relation ? (
               <p>
                 {translateProject("artist")}: {artwork.relation.ref.sortLabel}
@@ -62,15 +62,15 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
                 {artwork.measure[1].quantity} {artwork.measure[0].unit}
               </p>
             ) : null}
-            <p>
+            {/* <p>
               {translateProject("support")}:{" "}
               {Object.entries(artwork.note[interfaceLang])
                 .filter(([key]) => key === "technical")
                 .map(([, value], index) => (
                   <span key={index}>{value}</span>
                 ))}
-            </p>
-            <p>
+            </p> */}
+            {/* <p>
               {translateProject("collection")}:{" "}
               {Object.entries(artwork.note[interfaceLang])
                 .filter(([key]) => key === "collection")
@@ -85,12 +85,12 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
                 .map(([, value], index) => (
                   <span key={index}>{value}</span>
                 ))}
-            </p>
+            </p> */}
           </div>
           <div className="flex items-start justify-end">
             <img
               src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
-              alt={artwork.head[interfaceLang]}
+              alt={artwork.head.text}
               className="h-auto w-[200px] object-contain"
             />
           </div>
