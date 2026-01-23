@@ -82,8 +82,8 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   isEntity: isEntity,
 
   elasticIndexName: "vangogh",
-  initialDateFrom: "1500-01-01",
-  initialDateTo: "2000-12-31",
+  initialDateFrom: "1872-01-01",
+  initialDateTo: "1890-12-31",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,
