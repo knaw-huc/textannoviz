@@ -2,20 +2,15 @@ import React from "react";
 import { toast } from "../../utils/toast.ts";
 import { handleAbort } from "../../utils/handleAbort";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
 
 export const Bibliography = () => {
   const [content, setContent] = React.useState<string>();
-
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-
-  const { israelsBiblENUrl, israelsBiblNLUrl } = getViteEnvVars();
+  const { vanGoghBiblUrl } = getViteEnvVars();
 
   React.useEffect(() => {
     const aborter = new AbortController();
-    const url = interfaceLang === "en" ? israelsBiblENUrl : israelsBiblNLUrl;
     async function initBibl(aborter: AbortController) {
-      const newContent = await fetchBibl(url, aborter.signal);
+      const newContent = await fetchBibl(vanGoghBiblUrl, aborter.signal);
       if (!newContent) return;
 
       setContent(newContent);
@@ -26,7 +21,7 @@ export const Bibliography = () => {
     return () => {
       aborter.abort();
     };
-  }, [interfaceLang, israelsBiblENUrl, israelsBiblNLUrl]);
+  }, [vanGoghBiblUrl]);
 
   React.useEffect(() => {
     if (!content) return;
