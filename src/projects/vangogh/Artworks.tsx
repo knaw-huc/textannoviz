@@ -17,28 +17,30 @@ export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artwork[]>([]);
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const { israelsArtworksUrl, routerBasename } = getViteEnvVars();
+  const { vanGoghArtworksUrl, routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
 
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initArtworks(aborter: AbortController) {
       const newArtworks = await fetchArtworks(
-        israelsArtworksUrl,
+        vanGoghArtworksUrl,
         aborter.signal,
       );
       if (!newArtworks) return;
 
-      const filteredArtworks = newArtworks.filter(
-        (artw) => artw["tei:type"] !== "ill",
-      );
+      const filteredArtworks = newArtworks
+        .filter((artw) => artw["tei:type"] !== "ill")
+        .filter((artw) => artw.head.text?.length > 0);
 
-      filteredArtworks.sort((a, b) =>
-        a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
+      console.log(filteredArtworks);
+
+      filteredArtworks.sort((a, b) => {
+        return a.head.text.localeCompare(b.head.text, "en", {
           sensitivity: "base",
           ignorePunctuation: true,
-        }),
-      );
+        });
+      });
 
       setArtworks(filteredArtworks);
     }
@@ -70,7 +72,7 @@ export function Artworks() {
   function searchArtwork(artw: Artwork) {
     const query: Partial<SearchQuery> = {
       terms: {
-        [`artworks${interfaceLang.toUpperCase()}`]: [artw.head[interfaceLang]],
+        [`artworks${interfaceLang.toUpperCase()}`]: [artw.head.text],
       },
     };
 
@@ -98,7 +100,7 @@ export function Artworks() {
           >
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
-                {artw.head[interfaceLang]}
+                {artw.head.text}
               </div>
               <div className="flex flex-row items-center justify-end gap-1">
                 <Button onPress={() => searchArtwork(artw)}>
@@ -114,10 +116,10 @@ export function Artworks() {
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>
             ) : null}
-            <div>
+            {/* <div>
               {translateProject("date")}: {artw.date.text}
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               {Object.entries(artw.note[interfaceLang])
                 .filter(([key]) => key === "creditline")
                 .map(([, value], index) => (
@@ -125,13 +127,13 @@ export function Artworks() {
                     {translateProject("credits")}: {value}
                   </span>
                 ))}
-            </div>
-            {Object.entries(artw.note[interfaceLang])
+            </div> */}
+            {/* {Object.entries(artw.note[interfaceLang])
               .filter(([key]) => key === "photocredits")
               .map(([, value], index) =>
                 value.length ? <span key={index}>{value}</span> : null,
-              )}
-            <div className="pt-4">
+              )} */}
+            {/* <div className="pt-4">
               <img
                 src={`${artw.graphic.url}/full/${Math.min(
                   artw.graphic.width,
@@ -140,7 +142,7 @@ export function Artworks() {
                 alt={artw.head[interfaceLang]}
                 loading="lazy"
               />
-            </div>
+            </div> */}
           </div>
         ))}
       </div>
