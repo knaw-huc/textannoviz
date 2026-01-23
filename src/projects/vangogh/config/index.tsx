@@ -98,31 +98,33 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   showFragmenter: true,
   defaultKeywordAggsToRender: [
     "type",
-    "location",
+    // "location",
     "period",
     "file",
     "persons",
     // "artworksNL",
     "artworksEN",
+    "recipient",
+    "sender",
   ],
   overrideDefaultAggs: [
     {
       facetName: "persons",
       order: "keyAsc",
-      size: 200,
+      size: 9999,
     },
     {
       facetName: "artworksNL",
-      size: 200,
+      size: 9999,
     },
     {
       facetName: "artworksEN",
-      size: 200,
+      size: 9999,
     },
     {
       facetName: "file",
       order: "keyAsc",
-      size: 200,
+      size: 9999,
     },
   ],
   showNotesTab: true,
