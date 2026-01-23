@@ -210,7 +210,7 @@ export const isHeadBody = (toTest?: AnnoRepoBodyBase): toTest is HeadBody =>
 
 export type LetterBody = AnnoRepoBodyBase & {
   type: typeof letter;
-  correspondent: string;
+  recipient: string;
   sender: string;
   n: string;
   institution: string;
