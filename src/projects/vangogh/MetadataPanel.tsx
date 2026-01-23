@@ -18,7 +18,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const letterAnnoBody = findLetterBody(props.annotations);
 
-  const { n, identifier } = letterAnnoBody ?? {};
+  const { n, identifier, recipient, sender } = letterAnnoBody ?? {};
 
   const typedNotes = textViews?.["typedNotes"];
   const typedNoteText = typedNotes?.["en"];
@@ -44,6 +44,22 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                   {translateProject("invNr")}:{" "}
                 </div>
                 VGM, {identifier}
+              </div>
+            </li>
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>
+                  {translateProject("sender")}:{" "}
+                </div>
+                {sender}
+              </div>
+            </li>
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>
+                  {translateProject("recipient")}:{" "}
+                </div>
+                {recipient}
               </div>
             </li>
             {typedNoteText ? (
