@@ -9,6 +9,9 @@ export const getViteEnvVars = () => {
   const israelsArtworksUrl = import.meta.env.VITE_ISRAELS_ARTWORKS_URL;
   const israelsBiblENUrl = import.meta.env.VITE_ISRAELS_BIBL_EN_URL;
   const israelsBiblNLUrl = import.meta.env.VITE_ISRAELS_BIBL_NL_URL;
+  const vanGoghPersonsUrl = import.meta.env.VITE_VANGOGH_PERSONS_URL;
+  const vanGoghArtworksUrl = import.meta.env.VITE_VANGOGH_ARTWORKS_URL;
+  const vanGoghBiblUrl = import.meta.env.VITE_VANGOGH_BIBL_URL;
 
   if (!projectName) {
     throw new Error("VITE_PROJECT environment variable not set in .env.");
@@ -44,6 +47,24 @@ export const getViteEnvVars = () => {
     );
   }
 
+  if (!vanGoghPersonsUrl) {
+    throw new Error(
+      "VITE_VANGOGH_PERSONS_URL environment variable not set in .env.development, .env.staging or .env.production",
+    );
+  }
+
+  if (!vanGoghArtworksUrl) {
+    throw new Error(
+      "VITE_VANGOGH_ARTWORKSd_URL environment variable not set in .env.development, .env.staging or .env.production",
+    );
+  }
+
+  if (!vanGoghBiblUrl) {
+    throw new Error(
+      "VITE_VANGOGH_BIBL_URL environment variable not set in .env.development, .env.staging or .env.production",
+    );
+  }
+
   return {
     projectName,
     routerBasename,
@@ -53,5 +74,8 @@ export const getViteEnvVars = () => {
     israelsArtworksUrl,
     israelsBiblENUrl,
     israelsBiblNLUrl,
+    vanGoghPersonsUrl,
+    vanGoghArtworksUrl,
+    vanGoghBiblUrl,
   };
 };

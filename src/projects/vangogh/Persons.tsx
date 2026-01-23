@@ -17,7 +17,7 @@ import { Button } from "react-aria-components";
 export function Persons() {
   const [persons, setPersons] = React.useState<Person[]>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
-  const { israelsPersonsUrl, routerBasename } = getViteEnvVars();
+  const { vanGoghPersonsUrl, routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
 
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
@@ -25,7 +25,7 @@ export function Persons() {
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initPersons(aborter: AbortController) {
-      const newPersons = await fetchPersons(israelsPersonsUrl, aborter.signal);
+      const newPersons = await fetchPersons(vanGoghPersonsUrl, aborter.signal);
       if (!newPersons) return;
 
       newPersons.sort((a, b) =>
@@ -124,7 +124,7 @@ export function Persons() {
               {per.death?.when || per.death?.cert || per.death?.notBefore}
             </div>
             {/*TODO: test person.note exists: */}
-            <div>{per.note?.[interfaceLang].shortdesc}</div>
+            <div>{per.note?.[interfaceLang]?.shortdesc}</div>
           </div>
         ))}
       </div>

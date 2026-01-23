@@ -154,7 +154,9 @@ export function KeywordFacet(props: {
             </div>
           );
         })}
-        {(projectName === "republic" || projectName === "israels") &&
+        {(projectName === "republic" ||
+          projectName === "israels" ||
+          projectName === "vangogh") &&
         facetLength > 10 ? (
           //TODO: make generic
           <span className="pl-2 text-sm text-neutral-500">
