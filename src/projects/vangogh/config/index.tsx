@@ -27,7 +27,7 @@ import { ArtworksTab } from "../ArtworksTab";
 import { MetadataPanel } from "../MetadataPanel";
 import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
-import { englishVangoghLabels } from "./englishVangoghLabels";
+import { englishVangoghLabels } from "./englishVanGoghLabels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummary } from "../annotation/EntitySummary";
 import { Persons } from "../Persons";
