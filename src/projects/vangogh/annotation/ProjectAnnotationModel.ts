@@ -8,7 +8,7 @@ import {
 import { ViewLang } from "../../../model/Broccoli";
 
 /**
- * Israels Annotation, element and tei type names
+ * Van Gogh Annotation, element and tei type names
  */
 
 export const caption = "Caption";
@@ -47,13 +47,9 @@ type ArtworkTeiRef = {
   source: string[];
   "tei:type": typeof teiIll | typeof teiArt;
   corresp: string;
-  // head: {
-  //   nl: string;
-  //   en: string;
-  // };
   head: {
-    type: string;
-    text: string;
+    nl: string;
+    en: string;
   };
   date: {
     "tei:type": string;

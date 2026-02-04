@@ -1,5 +1,6 @@
 import { useAnnotationStore } from "../../stores/annotation";
 import {
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
@@ -8,6 +9,8 @@ import { Artwork, isArtwork } from "./annotation/ProjectAnnotationModel";
 export const ArtworksTab = () => {
   const annotations = useAnnotationStore().annotations;
   const translateProject = useProjectStore(translateProjectSelector);
+
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const artworkAnnos = annotations.reduce<Artwork[]>((acc, anno) => {
     if (isArtwork(anno.body)) {
@@ -31,10 +34,10 @@ export const ArtworksTab = () => {
                 artwork.graphic.width,
                 200,
               )},/0/default.jpg`}
-              alt={artwork.head.text}
+              alt={artwork.head[interfaceLang]}
               loading="lazy"
             />
-            <div className="font-bold">{artwork.head.text}</div>
+            <div className="font-bold">{artwork.head[interfaceLang]}</div>
             <div>
               <div>{artwork.relation?.ref.displayLabel}</div>
               <div>{artwork.date.text}</div>
