@@ -81,6 +81,9 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   collection: "Collectie",
   credits: "Verantwoording",
 
+  //Persons page
+  BC: "v. Chr.",
+
   //Search info page
   INFO_TITLE: "De brieven van Isaac Israëls aan Jo van Gogh-Bonger",
   EDITED_BY: "Bezorgd door Hans Luijten",

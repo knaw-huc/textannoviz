@@ -113,8 +113,8 @@ export type PersonTeiRef = {
   gender: string;
   source: string[];
   persName: PersonPersName[];
-  birth: PersonBirth;
-  death: PersonDeath;
+  birth: PersonLifespan;
+  death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;
   sortLabel: string;
   note?: Record<ViewLang, Record<string, string>>;
@@ -128,13 +128,11 @@ type PersonPersName = {
   nameLink?: string;
 };
 
-type PersonBirth = {
+export type PersonLifespan = {
   when?: string;
   cert?: string;
-};
-
-type PersonDeath = PersonBirth & {
   notBefore?: string;
+  notAfter?: string;
 };
 
 export type IsraelsEntityBody = PersonBody | ArtworkBody;

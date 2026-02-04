@@ -81,6 +81,9 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   collection: "Collection",
   credits: "Credits",
 
+  //Persons page
+  BC: "BC",
+
   //Search info page
   INFO_TITLE: "Isaac Israëls’s letters to Jo van Gogh-Bonger",
   EDITED_BY: "Edited by Hans Luijten",
