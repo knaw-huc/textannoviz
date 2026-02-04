@@ -2,7 +2,7 @@ import { TextComponent } from "../Text/TextComponent";
 // import { useInitDetail } from "./useInitDetail";
 
 type TextComponentTabProps = {
-  viewToRender: string;
+  viewToRender: string | string[];
 };
 
 export const TextComponentTab = (props: TextComponentTabProps) => {

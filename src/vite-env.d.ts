@@ -14,6 +14,10 @@ interface ImportMetaEnv {
   readonly VITE_ISRAELS_ARTWORKS_URL: string;
   readonly VITE_ISRAELS_BIBL_EN_URL: string;
   readonly VITE_ISRAELS_BIBL_NL_URL: string;
+
+  readonly VITE_VANGOGH_PERSONS_URL: string;
+  readonly VITE_VANGOGH_ARTWORKS_URL: string;
+  readonly VITE_VANGOGH_BIBL_URL: string;
 }
 
 interface ImportMeta {
