@@ -28,7 +28,7 @@ export function toEntitySearchQuery(
     return createSearchQueryParam(
       toEntityTerms(
         anno["tei:type"],
-        anno["tei:ref"].head.text,
+        anno["tei:ref"].head[interfaceLang],
         projectConfig,
         interfaceLang,
       ),

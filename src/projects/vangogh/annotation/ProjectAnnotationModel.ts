@@ -47,14 +47,14 @@ type ArtworkTeiRef = {
   source: string[];
   "tei:type": typeof teiIll | typeof teiArt;
   corresp: string;
-  // head: {
-  //   nl: string;
-  //   en: string;
-  // };
   head: {
-    type: string;
-    text: string;
+    nl: string;
+    en: string;
   };
+  // head: {
+  //   type: string;
+  //   text: string;
+  // };
   date: {
     "tei:type": string;
     text: string;

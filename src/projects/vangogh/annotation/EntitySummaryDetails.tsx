@@ -1,6 +1,6 @@
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
 import {
-  // projectConfigSelector,
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project";
@@ -36,7 +36,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
 
 const ArtworkEntity = (props: { artworks: Artwork[] }) => {
   const { artworks } = props;
-  // const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
   return (
@@ -47,7 +47,7 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
           className="flex items-start justify-between gap-4"
         >
           <div className="flex max-w-[500px] flex-col justify-start">
-            <p className="font-bold">{artwork.head.text}</p>
+            <p className="font-bold">{artwork.head[interfaceLang]}</p>
             {/* <p>
               {translateProject("date")}: {artwork.date.text}
             </p> */}
@@ -90,7 +90,7 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
           <div className="flex items-start justify-end">
             <img
               src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
-              alt={artwork.head.text}
+              alt={artwork.head[interfaceLang]}
               className="h-auto w-[200px] object-contain"
             />
           </div>

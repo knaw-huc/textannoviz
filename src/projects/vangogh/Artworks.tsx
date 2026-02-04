@@ -29,17 +29,19 @@ export function Artworks() {
       );
       if (!newArtworks) return;
 
-      const filteredArtworks = newArtworks
-        .filter((artw) => artw["tei:type"] !== "ill")
-        .filter((artw) => artw.head.text?.length > 0);
-
-      console.log(filteredArtworks);
+      const filteredArtworks = newArtworks.filter(
+        (artw) => artw["tei:type"] !== "ill",
+      );
 
       filteredArtworks.sort((a, b) => {
-        return a.head.text.localeCompare(b.head.text, "en", {
-          sensitivity: "base",
-          ignorePunctuation: true,
-        });
+        return a.head[interfaceLang].localeCompare(
+          b.head[interfaceLang],
+          "en",
+          {
+            sensitivity: "base",
+            ignorePunctuation: true,
+          },
+        );
       });
 
       setArtworks(filteredArtworks);
@@ -72,7 +74,7 @@ export function Artworks() {
   function searchArtwork(artw: Artwork) {
     const query: Partial<SearchQuery> = {
       terms: {
-        [`artworks${interfaceLang.toUpperCase()}`]: [artw.head.text],
+        [`artworks${interfaceLang.toUpperCase()}`]: [artw.head[interfaceLang]],
       },
     };
 
@@ -100,7 +102,9 @@ export function Artworks() {
           >
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
-                {artw.head.text}
+                {artw.head[interfaceLang].length
+                  ? artw.head[interfaceLang]
+                  : `${artw.id} has no/empty/incorrect 'head' element in XML!`}
               </div>
               <div className="flex flex-row items-center justify-end gap-1">
                 <Button onPress={() => searchArtwork(artw)}>
