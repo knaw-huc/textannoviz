@@ -51,10 +51,6 @@ type ArtworkTeiRef = {
     nl: string;
     en: string;
   };
-  // head: {
-  //   type: string;
-  //   text: string;
-  // };
   date: {
     "tei:type": string;
     text: string;
