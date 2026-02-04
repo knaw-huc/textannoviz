@@ -8,7 +8,7 @@ import {
 import { ViewLang } from "../../../model/Broccoli";
 
 /**
- * Israels Annotation, element and tei type names
+ * Van Gogh Annotation, element and tei type names
  */
 
 export const caption = "Caption";
