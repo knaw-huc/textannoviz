@@ -43,8 +43,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
   defaultConfig,
   {
-    // id: "kunstenaarsbrieven",
-    // broccoliUrl: "http://localhost:8082",
     relativeTo: document,
     annotationTypesToInclude: [
       "Dataset",
@@ -63,50 +61,16 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,
 
-    // elasticIndexName: "israels",
-    // initialDateFrom: "1891-01-01",
-    // initialDateTo: "1924-12-31",
     initialRangeFrom: "0",
     initialRangeTo: "30000",
     maxRange: 30000,
     logoImageUrl: logo,
-    // headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
-    // headerTitle: "Brieven van Isaac Israëls",
     showSearchResultsButtonFooter: false,
     useExternalConfig: true,
     showToggleTextPanels: true,
     showSearchResultsOnInfoPage: true,
     showWebAnnoTab: true,
     showFragmenter: true,
-    // defaultKeywordAggsToRender: [
-    //   "type",
-    //   "location",
-    //   "period",
-    //   "file",
-    //   "persons",
-    //   // "artworksNL",
-    //   "artworksEN",
-    // ],
-    // overrideDefaultAggs: [
-    //   {
-    //     facetName: "persons",
-    //     order: "keyAsc",
-    //     size: 200,
-    //   },
-    //   {
-    //     facetName: "artworksNL",
-    //     size: 200,
-    //   },
-    //   {
-    //     facetName: "artworksEN",
-    //     size: 200,
-    //   },
-    //   {
-    //     facetName: "file",
-    //     order: "keyAsc",
-    //     size: 200,
-    //   },
-    // ],
     showNotesTab: true,
     showArtworksTab: true,
     components: {
