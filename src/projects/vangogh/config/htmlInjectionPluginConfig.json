@@ -1,8 +1,8 @@
 {
   "injections": [
     {
-      "name": "Israels HTML injection",
-      "path": "./src/projects/israels/config/israels-html-injection.html",
+      "name": "Van Gogh HTML injection",
+      "path": "./src/projects/vangogh/config/vangogh-html-injection.html",
       "type": "raw",
       "injectTo": "head",
       "buildModes": "both"
