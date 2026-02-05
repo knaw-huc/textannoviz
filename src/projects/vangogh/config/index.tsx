@@ -10,6 +10,7 @@ import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
 import { Bibliography } from "../Bibliography";
+import { Header } from "../Header";
 
 export const vangoghConfig: ProjectConfig = merge(
   {},
@@ -23,6 +24,9 @@ export const vangoghConfig: ProjectConfig = merge(
     initialDateTo: "1890-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Van Gogh",
+    components: {
+      Header,
+    },
     defaultKeywordAggsToRender: [
       "type",
       // "location",

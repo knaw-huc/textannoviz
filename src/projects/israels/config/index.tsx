@@ -10,6 +10,7 @@ import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Bibliography } from "../Bibliography";
 import { Artworks } from "../Artworks";
 import { Persons } from "../Persons";
+import { Header } from "../Header";
 export const israelsConfig: ProjectConfig = merge(
   {},
   kunstenaarsbrievenConfig,
@@ -22,6 +23,9 @@ export const israelsConfig: ProjectConfig = merge(
     initialDateTo: "1924-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Isaac Israëls",
+    components: {
+      Header,
+    },
     defaultKeywordAggsToRender: [
       "type",
       "location",
