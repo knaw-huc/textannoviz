@@ -26,15 +26,12 @@ import { SearchItem } from "../SearchItem";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummary } from "../annotation/EntitySummary";
-import { Persons } from "../Persons";
-import { Artworks } from "../Artworks";
 import { ASC, DESC } from "../../../model/Search";
 import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
-import { Bibliography } from "../Bibliography";
 import { Help } from "../Help";
 import { TextPanels } from "../TextPanels";
 
@@ -123,20 +120,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     allPossibleTextPanels: ["text", "textNotes", "typedNotes"],
     defaultTextPanels: "text",
     projectCss: projectCss,
-    routes: [
-      {
-        path: "persons",
-        element: <Persons />,
-      },
-      {
-        path: "artworks",
-        element: <Artworks />,
-      },
-      {
-        path: "bibliography",
-        element: <Bibliography />,
-      },
-    ],
     searchSorting: [
       { name: "Letter number (ascending)", value: `file-${ASC}` },
       { name: "Letter number (descending)", value: `file-${DESC}` },

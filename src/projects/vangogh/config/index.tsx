@@ -7,6 +7,9 @@ import projectCss from "../project.css?inline";
 import { englishVangoghLabels } from "./englishVangoghLabels";
 import { dutchVangoghLabels } from "./dutchVangoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
+import { Persons } from "../Persons";
+import { Artworks } from "../Artworks";
+import { Bibliography } from "../Bibliography";
 
 export const vangoghConfig: ProjectConfig = merge(
   {},
@@ -57,5 +60,19 @@ export const vangoghConfig: ProjectConfig = merge(
       { code: "en", labels: englishVangoghLabels },
     ],
     projectCss: projectCss,
+    routes: [
+      {
+        path: "persons",
+        element: <Persons />,
+      },
+      {
+        path: "artworks",
+        element: <Artworks />,
+      },
+      {
+        path: "bibliography",
+        element: <Bibliography />,
+      },
+    ],
   } as ProjectSpecificConfig,
 );

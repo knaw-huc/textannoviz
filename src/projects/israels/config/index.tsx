@@ -7,6 +7,9 @@ import projectCss from "../project.css?inline";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
+import { Bibliography } from "../Bibliography";
+import { Artworks } from "../Artworks";
+import { Persons } from "../Persons";
 export const israelsConfig: ProjectConfig = merge(
   {},
   kunstenaarsbrievenConfig,
@@ -54,5 +57,19 @@ export const israelsConfig: ProjectConfig = merge(
       { code: "en", labels: englishIsraelsLabels },
     ],
     projectCss: projectCss,
+    routes: [
+      {
+        path: "persons",
+        element: <Persons />,
+      },
+      {
+        path: "artworks",
+        element: <Artworks />,
+      },
+      {
+        path: "bibliography",
+        element: <Bibliography />,
+      },
+    ],
   } as ProjectSpecificConfig,
 );
