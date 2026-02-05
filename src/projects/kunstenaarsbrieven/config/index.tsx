@@ -19,7 +19,6 @@ import {
   projectPageMarkerAnnotationTypes,
   reference,
 } from "../annotation/ProjectAnnotationModel";
-import { AnnotationButtons } from "../AnnotationButtons";
 import { ArtworksTab } from "../ArtworksTab";
 import { MetadataPanel } from "../MetadataPanel";
 import projectCss from "../project.css?inline";
@@ -76,7 +75,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     components: {
       SearchItem,
       MetadataPanel,
-      AnnotationButtons,
       NotesPanel,
       ArtworksTab,
       EntitySummary,
