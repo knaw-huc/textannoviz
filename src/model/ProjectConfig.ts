@@ -232,11 +232,6 @@ export type ProjectSpecificProperties =
   | "headerTitle"
   | "initialDateFrom"
   | "initialDateTo"
-  | "initialRangeFrom"
-  | "initialRangeTo"
-  | "maxRange"
-  | "logoImageUrl"
-  | "relativeTo"
   | "headerColor";
 
 export type DefaultProjectConfig = Omit<

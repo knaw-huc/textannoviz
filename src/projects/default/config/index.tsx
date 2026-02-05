@@ -19,6 +19,7 @@ import { isNoteReference } from "../../israels/annotation/ProjectAnnotationModel
 export const defaultConfig: DefaultProjectConfig = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
+  relativeTo: "",
 
   showAnnotations: false,
 
@@ -35,6 +36,10 @@ export const defaultConfig: DefaultProjectConfig = {
   isEntity: isEntity,
   isToolTipMarker: isNoteReference,
 
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
+  maxRange: 30000,
+  logoImageUrl: "",
   allPossibleTextPanels: ["self"],
   defaultTextPanels: "self",
   showSearchSortBy: true,
