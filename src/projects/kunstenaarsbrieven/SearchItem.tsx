@@ -1,33 +1,27 @@
 import { Link } from "react-router-dom";
-import { IsraelsSearchResultsBody } from "../../model/Search.ts";
-
 import _ from "lodash";
 import { QUERY } from "../../components/Search/SearchUrlParams.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { encodeObject } from "../../utils/UrlParamUtils.ts";
 import {
-  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
+import {
+  IsraelsSearchResultsBody,
+  VanGoghSearchResultsBody,
+} from "../../model/Search.ts";
 
-export const SearchItem = (
-  props: SearchItemProps<IsraelsSearchResultsBody>,
-) => {
+type KunstenaarsbrievenSearchItemProps = SearchItemProps<
+  IsraelsSearchResultsBody | VanGoghSearchResultsBody
+> & {
+  searchItemTitle: string;
+};
+
+export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const letterNum = props.result.file;
-
-  let searchItemTitle: string;
-  if (props.result.type === "letter") {
-    searchItemTitle =
-      interfaceLang === "nl" ? props.result.titleNL : props.result.titleEN;
-  } else if (props.result.type === "intro") {
-    searchItemTitle = translateProject("intro");
-  } else {
-    searchItemTitle = translateProject("UNKNOWN");
-  }
 
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
@@ -38,7 +32,7 @@ export const SearchItem = (
           className="hover:text-brand1-600 active:text-brand1-700 cursor-pointer text-inherit no-underline"
         >
           <div className="flex flex-col p-4">
-            <div className="font-semibold">{searchItemTitle}</div>
+            <div className="font-semibold">{props.searchItemTitle}</div>
             {props.result.type === "letter" ? (
               <div className="text-brand1Grey-600 italic">
                 {translateProject("LET_NUM")}: {letterNum}

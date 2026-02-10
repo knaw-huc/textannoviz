@@ -11,6 +11,7 @@ import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
 import { Bibliography } from "../Bibliography";
 import { Header } from "../Header";
+import { SearchItem } from "../SearchItem";
 
 export const vangoghConfig: ProjectConfig = merge(
   {},
@@ -26,6 +27,7 @@ export const vangoghConfig: ProjectConfig = merge(
     headerTitle: "Brieven van Van Gogh",
     components: {
       Header,
+      SearchItem,
     },
     defaultKeywordAggsToRender: [
       "type",

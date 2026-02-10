@@ -11,6 +11,7 @@ import { Bibliography } from "../Bibliography";
 import { Artworks } from "../Artworks";
 import { Persons } from "../Persons";
 import { Header } from "../Header";
+import { SearchItem } from "../SearchItem";
 export const israelsConfig: ProjectConfig = merge(
   {},
   kunstenaarsbrievenConfig,
@@ -25,6 +26,7 @@ export const israelsConfig: ProjectConfig = merge(
     headerTitle: "Brieven van Isaac Israëls",
     components: {
       Header,
+      SearchItem,
     },
     defaultKeywordAggsToRender: [
       "type",
