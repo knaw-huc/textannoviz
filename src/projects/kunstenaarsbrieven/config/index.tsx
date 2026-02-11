@@ -32,7 +32,6 @@ import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
-import { Help } from "../Help";
 import { TextPanels } from "../TextPanels";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
@@ -78,7 +77,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       InsertMarkerAnnotation,
       SearchInfoPage,
       Header,
-      Help,
     },
     selectedLanguage: "en",
     zoomAnnoMirador: true,

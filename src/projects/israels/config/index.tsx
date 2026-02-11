@@ -12,6 +12,8 @@ import { Artworks } from "../Artworks";
 import { Persons } from "../Persons";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
+import { Help } from "../Help";
+
 export const israelsConfig: ProjectConfig = merge(
   {},
   kunstenaarsbrievenConfig,
@@ -27,6 +29,7 @@ export const israelsConfig: ProjectConfig = merge(
     components: {
       Header,
       SearchItem,
+      Help,
     },
     defaultKeywordAggsToRender: [
       "type",
