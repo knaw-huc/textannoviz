@@ -29,18 +29,21 @@ export const ArtworksTab = () => {
       {artworkAnnos.map((artwork) => (
         <ul key={artwork.id}>
           <li>
-            <img
-              src={`${artwork.graphic.url}/full/${Math.min(
-                artwork.graphic.width,
-                200,
-              )},/0/default.jpg`}
-              alt={artwork.head[interfaceLang]}
-              loading="lazy"
-            />
+            {artwork.graphic ? (
+              <img
+                src={`${artwork.graphic.url}/full/${Math.min(
+                  artwork.graphic.width,
+                  200,
+                )},/0/default.jpg`}
+                alt={artwork.head[interfaceLang]}
+                loading="lazy"
+              />
+            ) : null}
+
             <div className="font-bold">{artwork.head[interfaceLang]}</div>
             <div>
               <div>{artwork.relation?.ref.displayLabel}</div>
-              <div>{artwork.date.text}</div>
+              {artwork.date ? <div>{artwork.date.text}</div> : null}
             </div>
           </li>
         </ul>

@@ -87,13 +87,15 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
                 ))}
             </p> */}
           </div>
-          <div className="flex items-start justify-end">
-            <img
-              src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
-              alt={artwork.head[interfaceLang]}
-              className="h-auto w-[200px] object-contain"
-            />
-          </div>
+          {artwork.graphic ? (
+            <div className="flex items-start justify-end">
+              <img
+                src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
+                alt={artwork.head[interfaceLang]}
+                className="h-auto w-[200px] object-contain"
+              />
+            </div>
+          ) : null}
         </div>
       ))}
     </>
