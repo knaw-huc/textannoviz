@@ -120,9 +120,12 @@ export function Artworks() {
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>
             ) : null}
-            {/* <div>
-              {translateProject("date")}: {artw.date.text}
-            </div> */}
+            {artw.date?.text ? (
+              <div>
+                {translateProject("date")}: {artw.date.text}
+              </div>
+            ) : null}
+
             {/* <div>
               {Object.entries(artw.note[interfaceLang])
                 .filter(([key]) => key === "creditline")
@@ -137,16 +140,18 @@ export function Artworks() {
               .map(([, value], index) =>
                 value.length ? <span key={index}>{value}</span> : null,
               )} */}
-            {/* <div className="pt-4">
-              <img
-                src={`${artw.graphic.url}/full/${Math.min(
-                  artw.graphic.width,
-                  200,
-                )},/0/default.jpg`}
-                alt={artw.head[interfaceLang]}
-                loading="lazy"
-              />
-            </div> */}
+            {artw.graphic ? (
+              <div className="pt-4">
+                <img
+                  src={`${artw.graphic.url}/full/${Math.min(
+                    artw.graphic.width,
+                    200,
+                  )},/0/default.jpg`}
+                  alt={artw.head[interfaceLang]}
+                  loading="lazy"
+                />
+              </div>
+            ) : null}
           </div>
         ))}
       </div>
