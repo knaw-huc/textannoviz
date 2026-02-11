@@ -51,7 +51,7 @@ type ArtworkTeiRef = {
     nl: string;
     en: string;
   };
-  date: {
+  date?: {
     "tei:type": string;
     text: string;
   };
@@ -77,7 +77,7 @@ type ArtworkTeiRef = {
       sortLabel: string;
     };
   };
-  graphic: {
+  graphic?: {
     url: string;
     width: number;
     height: number;
