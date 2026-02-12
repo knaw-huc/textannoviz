@@ -20,7 +20,6 @@ import {
   reference,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
-import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { EntitySummary } from "../annotation/EntitySummary";
@@ -82,7 +81,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     ],
     allPossibleTextPanels: ["text", "textNotes", "typedNotes"],
     defaultTextPanels: "text",
-    projectCss: projectCss,
     searchSorting: [
       { name: "Letter number (ascending)", value: `file-${ASC}` },
       { name: "Letter number (descending)", value: `file-${DESC}` },
