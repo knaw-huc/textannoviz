@@ -21,10 +21,8 @@ import {
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
-import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { EntitySummary } from "../annotation/EntitySummary";
 import { ASC, DESC } from "../../../model/Search";
-import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { Header } from "../Header";
@@ -72,13 +70,8 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       InsertMarkerAnnotation,
       Header,
     },
-    selectedLanguage: "en",
     zoomAnnoMirador: true,
     miradorZoomRatio: 1.5,
-    languages: [
-      { code: "nl", labels: dutchIsraelsLabels },
-      { code: "en", labels: englishIsraelsLabels },
-    ],
     allPossibleTextPanels: ["text", "textNotes", "typedNotes"],
     defaultTextPanels: "text",
     searchSorting: [
