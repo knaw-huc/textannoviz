@@ -37,7 +37,7 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
   letterOriginalText: "Edited text (letter)",
   letterTranslatedText: "Translation (letter)",
   letterNotesText: "Editorial notes (letter)",
-  introOriginalText: "Text (about)",
+  introText: "Text (about)",
   // introNotesText: "Editorial notes (about)",
   UNKNOWN: "Unknown document type",
   to: "to",

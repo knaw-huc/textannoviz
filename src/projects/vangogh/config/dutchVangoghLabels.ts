@@ -37,7 +37,7 @@ export const dutchVangoghLabels = Object.assign({}, dutchLabels, {
   letterOriginalText: "Geëditeerde tekst (brief)",
   letterTranslatedText: "Vertaling (brief)",
   letterNotesText: "Annotaties (brief)",
-  introOriginalText: "Tekst (over deze editie)",
+  introText: "Tekst (over deze editie)",
   // introNotesText: "Annotaties (over deze editie)",
   UNKNOWN: "Onbekend document type",
   to: "aan",

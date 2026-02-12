@@ -104,7 +104,7 @@ export const vangoghConfig: ProjectConfig = merge(
       "letterOriginalText",
       "letterTranslatedText",
       "letterNotesText",
-      "introOriginalText",
+      "introText",
       // "introTranslatedText",
       // "introNotesText",
     ],
