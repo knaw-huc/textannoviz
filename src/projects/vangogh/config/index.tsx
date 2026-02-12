@@ -5,7 +5,7 @@ import {
 } from "../../../model/ProjectConfig";
 import projectCss from "../project.css?inline";
 import { englishVangoghLabels } from "./englishVangoghLabels";
-import { dutchVangoghLabels } from "./dutchVangoghLabels";
+// import { dutchVangoghLabels } from "./dutchVangoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
@@ -110,7 +110,7 @@ export const vangoghConfig: ProjectConfig = merge(
     ],
     selectedLanguage: "en",
     languages: [
-      { code: "nl", labels: dutchVangoghLabels },
+      // { code: "nl", labels: dutchVangoghLabels },
       { code: "en", labels: englishVangoghLabels },
     ],
     projectCss: projectCss,
