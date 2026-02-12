@@ -24,9 +24,11 @@ export const ArtworksTab = () => {
 
   if (!artworkAnnos.length) return <div>{translateProject("NO_ARTWORKS")}</div>;
 
+  const filteredArtw = artworkAnnos.filter((artw) => !Array.isArray(artw));
+
   return (
     <>
-      {artworkAnnos.map((artwork) => (
+      {filteredArtw.map((artwork) => (
         <ul key={artwork.id}>
           <li>
             {artwork.graphic ? (
