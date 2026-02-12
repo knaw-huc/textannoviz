@@ -21,7 +21,6 @@ import {
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
-import { EntitySummary } from "../annotation/EntitySummary";
 import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
@@ -66,7 +65,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       SearchItem,
       NotesPanel,
       ArtworksTab,
-      EntitySummary,
       InsertMarkerAnnotation,
       Header,
     },
