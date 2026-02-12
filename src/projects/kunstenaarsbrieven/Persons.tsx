@@ -141,7 +141,7 @@ export function Persons(props: PersonsProps) {
                 {formatDate(per.death) ||
                   per.death?.cert ||
                   per.death?.notBefore}
-                {per.id}
+                {/* {per.id} */}
               </div>
             ) : null}
 
