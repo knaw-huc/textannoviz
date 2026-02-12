@@ -113,7 +113,7 @@ export type PersonTeiRef = {
   gender: string;
   source: string[];
   persName: PersonPersName[];
-  birth: PersonLifespan;
+  birth?: PersonLifespan;
   death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;
   sortLabel: string;

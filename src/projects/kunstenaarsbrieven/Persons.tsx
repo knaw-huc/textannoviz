@@ -17,10 +17,14 @@ import {
 } from "../../stores/project";
 import { Button } from "react-aria-components";
 
-export function Persons() {
+type PersonsProps = {
+  personsUrl: string;
+};
+
+export function Persons(props: PersonsProps) {
   const [persons, setPersons] = React.useState<Person[]>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
-  const { israelsPersonsUrl, routerBasename } = getViteEnvVars();
+  const { routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
 
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
@@ -28,7 +32,7 @@ export function Persons() {
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initPersons(aborter: AbortController) {
-      const newPersons = await fetchPersons(israelsPersonsUrl, aborter.signal);
+      const newPersons = await fetchPersons(props.personsUrl, aborter.signal);
       if (!newPersons) return;
 
       newPersons.sort((a, b) =>
@@ -129,15 +133,20 @@ export function Persons() {
                 </Button>
               </div>
             </div>
-            <div>
-              {/* TODO: deze elementen nog beter stylen. Onzekerheid beter weergeven, net als de `notBefore`. */}
-              {formatDate(per.birth) || per.birth?.cert}
-              {interfaceLang === "en" ? "–" : "-"}
-              {formatDate(per.death) || per.death?.cert || per.death?.notBefore}
-              {per.id}
-            </div>
+            {per.birth || per.death ? (
+              <div>
+                {/* TODO: deze elementen nog beter stylen. Onzekerheid beter weergeven, net als de `notBefore`. */}
+                {formatDate(per.birth) || per.birth?.cert}
+                {interfaceLang === "en" ? "–" : "-"}
+                {formatDate(per.death) ||
+                  per.death?.cert ||
+                  per.death?.notBefore}
+                {per.id}
+              </div>
+            ) : null}
+
             {/*TODO: test person.note exists: */}
-            <div>{per.note?.[interfaceLang].shortdesc}</div>
+            <div>{per.note?.[interfaceLang]?.shortdesc}</div>
           </div>
         ))}
       </div>
