@@ -14,6 +14,8 @@ import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchInfoPage } from "../SearchInfoPage";
+import { TextPanels } from "../TextPanels";
+import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 
 export const vangoghConfig: ProjectConfig = merge(
   {},
@@ -46,6 +48,36 @@ export const vangoghConfig: ProjectConfig = merge(
       "recipient",
       "sender",
     ],
+    detailPanels: [
+      {
+        name: "facs",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 650px)",
+        panel: PanelTemplates.facsPanel,
+      },
+      {
+        name: "text.orig",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 750px)",
+        panel: TextPanels.origTextPanel,
+      },
+      {
+        name: "text.trans",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 750px)",
+        panel: TextPanels.transTextPanel,
+      },
+      {
+        name: "metadata",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 400px)",
+        panel: PanelTemplates.metadataPanel,
+      },
+    ],
     overrideDefaultAggs: [
       {
         facetName: "persons",
@@ -65,6 +97,14 @@ export const vangoghConfig: ProjectConfig = merge(
         order: "keyAsc",
         size: 9999,
       },
+    ],
+    viewsToSearchIn: [
+      "letterOriginalText",
+      "letterTranslatedText",
+      "letterNotesText",
+      "introOriginalText",
+      // "introTranslatedText",
+      // "introNotesText",
     ],
     selectedLanguage: "en",
     languages: [

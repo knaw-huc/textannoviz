@@ -15,6 +15,8 @@ import { SearchItem } from "../SearchItem";
 import { Help } from "../Help";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchInfoPage } from "../SearchInfoPage";
+import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
+import { TextPanels } from "../TextPanels";
 
 export const israelsConfig: ProjectConfig = merge(
   {},
@@ -46,6 +48,36 @@ export const israelsConfig: ProjectConfig = merge(
       // "artworksNL",
       "artworksEN",
     ],
+    detailPanels: [
+      {
+        name: "facs",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 650px)",
+        panel: PanelTemplates.facsPanel,
+      },
+      {
+        name: "text.orig",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 750px)",
+        panel: TextPanels.origTextPanel,
+      },
+      {
+        name: "text.trans",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 750px)",
+        panel: TextPanels.transTextPanel,
+      },
+      {
+        name: "metadata",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 400px)",
+        panel: PanelTemplates.metadataPanel,
+      },
+    ],
     overrideDefaultAggs: [
       {
         facetName: "persons",
@@ -65,6 +97,14 @@ export const israelsConfig: ProjectConfig = merge(
         order: "keyAsc",
         size: 200,
       },
+    ],
+    viewsToSearchIn: [
+      "letterOriginalText",
+      "letterTranslatedText",
+      "letterNotesText",
+      "introOriginalText",
+      "introTranslatedText",
+      "introNotesText",
     ],
     selectedLanguage: "en",
     languages: [

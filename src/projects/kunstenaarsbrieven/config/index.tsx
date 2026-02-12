@@ -23,14 +23,12 @@ import { ArtworksTab } from "../ArtworksTab";
 import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
-import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummary } from "../annotation/EntitySummary";
 import { ASC, DESC } from "../../../model/Search";
 import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { Header } from "../Header";
-import { TextPanels } from "../TextPanels";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
@@ -82,36 +80,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       { code: "nl", labels: dutchIsraelsLabels },
       { code: "en", labels: englishIsraelsLabels },
     ],
-    detailPanels: [
-      {
-        name: "facs",
-        visible: true,
-        disabled: false,
-        size: "minmax(300px, 650px)",
-        panel: PanelTemplates.facsPanel,
-      },
-      {
-        name: "text.orig",
-        visible: true,
-        disabled: false,
-        size: "minmax(300px, 750px)",
-        panel: TextPanels.origTextPanel,
-      },
-      {
-        name: "text.trans",
-        visible: true,
-        disabled: false,
-        size: "minmax(300px, 750px)",
-        panel: TextPanels.transTextPanel,
-      },
-      {
-        name: "metadata",
-        visible: true,
-        disabled: false,
-        size: "minmax(300px, 400px)",
-        panel: PanelTemplates.metadataPanel,
-      },
-    ],
     allPossibleTextPanels: ["text", "textNotes", "typedNotes"],
     defaultTextPanels: "text",
     projectCss: projectCss,
@@ -129,14 +97,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       [reference.toLowerCase()]: "REF",
       PER: "PER",
     } as Any,
-    viewsToSearchIn: [
-      "letterOriginalText",
-      "letterTranslatedText",
-      "letterNotesText",
-      "introOriginalText",
-      "introTranslatedText",
-      "introNotesText",
-    ],
     showMiradorNavigationButtons: true,
     showSearchInTextViews: true,
   },
