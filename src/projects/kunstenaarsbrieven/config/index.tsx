@@ -20,7 +20,6 @@ import {
   reference,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
-import { MetadataPanel } from "../MetadataPanel";
 import projectCss from "../project.css?inline";
 import { SearchItem } from "../SearchItem";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
@@ -30,7 +29,6 @@ import { ASC, DESC } from "../../../model/Search";
 import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
-import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
 import { TextPanels } from "../TextPanels";
 
@@ -71,12 +69,10 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     showArtworksTab: true,
     components: {
       SearchItem,
-      MetadataPanel,
       NotesPanel,
       ArtworksTab,
       EntitySummary,
       InsertMarkerAnnotation,
-      SearchInfoPage,
       Header,
     },
     selectedLanguage: "en",
