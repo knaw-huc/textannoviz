@@ -13,6 +13,7 @@ import { Bibliography } from "../Bibliography";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
+import { SearchInfoPage } from "../SearchInfoPage";
 
 export const vangoghConfig: ProjectConfig = merge(
   {},
@@ -31,6 +32,8 @@ export const vangoghConfig: ProjectConfig = merge(
       SearchItem,
       // MetadataPanel is too project-specific to make generic
       MetadataPanel,
+      // SearchInfoPage is too project-specific to make generic
+      SearchInfoPage,
     },
     defaultKeywordAggsToRender: [
       "type",

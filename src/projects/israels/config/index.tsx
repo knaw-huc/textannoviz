@@ -14,6 +14,7 @@ import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { Help } from "../Help";
 import { MetadataPanel } from "../MetadataPanel";
+import { SearchInfoPage } from "../SearchInfoPage";
 
 export const israelsConfig: ProjectConfig = merge(
   {},
@@ -33,6 +34,8 @@ export const israelsConfig: ProjectConfig = merge(
       Help,
       // MetadataPanel is too project-specific to make generic
       MetadataPanel,
+      // SearchInfoPage is too project-specific to make generic
+      SearchInfoPage,
     },
     defaultKeywordAggsToRender: [
       "type",
