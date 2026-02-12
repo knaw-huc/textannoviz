@@ -6,7 +6,7 @@ import {
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
-import { findLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];

@@ -10,7 +10,7 @@ import { TextPanels } from "../TextPanels.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
-import { isNoteReference } from "../../israels/annotation/ProjectAnnotationModel.ts";
+import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 /**
  * Default configuration file with some sensible defaults

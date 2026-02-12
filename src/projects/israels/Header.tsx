@@ -5,7 +5,7 @@ import {
 } from "../../stores/project.ts";
 import { useParams } from "react-router-dom";
 import { useAnnotationStore } from "../../stores/annotation.ts";
-import { findLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { Header as KunstenaarsbrievenHeader } from "../kunstenaarsbrieven/Header.tsx";
 
 export const Header = () => {

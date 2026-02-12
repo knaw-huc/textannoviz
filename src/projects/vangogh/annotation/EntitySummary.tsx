@@ -17,7 +17,7 @@ import {
   isLetterReference,
   isPerson,
   isReference,
-} from "./ProjectAnnotationModel";
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 import { toast } from "../../../utils/toast.ts";
 

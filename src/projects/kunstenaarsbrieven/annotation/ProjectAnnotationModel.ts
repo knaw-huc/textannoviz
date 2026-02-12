@@ -8,7 +8,7 @@ import {
 import { ViewLang } from "../../../model/Broccoli";
 
 /**
- * Israels Annotation, element and tei type names
+ * Kunstenaarsbrieven Annotation, element and tei type names
  */
 
 export const caption = "Caption";
@@ -217,6 +217,7 @@ export type LetterBody = AnnoRepoBodyBase & {
   nextLetter: string;
   titles: Record<ViewLang, string>;
   title: string;
+  recipient: string;
 };
 
 export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {
