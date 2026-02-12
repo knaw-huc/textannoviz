@@ -26,7 +26,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
         <div key={pers.id}>
           <p className="font-bold">{pers.sortLabel}</p>
           <p>
-            {pers.birth.when}-{pers.death && pers.death.when}
+            {pers.birth && pers.birth.when}-{pers.death && pers.death.when}
           </p>
         </div>
       ))}
