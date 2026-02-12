@@ -24,6 +24,7 @@ export const ArtworksTab = () => {
 
   if (!artworkAnnos.length) return <div>{translateProject("NO_ARTWORKS")}</div>;
 
+  // 12022026: SvD: Temp fix to filter out arrays in arrays. When there are 2 references in 1 ref element, it becomes an array in an array. It should be two separate entries.
   const filteredArtw = artworkAnnos.filter((artw) => !Array.isArray(artw));
 
   return (
