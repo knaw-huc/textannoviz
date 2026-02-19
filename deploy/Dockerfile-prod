@@ -1,5 +1,6 @@
 #FROM node:lts-alpine AS build
 FROM node:22.20-alpine AS build
+
 WORKDIR /textannoviz
 COPY ./package.json /textannoviz/package.json
 COPY ./package-lock.json /textannoviz/package-lock.json
