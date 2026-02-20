@@ -3,6 +3,12 @@ SHELL=/bin/bash
 .SECONDARY:
 .DELETE_ON_ERROR:
 
+RED=\033[0;31m
+GREEN=\033[0;32m
+YELLOW=\033[0;33m
+BLUE=\033[0;34m
+RESET=\033[0m
+
 .env: | .env.example
 	cp .env.example .env
 
@@ -52,13 +58,13 @@ push-oraties-prod: .make/push-oraties-prod
 
 .PHONY: help
 help:
-	@echo "local make-tools for textannoviz"
+	@echo -e "Local make-tools for $(GREEN)textannoviz$(RESET)"
 	@echo
-	@echo "Please use \`make <target>', where <target> is one of:"
+	@echo -e "Please use \`$(YELLOW)make <target>$(RESET)', where $(YELLOW)<target>$(RESET) is one of:"
 	@echo
-	@echo " install-dependencies - install the code dependencies"
-	@echo " test                 - run the tests"
-	@echo " start                - run the front-end"
-	@echo " push-brederode       - build the docker image for brederode and push it to the registry"
-	@echo " push-oraties-staging - build the docker image for oraties (staging) and push it to the registry"
-	@echo " push-oraties-prod    - build the docker image for oraties (prod) and push it to the registry"
+	@echo -e " $(BLUE)install-dependencies$(RESET) - install the code dependencies"
+	@echo -e " $(BLUE)test$(RESET)                 - run the tests"
+	@echo -e " $(BLUE)start$(RESET)                - run the front-end"
+	@echo -e " $(BLUE)push-brederode$(RESET)       - build the docker image for brederode and push it to the registry"
+	@echo -e " $(BLUE)push-oraties-staging$(RESET) - build the docker image for oraties (staging) and push it to the registry"
+	@echo -e " $(BLUE)push-oraties-prod$(RESET)    - build the docker image for oraties (prod) and push it to the registry"
