@@ -48,6 +48,9 @@ export default defineConfig(({ mode }) => {
     case "brederode":
       tailwindConfig = "tailwind.config.brederode.js";
       break;
+    case "oraties":
+      tailwindConfig = "tailwind.config.oraties.js";
+      break;
     default:
       tailwindConfig = "tailwind.default.config.js";
   }
