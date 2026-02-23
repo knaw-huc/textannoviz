@@ -11,6 +11,8 @@ import { MetadataPanel } from "../MetadataPanel";
 import { projectPageMarkerAnnotationTypes } from "../annotation/ProjectAnnotationModel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
+import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
+import { TextPanels } from "../../israels/TextPanels.tsx";
 
 export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
@@ -57,6 +59,30 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     sortOrder: "asc",
   },
   defaultKeywordAggsToRender: ["author", "publisher", "location"],
+  detailPanels: [
+    {
+      name: "facs",
+      visible: true,
+      disabled: false,
+      size: "minmax(300px, 650px)",
+      panel: PanelTemplates.facsPanel,
+    },
+    {
+      name: "text.orig",
+      visible: true,
+      disabled: false,
+      size: "minmax(300px, 750px)",
+      panel: TextPanels.origTextPanel,
+    },
+    {
+      name: "metadata",
+      visible: true,
+      disabled: false,
+      size: "minmax(300px, 400px)",
+      panel: PanelTemplates.metadataPanel,
+    },
+  ],
+
   viewsToSearchIn: ["lectureOriginalText"],
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchOratiesLabels }],
