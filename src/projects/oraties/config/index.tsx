@@ -15,7 +15,7 @@ import { Header } from "../Header";
 export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
   broccoliUrl: "http://localhost:8082",
-  relativeTo: "Letter",
+  relativeTo: "Document",
   annotationTypesToInclude: [
     "Division",
     "Document",
