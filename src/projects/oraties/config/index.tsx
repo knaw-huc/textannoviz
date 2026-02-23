@@ -17,12 +17,18 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   broccoliUrl: "http://localhost:8082",
   relativeTo: "Letter",
   annotationTypesToInclude: [
-    "Dataset",
     "Division",
-    "Letter",
-    // "Line",
+    "Document",
+    "Entity",
+    "Head",
+    "Highlight",
+    "List",
+    "Note",
     "Page",
-    // "Word",
+    "Paragraph",
+    "Reference",
+    "Section",
+    "Whitespace",
   ],
   components: {
     SearchItem,
@@ -46,7 +52,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   useExternalConfig: true,
   showSearchResultsOnInfoPage: true,
   overrideDefaultSearchParams: {
-    sortBy: "datePublished",
+    sortBy: "date",
     sortOrder: "asc",
   },
   defaultKeywordAggsToRender: [
@@ -55,7 +61,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     "fromLocation",
     "toLocation",
   ],
-  viewsToSearchIn: ["letterText"],
+  viewsToSearchIn: ["lectureOriginalText"],
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchOratiesLabels }],
 } as ProjectSpecificConfig);

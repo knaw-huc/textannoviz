@@ -146,8 +146,9 @@ export type OratiesSearchResultsBody = {
   _id: string;
   datePublished: string;
   title: string;
+  publisher: string;
   _hits: {
-    letterText: string[];
+    lectureOriginalText: string[];
     text: string[]; //TODO: remove
   };
 };

@@ -13,6 +13,7 @@ import {
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
+  OratiesSearchResultsBody,
   RepublicSearchResultBody,
   SearchParams,
   SearchQuery,
@@ -98,7 +99,8 @@ export type ComponentsConfig = {
       | SurianoSearchResultsBody
       | VanGoghSearchResultsBody
       | IsraelsSearchResultsBody
-      | BrederodeSearchResultsBody;
+      | BrederodeSearchResultsBody
+      | OratiesSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;

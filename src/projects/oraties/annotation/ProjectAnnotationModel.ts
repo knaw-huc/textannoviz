@@ -11,5 +11,13 @@ export type LetterAnnoBody = AnnoRepoBodyBase & {
   title: string;
 };
 
+export type DocumentAnnoBody = AnnoRepoBodyBase & {
+  datePublished: string;
+  title: string;
+  author: string;
+  publisher: string;
+  location: string;
+};
+
 const page = "Page";
 export const projectPageMarkerAnnotationTypes = [page];

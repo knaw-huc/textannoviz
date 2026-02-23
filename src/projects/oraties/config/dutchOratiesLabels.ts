@@ -1,11 +1,9 @@
 import { englishLabels } from "../../default/config/englishLabels";
 
 export const dutchOratiesLabels = Object.assign({}, englishLabels, {
-  self: "Hoofdstuk",
+  self: "Oratie",
 
   //Facet titles
-  // sender: "Sender",
-  // recipient: "Recipient",
-  // fromLocation: "Sent from",
-  // toLocation: "Sent to",
+  date: "Datum",
+  publisher: "Uitgever",
 });

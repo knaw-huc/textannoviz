@@ -1,15 +1,15 @@
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 
-import { LetterAnnoBody } from "./annotation/ProjectAnnotationModel";
+import { DocumentAnnoBody } from "./annotation/ProjectAnnotationModel";
 
 type MetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
 export const MetadataPanel = (props: MetadataPanelProps) => {
-  const letterAnno = props.annotations.find(
-    (anno) => anno.body.type === "Letter",
-  ) as AnnoRepoAnnotation<LetterAnnoBody> | undefined;
+  const documentAnno = props.annotations.find(
+    (anno) => anno.body.type === "Document",
+  ) as AnnoRepoAnnotation<DocumentAnnoBody> | undefined;
 
   const gridOneColumn = "grid grid-cols-1";
   const dateOptions: Intl.DateTimeFormatOptions = {
@@ -18,49 +18,37 @@ export const MetadataPanel = (props: MetadataPanelProps) => {
     year: "numeric",
   };
 
-  if (!letterAnno) {
+  if (!documentAnno) {
     return null;
   }
-  const letterAnnoBody = letterAnno.body;
+  const documentAnnoBody = documentAnno.body;
   return (
     <>
       <ul className="m-0 list-none p-0">
         <li className="mb-8">
-          <strong>Date</strong>
+          <strong>Titel</strong>
+          <div className={gridOneColumn}>{documentAnnoBody.title}</div>
+        </li>
+        <li className="mb-8">
+          <strong>Auteur</strong>
+          <div className={gridOneColumn}>{documentAnnoBody.author}</div>
+        </li>
+        <li className="mb-8">
+          <strong>Datum</strong>
           <div className={gridOneColumn}>
-            {new Date(letterAnnoBody.datePublished).toLocaleDateString(
-              "en-GB",
+            {new Date(documentAnnoBody.datePublished).toLocaleDateString(
+              "nl",
               dateOptions,
             )}
           </div>
         </li>
         <li className="mb-8">
-          <strong>Sender</strong>
-          <div className={gridOneColumn}>{letterAnnoBody.sender}</div>
+          <strong>Uitgever</strong>
+          <div className={gridOneColumn}>{documentAnnoBody.publisher}</div>
         </li>
         <li className="mb-8">
-          <strong>Recipient</strong>
-          <div className={gridOneColumn}>{letterAnnoBody.recipient}</div>
-        </li>
-        <li className="mb-8">
-          <strong>Sender location</strong>
-          <div className={gridOneColumn}>{letterAnnoBody.fromLocation}</div>
-        </li>
-        <li className="mb-8">
-          <strong>Recipient location</strong>
-          <div className={gridOneColumn}>{letterAnnoBody.toLocation}</div>
-        </li>
-        <li className="mb-8">
-          <strong>Shelfmark</strong>
-          <div className={gridOneColumn}>{letterAnnoBody.shelfmark}</div>
-        </li>
-        <li className="mb-8">
-          <strong>Link to EMLO</strong>
-          <div className={gridOneColumn}>
-            <a href={letterAnnoBody.url} rel="noreferrer" target="_blank">
-              {letterAnnoBody.url}
-            </a>
-          </div>
+          <strong>Plaats</strong>
+          <div className={gridOneColumn}>{documentAnnoBody.location}</div>
         </li>
       </ul>
     </>
