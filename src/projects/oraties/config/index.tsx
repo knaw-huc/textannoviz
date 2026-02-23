@@ -51,6 +51,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   showMirador: false,
   useExternalConfig: true,
   showSearchResultsOnInfoPage: true,
+  allPossibleTextPanels: ["text", "textNotes"],
   overrideDefaultSearchParams: {
     sortBy: "date",
     sortOrder: "asc",
