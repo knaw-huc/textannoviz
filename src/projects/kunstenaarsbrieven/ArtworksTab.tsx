@@ -45,7 +45,7 @@ export const ArtworksTab = () => {
 
             <div className="font-bold">{artwork.head[interfaceLang]}</div>
             <div>
-              <div>{artwork.relation?.ref.displayLabel}</div>
+              <div>{artwork.relation?.ref?.displayLabel}</div>
               {artwork.date ? <div>{artwork.date.text}</div> : null}
             </div>
           </li>
