@@ -58,7 +58,7 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
             </p>
             {artwork.relation ? (
               <p>
-                {translateProject("artist")}: {artwork.relation.ref.sortLabel}
+                {translateProject("artist")}: {artwork.relation.ref?.sortLabel}
               </p>
             ) : null}
             {artwork.measure ? (

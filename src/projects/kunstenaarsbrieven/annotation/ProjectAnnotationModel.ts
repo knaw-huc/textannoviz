@@ -57,7 +57,7 @@ type ArtworkTeiRef = {
   };
   relation?: {
     name: string;
-    ref: {
+    ref?: {
       id: string;
       gender: string;
       source: string[];

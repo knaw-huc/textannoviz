@@ -109,7 +109,7 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {artw.relation?.ref.displayLabel ? (
+            {artw.relation?.ref?.displayLabel ? (
               <div>
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>
