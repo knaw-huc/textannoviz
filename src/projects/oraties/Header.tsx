@@ -8,7 +8,7 @@ import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { Button } from "react-aria-components";
-import { isLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { isDocumentBody } from "./annotation/ProjectAnnotationModel.ts";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -61,13 +61,14 @@ export const Header = () => {
 const DetailPageInfoHeader = () => {
   const annotations = useAnnotationStore((s) => s.annotations);
 
-  const letter = annotations.find((anno) => anno.body.type === "Letter");
+  const lecture = annotations.find((anno) => anno.body.type === "Document");
 
-  if (!letter) return null;
+  if (!lecture) return null;
   return (
     <div className="col-span-3 flex items-center justify-center gap-2 border-b border-neutral-400 bg-white p-4 text-center text-black sm:col-span-4 lg:col-span-3">
       <div className="font-bold">
-        {isLetterBody(letter.body) && letter.body.title}
+        {isDocumentBody(lecture.body) &&
+          lecture.body.author + " - " + lecture.body.title}
       </div>
     </div>
   );

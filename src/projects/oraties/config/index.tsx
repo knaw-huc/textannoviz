@@ -55,12 +55,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     sortBy: "date",
     sortOrder: "asc",
   },
-  defaultKeywordAggsToRender: [
-    "sender",
-    "recipient",
-    "fromLocation",
-    "toLocation",
-  ],
+  defaultKeywordAggsToRender: ["author", "publisher", "location"],
   viewsToSearchIn: ["lectureOriginalText"],
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchOratiesLabels }],

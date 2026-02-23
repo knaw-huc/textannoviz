@@ -1,16 +1,5 @@
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation";
 
-export type LetterAnnoBody = AnnoRepoBodyBase & {
-  datePublished: string;
-  sender: string;
-  recipient: string;
-  fromLocation: string;
-  toLocation: string;
-  url: string;
-  shelfmark: string;
-  title: string;
-};
-
 export type DocumentAnnoBody = AnnoRepoBodyBase & {
   datePublished: string;
   title: string;
@@ -18,6 +7,15 @@ export type DocumentAnnoBody = AnnoRepoBodyBase & {
   publisher: string;
   location: string;
 };
+
+export function isDocumentBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is DocumentAnnoBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "Document";
+}
 
 const page = "Page";
 export const projectPageMarkerAnnotationTypes = [page];
