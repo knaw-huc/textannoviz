@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-republic-temp.png";
+import logo from "../../../assets/logo-huygens.png";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -19,23 +19,6 @@ import { EntitySummary } from "../../vangogh/annotation/EntitySummary.tsx";
 
 export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
-  broccoliUrl: "http://localhost:8082",
-
-  elasticIndexName: "oraties",
-  initialDateFrom: "2026-03-04",
-  initialDateTo: "2026-03-04",
-  headerColor: "bg-brand1-100 text-brand1-800",
-  headerTitle: "Brontekst en context",
-
-  components: {
-    Header,
-    SearchItem,
-    MetadataPanel,
-    SearchInfoPage,
-    NotesPanel,
-    Persons,
-    EntitySummary,
-  },
 
   relativeTo: "Document",
   annotationTypesToInclude: [
@@ -52,22 +35,25 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     "Section",
     "Whitespace",
   ],
-  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
-  showAnnotations: true,
-  initialRangeFrom: "0",
-  initialRangeTo: "30000",
-  maxRange: 30000,
-  logoImageUrl: logo,
-  showSearchResultsButtonFooter: false,
-  showMirador: true,
-  showMiradorNavigationButtons: true,
-  useExternalConfig: true,
-  showSearchResultsOnInfoPage: true,
-  allPossibleTextPanels: ["text", "textNotes"],
-  overrideDefaultSearchParams: {
-    sortBy: "date",
-    sortOrder: "asc",
+
+  broccoliUrl: "http://localhost:8082",
+
+  elasticIndexName: "oraties",
+  initialDateFrom: "2026-03-04",
+  initialDateTo: "2026-03-04",
+  headerColor: "bg-brand1-100 text-brand1-800",
+  headerTitle: "Oraties",
+
+  components: {
+    Header,
+    SearchItem,
+    MetadataPanel,
+    SearchInfoPage,
+    NotesPanel,
+    Persons,
+    EntitySummary,
   },
+
   defaultKeywordAggsToRender: ["author", "publisher", "location"],
   detailPanels: [
     {
@@ -92,15 +78,33 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
       panel: PanelTemplates.metadataPanel,
     },
   ],
-
   viewsToSearchIn: ["lectureOriginalText"],
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchOratiesLabels }],
-  showNotesTab: true,
   // routes: [
   //   {
   //     path: "persons",
   //     element: <Persons />,
   //   },
   // ],
+
+  allPossibleTextPanels: ["text", "textNotes"],
+
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
+  maxRange: 30000,
+
+  logoImageUrl: logo,
+  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  showAnnotations: true,
+  showMirador: true,
+  showMiradorNavigationButtons: true,
+  showNotesTab: true,
+  showSearchResultsButtonFooter: false,
+  showSearchResultsOnInfoPage: true,
+  useExternalConfig: true,
+  overrideDefaultSearchParams: {
+    sortBy: "date",
+    sortOrder: "asc",
+  },
 } as ProjectSpecificConfig);
