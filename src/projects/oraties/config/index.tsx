@@ -58,12 +58,12 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
       panel: PanelTemplates.metadataPanel,
     },
   ],
-  // routes: [
-  //   {
-  //     path: "persons",
-  //     element: <Persons />,
-  //   },
-  // ],
+  routes: [
+    {
+      path: "persons",
+      element: <Persons />,
+    },
+  ],
 
   // FacsimileConfig
   showMirador: true,

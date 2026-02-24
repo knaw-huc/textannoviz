@@ -14,10 +14,13 @@ export const dutchOratiesLabels = Object.assign({}, englishLabels, {
   //Text panel titles
   self: "Oratie",
   "text.orig": "Tekst",
+  "text.nl": "Tekst",
 
   //panels
   facs: "Facsimile",
   metadata: "Info",
+
+  persons: "Personen",
 
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
