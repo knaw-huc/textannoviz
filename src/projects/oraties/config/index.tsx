@@ -13,6 +13,7 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
 import { TextPanels } from "../../israels/TextPanels.tsx";
+import { NotesPanel } from "../NotesPanel.tsx";
 
 export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
@@ -37,6 +38,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     MetadataPanel,
     SearchInfoPage,
     Header,
+    NotesPanel,
   },
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   elasticIndexName: "oraties",
@@ -86,4 +88,5 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   viewsToSearchIn: ["lectureOriginalText"],
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchOratiesLabels }],
+  showNotesTab: true,
 } as ProjectSpecificConfig);

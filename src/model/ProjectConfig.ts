@@ -39,6 +39,10 @@ export type ProjectConfig = SearchConfig &
     useExternalConfig: boolean;
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
+
+    /**
+     * See {@link ProjectConfig.NotesPanel}
+     */
     showNotesTab: boolean;
     showArtworksTab: boolean;
 
