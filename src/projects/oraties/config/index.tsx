@@ -15,10 +15,28 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
 import { TextPanels } from "../TextPanels.tsx";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { Persons } from "../Persons.tsx";
+import { EntitySummary } from "../../vangogh/annotation/EntitySummary.tsx";
 
 export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
   broccoliUrl: "http://localhost:8082",
+
+  elasticIndexName: "oraties",
+  initialDateFrom: "2026-03-04",
+  initialDateTo: "2026-03-04",
+  headerColor: "bg-brand1-100 text-brand1-800",
+  headerTitle: "Brontekst en context",
+
+  components: {
+    Header,
+    SearchItem,
+    MetadataPanel,
+    SearchInfoPage,
+    NotesPanel,
+    Persons,
+    EntitySummary,
+  },
+
   relativeTo: "Document",
   annotationTypesToInclude: [
     "Division",
@@ -34,27 +52,15 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     "Section",
     "Whitespace",
   ],
-  components: {
-    SearchItem,
-    MetadataPanel,
-    SearchInfoPage,
-    Header,
-    NotesPanel,
-    Persons,
-  },
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
-  elasticIndexName: "oraties",
   showAnnotations: true,
-  initialDateFrom: "2026-03-04",
-  initialDateTo: "2026-03-04",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: logo,
-  headerColor: "bg-brand1-100 text-brand1-800",
-  headerTitle: "Brontekst en context",
   showSearchResultsButtonFooter: false,
-  showMirador: false,
+  showMirador: true,
+  showMiradorNavigationButtons: true,
   useExternalConfig: true,
   showSearchResultsOnInfoPage: true,
   allPossibleTextPanels: ["text", "textNotes"],
