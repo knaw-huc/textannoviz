@@ -14,6 +14,7 @@ import { Header } from "../Header";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
 import { TextPanels } from "../../israels/TextPanels.tsx";
 import { NotesPanel } from "../NotesPanel.tsx";
+import { Persons } from "../Persons.tsx";
 
 export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
@@ -39,6 +40,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchInfoPage,
     Header,
     NotesPanel,
+    Persons,
   },
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   elasticIndexName: "oraties",

@@ -12,6 +12,7 @@ export const getViteEnvVars = () => {
   const vanGoghPersonsUrl = import.meta.env.VITE_VANGOGH_PERSONS_URL;
   const vanGoghArtworksUrl = import.meta.env.VITE_VANGOGH_ARTWORKS_URL;
   const vanGoghBiblUrl = import.meta.env.VITE_VANGOGH_BIBL_URL;
+  const oratiesPersonsUrl = import.meta.env.VITE_ORATIES_PERSONS_URL;
 
   if (!projectName) {
     throw new Error("VITE_PROJECT environment variable not set in .env.");
@@ -65,6 +66,12 @@ export const getViteEnvVars = () => {
     );
   }
 
+  if (!oratiesPersonsUrl) {
+    throw new Error(
+      "VITE_ORATIES_PERSONS_URL environment variable not set in .env.development, .env.staging or .env.production",
+    );
+  }
+
   return {
     projectName,
     routerBasename,
@@ -77,5 +84,6 @@ export const getViteEnvVars = () => {
     vanGoghPersonsUrl,
     vanGoghArtworksUrl,
     vanGoghBiblUrl,
+    oratiesPersonsUrl,
   };
 };
