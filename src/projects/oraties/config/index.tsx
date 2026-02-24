@@ -12,7 +12,7 @@ import { projectPageMarkerAnnotationTypes } from "../annotation/ProjectAnnotatio
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
-import { TextPanels } from "../../israels/TextPanels.tsx";
+import { TextPanels } from "../TextPanels.tsx";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { Persons } from "../Persons.tsx";
 
@@ -91,4 +91,10 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   selectedLanguage: "nl",
   languages: [{ code: "nl", labels: dutchOratiesLabels }],
   showNotesTab: true,
+  // routes: [
+  //   {
+  //     path: "persons",
+  //     element: <Persons />,
+  //   },
+  // ],
 } as ProjectSpecificConfig);

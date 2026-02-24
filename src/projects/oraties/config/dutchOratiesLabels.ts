@@ -6,4 +6,8 @@ export const dutchOratiesLabels = Object.assign({}, englishLabels, {
   //Facet titles
   date: "Datum",
   publisher: "Uitgever",
+
+  facs: "Facsimile",
+  metadata: "Info",
+  notes: "Noten",
 });
