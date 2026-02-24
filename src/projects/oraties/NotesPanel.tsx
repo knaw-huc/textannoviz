@@ -7,6 +7,12 @@ import {
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { NotesPanel as KunstenaarsbrievenNotesPanel } from "../kunstenaarsbrieven/NotesPanel";
+/**
+ * Duplicated from {@link KunstenaarsbrievenNotesPanel}
+ * // TODO: Collect reusable project components in projects/common
+ **/
 export const NotesPanel = () => {
   const views = useTextStore((state) => state.views);
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
