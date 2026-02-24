@@ -20,41 +20,21 @@ import { EntitySummary } from "../../vangogh/annotation/EntitySummary.tsx";
 export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
 
-  relativeTo: "Document",
-  annotationTypesToInclude: [
-    "Division",
-    "Document",
-    "Entity",
-    "Head",
-    "Highlight",
-    "List",
-    "Note",
-    "Page",
-    "Paragraph",
-    "Reference",
-    "Section",
-    "Whitespace",
-  ],
+  headerTitle: "Oraties",
+  headerColor: "bg-brand1-100 text-brand1-800",
+
+  logoImageUrl: logo,
+  logoHref: "https://www.huygens.knaw.nl/",
+
+  languages: [{ code: "nl", labels: dutchOratiesLabels }],
+  selectedLanguage: "nl",
+
+  showNotesTab: true,
+  visualizeAnnosMirador: true,
+  useExternalConfig: true,
 
   broccoliUrl: "http://localhost:8082",
 
-  elasticIndexName: "oraties",
-  initialDateFrom: "2026-03-04",
-  initialDateTo: "2026-03-04",
-  headerColor: "bg-brand1-100 text-brand1-800",
-  headerTitle: "Oraties",
-
-  components: {
-    Header,
-    SearchItem,
-    MetadataPanel,
-    SearchInfoPage,
-    NotesPanel,
-    Persons,
-    EntitySummary,
-  },
-
-  defaultKeywordAggsToRender: ["author", "publisher", "location"],
   detailPanels: [
     {
       name: "facs",
@@ -78,9 +58,6 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
       panel: PanelTemplates.metadataPanel,
     },
   ],
-  viewsToSearchIn: ["lectureOriginalText"],
-  selectedLanguage: "nl",
-  languages: [{ code: "nl", labels: dutchOratiesLabels }],
   // routes: [
   //   {
   //     path: "persons",
@@ -88,23 +65,53 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   //   },
   // ],
 
-  allPossibleTextPanels: ["text", "textNotes"],
-
-  initialRangeFrom: "0",
-  initialRangeTo: "30000",
-  maxRange: 30000,
-
-  logoImageUrl: logo,
-  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
-  showAnnotations: true,
+  // FacsimileConfig
   showMirador: true,
   showMiradorNavigationButtons: true,
-  showNotesTab: true,
+
+  // SearchConfig
+  elasticIndexName: "oraties",
+  initialDateFrom: "2026-03-04",
+  initialDateTo: "2026-03-04",
   showSearchResultsButtonFooter: false,
   showSearchResultsOnInfoPage: true,
-  useExternalConfig: true,
+  defaultKeywordAggsToRender: ["author", "publisher", "location"],
   overrideDefaultSearchParams: {
     sortBy: "date",
     sortOrder: "asc",
   },
+  viewsToSearchIn: ["lectureOriginalText"],
+
+  // ProjectSpecificConfig
+  components: {
+    Header,
+    SearchItem,
+    MetadataPanel,
+    SearchInfoPage,
+    NotesPanel,
+    Persons,
+    EntitySummary,
+  },
+
+  // TextConfig
+  allPossibleTextPanels: ["text", "textNotes"],
+
+  // AnnotationConfig
+  showAnnotations: true,
+  relativeTo: "Document",
+  annotationTypesToInclude: [
+    "Division",
+    "Document",
+    "Entity",
+    "Head",
+    "Highlight",
+    "List",
+    "Note",
+    "Page",
+    "Paragraph",
+    "Reference",
+    "Section",
+    "Whitespace",
+  ],
+  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
 } as ProjectSpecificConfig);
