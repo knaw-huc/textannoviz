@@ -1,5 +1,6 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-huygens.png";
+import projectCss from "../project.css?inline";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -32,6 +33,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
 
   headerTitle: "Oraties",
   headerColor: "bg-brand1-100 text-brand1-800",
+  projectCss: projectCss,
 
   logoImageUrl: logo,
   logoHref: "https://www.huygens.knaw.nl/",
