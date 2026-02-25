@@ -3,11 +3,14 @@ SHELL=/bin/bash
 .SECONDARY:
 .DELETE_ON_ERROR:
 
-RED=\033[0;31m
-GREEN=\033[0;32m
-YELLOW=\033[0;33m
-BLUE=\033[0;34m
+RED=\033[1;31m
+GREEN=\033[1;32m
+YELLOW=\033[1;33m
+BLUE=\033[1;34m
 RESET=\033[0m
+
+SOURCES    := $(shell find ./src/ -type f)
+BUILD_SRC  := package-lock.json ./scripts/docker-build-push.sh $(SOURCES)
 
 .env: | .env.example
 	cp .env.example .env
@@ -35,26 +38,28 @@ test: .make/install-dependencies
 	npm test
 
 .PHONY: push-brederode
-push-brederode:
+push-brederode: .make/push-brederode
+.make/push-brederode: ./scripts/docker-brederode-all.sh ./deploy/Dockerfile-prod $(BUILD_SRC) | .make
 	npm run docker:build-push:brederode
-
-.PHONY: push-bc1900
-push-bc1900: .make/push-bc1900
-.make/push-bc1900: package-lock.json ./scripts/docker-bc1900-all.sh ./scripts/docker-build-push.sh $(wildcard ./deploy/Dockerfile-*) | .make
-	npm run docker:build-push:bc1900
 	touch $@
 
 .PHONY: push-oraties-staging
 push-oraties-staging: .make/push-oraties-staging
-.make/push-oraties-staging: package-lock.json ./scripts/docker-oraties-all-staging.sh ./scripts/docker-build-push.sh $(wildcard ./deploy/Dockerfile-*) | .make
+.make/push-oraties-staging: ./scripts/docker-oraties-all-staging.sh ./deploy/Dockerfile-staging $(BUILD_SRC) | .make
 	npm run docker:build-push:oraties-peen-staging
 	touch $@
 
 .PHONY: push-oraties-prod
 push-oraties-prod: .make/push-oraties-prod
-.make/push-oraties-prod: package-lock.json ./scripts/docker-oraties-peen-all.sh ./scripts/docker-build-push.sh $(wildcard ./deploy/Dockerfile-*) | .make
-	npm run docker:build-push:oraties-peen-staging
+.make/push-oraties-prod: ./scripts/docker-oraties-peen-all.sh ./deploy/Dockerfile-prod $(BUILD_SRC) | .make
+	npm run docker:build-push:oraties-peen-prod
 	touch $@
+
+#.PHONY: push-bc1900
+#push-bc1900: .make/push-bc1900
+#.make/push-bc1900: ./scripts/docker-bc1900-all.sh $(BUILDSRC) | .make
+#	npm run docker:build-push:bc1900
+#	touch $@
 
 .PHONY: help
 help:
