@@ -21,6 +21,7 @@ export const dutchOratiesLabels = Object.assign({}, englishLabels, {
   metadata: "Info",
 
   persons: "Personen",
+  page: "Slide",
 
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
