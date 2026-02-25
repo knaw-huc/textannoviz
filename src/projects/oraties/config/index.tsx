@@ -8,7 +8,6 @@ import { defaultConfig } from "../../default/config";
 import { SearchItem } from "../SearchItem";
 import { dutchOratiesLabels } from "./dutchOratiesLabels";
 import { MetadataPanel } from "../MetadataPanel";
-import { projectPageMarkerAnnotationTypes } from "../annotation/ProjectAnnotationModel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
@@ -16,6 +15,17 @@ import { TextPanels } from "../TextPanels.tsx";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { Persons } from "../Persons.tsx";
 import { EntitySummary } from "../../vangogh/annotation/EntitySummary.tsx";
+import {
+  projectPageMarkerAnnotationTypes,
+  getAnnotationCategory,
+  getHighlightCategory,
+  isEntity,
+  person,
+  projectEntityTypes,
+  projectHighlightedTypes,
+  reference,
+  teiArtwork,
+} from "../annotation/ProjectAnnotationModel.ts";
 
 export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
@@ -114,4 +124,20 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     "Whitespace",
   ],
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+
+  /**
+   * Note: duplicated from kunstenaarsbrieven
+   * TODO: move to projects/common?
+   */
+  highlightedAnnotationTypes: projectHighlightedTypes,
+  entityAnnotationTypes: projectEntityTypes,
+  getAnnotationCategory: getAnnotationCategory,
+  getHighlightCategory: getHighlightCategory,
+  isEntity: isEntity,
+  annoToEntityCategory: {
+    [person]: "PER",
+    [teiArtwork]: "ART",
+    [reference.toLowerCase()]: "REF",
+    PER: "PER",
+  },
 } as ProjectSpecificConfig);
