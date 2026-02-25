@@ -5,7 +5,7 @@ WORKDIR /textannoviz
 COPY ./package.json /textannoviz/package.json
 COPY ./package-lock.json /textannoviz/package-lock.json
 
-RUN npm ci --force
+RUN npm install --force && npm ci --force
 
 COPY . .
 RUN npm test
