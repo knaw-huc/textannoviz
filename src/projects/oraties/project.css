@@ -84,8 +84,7 @@ img {
   hover:shadow-none;
 }
 
-/* Israels specific styling for AnnotatedText component */
-/* TODO: Test if we can remove parent selectors? */
+/* Oraties specific styling for AnnotatedText component */
 .annotated-art {
   @apply bg-[#F0ECF7];
 }
@@ -93,7 +92,7 @@ img {
   @apply bg-[#afddff];
 }
 
-/* Israels bibliography styling */
+/* Oraties bibliography styling */
 .rend_italics {
   font-style: italic;
 }
