@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import logo from "../../../assets/logo-huygens.png";
+import logo from "../../../assets/logo-huygens-wit.png";
 import projectCss from "../project.css?inline";
 import {
   ProjectConfig,
@@ -33,7 +33,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "oraties",
 
   headerTitle: "Oraties",
-  headerColor: "bg-brand1-100 text-brand1-800",
+  headerColor: "bg-brand1-800 text-white",
   projectCss: projectCss,
 
   logoImageUrl: logo,
@@ -46,7 +46,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   visualizeAnnosMirador: true,
   useExternalConfig: true,
 
-  broccoliUrl: "http://localhost:8082",
+  broccoliUrl: "https://oraties.dev.huygens.knaw.nl/broccoli",
 
   detailPanels: [
     {
