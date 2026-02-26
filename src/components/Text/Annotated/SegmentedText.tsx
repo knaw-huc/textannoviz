@@ -9,9 +9,15 @@ import { SegmentGroup } from "./SegmentGroup.tsx";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 export function SegmentedText(props: { body: string; offsets: TextOffsets[] }) {
   const { body, offsets } = props;
+  const projectConfig = useProjectStore(projectConfigSelector);
+
   const [segments, setSegments] = useState<Segment[]>([]);
 
   const offsetsByChar = listOffsetsByChar(offsets);
@@ -24,6 +30,13 @@ export function SegmentedText(props: { body: string; offsets: TextOffsets[] }) {
   }, []);
 
   function handleClickSegment(clicked: Segment | undefined) {
+    const foundLink = clicked?.annotations.find((a) =>
+      projectConfig.isLink(a.body),
+    );
+    if (foundLink) {
+      window.open(projectConfig.getUrl(foundLink.body), "_blank");
+      return;
+    }
     setClickedSegment(clicked);
   }
 

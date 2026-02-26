@@ -23,14 +23,19 @@ type EntityModalProps = PropsWithChildren<{
 }>;
 
 export function EntityModalButton(
-  props: Optional<EntityModalProps, "clickedGroup">,
+  props: Optional<EntityModalProps, "clickedGroup"> & {
+    isOpen?: boolean;
+    onToggleOpen?: (isOpen: boolean) => void;
+  },
 ) {
   return (
     <SpanModalButton
+      isOpen={props.isOpen}
+      onOpenChange={props.onToggleOpen}
       label={props.children}
       modal={
         props.clickedGroup && (
-          <EntityModal {...props} clickedGroup={props.clickedGroup} />
+          <EntityModal {...props} clickedGroup={props.clickedGroup!} />
         )
       }
     />
