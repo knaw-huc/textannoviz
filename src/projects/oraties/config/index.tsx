@@ -17,13 +17,14 @@ import { NotesPanel } from "../NotesPanel.tsx";
 import { Persons } from "../Persons.tsx";
 import { EntitySummary } from "../../vangogh/annotation/EntitySummary.tsx";
 import {
-  projectPageMarkerAnnotationTypes,
   getAnnotationCategory,
   getHighlightCategory,
+  isBibliographyReference,
   isEntity,
   person,
   projectEntityTypes,
   projectHighlightedTypes,
+  projectPageMarkerAnnotationTypes,
   reference,
   teiArtwork,
 } from "../annotation/ProjectAnnotationModel.ts";
@@ -136,6 +137,8 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
   isEntity: isEntity,
+  isLink: isBibliographyReference,
+  getUrl: (a) => isBibliographyReference(a) && a.url,
   annoToEntityCategory: {
     [person]: "PER",
     [teiArtwork]: "ART",

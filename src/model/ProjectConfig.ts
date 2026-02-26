@@ -216,6 +216,12 @@ type AnnotationConfig = {
   getAnnotationCategory: CategoryGetter;
   getHighlightCategory: CategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
+
+  /**
+   * TODO: Decide on how to handle links, do we even want to render urls in the AnnotatedText view?
+   */
+  isLink: (toTest: AnnoRepoBodyBase) => boolean;
+  getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;
 };
 
 export interface AnnotationItemProps {

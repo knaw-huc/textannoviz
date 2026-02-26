@@ -5,6 +5,10 @@ import {
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
 import { ViewLang } from "../../../model/Broccoli";
+import {
+  LetterReferenceBody,
+  NoteReferenceBody,
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 /**
  * Oratie specific document body:
@@ -218,3 +222,28 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
     return unknown;
   }
 }
+
+export type BibliographyReferenceBody = AnnoRepoBodyBase & {
+  id: string;
+  url: string;
+  type: typeof reference;
+  subtype: "BibReference";
+  elementName: string;
+};
+export type ReferenceBody =
+  | LetterReferenceBody
+  | BibliographyReferenceBody
+  | NoteReferenceBody;
+
+export const isReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is ReferenceBody => !!toTest && toTest.type === reference;
+
+export const isBibliographyReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody => {
+  const result =
+    isReference(toTest) &&
+    (toTest as BibliographyReferenceBody).subtype === "BibReference";
+  return result;
+};
