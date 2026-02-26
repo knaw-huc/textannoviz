@@ -35,7 +35,6 @@ export function isDocumentBody(
 export const caption = "Caption";
 export const document = "Document";
 export const elementRs = "rs";
-export const elementPtr = "ptr";
 export const entity = "Entity";
 export const head = "Head";
 export const highlight = "Highlight";
@@ -213,7 +212,7 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, caption, label, listItem, quote].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {
-    return get(annoRepoBody, "metadata.rend");
+    return get(annoRepoBody, "tei:rend");
   } else {
     console.warn("Could not find highlight category:", annoRepoBody);
     return unknown;

@@ -1,7 +1,4 @@
-.highlight-italics {
-  font-style: italic;
-}
-
+/* Marker and highlight styling */
 .marker-head,
 .highlight-head {
   font-size: 1.17rem;
@@ -27,6 +24,28 @@
   width: 125px;
 }
 
+.highlight-italics {
+  font-style: italic;
+}
+
+.highlight-item {
+  overflow: hidden;
+}
+
+.highlight-super {
+  vertical-align: super;
+  font-size: 0.7em;
+}
+
+.highlight-sub {
+  vertical-align: sub;
+  font-size: 0.7em;
+}
+
+.highlight-blockletter {
+  text-transform: uppercase;
+}
+
 /* Remove annotated-segment [role="button"] pointer cursor: */
 [role="button"]:has(:not(.nested-annotation)) {
   cursor: text;
@@ -48,19 +67,6 @@
       clear: none;
     }
   }
-}
-
-.highlight-item {
-  overflow: hidden;
-}
-
-.highlight-super {
-  vertical-align: super;
-  font-size: 0.7em;
-}
-
-.highlight-blockletter {
-  text-transform: uppercase;
 }
 
 img {
