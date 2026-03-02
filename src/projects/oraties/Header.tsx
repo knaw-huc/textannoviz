@@ -28,7 +28,7 @@ export const Header = () => {
           <img src={projectConfig.logoImageUrl} className="h-12" alt="logo" />
         </Button>
         <Button
-          className="hover:text-brand1-900 text-inherit no-underline hover:underline"
+          className="text-inherit no-underline hover:text-white hover:underline"
           onPress={() => navigate("/")}
         >
           {projectConfig.headerTitle}
