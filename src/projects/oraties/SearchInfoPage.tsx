@@ -26,7 +26,7 @@ export const SearchInfoPage = () => {
               href="detail/urn:mace:huc.knaw.nl:oraties:dirk-van-miert"
               className="bg-brand1-800 hover:bg-brand1-700 rounded-full px-3 py-2 text-sm text-white no-underline transition hover:text-white"
             >
-              Bekijk de edite &#10142;
+              Bekijk de editie &#10142;
             </a>
           </p>
           <div className="md: flex flex-col flex-wrap gap-10 md:flex-row md:items-end">
