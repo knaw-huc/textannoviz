@@ -21,6 +21,14 @@ export const SearchInfoPage = () => {
             Instituut voor Nederlandse Geschiedenis en Cultuur van de KNAW
             (Koninklijke Nederlandse Akademie van Wetenschappen).
           </p>
+          <p className="my-4">
+            <a
+              href="detail/urn:mace:huc.knaw.nl:oraties:dirk-van-miert"
+              className="bg-brand1-800 hover:bg-brand1-700 rounded-full px-3 py-2 text-sm text-white no-underline transition hover:text-white"
+            >
+              Bekijk de edite &#10142;
+            </a>
+          </p>
           <div className="md: flex flex-col flex-wrap gap-10 md:flex-row md:items-end">
             <img
               src={logoHuygens}
