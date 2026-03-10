@@ -2,6 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { CategoricalChartState } from "recharts/types/chart/types";
+import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
@@ -24,6 +25,7 @@ type SearchResultsProps = {
   searchQuery: SearchQuery;
   onSearch: () => void;
   onPageChange: () => void;
+  onToggleFilters?: () => void;
 };
 
 export function SearchResults(props: SearchResultsProps) {
@@ -56,6 +58,8 @@ export function SearchResults(props: SearchResultsProps) {
   const [showHistogram, setShowHistogram] = React.useState(true);
   const { searchQueryHistory } = useSearchStore();
   const [histogramZoomed, setHistogramZoomed] = React.useState(false);
+  const [isStickyHeader, setIsStickyHeader] = React.useState(false);
+  const stickySentinelRef = React.useRef<HTMLDivElement | null>(null);
 
   function updateSorting(sorting: Sorting) {
     updateSearchParams({
@@ -102,15 +106,11 @@ export function SearchResults(props: SearchResultsProps) {
     updateSearchQuery({ terms: newTerms });
     props.onSearch();
   }
-
-  if (!searchResults) {
-    return null;
-  }
   const resultsEnd = Math.min(
     resultsStart + pageSize - 1,
-    searchResults.total.value,
+    searchResults?.total.value ?? 0,
   );
-  const resultStartEnd = searchResults.total.value
+  const resultStartEnd = searchResults?.total.value
     ? `${resultsStart}-${resultsEnd} ${translate("FROM").toLowerCase()}`
     : "";
 
@@ -151,20 +151,55 @@ export function SearchResults(props: SearchResultsProps) {
     props.onSearch();
   }
 
+  React.useEffect(() => {
+    const sentinel = stickySentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsStickyHeader(!entry.isIntersecting);
+      },
+      { threshold: 1 },
+    );
+
+    observer.observe(sentinel);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  if (!searchResults) {
+    return null;
+  }
+
   return (
     <>
+      <div ref={stickySentinelRef} aria-hidden="true" />
+      <div className="sticky top-1 z-10 flex lg:hidden">
+        <button
+          type="button"
+          onClick={props.onToggleFilters}
+          className={`mb-2 mr-2 inline-flex items-center justify-center rounded border border-neutral-500 bg-white px-2 py-1 text-sm  ${
+            isStickyHeader ? "-translate-x-4 transition" : ""
+          }`}
+        >
+          <AdjustmentsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+          {!isStickyHeader && <span className="ml-1">Filters</span>}
+        </button>
+      </div>
       <div
         id="search-results"
-        className="flex flex-col items-center justify-between gap-2 md:flex-row"
+        className="flex flex-col items-start justify-between gap-2 md:flex-row"
       >
-        <span className="font-semibold">
+        <span className="min-w-40 font-semibold">
           {resultStartEnd
             ? `${resultStartEnd} ${
                 searchResults.total.value
               } ${translateProject("results").toLowerCase()}`
             : translate("NO_SEARCH_RESULTS")}
         </span>
-        <div className="flex items-center justify-between gap-10">
+        <div className="flex w-full flex-col items-end justify-end gap-4 md:flex-row md:gap-10">
           {searchResults.results.length >= 1 &&
             projectConfig.showSearchSortBy && (
               <SearchSorting
@@ -265,7 +300,7 @@ export function SearchResults(props: SearchResultsProps) {
 
 export function SearchResultsColumn(props: { children?: ReactNode }) {
   return (
-    <main className="bg-brand1Grey-50 w-9/12 grow self-stretch px-10 py-16">
+    <main className="bg-brand1Grey-50 w-9/12 grow self-stretch px-6 py-16 lg:px-10">
       {props.children}
     </main>
   );

@@ -22,6 +22,7 @@ export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isDirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const { searchQuery, searchParams, updateSearchParams } =
     useUrlSearchParamsStore();
@@ -86,7 +87,17 @@ export const Search = () => {
       addToHistory(searchQuery);
       setDirty(false);
     }
-  }, [isDirty, searchQuery, searchParams]);
+  }, [
+    isDirty,
+    searchQuery,
+    searchParams,
+    prevRequest,
+    getSearchResults,
+    searchFacetTypes,
+    setSearchResults,
+    setKeywordFacets,
+    addToHistory,
+  ]);
 
   async function updateAggs(query: SearchQuery) {
     setIsLoading(true);
@@ -132,6 +143,7 @@ export const Search = () => {
         className="mx-auto flex w-full grow flex-row content-stretch items-stretch self-stretch"
       >
         <SearchForm
+          variant="desktop"
           onSearch={handleNewSearch}
           keywordFacets={keywordFacets}
           searchQuery={searchQuery}
@@ -147,10 +159,40 @@ export const Search = () => {
               onSearch={handleNewSearch}
               onPageChange={handlePageChange}
               searchQuery={searchQuery}
+              onToggleFilters={() => setIsFiltersOpen((prev) => !prev)}
             />
           )}
         </SearchResultsColumn>
       </div>
+
+      {isFiltersOpen && (
+        <div
+          className="fixed inset-0 z-50 flex bg-black/40 lg:hidden"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="h-full w-full max-w-[400px] overflow-y-auto bg-white">
+            <div className="flex items-center justify-end border-b px-4 py-3">
+              <button
+                type="button"
+                className="text-sm underline"
+                onClick={() => setIsFiltersOpen(false)}
+              >
+                &#10006;
+              </button>
+            </div>
+            <div className="px-2 pb-4 pt-2">
+              <SearchForm
+                variant="mobile"
+                onSearch={handleNewSearch}
+                keywordFacets={keywordFacets}
+                searchQuery={searchQuery}
+                updateAggs={updateAggs}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </React.Fragment>
   );
 };

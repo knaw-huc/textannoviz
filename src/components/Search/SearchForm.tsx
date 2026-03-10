@@ -34,10 +34,18 @@ interface SearchFormProps {
   updateAggs: (query: SearchQuery) => void;
 }
 
-const searchFormClasses =
-  "hidden w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16 md:flex md:w-3/12 md:gap-10";
+type SearchFormVariant = "desktop" | "mobile";
 
-export function SearchForm(props: SearchFormProps) {
+const baseSearchFormClasses =
+  "w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16";
+
+const desktopSearchFormClasses = `hidden ${baseSearchFormClasses} lg:flex lg:w-3/12 lg:gap-10`;
+const mobileSearchFormClasses = `flex ${baseSearchFormClasses}`;
+
+export function SearchForm(
+  props: SearchFormProps & { variant?: SearchFormVariant },
+) {
+  const { variant = "desktop" } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const [isFromDateValid, setIsFromDateValid] = React.useState(true);
   const [isToDateValid, setIsToDateValid] = React.useState(true);
@@ -50,15 +58,16 @@ export function SearchForm(props: SearchFormProps) {
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
     useUrlSearchParamsStore();
 
-  function onSearch() {
+  const onSearch = React.useCallback(() => {
     props.onSearch(true);
-  }
+  }, [props.onSearch]);
 
-  const debouncedOnSearch = React.useCallback(
-    debounce(() => {
-      onSearch();
-    }, 250),
-    [],
+  const debouncedOnSearch = React.useMemo(
+    () =>
+      debounce(() => {
+        onSearch();
+      }, 250),
+    [onSearch],
   );
 
   React.useEffect(() => {
@@ -81,7 +90,12 @@ export function SearchForm(props: SearchFormProps) {
       setFilteredAggs(initialFilteredAggs);
       setDefaultAggsIsInit(true);
     }
-  }, [props.keywordFacets, projectConfig.defaultKeywordAggsToRender]);
+  }, [
+    defaultAggsIsInit,
+    props.keywordFacets,
+    props.searchQuery.terms,
+    projectConfig.defaultKeywordAggsToRender,
+  ]);
 
   function updateKeywordFacet(
     facetName: string,
@@ -247,8 +261,11 @@ export function SearchForm(props: SearchFormProps) {
     setFilteredAggs(orderedFilteredAggs);
   }
 
+  const containerClasses =
+    variant === "mobile" ? mobileSearchFormClasses : desktopSearchFormClasses;
+
   return (
-    <div className={searchFormClasses}>
+    <div className={containerClasses}>
       <div className="w-full max-w-[450px]">
         <FullTextSearchBar
           key={searchQuery.fullText}
