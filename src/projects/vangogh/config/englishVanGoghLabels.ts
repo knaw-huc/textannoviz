@@ -33,6 +33,9 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
   page: "Page",
   SHOW_PAGE: "Show page",
 
+  CONTENT_VIEWS: "Content views",
+  CONTENT_PANELS: "Content views",
+
   //Search item
   letterOriginalText: "Edited text (letter)",
   letterTranslatedText: "Translation (letter)",
@@ -69,6 +72,9 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
   TITLE_PT_1: "Vincent van Gogh",
   TITLE_PT_2: "The Letters",
   help: "Help",
+  OPEN_MAIN_NAVIGATION: "Open navigation",
+  CLOSE_MAIN_NAVIGATION: "Close navigation",
+  MAIN_NAVIGATION: "Main navigation",
 
   //Entity summary
   NAV_TO_LETTER: "Navigate to letter",

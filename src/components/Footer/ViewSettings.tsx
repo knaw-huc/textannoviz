@@ -72,11 +72,22 @@ export const ViewSettings = () => {
 
   return (
     <div className="relative">
-      <div className="flex *:border-y *:border-stone-500 *:bg-white *:px-1 *:py-2 *:text-sm *:md:p-2">
-        <div className="rounded-l-full border-x italic text-neutral-500">
-          View
+      <div className="flex *:border-y *:border-stone-500 *:bg-white *:px-2 *:py-2 *:text-sm *:md:p-2">
+        <div className="hidden rounded-l-full border-x italic text-neutral-500 md:block">
+          Content view
           <HelpTooltip label={translateProject("VIEW_HELP")} />
         </div>
+        <button
+          type="button"
+          className="flex items-center gap-1 rounded-full border-r md:hidden"
+          aria-haspopup="dialog"
+          aria-expanded={isMobileDialogOpen}
+          aria-controls="view-panels-dialog"
+          ref={triggerButtonRef}
+          onClick={() => setIsMobileDialogOpen(true)}
+        >
+          {translateProject("CONTENT_VIEWS")} &#9650;
+        </button>
         {activePanels.map((detailPanel) => (
           <button
             id={`b-${detailPanel.name}`}
@@ -89,17 +100,6 @@ export const ViewSettings = () => {
             {translateProject(detailPanel.name)}
           </button>
         ))}
-        <button
-          type="button"
-          className="flex items-center gap-1 rounded-r-full border-r md:hidden"
-          aria-haspopup="dialog"
-          aria-expanded={isMobileDialogOpen}
-          aria-controls="view-panels-dialog"
-          ref={triggerButtonRef}
-          onClick={() => setIsMobileDialogOpen(true)}
-        >
-          Panels
-        </button>
       </div>
       {isMobileDialogOpen && (
         <div className="min-w-screen absolute bottom-full left-0 mb-3 w-[320px] -translate-x-[200px] md:hidden">
@@ -112,7 +112,7 @@ export const ViewSettings = () => {
           >
             <div className="mb-3 flex items-center justify-between gap-2">
               <h2 id="view-panels-title" className="text-base font-semibold">
-                Panels
+                {translateProject("CONTENT_PANELS")}
               </h2>
               <button
                 type="button"
@@ -135,7 +135,7 @@ export const ViewSettings = () => {
                     setIsMobileDialogOpen(false);
                     triggerButtonRef.current?.focus();
                   }}
-                  className="flex items-center justify-between rounded border px-3 py-2 text-sm disabled:cursor-not-allowed disabled:text-neutral-400"
+                  className="flex items-center justify-between rounded border bg-white px-3 py-2 text-sm disabled:cursor-not-allowed disabled:text-neutral-400"
                   disabled={detailPanel.disabled}
                   aria-pressed={detailPanel.visible}
                 >

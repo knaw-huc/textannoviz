@@ -55,7 +55,7 @@ export const TextComponent = (props: TextComponentProps) => {
         <h1>Resolutie</h1>
       </div> */}
       <div className="flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10">
-        <span className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500">
+        <span className="mr-8 mt-4 flex justify-end gap-1 text-sm uppercase text-neutral-500 lg:my-6">
           {translateProject(`${props.viewToRender}`)}
         </span>
         {text && !props.isLoading ? (

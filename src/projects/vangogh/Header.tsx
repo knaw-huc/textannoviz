@@ -51,14 +51,18 @@ export const Header = () => {
         <Button
           className="mr-2 inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 lg:hidden"
           aria-label={
-            isMenuOpen ? "Close main navigation" : "Open main navigation"
+            isMenuOpen
+              ? translateProject("CLOSE_MAIN_NAVIGATION")
+              : translateProject("OPEN_MAIN_NAVIGATION")
           }
           aria-expanded={isMenuOpen}
           aria-controls="main-navigation-mobile"
           onPress={() => setIsMenuOpen((open) => !open)}
         >
           <span className="sr-only">
-            {isMenuOpen ? "Close main navigation" : "Open main navigation"}
+            {isMenuOpen
+              ? translateProject("CLOSE_MAIN_NAVIGATION")
+              : translateProject("OPEN_MAIN_NAVIGATION")}
           </span>
           <span aria-hidden="true" className="flex flex-col gap-1">
             <span className="block h-[2px] w-5 bg-current" />
@@ -109,7 +113,7 @@ export const Header = () => {
             <div className="mb-3 flex items-center justify-end">
               <Button
                 className="inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
-                aria-label="Close main navigation"
+                aria-label={translateProject("CLOSE_MAIN_NAVIGATION")}
                 onPress={() => setIsMenuOpen(false)}
               >
                 <span aria-hidden="true">&#10006;</span>
@@ -120,7 +124,7 @@ export const Header = () => {
             </div>
             <nav
               id="main-navigation-mobile"
-              aria-label="Main navigation"
+              aria-label={translateProject("MAIN_NAVIGATION")}
               className="flex-1 overflow-y-auto text-sm"
             >
               <ul className="flex flex-col gap-2">

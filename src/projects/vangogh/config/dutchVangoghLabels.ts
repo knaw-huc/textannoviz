@@ -33,6 +33,9 @@ export const dutchVangoghLabels = Object.assign({}, dutchLabels, {
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
 
+  CONTENT_VIEWS: "Inhoud weergave",
+  CONTENT_PANELS: "Inhoud weergave",
+
   //Search item
   letterOriginalText: "Geëditeerde tekst (brief)",
   letterTranslatedText: "Vertaling (brief)",
@@ -69,6 +72,9 @@ export const dutchVangoghLabels = Object.assign({}, dutchLabels, {
   TITLE_PT_1: "Vincent van Gogh",
   TITLE_PT_2: "De Brieven",
   help: "Handleiding",
+  OPEN_MAIN_NAVIGATION: "Open navigatie",
+  CLOSE_MAIN_NAVIGATION: "Sluit navigatie",
+  MAIN_NAVIGATION: "Hoofdnavigatie",
 
   //Entity summary
   NAV_TO_LETTER: "Navigeer naar brief",
