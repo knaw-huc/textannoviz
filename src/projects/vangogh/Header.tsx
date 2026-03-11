@@ -170,10 +170,11 @@ export const Header = () => {
           !isOnDetailPage ? "hidden" : ""
         }`}
       >
-        <h4>
+        <h1 className="my-0 text-base font-bold">
           {letterTitle} <br className="md:hidden" />
-        </h4>
+        </h1>
         <div className="text-neutral-600">
+          <span className="sr-only">Letter number </span>
           {letterAnnoBody && "(" + letterAnnoBody.n + ")"}
         </div>
       </div>

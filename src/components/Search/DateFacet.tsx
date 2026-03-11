@@ -83,7 +83,7 @@ export function DateFacet(props: DateFacetProps) {
           <span className="validity" />
         </form>
       </div>
-      <Button onPress={resetClickHandler}>
+      <Button onPress={resetClickHandler} aria-label="Set dates">
         <ArrowRotateLeft />
       </Button>
     </div>

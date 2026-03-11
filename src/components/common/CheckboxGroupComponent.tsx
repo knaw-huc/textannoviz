@@ -52,6 +52,7 @@ export function CheckboxGroupComponent({
                     ? "bg-brand2-500 fill-white"
                     : "fill-neutral-600 hover:fill-black"
                 } rounded p-1 outline-none transition`}
+                aria-label="Order facets alphabetically ascending"
               >
                 <SortAlphaAscIcon />
               </Button>
@@ -63,6 +64,7 @@ export function CheckboxGroupComponent({
                     ? "bg-brand2-500 fill-white"
                     : "fill-neutral-600 hover:fill-black"
                 } rounded p-1 outline-none transition`}
+                aria-label="Order facets alphabetically decscending"
               >
                 <SortAlphaDescIcon />
               </Button>
@@ -74,13 +76,14 @@ export function CheckboxGroupComponent({
                     ? "bg-brand2-500 fill-white"
                     : "fill-neutral-600 hover:fill-black"
                 } rounded p-1 outline-none transition`}
+                aria-label="Order facets by number of items"
               >
                 <SortNumDescIcon />
               </Button>
             </div>
           </div>
         </div>
-        {children}
+        <fieldset>{children}</fieldset>
       </>
     </CheckboxGroup>
   );
@@ -100,7 +103,6 @@ export function CheckboxComponent(props: CheckboxComponentProps) {
       onChange={props.onChange}
     >
       <div
-        aria-label="filter on "
         className={`${
           isSelected ? "bg-brand2-500 border-brand2-500" : ""
         } flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition`}
