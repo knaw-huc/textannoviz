@@ -47,6 +47,7 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
   intro: "About this edition",
   LET_NUM: "Letter number",
   results: "results",
+  SEARCHFILTER: "Search",
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",

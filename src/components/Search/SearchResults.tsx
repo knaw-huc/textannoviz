@@ -185,7 +185,9 @@ export function SearchResults(props: SearchResultsProps) {
           }`}
         >
           <AdjustmentsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-          {!isStickyHeader && <span className="ml-1">Filters</span>}
+          {!isStickyHeader && (
+            <span className="ml-1">{translateProject("SEARCHFILTER")}</span>
+          )}
         </button>
       </div>
       <div

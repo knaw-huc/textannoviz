@@ -47,6 +47,7 @@ export const dutchVangoghLabels = Object.assign({}, dutchLabels, {
   intro: "Over deze editie",
   LET_NUM: "Briefnummer",
   results: "resultaten",
+  SEARCHFILTER: "Zoeken",
 
   //Metadata panel
   NO_NOTES: "Deze brief bevat geen noten.",
