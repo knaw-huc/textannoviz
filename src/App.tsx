@@ -99,6 +99,9 @@ async function selectProjectConfig() {
         broccoliUrl,
         annotationTypesToInclude,
         showWebAnnoTab,
+        personsUrl,
+        artworksUrl,
+        biblUrl,
       } = externalConfig;
       project = externalProjectName;
       config = projectConfigs[project];
@@ -114,6 +117,9 @@ async function selectProjectConfig() {
       if (typeof showWebAnnoTab === "boolean") {
         config.showWebAnnoTab = showWebAnnoTab;
       }
+      if (personsUrl) config.personsUrl = personsUrl;
+      if (artworksUrl) config.artworksUrl = artworksUrl;
+      if (biblUrl) config.biblUrl = biblUrl;
     }
   } else {
     project = projectName;
