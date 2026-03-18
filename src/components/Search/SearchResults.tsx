@@ -181,7 +181,7 @@ export function SearchResults(props: SearchResultsProps) {
           type="button"
           onClick={props.onToggleFilters}
           className={`mb-2 mr-2 inline-flex items-center justify-center rounded border border-neutral-500 bg-white px-2 py-1 text-sm  ${
-            isStickyHeader ? "-translate-x-4 transition" : ""
+            isStickyHeader ? "-translate-x-4 translate-y-6 transition" : ""
           }`}
         >
           <AdjustmentsVerticalIcon className="h-5 w-5" aria-hidden="true" />
