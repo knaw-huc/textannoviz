@@ -4,7 +4,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import projectCss from "../project.css?inline";
-import { englishVangoghLabels } from "./englishVanGoghLabels";
+import { englishVangoghLabels } from "./englishVangoghLabels";
 // import { dutchVangoghLabels } from "./dutchVangoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
@@ -30,6 +30,13 @@ export const vangoghConfig: ProjectConfig = merge(
     initialDateTo: "1890-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Van Gogh",
+    personsUrl:
+      "http://localhost:8040/files/vangogh/apparatus/bio-entities.json",
+    artworksUrl:
+      "http://localhost:8040/files/vangogh/apparatus/artwork-entities.json",
+    biblUrl: {
+      en: "http://localhost:8040/files/vangogh/apparatus/bibliolist.html",
+    },
     components: {
       Header,
       SearchItem,

@@ -31,6 +31,14 @@ export const israelsConfig: ProjectConfig = merge(
     initialDateTo: "1924-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Isaac Israëls",
+    personsUrl:
+      "http://localhost:8040/files/israels/apparatus/bio-entities.json",
+    artworksUrl:
+      "http://localhost:8040/files/israels/apparatus/artwork-entities.json",
+    biblUrl: {
+      en: "http://localhost:8040/files/israels/apparatus/bibliolist-en.html",
+      nl: "http://localhost:8040/files/israels/apparatus/bibliolist-nl.html",
+    },
     components: {
       Header,
       SearchItem,

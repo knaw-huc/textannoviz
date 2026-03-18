@@ -40,6 +40,9 @@ export type ProjectConfig = SearchConfig &
     showWebAnnoTab: boolean;
     showNotesTab: boolean;
     showArtworksTab: boolean;
+    personsUrl: string;
+    artworksUrl: string;
+    biblUrl: Partial<Record<LanguageCode, string>>;
 
     detailPanels: {
       name: string;

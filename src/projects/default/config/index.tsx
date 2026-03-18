@@ -36,6 +36,9 @@ export const defaultConfig: DefaultProjectConfig = {
   isEntity: isEntity,
   isToolTipMarker: isNoteReference,
 
+  personsUrl: "",
+  artworksUrl: "",
+  biblUrl: { en: "", nl: "" },
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,
