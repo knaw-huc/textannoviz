@@ -20,7 +20,7 @@ import { SegmentBody } from "./SegmentBody.tsx";
 import { createTooltipMarkerClasses } from "./utils/createAnnotationClasses.ts";
 import { useMiradorStore } from "../../../stores/mirador.ts";
 import { orThrow } from "./utils/orThrow.tsx";
-import { isNoteReference } from "../../../projects/israels/annotation/ProjectAnnotationModel.ts";
+import { isNoteReference } from "../../../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
 import { BroccoliRelativeAnno } from "../../../model/Broccoli.ts";
 

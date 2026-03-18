@@ -15,10 +15,11 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
     const maxWidth = body.width ?? "400";
     const width = Math.min(parseInt(maxWidth), 400);
     return (
+      // eslint-disable-next-line jsx-a11y/img-redundant-alt
       <img
         className="insert-marker marker-picture"
         src={`${body.url}/full/${width},/0/default.jpg`}
-        alt="Possible XML error!"
+        alt="Image not available (yet)"
       />
     );
   }

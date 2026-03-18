@@ -1,20 +1,13 @@
 import { LanguageMenu } from "../../components/LanguageMenu.tsx";
 import { useState } from "react";
 import {
-  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import {
-  matchPath,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
+import { useParams } from "react-router-dom";
 import { useAnnotationStore } from "../../stores/annotation.ts";
-import { Button } from "react-aria-components";
-import { findLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { Header as KunstenaarsbrievenHeader } from "../kunstenaarsbrieven/Header.tsx";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,19 +15,22 @@ export const Header = () => {
   const translateProject = useProjectStore(translateProjectSelector);
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
-  const navigate = useNavigate();
 
-  const location = useLocation();
-
-  const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
-
-  const introId = "urn:mace:huc.knaw.nl:israels:intro";
+  const introIds = [
+    { name: "intro1", id: "urn:mace:huc.knaw.nl:vangogh:introI" },
+    { name: "intro2", id: "urn:mace:huc.knaw.nl:vangogh:introII" },
+    { name: "intro3", id: "urn:mace:huc.knaw.nl:vangogh:introIII" },
+    { name: "intro4", id: "urn:mace:huc.knaw.nl:vangogh:introIV" },
+    { name: "intro6", id: "urn:mace:huc.knaw.nl:vangogh:introVI" },
+  ];
 
   const letterAnnoBody = findLetterBody(annotations);
 
   const letterTitle =
     letterAnnoBody?.title ||
-    (params.tier2 === introId && translateProject("intro"));
+    (params.tier2 && introIds.some((intro) => intro.id === params.tier2)
+      ? translateProject("intro")
+      : "");
 
   return (
     <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_110px]">
@@ -182,5 +178,10 @@ export const Header = () => {
         </div>
       </div>
     </header>
+    <KunstenaarsbrievenHeader
+      letterTitle={letterTitle}
+      letterNumber={letterAnnoBody?.n}
+      introIds={introIds}
+    />
   );
 };

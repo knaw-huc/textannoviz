@@ -4,7 +4,7 @@ import { toast } from "../../utils/toast.ts";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { handleAbort } from "../../utils/handleAbort";
-import { type Artwork } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { type Artwork } from "./annotation/ProjectAnnotationModel";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -17,14 +17,14 @@ export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artwork[]>([]);
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const { vanGoghArtworksUrl, routerBasename } = getViteEnvVars();
+  const { israelsArtworksUrl, routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
 
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initArtworks(aborter: AbortController) {
       const newArtworks = await fetchArtworks(
-        vanGoghArtworksUrl,
+        israelsArtworksUrl,
         aborter.signal,
       );
       if (!newArtworks) return;
@@ -33,16 +33,12 @@ export function Artworks() {
         (artw) => artw["tei:type"] !== "ill",
       );
 
-      filteredArtworks.sort((a, b) => {
-        return a.head[interfaceLang].localeCompare(
-          b.head[interfaceLang],
-          "en",
-          {
-            sensitivity: "base",
-            ignorePunctuation: true,
-          },
-        );
-      });
+      filteredArtworks.sort((a, b) =>
+        a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
+          sensitivity: "base",
+          ignorePunctuation: true,
+        }),
+      );
 
       setArtworks(filteredArtworks);
     }
@@ -102,9 +98,7 @@ export function Artworks() {
           >
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
-                {artw.head[interfaceLang].length
-                  ? artw.head[interfaceLang]
-                  : `${artw.id} has no/empty/incorrect 'head' element in XML!`}
+                {artw.head[interfaceLang]}
               </div>
               <div className="flex flex-row items-center justify-end gap-1">
                 <Button onPress={() => searchArtwork(artw)}>
@@ -120,13 +114,10 @@ export function Artworks() {
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>
             ) : null}
-            {artw.date?.text ? (
-              <div>
-                {translateProject("date")}: {artw.date.text}
-              </div>
-            ) : null}
-
-            {/* <div>
+            <div>
+              {translateProject("date")}: {artw.date.text}
+            </div>
+            <div>
               {Object.entries(artw.note[interfaceLang])
                 .filter(([key]) => key === "creditline")
                 .map(([, value], index) => (
@@ -134,24 +125,22 @@ export function Artworks() {
                     {translateProject("credits")}: {value}
                   </span>
                 ))}
-            </div> */}
-            {/* {Object.entries(artw.note[interfaceLang])
+            </div>
+            {Object.entries(artw.note[interfaceLang])
               .filter(([key]) => key === "photocredits")
               .map(([, value], index) =>
                 value.length ? <span key={index}>{value}</span> : null,
-              )} */}
-            {artw.graphic ? (
-              <div className="pt-4">
-                <img
-                  src={`${artw.graphic.url}/full/${Math.min(
-                    artw.graphic.width,
-                    200,
-                  )},/0/default.jpg`}
-                  alt={artw.head[interfaceLang]}
-                  loading="lazy"
-                />
-              </div>
-            ) : null}
+              )}
+            <div className="pt-4">
+              <img
+                src={`${artw.graphic.url}/full/${Math.min(
+                  artw.graphic.width,
+                  200,
+                )},/0/default.jpg`}
+                alt={artw.head[interfaceLang]}
+                loading="lazy"
+              />
+            </div>
           </div>
         ))}
       </div>

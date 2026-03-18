@@ -4,7 +4,7 @@ import { toast } from "../../utils/toast.ts";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { handleAbort } from "../../utils/handleAbort";
-import { type Artwork } from "./annotation/ProjectAnnotationModel";
+import { type Artwork } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -109,7 +109,7 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {artw.relation?.ref.displayLabel ? (
+            {artw.relation?.ref?.displayLabel ? (
               <div>
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>

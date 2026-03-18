@@ -1,10 +1,15 @@
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
 import {
-  // projectConfigSelector,
+  projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project";
-import { Artwork, isArtwork, isPerson, Person } from "./ProjectAnnotationModel";
+import {
+  Artwork,
+  isArtwork,
+  isPerson,
+  Person,
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
   if (isPerson(props.body)) {
@@ -26,7 +31,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
         <div key={pers.id}>
           <p className="font-bold">{pers.sortLabel}</p>
           <p>
-            {pers.birth.when}-{pers.death && pers.death.when}
+            {pers.birth?.when}-{pers.death && pers.death.when}
           </p>
         </div>
       ))}
@@ -36,7 +41,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
 
 const ArtworkEntity = (props: { artworks: Artwork[] }) => {
   const { artworks } = props;
-  // const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
 
   return (
@@ -47,13 +52,13 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
           className="flex items-start justify-between gap-4"
         >
           <div className="flex max-w-[500px] flex-col justify-start">
-            <p className="font-bold">{artwork.head.text}</p>
+            <p className="font-bold">{artwork.head[interfaceLang]}</p>
             {/* <p>
               {translateProject("date")}: {artwork.date.text}
             </p> */}
             {artwork.relation ? (
               <p>
-                {translateProject("artist")}: {artwork.relation.ref.sortLabel}
+                {translateProject("artist")}: {artwork.relation.ref?.sortLabel}
               </p>
             ) : null}
             {artwork.measure ? (
@@ -87,13 +92,15 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
                 ))}
             </p> */}
           </div>
-          <div className="flex items-start justify-end">
-            <img
-              src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
-              alt={artwork.head.text}
-              className="h-auto w-[200px] object-contain"
-            />
-          </div>
+          {artwork.graphic ? (
+            <div className="flex items-start justify-end">
+              <img
+                src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
+                alt={artwork.head[interfaceLang]}
+                className="h-auto w-[200px] object-contain"
+              />
+            </div>
+          ) : null}
         </div>
       ))}
     </>
