@@ -6,7 +6,7 @@ export const englishLabels: Labels = {
   DATE_FROM: "From",
   DISPLAY_CONTEXT: "Display context",
   FROM: "Of",
-  NEW_SEARCH_QUERY: "New search query",
+  NEW_SEARCH_QUERY: "New search",
   NEXT: "Next",
   NO_SEARCH_HISTORY: "No search history",
   PREV: "Prev",
