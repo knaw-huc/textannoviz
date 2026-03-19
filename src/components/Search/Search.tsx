@@ -87,17 +87,7 @@ export const Search = () => {
       addToHistory(searchQuery);
       setDirty(false);
     }
-  }, [
-    isDirty,
-    searchQuery,
-    searchParams,
-    prevRequest,
-    getSearchResults,
-    searchFacetTypes,
-    setSearchResults,
-    setKeywordFacets,
-    addToHistory,
-  ]);
+  }, [isDirty, searchQuery, searchParams]);
 
   async function updateAggs(query: SearchQuery) {
     setIsLoading(true);
