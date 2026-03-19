@@ -24,6 +24,7 @@ export const vangoghConfig: ProjectConfig = merge(
   {
     id: "vangogh",
     broccoliUrl: "http://localhost:8082",
+    siteTitle: "Van Gogh Letters",
 
     elasticIndexName: "vangogh",
     initialDateFrom: "1872-01-01",

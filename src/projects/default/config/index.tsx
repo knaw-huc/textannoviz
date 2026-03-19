@@ -20,6 +20,7 @@ export const defaultConfig: DefaultProjectConfig = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
   relativeTo: "",
+  siteTitle: "Textannoviz",
 
   showAnnotations: false,
 

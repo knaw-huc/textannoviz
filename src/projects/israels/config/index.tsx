@@ -25,6 +25,7 @@ export const israelsConfig: ProjectConfig = merge(
   {
     id: "israels",
     broccoliUrl: "http://localhost:8082",
+    siteTitle: "Isaac Israëls - Jo van Gogh-Bonger",
 
     elasticIndexName: "israels",
     initialDateFrom: "1891-01-01",

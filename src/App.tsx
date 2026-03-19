@@ -129,6 +129,10 @@ async function selectProjectConfig() {
   if (!config || !project) {
     throw new Error(`No project config defined for ${project}`);
   }
+
+  // Set head>title from project config
+  document.title = config.siteTitle;
+
   return { project, config };
 }
 
