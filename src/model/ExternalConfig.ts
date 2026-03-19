@@ -4,6 +4,7 @@ import { LanguageCode } from "./Language";
 export type ExternalConfig = {
   projectName: ProjectName;
   indexName: string;
+  siteTitle?: string;
   initialDateFrom?: string;
   initialDateTo?: string;
   initialRangeFrom?: string;

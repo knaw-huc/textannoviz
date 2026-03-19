@@ -91,6 +91,7 @@ async function selectProjectConfig() {
       const {
         projectName: externalProjectName,
         indexName,
+        siteTitle,
         initialDateFrom,
         initialDateTo,
         initialRangeFrom,
@@ -105,6 +106,7 @@ async function selectProjectConfig() {
       } = externalConfig;
       project = externalProjectName;
       config = projectConfigs[project];
+      if (siteTitle) config.siteTitle = siteTitle;
       if (indexName) config.elasticIndexName = indexName;
       if (initialDateFrom) config.initialDateFrom = initialDateFrom;
       if (initialDateTo) config.initialDateTo = initialDateTo;
