@@ -10,7 +10,7 @@ import { TextPanels } from "../TextPanels.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
-import { isNoteReference } from "../../israels/annotation/ProjectAnnotationModel.ts";
+import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -19,6 +19,7 @@ import { isNoteReference } from "../../israels/annotation/ProjectAnnotationModel
 export const defaultConfig: DefaultProjectConfig = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
+  relativeTo: "",
 
   showAnnotations: false,
 
@@ -35,6 +36,10 @@ export const defaultConfig: DefaultProjectConfig = {
   isEntity: isEntity,
   isToolTipMarker: isNoteReference,
 
+  initialRangeFrom: "0",
+  initialRangeTo: "30000",
+  maxRange: 30000,
+  logoImageUrl: "",
   allPossibleTextPanels: ["self"],
   defaultTextPanels: "self",
   showSearchSortBy: true,

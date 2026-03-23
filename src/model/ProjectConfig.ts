@@ -20,7 +20,7 @@ import {
   TranslatinSearchResultsBody,
   VanGoghSearchResultsBody,
 } from "./Search.ts";
-import { NoteReferenceBody } from "../projects/israels/annotation/ProjectAnnotationModel.ts";
+import { NoteReferenceBody } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
@@ -232,11 +232,6 @@ export type ProjectSpecificProperties =
   | "headerTitle"
   | "initialDateFrom"
   | "initialDateTo"
-  | "initialRangeFrom"
-  | "initialRangeTo"
-  | "maxRange"
-  | "logoImageUrl"
-  | "relativeTo"
   | "headerColor";
 
 export type DefaultProjectConfig = Omit<

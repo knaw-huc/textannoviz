@@ -4,12 +4,7 @@ import {
   translateProjectSelector,
   useProjectStore,
 } from "../../../stores/project";
-import {
-  Artwork,
-  isArtwork,
-  isPerson,
-  Person,
-} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { Artwork, isArtwork, isPerson, Person } from "./ProjectAnnotationModel";
 
 export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
   if (isPerson(props.body)) {
@@ -31,7 +26,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
         <div key={pers.id}>
           <p className="font-bold">{pers.sortLabel}</p>
           <p>
-            {pers.birth?.when}-{pers.death && pers.death.when}
+            {pers.birth && pers.birth.when}-{pers.death && pers.death.when}
           </p>
         </div>
       ))}

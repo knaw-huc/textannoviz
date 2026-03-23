@@ -8,7 +8,7 @@ import {
 import { ViewLang } from "../../../model/Broccoli";
 
 /**
- * Israels Annotation, element and tei type names
+ * Kunstenaarsbrieven Annotation, element and tei type names
  */
 
 export const caption = "Caption";
@@ -47,13 +47,9 @@ type ArtworkTeiRef = {
   source: string[];
   "tei:type": typeof teiIll | typeof teiArt;
   corresp: string;
-  // head: {
-  //   nl: string;
-  //   en: string;
-  // };
   head: {
-    type: string;
-    text: string;
+    nl: string;
+    en: string;
   };
   date: {
     "tei:type": string;
@@ -61,7 +57,7 @@ type ArtworkTeiRef = {
   };
   relation?: {
     name: string;
-    ref: {
+    ref?: {
       id: string;
       gender: string;
       source: string[];
@@ -117,8 +113,8 @@ export type PersonTeiRef = {
   gender: string;
   source: string[];
   persName: PersonPersName[];
-  birth: PersonBirth;
-  death: PersonDeath;
+  birth?: PersonLifespan;
+  death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;
   sortLabel: string;
   note?: Record<ViewLang, Record<string, string>>;
@@ -132,13 +128,11 @@ type PersonPersName = {
   nameLink?: string;
 };
 
-type PersonBirth = {
+export type PersonLifespan = {
   when?: string;
   cert?: string;
-};
-
-type PersonDeath = PersonBirth & {
   notBefore?: string;
+  notAfter?: string;
 };
 
 export type IsraelsEntityBody = PersonBody | ArtworkBody;
@@ -210,7 +204,7 @@ export const isHeadBody = (toTest?: AnnoRepoBodyBase): toTest is HeadBody =>
 
 export type LetterBody = AnnoRepoBodyBase & {
   type: typeof letter;
-  recipient: string;
+  correspondent: string;
   sender: string;
   n: string;
   institution: string;
@@ -223,6 +217,7 @@ export type LetterBody = AnnoRepoBodyBase & {
   nextLetter: string;
   titles: Record<ViewLang, string>;
   title: string;
+  recipient: string;
 };
 
 export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {

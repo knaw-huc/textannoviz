@@ -8,8 +8,9 @@ import { Artwork, isArtwork } from "./annotation/ProjectAnnotationModel";
 
 export const ArtworksTab = () => {
   const annotations = useAnnotationStore().annotations;
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useProjectStore(translateProjectSelector);
+
+  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const artworkAnnos = annotations.reduce<Artwork[]>((acc, anno) => {
     if (isArtwork(anno.body)) {
@@ -23,23 +24,29 @@ export const ArtworksTab = () => {
 
   if (!artworkAnnos.length) return <div>{translateProject("NO_ARTWORKS")}</div>;
 
+  // 12022026: SvD: Temp fix to filter out arrays in arrays. When there are 2 references in 1 ref element, it becomes an array in an array. It should be two separate entries.
+  const filteredArtw = artworkAnnos.filter((artw) => !Array.isArray(artw));
+
   return (
     <>
-      {artworkAnnos.map((artwork) => (
+      {filteredArtw.map((artwork) => (
         <ul key={artwork.id}>
           <li>
-            <img
-              src={`${artwork.graphic.url}/full/${Math.min(
-                artwork.graphic.width,
-                200,
-              )},/0/default.jpg`}
-              alt={artwork.head[interfaceLang]}
-              loading="lazy"
-            />
+            {artwork.graphic ? (
+              <img
+                src={`${artwork.graphic.url}/full/${Math.min(
+                  artwork.graphic.width,
+                  200,
+                )},/0/default.jpg`}
+                alt={artwork.head[interfaceLang]}
+                loading="lazy"
+              />
+            ) : null}
+
             <div className="font-bold">{artwork.head[interfaceLang]}</div>
             <div>
-              <div>{artwork.relation?.ref.displayLabel}</div>
-              <div>{artwork.date.text}</div>
+              <div>{artwork.relation?.ref?.displayLabel}</div>
+              {artwork.date ? <div>{artwork.date.text}</div> : null}
             </div>
           </li>
         </ul>

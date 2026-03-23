@@ -8,7 +8,7 @@ import {
   entityCategoryToAgg,
   isArtwork,
   isPerson,
-} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+} from "./ProjectAnnotationModel";
 
 export function toEntitySearchQuery(
   anno: AnnoRepoBodyBase,
