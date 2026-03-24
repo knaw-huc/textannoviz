@@ -19,7 +19,7 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
 
   //Text panel titles
   self: "Letter",
-  "text.nl": "Main text",
+  "text.nl,text.fr,text.en": "Main text",
   "text.en": "Translated text",
 
   //panels
@@ -29,6 +29,8 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigate search results",
   SEARCH: "Search",
+  "text.orig": "Main text",
+  "text.trans": "Translated text",
 
   page: "Page",
   SHOW_PAGE: "Show page",
