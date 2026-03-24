@@ -282,7 +282,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {
-    return get(annoRepoBody, "metadata.rend") ?? unknown;
+    return get(annoRepoBody, "style") ?? unknown;
   } else if (annoRepoBody.type === entity) {
     return get(annoRepoBody, "tei:type") ?? unknown;
   } else {
@@ -295,7 +295,7 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, caption, label, listItem, quote].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {
-    return get(annoRepoBody, "metadata.rend");
+    return get(annoRepoBody, "style");
   } else {
     console.warn("Could not find highlight category:", annoRepoBody);
     return unknown;
