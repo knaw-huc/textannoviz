@@ -107,6 +107,11 @@ export const vangoghConfig: ProjectConfig = merge(
         order: "keyAsc",
         size: 9999,
       },
+      {
+        facetName: "period",
+        order: "keyAsc",
+        size: 9999,
+      },
     ],
     viewsToSearchIn: [
       "letterOriginalText",
