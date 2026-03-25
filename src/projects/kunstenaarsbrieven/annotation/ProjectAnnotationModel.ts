@@ -185,11 +185,13 @@ export type NoteReferenceBody = AnnoRepoBodyBase & {
   elementName: typeof elementPtr;
   "tei:type": typeof teiNote;
   url: string;
+  subtype: string;
 };
 export const isNoteReference = (
   toTest?: AnnoRepoBodyBase,
-): toTest is NoteReferenceBody =>
-  isReference(toTest) && (toTest as NoteReferenceBody)["tei:type"] === teiNote;
+): toTest is NoteReferenceBody => {
+  return (toTest as NoteReferenceBody)["subtype"] === "notes";
+};
 
 export type HeadBody = AnnoRepoBodyBase & {
   type: typeof head;
