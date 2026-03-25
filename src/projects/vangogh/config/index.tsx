@@ -4,8 +4,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import projectCss from "../project.css?inline";
-import { englishVangoghLabels } from "./englishVangoghLabels";
-// import { dutchVangoghLabels } from "./dutchVangoghLabels";
+import { englishVangoghLabels } from "./englishVanGoghLabels";
+// import { dutchVangoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
