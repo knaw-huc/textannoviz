@@ -4,7 +4,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
-import { detailTier2Path } from "./components/Text/Annotated/utils/detailPath.ts";
+import { detailTier2Path } from "./components/Text/Annotated/project/utils/detailPath.ts";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";

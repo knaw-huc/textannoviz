@@ -6,7 +6,7 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
-import { detailTier2Path } from "../../components/Text/Annotated/utils/detailPath.ts";
+import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { ResolutionBody } from "../../model/AnnoRepoAnnotation.ts";
 import { monthNumberToString } from "../../utils/monthNumberToString.ts";

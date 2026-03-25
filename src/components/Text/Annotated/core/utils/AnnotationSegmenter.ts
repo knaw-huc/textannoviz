@@ -3,18 +3,16 @@ import {
   AnnotationGroup,
   AnnotationOffset,
   AnnotationSegment,
-  HighlightBody,
   HighlightSegment,
   isMarkerAnnotationOffset,
   isNestedAnnotationOffset,
   isNestedAnnotationSegment,
-  isSearchHighlightAnnotationOffset,
+  isHighlightAnnotationOffset,
   MarkerSegment,
   NestedAnnotationSegment,
   OffsetsByCharIndex,
   Segment,
 } from "../AnnotationModel.ts";
-import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 /**
  * An {@link AnnotationOffset} (start or end) marks the boundary between two segments,
@@ -186,7 +184,7 @@ export class AnnotationSegmenter {
         .map((offset) => {
           if (isNestedAnnotationOffset(offset)) {
             return this.createNestedAnnotationSegment(offset);
-          } else if (isSearchHighlightAnnotationOffset(offset)) {
+          } else if (isHighlightAnnotationOffset(offset)) {
             return this.createHighlightAnnotationSegment(offset);
           } else {
             throw new Error(
@@ -269,7 +267,7 @@ export class AnnotationSegmenter {
   }
 
   private createHighlightAnnotationSegment(
-    startOffset: AnnotationOffset<HighlightBody>,
+    startOffset: AnnotationOffset,
   ): HighlightSegment {
     return {
       ...this.createSegmentOffsets(),
@@ -278,9 +276,7 @@ export class AnnotationSegmenter {
     };
   }
 
-  private createMarkerSegment(
-    startOffset: AnnotationOffset<MarkerBody>,
-  ): MarkerSegment {
+  private createMarkerSegment(startOffset: AnnotationOffset): MarkerSegment {
     return {
       startSegment: this.segments.length,
       endSegment: this.segments.length, // Set endSegment at end offset

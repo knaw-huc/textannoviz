@@ -1,38 +1,31 @@
 import { PropsWithChildren } from "react";
 
-import { StyledText } from "../StyledText.tsx";
-import { TextSegmentsViewer } from "./TextSegmentsViewer.tsx";
+import { StyledText } from "../../StyledText.tsx";
+import { TextSegmentsViewer } from "../core/TextSegmentsViewer.tsx";
 import _ from "lodash";
-import {
-  GroupedSegments,
-  isNestedAnnotationSegment,
-} from "./AnnotationModel.ts";
-import { Optional } from "../../../utils/Optional.ts";
+import { GroupedSegments } from "../core";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
-} from "../../../stores/project.ts";
-import { ScrollableModal } from "./ScrollableModal.tsx";
-import { SpanModalButton } from "./SpanModalButton.tsx";
-import { ProjectEntityBody } from "../../../model/ProjectConfig.ts";
-import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
+} from "../../../../stores/project.ts";
+import { AnnoRepoBodyBase } from "../../../../model/AnnoRepoAnnotation.ts";
+import { ProjectEntityBody } from "../../../../model/ProjectConfig.ts";
+import { isProjectAnnotation } from "./utils/isProjectAnnotation.ts";
+import { SpanModalButton } from "../../../common/SpanModalButton.tsx";
+import { ScrollableModal } from "../../../common/ScrollableModal.tsx";
 
 type EntityModalProps = PropsWithChildren<{
-  clickedGroup: GroupedSegments;
+  group: GroupedSegments;
 }>;
 
 export function EntityModalButton(
-  props: Optional<EntityModalProps, "clickedGroup">,
+  props: PropsWithChildren<{ group: GroupedSegments }>,
 ) {
   return (
     <SpanModalButton
       label={props.children}
-      modal={
-        props.clickedGroup && (
-          <EntityModal {...props} clickedGroup={props.clickedGroup} />
-        )
-      }
+      modal={<EntityModal group={props.group}>{props.children}</EntityModal>}
     />
   );
 }
@@ -41,18 +34,15 @@ export function EntityModal(props: EntityModalProps) {
   const translateProject = useProjectStore(translateProjectSelector);
   const { isEntity, components } = useProjectStore(projectConfigSelector);
 
-  const { clickedGroup } = props;
-  const entityBodies = clickedGroup
-    ? getAllEntities(clickedGroup, isEntity)
-    : [];
+  const { group } = props;
+  const entityBodies = getAllEntities(group, isEntity);
 
   return (
     <ScrollableModal>
       <StyledText panel="text-modal">
         <TextSegmentsViewer
-          segments={clickedGroup.segments}
-          groupId={clickedGroup.id}
-          showDetails={true}
+          segments={group.segments}
+          className="fullNestedAnnotation"
         />
       </StyledText>
       <div className="rounded-b-lg bg-neutral-100 px-6 py-6 lg:px-10">
@@ -70,14 +60,14 @@ export function EntityModal(props: EntityModalProps) {
 }
 
 function getAllEntities(
-  clickedGroup: GroupedSegments,
+  group: GroupedSegments,
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody,
 ) {
-  const allEntitiesFromAllSegments = clickedGroup.segments
+  const allEntities = group.segments
     .flatMap((s) => s.annotations)
-    .filter(isNestedAnnotationSegment)
+    .filter(isProjectAnnotation)
     .map((a) => a.body)
     .filter(isEntity);
-  const deduplicated = _.unionBy(allEntitiesFromAllSegments, "id");
+  const deduplicated = _.unionBy(allEntities, "id");
   return deduplicated;
 }

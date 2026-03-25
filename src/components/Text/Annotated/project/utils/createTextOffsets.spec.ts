@@ -3,8 +3,8 @@ import {
   createMarkerTextOffsets,
   createAnnotationTextOffsets,
 } from "./createTextOffsets.ts";
-import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
+import { AnnoRepoAnnotation } from "../../../../../model/AnnoRepoAnnotation.ts";
+import { BroccoliRelativeAnno } from "../../../../../model/Broccoli.ts";
 
 describe("createTextOffsets", () => {
   it("excludes end character", () => {

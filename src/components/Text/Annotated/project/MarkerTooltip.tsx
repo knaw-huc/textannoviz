@@ -1,16 +1,17 @@
+import type { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { PropsWithChildren } from "react";
 import { OverlayArrow, Tooltip } from "react-aria-components";
 import {
   AnnoRepoAnnotation,
   NoteBody,
-} from "../../../model/AnnoRepoAnnotation.ts";
-import { BroccoliTextGeneric, ViewLang } from "../../../model/Broccoli.ts";
-import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { useTextStore } from "../../../stores/text/text-store.ts";
-import { Optional } from "../../../utils/Optional.ts";
-import { SpanTooltipButton } from "../../common/SpanTooltipButton.tsx";
-import { MarkerSegment } from "./AnnotationModel.ts";
-import { AnnotatedText } from "./AnnotatedText.tsx";
+} from "../../../../model/AnnoRepoAnnotation.ts";
+import { BroccoliTextGeneric, ViewLang } from "../../../../model/Broccoli.ts";
+import { useAnnotationStore } from "../../../../stores/annotation.ts";
+import { useTextStore } from "../../../../stores/text/text-store.ts";
+import { Optional } from "../../../../utils/Optional.ts";
+import { SpanTooltipButton } from "../../../common/SpanTooltipButton.tsx";
+import { MarkerSegment } from "../core";
+import { ProjectAnnotatedText } from "./ProjectAnnotatedText.tsx";
 
 // Detail.tsx performs an additional broccoli call to retrieve notes:
 export const NOTES_VIEW = "notes";
@@ -35,7 +36,7 @@ export function TooltipMarkerButton(
 }
 
 type FootnoteModalProps = PropsWithChildren<{
-  clickedMarker: MarkerSegment;
+  clickedMarker: MarkerSegment<MarkerBody>;
 }>;
 
 export function MarkerTooltip(props: FootnoteModalProps) {
@@ -53,7 +54,7 @@ export function MarkerTooltip(props: FootnoteModalProps) {
           <path d="M0 0 L4 4 L8 0" />
         </svg>
       </OverlayArrow>
-      <AnnotatedText text={tooltipBody} showDetail={false} />
+      <ProjectAnnotatedText text={tooltipBody} showDetail={false} />
     </Tooltip>
   );
 }
@@ -62,7 +63,7 @@ export function MarkerTooltip(props: FootnoteModalProps) {
 function getTooltipBody(
   textPanels: Record<ViewLang, Record<string, BroccoliTextGeneric>> | undefined,
   props: {
-    clickedMarker: MarkerSegment;
+    clickedMarker: MarkerSegment<MarkerBody>;
   } & {
     children?: React.ReactNode | undefined;
   },

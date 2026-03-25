@@ -1,8 +1,9 @@
-import { MarkerSegment } from "../../components/Text/Annotated/AnnotationModel";
+import { MarkerSegment } from "../../components/Text/Annotated/core";
+import { MarkerBody } from "../../model/AnnoRepoAnnotation.ts";
 import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 
 type InsertMarkerAnnotationProps = {
-  marker: MarkerSegment;
+  marker: MarkerSegment<MarkerBody>;
 };
 
 export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {

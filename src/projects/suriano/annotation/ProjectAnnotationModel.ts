@@ -1,10 +1,9 @@
 import {
-  AnnoRepoBody,
   AnnoRepoBodyBase,
   EntityDetail,
 } from "../../../model/AnnoRepoAnnotation.ts";
 import _ from "lodash";
-import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+import { normalizeClassname } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
 
 /**
  * Highlighted element
@@ -45,7 +44,7 @@ export function isEntity(
   return projectEntityTypes.includes(toTest.type);
 }
 
-export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
+export function getAnnotationCategory(annoRepoBody: AnnoRepoBodyBase) {
   if (annoRepoBody.type === tfEnt) {
     return _.get(annoRepoBody, "metadata.kind") ?? "unknown";
   } else if (annoRepoBody.type === teiHi) {
@@ -58,7 +57,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   }
 }
 
-export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
+export function getHighlightCategory(annoRepoBody: AnnoRepoBodyBase) {
   if (annoRepoBody.type === teiHi) {
     return _.get(annoRepoBody, "metadata.rend");
   } else if (annoRepoBody.type === teiHead) {
