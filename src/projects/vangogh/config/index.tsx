@@ -4,8 +4,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import projectCss from "../project.css?inline";
-import { englishVangoghLabels } from "./englishVanGoghLabels";
-// import { dutchVangoghLabels } from "./dutchVanGoghLabels";
+import { englishVanGoghLabels } from "./englishVanGoghLabels";
+// import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
@@ -124,7 +124,7 @@ export const vangoghConfig: ProjectConfig = merge(
     selectedLanguage: "en",
     languages: [
       // { code: "nl", labels: dutchVangoghLabels },
-      { code: "en", labels: englishVangoghLabels },
+      { code: "en", labels: englishVanGoghLabels },
     ],
     projectCss: projectCss,
     routes: [

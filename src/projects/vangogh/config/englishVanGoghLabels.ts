@@ -1,6 +1,6 @@
 import { englishLabels } from "../../default/config/englishLabels";
 
-export const englishVangoghLabels = Object.assign({}, englishLabels, {
+export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   //Search facet titles + metadata panel titles
   institution: "Institution",
   msid: "Shelfmark",
