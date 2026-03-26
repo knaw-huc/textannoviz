@@ -270,7 +270,7 @@ export type EntityDetail = { label: string; value: string };
 export type NoteBody = AnnoRepoBodyBase & {
   id: string;
   type: "Note";
-  subtype: "notes";
+  subtype: "notes" | "typednotes" | "langnotes";
   language: ViewLang;
   elementName: "note";
   "xml:id": string;
