@@ -191,7 +191,10 @@ export type NoteReferenceBody = AnnoRepoBodyBase & {
 export const isNoteReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is NoteReferenceBody => {
-  return (toTest as NoteReferenceBody)["subtype"] === "notes";
+  return (
+    isReference(toTest) &&
+    (toTest as NoteReferenceBody)["elementName"] === "ptr"
+  );
 };
 
 export type HeadBody = AnnoRepoBodyBase & {
