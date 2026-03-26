@@ -1,6 +1,6 @@
 import { Skeleton } from "primereact/skeleton";
 import { useTextStore } from "../../stores/text/text-store.ts";
-import { AnnotatedText } from "./Annotated/AnnotatedText";
+import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -64,7 +64,7 @@ export const TextComponent = (props: TextComponentProps) => {
             {/* eslint-disable-next-line jsx-a11y/aria-role */}
             <div className="prose max-w-[550px]" role="textpanel">
               {projectConfig.showAnnotations ? (
-                <AnnotatedText text={text} showDetail={false} />
+                <ProjectAnnotatedText text={text} showDetail={false} />
               ) : (
                 <TextHighlighting text={text} />
               )}

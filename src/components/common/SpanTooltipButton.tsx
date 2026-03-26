@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { TooltipTrigger } from "react-aria-components";
-import { SpanButton } from "../Text/Annotated/SpanButton.tsx";
+import { SpanButton } from "./SpanButton.tsx";
 
 import "./SpanTooltipButton.css";
 
