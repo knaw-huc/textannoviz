@@ -72,6 +72,7 @@ export default defineConfig(({ mode }) => {
 
     build: {
       target: "esnext",
+      sourcemap: true,
     },
     base: env.VITE_ROUTER_BASENAME ?? "/",
   };
