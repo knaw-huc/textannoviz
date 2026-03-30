@@ -35,6 +35,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   headerTitle: "Oraties",
   headerColor: "bg-brand1-800 text-white",
   projectCss: projectCss,
+  personsUrl: "http://localhost:8040/files/oraties/apparatus/bio-entities.json",
 
   logoImageUrl: logo,
   logoHref: "https://www.huygens.knaw.nl/",
