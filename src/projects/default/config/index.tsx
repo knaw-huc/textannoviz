@@ -21,6 +21,7 @@ export const defaultConfig: DefaultProjectConfig = {
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
   relativeTo: "",
+  siteTitle: "Textannoviz",
 
   showAnnotations: false,
 
@@ -39,6 +40,9 @@ export const defaultConfig: DefaultProjectConfig = {
   isLink: isLink,
   getUrl: getLink,
 
+  personsUrl: "",
+  artworksUrl: "",
+  biblUrl: { en: "", nl: "" },
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,

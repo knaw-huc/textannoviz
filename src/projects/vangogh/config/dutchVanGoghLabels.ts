@@ -1,6 +1,6 @@
 import { dutchLabels } from "../../default/config/dutchLabels";
 
-export const dutchVangoghLabels = Object.assign({}, dutchLabels, {
+export const dutchVanGoghLabels = Object.assign({}, dutchLabels, {
   //Search facet titles + metadata panel titles
   institution: "Collectie-houdende instelling",
   msid: "Signatuur",

@@ -1,8 +1,10 @@
 import { ProjectName } from "../projects/projectConfigs";
+import { LanguageCode } from "./Language";
 
 export type ExternalConfig = {
   projectName: ProjectName;
   indexName: string;
+  siteTitle?: string;
   initialDateFrom?: string;
   initialDateTo?: string;
   initialRangeFrom?: string;
@@ -11,4 +13,7 @@ export type ExternalConfig = {
   broccoliUrl?: string;
   annotationTypesToInclude?: string[];
   showWebAnnoTab?: boolean;
+  personsUrl?: string;
+  artworksUrl?: string;
+  biblUrl?: Partial<Record<LanguageCode, string>>;
 };

@@ -188,7 +188,7 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
     throw new Error("Expected pointer:" + JSON.stringify(noteReference));
   }
   classNames.push(...createTooltipMarkerClasses());
-  const noteUrl = noteReference.url;
+  const noteUrl = noteReference.target;
   const footnote = ptrToNoteAnnosMap.get(noteUrl) ?? orThrow("No footnote");
   //TODO: Note numbers should always come from the same data point
   const footnoteNumber = footnote.body.n;

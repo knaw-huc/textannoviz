@@ -1,8 +1,13 @@
-import { getViteEnvVars } from "../../utils/viteEnvVars";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import { Bibliography as KunstenaarsbrievenBibliography } from "../kunstenaarsbrieven/Bibliography.tsx";
 
-const { vanGoghBiblUrl } = getViteEnvVars();
-
 export const Bibliography = () => {
-  return <KunstenaarsbrievenBibliography getUrl={() => vanGoghBiblUrl} />;
+  const biblUrl = useProjectStore(projectConfigSelector).biblUrl.en;
+
+  if (!biblUrl) return null;
+
+  return <KunstenaarsbrievenBibliography getUrl={() => biblUrl} />;
 };

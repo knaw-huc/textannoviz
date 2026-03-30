@@ -127,10 +127,13 @@ export function useInitDetail() {
         const ptrToNoteAnnos = new Map<string, AnnoRepoAnnotation<NoteBody>>();
 
         const noteAnnos = filterByBodyType(annotations, isNoteBody);
-        noteAnnos.forEach((noteAnno) => {
-          const targetId = (noteAnno.body as NoteBody)["xml:id"];
-          ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
-        });
+        noteAnnos
+          //we only need 'notes' and 'langnotes'
+          .filter((noteAnno) => noteAnno.body.subtype !== "typednotes")
+          .forEach((noteAnno) => {
+            const targetId = (noteAnno.body as NoteBody)["xml:id"];
+            ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
+          });
 
         setPtrToNoteAnnosMap(new Map(ptrToNoteAnnos));
       }

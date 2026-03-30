@@ -1,0 +1,12 @@
+services:
+  tav:
+    image: registry.diginfra.net/tt/textannoviz-vangogh-frontend:dev
+  proxy:
+    image: nginx:stable-alpine-slim
+    ports:
+      - "8080:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ./config.json:/etc/nginx/config.json
+    depends_on:
+      - tav

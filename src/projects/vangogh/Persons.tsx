@@ -1,8 +1,8 @@
-import { getViteEnvVars } from "../../utils/viteEnvVars";
+import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { Persons as KunstenaarsbrievenPersons } from "../kunstenaarsbrieven/Persons";
 
 export function Persons() {
-  const { vanGoghPersonsUrl } = getViteEnvVars();
+  const personsUrl = useProjectStore(projectConfigSelector).personsUrl;
 
-  return <KunstenaarsbrievenPersons personsUrl={vanGoghPersonsUrl} />;
+  return <KunstenaarsbrievenPersons personsUrl={personsUrl} />;
 }
