@@ -77,20 +77,5 @@ export default defineConfig(({ mode }) => {
         plugins: [tailwindCss(tailwindConfig)],
       },
     },
-
-    server: {
-      proxy: {
-        "/api": {
-          target: "https://oraties.dev.huygens.knaw.nl",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, "/broccoli"),
-          configure: (proxy) => {
-            proxy.on("proxyReq", (proxyReq, req) => {
-              console.log("Proxying:", req.url, "->", proxyReq.path);
-            });
-          },
-        },
-      },
-    },
   };
 });

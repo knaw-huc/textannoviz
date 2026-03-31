@@ -46,7 +46,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   showNotesTab: true,
   useExternalConfig: true,
 
-  broccoliUrl: "http://localhost:5173/api",
+  broccoliUrl: "http://localhost:8082",
 
   detailPanels: [
     {
