@@ -20,7 +20,6 @@ import { useMiradorStore } from "../../../../stores/mirador.ts";
 import { isNoteReference } from "../../../../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
-import { orThrow } from "./utils/orThrow.tsx";
 
 export function ProjectMarkerAnnotation(props: MarkerProps<MarkerBody>) {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -187,9 +186,12 @@ export function TooltipMarkerAnnotation(props: {
   }
   classNames.push(...createTooltipMarkerClasses());
   const noteUrl = noteReference.target;
-  const footnote = ptrToNoteAnnosMap.get(noteUrl) ?? orThrow("No footnote");
+  const footnote = ptrToNoteAnnosMap.get(noteUrl);
+  if (!noteUrl) {
+    console.warn(`No footnote for ${noteReference.id} with url ${noteUrl}`);
+  }
   //TODO: Note numbers should always come from the same data point
-  const footnoteNumber = footnote.body.n;
+  const footnoteNumber = footnote?.body.n ?? "?";
 
   function spanClickHandler(footnoteNumber: string) {
     setActiveFootnote(footnoteNumber);

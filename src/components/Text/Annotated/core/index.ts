@@ -16,3 +16,5 @@ export type {
   Segment,
   TextOffsets,
 } from "./AnnotationModel.ts";
+
+export { TextSegmentsViewer } from "./TextSegmentsViewer.tsx";

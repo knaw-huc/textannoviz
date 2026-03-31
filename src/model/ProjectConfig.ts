@@ -9,6 +9,7 @@ import {
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
+  OratiesSearchResultsBody,
   RepublicSearchResultBody,
   SearchParams,
   SearchQuery,
@@ -34,6 +35,10 @@ export type ProjectConfig = SearchConfig &
     useExternalConfig: boolean;
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
+
+    /**
+     * See {@link ProjectConfig.NotesPanel}
+     */
     showNotesTab: boolean;
     showArtworksTab: boolean;
     personsUrl: string;
@@ -98,7 +103,8 @@ export type ComponentsConfig = {
       | SurianoSearchResultsBody
       | VanGoghSearchResultsBody
       | IsraelsSearchResultsBody
-      | BrederodeSearchResultsBody;
+      | BrederodeSearchResultsBody
+      | OratiesSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
@@ -210,6 +216,12 @@ type AnnotationConfig = {
   getAnnotationCategory: CategoryGetter;
   getHighlightCategory: CategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
+
+  /**
+   * TODO: Decide on how to handle links, do we even want to render urls in the AnnotatedText view?
+   */
+  isLink: (toTest: AnnoRepoBodyBase) => boolean;
+  getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;
 };
 
 export interface AnnotationItemProps {

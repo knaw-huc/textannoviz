@@ -1,9 +1,8 @@
 import { PropsWithChildren } from "react";
 
 import { StyledText } from "../../StyledText.tsx";
-import { TextSegmentsViewer } from "../core/TextSegmentsViewer.tsx";
 import _ from "lodash";
-import { GroupedSegments } from "../core";
+import { GroupedSegments, TextSegmentsViewer } from "../core";
 import {
   projectConfigSelector,
   translateProjectSelector,

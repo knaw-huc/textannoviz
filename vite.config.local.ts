@@ -50,6 +50,9 @@ export default defineConfig(({ mode }) => {
     case "brederode":
       tailwindConfig = "tailwind.config.brederode.js";
       break;
+    case "oraties":
+      tailwindConfig = "tailwind.config.oraties.js";
+      break;
     default:
       tailwindConfig = "tailwind.default.config.js";
   }
@@ -72,6 +75,21 @@ export default defineConfig(({ mode }) => {
     css: {
       postcss: {
         plugins: [tailwindCss(tailwindConfig)],
+      },
+    },
+
+    server: {
+      proxy: {
+        "/api": {
+          target: "https://oraties.dev.huygens.knaw.nl",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, "/broccoli"),
+          configure: (proxy) => {
+            proxy.on("proxyReq", (proxyReq, req) => {
+              console.log("Proxying:", req.url, "->", proxyReq.path);
+            });
+          },
+        },
       },
     },
   };
