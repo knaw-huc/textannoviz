@@ -21,7 +21,15 @@ export function SegmentGroup(props: {
     );
   }
   return (
-    <EntityModalButton clickedGroup={clickedGroup}>
+    <EntityModalButton
+      clickedGroup={clickedGroup}
+      isOpen={!!clickedGroup && clickedGroup.id === group.id}
+      onToggleOpen={(isOpen) => {
+        if (props.onClickSegment && !isOpen) {
+          props.onClickSegment(undefined);
+        }
+      }}
+    >
       <TextSegmentsViewer
         groupId={group.id}
         segments={group.segments}
