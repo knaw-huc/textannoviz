@@ -334,7 +334,9 @@ export type HighlightBody = {
   style: string;
 };
 
-export function isHighlightBody(toTest: AnnoRepoBody): toTest is HighlightBody {
+export function isHighlightBody(
+  toTest: AnnoRepoBodyBase,
+): toTest is HighlightBody {
   return toTest.type === "Highlight";
 }
 

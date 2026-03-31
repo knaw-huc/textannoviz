@@ -1,14 +1,11 @@
 import get from "lodash/get";
-import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
-import {
-  AnnoRepoBody,
-  AnnoRepoBodyBase,
-} from "../../../model/AnnoRepoAnnotation";
+import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation";
 import { ViewLang } from "../../../model/Broccoli";
 import {
   LetterReferenceBody,
   NoteReferenceBody,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { normalizeClassname } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
 
 /**
  * Oratie specific document body:
@@ -199,7 +196,7 @@ export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
   return toTest["tei:type"] === teiArtwork;
 };
 
-export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
+export function getAnnotationCategory(annoRepoBody: AnnoRepoBodyBase) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {
@@ -212,7 +209,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   }
 }
 
-export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
+export function getHighlightCategory(annoRepoBody: AnnoRepoBodyBase) {
   if ([head, caption, label, listItem, quote].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {

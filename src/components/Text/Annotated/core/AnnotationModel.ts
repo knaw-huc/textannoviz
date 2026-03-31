@@ -1,5 +1,3 @@
-import { AnnoRepoBody, MarkerBody } from "../../../model/AnnoRepoAnnotation.ts";
-
 /**
  * Annotation types:
  * - highlight: highlighted but unclickable
@@ -8,40 +6,9 @@ import { AnnoRepoBody, MarkerBody } from "../../../model/AnnoRepoAnnotation.ts";
  */
 export type AnnotationType = "highlight" | "annotation" | "marker";
 
-/**
- * IDs refer to:
- * - marker, note or 'ordinary' annotation body IDs
- * - search highlight index
- */
-export type AnnotationBodyId = string;
-export type HighlightId = string;
-type SearchHighlightBody = {
-  id: HighlightId;
-  type: "search";
-};
-export function isSearchHighlightBody(
-  toTest: HighlightBody,
-): toTest is SearchHighlightBody {
-  return (toTest as SearchHighlightBody).type === "search";
-}
+export type Body = { id: string };
 
-export type HighlightBody = SearchHighlightBody | AnnoRepoBody;
-
-export function isAnnotationHighlightBody(
-  toTest: HighlightBody,
-): toTest is HighlightBody {
-  return !isSearchHighlightBody(toTest);
-}
-
-export type AnnotationBody =
-  // Nested:
-  | AnnoRepoBody
-  // Highlight:
-  | HighlightBody
-  // Marker:
-  | MarkerBody;
-
-export type WithTypeAndBody<T extends AnnotationBody> = {
+export type WithTypeAndBody<T extends Body = Body> = {
   type: AnnotationType;
   body: T;
 };
@@ -49,43 +16,46 @@ export type WithTypeAndBody<T extends AnnotationBody> = {
 /**
  * Annotation with offsets relative to text
  *
- * Note: end offset excludes last character, as found in the body ID,
- * and as returned by broccoli, now using textsurf
+ * Note: end offset excludes last character
  */
-export type TextOffsets<T extends AnnotationBody = AnnotationBody> =
-  WithTypeAndBody<T> & {
-    beginChar: number;
-
-    /**
-     * Excluding last character (see note {@link TextOffsets})
-     */
-    endChar: number;
-  };
+export type TextOffsets<T extends Body = Body> = WithTypeAndBody<T> & {
+  beginChar: number;
+  endChar: number;
+};
 
 /**
  * Single (start or end) offset
  */
-export type AnnotationOffset<T extends AnnotationBody = AnnotationBody> =
-  WithTypeAndBody<T> & {
-    charIndex: number;
-    mark: "start" | "end";
-  };
+export type AnnotationOffset<T extends Body = Body> = WithTypeAndBody<T> & {
+  charIndex: number;
+  mark: "start" | "end";
+};
+
+type Annotation = { type: "annotation" };
+type Highlight = { type: "highlight" };
+type Marker = { type: "marker" };
+
+export type NestedAnnotationOffset = AnnotationOffset & Annotation;
 
 export function isNestedAnnotationOffset(
   toTest: AnnotationOffset,
-): toTest is AnnotationOffset<AnnoRepoBody> {
+): toTest is NestedAnnotationOffset {
   return toTest.type === "annotation";
 }
 
-export function isSearchHighlightAnnotationOffset(
+export type HighlightAnnotationOffset = AnnotationOffset & Highlight;
+
+export function isHighlightAnnotationOffset(
   toTest: AnnotationOffset,
-): toTest is AnnotationOffset<HighlightBody> {
+): toTest is HighlightAnnotationOffset {
   return toTest.type === "highlight";
 }
 
+export type MarkerAnnotationOffset = AnnotationOffset & Marker;
+
 export function isMarkerAnnotationOffset(
   toTest: AnnotationOffset,
-): toTest is AnnotationOffset<MarkerBody> {
+): toTest is MarkerAnnotationOffset {
   return toTest.type === "marker";
 }
 
@@ -106,39 +76,44 @@ export type AnnotationGroup = {
 
 export type WithSegmentOffsets = {
   startSegment: number;
-
   /**
    * Excluding last segment
    */
   endSegment: number;
 };
+
 /**
  * Segment of an annotation as found in {@link Segment}
  */
-export type AnnotationSegmentWithBodyAndOffsets<
-  T extends AnnotationBody = AnnotationBody,
-> = WithTypeAndBody<T> & WithSegmentOffsets;
+export type AnnotationSegmentWithBodyAndOffsets<T extends Body = Body> =
+  WithTypeAndBody<T> & WithSegmentOffsets;
 
 /**
  * Marker and highlight 'annotations' aren't part of nested annotations
  * but are nested inside the other nested annotations
  */
-export type HighlightSegment =
-  AnnotationSegmentWithBodyAndOffsets<HighlightBody>;
-export type MarkerSegment = AnnotationSegmentWithBodyAndOffsets<MarkerBody>;
+export type HighlightSegment<HIGHLIGHT extends Body = Body> =
+  AnnotationSegmentWithBodyAndOffsets<HIGHLIGHT> & Highlight;
+export type MarkerSegment<MARKER extends Body = Body> =
+  AnnotationSegmentWithBodyAndOffsets<MARKER> & Marker;
 
 /**
  * Segment of an annotation as found in {@link Segment}
  */
-export type NestedAnnotationSegment =
-  AnnotationSegmentWithBodyAndOffsets<AnnoRepoBody> & {
-    /**
-     * Depth of nesting in other annotations
-     */
-    depth: number;
-    group: AnnotationGroup;
-  };
+export type NestedAnnotationSegment<ANNOTATION extends Body = Body> =
+  AnnotationSegmentWithBodyAndOffsets<ANNOTATION> &
+    Annotation & {
+      /**
+       * Depth of nesting in other annotations
+       */
+      depth: number;
+      group: AnnotationGroup;
+    };
 
+/**
+ * Annotation applied to a text segment
+ * using body.id and offsets (startSegment, endSegment)
+ */
 export type AnnotationSegment =
   | NestedAnnotationSegment
   | HighlightSegment
@@ -155,6 +130,7 @@ export function isHighlightSegment(
 ): toTest is HighlightSegment {
   return toTest.type === "highlight";
 }
+
 export function isMarkerSegment(
   toTest: AnnotationSegment,
 ): toTest is MarkerSegment {

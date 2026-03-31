@@ -1,56 +1,49 @@
 import mirador from "mirador-knaw-huc-mui5";
 import React, { useRef } from "react";
-import { toast } from "../../../utils/toast.ts";
 import {
   AnnoRepoAnnotation,
   CanvasTarget,
-} from "../../../model/AnnoRepoAnnotation.ts";
-import { useAnnotationStore } from "../../../stores/annotation.ts";
-import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";
-import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
+  MarkerBody,
+} from "../../../../model/AnnoRepoAnnotation.ts";
+import { useAnnotationStore } from "../../../../stores/annotation.ts";
+import { useDetailViewStore } from "../../../../stores/detail-view/detail-view-store.ts";
+import { useInternalMiradorStore } from "../../../../stores/internal-mirador.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
-} from "../../../stores/project.ts";
-import { useTextStore } from "../../../stores/text/text-store.ts";
-import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
-import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
-import { SegmentBody } from "./SegmentBody.tsx";
+} from "../../../../stores/project.ts";
+import { useTextStore } from "../../../../stores/text/text-store.ts";
+import { MarkerProps, MarkerSegment } from "../core";
 import { createTooltipMarkerClasses } from "./utils/createAnnotationClasses.ts";
-import { useMiradorStore } from "../../../stores/mirador.ts";
-import { orThrow } from "./utils/orThrow.tsx";
-import { isNoteReference } from "../../../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { ProjectConfig } from "../../../model/ProjectConfig.ts";
-import { BroccoliRelativeAnno } from "../../../model/Broccoli.ts";
+import { useMiradorStore } from "../../../../stores/mirador.ts";
+import { isNoteReference } from "../../../../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
+import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
-export function MarkerAnnotation(
-  props: Pick<NestedAnnotationProps, "segment">,
-) {
+export function ProjectMarkerAnnotation(props: MarkerProps<MarkerBody>) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const pageMarkerTypes = projectConfig.pageMarkerAnnotationTypes;
   const insertTextTypes = projectConfig.insertTextMarkerAnnotationTypes;
 
-  const marker = props.segment.annotations.find(isMarkerSegment);
+  const { marker } = props;
+  const body = marker.body;
+  const type = body.type;
 
-  if (!marker) {
-    return <SegmentBody body={props.segment.body} />;
-  } else if (projectConfig.isToolTipMarker(marker.body)) {
+  if (projectConfig.isToolTipMarker(body)) {
     return <TooltipMarkerAnnotation marker={marker} />;
-  } else if (pageMarkerTypes.includes(marker.body.type)) {
+  } else if (pageMarkerTypes.includes(type)) {
     return <PageMarkerAnnotation marker={marker} />;
-  } else if (insertTextTypes.includes(marker.body.type)) {
+  } else if (insertTextTypes.includes(type)) {
     return <InsertMarkerAnnotation marker={marker} />;
   } else {
-    toast(
-      `Unknown marker ${marker.body.type}: ${JSON.stringify(marker.body)}`,
-      { type: "error" },
-    );
-    return <></>;
+    throw new Error(`Unknown marker ${type}: ${JSON.stringify(body)}`);
   }
 }
 
-export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
+export function PageMarkerAnnotation(props: {
+  marker: MarkerSegment<MarkerBody>;
+}) {
   const [doZoom, setDoZoom] = React.useState(false);
   const annotations = useAnnotationStore().annotations;
   const miradorStore = useInternalMiradorStore().miradorStore;
@@ -66,7 +59,9 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   const { zoomCenter, miradorZoom } = zoomConfig;
 
   React.useEffect(() => {
-    if (!zoomAnnoMirador) return;
+    if (!zoomAnnoMirador) {
+      return;
+    }
 
     if (canvas === currentCanvas) {
       if (doZoom) {
@@ -176,7 +171,9 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   );
 }
 
-export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
+export function TooltipMarkerAnnotation(props: {
+  marker: MarkerSegment<MarkerBody>;
+}) {
   const { activeFootnote, setActiveFootnote } = useTextStore();
   const { setActiveSidebarTab } = useDetailViewStore();
   const { ptrToNoteAnnosMap } = useAnnotationStore();
@@ -189,9 +186,12 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   }
   classNames.push(...createTooltipMarkerClasses());
   const noteUrl = noteReference.target;
-  const footnote = ptrToNoteAnnosMap.get(noteUrl) ?? orThrow("No footnote");
+  const footnote = ptrToNoteAnnosMap.get(noteUrl);
+  if (!noteUrl) {
+    console.warn(`No footnote for ${noteReference.id} with url ${noteUrl}`);
+  }
   //TODO: Note numbers should always come from the same data point
-  const footnoteNumber = footnote.body.n;
+  const footnoteNumber = footnote?.body.n ?? "?";
 
   function spanClickHandler(footnoteNumber: string) {
     setActiveFootnote(footnoteNumber);
@@ -225,7 +225,9 @@ export function TooltipMarkerAnnotation(props: { marker: MarkerSegment }) {
   );
 }
 
-export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
+export function InsertMarkerAnnotation(props: {
+  marker: MarkerSegment<MarkerBody>;
+}) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { marker } = props;
   return <projectConfig.components.InsertMarkerAnnotation marker={marker} />;

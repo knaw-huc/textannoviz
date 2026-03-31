@@ -3,12 +3,9 @@ import {
   isNestedAnnotationSegment,
   Segment,
 } from "./AnnotationModel.ts";
-import { createAnnotationClasses } from "./utils/createAnnotationClasses.ts";
 import { HighlightAnnotations } from "./HighlightAnnotations.tsx";
-import {
-  projectConfigSelector,
-  useProjectStore,
-} from "../../../stores/project.ts";
+
+import { useAnnotatedTextConfig } from "./useAnnotatedTextConfig.tsx";
 
 export type NestedAnnotationProps = {
   segment: Segment;
@@ -17,31 +14,23 @@ export type NestedAnnotationProps = {
 };
 
 export function NestedAnnotation(props: NestedAnnotationProps) {
-  const projectConfig = useProjectStore(projectConfigSelector);
-  // TODO: verify this should not include highlightedAnnotationTypes
-  const nestedAnnotationTypes = [...projectConfig.entityAnnotationTypes];
+  const { Annotation } = useAnnotatedTextConfig();
 
   const nestedAnnotations = props.toNest.filter(isNestedAnnotationSegment);
   const toRender = nestedAnnotations[0];
-
   const toNest = nestedAnnotations.slice(1);
+
   if (!nestedAnnotations.length) {
     return <HighlightAnnotations segment={props.segment} />;
   }
+
   return (
-    <span
-      className={createAnnotationClasses(
-        props.segment,
-        toRender,
-        nestedAnnotationTypes,
-        projectConfig,
-      ).join(" ")}
-    >
+    <Annotation annotation={toRender} segment={props.segment}>
       {toNest.length ? (
         <NestedAnnotation {...props} toNest={toNest} />
       ) : (
         <HighlightAnnotations segment={props.segment} />
       )}
-    </span>
+    </Annotation>
   );
 }

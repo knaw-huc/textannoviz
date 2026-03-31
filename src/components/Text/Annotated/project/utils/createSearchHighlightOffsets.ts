@@ -1,4 +1,5 @@
-import { TextOffsets, HighlightBody } from "../AnnotationModel.ts";
+import { TextOffsets } from "../../core";
+import { HighlightBody } from "./highlightBodyGuards.ts";
 
 export function createSearchHighlightOffsets(
   body: string,

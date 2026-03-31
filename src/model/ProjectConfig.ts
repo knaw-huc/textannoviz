@@ -1,11 +1,7 @@
-import { MarkerSegment } from "../components/Text/Annotated/AnnotationModel.ts";
-import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
+import { MarkerSegment } from "../components/Text/Annotated/core";
+import { EntitySummaryProps } from "../components/Text/Annotated/project/EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
-import {
-  AnnoRepoAnnotation,
-  AnnoRepoBody,
-  AnnoRepoBodyBase,
-} from "./AnnoRepoAnnotation.ts";
+import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import { MiradorConfig } from "./MiradorConfig.ts";
 import {
@@ -240,7 +236,7 @@ export type EntitySummaryDetailsProps = {
   body: ProjectEntityBody;
 };
 
-export type CategoryGetter = (annoRepoBody: AnnoRepoBody) => string;
+export type CategoryGetter = (annoRepoBody: AnnoRepoBodyBase) => string;
 
 export type ProjectSpecificProperties =
   | "id"

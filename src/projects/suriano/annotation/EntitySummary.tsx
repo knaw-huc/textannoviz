@@ -1,7 +1,7 @@
 import {
   toEntityCategory,
   toEntityClassname,
-} from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+} from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 import {
   projectConfigSelector,

@@ -1,5 +1,5 @@
 import get from "lodash/get";
-import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
+import { normalizeClassname } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,

@@ -1,6 +1,6 @@
-import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { TextOffsets } from "../AnnotationModel.ts";
-import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
+import { AnnoRepoAnnotation } from "../../../../../model/AnnoRepoAnnotation.ts";
+import { TextOffsets } from "../../core";
+import { BroccoliRelativeAnno } from "../../../../../model/Broccoli.ts";
 
 export function createAnnotationTextOffsets(
   annotation: AnnoRepoAnnotation,
