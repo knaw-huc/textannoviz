@@ -88,7 +88,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   initialDateTo: "2026-03-04",
   showSearchResultsButtonFooter: false,
   showSearchResultsOnInfoPage: true,
-  defaultKeywordAggsToRender: ["author", "publisher", "location"],
+  defaultKeywordAggsToRender: ["author", "location"],
   overrideDefaultSearchParams: {
     sortBy: "date",
     sortOrder: "asc",
