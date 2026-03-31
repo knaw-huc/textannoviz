@@ -44,7 +44,6 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   selectedLanguage: "nl",
 
   showNotesTab: true,
-  visualizeAnnosMirador: true,
   useExternalConfig: true,
 
   broccoliUrl: "https://oraties.dev.huygens.knaw.nl/broccoli",
