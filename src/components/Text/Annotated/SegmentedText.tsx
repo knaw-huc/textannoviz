@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  AnnotationGroup,
-  isNestedAnnotationSegment,
-  TextOffsets,
-  Segment,
-} from "./AnnotationModel.ts";
+import { Segment, TextOffsets } from "./AnnotationModel.ts";
 import { SegmentGroup } from "./SegmentGroup.tsx";
 import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
@@ -28,8 +23,6 @@ export function SegmentedText(props: { body: string; offsets: TextOffsets[] }) {
   }
 
   const grouped = groupSegmentsByGroupId(segments);
-  const clickedAnnotationGroup = getAnnotationGroup(clickedSegment);
-  const clickedGroup = grouped.find((g) => g.id === clickedAnnotationGroup?.id);
 
   return (
     <span className="segmented-text">
@@ -37,18 +30,10 @@ export function SegmentedText(props: { body: string; offsets: TextOffsets[] }) {
         <SegmentGroup
           key={i}
           group={group}
-          clickedGroup={clickedGroup}
           clickedSegment={clickedSegment}
           onClickSegment={handleClickSegment}
         />
       ))}
     </span>
   );
-}
-
-function getAnnotationGroup(segment?: Segment): AnnotationGroup | undefined {
-  if (!segment) {
-    return;
-  }
-  return segment.annotations.find(isNestedAnnotationSegment)?.group;
 }

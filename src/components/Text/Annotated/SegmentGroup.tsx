@@ -5,11 +5,10 @@ import { EntityModalButton } from "./EntityModal.tsx";
 
 export function SegmentGroup(props: {
   group: GroupedSegments;
-  clickedGroup?: GroupedSegments;
   clickedSegment?: Segment | undefined;
   onClickSegment?: OnClickSegment;
 }) {
-  const { group, clickedGroup, clickedSegment } = props;
+  const { group, clickedSegment } = props;
 
   if (!group?.id) {
     return (
@@ -20,8 +19,9 @@ export function SegmentGroup(props: {
       />
     );
   }
+
   return (
-    <EntityModalButton clickedGroup={clickedGroup}>
+    <EntityModalButton clickedGroup={group}>
       <TextSegmentsViewer
         groupId={group.id}
         segments={group.segments}
