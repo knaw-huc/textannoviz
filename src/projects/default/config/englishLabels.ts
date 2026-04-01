@@ -29,6 +29,7 @@ export const englishLabels: Labels = {
 
   SHOW_MORE: "More",
   SHOW_LESS: "Less",
+  SEARCH_ONLY_IN_SELECTED_LAYERS: "Search only in selected text layers",
 
   RESET_DATE: "Reset date",
   LINE_CHART: "Line chart",

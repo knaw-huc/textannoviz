@@ -50,6 +50,9 @@ export function SearchForm(props: SearchFormProps) {
   const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
   const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
   const translate = useProjectStore(translateSelector);
+  const [searchInTextViewsExpanded, setSearchInTextViewsExpanded] =
+    React.useState(false);
+  const searchInTextViewsPanelId = "search-in-text-views-panel";
 
   const { searchResults } = useSearchStore();
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
@@ -280,13 +283,46 @@ export function SearchForm(props: SearchFormProps) {
               <NewSearchButton />
             </div>
           )}
-          <div className="w-full max-w-[450px]">
+          <div className="bg-brand2-50 w-full max-w-[450px] rounded p-2">
             <FullTextSearchBar
               key={searchQuery.fullText}
               fullText={searchQuery.fullText}
               onSubmit={fullTextSearchBarSubmitHandler}
               onBlur={fullTextSearchBarOnBlurHandler}
             />
+
+            {projectConfig.showSearchInTextViews && (
+              <div className="mt-2 flex w-full flex-col gap-2">
+                <div className="flex w-full justify-end">
+                  <button
+                    type="button"
+                    className="my-2 text-sm text-neutral-700 outline-none focus-visible:ring-2 focus-visible:ring-neutral-700"
+                    aria-expanded={searchInTextViewsExpanded}
+                    aria-controls={searchInTextViewsPanelId}
+                    aria-label={
+                      searchInTextViewsExpanded
+                        ? `${translate("SHOW_LESS")}, ${translate(
+                            "SEARCH_ONLY_IN_SELECTED_LAYERS",
+                          )}`
+                        : translate("SEARCH_ONLY_IN_SELECTED_LAYERS")
+                    }
+                    onClick={() =>
+                      setSearchInTextViewsExpanded((open) => !open)
+                    }
+                  >
+                    {searchInTextViewsExpanded
+                      ? translate("SHOW_LESS")
+                      : translate("SEARCH_ONLY_IN_SELECTED_LAYERS")}
+                  </button>
+                </div>
+                <div
+                  id={searchInTextViewsPanelId}
+                  hidden={!searchInTextViewsExpanded}
+                >
+                  <SelectSearchInTextViews />
+                </div>
+              </div>
+            )}
           </div>
 
           {projectConfig.showInputFacet && (
@@ -303,12 +339,6 @@ export function SearchForm(props: SearchFormProps) {
                   ]?.toString() ?? ""
                 }
               />
-            </div>
-          )}
-
-          {projectConfig.showSearchInTextViews && (
-            <div className="w-full max-w-[450px]">
-              <SelectSearchInTextViews />
             </div>
           )}
 
