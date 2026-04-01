@@ -17,6 +17,10 @@ export const ErrorPage = () => {
         <i>
           {isRouteErrorResponse(error)
             ? error.statusText || error.error?.message
+            : error instanceof Error
+            ? error.message
+            : typeof error === "string"
+            ? error
             : "Unknown error message"}
         </i>
       </p>
