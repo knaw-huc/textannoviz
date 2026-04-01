@@ -1,8 +1,5 @@
 .env*
 !.env.example
-!.env.development
-!.env.staging
-!.env.production
 node_modules
 dist
 build
@@ -10,3 +7,4 @@ build
 .vscode
 .idea/
 .eslintcache
+*.log

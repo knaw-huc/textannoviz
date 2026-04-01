@@ -25,12 +25,21 @@ export const israelsConfig: ProjectConfig = merge(
   {
     id: "israels",
     broccoliUrl: "http://localhost:8082",
+    siteTitle: "Isaac Israëls - Jo van Gogh-Bonger",
 
     elasticIndexName: "israels",
     initialDateFrom: "1891-01-01",
     initialDateTo: "1924-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Isaac Israëls",
+    personsUrl:
+      "http://localhost:8040/files/israels/apparatus/bio-entities.json",
+    artworksUrl:
+      "http://localhost:8040/files/israels/apparatus/artwork-entities.json",
+    biblUrl: {
+      en: "http://localhost:8040/files/israels/apparatus/bibliolist-en.html",
+      nl: "http://localhost:8040/files/israels/apparatus/bibliolist-nl.html",
+    },
     components: {
       Header,
       SearchItem,

@@ -17,16 +17,14 @@ export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artwork[]>([]);
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const { israelsArtworksUrl, routerBasename } = getViteEnvVars();
+  const { routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
+  const artworksUrl = useProjectStore(projectConfigSelector).artworksUrl;
 
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initArtworks(aborter: AbortController) {
-      const newArtworks = await fetchArtworks(
-        israelsArtworksUrl,
-        aborter.signal,
-      );
+      const newArtworks = await fetchArtworks(artworksUrl, aborter.signal);
       if (!newArtworks) return;
 
       const filteredArtworks = newArtworks.filter(

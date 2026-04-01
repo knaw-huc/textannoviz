@@ -1,11 +1,7 @@
-import { MarkerSegment } from "../components/Text/Annotated/AnnotationModel.ts";
-import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
+import { MarkerSegment } from "../components/Text/Annotated/core";
+import { EntitySummaryProps } from "../components/Text/Annotated/project/EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
-import {
-  AnnoRepoAnnotation,
-  AnnoRepoBody,
-  AnnoRepoBodyBase,
-} from "./AnnoRepoAnnotation.ts";
+import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import { MiradorConfig } from "./MiradorConfig.ts";
 import {
@@ -13,6 +9,7 @@ import {
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
+  OratiesSearchResultsBody,
   RepublicSearchResultBody,
   SearchParams,
   SearchQuery,
@@ -38,8 +35,16 @@ export type ProjectConfig = SearchConfig &
     useExternalConfig: boolean;
     visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
+
+    /**
+     * See {@link ProjectConfig.NotesPanel}
+     */
     showNotesTab: boolean;
     showArtworksTab: boolean;
+    personsUrl: string;
+    artworksUrl: string;
+    biblUrl: Partial<Record<LanguageCode, string>>;
+    siteTitle: string;
 
     detailPanels: {
       name: string;
@@ -98,7 +103,8 @@ export type ComponentsConfig = {
       | SurianoSearchResultsBody
       | VanGoghSearchResultsBody
       | IsraelsSearchResultsBody
-      | BrederodeSearchResultsBody;
+      | BrederodeSearchResultsBody
+      | OratiesSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
@@ -210,6 +216,12 @@ type AnnotationConfig = {
   getAnnotationCategory: CategoryGetter;
   getHighlightCategory: CategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
+
+  /**
+   * TODO: Decide on how to handle links, do we even want to render urls in the AnnotatedText view?
+   */
+  isLink: (toTest: AnnoRepoBodyBase) => boolean;
+  getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;
 };
 
 export interface AnnotationItemProps {
@@ -224,7 +236,7 @@ export type EntitySummaryDetailsProps = {
   body: ProjectEntityBody;
 };
 
-export type CategoryGetter = (annoRepoBody: AnnoRepoBody) => string;
+export type CategoryGetter = (annoRepoBody: AnnoRepoBodyBase) => string;
 
 export type ProjectSpecificProperties =
   | "id"

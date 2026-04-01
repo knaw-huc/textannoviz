@@ -1,5 +1,5 @@
 import get from "lodash/get";
-import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
+import { normalizeClassname } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoAnnotation,
   AnnoRepoBody,
@@ -27,6 +27,7 @@ export const person = "person";
 export const picture = "Picture";
 export const quote = "Quote";
 export const reference = "Reference";
+export const term = "Term";
 export const teiArt = "art";
 export const teiArtwork = "artwork";
 export const teiIll = "ill";
@@ -185,11 +186,16 @@ export type NoteReferenceBody = AnnoRepoBodyBase & {
   elementName: typeof elementPtr;
   "tei:type": typeof teiNote;
   url: string;
+  subtype: string;
 };
 export const isNoteReference = (
   toTest?: AnnoRepoBodyBase,
-): toTest is NoteReferenceBody =>
-  isReference(toTest) && (toTest as NoteReferenceBody)["tei:type"] === teiNote;
+): toTest is NoteReferenceBody => {
+  return (
+    isReference(toTest) &&
+    (toTest as NoteReferenceBody)["elementName"] === "ptr"
+  );
+};
 
 export type HeadBody = AnnoRepoBodyBase & {
   type: typeof head;
@@ -243,6 +249,7 @@ export const projectHighlightedTypes = [
   listItem,
   quote,
   caption,
+  term,
 ];
 export const projectTooltipMarkerAnnotationTypes = [reference];
 export const projectPageMarkerAnnotationTypes = [page];
@@ -282,7 +289,7 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {
-    return get(annoRepoBody, "metadata.rend") ?? unknown;
+    return get(annoRepoBody, "style") ?? unknown;
   } else if (annoRepoBody.type === entity) {
     return get(annoRepoBody, "tei:type") ?? unknown;
   } else {
@@ -292,10 +299,12 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
 }
 
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
-  if ([head, caption, label, listItem, quote].includes(annoRepoBody.type)) {
+  if (
+    [head, caption, label, listItem, quote, term].includes(annoRepoBody.type)
+  ) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {
-    return get(annoRepoBody, "metadata.rend");
+    return get(annoRepoBody, "style");
   } else {
     console.warn("Could not find highlight category:", annoRepoBody);
     return unknown;

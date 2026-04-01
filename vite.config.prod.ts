@@ -49,6 +49,9 @@ export default defineConfig(({ mode }) => {
     case "brederode":
       tailwindConfig = "tailwind.config.brederode.js";
       break;
+    case "oraties":
+      tailwindConfig = "tailwind.config.oraties.js";
+      break;
     default:
       tailwindConfig = "tailwind.default.config.js";
   }
@@ -72,6 +75,7 @@ export default defineConfig(({ mode }) => {
 
     build: {
       target: "esnext",
+      sourcemap: true,
     },
     base: env.VITE_ROUTER_BASENAME ?? "/",
   };

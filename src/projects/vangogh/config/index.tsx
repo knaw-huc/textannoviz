@@ -4,8 +4,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import projectCss from "../project.css?inline";
-import { englishVangoghLabels } from "./englishVanGoghLabels";
-// import { dutchVangoghLabels } from "./dutchVangoghLabels";
+import { englishVanGoghLabels } from "./englishVanGoghLabels";
+// import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
@@ -24,12 +24,20 @@ export const vangoghConfig: ProjectConfig = merge(
   {
     id: "vangogh",
     broccoliUrl: "http://localhost:8082",
+    siteTitle: "Van Gogh Letters",
 
     elasticIndexName: "vangogh",
     initialDateFrom: "1872-01-01",
     initialDateTo: "1890-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Van Gogh",
+    personsUrl:
+      "http://localhost:8040/files/vangogh/apparatus/bio-entities.json",
+    artworksUrl:
+      "http://localhost:8040/files/vangogh/apparatus/artwork-entities.json",
+    biblUrl: {
+      en: "http://localhost:8040/files/vangogh/apparatus/bibliolist.html",
+    },
     components: {
       Header,
       SearchItem,
@@ -99,6 +107,11 @@ export const vangoghConfig: ProjectConfig = merge(
         order: "keyAsc",
         size: 9999,
       },
+      {
+        facetName: "period",
+        order: "keyAsc",
+        size: 9999,
+      },
     ],
     viewsToSearchIn: [
       "letterOriginalText",
@@ -111,7 +124,7 @@ export const vangoghConfig: ProjectConfig = merge(
     selectedLanguage: "en",
     languages: [
       // { code: "nl", labels: dutchVangoghLabels },
-      { code: "en", labels: englishVangoghLabels },
+      { code: "en", labels: englishVanGoghLabels },
     ],
     projectCss: projectCss,
     routes: [

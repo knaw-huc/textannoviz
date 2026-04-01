@@ -1,4 +1,4 @@
-import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
+import { toEntityCategory } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation";
 import { LanguageCode } from "../../../model/Language";
 import { ProjectConfig } from "../../../model/ProjectConfig";

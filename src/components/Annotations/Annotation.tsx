@@ -14,6 +14,9 @@ type AnnotationProps = {
   isLoading: boolean;
 };
 
+/**
+ * Annotation metadata panel
+ */
 export function Annotation(props: AnnotationProps) {
   const { annotations } = useAnnotationStore();
   const { activeSidebarTab, setActiveSidebarTab } = useDetailViewStore();
