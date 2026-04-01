@@ -1,12 +1,10 @@
 import { GroupedSegments, Segment } from "./AnnotationModel.ts";
-import { OnClickSegment } from "./TextSegmentWithAnnotations.tsx";
 import { TextSegmentsViewer } from "./TextSegmentsViewer.tsx";
-import { EntityModalButton } from "./EntityModal.tsx";
 
 export function SegmentGroup(props: {
   group: GroupedSegments;
-  clickedSegment?: Segment | undefined;
-  onClickSegment?: OnClickSegment;
+  clickedSegment?: Segment;
+  onClickGroup: (group: GroupedSegments, segment: Segment) => void;
 }) {
   const { group, clickedSegment } = props;
 
@@ -21,14 +19,16 @@ export function SegmentGroup(props: {
   }
 
   return (
-    <EntityModalButton clickedGroup={group}>
-      <TextSegmentsViewer
-        groupId={group.id}
-        segments={group.segments}
-        showDetails={false}
-        clickedSegment={clickedSegment}
-        onClickSegment={props.onClickSegment}
-      />
-    </EntityModalButton>
+    <TextSegmentsViewer
+      groupId={group.id}
+      segments={group.segments}
+      showDetails={false}
+      clickedSegment={clickedSegment}
+      onClickSegment={(segment) => {
+        if (segment) {
+          props.onClickGroup(group, segment);
+        }
+      }}
+    />
   );
 }
