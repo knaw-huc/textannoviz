@@ -17,7 +17,7 @@ export const SearchInfoPage = () => {
   }
 
   return (
-    <div className="border-brand1Grey-100 -mx-10 -mb-10 flex -translate-y-16 border-b bg-[#FFCE01] px-10 py-8">
+    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#FFCE01] px-6 py-8 lg:-mx-10 lg:px-10">
       <div className="mx-auto w-full max-w-4xl">
         <h1>{translateProject("INFO_TITLE")}</h1>
 

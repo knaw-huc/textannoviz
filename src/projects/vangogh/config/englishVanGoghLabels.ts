@@ -1,6 +1,6 @@
 import { englishLabels } from "../../default/config/englishLabels";
 
-export const englishVangoghLabels = Object.assign({}, englishLabels, {
+export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   //Search facet titles + metadata panel titles
   institution: "Institution",
   msid: "Shelfmark",
@@ -19,7 +19,7 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
 
   //Text panel titles
   self: "Letter",
-  "text.nl": "Main text",
+  "text.nl,text.fr,text.en": "Main text",
   "text.en": "Translated text",
 
   //panels
@@ -29,9 +29,14 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigate search results",
   SEARCH: "Search",
+  "text.orig": "Main text",
+  "text.trans": "Translated text",
 
   page: "Page",
   SHOW_PAGE: "Show page",
+
+  CONTENT_VIEWS: "Content views",
+  CONTENT_PANELS: "Content views",
 
   //Search item
   letterOriginalText: "Edited text (letter)",
@@ -44,6 +49,7 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
   intro: "About this edition",
   LET_NUM: "Letter number",
   results: "results",
+  SEARCHFILTER: "Search",
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
@@ -69,6 +75,9 @@ export const englishVangoghLabels = Object.assign({}, englishLabels, {
   TITLE_PT_1: "Vincent van Gogh",
   TITLE_PT_2: "The Letters",
   help: "Help",
+  OPEN_MAIN_NAVIGATION: "Open navigation",
+  CLOSE_MAIN_NAVIGATION: "Close navigation",
+  MAIN_NAVIGATION: "Main navigation",
 
   //Entity summary
   NAV_TO_LETTER: "Navigate to letter",

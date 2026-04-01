@@ -1,4 +1,4 @@
-import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
+import { toEntityCategory } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation";
 import { LanguageCode } from "../../../model/Language";
 import { ProjectConfig } from "../../../model/ProjectConfig";
@@ -8,7 +8,7 @@ import {
   entityCategoryToAgg,
   isArtwork,
   isPerson,
-} from "./ProjectAnnotationModel";
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 export function toEntitySearchQuery(
   anno: AnnoRepoBodyBase,

@@ -1,7 +1,7 @@
 import {
   toEntityCategory,
   toEntityClassname,
-} from "../../../components/Text/Annotated/utils/createAnnotationClasses";
+} from "../../../components/Text/Annotated/project/utils/createAnnotationClasses";
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation";
 import {
   projectConfigSelector,
@@ -17,7 +17,7 @@ import {
   isLetterReference,
   isPerson,
   isReference,
-} from "./ProjectAnnotationModel";
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 import { toast } from "../../../utils/toast.ts";
 

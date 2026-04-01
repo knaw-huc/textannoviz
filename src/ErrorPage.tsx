@@ -8,7 +8,7 @@ export const ErrorPage = () => {
       return <div>This page does not exist!</div>;
     }
   }
-
+  console.error("Oops! Error:", error);
   return (
     <div>
       <h1>Oops!</h1>

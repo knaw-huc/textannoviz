@@ -4,7 +4,7 @@ import { toast } from "../../utils/toast.ts";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { handleAbort } from "../../utils/handleAbort";
-import { type Artwork } from "./annotation/ProjectAnnotationModel";
+import { type Artwork } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -17,29 +17,29 @@ export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artwork[]>([]);
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const { vanGoghArtworksUrl, routerBasename } = getViteEnvVars();
+  const { routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
+  const artworksUrl = useProjectStore(projectConfigSelector).artworksUrl;
 
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initArtworks(aborter: AbortController) {
-      const newArtworks = await fetchArtworks(
-        vanGoghArtworksUrl,
-        aborter.signal,
-      );
+      const newArtworks = await fetchArtworks(artworksUrl, aborter.signal);
       if (!newArtworks) return;
 
-      const filteredArtworks = newArtworks
-        .filter((artw) => artw["tei:type"] !== "ill")
-        .filter((artw) => artw.head.text?.length > 0);
-
-      console.log(filteredArtworks);
+      const filteredArtworks = newArtworks.filter(
+        (artw) => artw["tei:type"] !== "ill",
+      );
 
       filteredArtworks.sort((a, b) => {
-        return a.head.text.localeCompare(b.head.text, "en", {
-          sensitivity: "base",
-          ignorePunctuation: true,
-        });
+        return a.head[interfaceLang].localeCompare(
+          b.head[interfaceLang],
+          "en",
+          {
+            sensitivity: "base",
+            ignorePunctuation: true,
+          },
+        );
       });
 
       setArtworks(filteredArtworks);
@@ -72,7 +72,7 @@ export function Artworks() {
   function searchArtwork(artw: Artwork) {
     const query: Partial<SearchQuery> = {
       terms: {
-        [`artworks${interfaceLang.toUpperCase()}`]: [artw.head.text],
+        [`artworks${interfaceLang.toUpperCase()}`]: [artw.head[interfaceLang]],
       },
     };
 
@@ -100,7 +100,9 @@ export function Artworks() {
           >
             <div className="flex flex-row items-center">
               <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
-                {artw.head.text}
+                {artw.head[interfaceLang].length
+                  ? artw.head[interfaceLang]
+                  : `${artw.id} has no/empty/incorrect 'head' element in XML!`}
               </div>
               <div className="flex flex-row items-center justify-end gap-1">
                 <Button onPress={() => searchArtwork(artw)}>
@@ -111,14 +113,17 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {artw.relation?.ref.displayLabel ? (
+            {artw.relation?.ref?.displayLabel ? (
               <div>
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>
             ) : null}
-            {/* <div>
-              {translateProject("date")}: {artw.date.text}
-            </div> */}
+            {artw.date?.text ? (
+              <div>
+                {translateProject("date")}: {artw.date.text}
+              </div>
+            ) : null}
+
             {/* <div>
               {Object.entries(artw.note[interfaceLang])
                 .filter(([key]) => key === "creditline")
@@ -133,16 +138,18 @@ export function Artworks() {
               .map(([, value], index) =>
                 value.length ? <span key={index}>{value}</span> : null,
               )} */}
-            {/* <div className="pt-4">
-              <img
-                src={`${artw.graphic.url}/full/${Math.min(
-                  artw.graphic.width,
-                  200,
-                )},/0/default.jpg`}
-                alt={artw.head[interfaceLang]}
-                loading="lazy"
-              />
-            </div> */}
+            {artw.graphic ? (
+              <div className="pt-4">
+                <img
+                  src={`${artw.graphic.url}/full/${Math.min(
+                    artw.graphic.width,
+                    200,
+                  )},/0/default.jpg`}
+                  alt={artw.head[interfaceLang]}
+                  loading="lazy"
+                />
+              </div>
+            ) : null}
           </div>
         ))}
       </div>

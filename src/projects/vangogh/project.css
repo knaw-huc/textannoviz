@@ -18,6 +18,10 @@
   font-size: 0.8rem;
 }
 
+.highlight-term {
+  font-style: italic;
+}
+
 .segmented-line:has(.highlight-caption) {
   margin-bottom: 1.5rem;
 }

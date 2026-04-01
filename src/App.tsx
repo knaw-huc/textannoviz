@@ -4,7 +4,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
-import { detailTier2Path } from "./components/Text/Annotated/utils/detailPath.ts";
+import { detailTier2Path } from "./components/Text/Annotated/project/utils/detailPath.ts";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
@@ -91,6 +91,7 @@ async function selectProjectConfig() {
       const {
         projectName: externalProjectName,
         indexName,
+        siteTitle,
         initialDateFrom,
         initialDateTo,
         initialRangeFrom,
@@ -99,9 +100,13 @@ async function selectProjectConfig() {
         broccoliUrl,
         annotationTypesToInclude,
         showWebAnnoTab,
+        personsUrl,
+        artworksUrl,
+        biblUrl,
       } = externalConfig;
       project = externalProjectName;
       config = projectConfigs[project];
+      if (siteTitle) config.siteTitle = siteTitle;
       if (indexName) config.elasticIndexName = indexName;
       if (initialDateFrom) config.initialDateFrom = initialDateFrom;
       if (initialDateTo) config.initialDateTo = initialDateTo;
@@ -114,6 +119,9 @@ async function selectProjectConfig() {
       if (typeof showWebAnnoTab === "boolean") {
         config.showWebAnnoTab = showWebAnnoTab;
       }
+      if (personsUrl) config.personsUrl = personsUrl;
+      if (artworksUrl) config.artworksUrl = artworksUrl;
+      if (biblUrl) config.biblUrl = biblUrl;
     }
   } else {
     project = projectName;
@@ -123,6 +131,10 @@ async function selectProjectConfig() {
   if (!config || !project) {
     throw new Error(`No project config defined for ${project}`);
   }
+
+  // Set head>title from project config
+  document.title = config.siteTitle;
+
   return { project, config };
 }
 

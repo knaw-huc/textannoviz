@@ -4,7 +4,7 @@ import { toast } from "../../utils/toast.ts";
 import { SearchQuery } from "../../model/Search";
 import { encodeObject } from "../../utils/UrlParamUtils";
 import { handleAbort } from "../../utils/handleAbort";
-import { type Artwork } from "./annotation/ProjectAnnotationModel";
+import { type Artwork } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -17,16 +17,14 @@ export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artwork[]>([]);
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const { israelsArtworksUrl, routerBasename } = getViteEnvVars();
+  const { routerBasename } = getViteEnvVars();
   const translateProject = useProjectStore(translateProjectSelector);
+  const artworksUrl = useProjectStore(projectConfigSelector).artworksUrl;
 
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initArtworks(aborter: AbortController) {
-      const newArtworks = await fetchArtworks(
-        israelsArtworksUrl,
-        aborter.signal,
-      );
+      const newArtworks = await fetchArtworks(artworksUrl, aborter.signal);
       if (!newArtworks) return;
 
       const filteredArtworks = newArtworks.filter(
@@ -109,7 +107,7 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {artw.relation?.ref.displayLabel ? (
+            {artw.relation?.ref?.displayLabel ? (
               <div>
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>

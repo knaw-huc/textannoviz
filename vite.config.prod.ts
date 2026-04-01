@@ -8,6 +8,7 @@ import { htmlInjectionPlugin } from "vite-plugin-html-injection";
 import globaliseHtmlInjectionPluginConfig from "./src/projects/globalise/config/htmlInjectionPluginConfig.json";
 import republicHtmlInjectionPluginConfig from "./src/projects/republic/config/htmlInjectionPluginConfig.json";
 import israelsHtmlInjectionPluginConfig from "./src/projects/israels/config/htmlInjectionPluginConfig.json";
+import vangoghHtmlInjectionPluginConfig from "./src/projects/vangogh/config/htmlInjectionPluginConfig.json";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -39,6 +40,7 @@ export default defineConfig(({ mode }) => {
       break;
     case "vangogh":
       tailwindConfig = "tailwind.config.vangogh.js";
+      htmlInjectionPluginConfig = vangoghHtmlInjectionPluginConfig;
       break;
     case "israels":
       tailwindConfig = "tailwind.config.israels.js";
@@ -46,6 +48,9 @@ export default defineConfig(({ mode }) => {
       break;
     case "brederode":
       tailwindConfig = "tailwind.config.brederode.js";
+      break;
+    case "oraties":
+      tailwindConfig = "tailwind.config.oraties.js";
       break;
     default:
       tailwindConfig = "tailwind.default.config.js";
@@ -70,6 +75,7 @@ export default defineConfig(({ mode }) => {
 
     build: {
       target: "esnext",
+      sourcemap: true,
     },
     base: env.VITE_ROUTER_BASENAME ?? "/",
   };

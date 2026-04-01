@@ -1,0 +1,11 @@
+{
+  "injections": [
+    {
+      "name": "Israels HTML injection",
+      "path": "./src/projects/israels/config/israels-html-injection.html",
+      "type": "raw",
+      "injectTo": "head",
+      "buildModes": "both"
+    }
+  ]
+}

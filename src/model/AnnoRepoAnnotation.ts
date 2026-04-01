@@ -270,7 +270,7 @@ export type EntityDetail = { label: string; value: string };
 export type NoteBody = AnnoRepoBodyBase & {
   id: string;
   type: "Note";
-  subtype: "notes";
+  subtype: "notes" | "typednotes" | "langnotes";
   language: ViewLang;
   elementName: "note";
   "xml:id": string;
@@ -334,7 +334,9 @@ export type HighlightBody = {
   style: string;
 };
 
-export function isHighlightBody(toTest: AnnoRepoBody): toTest is HighlightBody {
+export function isHighlightBody(
+  toTest: AnnoRepoBodyBase,
+): toTest is HighlightBody {
   return toTest.type === "Highlight";
 }
 
