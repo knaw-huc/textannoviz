@@ -53,6 +53,7 @@ export function SearchForm(props: SearchFormProps) {
   const [searchInTextViewsExpanded, setSearchInTextViewsExpanded] =
     React.useState(false);
   const searchInTextViewsPanelId = "search-in-text-views-panel";
+  const facetVisibilityGroupLabelId = "search-form-select-visible-facets-label";
 
   const { searchResults } = useSearchStore();
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
@@ -439,7 +440,17 @@ export function SearchForm(props: SearchFormProps) {
           )}
           {projectConfig.showFacetFilter &&
             props.keywordFacets.length !== 0 && (
-              <div className="flex w-full max-w-[450px] flex-col gap-4">
+              <div
+                role="group"
+                aria-labelledby={facetVisibilityGroupLabelId}
+                className="flex w-full max-w-[450px] flex-col gap-2"
+              >
+                <h2
+                  id={facetVisibilityGroupLabelId}
+                  className="text-base font-semibold text-neutral-900"
+                >
+                  {translate("SELECT_VISIBLE_FACETS")}
+                </h2>
                 <FacetFilter
                   allPossibleKeywordFacets={props.keywordFacets}
                   filteredKeywordFacets={filteredAggs}

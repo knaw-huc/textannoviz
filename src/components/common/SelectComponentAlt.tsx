@@ -74,11 +74,7 @@ export function SelectComponentAlt({
       aria-labelledby={labelId}
       className={className ?? "flex flex-col gap-1"}
     >
-      <label
-        id={labelId}
-        htmlFor={selectId}
-        className="font-semibold text-neutral-900"
-      >
+      <h2 id={labelId} className="text-base font-semibold text-neutral-900">
         {label}
         {required ? (
           <span aria-hidden="true" className="text-neutral-700">
@@ -89,7 +85,7 @@ export function SelectComponentAlt({
         {required && requiredAnnouncement ? (
           <span className="sr-only">{`, ${requiredAnnouncement}`}</span>
         ) : null}
-      </label>
+      </h2>
       {helpLabel ? (
         <p id={helpId} className="text-sm text-neutral-700">
           {helpLabel}
@@ -102,9 +98,10 @@ export function SelectComponentAlt({
       ) : null}
       <select
         id={selectId}
-        className="border-brand1Grey-700 min-h-10 w-full max-w-[150px] cursor-pointer rounded border bg-white px-2 py-2 text-sm text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-700 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500"
+        className=" min-h-10 w-full max-w-[150px] cursor-pointer rounded border bg-white px-2 py-2 text-sm text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-700 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500"
         value={String(resolvedValue)}
         required={required}
+        aria-labelledby={labelId}
         aria-required={required || undefined}
         aria-invalid={invalid || Boolean(errorMessage) || undefined}
         aria-describedby={describedBy}
