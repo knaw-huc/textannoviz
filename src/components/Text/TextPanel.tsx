@@ -20,7 +20,7 @@ export const TextPanel = (props: TextPanelProps) => {
 
   return (
     <>
-      <span className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500">
+      <span className="my-4 flex justify-end gap-1 text-sm uppercase text-neutral-500 lg:mr-8">
         {translateProject(`${props.panel}`)}
       </span>
 
