@@ -1,6 +1,6 @@
 {
   "name": "textannoviz",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "private": true,
   "type": "module",
@@ -27,7 +27,6 @@
     "docker:build-push:suriano": "./scripts/docker-suriano-all.sh",
     "docker:build-push:translatin": "./scripts/docker-translatin-all.sh",
     "docker:build-push:vangogh": "./scripts/docker-vangogh-all.sh",
-    "docker:build:dev": "./scripts/docker-dev.sh",
     "docker:build-push:vangogh-staging": "./scripts/docker-vangogh-all-staging.sh"
   },
   "author": "Sebastiaan van Daalen",
