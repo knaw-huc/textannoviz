@@ -145,9 +145,7 @@ async function fetchExternalConfig(
     basePath.endsWith("/") ? basePath : basePath + "/"
   }config`;
 
-  console.log("fetchExternalConfig: configUrl=", configUrl);
   const response = await fetch(configUrl);
-  console.log("fetchExternalConfig: response=", response);
   if (!response.ok) {
     return null;
   }

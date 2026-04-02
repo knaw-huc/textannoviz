@@ -21,8 +21,6 @@ export const SearchItem = (
   const searchItemTitle = `${props.result.sender} to ${props.result.recipient}, ${formattedDate}`;
   const { createDetailUrl } = useDetailNavigation();
 
-  // console.log(props.result);
-  // console.log(props.result.summary);
   return (
     <ul className="border-brand1Grey-200 mb-4 border-b">
       <Link
