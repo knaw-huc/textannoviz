@@ -192,55 +192,55 @@ export type TfLetterBody = AnnoRepoBodyBase & {
   folder: string;
 };
 
-export type SurianoTfFileBody = AnnoRepoBodyBase & {
-  date: string;
-  editorNotes: string;
-  file: string;
-  recipient: string;
-  fromLocation: string;
-  sender: string;
-  toLocation: string;
-  shelfmark: string;
-  summary: string;
-  type: string;
-};
+// export type SurianoTfFileBody = AnnoRepoBodyBase & {
+//   date: string;
+//   editorNotes: string;
+//   file: string;
+//   recipient: string;
+//   fromLocation: string;
+//   sender: string;
+//   toLocation: string;
+//   shelfmark: string;
+//   summary: string;
+//   type: string;
+// };
 
-export type SurianoLetterBody = AnnoRepoBodyBase & {
-  date: string;
-  editorNotes: string;
-  file: string;
-  recipient: string;
-  toLocation: string;
-  sender: string;
-  fromLocation: string;
-  shelfmark: string;
-  summary: string;
-  type: string;
-};
+// export type SurianoLetterBody = AnnoRepoBodyBase & {
+//   date: string;
+//   editorNotes: string;
+//   file: string;
+//   recipient: string;
+//   toLocation: string;
+//   sender: string;
+//   fromLocation: string;
+//   shelfmark: string;
+//   summary: string;
+//   type: string;
+// };
 
-export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
-  metadata: {
-    type: string;
-    correspondent: string;
-    sender: string;
-    file: string;
-    institution: string;
-    letterid: string;
-    location: string;
-    msid: string;
-    period: string;
-    periodlong: string;
-    prevLetter: string;
-    nextLetter: string;
-  };
-};
+// export type VanGoghTfLetterBody = AnnoRepoBodyBase & {
+//   metadata: {
+//     type: string;
+//     correspondent: string;
+//     sender: string;
+//     file: string;
+//     institution: string;
+//     letterid: string;
+//     location: string;
+//     msid: string;
+//     period: string;
+//     periodlong: string;
+//     prevLetter: string;
+//     nextLetter: string;
+//   };
+// };
 
-export type DocumentBody = AnnoRepoBodyBase & {
-  metadata: {
-    document: string;
-    manifest: string;
-  };
-};
+// export type DocumentBody = AnnoRepoBodyBase & {
+//   metadata: {
+//     document: string;
+//     manifest: string;
+//   };
+// };
 
 export type PxPageBody = AnnoRepoBodyBase & {
   metadata: {
