@@ -2,7 +2,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import { toast } from "../../utils/toast.ts";
 import { SearchQuery } from "../../model/Search";
-import { encodeObject } from "../../utils/UrlParamUtils";
+import { encodeObject } from "../../utils/url/UrlParamUtils";
 import { handleAbort } from "../../utils/handleAbort";
 import { type Artwork } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import {

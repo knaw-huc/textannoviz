@@ -7,7 +7,7 @@ import {
 import { SearchQuery } from "../../../model/Search.ts";
 import { toEntityCategory } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
 import { ProjectConfig } from "../../../model/ProjectConfig.ts";
-import { encodeObject } from "../../../utils/UrlParamUtils.ts";
+import { encodeObject } from "../../../utils/url/UrlParamUtils.ts";
 
 export function toEntitySearchQuery(
   anno: AnnoRepoBodyBase,

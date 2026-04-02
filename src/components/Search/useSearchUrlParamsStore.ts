@@ -8,9 +8,9 @@ import {
   SearchUrlState,
 } from "./createSearchParams.tsx";
 import { blankSearchQuery } from "../../stores/search/default-query-slice.ts";
-import { removeDefaultProps } from "../../utils/UrlParamUtils.ts";
-import { createUrlStorage } from "./createUrlStorage.ts";
+import { removeDefaultProps } from "../../utils/url/UrlParamUtils.ts";
 import { omit, pick } from "lodash";
+import { createUrlStorage } from "../../utils/url/createUrlStorage.ts";
 
 type SearchUrlParamsState = {
   searchQuery: SearchQuery;

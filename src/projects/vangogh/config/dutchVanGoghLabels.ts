@@ -26,6 +26,7 @@ export const dutchVanGoghLabels = Object.assign({}, dutchLabels, {
   "text.en": "Vertaalde tekst",
 
   //panels
+  toc: "Inhoud",
   facs: "Facsimile",
   metadata: "Info",
 

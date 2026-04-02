@@ -1,5 +1,5 @@
 import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
-import { decodeObject, getUrlParams } from "../../utils/UrlParamUtils.ts";
+import { decodeObject, getUrlParams } from "../../utils/url/UrlParamUtils.ts";
 import { SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";

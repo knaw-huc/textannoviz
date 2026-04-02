@@ -3,7 +3,7 @@ import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation";
 import { LanguageCode } from "../../../model/Language";
 import { ProjectConfig } from "../../../model/ProjectConfig";
 import { SearchQuery } from "../../../model/Search";
-import { encodeObject } from "../../../utils/UrlParamUtils";
+import { encodeObject } from "../../../utils/url/UrlParamUtils";
 import {
   entityCategoryToAgg,
   isArtwork,
