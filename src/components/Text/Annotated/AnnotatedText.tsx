@@ -54,7 +54,7 @@ export const AnnotatedText = (props: TextHighlightingProps) => {
   });
   const withRelative: WithRelativePosition[] = annotations
     .map((annotation) => {
-      const relativePositions = props.text.locations.annotations;
+      const relativePositions = props.text.locations?.annotations;
       const relative = findRelativePosition(annotation, relativePositions);
       return { annotation, relative };
     })

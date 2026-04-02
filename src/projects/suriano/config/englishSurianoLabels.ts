@@ -3,11 +3,13 @@ import { englishLabels } from "../../default/config/englishLabels";
 export const englishSurianoLabels = Object.assign({}, englishLabels, {
   //Text panel titles
   self: "Main text + secretarial + appendix",
-  text: "Main text + secretarial",
+  "text.it": "Main text + secretarial",
   appendix: "Appendix",
   original: "Main text without secretarial and appendix",
   secretarial: "Secretarial",
+
   notes: "Notes",
+  artworks: "Artworks",
 
   // search facet titles:
   bodyType: "Document type",

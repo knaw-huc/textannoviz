@@ -18,7 +18,6 @@ type TextPanelProps = {
 export const TextPanel = (props: TextPanelProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
   const projectConfig = useProjectStore(projectConfigSelector);
-
   return (
     <>
       <span className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500">

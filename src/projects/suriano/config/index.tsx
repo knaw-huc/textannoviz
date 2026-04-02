@@ -4,24 +4,13 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 import { Header } from "../Header";
 
-// import { TabRecipes } from "../../../components/Detail/TabRecipes.tsx";
 import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
-// import {
-//   getAnnotationCategory,
-//   getHighlightCategory,
-//   isEntity,
-//   projectEntityTypes,
-//   projectHighlightedTypes,
-//   projectInsertTextMarkerAnnotationTypes,
-//   projectPageMarkerAnnotationTypes,
-// } from "../annotation/ProjectAnnotationModel.ts";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
@@ -29,11 +18,7 @@ import projectCss from "../project.css?inline";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons.tsx";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
-import { TextPanels } from "../../vangogh/TextPanels.tsx";
-// import { Artworks } from "../../vangogh/Artworks.tsx";
-// import { Bibliography } from "../../vangogh/Bibliography.tsx";
-
-console.log("in suriano/config/index.tsx");
+import { TextPanels } from "../TextPanels.tsx";
 
 export const surianoConfig: ProjectConfig = merge(
   {},
@@ -56,7 +41,6 @@ export const surianoConfig: ProjectConfig = merge(
       MetadataPanel,
       SearchInfoPage,
       EntitySummary,
-      AnnotationButtons,
       HelpLink: Empty,
       NotesPanel,
     },
@@ -70,7 +54,7 @@ export const surianoConfig: ProjectConfig = merge(
         panel: PanelTemplates.facsPanel,
       },
       {
-        name: "text.orig",
+        name: "text",
         visible: true,
         disabled: false,
         size: "minmax(300px, 750px)",
@@ -110,80 +94,6 @@ export const surianoConfig: ProjectConfig = merge(
 
     logoImageUrl: logo,
 
-    // relativeTo: "tf:File",
-    // showWebAnnoTab: true,
-    // showNotesTab: true,
-    // annotationTypesToInclude: [
-    //   // "EntityMetadata",
-    //   // "tei:Author",
-    //   // "tei:Bibl",
-    //   // "tei:BiblScope",
-    //   // "tei:Body",
-    //   // "tei:Cell",
-    //   // "tei:Collection",
-    //   // "tei:CorrespAction",
-    //   // "tei:CorrespDesc",
-    //   // "tei:Date",
-    //   // "tei:Editor",
-    //   // "tei:FileDesc",
-    //   // "tei:Head",
-    //   // "tei:Idno",
-    //   // "tei:Institution",
-    //   // "tei:MsDesc",
-    //   // "tei:MsIdentifier",
-    //   // "tei:Name",
-    //   // "tei:Num",
-    //   // "tei:P",
-    //   // "tei:ProfileDesc",
-    //   // "tei:PublicationStmt",
-    //   // "tei:Quote",
-    //   // "tei:Resp",
-    //   // "tei:RespStmt",
-    //   // "tei:Row",
-    //   // "tei:Settlement",
-    //   // "tei:SourceDesc",
-    //   // "tei:Table",
-    //   // "tei:TeiHeader",
-    //   // "tei:Text",
-    //   // "tei:Title",
-    //   // "tei:TitleStmt",
-    //   // "tf:Ln",
-    //   "tei:Div",
-    //   "tei:Note",
-    //   "tei:Ptr",
-    //   "tf:Ent",
-    //   "tf:File",
-    //   "tf:Folder",
-    //   "tf:Page",
-    //   "LetterBody",
-    //   "tei:Hi",
-    //   "tei:Head",
-    //   "tei:Metamark",
-    // ],
-    // showAnnotations: true,
-    // annotationTypesToHighlight: [],
-    // entityAnnotationTypes: projectEntityTypes,
-    // highlightedAnnotationTypes: projectHighlightedTypes,
-    // // TODO: use Reference instead of tei:Ptr
-    // pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
-    // insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
-    //
-    // getAnnotationCategory: getAnnotationCategory,
-    // getHighlightCategory: getHighlightCategory,
-    // isEntity: isEntity,
-    //
-    // showPrevNextScanButtons: true,
-    // pageAnnotation: "tf:Page",
-    // initialRangeFrom: "0",
-    // initialRangeTo: "30000",
-    // maxRange: 30000,
-    // showSearchResultsButtonFooter: false,
-    // useExternalConfig: true,
-    // showToggleTextPanels: false,
-    // showKeywordFacets: false,
-    // showFacetFilter: false,
-    // showMiradorNavigationButtons: false,
-    // showSearchResultsOnInfoPage: true,
     overrideDefaultSearchParams: {
       sortBy: "date",
       sortOrder: "asc",

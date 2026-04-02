@@ -41,7 +41,7 @@ export function Persons(props: PersonsProps) {
           ignorePunctuation: true,
         }),
       );
-      console.log(newPersons);
+      console.log("newPersons", newPersons);
       setPersons(newPersons);
     }
 
@@ -50,7 +50,7 @@ export function Persons(props: PersonsProps) {
     return () => {
       aborter.abort();
     };
-  }, []);
+  }, [props.personsUrl]);
 
   React.useEffect(() => {
     if (!persons) return;

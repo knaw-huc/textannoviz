@@ -23,7 +23,6 @@ export const TextComponent = (props: TextComponentProps) => {
   const textViews = useTextStore((state) => state.views);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
-
   const text: BroccoliTextGeneric | undefined = React.useMemo(() => {
     const viewsToTry = Array.isArray(props.viewToRender)
       ? props.viewToRender
@@ -40,11 +39,7 @@ export const TextComponent = (props: TextComponentProps) => {
       if (lang === undefined) {
         return candidate as BroccoliTextGeneric;
       } else {
-        if (
-          typeof candidate === "object" &&
-          candidate !== null &&
-          lang in candidate
-        ) {
+        if (typeof candidate === "object" && lang in candidate) {
           return (candidate as Record<string, BroccoliTextGeneric>)[lang];
         }
       }

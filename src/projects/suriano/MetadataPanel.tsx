@@ -17,7 +17,6 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const translateProject = useProjectStore(translateProjectSelector);
 
   const letterAnnoBody = findLetterBody(props.annotations);
-  console.log(letterAnnoBody);
 
   const {
     n,
@@ -33,6 +32,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const typedNoteText = typedNotes?.["en"];
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
+  // console.log("typedNoteText", typedNoteText);
 
   return (
     <>
