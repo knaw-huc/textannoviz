@@ -13,7 +13,7 @@ export const Header = () => {
   const params = useParams();
 
   const introIds = [
-    { name: "intro", id: "urn:mace:huc.knaw.nl:suriano:introI" },
+    { name: "intro", id: "urn:mace:huc.knaw.nl:suriano:intro" },
   ];
 
   const letterAnnoBody = findLetterBody(annotations);

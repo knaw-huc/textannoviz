@@ -60,15 +60,7 @@ export const surianoConfig: ProjectConfig = merge(
       HelpLink: Empty,
       NotesPanel,
     },
-    defaultKeywordAggsToRender: [
-      "type",
-      // "location",
-      "period",
-      "file",
-      "persons",
-      "recipient",
-      "sender",
-    ],
+    defaultKeywordAggsToRender: ["persons", "recipient", "sender"],
     detailPanels: [
       {
         name: "facs",
@@ -85,13 +77,6 @@ export const surianoConfig: ProjectConfig = merge(
         panel: TextPanels.origTextPanel,
       },
       {
-        name: "text.trans",
-        visible: true,
-        disabled: false,
-        size: "minmax(300px, 750px)",
-        panel: TextPanels.transTextPanel,
-      },
-      {
         name: "metadata",
         visible: true,
         disabled: false,
@@ -106,25 +91,12 @@ export const surianoConfig: ProjectConfig = merge(
         size: 9999,
       },
       {
-        facetName: "artworksNL",
-        size: 9999,
-      },
-      {
-        facetName: "artworksEN",
-        size: 9999,
-      },
-      {
         facetName: "file",
         order: "keyAsc",
         size: 9999,
       },
     ],
-    viewsToSearchIn: [
-      "letterOriginalText",
-      "letterTranslatedText",
-      "letterNotesText",
-      "introText",
-    ],
+    viewsToSearchIn: ["letterOriginalText", "letterNotesText"],
 
     selectedLanguage: "en",
     languages: [{ code: "en", labels: englishSurianoLabels }],
@@ -212,9 +184,9 @@ export const surianoConfig: ProjectConfig = merge(
     // showFacetFilter: false,
     // showMiradorNavigationButtons: false,
     // showSearchResultsOnInfoPage: true,
-    // overrideDefaultSearchParams: {
-    //   sortBy: "date",
-    //   sortOrder: "asc",
-    // },
+    overrideDefaultSearchParams: {
+      sortBy: "date",
+      sortOrder: "asc",
+    },
   } as ProjectSpecificConfig,
 );

@@ -12,10 +12,13 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   // search facet titles:
   bodyType: "Document type",
   "tf:File": "Letter",
-  senderLoc: "Location of sender",
+  dateSent: "Date sent",
+  fromLocation: "Location of sender",
   sender: "Sender",
   recipient: "Recipient",
-  recipientLoc: "Location of recipient",
+  toLocation: "Location of recipient",
+  persons: "Persons",
+  addInfo: "Summary",
 
   //Metadata panel
   summary: "Summary",
@@ -35,4 +38,10 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   "GENERAL NOTES ON PERSON": "General notes",
   "RELATED RESOURCE NAME": "Related resource",
   "RELATED RESOURCE URL": "Related resource url",
+
+  TITLE_PT_1: "Correspondence of",
+  TITLE_PT_2: "SURIANO",
+  SEARCH_IN: "Search in",
+  letterOriginalText: "Letters",
+  letterNotesText: "Letter notes",
 });

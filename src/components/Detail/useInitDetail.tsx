@@ -24,7 +24,7 @@ import {
  */
 export function useInitDetail() {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { projectName } = useProjectStore();
+  // const { projectName } = useProjectStore();
   const { getDetailParams } = useDetailNavigation();
 
   const [isInitDetail, setInitDetail] = useState(false);
@@ -92,28 +92,28 @@ export function useInitDetail() {
       const views = result.views;
 
       //TODO: remove this code. However, this can only be removed if the footnotes of these projects are formatted in the same was as Israels
-      if (projectName === "suriano") {
-        const tfFileId =
-          projectName === "suriano"
-            ? bodyId.replace("letter_body", "file")
-            : bodyId.replace("letter_body", "letter");
-        console.warn("Add suriano notes panel by " + tfFileId);
-
-        const withNotes = await fetchBroccoliScanWithOverlap(
-          tfFileId,
-          ["tei:Note", "tei:Hi", "tei:Rs", "tei:Ref"],
-          ["anno", "text"],
-          "self",
-          relativeTo,
-          projectConfig,
-          aborter.signal,
-        );
-        if (!withNotes) {
-          return;
-        }
-        annotations.push(...withNotes.anno);
-        // views[NOTES_VIEW] = withNotes.views.self;
-      }
+      // if (projectName === "suriano") {
+      //   const tfFileId =
+      //     projectName === "suriano"
+      //       ? bodyId.replace("letter_body", "file")
+      //       : bodyId.replace("letter_body", "letter");
+      //   console.warn("Add suriano notes panel by " + tfFileId);
+      //
+      //   const withNotes = await fetchBroccoliScanWithOverlap(
+      //     tfFileId,
+      //     ["tei:Note", "tei:Hi", "tei:Rs", "tei:Ref"],
+      //     ["anno", "text"],
+      //     "self",
+      //     relativeTo,
+      //     projectConfig,
+      //     aborter.signal,
+      //   );
+      //   if (!withNotes) {
+      //     return;
+      //   }
+      //   annotations.push(...withNotes.anno);
+      //   // views[NOTES_VIEW] = withNotes.views.self;
+      // }
 
       setStore({
         bodyId: result.request.bodyId,
