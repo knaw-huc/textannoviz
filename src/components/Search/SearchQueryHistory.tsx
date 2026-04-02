@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "react-aria-components";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
@@ -7,7 +6,6 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
-import { HelpTooltip } from "../common/HelpTooltip.tsx";
 import { SearchQuery } from "../../model/Search.ts";
 
 type SearchQueryHistoryProps = {
@@ -21,7 +19,6 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
   const { searchQueryHistory, removeFromHistory } = useSearchStore();
   const translate = useProjectStore(translateSelector);
   const translateProject = useProjectStore(translateProjectSelector);
-  const [isOpen, setOpen] = useState(false);
 
   const moreThanDisplayable = searchQueryHistory.length >= MAX_DISPLAY;
   const lastQueries = searchQueryHistory
@@ -29,81 +26,73 @@ export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
     .reverse();
 
   return (
-    <>
-      <Button
-        onPress={() => setOpen(!isOpen)}
-        className="bg-brand2-100 hover:bg-brand2-50 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-500 rounded px-2 py-2 text-sm text-black outline-none transition hover:text-black"
-        isDisabled={!searchQueryHistory.length}
-      >
-        {translate("SEARCH_HISTORY")}{" "}
-        <HelpTooltip label={translateProject("SEARCH_HISTORY_HELP")} />
-      </Button>
-      {isOpen && (
-        <ul className="list ml-6 mt-4">
-          {lastQueries.length ? (
-            lastQueries.map((entry, index) => {
-              const query = entry.query;
-              return (
-                <li key={index} className="mb-4">
-                  <span className="query-date text-neutral-500">
-                    {formatQueryDate(entry.date)}
-                  </span>
-                  <Button
-                    className="query-delete p-1 text-xl text-neutral-500"
-                    onPress={() => removeFromHistory(entry.date)}
-                  >
-                    &#10006;
-                  </Button>
-                  <div
-                    onClick={() => props.goToQuery(query)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={() => props.goToQuery(query)}
-                    className="search-query cursor-pointer hover:underline"
-                  >
-                    {query.fullText && (
-                      <div>
-                        <strong>{translate("TEXT")}: </strong> {query.fullText}
-                      </div>
-                    )}
-                    {query.dateFacet && (
-                      <>
-                        <div>
-                          <strong>{translate("DATE_FROM")}: </strong>{" "}
-                          {query.dateFrom}
-                        </div>{" "}
-                        <div>
-                          <strong>{translate("UP_TO_AND_INCLUDING")}: </strong>{" "}
-                          {query.dateTo}
-                        </div>
-                      </>
-                    )}
-                    {query.terms && (
-                      <div>
-                        {Object.keys(query.terms).length > 0 ? (
-                          <strong>{translate("SELECTED_FACETS")}:</strong>
-                        ) : null}
-                        {Object.entries(query.terms).map(
-                          ([key, value], index) => (
-                            <div key={index}>
-                              {`${translateProject(key)}: ${translateProject(
-                                value[0],
-                              )}`}
-                            </div>
-                          ),
-                        )}
-                      </div>
-                    )}
+    <ul className="list-none">
+      {lastQueries.length ? (
+        lastQueries.map((entry, index) => {
+          const query = entry.query;
+          return (
+            <li key={index} className="mb-4">
+              <span className="query-date text-neutral-500">
+                {formatQueryDate(entry.date)}
+              </span>
+              <Button
+                className="query-delete p-1 text-xl text-neutral-500 outline-none focus-visible:ring-2 focus-visible:ring-neutral-700"
+                onPress={() => removeFromHistory(entry.date)}
+                aria-label="Remove from history"
+              >
+                &#10006;
+              </Button>
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => props.goToQuery(query)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    props.goToQuery(query);
+                  }
+                }}
+                className="search-query cursor-pointer outline-none hover:underline focus-visible:ring-2 focus-visible:ring-neutral-700"
+              >
+                {query.fullText && (
+                  <div>
+                    <strong>{translate("TEXT")}: </strong> {query.fullText}
                   </div>
-                </li>
-              );
-            })
-          ) : (
-            <div>{translate("NO_SEARCH_HISTORY")}.</div>
-          )}
-        </ul>
+                )}
+                {query.dateFacet && (
+                  <>
+                    <div>
+                      <strong>{translate("DATE_FROM")}: </strong>{" "}
+                      {query.dateFrom}
+                    </div>{" "}
+                    <div>
+                      <strong>{translate("UP_TO_AND_INCLUDING")}: </strong>{" "}
+                      {query.dateTo}
+                    </div>
+                  </>
+                )}
+                {query.terms && (
+                  <div>
+                    {Object.keys(query.terms).length > 0 ? (
+                      <strong>{translate("SELECTED_FACETS")}:</strong>
+                    ) : null}
+                    {Object.entries(query.terms).map(([key, value], index) => (
+                      <div key={index}>
+                        {`${translateProject(key)}: ${translateProject(
+                          value[0],
+                        )}`}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </li>
+          );
+        })
+      ) : (
+        <li>{translate("NO_SEARCH_HISTORY")}.</li>
       )}
-    </>
+    </ul>
   );
 };
 
