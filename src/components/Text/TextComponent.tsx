@@ -1,5 +1,5 @@
+import { useRef } from "react";
 import { Skeleton } from "primereact/skeleton";
-import { useTextStore } from "../../stores/text/text-store.ts";
 import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText";
 import {
   projectConfigSelector,
@@ -7,12 +7,9 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
-import {
-  BroccoliTextGeneric,
-  ViewLang,
-  Broccoli,
-} from "../../model/Broccoli.ts";
-import React from "react";
+import { useViewText } from "./useViewText.tsx";
+import { useSyncTocWhenScrolling } from "./Toc/useSyncTocWhenScrolling.tsx";
+import { useScrollToHashOnInit } from "./Toc/useScrollToHashOnInit.tsx";
 
 type TextComponentProps = {
   viewToRender: string | string[];
@@ -20,41 +17,23 @@ type TextComponentProps = {
 };
 
 export const TextComponent = (props: TextComponentProps) => {
-  const textViews = useTextStore((state) => state.views);
+  const text = useViewText(props.viewToRender);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
 
-  const text: BroccoliTextGeneric | undefined = React.useMemo(() => {
-    const viewsToTry = Array.isArray(props.viewToRender)
-      ? props.viewToRender
-      : [props.viewToRender];
-
-    for (const viewStr of viewsToTry) {
-      const [view, lang] = viewStr.split(".") as [
-        keyof Broccoli["views"],
-        ViewLang,
-      ];
-
-      const candidate = textViews?.[view];
-      if (!candidate) continue;
-
-      if (
-        typeof candidate === "object" &&
-        candidate !== null &&
-        lang in candidate
-      ) {
-        return (candidate as Record<string, BroccoliTextGeneric>)[lang];
-      }
-    }
-    return undefined;
-  }, [textViews, props.viewToRender]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useScrollToHashOnInit(scrollRef);
+  useSyncTocWhenScrolling(scrollRef);
 
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r">
       {/* <div className="sr-only">
         <h1>Resolutie</h1>
       </div> */}
-      <div className="flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10">
+      <div
+        ref={scrollRef}
+        className="flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10"
+      >
         <span className="mr-8 mt-4 flex justify-end gap-1 text-sm uppercase text-neutral-500 lg:my-6">
           {translateProject(`${props.viewToRender}`)}
         </span>

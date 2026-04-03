@@ -61,6 +61,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
 
   //Metadata panel titles
   notes: "Notes",
+  toc: "Contents",
 
   //Visualised annotation categories
   PER: "person",

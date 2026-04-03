@@ -49,8 +49,3 @@ export function findRelativePosition(
   }
   return found;
 }
-
-export type WithRelativePosition = {
-  annotation: AnnoRepoAnnotation;
-  relative: BroccoliRelativeAnno;
-};

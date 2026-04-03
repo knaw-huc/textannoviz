@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import _ from "lodash";
 import { QUERY } from "../../components/Search/SearchUrlParams.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import { encodeObject } from "../../utils/UrlParamUtils.ts";
+import { encodeObject } from "../../utils/url/UrlParamUtils.ts";
 import {
   translateProjectSelector,
   useProjectStore,

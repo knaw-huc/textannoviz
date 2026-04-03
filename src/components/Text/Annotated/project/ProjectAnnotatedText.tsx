@@ -11,7 +11,6 @@ import {
   createAnnotationTextOffsets,
   createMarkerTextOffsets,
   findRelativePosition,
-  WithRelativePosition,
 } from "./utils/createTextOffsets.ts";
 import { createSearchRegex } from "../../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../../Detail/useDetailNavigation.tsx";
@@ -25,6 +24,7 @@ import { ProjectNestedAnnotation } from "./ProjectNestedAnnotation.tsx";
 import { ProjectHighlightAnnotations } from "./ProjectHighlightAnnotations.tsx";
 import { ProjectSegmentGroup } from "./ProjectSegmentGroup.tsx";
 import { EntityModal } from "./EntityModal.tsx";
+import { WithRelativePosition } from "./WithRelativePosition.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
