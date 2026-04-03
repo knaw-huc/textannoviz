@@ -8,18 +8,13 @@ import {
   TextOffsets,
 } from "./AnnotationModel.ts";
 import { SegmentedText } from "./SegmentedText.tsx";
-import { createContext, FC, ReactNode } from "react";
+import { createContext, FC, PropsWithChildren, ReactNode } from "react";
 
 /**
  * AnnotatedText renders text segments and their annotations
  *
  * Takes a text string and a list of annotation offsets, splits the text
  * into segments, and renders them using four pluggable components:
- *
- * - Annotation: nested, clickable entity annotations with depth and grouping
- * - Highlight: styling-only annotations (e.g. search highlights, categories)
- * - Marker: zero-length annotations marking positions (footnotes, page breaks)
- * - Group: wrapper around segments connected by overlapping/nesting annotations
  *
  * Terminology:
  * - Offset: start or end character index of an annotation in a text
@@ -41,6 +36,7 @@ export function AnnotatedText<
       value={props.config as unknown as AnnotatedTextConfig}
     >
       <SegmentedText body={props.body} offsets={props.offsets} />
+      {props.children}
     </AnnotatedTextProvider>
   );
 }
@@ -56,7 +52,7 @@ export const AnnotatedTextProvider = AnnotatedTextContext.Provider;
  * Core handles segmentation, nesting, and grouping
  *
  * - Annotation: each annotation gets its own nested component (entities)
- * - Highlight: non-nested markup (search matches, categories)
+ * - Highlight: single markup component (search matches, categories)
  * - Marker: zero-length position in text (footnotes, page breaks)
  * - Group: wrapper around segments connected by overlapping annotations
  */
@@ -97,8 +93,8 @@ export type AnnotatedTextProps<
   ANNOTATION extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
-> = {
+> = PropsWithChildren<{
   config: AnnotatedTextConfig<ANNOTATION, HIGHLIGHT, MARKER>;
   body: string;
   offsets: TextOffsets[];
-};
+}>;

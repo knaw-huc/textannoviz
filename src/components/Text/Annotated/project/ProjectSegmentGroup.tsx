@@ -1,4 +1,3 @@
-import { EntityModalButton } from "./EntityModal.tsx";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -7,11 +6,13 @@ import { GroupProps } from "../core";
 import { isProjectAnnotation } from "./utils/isProjectAnnotation.ts";
 import { orThrow } from "./utils/orThrow.tsx";
 import { AnnotationLink } from "./AnnotationLink.tsx";
+import { useTextStore } from "../../../../stores/text/text-store.ts";
 
 export function ProjectSegmentGroup(props: GroupProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { selectedLanguage } = projectConfig;
   const { group, children } = props;
+  const setClickedGroup = useTextStore((s) => s.setClickedGroup);
 
   if (!group.id) {
     return <>{children}</>;
@@ -37,10 +38,18 @@ export function ProjectSegmentGroup(props: GroupProps) {
   }
 
   return (
-    <EntityModalButton group={group}>
-      <span className={`closedNestedAnnotation ${selectedLanguage}`}>
-        {children}
-      </span>
-    </EntityModalButton>
+    <span
+      className={`closedNestedAnnotation ${selectedLanguage} cursor-pointer`}
+      role="button"
+      tabIndex={0}
+      onClick={() => setClickedGroup(group)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          setClickedGroup(group);
+        }
+      }}
+    >
+      {children}
+    </span>
   );
 }

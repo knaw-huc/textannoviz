@@ -16,16 +16,16 @@ export function useScrollToHashOnInit(
     }
 
     const selector = `#${CSS.escape(hash)}`;
-    const el = container.querySelector(selector);
-    if (el) {
-      el.scrollIntoView();
+    const header = container.querySelector(selector);
+    if (header) {
+      header.scrollIntoView();
       return;
     }
 
     const observer = new MutationObserver(() => {
-      const found = container.querySelector(selector);
-      if (found) {
-        found.scrollIntoView();
+      const header = container.querySelector(selector);
+      if (header) {
+        header.scrollIntoView();
         observer.disconnect();
       }
     });

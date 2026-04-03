@@ -23,6 +23,7 @@ import {
 import { ProjectNestedAnnotation } from "./ProjectNestedAnnotation.tsx";
 import { ProjectHighlightAnnotations } from "./ProjectHighlightAnnotations.tsx";
 import { ProjectSegmentGroup } from "./ProjectSegmentGroup.tsx";
+import { EntityModal } from "./EntityModal.tsx";
 import { WithRelativePosition } from "./WithRelativePosition.ts";
 
 type TextHighlightingProps = {
@@ -97,7 +98,9 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
         }}
         body={textBody}
         offsets={offsets}
-      />
+      >
+        <EntityModal />
+      </AnnotatedText>
     </div>
   );
 };

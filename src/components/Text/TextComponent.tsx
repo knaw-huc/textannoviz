@@ -27,11 +27,14 @@ export const TextComponent = (props: TextComponentProps) => {
 
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r">
+      {/* <div className="sr-only">
+        <h1>Resolutie</h1>
+      </div> */}
       <div
         ref={scrollRef}
-        className={`flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10`}
+        className="flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10"
       >
-        <span className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500">
+        <span className="mr-8 mt-4 flex justify-end gap-1 text-sm uppercase text-neutral-500 lg:my-6">
           {translateProject(`${props.viewToRender}`)}
         </span>
         {text && !props.isLoading ? (

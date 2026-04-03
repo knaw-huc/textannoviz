@@ -5,7 +5,12 @@ import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
 import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
 
-export function SegmentedText(props: { body: string; offsets: TextOffsets[] }) {
+type SegmentedTextProps = {
+  body: string;
+  offsets: TextOffsets[];
+};
+
+export function SegmentedText(props: SegmentedTextProps) {
   const { body, offsets } = props;
   const [segments, setSegments] = useState<Segment[]>([]);
 
