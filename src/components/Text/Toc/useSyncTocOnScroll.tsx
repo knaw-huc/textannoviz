@@ -3,13 +3,13 @@ import { useTextStore } from "../../../stores/text/text-store.ts";
 
 export const tocScrollHeader = "toc-header";
 
-export function useSyncTocWhenScrolling(
-  containerRef: RefObject<HTMLElement | null>,
+export function useSyncTocOnScroll(
+  scrollContainerRef: RefObject<HTMLElement | null>,
 ): void {
   const setActiveHeader = useTextStore((s) => s.setActiveHeader);
 
   useEffect(() => {
-    const container = containerRef.current;
+    const container = scrollContainerRef.current;
     if (!container) {
       return;
     }
@@ -26,9 +26,10 @@ export function useSyncTocWhenScrolling(
       { root: container, rootMargin: "0px 0px 0% 0px" },
     );
 
-    // Update intersection observers when headers change:
     const headers = container.querySelectorAll(`.${tocScrollHeader}`);
     headers.forEach((h) => headerIntersections.observe(h));
+
+    // Update intersection observers when headers change:
     const headerMutations = new MutationObserver(() => {
       headerIntersections.disconnect();
       const updated = container.querySelectorAll(`.${tocScrollHeader}`);
@@ -40,5 +41,5 @@ export function useSyncTocWhenScrolling(
       headerIntersections.disconnect();
       headerMutations.disconnect();
     };
-  }, [containerRef, setActiveHeader]);
+  }, [scrollContainerRef, setActiveHeader]);
 }

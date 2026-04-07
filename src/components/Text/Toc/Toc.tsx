@@ -1,4 +1,4 @@
-import { useSyncHeaderWithHash } from "./useSyncHeaderWithHash.tsx";
+import { useSyncHashWithHeader } from "./useSyncHashWithHeader.tsx";
 import { useTextStore } from "../../../stores/text/text-store.ts";
 import { MouseEvent } from "react";
 
@@ -7,7 +7,7 @@ type TocProps = {
 };
 
 export const Toc = ({ headers }: TocProps) => {
-  useSyncHeaderWithHash();
+  useSyncHashWithHeader();
 
   if (!headers.length) {
     return null;

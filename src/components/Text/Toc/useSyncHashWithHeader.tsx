@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useTextStore } from "../../../stores/text/text-store.ts";
 import { clearUrlHash, setUrlHash } from "../../../utils/url/UrlHashUtils.ts";
 
-export function useSyncHeaderWithHash(): void {
+export function useSyncHashWithHeader(): void {
   const activeHeader = useTextStore((s) => s.activeHeader);
 
   useEffect(() => {

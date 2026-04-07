@@ -16,7 +16,7 @@ export function getTocId(body: AnnoRepoBodyBase): string | undefined {
  * - n = "1.1.2" --> level 2
  * Return null when no n.
  */
-export function getTocLevel(n: string | undefined): number | null {
+export function getTocLevel(n?: string): number | null {
   if (!n) {
     return null;
   }

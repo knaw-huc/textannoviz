@@ -1,7 +1,7 @@
 import { RefObject, useEffect } from "react";
 import { getUrlHash } from "../../../utils/url/UrlHashUtils.ts";
 
-export function useScrollToHashOnInit(
+export function useSyncHeaderWithHashOnInit(
   scrollContainerRef: RefObject<HTMLElement | null>,
 ): void {
   useEffect(() => {

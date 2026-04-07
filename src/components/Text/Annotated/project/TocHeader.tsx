@@ -1,4 +1,4 @@
-import { tocScrollHeader } from "../../Toc/useSyncTocWhenScrolling.tsx";
+import { tocScrollHeader } from "../../Toc/useSyncTocOnScroll.tsx";
 import { ReactNode } from "react";
 
 type TocHeaderSpanProps = {
