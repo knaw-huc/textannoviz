@@ -44,6 +44,7 @@ const TocItem = ({ id, label, level }: TocHeader) => {
       console.warn(`No elements for ${idSelector}`);
       return;
     }
+    // Update multiple panes:
     headerElements.forEach((e) => e.scrollIntoView());
     setActiveHeader(id);
   }

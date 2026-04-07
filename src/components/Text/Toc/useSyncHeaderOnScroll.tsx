@@ -26,15 +26,22 @@ export function useSyncHeaderOnScroll(
           }
         }
 
-        const allHeaders = container.querySelectorAll(`.${tocScrollHeader}`);
-        let lowest: string | undefined;
-        for (const h of allHeaders) {
-          if (visibleHeaderIds.has(h.id)) {
-            lowest = h.id;
+        const current = useTextStore.getState().activeHeader;
+        if (current && visibleHeaderIds.has(current)) {
+          return;
+        }
+
+        const headerElements = container.querySelectorAll(
+          `.${tocScrollHeader}`,
+        );
+        let lowestId: string | undefined;
+        for (const { id } of headerElements) {
+          if (visibleHeaderIds.has(id)) {
+            lowestId = id;
           }
         }
-        if (lowest) {
-          setActiveHeader(lowest);
+        if (lowestId) {
+          setActiveHeader(lowestId);
         }
       },
       { root: container },
