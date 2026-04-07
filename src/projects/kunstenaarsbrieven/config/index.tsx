@@ -35,7 +35,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       "Dataset",
       "Division",
       "List",
-      "Term",
       document,
       letter,
       note,

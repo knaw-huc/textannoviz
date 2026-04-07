@@ -22,6 +22,15 @@
   font-style: italic;
 }
 
+.highlight-supplied::before {
+  content: "[";
+  position: relative;
+}
+
+.highlight-supplied::after {
+  content: "]";
+}
+
 .segmented-line:has(.highlight-caption) {
   margin-bottom: 1.5rem;
 }

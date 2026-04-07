@@ -27,6 +27,7 @@ export const person = "person";
 export const picture = "Picture";
 export const quote = "Quote";
 export const reference = "Reference";
+export const supplied = "Supplied";
 export const term = "Term";
 export const teiArt = "art";
 export const teiArtwork = "artwork";
@@ -250,6 +251,7 @@ export const projectHighlightedTypes = [
   quote,
   caption,
   term,
+  supplied,
 ];
 export const projectTooltipMarkerAnnotationTypes = [reference];
 export const projectPageMarkerAnnotationTypes = [page];
@@ -300,7 +302,9 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
 
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   if (
-    [head, caption, label, listItem, quote, term].includes(annoRepoBody.type)
+    [head, caption, label, listItem, quote, term, supplied].includes(
+      annoRepoBody.type,
+    )
   ) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {
