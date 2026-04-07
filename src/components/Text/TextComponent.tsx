@@ -8,7 +8,7 @@ import {
 } from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
 import { useViewText } from "./useViewText.tsx";
-import { useSyncTocOnScroll } from "./Toc/useSyncTocOnScroll.tsx";
+import { useSyncHeaderOnScroll } from "./Toc/useSyncHeaderOnScroll.tsx";
 import { useSyncHeaderWithHashOnInit } from "./Toc/useSyncHeaderWithHashOnInit.tsx";
 
 type TextComponentProps = {
@@ -23,7 +23,7 @@ export const TextComponent = (props: TextComponentProps) => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   useSyncHeaderWithHashOnInit(scrollRef);
-  useSyncTocOnScroll(scrollRef);
+  useSyncHeaderOnScroll(scrollRef);
 
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r">

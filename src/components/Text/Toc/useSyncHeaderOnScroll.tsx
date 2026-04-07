@@ -3,7 +3,7 @@ import { useTextStore } from "../../../stores/text/text-store.ts";
 
 export const tocScrollHeader = "toc-header";
 
-export function useSyncTocOnScroll(
+export function useSyncHeaderOnScroll(
   scrollContainerRef: RefObject<HTMLElement | null>,
 ): void {
   const setActiveHeader = useTextStore((s) => s.setActiveHeader);
