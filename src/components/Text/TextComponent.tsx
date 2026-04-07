@@ -30,20 +30,23 @@ export const TextComponent = (props: TextComponentProps) => {
       : [props.viewToRender];
 
     for (const viewStr of viewsToTry) {
-      const [view, lang] = viewStr.split(".") as [
-        keyof Broccoli["views"],
-        ViewLang,
-      ];
+      const parts = viewStr.split(".");
+      const view = parts[0] as keyof Broccoli["views"];
+      const lang = parts[1] as ViewLang | undefined;
 
       const candidate = textViews?.[view];
       if (!candidate) continue;
 
-      if (
-        typeof candidate === "object" &&
-        candidate !== null &&
-        lang in candidate
-      ) {
-        return (candidate as Record<string, BroccoliTextGeneric>)[lang];
+      if (lang === undefined) {
+        return candidate as BroccoliTextGeneric;
+      } else {
+        if (
+          typeof candidate === "object" &&
+          candidate !== null &&
+          lang in candidate
+        ) {
+          return (candidate as Record<string, BroccoliTextGeneric>)[lang];
+        }
       }
     }
     return undefined;
