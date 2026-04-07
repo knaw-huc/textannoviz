@@ -3,7 +3,7 @@ export function isLink() {
   return false;
 }
 
-export function getLink() {
+export function getUrl() {
   console.warn("Not implemented");
   return undefined;
 }

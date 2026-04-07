@@ -25,6 +25,7 @@ import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { Header } from "../Header";
+import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
@@ -88,5 +89,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     } as Any,
     showMiradorNavigationButtons: true,
     showSearchInTextViews: true,
+    isLink: isLink,
+    getUrl: getUrl,
   },
 );

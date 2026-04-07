@@ -11,7 +11,7 @@ import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
 import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { getLink, isLink } from "./isLink.ts";
+import { getUrl, isLink } from "./isLink.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -38,7 +38,7 @@ export const defaultConfig: DefaultProjectConfig = {
   isEntity: isEntity,
   isToolTipMarker: isNoteReference,
   isLink: isLink,
-  getUrl: getLink,
+  getUrl: getUrl,
 
   personsUrl: "",
   artworksUrl: "",
