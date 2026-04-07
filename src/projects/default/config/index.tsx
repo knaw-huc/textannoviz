@@ -12,7 +12,7 @@ import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
 import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { getLink, isLink } from "./isLink.ts";
-import { getTocId } from "./getTocId.ts";
+import { getTocId, showToc } from "./showToc.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -86,7 +86,7 @@ export const defaultConfig: DefaultProjectConfig = {
   showFacetFilter: true,
   showPrevNextScanButtons: false,
   pageAnnotation: "",
-  showToc: false,
+  showToc: showToc,
   getTocId: getTocId,
   components: {
     AnnotationItem: AnnotationItem,

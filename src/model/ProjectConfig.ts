@@ -224,7 +224,7 @@ type AnnotationConfig = {
   isLink: (toTest: AnnoRepoBodyBase) => boolean;
   getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;
 
-  showToc: boolean;
+  showToc: (annotations: AnnoRepoAnnotation[]) => boolean;
   getTocId: (body: AnnoRepoBodyBase) => string | undefined;
 };
 

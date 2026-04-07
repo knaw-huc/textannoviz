@@ -14,14 +14,18 @@ import {
 } from "../../../../stores/project.ts";
 import _ from "lodash";
 import { TocHeader } from "./TocHeader.tsx";
+import { useAnnotationStore } from "../../../../stores/annotation.ts";
 
 export function ProjectHighlightAnnotations(
   props: HighlightProps<HighlightBody>,
 ) {
+  const { highlights, segment, children } = props;
+
   const { getHighlightCategory, showToc, getTocId } = useProjectStore(
     projectConfigSelector,
   );
-  const { highlights, segment, children } = props;
+  const annotations = useAnnotationStore((s) => s.annotations);
+  const showTocHighlight = showToc(annotations);
 
   const allClasses: string[] = [];
   let tocId = "";
@@ -34,7 +38,7 @@ export function ProjectHighlightAnnotations(
     } else if (isAnnotationHighlightBody(body)) {
       allClasses.push(`highlight-${getHighlightCategory(body)}`);
 
-      if (showToc && !tocId) {
+      if (showTocHighlight && !tocId) {
         tocId = getTocId(body) ?? "";
       }
     }

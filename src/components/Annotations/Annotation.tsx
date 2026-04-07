@@ -40,7 +40,7 @@ export function Annotation(props: AnnotationProps) {
           aria-label="annotation-panel"
           className="flex w-full gap-4 border-b border-neutral-600 bg-neutral-100 px-6 pt-6"
         >
-          {projectConfig.showToc && (
+          {projectConfig.showToc(annotations) && (
             <Tab id="toc" className={tabStyling}>
               {translateProject("toc")}
             </Tab>
@@ -64,7 +64,7 @@ export function Annotation(props: AnnotationProps) {
             </Tab>
           )}
         </TabList>
-        {projectConfig.showToc && (
+        {projectConfig.showToc(annotations) && (
           <TabPanel id="toc" className={tabPanelStyling}>
             {annotations.length > 0 && !props.isLoading ? (
               <projectConfig.components.TocPanel />

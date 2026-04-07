@@ -25,7 +25,7 @@ import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { Header } from "../Header";
-import { getTocId } from "../TocUtils.ts";
+import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
@@ -92,7 +92,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     } as Any,
     showMiradorNavigationButtons: true,
     showSearchInTextViews: true,
-    showToc: true,
+    showToc: showToc,
     getTocId: getTocId,
   },
 );
