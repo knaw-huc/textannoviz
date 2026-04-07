@@ -14,16 +14,30 @@ export function useSyncHeaderOnScroll(
       return;
     }
 
+    const visibleHeaderIds = new Set<string>();
+
     const headerIntersections = new IntersectionObserver(
-      (headers) => {
-        const visible = headers
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length) {
-          setActiveHeader(visible[0].target.id);
+      (events) => {
+        for (const event of events) {
+          if (event.isIntersecting) {
+            visibleHeaderIds.add(event.target.id);
+          } else {
+            visibleHeaderIds.delete(event.target.id);
+          }
+        }
+
+        const allHeaders = container.querySelectorAll(`.${tocScrollHeader}`);
+        let lowest: string | undefined;
+        for (const h of allHeaders) {
+          if (visibleHeaderIds.has(h.id)) {
+            lowest = h.id;
+          }
+        }
+        if (lowest) {
+          setActiveHeader(lowest);
         }
       },
-      { root: container, rootMargin: "0px 0px 0% 0px" },
+      { root: container },
     );
 
     const headers = container.querySelectorAll(`.${tocScrollHeader}`);
@@ -31,6 +45,7 @@ export function useSyncHeaderOnScroll(
 
     // Update intersection observers when headers change:
     const headerMutations = new MutationObserver(() => {
+      visibleHeaderIds.clear();
       headerIntersections.disconnect();
       const updated = container.querySelectorAll(`.${tocScrollHeader}`);
       updated.forEach((h) => headerIntersections.observe(h));
