@@ -26,6 +26,10 @@ export function useViewText(
         continue;
       }
 
+      if (!lang) {
+        return candidate as BroccoliTextGeneric;
+      }
+
       if (typeof candidate === "object" && lang in candidate) {
         return (candidate as Record<string, BroccoliTextGeneric>)[lang];
       }
