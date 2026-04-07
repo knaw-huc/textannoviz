@@ -138,6 +138,13 @@
   .closedNestedAnnotation.nl {
     @apply hover:before:content-["Meer_info"];
   }
+  .closedNestedAnnotation[role="link"] {
+    @apply hover:before:content-["Click_to_open_link"];
+
+    &.nl {
+      @apply hover:before:content-["Open_link"];
+    }
+  }
 
   /* remove nested start icon */
   .closedNestedAnnotation .depth-2.start-annotation {
