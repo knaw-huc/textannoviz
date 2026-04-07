@@ -9,8 +9,8 @@ export function useSyncHeaderOnScroll(
   const setActiveHeader = useTextStore((s) => s.setActiveHeader);
 
   useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) {
       return;
     }
 
@@ -26,38 +26,54 @@ export function useSyncHeaderOnScroll(
           }
         }
 
+        // Keep current header when still in view:
         const current = useTextStore.getState().activeHeader;
         if (current && visibleHeaderIds.has(current)) {
           return;
         }
 
-        const headerElements = container.querySelectorAll(
-          `.${tocScrollHeader}`,
-        );
+        const headers = scrollContainer.querySelectorAll(`.${tocScrollHeader}`);
+
         let lowestId: string | undefined;
-        for (const { id } of headerElements) {
-          if (visibleHeaderIds.has(id)) {
-            lowestId = id;
+
+        // Pick lowest visible header:
+        for (const h of headers) {
+          if (visibleHeaderIds.has(h.id)) {
+            lowestId = h.id;
           }
         }
+
+        // When no headers visible, pick header above viewport:
+        if (!lowestId) {
+          const containerTop = scrollContainer.getBoundingClientRect().top;
+          for (const h of headers) {
+            if (h.getBoundingClientRect().top < containerTop) {
+              lowestId = h.id;
+            }
+          }
+        }
+
         if (lowestId) {
           setActiveHeader(lowestId);
         }
       },
-      { root: container },
+      { root: scrollContainer },
     );
 
-    const headers = container.querySelectorAll(`.${tocScrollHeader}`);
+    const headers = scrollContainer.querySelectorAll(`.${tocScrollHeader}`);
     headers.forEach((h) => headerIntersections.observe(h));
 
     // Update intersection observers when headers change:
     const headerMutations = new MutationObserver(() => {
       visibleHeaderIds.clear();
       headerIntersections.disconnect();
-      const updated = container.querySelectorAll(`.${tocScrollHeader}`);
+      const updated = scrollContainer.querySelectorAll(`.${tocScrollHeader}`);
       updated.forEach((h) => headerIntersections.observe(h));
     });
-    headerMutations.observe(container, { childList: true, subtree: true });
+    headerMutations.observe(scrollContainer, {
+      childList: true,
+      subtree: true,
+    });
 
     return () => {
       headerIntersections.disconnect();
