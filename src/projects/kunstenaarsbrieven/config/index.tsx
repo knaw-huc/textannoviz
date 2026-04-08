@@ -25,6 +25,8 @@ import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
 import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { Header } from "../Header";
+import { getTocId, showToc } from "../TocUtils.ts";
+import { TocPanel } from "../TocPanel.tsx";
 import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
@@ -68,6 +70,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       ArtworksTab,
       InsertMarkerAnnotation,
       Header,
+      TocPanel,
     },
     zoomAnnoMirador: true,
     miradorZoomRatio: 1.5,
@@ -89,6 +92,8 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     } as Any,
     showMiradorNavigationButtons: true,
     showSearchInTextViews: true,
+    showToc: showToc,
+    getTocId: getTocId,
     isLink: isLink,
     getUrl: getUrl,
   },

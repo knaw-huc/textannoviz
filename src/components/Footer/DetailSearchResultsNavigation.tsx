@@ -10,7 +10,7 @@ import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
 import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
-import { getUrlParams } from "../../utils/UrlParamUtils.ts";
+import { getUrlParams } from "../../utils/url/UrlParamUtils.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
 

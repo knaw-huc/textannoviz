@@ -1,5 +1,4 @@
 export function isLink() {
-  console.warn("Not implemented");
   return false;
 }
 

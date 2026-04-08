@@ -202,7 +202,7 @@ export type HeadBody = AnnoRepoBodyBase & {
   type: typeof head;
   inFigure?: string;
   corresp: string;
-  "tei:id": string;
+  "xml:id": string;
   n?: string;
 };
 

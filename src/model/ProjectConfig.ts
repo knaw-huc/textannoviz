@@ -111,6 +111,7 @@ export type ComponentsConfig = {
   ArtworksTab: () => JSX.Element;
   InsertMarkerAnnotation: (props: { marker: MarkerSegment }) => JSX.Element;
   Header: () => JSX.Element;
+  TocPanel: () => JSX.Element;
 };
 
 type TextConfig = {
@@ -219,6 +220,9 @@ type AnnotationConfig = {
 
   isLink: (toTest: AnnoRepoBodyBase) => boolean;
   getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;
+
+  showToc: (annotations: AnnoRepoAnnotation[]) => boolean;
+  getTocId: (body: AnnoRepoBodyBase) => string | undefined;
 };
 
 export interface AnnotationItemProps {

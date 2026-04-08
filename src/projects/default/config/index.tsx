@@ -11,6 +11,7 @@ import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
 import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { getTocId, showToc } from "./showToc.ts";
 import { getUrl, isLink } from "./isLink.ts";
 
 /**
@@ -85,6 +86,8 @@ export const defaultConfig: DefaultProjectConfig = {
   showFacetFilter: true,
   showPrevNextScanButtons: false,
   pageAnnotation: "",
+  showToc: showToc,
+  getTocId: getTocId,
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,
@@ -101,6 +104,7 @@ export const defaultConfig: DefaultProjectConfig = {
     ArtworksTab: Placeholder,
     InsertMarkerAnnotation: Empty,
     Header: Header,
+    TocPanel: Placeholder,
   },
   selectedLanguage: "en",
   languages: [
