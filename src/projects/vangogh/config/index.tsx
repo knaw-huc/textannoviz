@@ -157,4 +157,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   allPossibleTextPanels: ["self", "textOrig", "textTrans", "textNotes"],
   defaultTextPanels: "textOrig",
   projectCss: projectCss,
+  zoomAnnoFacsimile: true,
+  // TODO: how to test this?
+  visualizeAnnosFacsimile: true,
 } as ProjectSpecificConfig);

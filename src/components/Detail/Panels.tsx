@@ -1,13 +1,13 @@
 import React from "react";
+import { useManifest } from "@knaw-huc/osd-iiif-viewer";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { Panel } from "./Panel";
-import { useMiradorStore } from "../../stores/mirador";
 
 export const Panels = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { activePanels, setActivePanels } = useDetailViewStore();
-  const iiif = useMiradorStore().iiif;
+  const { url: manifestUrl } = useManifest();
 
   React.useEffect(() => {
     const queries = {
@@ -42,7 +42,7 @@ export const Panels = () => {
 
           if (queries.mqLG.matches || queries.mqXL.matches) {
             //TODO: clean this up. This is now a hack to disable Mirador when there is no IIIF manifest. This entire logic should be refactored in the future.
-            if (!iiif?.manifest) {
+            if (!manifestUrl) {
               return (
                 panel.name === projectConfig.detailPanels[1]?.name ||
                 panel.name ===
@@ -64,7 +64,7 @@ export const Panels = () => {
 
           if (queries.mq2XL.matches) {
             //TODO: clean this up. This is now a hack to disable Mirador when there is no IIIF manifest. This entire logic should be refactored in the future.
-            if (!iiif?.manifest) {
+            if (!manifestUrl) {
               return (
                 panel.name === projectConfig.detailPanels[1]?.name ||
                 panel.name === projectConfig.detailPanels[2]?.name ||
