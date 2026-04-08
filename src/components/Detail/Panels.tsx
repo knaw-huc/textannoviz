@@ -41,7 +41,6 @@ export const Panels = () => {
           }
 
           if (queries.mqLG.matches || queries.mqXL.matches) {
-            //TODO: clean this up. This is now a hack to disable Mirador when there is no IIIF manifest. This entire logic should be refactored in the future.
             if (!iiif?.manifest) {
               return (
                 panel.name === projectConfig.detailPanels[1]?.name ||
@@ -63,7 +62,6 @@ export const Panels = () => {
           }
 
           if (queries.mq2XL.matches) {
-            //TODO: clean this up. This is now a hack to disable Mirador when there is no IIIF manifest. This entire logic should be refactored in the future.
             if (!iiif?.manifest) {
               return (
                 panel.name === projectConfig.detailPanels[1]?.name ||
@@ -105,9 +103,14 @@ export const Panels = () => {
   return (
     <>
       {projectConfig.detailPanels.map((panel, index) => {
+        const isVisible = activePanels[index]?.visible;
+        if (!isVisible) {
+          return null;
+        }
+
         return (
           <Panel
-            key={index}
+            key={panel.name}
             panelToRender={panel.panel}
             panelName={panel.name}
           />
