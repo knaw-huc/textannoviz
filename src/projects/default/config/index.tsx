@@ -11,7 +11,6 @@ import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
 import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { getLink, isLink } from "./isLink.ts";
 import { getTocId, showToc } from "./showToc.ts";
 import { getUrl, isLink } from "./isLink.ts";
 
