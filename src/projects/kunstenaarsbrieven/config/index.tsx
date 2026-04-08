@@ -27,6 +27,7 @@ import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { Header } from "../Header";
 import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
+import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
@@ -37,7 +38,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       "Dataset",
       "Division",
       "List",
-      "Term",
       document,
       letter,
       note,
@@ -94,5 +94,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     showSearchInTextViews: true,
     showToc: showToc,
     getTocId: getTocId,
+    isLink: isLink,
+    getUrl: getUrl,
   },
 );
