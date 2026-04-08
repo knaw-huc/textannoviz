@@ -22,7 +22,7 @@ export const hooftConfig: ProjectConfig = merge({}, defaultConfig, {
   headerColor: "bg-brand1-100 text-brand1-800",
   headerTitle: "Brieven van Hooft",
   showSearchResultsButtonFooter: false,
-  showMirador: false,
+  showFacsimile: false,
   useExternalConfig: true,
   defaultKeywordAggsToRender: ["bodyType"],
 } as ProjectSpecificConfig);

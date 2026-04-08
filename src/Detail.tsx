@@ -1,4 +1,5 @@
 import { Skeleton } from "primereact/skeleton";
+import { ViewerProvider } from "@knaw-huc/osd-iiif-viewer";
 // import { Panels } from "./components/Detail/Panels.tsx";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { Footer } from "./components/Footer/Footer";
@@ -16,6 +17,14 @@ import { Panels } from "./components/Detail/Panels.tsx";
 // }
 
 export const Detail = () => {
+  return (
+    <ViewerProvider>
+      <DetailWithViewer />
+    </ViewerProvider>
+  );
+};
+
+function DetailWithViewer() {
   const { isInitDetail } = useInitDetail();
 
   useInitSearch();
@@ -54,4 +63,4 @@ export const Detail = () => {
       )}
     </>
   );
-};
+}
