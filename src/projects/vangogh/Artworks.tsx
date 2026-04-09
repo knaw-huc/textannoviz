@@ -27,11 +27,7 @@ export function Artworks() {
       const newArtworks = await fetchArtworks(artworksUrl, aborter.signal);
       if (!newArtworks) return;
 
-      const filteredArtworks = newArtworks.filter(
-        (artw) => artw["tei:type"] !== "ill",
-      );
-
-      filteredArtworks.sort((a, b) => {
+      newArtworks.sort((a, b) => {
         return a.head[interfaceLang].localeCompare(
           b.head[interfaceLang],
           "en",
@@ -42,7 +38,7 @@ export function Artworks() {
         );
       });
 
-      setArtworks(filteredArtworks);
+      setArtworks(newArtworks);
     }
 
     initArtworks(aborter).catch(handleAbort);
@@ -90,9 +86,9 @@ export function Artworks() {
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
         className="grid gap-6 px-8 pb-8"
       >
-        {artworks.map((artw: Artwork, index) => (
+        {artworks.map((artw: Artwork) => (
           <div
-            key={index}
+            key={artw.id}
             className=" h-auto max-w-[800px] rounded bg-neutral-50 p-5"
             ref={(el) => {
               artworkRefs.current[artw.id] = el;
@@ -113,31 +109,89 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {artw.relation?.ref?.displayLabel ? (
-              <div>
-                {translateProject("artist")}: {artw.relation.ref.displayLabel}
-              </div>
-            ) : null}
+            {artw.relation
+              ? artw.relation.map((relation, key) => (
+                  <div key={key}>
+                    {translateProject(relation.name)}: {relation.label}
+                  </div>
+                ))
+              : null}
             {artw.date?.text ? (
               <div>
                 {translateProject("date")}: {artw.date.text}
               </div>
             ) : null}
 
-            {/* <div>
-              {Object.entries(artw.note[interfaceLang])
-                .filter(([key]) => key === "creditline")
-                .map(([, value], index) => (
-                  <span key={index}>
-                    {translateProject("credits")}: {value}
-                  </span>
-                ))}
-            </div> */}
-            {/* {Object.entries(artw.note[interfaceLang])
-              .filter(([key]) => key === "photocredits")
-              .map(([, value], index) =>
-                value.length ? <span key={index}>{value}</span> : null,
-              )} */}
+            {artw.measure ? (
+              <div>
+                {translateProject("size")}: {artw.measure[0].quantity} x{" "}
+                {artw.measure[1].quantity} {artw.measure[0].unit}
+              </div>
+            ) : null}
+
+            {artw.note?.some((note) => note.type === "technical") ? (
+              <div>
+                {translateProject("support")}:{" "}
+                {Object.values(artw.note)
+                  .filter((value) => value.type === "technical")
+                  .map((value, index) => (
+                    <span key={index}>{value.text}</span>
+                  ))}
+              </div>
+            ) : null}
+
+            {artw.note?.some((note) => note.type === "collection") ? (
+              <div>
+                {translateProject("collection")}:{" "}
+                {Object.values(artw.note)
+                  .filter((value) => value.type === "collection")
+                  .map((value, index) => (
+                    <span key={index}>{value.text}</span>
+                  ))}
+              </div>
+            ) : null}
+
+            {artw.idno?.some((idno) => idno.type === "inventory") ? (
+              <div>
+                {translateProject("inventory")}:{" "}
+                {Object.values(artw.idno)
+                  .filter((value) => value.type === "inventory")
+                  .map((value, index) => (
+                    <span key={index}>{value.text}</span>
+                  ))}
+              </div>
+            ) : null}
+
+            {artw.note?.some((note) => note.type === "creditline") ? (
+              <div>
+                {translateProject("credits")}:{" "}
+                {Object.values(artw.note)
+                  .filter((value) => value.type === "creditline")
+                  .map((value, index) => (
+                    <span key={index}>{value.text}</span>
+                  ))}
+              </div>
+            ) : null}
+
+            {artw.bibl ? (
+              <div>
+                In: <span className="italic">{artw.bibl.title}</span>
+                <span>
+                  {" "}
+                  {artw.bibl.biblScope
+                    ?.filter((scope) => scope.unit === "volume")
+                    .map((scope) => scope.text)}
+                </span>
+                <span>
+                  {" "}
+                  ({artw.bibl.date}),{" "}
+                  {artw.bibl.biblScope
+                    ?.filter((scope) => scope.unit === "page")
+                    .map((scope) => scope.text)}
+                </span>
+              </div>
+            ) : null}
+
             {artw.graphic ? (
               <div className="pt-4">
                 <img
