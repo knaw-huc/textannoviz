@@ -7,24 +7,24 @@ import { findKey, mapValues } from "lodash";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 
 /**
- * Panel indices from detailPanels config to show at each breakpoint
+ * Panels from detailPanels config to show at each screen size
  */
-export const layouts = {
+export const layouts: Record<string, Layout> = {
   default: {
-    s: [1],
-    m: [1, 3],
-    l: [1, 3],
-    xl: [1, 3],
-    xxl: [1, 2, 3],
+    s: ["original"],
+    m: ["original", "metadata"],
+    l: ["original", "metadata"],
+    xl: ["original", "metadata"],
+    xxl: ["original", "translation", "metadata"],
   },
   withFacsimile: {
-    s: [1],
-    m: [1, 3],
-    l: [0, 1, 3],
-    xl: [0, 1, 3],
-    xxl: [0, 1, 2, 3],
+    s: ["original"],
+    m: ["original", "metadata"],
+    l: ["facsimile", "original", "metadata"],
+    xl: ["facsimile", "original", "metadata"],
+    xxl: ["facsimile", "original", "translation", "metadata"],
   },
-} satisfies Record<string, Layout>;
+};
 
 export const layoutBreakpoints: Record<WindowSize, string> = {
   s: "(min-width: 1px) and (max-width: 768px)",
@@ -34,8 +34,16 @@ export const layoutBreakpoints: Record<WindowSize, string> = {
   xxl: "(min-width: 1536px)",
 };
 
+export type PanelName = "facsimile" | "original" | "translation" | "metadata";
 export type WindowSize = "s" | "m" | "l" | "xl" | "xxl";
-export type Layout = Record<WindowSize, number[]>;
+export type Layout = Record<WindowSize, PanelName[]>;
+
+const panelNameToIndex: Record<PanelName, number> = {
+  facsimile: 0,
+  original: 1,
+  translation: 2,
+  metadata: 3,
+};
 
 /**
  * Determine panel layout
@@ -104,7 +112,8 @@ function isVisibleInLayout(
   windowSize: WindowSize,
 ): string[] {
   const layout = hasFacsimile ? layouts.withFacsimile : layouts.default;
-  const indices = layout[windowSize];
-
-  return indices.map((i) => detailPanels[i]?.name).filter((name) => !!name);
+  const panelNames = layout[windowSize];
+  return panelNames
+    .map((name) => detailPanels[panelNameToIndex[name]]?.name)
+    .filter((name) => !!name);
 }
