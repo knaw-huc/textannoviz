@@ -12,7 +12,7 @@ export function FacsimileViewer() {
   }
 
   return (
-    <div style={{ width: "100%", height: "600px" }}>
+    <div style={{ width: "100%", height: "100%" }}>
       <Viewer options={{ showNavigationControl: true }} />
     </div>
   );
