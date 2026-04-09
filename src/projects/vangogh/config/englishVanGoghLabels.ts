@@ -84,12 +84,14 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   NAV_TO_LETTER: "Navigate to letter",
 
   //Entity labels
-  artist: "Artist",
+  creator: "Artist",
+  engraver: "Engraver",
   date: "Date",
   size: "Dimensions",
   support: "Medium",
   collection: "Collection",
   credits: "Credits",
+  inventory: "Inventory number",
 
   //Search info page
   INFO_TITLE: "The letters of Vincent van Gogh",
