@@ -6,13 +6,12 @@ import { isLetterDetailPage } from "./isLetterDetailPage.ts";
  * On about pages, only show the first text panel
  * (orig and trans are identical)
  */
-export function showPanels(
+export function filterPanels(
   panels: DetailPanelConfig[],
   annotations: AnnoRepoAnnotation[],
-): string[] {
+): DetailPanelConfig[] {
   if (isLetterDetailPage(annotations)) {
-    // Show all panels:
-    return panels.map((p) => p.name);
+    return panels;
   }
 
   const textPanelNames = panels
@@ -20,14 +19,12 @@ export function showPanels(
     .map((p) => p.name);
 
   const firstTextPanelName = textPanelNames[0];
-  return panels
-    .filter((p) => {
-      if (textPanelNames.includes(p.name)) {
-        return p.name === firstTextPanelName;
-      } else {
-        // Show all non-text panes:
-        return true;
-      }
-    })
-    .map((p) => p.name);
+  return panels.filter((p) => {
+    if (textPanelNames.includes(p.name)) {
+      return p.name === firstTextPanelName;
+    } else {
+      // Show all non-text panes:
+      return true;
+    }
+  });
 }

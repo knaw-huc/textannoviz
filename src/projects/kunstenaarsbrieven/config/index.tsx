@@ -28,7 +28,7 @@ import { Header } from "../Header";
 import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
 import { getUrl, isLink } from "../annotation/LinkUtils.ts";
-import { showPanels } from "../showPanels.ts";
+import { filterPanels } from "../filterPanels.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
@@ -97,6 +97,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     getTocId: getTocId,
     isLink: isLink,
     getUrl: getUrl,
-    showPanels: showPanels,
+    filterPanels: filterPanels,
   },
 );

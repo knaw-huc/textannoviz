@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useMiradorStore } from "../../stores/mirador";
@@ -46,23 +46,16 @@ export type Layout = Record<WindowSize, PanelPosition[]>;
 /**
  * Determine panel layout
  * - filter by screen size layout
- * - filter by {@link ProjectConfig.showPanels}
+ * - filter by {@link ProjectConfig.filterPanels}
  */
-export function usePanelLayout(): DetailPanelConfig[] {
+export function usePanelLayout(): null {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { detailPanels, showPanels } = projectConfig;
+  const { filterPanels } = projectConfig;
   const { activePanels, setActivePanels } = useDetailViewStore();
   const annotations = useAnnotationStore((s) => s.annotations);
+  const hasFacsimile = !!useMiradorStore((s) => s.iiif?.manifest);
 
-  const filteredActivePanels = useMemo(() => {
-    if (!showPanels) {
-      return activePanels;
-    }
-    const shownPanels = new Set(showPanels(activePanels, annotations));
-    return activePanels.filter((p) => shownPanels.has(p.name));
-  }, [activePanels, annotations, showPanels]);
-
-  useEffect(filterPanelsOnResize, []);
+  useEffect(filterPanelsOnResize, [hasFacsimile]);
 
   function filterPanelsOnResize() {
     const mediaQueries = mapValues(layoutBreakpoints, (query) =>
@@ -76,16 +69,13 @@ export function usePanelLayout(): DetailPanelConfig[] {
         return;
       }
 
-      const hasFacsimile = !!useMiradorStore.getState().iiif?.manifest;
-      const visible = filterPanelsBySize(
-        detailPanels,
-        hasFacsimile,
-        windowSize,
-      );
+      const filtered =
+        filterPanels?.(activePanels, annotations) ?? activePanels;
 
-      const currentPanels = useDetailViewStore.getState().activePanels;
+      const visible = isVisibleInLayout(filtered, hasFacsimile, windowSize);
+
       setActivePanels(
-        currentPanels.map((panel) => ({
+        activePanels.map((panel) => ({
           ...panel,
           visible: visible.includes(panel.name),
         })),
@@ -105,10 +95,10 @@ export function usePanelLayout(): DetailPanelConfig[] {
     };
   }
 
-  return filteredActivePanels;
+  return null;
 }
 
-function filterPanelsBySize(
+function isVisibleInLayout(
   detailPanels: DetailPanelConfig[],
   hasFacsimile: boolean,
   windowSize: WindowSize,
@@ -119,7 +109,11 @@ function filterPanelsBySize(
   const configPanelNames = panels
     .map((layoutPanelName) => {
       const panelIndex = panelToIndex[layoutPanelName];
-      return detailPanels[panelIndex]?.name;
+      const config = detailPanels[panelIndex];
+      if (!config?.visible) {
+        return "";
+      }
+      return config.name;
     })
     .filter((configPanelName) => !!configPanelName);
 

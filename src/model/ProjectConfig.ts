@@ -226,10 +226,10 @@ type AnnotationConfig = {
   showToc: (annotations: AnnoRepoAnnotation[]) => boolean;
   getTocId: (body: AnnoRepoBodyBase) => string | undefined;
 
-  showPanels?: (
+  filterPanels?: (
     panels: DetailPanelConfig[],
     annotations: AnnoRepoAnnotation[],
-  ) => string[];
+  ) => DetailPanelConfig[];
 };
 
 export interface AnnotationItemProps {
