@@ -2,11 +2,11 @@ import { Panel } from "./Panel";
 import { usePanelLayout } from "./usePanelLayout.tsx";
 
 export const Panels = () => {
-  const panelLayout = usePanelLayout();
+  const panels = usePanelLayout();
 
   return (
     <>
-      {panelLayout.map((panel) => (
+      {panels.map((panel) => (
         <Panel
           key={panel.name}
           panelToRender={panel.panel}

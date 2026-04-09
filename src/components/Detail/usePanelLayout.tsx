@@ -2,7 +2,6 @@ import { useEffect, useMemo } from "react";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useMiradorStore } from "../../stores/mirador";
-import { orThrow } from "../Text/Annotated/project/utils/orThrow.tsx";
 import { DetailPanelConfig } from "../../model/ProjectConfig.ts";
 import { findKey, mapValues } from "lodash";
 import uniq from "lodash/uniq";
@@ -33,7 +32,7 @@ export const panelToIndex: Record<PanelPosition, number> = {
   fourth: 3,
 };
 
-export const panelSizes: Record<WindowSize, string> = {
+export const layoutBreakpoints: Record<WindowSize, string> = {
   s: "(min-width: 1px) and (max-width: 768px)",
   m: "(min-width: 768px) and (max-width: 1024px)",
   l: "(min-width: 1024px) and (max-width: 1280px)",
@@ -47,7 +46,7 @@ export type Layout = Record<WindowSize, PanelPosition[]>;
 /**
  * Determine panel layout
  * - filter by screen size layout
- * - filter by projectConfig.showPanels
+ * - filter by {@link ProjectConfig.showPanels}
  */
 export function usePanelLayout(): DetailPanelConfig[] {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -57,7 +56,7 @@ export function usePanelLayout(): DetailPanelConfig[] {
   const iiif = useMiradorStore().iiif;
   const hasFacsimile = !!iiif?.manifest;
 
-  const panelsShown = useMemo(() => {
+  const filteredActivePanels = useMemo(() => {
     if (!showPanels) {
       return activePanels;
     }
@@ -68,14 +67,16 @@ export function usePanelLayout(): DetailPanelConfig[] {
   useEffect(filterPanelsOnResize, []);
 
   function filterPanelsOnResize() {
-    const mediaQueries = mapValues(panelSizes, (query) =>
+    const mediaQueries = mapValues(layoutBreakpoints, (query) =>
       window.matchMedia(query),
     );
 
     function handleResize() {
-      const windowSize =
-        (findKey(mediaQueries, (q) => q.matches) as WindowSize) ??
-        orThrow("No window size");
+      const windowSize = findKey(mediaQueries, (q) => q.matches) as WindowSize;
+
+      if (!windowSize) {
+        return;
+      }
 
       const visible = filterPanelsBySize(
         detailPanels,
@@ -105,7 +106,7 @@ export function usePanelLayout(): DetailPanelConfig[] {
     };
   }
 
-  return panelsShown;
+  return filteredActivePanels;
 }
 
 function filterPanelsBySize(
