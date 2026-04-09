@@ -4,33 +4,27 @@ import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useMiradorStore } from "../../stores/mirador";
 import { DetailPanelConfig } from "../../model/ProjectConfig.ts";
 import { findKey, mapValues } from "lodash";
-import uniq from "lodash/uniq";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 
-export type PanelPosition = "facsimile" | "second" | "third" | "fourth";
+/**
+ * Panel indices from detailPanels config to show at each breakpoint
+ */
 export const layouts = {
   default: {
-    s: ["second"],
-    m: ["second", "fourth"],
-    l: ["second", "fourth"],
-    xl: ["second", "fourth"],
-    xxl: ["second", "third", "fourth"],
+    s: [1],
+    m: [1, 3],
+    l: [1, 3],
+    xl: [1, 3],
+    xxl: [1, 2, 3],
   },
   withFacsimile: {
-    s: ["second"],
-    m: ["second", "fourth"],
-    l: ["facsimile", "second", "fourth"],
-    xl: ["facsimile", "second", "fourth"],
-    xxl: ["facsimile", "second", "third", "fourth"],
+    s: [1],
+    m: [1, 3],
+    l: [0, 1, 3],
+    xl: [0, 1, 3],
+    xxl: [0, 1, 2, 3],
   },
 } satisfies Record<string, Layout>;
-
-export const panelToIndex: Record<PanelPosition, number> = {
-  facsimile: 0,
-  second: 1,
-  third: 2,
-  fourth: 3,
-};
 
 export const layoutBreakpoints: Record<WindowSize, string> = {
   s: "(min-width: 1px) and (max-width: 768px)",
@@ -41,11 +35,11 @@ export const layoutBreakpoints: Record<WindowSize, string> = {
 };
 
 export type WindowSize = "s" | "m" | "l" | "xl" | "xxl";
-export type Layout = Record<WindowSize, PanelPosition[]>;
+export type Layout = Record<WindowSize, number[]>;
 
 /**
  * Determine panel layout
- * - filter by screen size layout
+ * - filter by screen size layout, also on resize
  * - filter by {@link ProjectConfig.filterPanels}
  */
 export function usePanelLayout(): null {
@@ -69,15 +63,21 @@ export function usePanelLayout(): null {
         return;
       }
 
-      const filtered =
-        filterPanels?.(activePanels, annotations) ?? activePanels;
-
-      const visible = isVisibleInLayout(filtered, hasFacsimile, windowSize);
+      const filteredByProject =
+        filterPanels?.(activePanels, annotations) ??
+        activePanels.map((a) => a.name);
+      const filteredBySize = isVisibleInLayout(
+        activePanels,
+        hasFacsimile,
+        windowSize,
+      );
 
       setActivePanels(
         activePanels.map((panel) => ({
           ...panel,
-          visible: visible.includes(panel.name),
+          visible:
+            filteredByProject.includes(panel.name) &&
+            filteredBySize.includes(panel.name),
         })),
       );
     }
@@ -104,18 +104,7 @@ function isVisibleInLayout(
   windowSize: WindowSize,
 ): string[] {
   const layout = hasFacsimile ? layouts.withFacsimile : layouts.default;
-  const panels = layout[windowSize];
+  const indices = layout[windowSize];
 
-  const configPanelNames = panels
-    .map((layoutPanelName) => {
-      const panelIndex = panelToIndex[layoutPanelName];
-      const config = detailPanels[panelIndex];
-      if (!config?.visible) {
-        return "";
-      }
-      return config.name;
-    })
-    .filter((configPanelName) => !!configPanelName);
-
-  return uniq(configPanelNames);
+  return indices.map((i) => detailPanels[i]?.name).filter((name) => !!name);
 }

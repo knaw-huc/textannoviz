@@ -9,9 +9,9 @@ import { isLetterDetailPage } from "./isLetterDetailPage.ts";
 export function filterPanels(
   panels: DetailPanelConfig[],
   annotations: AnnoRepoAnnotation[],
-): DetailPanelConfig[] {
+): string[] {
   if (isLetterDetailPage(annotations)) {
-    return panels;
+    return panels.map((p) => p.name);
   }
 
   const textPanelNames = panels
@@ -19,12 +19,14 @@ export function filterPanels(
     .map((p) => p.name);
 
   const firstTextPanelName = textPanelNames[0];
-  return panels.filter((p) => {
-    if (textPanelNames.includes(p.name)) {
-      return p.name === firstTextPanelName;
-    } else {
-      // Show all non-text panes:
-      return true;
-    }
-  });
+  return panels
+    .filter((p) => {
+      if (textPanelNames.includes(p.name)) {
+        return p.name === firstTextPanelName;
+      } else {
+        // Include all non-text panes:
+        return true;
+      }
+    })
+    .map((p) => p.name);
 }

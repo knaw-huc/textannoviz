@@ -229,7 +229,7 @@ type AnnotationConfig = {
   filterPanels?: (
     panels: DetailPanelConfig[],
     annotations: AnnoRepoAnnotation[],
-  ) => DetailPanelConfig[];
+  ) => string[];
 };
 
 export interface AnnotationItemProps {
