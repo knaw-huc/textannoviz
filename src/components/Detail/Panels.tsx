@@ -1,121 +1,18 @@
-import React from "react";
-import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
-import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { Panel } from "./Panel";
-import { useMiradorStore } from "../../stores/mirador";
+import { usePanelLayout } from "./usePanelLayout.tsx";
 
 export const Panels = () => {
-  const projectConfig = useProjectStore(projectConfigSelector);
-  const { activePanels, setActivePanels } = useDetailViewStore();
-  const iiif = useMiradorStore().iiif;
-
-  React.useEffect(() => {
-    const queries = {
-      mqSM: window.matchMedia("(min-width: 1px) and (max-width: 768px)"),
-      mqMD: window.matchMedia("(min-width: 768px) and (max-width: 1024px)"),
-      mqLG: window.matchMedia("(min-width: 1024px) and (max-width: 1280px)"),
-      mqXL: window.matchMedia("(min-width: 1280px) and (max-width: 1536px)"),
-      mq2XL: window.matchMedia("(min-width: 1536px)"),
-    };
-
-    function handleResize() {
-      const matchedQuery = Object.entries(queries).find(
-        ([, query]) => query.matches,
-      )?.[0] as keyof typeof queries;
-      if (!matchedQuery) return;
-
-      const newActivePanels = activePanels.map((panel) => {
-        const isVisible = (() => {
-          if (queries.mqSM.matches) {
-            return panel.name === projectConfig.detailPanels[1]?.name;
-          }
-
-          if (queries.mqMD.matches) {
-            return (
-              panel.name === projectConfig.detailPanels[1]?.name ||
-              panel.name ===
-                projectConfig.detailPanels[
-                  projectConfig.detailPanels.length - 1
-                ]?.name
-            );
-          }
-
-          if (queries.mqLG.matches || queries.mqXL.matches) {
-            if (!iiif?.manifest) {
-              return (
-                panel.name === projectConfig.detailPanels[1]?.name ||
-                panel.name ===
-                  projectConfig.detailPanels[
-                    projectConfig.detailPanels.length - 1
-                  ]?.name
-              );
-            } else {
-              return (
-                panel.name === projectConfig.detailPanels[0]?.name ||
-                panel.name === projectConfig.detailPanels[1]?.name ||
-                panel.name ===
-                  projectConfig.detailPanels[
-                    projectConfig.detailPanels.length - 1
-                  ]?.name
-              );
-            }
-          }
-
-          if (queries.mq2XL.matches) {
-            if (!iiif?.manifest) {
-              return (
-                panel.name === projectConfig.detailPanels[1]?.name ||
-                panel.name === projectConfig.detailPanels[2]?.name ||
-                panel.name ===
-                  projectConfig.detailPanels[
-                    projectConfig.detailPanels.length - 1
-                  ]?.name
-              );
-            } else {
-              return true;
-            }
-          }
-
-          return panel.visible;
-        })();
-        return {
-          ...panel,
-          visible: isVisible,
-        };
-      });
-
-      setActivePanels(newActivePanels);
-    }
-
-    handleResize();
-
-    Object.values(queries).forEach((mq) => {
-      mq.addEventListener("change", handleResize);
-    });
-
-    return () => {
-      Object.values(queries).forEach((mq) => {
-        mq.removeEventListener("change", handleResize);
-      });
-    };
-  }, []);
+  const panelLayout = usePanelLayout();
 
   return (
     <>
-      {projectConfig.detailPanels.map((panel, index) => {
-        const isVisible = activePanels[index]?.visible;
-        if (!isVisible) {
-          return null;
-        }
-
-        return (
-          <Panel
-            key={panel.name}
-            panelToRender={panel.panel}
-            panelName={panel.name}
-          />
-        );
-      })}
+      {panelLayout.map((panel) => (
+        <Panel
+          key={panel.name}
+          panelToRender={panel.panel}
+          panelName={panel.name}
+        />
+      ))}
     </>
   );
 };

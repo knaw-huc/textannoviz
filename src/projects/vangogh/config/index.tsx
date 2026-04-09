@@ -73,13 +73,13 @@ export const vangoghConfig: ProjectConfig = merge(
         size: "minmax(300px, 750fr)",
         panel: TextPanels.origTextPanel,
       },
-      // {
-      //   name: "text.trans",
-      //   visible: true,
-      //   disabled: false,
-      //   size: "minmax(300px, 750fr)",
-      //   panel: TextPanels.transTextPanel,
-      // },
+      {
+        name: "text.trans",
+        visible: true,
+        disabled: false,
+        size: "minmax(300px, 750fr)",
+        panel: TextPanels.transTextPanel,
+      },
       {
         name: "metadata",
         visible: true,
