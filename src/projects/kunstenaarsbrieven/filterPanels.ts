@@ -2,10 +2,6 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { DetailPanelConfig } from "../../model/ProjectConfig.ts";
 import { isLetterDetailPage } from "./isLetterDetailPage.ts";
 
-/**
- * On about pages, only show the first text panel
- * (orig and trans are identical)
- */
 export function filterPanels(
   panels: DetailPanelConfig[],
   annotations: AnnoRepoAnnotation[],
@@ -22,9 +18,13 @@ export function filterPanels(
   return panels
     .filter((p) => {
       if (textPanelNames.includes(p.name)) {
+        // Hide duplicate original/translation on about page:
         return p.name === firstTextPanelName;
+      } else if (p.name === "facs") {
+        // Hide scan viewer on about pages:
+        return false;
       } else {
-        // Include all non-text panes:
+        // Include all other non-text panes:
         return true;
       }
     })

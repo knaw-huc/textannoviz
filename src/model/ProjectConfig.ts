@@ -19,10 +19,12 @@ import {
 } from "./Search.ts";
 import { NoteReferenceBody } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
+export type PanelRegion = "left" | "main" | "right";
 export type DetailPanelConfig = {
   name: string;
   visible: boolean;
   size: string;
+  region: PanelRegion;
   disabled: boolean;
   panel: {
     content: JSX.Element;
