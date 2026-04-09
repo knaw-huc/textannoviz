@@ -29,9 +29,7 @@ export const quote = "Quote";
 export const reference = "Reference";
 export const supplied = "Supplied";
 export const term = "Term";
-export const teiArt = "art";
 export const teiArtwork = "artwork";
-export const teiIll = "ill";
 export const teiNote = "note";
 export const unknown = "unknown";
 
@@ -45,41 +43,29 @@ export type ArtworkBody = AnnoRepoBodyBase & {
 export type Artwork = ArtworkTeiRef;
 type ArtworkTeiRef = {
   id: string;
-  // TODO: check if source truely exists in peenless:
-  source: string[];
-  "tei:type": typeof teiIll | typeof teiArt;
-  corresp: string;
+  corresp?: string;
+  idno?: {
+    type: string;
+    text: string;
+  }[];
   head: {
     nl: string;
     en: string;
   };
-  date: {
-    "tei:type": string;
+  label: {
+    type: string;
+    text: string;
+  };
+  date?: {
+    type: string;
     text: string;
   };
   relation?: {
     name: string;
-    ref?: {
-      id: string;
-      gender: string;
-      source: string[];
-      persName: Array<{
-        full: string;
-        forename: string;
-        nameLink: string;
-        surname: string[];
-      }>;
-      birth: {
-        when: string;
-      };
-      death: {
-        when: string;
-      };
-      displayLabel: string;
-      sortLabel: string;
-    };
-  };
-  graphic: {
+    ref: string;
+    label: string;
+  }[];
+  graphic?: {
     url: string;
     width: number;
     height: number;
@@ -89,17 +75,21 @@ type ArtworkTeiRef = {
     unit: string;
     quantity: string;
   }[];
-  note: {
-    nl: {
-      technical: string;
-      creditline: string;
-      collection: string;
-    };
-    en: {
-      technical: string;
-      creditline: string;
-      collection: string;
-    };
+  catRef?: {
+    scheme: string;
+    target: string;
+  }[];
+  note?: {
+    type: string;
+    text: string;
+  }[];
+  bibl?: {
+    title: string;
+    biblScope?: {
+      unit: string;
+      text: string;
+    }[];
+    date: string;
   };
 };
 
