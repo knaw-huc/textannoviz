@@ -17,9 +17,7 @@ export const ViewSettings = () => {
     panelName: string,
     options?: { singleActive?: boolean },
   ) {
-    const isMobile =
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 767px)").matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     const singleActive = options?.singleActive ?? isMobile;
 
     const newActivePanels = activePanels.map((activePanel) => {

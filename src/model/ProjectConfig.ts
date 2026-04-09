@@ -19,6 +19,16 @@ import {
 } from "./Search.ts";
 import { NoteReferenceBody } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
+export type DetailPanelConfig = {
+  name: string;
+  visible: boolean;
+  size: string;
+  disabled: boolean;
+  panel: {
+    content: JSX.Element;
+  };
+};
+
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
   TextConfig &
@@ -46,15 +56,7 @@ export type ProjectConfig = SearchConfig &
     biblUrl: Partial<Record<LanguageCode, string>>;
     siteTitle: string;
 
-    detailPanels: {
-      name: string;
-      visible: boolean;
-      size: string;
-      disabled: boolean;
-      panel: {
-        content: JSX.Element;
-      };
-    }[];
+    detailPanels: DetailPanelConfig[];
 
     components: ComponentsConfig;
     projectCss: string;
@@ -223,6 +225,11 @@ type AnnotationConfig = {
 
   showToc: (annotations: AnnoRepoAnnotation[]) => boolean;
   getTocId: (body: AnnoRepoBodyBase) => string | undefined;
+
+  filterPanels?: (
+    panels: DetailPanelConfig[],
+    annotations: AnnoRepoAnnotation[],
+  ) => string[];
 };
 
 export interface AnnotationItemProps {
