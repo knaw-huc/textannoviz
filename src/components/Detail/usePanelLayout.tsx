@@ -1,14 +1,14 @@
 import { useEffect, useMemo } from "react";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
-import { useTextStore } from "../../stores/text/text-store.ts";
 import { useMiradorStore } from "../../stores/mirador";
-import { findViewText } from "../Text/useViewText.tsx";
 import { orThrow } from "../Text/Annotated/project/utils/orThrow.tsx";
-import { ProjectConfig } from "../../model/ProjectConfig.ts";
+import { DetailPanelConfig } from "../../model/ProjectConfig.ts";
 import { findKey, mapValues } from "lodash";
 import uniq from "lodash/uniq";
+import { useAnnotationStore } from "../../stores/annotation.ts";
 
+export type PanelPosition = "facsimile" | "second" | "third" | "fourth";
 export const layouts = {
   default: {
     s: ["second"],
@@ -42,33 +42,28 @@ export const panelSizes: Record<WindowSize, string> = {
 };
 
 export type WindowSize = "s" | "m" | "l" | "xl" | "xxl";
-export type PanelPosition = "facsimile" | "second" | "third" | "fourth";
 export type Layout = Record<WindowSize, PanelPosition[]>;
 
 /**
- * Filter panels from project config
- * - Are panels visible as per screen size layout?
- * - Filter out text panels
+ * Determine panel layout
+ * - filter by screen size layout
+ * - filter by projectConfig.showPanels
  */
-export function usePanelLayout() {
-  const { detailPanels } = useProjectStore(projectConfigSelector);
+export function usePanelLayout(): DetailPanelConfig[] {
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const { detailPanels, showPanels } = projectConfig;
   const { activePanels, setActivePanels } = useDetailViewStore();
-  const textViews = useTextStore((state) => state.views);
+  const annotations = useAnnotationStore((s) => s.annotations);
   const iiif = useMiradorStore().iiif;
   const hasFacsimile = !!iiif?.manifest;
 
-  const filteredPanels = useMemo(() => {
-    const textPanelsVisibility = deduplicateTextPanels(detailPanels, textViews);
-
-    return detailPanels.filter((panel) => {
-      if (panel.name in textPanelsVisibility) {
-        return textPanelsVisibility[panel.name];
-      } else {
-        // Show all non-text panels:
-        return true;
-      }
-    });
-  }, []);
+  const panelsShown = useMemo(() => {
+    if (!showPanels) {
+      return activePanels;
+    }
+    const shownPanels = new Set(showPanels(activePanels, annotations));
+    return activePanels.filter((p) => shownPanels.has(p.name));
+  }, [activePanels, annotations, showPanels]);
 
   useEffect(filterPanelsOnResize, []);
 
@@ -82,12 +77,17 @@ export function usePanelLayout() {
         (findKey(mediaQueries, (q) => q.matches) as WindowSize) ??
         orThrow("No window size");
 
-      const active = filterPanelsBySize(detailPanels, hasFacsimile, windowSize);
+      const visible = filterPanelsBySize(
+        detailPanels,
+        hasFacsimile,
+        windowSize,
+      );
 
+      const currentPanels = useDetailViewStore.getState().activePanels;
       setActivePanels(
-        activePanels.map((panel) => ({
+        currentPanels.map((panel) => ({
           ...panel,
-          visible: active.includes(panel.name),
+          visible: visible.includes(panel.name),
         })),
       );
     }
@@ -105,11 +105,11 @@ export function usePanelLayout() {
     };
   }
 
-  return filteredPanels;
+  return panelsShown;
 }
 
 function filterPanelsBySize(
-  detailPanels: ProjectConfig["detailPanels"],
+  detailPanels: DetailPanelConfig[],
   hasFacsimile: boolean,
   windowSize: WindowSize,
 ): string[] {
@@ -124,30 +124,4 @@ function filterPanelsBySize(
     .filter((configPanelName) => !!configPanelName);
 
   return uniq(configPanelNames);
-}
-
-/**
- * Do not show multiple text panels with the same body
- * I.e, when orig and trans have the same text body only include the first
- */
-function deduplicateTextPanels(
-  detailPanels: ProjectConfig["detailPanels"],
-  textViews: ReturnType<typeof useTextStore.getState>["views"],
-): Record<string, boolean> {
-  const visibleBodies = new Set<string>();
-  const allTextPanels: Record<string, boolean> = {};
-
-  for (const panel of detailPanels) {
-    const viewsToRender = panel.panel.content.props.viewToRender;
-    if (!viewsToRender) {
-      // Not a text panel:
-      continue;
-    }
-
-    const text = findViewText(textViews, viewsToRender) ?? orThrow("No text");
-    allTextPanels[panel.name] = !visibleBodies.has(text.body);
-    visibleBodies.add(text.body);
-  }
-
-  return allTextPanels;
 }
