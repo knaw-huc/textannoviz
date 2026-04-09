@@ -53,8 +53,6 @@ export function usePanelLayout(): DetailPanelConfig[] {
   const { detailPanels, showPanels } = projectConfig;
   const { activePanels, setActivePanels } = useDetailViewStore();
   const annotations = useAnnotationStore((s) => s.annotations);
-  const iiif = useMiradorStore().iiif;
-  const hasFacsimile = !!iiif?.manifest;
 
   const filteredActivePanels = useMemo(() => {
     if (!showPanels) {
@@ -78,6 +76,7 @@ export function usePanelLayout(): DetailPanelConfig[] {
         return;
       }
 
+      const hasFacsimile = !!useMiradorStore.getState().iiif?.manifest;
       const visible = filterPanelsBySize(
         detailPanels,
         hasFacsimile,
