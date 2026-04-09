@@ -46,7 +46,7 @@ const panelNameToIndex: Record<PanelName, number> = {
 };
 
 /**
- * Determine panel layout
+ * Determine panel layout by setting active panels
  * - filter by screen size layout, also on resize
  * - filter by {@link ProjectConfig.filterPanels}
  */
