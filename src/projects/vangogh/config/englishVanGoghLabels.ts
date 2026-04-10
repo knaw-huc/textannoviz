@@ -129,4 +129,10 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
     "Use facets (e.g., Persons, Location) to narrow down your results. Multiple facets and values can be combined.",
   SEARCH_HISTORY_HELP:
     "Shows the last ten searches executed on this browser. Clicking a search re-executes it. It is also possible to remove a previous search from the history.",
+  RECIPIENT_HELP: "TODO: Help text for Recipient facet",
+  SENDER_HELP: "TODO: Help text for Sender facet",
+  CORRESPONDENT_HELP: "TODO: Help text for Correspondent facet",
+  PERIOD_HELP: "TODO: Help text for Period facet",
+  MS_ID_HELP: "TODO: Help text for Shelfmark facet",
+  TITLE_HELP: "TODO: Help text for Title facet",
 });
