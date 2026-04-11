@@ -3,10 +3,14 @@ import { englishLabels } from "../../default/config/englishLabels";
 export const englishSurianoLabels = Object.assign({}, englishLabels, {
   //Text panel titles
   self: "Main text + secretarial + appendix",
-  "text.it": "Main text + secretarial",
+  "text.it": "Main text + secretarial + appendix",
   appendix: "Appendix",
   original: "Main text without secretarial and appendix",
   secretarial: "Secretarial",
+  text: "Text",
+  info: "Info",
+  intro: "Introduction",
+  help: "Help",
 
   notes: "Notes",
   artworks: "Artworks",
@@ -21,6 +25,10 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   toLocation: "Location of recipient",
   persons: "Persons",
   addInfo: "Summary",
+  file: "Letter ID",
+  type: "Type",
+  title: "Title",
+  letter: "Letter",
 
   //Metadata panel
   summary: "Summary",
@@ -46,4 +54,20 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   SEARCH_IN: "Search in",
   letterOriginalText: "Letters",
   letterNotesText: "Letter notes",
+  NO_ARTWORKS: "No artworks in this letter",
+  SHOW_PAGE: "Show facsimile",
+
+  // Facet Help Texts
+  SEARCH_IN_HELP:
+    "Use this control to limit your search to specific parts of the edition: the original texts, translations, or editorial notes in the letters or the introductory texts.",
+  DATE_HELP:
+    "Filter by the date when a letter was written. For those letters for which the precise date of writing is unknown, they are included in the search results when they might have been written in the selected period. The display of the date (day-month or month-day) is determined by your computer or browser settings).",
+  VIEW_HELP:
+    "Use the View Options in the bottom right of the window to show or hide elements such as transcription, translation, metadata, or facsimile. Hidden elements are greyed out.",
+  SENDER_HELP:
+    "TODO: add help text for Sender facet in projects/suriano/englishSurianoLabels.ts",
+  RECIPIENT_HELP:
+    "TODO: add help text for Recipient facet in projects/suriano/englishSurianoLabels.ts",
+  PERSONS_HELP:
+    "Filter by individual(s) mentioned in the letters, the editorial notes, and the introduction. Use the search field at the top of the facet to find a specific person by name. Selecting a name will show only the document(s) in which this person is referenced. You can select multiple names at once; this will return documents where one of the selected persons is mentioned. Uncheck a name to remove it from your selection.",
 });
