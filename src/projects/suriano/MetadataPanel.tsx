@@ -19,7 +19,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const letterAnnoBody = findLetterBody(props.annotations);
 
   const {
-    n,
+    // n,
     dateSent,
     recipient,
     fromLocation,
@@ -39,14 +39,16 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
       <ul className="m-0 list-none p-0">
         {letterAnnoBody ? (
           <>
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <div className={labelStyling}>
-                  {translateProject("letter")}:{" "}
+            {typedNoteText ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("addInfo")}:{" "}
+                  </div>
+                  <AnnotatedText text={typedNoteText} showDetail={false} />
                 </div>
-                {n}
-              </div>
-            </li>
+              </li>
+            ) : null}
             <li className="mb-8">
               <div className={gridOneColumn}>
                 <div className={labelStyling}>
@@ -95,16 +97,14 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 {shelfmark}
               </div>
             </li>
-            {typedNoteText ? (
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <div className={labelStyling}>
-                    {translateProject("addInfo")}:{" "}
-                  </div>
-                  <AnnotatedText text={typedNoteText} showDetail={false} />
-                </div>
-              </li>
-            ) : null}
+            {/*<li className="mb-8">*/}
+            {/*  <div className={gridOneColumn}>*/}
+            {/*    <div className={labelStyling}>*/}
+            {/*      {translateProject("letter")}:{" "}*/}
+            {/*    </div>*/}
+            {/*    {n}*/}
+            {/*  </div>*/}
+            {/*</li>*/}
           </>
         ) : (
           translateProject("NO_DATA")
