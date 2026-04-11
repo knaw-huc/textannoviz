@@ -95,7 +95,7 @@ export const surianoConfig: ProjectConfig = merge(
     logoImageUrl: logo,
 
     overrideDefaultSearchParams: {
-      sortBy: "date",
+      sortBy: "file",
       sortOrder: "asc",
     },
   } as ProjectSpecificConfig,
