@@ -70,7 +70,7 @@ function NavigationBar({ fullscreenRef }: NavigationBarProps) {
     zoomLevel != null && zoomMax != null && zoomLevel >= zoomMax;
 
   return (
-    <div className="absolute left-1/2 top-5 flex -translate-x-1/2 flex-col items-center rounded bg-white/75 px-2 py-1">
+    <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 flex-col items-center rounded bg-white/75 px-2 py-1">
       <div className="flex items-center gap-1">
         <button
           onClick={zoomIn}
