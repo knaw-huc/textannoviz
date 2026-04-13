@@ -2,28 +2,21 @@ import { useEffect } from "react";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
 import { useMiradorStore } from "../../stores/mirador";
-import { DetailPanelConfig } from "../../model/ProjectConfig.ts";
+import { DetailPanelConfig, PanelRegion } from "../../model/ProjectConfig.ts";
 import { findKey, mapValues } from "lodash";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 
+export type WindowSize = "s" | "m" | "l" | "xl" | "xxl";
+
 /**
- * Panels from detailPanels config to show at each screen size
+ * Which panel regions to show at each screen size
  */
-export const layouts: Record<string, Layout> = {
-  default: {
-    s: ["original"],
-    m: ["original", "metadata"],
-    l: ["original", "metadata"],
-    xl: ["original", "metadata"],
-    xxl: ["original", "translation", "metadata"],
-  },
-  withFacsimile: {
-    s: ["original"],
-    m: ["original", "metadata"],
-    l: ["facsimile", "original", "metadata"],
-    xl: ["facsimile", "original", "metadata"],
-    xxl: ["facsimile", "original", "translation", "metadata"],
-  },
+export const layout: Record<WindowSize, PanelRegion[]> = {
+  s: ["main"],
+  m: ["main", "right"],
+  l: ["left", "main", "right"],
+  xl: ["left", "main", "right"],
+  xxl: ["left", "main", "main", "right"],
 };
 
 export const layoutBreakpoints: Record<WindowSize, string> = {
@@ -32,17 +25,6 @@ export const layoutBreakpoints: Record<WindowSize, string> = {
   l: "(min-width: 1024px) and (max-width: 1280px)",
   xl: "(min-width: 1280px) and (max-width: 1536px)",
   xxl: "(min-width: 1536px)",
-};
-
-export type PanelName = "facsimile" | "original" | "translation" | "metadata";
-export type WindowSize = "s" | "m" | "l" | "xl" | "xxl";
-export type Layout = Record<WindowSize, PanelName[]>;
-
-const panelNameToIndex: Record<PanelName, number> = {
-  facsimile: 0,
-  original: 1,
-  translation: 2,
-  metadata: 3,
 };
 
 /**
@@ -55,9 +37,9 @@ export function usePanelLayout(): null {
   const { filterPanels } = projectConfig;
   const { activePanels, setActivePanels } = useDetailViewStore();
   const annotations = useAnnotationStore((s) => s.annotations);
-  const hasFacsimile = !!useMiradorStore((s) => s.iiif?.manifest);
+  const hasManifest = !!useMiradorStore((s) => s.iiif?.manifest);
 
-  useEffect(filterPanelsOnResize, [hasFacsimile]);
+  useEffect(filterPanelsOnResize, [hasManifest]);
 
   function filterPanelsOnResize() {
     const mediaQueries = mapValues(layoutBreakpoints, (query) =>
@@ -71,14 +53,11 @@ export function usePanelLayout(): null {
         return;
       }
 
-      const filteredByProject =
-        filterPanels?.(activePanels, annotations) ??
-        activePanels.map((a) => a.name);
-      const filteredBySize = isVisibleInLayout(
-        activePanels,
-        hasFacsimile,
-        windowSize,
-      );
+      const filteredByProject = filterPanels
+        ? filterPanels(activePanels, annotations)
+        : activePanels.map((a) => a.name);
+
+      const filteredBySize = isVisibleInLayout(activePanels, windowSize);
 
       setActivePanels(
         activePanels.map((panel) => ({
@@ -108,12 +87,21 @@ export function usePanelLayout(): null {
 
 function isVisibleInLayout(
   detailPanels: DetailPanelConfig[],
-  hasFacsimile: boolean,
   windowSize: WindowSize,
 ): string[] {
-  const layout = hasFacsimile ? layouts.withFacsimile : layouts.default;
-  const panelNames = layout[windowSize];
-  return panelNames
-    .map((name) => detailPanels[panelNameToIndex[name]]?.name)
-    .filter((name) => !!name);
+  const panelRegions = layout[windowSize];
+  const usedPanels = new Set<string>();
+  const visiblePanels: string[] = [];
+
+  for (const region of panelRegions) {
+    const foundPanel = detailPanels.find(
+      (p) => p.region === region && !usedPanels.has(p.name),
+    );
+    if (foundPanel) {
+      usedPanels.add(foundPanel.name);
+      visiblePanels.push(foundPanel.name);
+    }
+  }
+
+  return visiblePanels;
 }
