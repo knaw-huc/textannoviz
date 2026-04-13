@@ -1,7 +1,12 @@
-import React, { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCanvas, useViewer } from "@knaw-huc/osd-iiif-viewer";
 import { toast } from "react-toastify";
-import { CanvasTarget, NoteBody } from "../../../model/AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  CanvasSelector,
+  CanvasTarget,
+  NoteBody,
+} from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";
 import {
@@ -14,6 +19,7 @@ import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
 import { SegmentBody } from "./SegmentBody.tsx";
 import { createTooltipMarkerClasses } from "./utils/createAnnotationClasses.ts";
+import { toArray } from "lodash";
 
 export function MarkerAnnotation(
   props: Pick<NestedAnnotationProps, "segment">,
@@ -40,7 +46,8 @@ export function MarkerAnnotation(
 }
 
 export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
-  const [isZooming, setIsZooming] = React.useState(false);
+  const { marker } = props;
+  const [isZooming, setIsZooming] = useState(false);
   const annotations = useAnnotationStore().annotations;
   const viewer = useViewer();
   const { currentCanvasId, goToById } = useCanvas();
@@ -49,9 +56,9 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
     projectConfigSelector,
   ).zoomAnnoFacsimile;
 
-  const { canvas, region } = getCanvasRegion();
+  const { canvas, region } = findCanvasRegion(annotations, marker.body.id);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!zoomAnnoFacsimile || !viewer || !region) {
       return;
     }
@@ -76,36 +83,6 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
       goToById(canvas);
       setIsZooming(true);
     }
-  }
-
-  function getCanvasRegion() {
-    const pageAnno = annotations.find(
-      (anno) => props.marker.body.id === anno.body.id,
-    );
-
-    const canvas = (pageAnno?.target as CanvasTarget[])
-      .filter((t) => t.type === "Canvas")
-      .map((t) => t.source)[0];
-
-    const region = (pageAnno?.target as CanvasTarget[])
-      .filter((t) => t.type === "Canvas")
-      .flatMap((t) =>
-        Array.isArray(t.selector)
-          ? t.selector
-              .filter(
-                (
-                  sel,
-                ): sel is { type: "iiif:ImageApiSelector"; region: string } =>
-                  sel.type === "iiif:ImageApiSelector" && "region" in sel,
-              )
-              .map((sel) => sel.region)
-          : [],
-      );
-
-    return {
-      canvas,
-      region: region[0] ?? null,
-    };
   }
 
   const pageNumber = props.marker.body.metadata.n;
@@ -187,4 +164,33 @@ function zoomToRegion(viewer: ReturnType<typeof useViewer>, region: string) {
   const [x, y, w, h] = region.split(",").map((s) => Number(s));
   const rect = viewer.viewport.imageToViewportRectangle(x, y, w, h);
   viewer.viewport.fitBounds(rect);
+}
+type WithRegion = { type: "iiif:ImageApiSelector"; region: string };
+function isWithRegion(sel: CanvasSelector): sel is WithRegion {
+  return sel.type === "iiif:ImageApiSelector" && "region" in sel;
+}
+
+function findCanvasRegion(annotations: AnnoRepoAnnotation[], markerId: string) {
+  const pageAnno = annotations.find((anno) => anno.body.id === markerId);
+
+  const canvas = (pageAnno?.target as CanvasTarget[])
+    .filter((t) => t.type === "Canvas")
+    .map((t) => t.source)[0];
+
+  const canvasTargets = (pageAnno?.target as CanvasTarget[]).filter(
+    (t) => t.type === "Canvas",
+  );
+
+  const regions = canvasTargets.flatMap((t) => {
+    if (!t.selector) {
+      return [];
+    }
+    const selectors = toArray(t.selector);
+    return selectors.filter(isWithRegion).map((s) => s.region);
+  });
+
+  return {
+    canvas,
+    region: regions[0] ?? null,
+  };
 }
