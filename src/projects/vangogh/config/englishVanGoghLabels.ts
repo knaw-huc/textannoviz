@@ -13,6 +13,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   type: "Type",
   artworksEN: "Artworks",
   correspondent: "Correspondent",
+  artworkIds: "Artworks (ID)",
 
   facetInputFilterPlaceholder: "Search in facet",
 

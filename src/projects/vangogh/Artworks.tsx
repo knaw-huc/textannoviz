@@ -72,7 +72,7 @@ export function Artworks() {
   function searchArtwork(artw: Artwork) {
     const query: Partial<SearchQuery> = {
       terms: {
-        [`artworks${interfaceLang.toUpperCase()}`]: [artw.head[interfaceLang]],
+        [`artworkIds`]: [artw.id],
       },
     };
 
