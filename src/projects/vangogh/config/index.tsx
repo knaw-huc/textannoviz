@@ -49,7 +49,7 @@ export const vangoghConfig: ProjectConfig = merge(
     },
     defaultKeywordAggsToRender: [
       "type",
-      // "location",
+      "location",
       "period",
       "file",
       "persons",
@@ -57,6 +57,7 @@ export const vangoghConfig: ProjectConfig = merge(
       "artworksEN",
       "recipient",
       "sender",
+      "correspondent",
     ],
     detailPanels: [
       {
