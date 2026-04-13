@@ -7,7 +7,6 @@ import {
   AnnoRepoBodyBase,
 } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
-import { MiradorConfig } from "./MiradorConfig.ts";
 import {
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
@@ -238,7 +237,6 @@ export type ProjectSpecificConfig = Pick<
   ProjectSpecificProperties
 > &
   // Make nested config properties optional:
-  Omit<Partial<ProjectConfig>, "components" | "mirador"> & {
+  Omit<Partial<ProjectConfig>, "components"> & {
     components?: Partial<ComponentsConfig>;
-    mirador?: Partial<MiradorConfig>;
   };
