@@ -67,7 +67,7 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   showSliderFacets: true,
   showSettingsMenuFooter: false,
   useExternalConfig: true,
-  visualizeAnnosMirador: true,
+  markAnnosOnFacsimile: true,
   zoomAnnoFacsimile: true,
   showMiradorNavigationButtons: false,
   overrideDefaultAggs: [

@@ -33,7 +33,7 @@ export type ProjectConfig = SearchConfig &
     selectedLanguage: LanguageCode;
     languages: Language[];
     useExternalConfig: boolean;
-    visualizeAnnosMirador: boolean;
+    markAnnosOnFacsimile: boolean;
     showWebAnnoTab: boolean;
     showNotesTab: boolean;
     showArtworksTab: boolean;

@@ -159,5 +159,5 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   projectCss: projectCss,
   zoomAnnoFacsimile: true,
   // TODO: how to test this?
-  visualizeAnnosFacsimile: true,
+  markAnnosOnFacsimile: true,
 } as ProjectSpecificConfig);
