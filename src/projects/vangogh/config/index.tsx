@@ -141,9 +141,6 @@ export const vangoghConfig: ProjectConfig = merge(
         element: <Bibliography />,
       },
     ],
-    mirador: {
-      showWindowSideBar: true,
-    },
     zoomAnnoFacsimile: true,
     // TODO: how to test this?
     visualizeAnnosFacsimile: true,

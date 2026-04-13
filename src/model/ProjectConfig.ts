@@ -3,7 +3,6 @@ import { EntitySummaryProps } from "../components/Text/Annotated/project/EntityS
 import { Any } from "../utils/Any.ts";
 import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
-import { MiradorConfig } from "./MiradorConfig.ts";
 import {
   BrederodeSearchResultsBody,
   GlobaliseSearchResultsBody,
@@ -256,7 +255,6 @@ export type ProjectSpecificConfig = Pick<
   ProjectSpecificProperties
 > &
   // Make nested config properties optional:
-  Omit<Partial<ProjectConfig>, "components" | "mirador"> & {
+  Omit<Partial<ProjectConfig>, "components"> & {
     components?: Partial<ComponentsConfig>;
-    mirador?: Partial<MiradorConfig>;
   };

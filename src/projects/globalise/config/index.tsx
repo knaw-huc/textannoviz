@@ -66,8 +66,5 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
       labels: englishGlobaliseLabels,
     },
   ],
-  mirador: {
-    showWindowSideBar: true,
-  },
   defaultKeywordAggsToRender: ["langLabel"],
 } as ProjectSpecificConfig);
