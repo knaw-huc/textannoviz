@@ -32,7 +32,7 @@
   "author": "Sebastiaan van Daalen",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@heroicons/react": "^2.1.1",
+    "@heroicons/react": "^2.2.0",
     "@knaw-huc/osd-iiif-viewer": "^0.2.1",
     "@spectrum-icons/workflow": "^4.2.11",
     "@types/qs": "^6.9.18",

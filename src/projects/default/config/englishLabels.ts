@@ -96,4 +96,10 @@ export const englishLabels: Labels = {
   "text.self": "Text",
   facs: "Facsimile",
   metadata: "Info",
+
+  ZOOM_IN: "Zoom in",
+  ZOOM_OUT: "Zoom out",
+  ZOOM_RESET: "Reset zoom",
+  FULLSCREEN: "Fullscreen",
+  EXIT_FULLSCREEN: "Exit fullscreen",
 };
