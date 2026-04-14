@@ -1,10 +1,14 @@
-import mirador from "mirador-knaw-huc-mui5";
-import React, { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useCanvas, useViewer } from "@knaw-huc/osd-iiif-viewer";
 import { toast } from "react-toastify";
-import { CanvasTarget, NoteBody } from "../../../model/AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  CanvasSelector,
+  CanvasTarget,
+  NoteBody,
+} from "../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
 import { useDetailViewStore } from "../../../stores/detail-view/detail-view-store.ts";
-import { useInternalMiradorStore } from "../../../stores/internal-mirador.ts";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -15,7 +19,7 @@ import { isMarkerSegment, MarkerSegment } from "./AnnotationModel.ts";
 import { NestedAnnotationProps } from "./NestedAnnotation.tsx";
 import { SegmentBody } from "./SegmentBody.tsx";
 import { createTooltipMarkerClasses } from "./utils/createAnnotationClasses.ts";
-import { useMiradorStore } from "../../../stores/mirador.ts";
+import { toArray } from "lodash";
 
 export function MarkerAnnotation(
   props: Pick<NestedAnnotationProps, "segment">,
@@ -42,103 +46,43 @@ export function MarkerAnnotation(
 }
 
 export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
-  const [doZoom, setDoZoom] = React.useState(false);
+  const { marker } = props;
+  const [isZooming, setIsZooming] = useState(false);
   const annotations = useAnnotationStore().annotations;
-  const miradorStore = useInternalMiradorStore().miradorStore;
-  const projectName = useProjectStore().projectName;
+  const viewer = useViewer();
+  const { currentCanvasId, goToById } = useCanvas();
   const translateProject = useProjectStore(translateProjectSelector);
-  const zoomAnnoMirador = useProjectStore(
+  const zoomAnnoFacsimile = useProjectStore(
     projectConfigSelector,
-  ).zoomAnnoMirador;
+  ).zoomToAnnoOnFacsimile;
 
-  const currentCanvas = useMiradorStore().currentCanvas;
+  const { canvas, region } = findCanvasRegion(annotations, marker.body.id);
 
-  const { canvas, zoomConfig } = getCanvasAndZoomConfig();
-  const { zoomCenter, miradorZoom } = zoomConfig;
-
-  React.useEffect(() => {
-    if (!zoomAnnoMirador) return;
-
-    if (canvas === currentCanvas) {
-      if (doZoom) {
-        miradorStore.dispatch(
-          mirador.actions.updateViewport(projectName, {
-            x: zoomCenter.x,
-            y: zoomCenter.y,
-            zoom: 1.5 / miradorZoom,
-            flip: false,
-            rotation: 0,
-          }),
-        );
-        setDoZoom(false);
-      }
+  useEffect(() => {
+    if (!zoomAnnoFacsimile || !viewer || !region) {
+      return;
     }
-  }, [currentCanvas]);
+
+    if (canvas === currentCanvasId && isZooming) {
+      zoomToRegion(viewer, region);
+      setIsZooming(false);
+    }
+  }, [currentCanvasId]);
 
   function pageBreakClickHandler() {
-    if (canvas.length > 0) {
-      if (currentCanvas === canvas) {
-        if (!zoomAnnoMirador) return;
-        miradorStore.dispatch(
-          mirador.actions.updateViewport(projectName, {
-            x: zoomCenter.x,
-            y: zoomCenter.y,
-            zoom: 1.5 / miradorZoom,
-            flip: false,
-            rotation: 0,
-          }),
-        );
-      } else {
-        miradorStore.dispatch(mirador.actions.setCanvas(projectName, canvas));
-        setDoZoom(true);
-      }
+    if (!canvas) {
+      return;
     }
-  }
 
-  function getCanvasAndZoomConfig() {
-    const pageAnno = annotations.find(
-      (anno) => props.marker.body.id === anno.body.id,
-    );
-
-    const canvas = (pageAnno?.target as CanvasTarget[])
-      .filter((t) => t.type === "Canvas")
-      .map((t) => t.source)[0];
-
-    const region = (pageAnno?.target as CanvasTarget[])
-      .filter((t) => t.type === "Canvas")
-      .flatMap((t) =>
-        Array.isArray(t.selector)
-          ? t.selector
-              .filter(
-                (
-                  sel,
-                ): sel is { type: "iiif:ImageApiSelector"; region: string } =>
-                  sel.type === "iiif:ImageApiSelector" && "region" in sel,
-              )
-              .map((sel) => sel.region)
-          : [],
-      );
-
-    const regionStr = region[0];
-    const [x, y, w, h] = regionStr
-      ? regionStr.split(",").map(Number)
-      : [0, 0, 0, 0];
-    const boxToZoom = { x, y, width: w, height: h };
-    const zoomCenter = {
-      x: boxToZoom.x + boxToZoom.width / 2,
-      y: boxToZoom.y + boxToZoom.height / 2,
-    };
-
-    const miradorZoom = Math.max(boxToZoom.width + boxToZoom.height / 2, 1);
-
-    return {
-      canvas,
-      zoomConfig: {
-        ...boxToZoom,
-        zoomCenter,
-        miradorZoom,
-      },
-    };
+    if (currentCanvasId === canvas) {
+      if (!zoomAnnoFacsimile || !viewer || !region) {
+        return;
+      }
+      zoomToRegion(viewer, region);
+    } else {
+      goToById(canvas);
+      setIsZooming(true);
+    }
   }
 
   const pageNumber = props.marker.body.metadata.n;
@@ -214,4 +158,42 @@ export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { marker } = props;
   return <projectConfig.components.InsertMarkerAnnotation marker={marker} />;
+}
+
+function zoomToRegion(
+  viewer: NonNullable<ReturnType<typeof useViewer>>,
+  region: string,
+) {
+  const [x, y, w, h] = region.split(",").map((s) => Number(s));
+  const rect = viewer.viewport.imageToViewportRectangle(x, y, w, h);
+  viewer.viewport.fitBounds(rect);
+}
+type WithRegion = { type: "iiif:ImageApiSelector"; region: string };
+function isWithRegion(sel: CanvasSelector): sel is WithRegion {
+  return sel.type === "iiif:ImageApiSelector" && "region" in sel;
+}
+
+function findCanvasRegion(annotations: AnnoRepoAnnotation[], markerId: string) {
+  const pageAnno = annotations.find((anno) => anno.body.id === markerId);
+
+  const canvas = (pageAnno?.target as CanvasTarget[])
+    .filter((t) => t.type === "Canvas")
+    .map((t) => t.source)[0];
+
+  const canvasTargets = (pageAnno?.target as CanvasTarget[]).filter(
+    (t) => t.type === "Canvas",
+  );
+
+  const regions = canvasTargets.flatMap((t) => {
+    if (!t.selector) {
+      return [];
+    }
+    const selectors = toArray(t.selector);
+    return selectors.filter(isWithRegion).map((s) => s.region);
+  });
+
+  return {
+    canvas,
+    region: regions[0] ?? null,
+  };
 }

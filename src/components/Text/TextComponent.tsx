@@ -1,6 +1,5 @@
 import { Skeleton } from "primereact/skeleton";
 import { useTextStore } from "../../stores/text/text-store.ts";
-import { AnnotatedText } from "./Annotated/AnnotatedText";
 import {
   projectConfigSelector,
   translateProjectSelector,
@@ -13,6 +12,7 @@ import {
   Broccoli,
 } from "../../model/Broccoli.ts";
 import React from "react";
+import { AnnotatedText } from "./Annotated/AnnotatedText.tsx";
 
 type TextComponentProps = {
   viewToRender: string;
@@ -48,8 +48,8 @@ export const TextComponent = (props: TextComponentProps) => {
       {/* <div className="sr-only">
         <h1>Resolutie</h1>
       </div> */}
-      <div className="flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10">
-        <span className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500">
+      <div className="flex w-full flex-col overflow-y-scroll px-6 pt-4 xl:px-10">
+        <span className="mr-8 mt-4 flex justify-end gap-1 text-sm uppercase text-neutral-500 lg:my-6">
           {translateProject(`${props.viewToRender}`)}
         </span>
         {text && !props.isLoading ? (

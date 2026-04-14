@@ -92,4 +92,11 @@ export type Labels = {
   "text.self": string;
   facs: string;
   metadata: string;
+
+  // Facsimile viewer:
+  ZOOM_IN: string;
+  ZOOM_OUT: string;
+  ZOOM_RESET: string;
+  FULLSCREEN: string;
+  EXIT_FULLSCREEN: string;
 };
