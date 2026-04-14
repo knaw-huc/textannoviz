@@ -58,7 +58,7 @@ export const defaultConfig: DefaultProjectConfig = {
   showArtworksTab: false,
   showHistogram: false,
   useExternalConfig: false,
-  markAnnosOnFacsimile: false,
+  showAnnosOnFacsimile: false,
   allowEmptyStringSearch: true,
   showFacsimile: true,
   showMiradorNavigationButtons: false,

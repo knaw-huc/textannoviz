@@ -29,7 +29,8 @@ export function useInitDetail() {
   const [isLoading, setLoading] = useState(false);
 
   const loadManifest = useLoadManifest();
-  const { setAnnotations, setPtrToNoteAnnosMap } = useAnnotationStore();
+  const { setAnnotations, setPtrToNoteAnnosMap, setBodyId } =
+    useAnnotationStore();
   const { setViews } = useTextStore();
   const { setActivePanels } = useDetailViewStore();
 
@@ -115,6 +116,7 @@ export function useInitDetail() {
         loadManifest(result.iiif.manifest, result.iiif.canvasIds[0]);
       }
       setAnnotations(annotations);
+      setBodyId(result.request.bodyId);
 
       //TODO: Note anno type to project config
       if (annotations.some((anno) => anno.body.type === "tei:Note")) {
