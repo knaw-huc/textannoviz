@@ -11,7 +11,8 @@ import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
 import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { getLink, isLink } from "./isLink.ts";
+import { getTocId, showToc } from "./showToc.ts";
+import { getUrl, isLink } from "./isLink.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -38,7 +39,7 @@ export const defaultConfig: DefaultProjectConfig = {
   isEntity: isEntity,
   isToolTipMarker: isNoteReference,
   isLink: isLink,
-  getUrl: getLink,
+  getUrl: getUrl,
 
   personsUrl: "",
   artworksUrl: "",
@@ -81,6 +82,8 @@ export const defaultConfig: DefaultProjectConfig = {
   showFacetFilter: true,
   showPrevNextScanButtons: false,
   pageAnnotation: "",
+  showToc: showToc,
+  getTocId: getTocId,
   components: {
     AnnotationItem: AnnotationItem,
     AnnotationItemContent: AnnotationItemContent,
@@ -97,6 +100,7 @@ export const defaultConfig: DefaultProjectConfig = {
     ArtworksTab: Placeholder,
     InsertMarkerAnnotation: Empty,
     Header: Header,
+    TocPanel: Placeholder,
   },
   selectedLanguage: "en",
   languages: [
@@ -112,21 +116,24 @@ export const defaultConfig: DefaultProjectConfig = {
       name: "facs",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 650px)",
+      region: "left",
+      size: "minmax(300px, 650fr)",
       panel: PanelTemplates.facsPanel,
     },
     {
       name: "text.self",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 750px)",
+      region: "main",
+      size: "minmax(300px, 750fr)",
       panel: TextPanels.self,
     },
     {
       name: "metadata",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 400px)",
+      region: "right",
+      size: "minmax(300px, 400fr)",
       panel: PanelTemplates.metadataPanel,
     },
   ],

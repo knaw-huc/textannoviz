@@ -10,7 +10,7 @@ import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
 import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
-import { getUrlParams } from "../../utils/UrlParamUtils.ts";
+import { getUrlParams } from "../../utils/url/UrlParamUtils.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
 
@@ -111,7 +111,7 @@ export function DetailSearchResultsNavigation() {
             !foundResultId || (!hasPrevResult(resultIndex) && !hasPrevPage())
           }
         >
-          <span className="px-2">&#9668;</span>
+          <span className="px-2">&#9664;</span>
           <span className="hidden md:block">{translate("PREV")}</span>
         </FooterLink>
         <div className="hidden border-r lg:block">
@@ -132,7 +132,7 @@ export function DetailSearchResultsNavigation() {
           }
         >
           <span className="hidden md:block">{translate("NEXT")}</span>
-          <span className="px-2">&#9658;</span>
+          <span className="px-2">&#9654;</span>
         </FooterLink>
       </div>
       {/* <FooterLink

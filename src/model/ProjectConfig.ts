@@ -18,6 +18,18 @@ import {
 } from "./Search.ts";
 import { NoteReferenceBody } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
+export type PanelRegion = "left" | "main" | "right";
+export type DetailPanelConfig = {
+  name: string;
+  visible: boolean;
+  size: string;
+  region: PanelRegion;
+  disabled: boolean;
+  panel: {
+    content: JSX.Element;
+  };
+};
+
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
   TextConfig &
@@ -44,15 +56,7 @@ export type ProjectConfig = SearchConfig &
     biblUrl: Partial<Record<LanguageCode, string>>;
     siteTitle: string;
 
-    detailPanels: {
-      name: string;
-      visible: boolean;
-      size: string;
-      disabled: boolean;
-      panel: {
-        content: JSX.Element;
-      };
-    }[];
+    detailPanels: DetailPanelConfig[];
 
     components: ComponentsConfig;
     projectCss: string;
@@ -102,6 +106,7 @@ export type ComponentsConfig = {
   ArtworksTab: () => JSX.Element;
   InsertMarkerAnnotation: (props: { marker: MarkerSegment }) => JSX.Element;
   Header: () => JSX.Element;
+  TocPanel: () => JSX.Element;
 };
 
 type TextConfig = {
@@ -208,11 +213,16 @@ type AnnotationConfig = {
   getHighlightCategory: CategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
-  /**
-   * TODO: Decide on how to handle links, do we even want to render urls in the AnnotatedText view?
-   */
   isLink: (toTest: AnnoRepoBodyBase) => boolean;
   getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;
+
+  showToc: (annotations: AnnoRepoAnnotation[]) => boolean;
+  getTocId: (body: AnnoRepoBodyBase) => string | undefined;
+
+  filterPanels?: (
+    panels: DetailPanelConfig[],
+    annotations: AnnoRepoAnnotation[],
+  ) => string[];
 };
 
 export interface AnnotationItemProps {

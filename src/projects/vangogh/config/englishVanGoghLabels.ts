@@ -9,9 +9,11 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   sender: "Sender",
   file: "Letter number",
   letterid: "Letter ID",
-  periodlong: "Period (long)",
+  period: "Period",
   type: "Type",
   artworksEN: "Artworks",
+  correspondent: "Correspondent",
+  artworkIds: "Artworks (ID)",
 
   facetInputFilterPlaceholder: "Search in facet",
 
@@ -61,6 +63,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
 
   //Metadata panel titles
   notes: "Notes",
+  toc: "Contents",
 
   //Visualised annotation categories
   PER: "person",
