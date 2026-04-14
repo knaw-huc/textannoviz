@@ -102,7 +102,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
       </div>
 
       <span className="mb-1 mt-2 select-none whitespace-nowrap text-xs">
-        {currentIndex + 1} {translate("FROM")} {total}
+        {currentIndex + 1} {translate("FROM").toLowerCase()} {total}
         {current && <> · {getValue(current.label)}</>}
       </span>
     </div>
