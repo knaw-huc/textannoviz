@@ -160,7 +160,10 @@ export function InsertMarkerAnnotation(props: { marker: MarkerSegment }) {
   return <projectConfig.components.InsertMarkerAnnotation marker={marker} />;
 }
 
-function zoomToRegion(viewer: ReturnType<typeof useViewer>, region: string) {
+function zoomToRegion(
+  viewer: NonNullable<ReturnType<typeof useViewer>>,
+  region: string,
+) {
   const [x, y, w, h] = region.split(",").map((s) => Number(s));
   const rect = viewer.viewport.imageToViewportRectangle(x, y, w, h);
   viewer.viewport.fitBounds(rect);
