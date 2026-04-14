@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useCanvas, useViewer } from "@knaw-huc/osd-iiif-viewer";
+import {
+  useCanvas,
+  useViewer,
+  useViewerReady,
+} from "@knaw-huc/osd-iiif-viewer";
 import {
   AnnoRepoAnnotation,
   CanvasSelector,
@@ -48,16 +52,15 @@ export function PageMarkerAnnotation(props: {
   const [isZooming, setIsZooming] = useState(false);
   const annotations = useAnnotationStore().annotations;
   const viewer = useViewer();
+  const viewerReady = useViewerReady();
   const { currentCanvasId, goToById } = useCanvas();
   const translateProject = useProjectStore(translateProjectSelector);
-  const zoomAnnoFacsimile = useProjectStore(
-    projectConfigSelector,
-  ).zoomToAnnoOnFacsimile;
+  const { zoomToAnnoOnFacsimile } = useProjectStore(projectConfigSelector);
 
   const { canvas, region } = findCanvasRegion(annotations, marker.body.id);
 
   useEffect(() => {
-    if (!zoomAnnoFacsimile || !viewer || !region) {
+    if (!zoomToAnnoOnFacsimile || !viewer || !viewerReady || !region) {
       return;
     }
 
@@ -65,7 +68,7 @@ export function PageMarkerAnnotation(props: {
       zoomToRegion(viewer, region);
       setIsZooming(false);
     }
-  }, [currentCanvasId]);
+  }, [currentCanvasId, viewerReady]);
 
   function pageBreakClickHandler() {
     if (!canvas) {
@@ -73,7 +76,7 @@ export function PageMarkerAnnotation(props: {
     }
 
     if (currentCanvasId === canvas) {
-      if (!zoomAnnoFacsimile || !viewer || !region) {
+      if (!zoomToAnnoOnFacsimile || !viewer || !region) {
         return;
       }
       zoomToRegion(viewer, region);

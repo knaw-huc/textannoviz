@@ -34,7 +34,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@iiif/helpers": "^1.5.8",
-    "@knaw-huc/osd-iiif-viewer": "^0.2.4",
+    "@knaw-huc/osd-iiif-viewer": "^0.2.5",
     "@spectrum-icons/workflow": "^4.2.11",
     "@types/qs": "^6.9.18",
     "framer-motion": "^11.0.8",
