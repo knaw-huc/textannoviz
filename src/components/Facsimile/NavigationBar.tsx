@@ -87,7 +87,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
           onClick={prev}
           disabled={currentIndex === 0}
           aria-label={translate("PREV_SCAN")}
-          className="hover:bg-brand2-100 disabled:50 rounded p-1"
+          className="hover:bg-brand2-100 rounded p-1 disabled:opacity-50"
         >
           <ChevronLeftIcon className="h-5 w-5" />
         </button>
