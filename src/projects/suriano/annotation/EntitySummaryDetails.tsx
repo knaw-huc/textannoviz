@@ -26,13 +26,13 @@ const PersonEntity = (props: { persons: Person[] }) => {
           {pers.note?.en.shortdesc && (
             <div>
               <p className="italic text-gray-500">Occupations, roles, titles</p>
-              <p>{pers.note?.en.shortdesc}</p>
+              <p>{pers.note.en.shortdesc}</p>
             </div>
           )}
           {pers.birth && (
             <div>
               <p className="italic text-gray-500">Date of birth</p>
-              <p>{pers.birth?.when}</p>
+              <p>{pers.birth.when}</p>
             </div>
           )}
           {pers.death && (
@@ -44,7 +44,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
           {pers.note?.en.biographic && (
             <div>
               <p className="italic text-gray-500">General notes</p>
-              <p>{pers.note?.en.biographic}</p>
+              <p>{pers.note.en.biographic}</p>
             </div>
           )}
           {pers.note?.en.bibliography && (
@@ -52,7 +52,9 @@ const PersonEntity = (props: { persons: Person[] }) => {
               <p className="italic text-gray-500">
                 Bibliography: secondary literature and websites
               </p>
-              <p>{pers.note?.en.bibliography}</p>
+              {typeof pers.note.en.bibliography === "string" && (
+                <p>{pers.note.en.bibliography}</p>
+              )}
             </div>
           )}
         </div>
