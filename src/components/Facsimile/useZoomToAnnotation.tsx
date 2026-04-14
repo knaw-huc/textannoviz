@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useViewer } from "@knaw-huc/osd-iiif-viewer";
+import { useViewer, useViewerReady } from "@knaw-huc/osd-iiif-viewer";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { findImageRegions } from "../../utils/findImageRegions";
 
@@ -9,18 +9,25 @@ export function useZoomToAnnotation(
   canvasId: string | null,
 ) {
   const viewer = useViewer();
+  const viewerReady = useViewerReady();
 
   useEffect(() => {
-    if (!viewer || !bodyId || !annotations.length || !canvasId) {
+    if (
+      !viewer ||
+      !viewerReady ||
+      !bodyId ||
+      !annotations.length ||
+      !canvasId
+    ) {
       return;
     }
 
-    const anno = annotations.find((a) => a.body.id === bodyId);
-    if (!anno) {
+    const annotation = annotations.find((a) => a.body.id === bodyId);
+    if (!annotation) {
       return;
     }
 
-    const region = findImageRegions(anno, canvasId);
+    const region = findImageRegions(annotation, canvasId);
     if (!region) {
       console.debug("Could not zoom to annotation:", bodyId);
       return;
@@ -35,5 +42,5 @@ export function useZoomToAnnotation(
       h + padding * 2,
     );
     viewer.viewport.fitBounds(rect);
-  }, [bodyId, viewer, annotations, canvasId]);
+  }, [bodyId, viewer, annotations, canvasId, viewerReady]);
 }
