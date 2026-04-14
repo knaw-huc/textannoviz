@@ -11,6 +11,7 @@ export function FacsimileViewer() {
   const { showAnnosOnFacsimile } = useProjectStore(projectConfigSelector);
 
   if (error) {
+    console.error("Manifest error:", error);
     return <div>Manifest error: {error}</div>;
   }
   if (!isReady) {

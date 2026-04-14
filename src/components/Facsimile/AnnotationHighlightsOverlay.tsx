@@ -37,12 +37,12 @@ export function AnnotationHighlightsOverlay() {
   }
   return (
     <>
-      {highlights.map((f) => (
-        <Overlay key={f.id} location={imageInfo.location}>
+      {highlights.map((h) => (
+        <Overlay key={h.id} location={imageInfo.location}>
           <AnnotationHighlight
-            svgPath={f.selector}
+            svgPath={h.selector}
             size={imageInfo.size}
-            color={getHighlightColor(f.annotation, projectConfig)}
+            color={getHighlightColor(h.annotation, projectConfig)}
           />
         </Overlay>
       ))}
