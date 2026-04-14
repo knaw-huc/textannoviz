@@ -2,13 +2,13 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { Overlay, useCanvas, useImageInfo } from "../../../../osd-iiif-viewer";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { useZoomToAnnotation } from "./useZoomToAnnotation.tsx";
 import { useMemo } from "react";
 import { findSvgSelector } from "../../utils/findSvgSelector.ts";
 import { AnnotationHighlight } from "./AnnotationHighlight.tsx";
 import { getHighlightColor } from "./getHighlightColor.ts";
+import { Overlay, useCanvas, useImageInfo } from "@knaw-huc/osd-iiif-viewer";
 
 export function AnnotationHighlightsOverlay() {
   const projectConfig = useProjectStore(projectConfigSelector);
