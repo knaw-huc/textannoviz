@@ -143,6 +143,6 @@ export const vangoghConfig: ProjectConfig = merge(
     ],
     zoomAnnoFacsimile: true,
     // TODO: how to test this?
-    markAnnosOnFacsimile: true,
+    showAnnosOnFacsimile: true,
   } as ProjectSpecificConfig,
 );

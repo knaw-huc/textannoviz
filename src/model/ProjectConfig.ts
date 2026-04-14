@@ -32,7 +32,7 @@ export type ProjectConfig = SearchConfig &
     selectedLanguage: LanguageCode;
     languages: Language[];
     useExternalConfig: boolean;
-    markAnnosOnFacsimile: boolean;
+    showAnnosOnFacsimile: boolean;
     showWebAnnoTab: boolean;
 
     /**
