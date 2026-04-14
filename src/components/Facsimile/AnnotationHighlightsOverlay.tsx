@@ -12,8 +12,8 @@ import { getHighlightColor } from "./getHighlightColor.ts";
 
 export function AnnotationHighlightsOverlay() {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { currentCanvasId } = useCanvas();
   const { annotations, bodyId } = useAnnotationStore();
+  const { currentCanvasId } = useCanvas();
   const imageInfo = useImageInfo();
 
   useZoomToAnnotation(bodyId, annotations, currentCanvasId);
