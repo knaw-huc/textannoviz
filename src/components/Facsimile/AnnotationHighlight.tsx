@@ -1,6 +1,6 @@
 type AnnotationHighlightProps = {
   svgPath: string;
-  size: OpenSeadragon.Point;
+  size: { x: number; y: number };
   color: string;
 };
 

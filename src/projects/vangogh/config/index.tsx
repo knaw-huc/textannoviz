@@ -141,7 +141,7 @@ export const vangoghConfig: ProjectConfig = merge(
         element: <Bibliography />,
       },
     ],
-    zoomAnnoFacsimile: true,
+    zoomToAnnoOnFacsimile: true,
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
   } as ProjectSpecificConfig,

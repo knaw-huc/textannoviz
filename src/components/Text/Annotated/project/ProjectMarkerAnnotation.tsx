@@ -52,7 +52,7 @@ export function PageMarkerAnnotation(props: {
   const translateProject = useProjectStore(translateProjectSelector);
   const zoomAnnoFacsimile = useProjectStore(
     projectConfigSelector,
-  ).zoomAnnoFacsimile;
+  ).zoomToAnnoOnFacsimile;
 
   const { canvas, region } = findCanvasRegion(annotations, marker.body.id);
 
