@@ -46,7 +46,7 @@ export const globaliseConfig: ProjectConfig = merge({}, defaultConfig, {
   showNewSearchButton: false,
   allowCloseTextPanel: false,
   allowEmptyStringSearch: false,
-  showMiradorNavigationButtons: true,
+  showFacsimilePrevNextScanButtonsButtons: true,
   showInputFacet: true,
   inputFacetOptions: "invNr",
   showFacetFilter: false,

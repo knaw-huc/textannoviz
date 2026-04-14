@@ -54,7 +54,7 @@ export function PageMarkerAnnotation(props: { marker: MarkerSegment }) {
   const translateProject = useProjectStore(translateProjectSelector);
   const zoomAnnoFacsimile = useProjectStore(
     projectConfigSelector,
-  ).zoomAnnoFacsimile;
+  ).zoomToAnnoOnFacsimile;
 
   const { canvas, region } = findCanvasRegion(annotations, marker.body.id);
 

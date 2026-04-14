@@ -1,4 +1,8 @@
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import {
+  projectConfigSelector,
+  translateSelector,
+  useProjectStore,
+} from "../../stores/project.ts";
 import {
   useCanvas,
   useViewerControls,
@@ -21,6 +25,9 @@ type NavigationBarProps = {
 };
 
 export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
+  const { showFacsimilePrevNextScanButtonsButtons } = useProjectStore(
+    projectConfigSelector,
+  );
   const translate = useProjectStore(translateSelector);
   const ready = useViewerReady();
   const { currentIndex, current, total, next, prev } = useCanvas();
@@ -81,24 +88,28 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
           )}
         </button>
 
-        <div className="m-2 h-5 w-px bg-black/20" />
+        {showFacsimilePrevNextScanButtonsButtons && (
+          <>
+            <div className="m-2 h-5 w-px bg-black/20" />
 
-        <button
-          onClick={prev}
-          disabled={currentIndex === 0}
-          aria-label={translate("PREV_SCAN")}
-          className="hover:bg-brand2-100 disabled:50 rounded p-1"
-        >
-          <ChevronLeftIcon className="h-5 w-5" />
-        </button>
-        <button
-          onClick={next}
-          disabled={currentIndex === total - 1}
-          aria-label={translate("NEXT_SCAN")}
-          className="hover:bg-brand2-100 rounded p-1 disabled:opacity-50"
-        >
-          <ChevronRightIcon className="h-5 w-5" />
-        </button>
+            <button
+              onClick={prev}
+              disabled={currentIndex === 0}
+              aria-label={translate("PREV_SCAN")}
+              className="hover:bg-brand2-100 disabled:50 rounded p-1"
+            >
+              <ChevronLeftIcon className="h-5 w-5" />
+            </button>
+            <button
+              onClick={next}
+              disabled={currentIndex === total - 1}
+              aria-label={translate("NEXT_SCAN")}
+              className="hover:bg-brand2-100 rounded p-1 disabled:opacity-50"
+            >
+              <ChevronRightIcon className="h-5 w-5" />
+            </button>
+          </>
+        )}
       </div>
 
       <span className="mb-1 mt-2 select-none whitespace-nowrap text-xs">

@@ -68,8 +68,8 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   showSettingsMenuFooter: false,
   useExternalConfig: true,
   showAnnosOnFacsimile: true,
-  zoomAnnoFacsimile: true,
-  showMiradorNavigationButtons: false,
+  zoomToAnnoOnFacsimile: true,
+  showFacsimilePrevNextScanButtonsButtons: false,
   overrideDefaultAggs: [
     {
       facetName: "sessionYear",
@@ -133,10 +133,6 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     { code: "nl", labels: dutchRepublicLabels },
     { code: "en", labels: englishRepublicLabels },
   ],
-  mirador: {
-    showTopMenuButton: true,
-    showWindowSideBar: true,
-  },
   annoToEntityCategory: {
     COM: "COM",
     DAT: "DAT",

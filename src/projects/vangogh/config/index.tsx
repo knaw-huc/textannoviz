@@ -133,7 +133,6 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
     NotesPanel,
   },
   selectedLanguage: "en",
-  zoomAnnoMirador: true,
   languages: [{ code: "en", labels: englishVanGoghLabels }],
   // detailPanels: [
   //   {
@@ -157,7 +156,7 @@ export const vangoghConfig: ProjectConfig = merge({}, defaultConfig, {
   allPossibleTextPanels: ["self", "textOrig", "textTrans", "textNotes"],
   defaultTextPanels: "textOrig",
   projectCss: projectCss,
-  zoomAnnoFacsimile: true,
+  zoomToAnnoOnFacsimile: true,
   // TODO: how to test this?
   showAnnosOnFacsimile: true,
 } as ProjectSpecificConfig);

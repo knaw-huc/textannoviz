@@ -33,7 +33,6 @@ export type ProjectConfig = SearchConfig &
     selectedLanguage: LanguageCode;
     languages: Language[];
     useExternalConfig: boolean;
-    showAnnosOnFacsimile: boolean;
     showWebAnnoTab: boolean;
     showNotesTab: boolean;
     showArtworksTab: boolean;
@@ -58,19 +57,12 @@ export type ProjectConfig = SearchConfig &
   };
 
 type FacsimileConfig = {
-  showFacsimileButtonFooter: boolean;
-  showSettingsMenuFooter: boolean;
-  defaultShowMetadataPanel: boolean;
-  zoomAnnoFacsimile: boolean;
-  miradorZoomRatio: number;
+  zoomToAnnoOnFacsimile: boolean;
+  showAnnosOnFacsimile: boolean;
   showFacsimile: boolean;
-  showMiradorNavigationButtons: boolean;
   pageAnnotation: string;
   showPrevNextScanButtons: boolean;
-  mirador: {
-    showWindowSideBar: boolean;
-    showTopMenuButton: boolean;
-  };
+  showFacsimilePrevNextScanButtonsButtons: boolean;
 };
 
 export type ComponentsConfig = {
