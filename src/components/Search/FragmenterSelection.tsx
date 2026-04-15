@@ -22,7 +22,10 @@ export const FragmenterSelection = (props: FragmenterProps) => {
     { name: translate("LARGE"), value: 500 },
   ];
 
-  function selectChangeHandler(key: Key) {
+  function selectChangeHandler(key: Key | null) {
+    if (key == null) {
+      return;
+    }
     setSelectedKey(key);
     props.onChange(key);
   }

@@ -20,6 +20,7 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   const translate = useTranslate();
   const { searchParams } = useUrlSearchParamsStore();
   const [selectedKey, setSelectedKey] = React.useState<Key>(searchParams.size);
+
   const options: PageSizeOption[] = [
     { name: 10 },
     { name: 20 },
@@ -27,7 +28,8 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
     { name: 100 },
   ];
 
-  function selectChangeHandler(key: Key) {
+  function selectChangeHandler(key: Key | null) {
+    if (key == null) return;
     props.onChange(key);
   }
 
