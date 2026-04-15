@@ -9,10 +9,8 @@ The `main` branch is the most up-to-date branch. Clone this branch if you want t
 - Install dependencies
 
   ```
-  npm ci --force
+  npm ci
   ```
-
-  Note: The `--force` is necessary due to Mirador depending on an older version of React.
 
 - Rename `.env.example` to `.env`
 
