@@ -1,4 +1,5 @@
 import { Skeleton } from "primereact/skeleton";
+import { ViewerProvider } from "@knaw-huc/osd-iiif-viewer";
 import { useInitDetail } from "./components/Detail/useInitDetail.tsx";
 import { Footer } from "./components/Footer/Footer";
 import { useInitSearch } from "./components/Search/useInitSearch.ts";
@@ -8,6 +9,14 @@ import { useDetailViewStore } from "./stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "./stores/project";
 
 export const Detail = () => {
+  return (
+    <ViewerProvider>
+      <DetailWithViewer />
+    </ViewerProvider>
+  );
+};
+
+function DetailWithViewer() {
   const { isInitDetail } = useInitDetail();
   useInitSearch();
   const { isInitSearch } = useSearchStore();
@@ -41,4 +50,4 @@ export const Detail = () => {
       )}
     </>
   );
-};
+}

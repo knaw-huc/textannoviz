@@ -139,5 +139,8 @@ export const israelsConfig: ProjectConfig = merge(
         element: <Bibliography />,
       },
     ],
+    showFacsimilePrevNextScanButtonsButtons: true,
+    showSearchInTextViews: true,
+    zoomToAnnoOnFacsimile: true,
   } as ProjectSpecificConfig,
 );

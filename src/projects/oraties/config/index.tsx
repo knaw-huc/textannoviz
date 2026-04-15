@@ -80,7 +80,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
 
   // FacsimileConfig
-  showMirador: true,
+  showFacsimile: true,
   showMiradorNavigationButtons: true,
 
   // SearchConfig

@@ -3,7 +3,6 @@ import { EntitySummaryProps } from "../components/Text/Annotated/project/EntityS
 import { Any } from "../utils/Any.ts";
 import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
-import { MiradorConfig } from "./MiradorConfig.ts";
 import {
   BrederodeSearchResultsBody,
   GlobaliseSearchResultsBody,
@@ -45,7 +44,6 @@ export type ProjectConfig = SearchConfig &
     selectedLanguage: LanguageCode;
     languages: Language[];
     useExternalConfig: boolean;
-    visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
 
     /**
@@ -69,19 +67,12 @@ export type ProjectConfig = SearchConfig &
   };
 
 type FacsimileConfig = {
-  showFacsimileButtonFooter: boolean;
-  showSettingsMenuFooter: boolean;
-  defaultShowMetadataPanel: boolean;
-  zoomAnnoMirador: boolean;
-  miradorZoomRatio: number;
-  showMirador: boolean;
-  showMiradorNavigationButtons: boolean;
+  zoomToAnnoOnFacsimile: boolean;
+  showAnnosOnFacsimile: boolean;
+  showFacsimile: boolean;
   pageAnnotation: string;
   showPrevNextScanButtons: boolean;
-  mirador: {
-    showWindowSideBar: boolean;
-    showTopMenuButton: boolean;
-  };
+  showFacsimilePrevNextScanButtonsButtons: boolean;
 };
 
 export type ComponentsConfig = {
@@ -265,7 +256,6 @@ export type ProjectSpecificConfig = Pick<
   ProjectSpecificProperties
 > &
   // Make nested config properties optional:
-  Omit<Partial<ProjectConfig>, "components" | "mirador"> & {
+  Omit<Partial<ProjectConfig>, "components"> & {
     components?: Partial<ComponentsConfig>;
-    mirador?: Partial<MiradorConfig>;
   };

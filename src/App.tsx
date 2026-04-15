@@ -59,7 +59,7 @@ export default function App() {
 
 function Layout() {
   return (
-    <>
+    <div className="flex h-screen flex-col">
       {prodMode && (
         <link
           rel="stylesheet"
@@ -68,7 +68,7 @@ function Layout() {
       )}
       <Header />
       <Outlet />
-    </>
+    </div>
   );
 }
 

@@ -96,4 +96,10 @@ export const dutchLabels: Labels = {
   "text.self": "Tekst",
   facs: "Facsimile",
   metadata: "Info",
+
+  ZOOM_IN: "Zoom in",
+  ZOOM_OUT: "Zoom uit",
+  ZOOM_RESET: "Reset zoom",
+  FULLSCREEN: "Fullscreen",
+  EXIT_FULLSCREEN: "Exit fullscreen",
 };

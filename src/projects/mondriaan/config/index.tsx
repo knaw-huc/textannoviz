@@ -135,7 +135,4 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
       labels: englishMondriaanLabels,
     },
   ],
-  mirador: {
-    showTopMenuButton: true,
-  },
 } as ProjectSpecificConfig);
