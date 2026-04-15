@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useTranslate } from "../../stores/project.ts";
 
 export function NewSearchButton() {

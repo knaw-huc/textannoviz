@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { HammerIcon } from "../../components/common/icons/HammerIcon";
 import { toEntityCategory } from "../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";

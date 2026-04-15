@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Labels } from "../../model/Labels.ts";
 import { RepublicSearchResultBody } from "../../model/Search.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";

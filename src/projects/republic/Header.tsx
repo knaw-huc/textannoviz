@@ -5,7 +5,7 @@ import {
   useProjectStore,
   useTranslateProject,
 } from "../../stores/project.ts";
-import { matchPath, useLocation, useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router";
 import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { ResolutionBody } from "../../model/AnnoRepoAnnotation.ts";

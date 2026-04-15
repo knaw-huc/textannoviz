@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { toast } from "../../utils/toast.ts";
 import { PxPageBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";

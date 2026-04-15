@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-aria-components";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { ResolutionBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useTranslateProject } from "../../stores/project";

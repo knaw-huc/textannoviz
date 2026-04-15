@@ -5,7 +5,7 @@ import {
   useProjectStore,
   useTranslateProject,
 } from "../../stores/project.ts";
-import { matchPath, useLocation, useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router";
 import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
 import { Button } from "react-aria-components";
 
