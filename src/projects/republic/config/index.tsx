@@ -18,7 +18,6 @@ import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { Any } from "../../../utils/Any.ts";
-import projectCss from "../project.css?inline";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 import { Header } from "../Header.tsx";
 
@@ -150,5 +149,4 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     PER: "PER",
     PERS: "PER",
   } as Any,
-  projectCss: projectCss,
 } as ProjectSpecificConfig);
