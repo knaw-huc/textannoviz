@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
@@ -102,3 +101,14 @@ export const AnnotationFilter = () => {
     </>
   );
 };
+
+function Button(props: { children?: React.ReactNode; onClick: () => void }) {
+  return (
+    <button
+      className="mr-2 rounded border-none bg-blue-600 px-2 py-1 text-white"
+      onClick={props.onClick}
+    >
+      {props.children}
+    </button>
+  );
+}
