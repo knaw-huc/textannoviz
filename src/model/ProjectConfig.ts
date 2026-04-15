@@ -62,6 +62,7 @@ export type ProjectConfig = SearchConfig &
 
     components: ComponentsConfig;
     projectCss: string;
+    tailwindCss: string;
 
     routes: {
       path: string;

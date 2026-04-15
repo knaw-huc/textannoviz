@@ -119,6 +119,7 @@ export const defaultConfig: DefaultProjectConfig = {
   },
   showSearchResultsOnInfoPage: false,
   projectCss: "",
+  tailwindCss: "",
   detailPanels: [
     {
       name: "facs",

@@ -19,6 +19,16 @@ import {
 import { getViteEnvVars } from "./utils/viteEnvVars.ts";
 
 const { projectName, routerBasename, prodMode } = getViteEnvVars();
+
+/**
+ * Tailwind css loading:
+ * - dev mode: tailwind css is processed with postcss using hot reloading
+ * - prod mode: generate a tailwind css file for every css project, that is then loaded from projectConfig.tailwind.css with a <link> tag in Layout.
+ */
+if (!prodMode) {
+  await import("./tailwind.css");
+}
+
 const { project, config } = await selectProjectConfig();
 const router = await createRouter();
 
@@ -43,6 +53,12 @@ export default function App() {
 function Layout() {
   return (
     <>
+      {prodMode && config.tailwindCss && (
+        <link
+          rel="stylesheet"
+          href={`${import.meta.env.BASE_URL}/${config.tailwindCss}`}
+        />
+      )}
       <style>{config.projectCss}</style>
       <Header />
       <Outlet />
@@ -134,6 +150,8 @@ async function selectProjectConfig() {
 
   // Set head>title from project config
   document.title = config.siteTitle;
+
+  config.tailwindCss = `tailwind-${project}.css`;
 
   return { project, config };
 }
