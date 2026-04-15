@@ -4,17 +4,23 @@ import {
   SvgSelector,
 } from "../model/AnnoRepoAnnotation";
 
-export const findSvgSelector = (
+export function findSvgSelector(
   annotation: AnnoRepoAnnotation,
   canvasId: string,
-): string => {
+): string | undefined {
   const canvasTargets = annotation.target as CanvasTarget[];
-  const filteredCanvasTargets = canvasTargets.filter((t) =>
-    t.source.includes(canvasId),
-  );
-  const svgSelectors = filteredCanvasTargets
+  const svgSelector = canvasTargets
+    .filter((t) => isCanvasTarget(t) && t.source.includes(canvasId))
     .flatMap((t) => t.selector)
-    .filter((t) => t?.type === "SvgSelector");
+    .find((s): s is SvgSelector => s?.type === "SvgSelector");
+  return svgSelector?.value;
+}
 
-  return (svgSelectors[0] as SvgSelector).value;
-};
+function isCanvasTarget(target: unknown): target is CanvasTarget {
+  return (
+    typeof target === "object" &&
+    target !== null &&
+    "source" in target &&
+    "selector" in target
+  );
+}

@@ -42,11 +42,11 @@ export default function App() {
 
 function Layout() {
   return (
-    <>
+    <div className="flex h-screen flex-col">
       <style>{config.projectCss}</style>
       <Header />
       <Outlet />
-    </>
+    </div>
   );
 }
 

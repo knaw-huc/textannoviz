@@ -42,7 +42,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   headerColor: "bg-brand1-700 text-brand1-100",
   headerTitle: "",
   showSearchResultsButtonFooter: false,
-  showMirador: false,
+  showFacsimile: false,
   showAnnotations: true,
   defaultKeywordAggsToRender: [
     "author",

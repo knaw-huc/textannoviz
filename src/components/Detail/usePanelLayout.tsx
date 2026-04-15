@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "../../stores/project";
-import { useMiradorStore } from "../../stores/mirador";
 import { DetailPanelConfig, PanelRegion } from "../../model/ProjectConfig.ts";
 import { findKey, mapValues } from "lodash";
 import { useAnnotationStore } from "../../stores/annotation.ts";
+import { useManifest } from "@knaw-huc/osd-iiif-viewer";
 
 export type WindowSize = "s" | "m" | "l" | "xl" | "xxl";
 
@@ -37,9 +37,9 @@ export function usePanelLayout(): null {
   const { filterPanels } = projectConfig;
   const { activePanels, setActivePanels } = useDetailViewStore();
   const annotations = useAnnotationStore((s) => s.annotations);
-  const hasManifest = !!useMiradorStore((s) => s.iiif?.manifest);
+  const { isLoading, isReady } = useManifest();
 
-  useEffect(filterPanelsOnResize, [hasManifest]);
+  useEffect(filterPanelsOnResize, [isLoading, isReady]);
 
   function filterPanelsOnResize() {
     const mediaQueries = mapValues(layoutBreakpoints, (query) =>
