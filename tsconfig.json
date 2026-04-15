@@ -18,8 +18,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "jsxImportSource": "react"
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
   "files": ["./src/index.tsx", "./src/index.d.ts"],
