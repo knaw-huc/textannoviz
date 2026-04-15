@@ -35,10 +35,7 @@
     "@heroicons/react": "^2.2.0",
     "@iiif/helpers": "^1.5.8",
     "@knaw-huc/osd-iiif-viewer": "^0.2.5",
-    "@spectrum-icons/workflow": "^4.2.11",
     "@types/qs": "^6.9.18",
-    "framer-motion": "^11.0.8",
-    "immer": "^9.0.21",
     "js-base64": "^3.7.7",
     "lodash": "^4.17.21",
     "primereact": "^10.5.1",
@@ -55,8 +52,6 @@
     "zustand": "^4.5.1"
   },
   "devDependencies": {
-    "@blueprintjs/core": "^3.53.0",
-    "@blueprintjs/icons": "^3.32.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.11.23",
