@@ -44,7 +44,7 @@
     "react-aria-components": "^1.17.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
-    "react-toastify": "^10.0.4",
+    "react-toastify": "^11.0.5",
     "reactions-knaw-huc": "^0.1.6",
     "recharts": "^2.12.1",
     "tailwindcss-react-aria-components": "^1.1.3",
