@@ -3,7 +3,7 @@ import React from "react";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store.ts";
@@ -48,7 +48,7 @@ CheckboxList.displayName = "CheckboxList";
 
 export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const [show, setShow] = React.useState(false);
   const views = useTextStore((state) => state.views);

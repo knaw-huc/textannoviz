@@ -6,9 +6,9 @@ import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
-  translateProjectSelector,
-  translateSelector,
   useProjectStore,
+  useTranslate,
+  useTranslateProject,
 } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { usePagination } from "../../utils/usePagination.tsx";
@@ -30,7 +30,7 @@ type SearchResultsProps = {
 
 export function SearchResults(props: SearchResultsProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { searchResults } = useSearchStore();
+  const searchResults = useSearchStore((state) => state.searchResults);
   const { searchQuery } = props;
   const { updateSearchQuery, searchParams, updateSearchParams } =
     useUrlSearchParamsStore();
@@ -47,8 +47,8 @@ export function SearchResults(props: SearchResultsProps) {
   const resultsStart = searchParams.from + 1;
   const pageSize = searchParams.size;
   const pageNumber = fromToPage(searchParams.from);
-  const translate = useProjectStore(translateSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translate = useTranslate();
+  const translateProject = useTranslateProject();
 
   const [graphType, setGraphType] = React.useState("bar");
   const [graphFrom] = React.useState(
@@ -56,7 +56,9 @@ export function SearchResults(props: SearchResultsProps) {
   );
   const [graphTo] = React.useState(projectConfig.initialDateTo.split("-")[0]);
   const [showHistogram, setShowHistogram] = React.useState(true);
-  const { searchQueryHistory } = useSearchStore();
+  const searchQueryHistory = useSearchStore(
+    (state) => state.searchQueryHistory,
+  );
   const [histogramZoomed, setHistogramZoomed] = React.useState(false);
   const [isStickyHeader, setIsStickyHeader] = React.useState(false);
   const stickySentinelRef = React.useRef<HTMLDivElement | null>(null);

@@ -1,7 +1,7 @@
 import {
   projectConfigSelector,
-  translateSelector,
   useProjectStore,
+  useTranslate,
 } from "../../stores/project.ts";
 import {
   useCanvas,
@@ -28,7 +28,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
   const { showFacsimilePrevNextScanButtonsButtons } = useProjectStore(
     projectConfigSelector,
   );
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
   const ready = useViewerReady();
   const { currentIndex, current, total, next, prev } = useCanvas();
   const {
@@ -96,7 +96,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
               onClick={prev}
               disabled={currentIndex === 0}
               aria-label={translate("PREV_SCAN")}
-          className="hover:bg-brand2-100 rounded p-1 disabled:opacity-50"
+              className="hover:bg-brand2-100 rounded p-1 disabled:opacity-50"
             >
               <ChevronLeftIcon className="h-5 w-5" />
             </button>

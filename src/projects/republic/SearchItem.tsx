@@ -2,18 +2,14 @@ import { Link } from "react-router-dom";
 import { Labels } from "../../model/Labels.ts";
 import { RepublicSearchResultBody } from "../../model/Search.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
-import {
-  translateProjectSelector,
-  translateSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslate, useTranslateProject } from "../../stores/project";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export const SearchItem = (
   props: SearchItemProps<RepublicSearchResultBody>,
 ) => {
-  const translate = useProjectStore(translateSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translate = useTranslate();
+  const translateProject = useTranslateProject();
   const { createDetailUrl } = useDetailNavigation();
 
   const monthNumberToString: Record<number, keyof Labels> = {

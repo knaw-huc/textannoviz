@@ -42,22 +42,9 @@ export const useProjectStore = create<ProjectStore>()((...a) => ({
   ...createProjectConfigSlice(...a),
 }));
 
-export function translateSelector(state: ProjectConfigSlice) {
-  const labels = labelsSelector(state);
-  return (key: keyof Labels) => labels?.[key] ?? key;
-}
-
-/**
- * {@link translateSelector} without type safety
- * allowing a project to provide translations
- * for custom elements like facets and custom components
- */
-export function translateProjectSelector(state: ProjectStore) {
-  const labels = labelsSelector(state);
-  return (key: string) => labels?.[key] ?? key;
-}
-
-function labelsSelector(state: ProjectConfigSlice): Record<string, string> {
+export function labelsSelector(
+  state: ProjectConfigSlice,
+): Record<string, string> {
   const config = projectConfigSelector(state);
   const selectedLanguage = config.selectedLanguage;
   const translation = config.languages.find((l) => l.code === selectedLanguage);
@@ -69,6 +56,21 @@ function labelsSelector(state: ProjectConfigSlice): Record<string, string> {
   }
 
   return translation.labels;
+}
+
+export function useTranslate() {
+  const labels = useProjectStore(labelsSelector);
+  return (key: keyof Labels) => labels?.[key] ?? key;
+}
+
+/**
+ * {@link useTranslate} without type safety
+ * allowing a project to provide translations
+ * for custom elements like facets and custom components
+ */
+export function useTranslateProject() {
+  const labels = useProjectStore(labelsSelector);
+  return (key: string) => labels?.[key] ?? key;
 }
 
 export function projectConfigSelector(
@@ -83,6 +85,7 @@ export function projectConfigSelector(
 export function setProjectConfigSelector(state: ProjectStore) {
   return state.setProjectConfig;
 }
+
 export function setProjectNameSelector(state: ProjectStore) {
   return state.setProjectName;
 }

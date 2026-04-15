@@ -4,9 +4,9 @@ import { toast } from "../../utils/toast.ts";
 import { ASC, DESC, FacetName, SortOrder } from "../../model/Search.ts";
 import {
   projectConfigSelector,
-  translateProjectSelector,
-  translateSelector,
   useProjectStore,
+  useTranslate,
+  useTranslateProject,
 } from "../../stores/project.ts";
 import {
   SelectComponent,
@@ -32,8 +32,8 @@ const BY_SCORE = "_score";
  */
 export const SearchSorting = (props: SearchSortByProps) => {
   const BY_DATE = props.dateFacet;
-  const translate = useProjectStore(translateSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translate = useTranslate();
+  const translateProject = useTranslateProject();
   const projectConfig = useProjectStore(projectConfigSelector);
   const baseOptions = [
     { name: translate("RELEVANCE"), value: `${BY_SCORE}-${DESC}` },

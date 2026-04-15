@@ -62,13 +62,15 @@ export function SelectItemComponent(props: ListBoxItemProps) {
       {...props}
       className="focus:bg-brand2-500 group flex cursor-default select-none items-center gap-2 rounded px-4 py-2 outline-none focus:text-white"
     >
-      {({ isSelected }) => (
+      {(childProps) => (
         <>
           <span className="flex flex-1 items-center gap-2">
-            {props.children}
+            {typeof props.children === "function"
+              ? props.children(childProps)
+              : props.children}
           </span>
           <span className="flex w-5 items-center group-focus:text-white">
-            {isSelected && <CheckIcon className="h-5 w-5" />}
+            {childProps.isSelected && <CheckIcon className="h-5 w-5" />}
           </span>
         </>
       )}

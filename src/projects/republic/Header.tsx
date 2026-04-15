@@ -2,8 +2,8 @@ import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 import { LanguageMenu } from "../../components/LanguageMenu.tsx";
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../stores/project.ts";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
@@ -56,7 +56,7 @@ export const Header = () => {
 
 const DetailPageInfoHeader = () => {
   const annotations = useAnnotationStore((s) => s.annotations);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const resolution = annotations.find(
     (anno) => anno.body.type === "Resolution",

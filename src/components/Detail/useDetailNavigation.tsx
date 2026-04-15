@@ -24,7 +24,7 @@ export type NavigateDetailProps =
 
 export function useDetailNavigation() {
   const params = useParams();
-  const { searchResults } = useSearchStore();
+  const searchResults = useSearchStore((state) => state.searchResults);
   const navigate = useNavigate();
   const { updateSearchParams, updateDetailParams, searchQuery, detailParams } =
     useUrlSearchParamsStore();

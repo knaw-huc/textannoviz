@@ -19,8 +19,8 @@ export const Detail = () => {
 function DetailWithViewer() {
   const { isInitDetail } = useInitDetail();
   useInitSearch();
-  const { isInitSearch } = useSearchStore();
-  const { activePanels } = useDetailViewStore();
+  const isInitSearch = useSearchStore((state) => state.isInitSearch);
+  const activePanels = useDetailViewStore((state) => state.activePanels);
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const gridTemplateColumns = projectConfig.detailPanels

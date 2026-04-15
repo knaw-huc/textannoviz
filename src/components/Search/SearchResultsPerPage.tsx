@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import type { Key } from "react-aria-components";
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import {
   SelectComponent,
   SelectItemComponent,
 } from "../common/SelectComponent.tsx";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
+import { useTranslate } from "../../stores/project.ts";
 
 interface SearchResultsPerPageProps {
   onChange: (key: Key) => void;
@@ -17,7 +17,7 @@ type PageSizeOption = {
 };
 
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
   const { searchParams } = useUrlSearchParamsStore();
   const [selectedKey, setSelectedKey] = React.useState<Key>(searchParams.size);
   const options: PageSizeOption[] = [
@@ -48,12 +48,8 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
       selectedKey={selectedKey}
       onSelectionChange={selectChangeHandler}
     >
-      {(item: PageSizeOption, i: number) => (
-        <SelectItemComponent
-          id={item.name}
-          textValue={item.name.toString()}
-          key={i}
-        >
+      {(item: PageSizeOption) => (
+        <SelectItemComponent id={item.name} textValue={item.name.toString()}>
           {item.name}
         </SelectItemComponent>
       )}

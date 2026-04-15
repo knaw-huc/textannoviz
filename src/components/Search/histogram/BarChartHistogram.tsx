@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { HitsYear } from "./Histogram";
-import { translateSelector, useProjectStore } from "../../../stores/project.ts";
+import { useTranslate } from "../../../stores/project.ts";
 
 type BarChartHistorgramProps = {
   hitsYear: HitsYear;
@@ -18,7 +18,7 @@ type BarChartHistorgramProps = {
 };
 
 export const BarChartHistogram = (props: BarChartHistorgramProps) => {
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
 
   return (
     <ResponsiveContainer width="100%" height={400}>

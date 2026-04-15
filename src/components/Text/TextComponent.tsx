@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
@@ -19,7 +19,7 @@ type TextComponentProps = {
 export const TextComponent = (props: TextComponentProps) => {
   const text = useViewText(props.viewToRender);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const scrollRef = useRef<HTMLDivElement>(null);
   useSyncHeaderWithHashOnInit(scrollRef);

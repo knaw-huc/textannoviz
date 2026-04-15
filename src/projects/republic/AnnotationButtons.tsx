@@ -3,10 +3,7 @@ import { Button } from "react-aria-components";
 import { useParams } from "react-router-dom";
 import { ResolutionBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslateProject } from "../../stores/project";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
 
 export function AnnotationButtons() {
@@ -15,7 +12,7 @@ export function AnnotationButtons() {
   const { navigateDetail } = useDetailNavigation();
   const [isPrevButtonDisabled, setIsPrevButtonDisabled] = React.useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = React.useState(false);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const currentAnnotation = annotations.find(
     (anno) => anno.body.id === params.tier2,
   );

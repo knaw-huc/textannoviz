@@ -5,8 +5,8 @@ import React from "react";
 import type { Key, Selection } from "react-aria-components";
 import {
   projectConfigSelector,
-  translateSelector,
   useProjectStore,
+  useTranslate,
 } from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { DateFacet } from "./DateFacet.tsx";
@@ -52,9 +52,9 @@ export function SearchForm(
 
   const [filteredAggs, setFilteredAggs] = React.useState<string[]>([]);
   const [defaultAggsIsInit, setDefaultAggsIsInit] = React.useState(false);
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
 
-  const { searchResults } = useSearchStore();
+  const searchResults = useSearchStore((state) => state.searchResults);
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
     useUrlSearchParamsStore();
 

@@ -5,8 +5,8 @@ import {
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation";
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../../stores/project";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { EntitySummaryDetails } from "./EntitySummaryDetails";
@@ -26,7 +26,7 @@ const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:vangogh:";
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const interfaceLang = projectConfig.selectedLanguage;
 
   const { routerBasename } = getViteEnvVars();

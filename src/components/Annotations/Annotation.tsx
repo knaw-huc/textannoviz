@@ -3,9 +3,9 @@ import { useAnnotationStore } from "../../stores/annotation";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import {
   projectConfigSelector,
-  translateProjectSelector,
-  translateSelector,
   useProjectStore,
+  useTranslate,
+  useTranslateProject,
 } from "../../stores/project";
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
@@ -18,11 +18,16 @@ type AnnotationProps = {
  * Annotation metadata panel
  */
 export function Annotation(props: AnnotationProps) {
-  const { annotations } = useAnnotationStore();
-  const { activeSidebarTab, setActiveSidebarTab } = useDetailViewStore();
+  const annotations = useAnnotationStore((state) => state.annotations);
+  const activeSidebarTab = useDetailViewStore(
+    (state) => state.activeSidebarTab,
+  );
+  const setActiveSidebarTab = useDetailViewStore(
+    (state) => state.setActiveSidebarTab,
+  );
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translate = useProjectStore(translateSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translate = useTranslate();
+  const translateProject = useTranslateProject();
 
   const tabStyling =
     "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-xs font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";

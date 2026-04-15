@@ -3,7 +3,7 @@ import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { selectDistinctBodyTypes } from "../../utils/broccoli";
@@ -11,7 +11,7 @@ import { selectDistinctBodyTypes } from "../../utils/broccoli";
 export const AnnotationFilter = () => {
   const [isOpen, setOpen] = React.useState(false);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const setAnnotationTypesToInclude = useAnnotationStore(
     (state) => state.setAnnotationTypesToInclude,
   );

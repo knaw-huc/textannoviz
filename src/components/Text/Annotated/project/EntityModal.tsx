@@ -3,8 +3,8 @@ import { GroupedSegments, TextSegmentsViewer } from "../core";
 import _ from "lodash";
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../../../stores/project.ts";
 import { ProjectEntityBody } from "../../../../model/ProjectConfig.ts";
 import { AnnoRepoBodyBase } from "../../../../model/AnnoRepoAnnotation.ts";
@@ -13,7 +13,7 @@ import { ScrollableModal } from "../../../common/ScrollableModal.tsx";
 import { isProjectAnnotation } from "./utils/isProjectAnnotation.ts";
 
 export function EntityModal() {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const { isEntity, components } = useProjectStore(projectConfigSelector);
   const clickedGroup = useTextStore((s) => s.clickedGroup);
   const setClickedGroup = useTextStore((s) => s.setClickedGroup);

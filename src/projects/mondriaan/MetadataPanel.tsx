@@ -2,17 +2,14 @@ import {
   AnnoRepoAnnotation,
   TfLetterBody,
 } from "../../model/AnnoRepoAnnotation";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslateProject } from "../../stores/project";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const letterAnno = props.annotations.find(
     (anno) => anno.body.type === "tf:Letter",
   );

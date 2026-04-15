@@ -4,13 +4,10 @@ import { QUERY } from "../../components/Search/SearchUrlParams.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import { encodeObject } from "../../utils/url/UrlParamUtils.ts";
 import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
-import {
   IsraelsSearchResultsBody,
   VanGoghSearchResultsBody,
 } from "../../model/Search.ts";
+import { useTranslateProject } from "../../stores/project.ts";
 
 type KunstenaarsbrievenSearchItemProps = SearchItemProps<
   IsraelsSearchResultsBody | VanGoghSearchResultsBody
@@ -19,7 +16,7 @@ type KunstenaarsbrievenSearchItemProps = SearchItemProps<
 };
 
 export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const letterNum = props.result.file;
 

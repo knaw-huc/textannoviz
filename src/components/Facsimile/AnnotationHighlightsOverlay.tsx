@@ -12,7 +12,8 @@ import { Overlay, useCanvas, useImageInfo } from "@knaw-huc/osd-iiif-viewer";
 
 export function AnnotationHighlightsOverlay() {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { annotations, bodyId } = useAnnotationStore();
+  const annotations = useAnnotationStore((state) => state.annotations);
+  const bodyId = useAnnotationStore((state) => state.bodyId);
   const { currentCanvasId } = useCanvas();
   const imageInfo = useImageInfo();
 

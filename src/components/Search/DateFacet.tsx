@@ -2,9 +2,9 @@ import React from "react";
 import { Button } from "react-aria-components";
 import {
   projectConfigSelector,
-  translateProjectSelector,
-  translateSelector,
   useProjectStore,
+  useTranslate,
+  useTranslateProject,
 } from "../../stores/project.ts";
 import { ArrowRotateLeft } from "../common/icons/ArrowRotateLeft.tsx";
 import { HelpTooltip } from "../common/HelpTooltip.tsx";
@@ -18,9 +18,9 @@ type DateFacetProps = {
 };
 
 export function DateFacet(props: DateFacetProps) {
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   function resetClickHandler() {
     const newDates = {

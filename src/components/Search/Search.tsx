@@ -26,19 +26,19 @@ export const Search = () => {
 
   const { searchQuery, searchParams, updateSearchParams } =
     useUrlSearchParamsStore();
-  const { isInitSearch, isLoadingSearch } = useSearchStore();
+
+  const isInitSearch = useSearchStore((state) => state.isInitSearch);
+  const isLoadingSearch = useSearchStore((state) => state.isLoadingSearch);
 
   useInitSearch();
 
   const { getSearchResults } = useSearchResults();
-  const {
-    setSearchResults,
-    searchFacetTypes,
-    setKeywordFacets,
-    keywordFacets,
-    addToHistory,
-    searchResults,
-  } = useSearchStore();
+  const setSearchResults = useSearchStore((state) => state.setSearchResults);
+  const searchFacetTypes = useSearchStore((state) => state.searchFacetTypes);
+  const setKeywordFacets = useSearchStore((state) => state.setKeywordFacets);
+  const keywordFacets = useSearchStore((state) => state.keywordFacets);
+  const addToHistory = useSearchStore((state) => state.addToHistory);
+  const searchResults = useSearchStore((state) => state.searchResults);
 
   useEffect(() => {
     setIsLoading(isLoadingSearch);

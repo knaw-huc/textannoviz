@@ -3,13 +3,13 @@ import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
-  translateSelector,
+  useTranslate,
   useProjectStore,
 } from "../../stores/project";
 import { useCanvas } from "@knaw-huc/osd-iiif-viewer";
 
 export function BrowseScanButtons() {
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
   const projectConfig = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
   const {
