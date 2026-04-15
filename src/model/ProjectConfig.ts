@@ -59,7 +59,6 @@ export type ProjectConfig = SearchConfig &
     detailPanels: DetailPanelConfig[];
 
     components: ComponentsConfig;
-    projectCss: string;
 
     routes: {
       path: string;

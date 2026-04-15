@@ -3,7 +3,6 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import projectCss from "../project.css?inline";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
@@ -126,7 +125,6 @@ export const israelsConfig: ProjectConfig = merge(
       { code: "nl", labels: dutchIsraelsLabels },
       { code: "en", labels: englishIsraelsLabels },
     ],
-    projectCss: projectCss,
     routes: [
       {
         path: "persons",

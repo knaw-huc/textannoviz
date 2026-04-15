@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "vite serve --config vite.config.local.ts",
-    "build:prod": "vite build --config vite.config.prod.ts",
-    "build:staging": "vite build --mode staging --config vite.config.prod.ts",
+    "build:prod": "vite build --config vite.config.prod.ts && npm run build:css",
+    "build:staging": "vite build --mode staging --config vite.config.prod.ts && npm run build:css",
+    "build:css": "scripts/build-project-css.sh",
     "preview": "vite preview",
     "prepare": "husky install",
     "test": "vitest run",

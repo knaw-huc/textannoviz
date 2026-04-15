@@ -3,7 +3,6 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import projectCss from "../project.css?inline";
 import { englishVanGoghLabels } from "./englishVanGoghLabels";
 // import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
@@ -131,7 +130,6 @@ export const vangoghConfig: ProjectConfig = merge(
       // { code: "nl", labels: dutchVangoghLabels },
       { code: "en", labels: englishVanGoghLabels },
     ],
-    projectCss: projectCss,
     routes: [
       {
         path: "persons",

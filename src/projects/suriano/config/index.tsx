@@ -25,8 +25,6 @@ import {
 import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
-import projectCss from "../project.css?inline";
-
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
   broccoliUrl: "https://broccoli.suriano.huygens.knaw.nl",
@@ -126,5 +124,4 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     sortBy: "date",
     sortOrder: "asc",
   },
-  projectCss: projectCss,
 } as ProjectSpecificConfig);
