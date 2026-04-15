@@ -1,7 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
-import { CategoricalChartState } from "recharts/types/chart/types";
+import { MouseHandlerDataParam } from "recharts/types/synchronisation/types";
 import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
 import {
@@ -124,7 +124,7 @@ export function SearchResults(props: SearchResultsProps) {
     setShowHistogram(newValue);
   }
 
-  function filterDateQuery(event: CategoricalChartState) {
+  function filterDateQuery(event: MouseHandlerDataParam) {
     const newYear = event.activeLabel;
 
     if (!newYear) return;

@@ -8,13 +8,13 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CategoricalChartState } from "recharts/types/chart/types";
+import { MouseHandlerDataParam } from "recharts/types/synchronisation/types";
 import { HitsYear } from "./Histogram";
 import { useTranslate } from "../../../stores/project.ts";
 
 type BarChartHistorgramProps = {
   hitsYear: HitsYear;
-  filterDateQuery: (event: CategoricalChartState) => void;
+  filterDateQuery: (event: MouseHandlerDataParam) => void;
 };
 
 export const BarChartHistogram = (props: BarChartHistorgramProps) => {
