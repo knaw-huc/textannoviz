@@ -23,14 +23,14 @@ const { projectName, routerBasename, prodMode } = getViteEnvVars();
 const { project, config } = await selectProjectConfig();
 
 /**
- * Tailwind css loading:
+ * Tailwind and project css loading:
  * - development:
  *   - vite dynamically imports project.css
  *   - tailwind css is processed with postcss using hot reloading
  * - production:
- *  - compiletime: merge project.css with tailwind.css
- *  - compiletime: generate tailwind css files for every project
- *  - runtime: load the project-specific css file with a <link> tag in Layout.
+ *  - during build: merge project.css with tailwind.css
+ *  - during build: generate a css file for every project
+ *  - runtime: load the project-specific css file in {@link Layout}
  */
 if (!prodMode) {
   await import("./tailwind.css");
