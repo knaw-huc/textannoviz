@@ -60,10 +60,10 @@ export default function App() {
 function Layout() {
   return (
     <>
-      {prodMode && config.tailwindCss && (
+      {prodMode && (
         <link
           rel="stylesheet"
-          href={`${import.meta.env.BASE_URL}/${config.tailwindCss}`}
+          href={`${import.meta.env.BASE_URL}/${projectName}.css`}
         />
       )}
       <Header />
@@ -156,8 +156,6 @@ async function selectProjectConfig() {
 
   // Set head>title from project config
   document.title = config.siteTitle;
-
-  config.tailwindCss = `${project}.css`;
 
   return { project, config };
 }

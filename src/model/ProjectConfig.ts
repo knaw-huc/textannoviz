@@ -61,7 +61,6 @@ export type ProjectConfig = SearchConfig &
     detailPanels: DetailPanelConfig[];
 
     components: ComponentsConfig;
-    tailwindCss: string;
 
     routes: {
       path: string;
