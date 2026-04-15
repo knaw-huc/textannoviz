@@ -18,7 +18,7 @@ import {
 } from "./stores/project";
 import { getViteEnvVars } from "./utils/viteEnvVars.ts";
 
-const { projectName, routerBasename, prodMode } = getViteEnvVars();
+const { envProjectName, routerBasename, prodMode } = getViteEnvVars();
 
 const { project, config } = await selectProjectConfig();
 
@@ -63,7 +63,7 @@ function Layout() {
       {prodMode && (
         <link
           rel="stylesheet"
-          href={`${import.meta.env.BASE_URL}/${projectName}.css`}
+          href={`${import.meta.env.BASE_URL}/${project}.css`}
         />
       )}
       <Header />
@@ -146,7 +146,7 @@ async function selectProjectConfig() {
       if (biblUrl) config.biblUrl = biblUrl;
     }
   } else {
-    project = projectName;
+    project = envProjectName;
     config = projectConfigs[project];
   }
 
