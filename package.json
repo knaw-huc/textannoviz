@@ -43,7 +43,7 @@
     "react": "^18.2.0",
     "react-aria-components": "^1.17.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.1",
+    "react-router-dom": "^6.30.3",
     "react-toastify": "^11.0.5",
     "reactions-knaw-huc": "^0.1.6",
     "recharts": "^3.8.1",

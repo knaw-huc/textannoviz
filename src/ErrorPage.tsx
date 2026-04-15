@@ -16,7 +16,7 @@ export const ErrorPage = () => {
       <p>
         <i>
           {isRouteErrorResponse(error)
-            ? error.statusText || error.error?.message
+            ? error.statusText || error.data
             : "Unknown error message"}
         </i>
       </p>
