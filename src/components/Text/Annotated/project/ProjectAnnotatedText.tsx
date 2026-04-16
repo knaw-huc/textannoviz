@@ -15,7 +15,10 @@ import {
 import { createSearchRegex } from "../../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
-import { hasMarkerPositions, isMarker } from "./ProjectMarkerAnnotation.tsx";
+import {
+  hasMarkerPositions,
+  isMarker,
+} from "../marker/DefaultMarkerAnnotation.tsx";
 import { EntityModal } from "./EntityModal.tsx";
 import { WithRelativePosition } from "./WithRelativePosition.ts";
 

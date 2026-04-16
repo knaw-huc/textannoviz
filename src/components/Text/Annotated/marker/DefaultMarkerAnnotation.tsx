@@ -25,7 +25,7 @@ import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 import { toArray } from "lodash";
 
-export function ProjectMarkerAnnotation(props: MarkerProps<MarkerBody>) {
+export function DefaultMarkerAnnotation(props: MarkerProps<MarkerBody>) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const pageMarkerTypes = projectConfig.pageMarkerAnnotationTypes;
   const insertTextTypes = projectConfig.insertTextMarkerAnnotationTypes;
