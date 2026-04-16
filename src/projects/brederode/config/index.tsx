@@ -5,8 +5,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/defaultAnnotatedTextConfig";
-import { BrederodeMarker } from "../Annotated/marker/BrederodeMarker";
+import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { BrederodeMarker } from "../annotation/marker/BrederodeMarker";
 import { SearchItem } from "../SearchItem";
 import { englishBrederodeLabels } from "./englishBrederodeLabels";
 import { MetadataPanel } from "../MetadataPanel";

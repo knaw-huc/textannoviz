@@ -6,8 +6,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/defaultAnnotatedTextConfig";
-import { OratiesMarker } from "../Annotated/marker/OratiesMarker";
+import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { OratiesMarker } from "../annotation/marker/OratiesMarker";
 import { SearchItem } from "../SearchItem";
 import { dutchOratiesLabels } from "./dutchOratiesLabels";
 import { MetadataPanel } from "../MetadataPanel";

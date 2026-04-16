@@ -5,14 +5,12 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/defaultAnnotatedTextConfig";
-import { SurianoMarker } from "../Annotated/marker/SurianoMarker";
+import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
-// import { TabRecipes } from "../../../components/Detail/TabRecipes.tsx";
 import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
@@ -28,6 +26,7 @@ import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
 import projectCss from "../project.css?inline";
+import { SurianoMarker } from "../annotation/marker/SurianoMarker.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",

@@ -2,8 +2,8 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { DefaultProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/defaultAnnotatedTextConfig";
-import { KunstenaarsbrievenMarker } from "../Annotated/marker/KunstenaarsbrievenMarker";
+import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { KunstenaarsbrievenMarker } from "../annotation/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
   teiArtwork,

@@ -6,7 +6,7 @@ import { isNoteReference } from "../../annotation/ProjectAnnotationModel.ts";
 import {
   projectPageMarkerAnnotationTypes,
   projectInsertTextMarkerAnnotationTypes,
-} from "../../annotation/ProjectAnnotationModel.ts";
+} from "../ProjectAnnotationModel.ts";
 import { TooltipMarkerAnnotation } from "./TooltipMarkerAnnotation.tsx";
 import { InsertMarkerAnnotation } from "./InsertMarkerAnnotation.tsx";
 

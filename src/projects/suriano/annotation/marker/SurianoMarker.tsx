@@ -5,7 +5,7 @@ import { throwUnknownAnnotation } from "../../../../components/Text/Annotated/th
 import {
   projectPageMarkerAnnotationTypes,
   projectInsertTextMarkerAnnotationTypes,
-} from "../../annotation/ProjectAnnotationModel.ts";
+} from "../ProjectAnnotationModel.ts";
 
 export function SurianoMarker(props: MarkerProps<MarkerBody>) {
   const { marker } = props;
