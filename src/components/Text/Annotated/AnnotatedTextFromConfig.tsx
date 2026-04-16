@@ -8,10 +8,7 @@ import {
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
-import {
-  hasMarkerPositions,
-  isMarker,
-} from "./marker/DefaultMarkerAnnotation.tsx";
+import { hasMarkerPositions, isMarker } from "./utils/isMarker.ts";
 import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
 import {
   createAnnotationTextOffsets,
