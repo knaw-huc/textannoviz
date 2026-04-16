@@ -6,6 +6,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextConfig } from "../../default/defaultAnnotatedTextConfig";
+import { OratiesMarker } from "../Annotated/marker/OratiesMarker";
 import { SearchItem } from "../SearchItem";
 import { dutchOratiesLabels } from "./dutchOratiesLabels";
 import { MetadataPanel } from "../MetadataPanel";
@@ -114,6 +116,10 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
 
   // AnnotationConfig
   showAnnotations: true,
+  annotatedTextConfig: {
+    ...defaultAnnotatedTextConfig,
+    Marker: OratiesMarker,
+  },
   relativeTo: "Document",
   annotationTypesToInclude: [
     "Division",
