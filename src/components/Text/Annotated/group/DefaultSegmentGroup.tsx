@@ -4,11 +4,11 @@ import {
 } from "../../../../stores/project.ts";
 import { GroupProps } from "../core";
 import { isProjectAnnotation } from "../utils/isProjectAnnotation.ts";
-import { orThrow } from "./utils/orThrow.tsx";
 import { AnnotationLink } from "./AnnotationLink.tsx";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
+import { orThrow } from "../project/utils/orThrow.tsx";
 
-export function ProjectSegmentGroup(props: GroupProps) {
+export function DefaultSegmentGroup(props: GroupProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { selectedLanguage } = projectConfig;
   const { group, children } = props;
