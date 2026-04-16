@@ -5,6 +5,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextConfig } from "../../default/defaultAnnotatedTextConfig";
+import { BrederodeMarker } from "../Annotated/marker/BrederodeMarker";
 import { SearchItem } from "../SearchItem";
 import { englishBrederodeLabels } from "./englishBrederodeLabels";
 import { MetadataPanel } from "../MetadataPanel";
@@ -33,6 +35,10 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
   pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
   elasticIndexName: "brederode",
   showAnnotations: true,
+  annotatedTextConfig: {
+    ...defaultAnnotatedTextConfig,
+    Marker: BrederodeMarker,
+  },
   initialDateFrom: "1602-01-01",
   initialDateTo: "1638-01-01",
   initialRangeFrom: "0",
