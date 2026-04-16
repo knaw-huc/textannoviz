@@ -26,7 +26,6 @@ import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
 import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
-import { InsertMarkerAnnotation } from "../Annotated/marker/InsertMarkerAnnotation";
 import { Header } from "../Header";
 import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
@@ -79,7 +78,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       SearchItem,
       NotesPanel,
       ArtworksTab,
-      InsertMarkerAnnotation,
       Header,
       TocPanel,
     },

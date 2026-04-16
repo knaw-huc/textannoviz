@@ -35,4 +35,5 @@ export const templateConfig: ProjectConfig = merge({}, defaultConfig, {
   viewsToSearchIn: ["replace with view as defined in Broccoli config/mapping"],
   showSearchInTextViews: false,
   showAnnotations: true,
+  markerAnnotationTypes: [],
 } as ProjectSpecificConfig);

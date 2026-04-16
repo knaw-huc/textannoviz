@@ -96,7 +96,6 @@ export const defaultConfig: DefaultProjectConfig = {
     BrowseScanButtons: Empty,
     NotesPanel: Placeholder,
     ArtworksTab: Placeholder,
-    InsertMarkerAnnotation: Empty,
     Header: Header,
     TocPanel: Placeholder,
   },
