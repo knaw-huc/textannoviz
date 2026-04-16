@@ -6,10 +6,7 @@ import {
   SliderThumb,
   SliderTrack,
 } from "react-aria-components";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslateProject } from "../../stores/project";
 
 type SliderFacetProps = {
   initialValue: number | number[];
@@ -24,7 +21,7 @@ type SliderFacetProps = {
  * For single thumb slider, use "number"; for multi thumb sliders, use "number[]".
  */
 export const SliderFacet = (props: SliderFacetProps) => {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const [value, setValue] = React.useState<number | number[]>(
     props.initialValue,
   );

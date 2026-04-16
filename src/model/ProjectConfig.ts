@@ -17,6 +17,7 @@ import {
   VanGoghSearchResultsBody,
 } from "./Search.ts";
 import { NoteReferenceBody } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import type { JSX } from "react";
 
 export type PanelRegion = "left" | "main" | "right";
 export type DetailPanelConfig = {

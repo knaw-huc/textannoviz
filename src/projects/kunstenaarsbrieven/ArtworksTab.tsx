@@ -1,14 +1,14 @@
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { Artwork, isArtwork } from "./annotation/ProjectAnnotationModel";
 
 export const ArtworksTab = () => {
   const annotations = useAnnotationStore().annotations;
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 

@@ -1,4 +1,4 @@
-import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
+import { matchPath, Params, useNavigate, useParams } from "react-router";
 import { decodeObject, getUrlParams } from "../../utils/url/UrlParamUtils.ts";
 import { SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -24,7 +24,7 @@ export type NavigateDetailProps =
 
 export function useDetailNavigation() {
   const params = useParams();
-  const { searchResults } = useSearchStore();
+  const searchResults = useSearchStore((state) => state.searchResults);
   const navigate = useNavigate();
   const { updateSearchParams, updateDetailParams, searchQuery, detailParams } =
     useUrlSearchParamsStore();

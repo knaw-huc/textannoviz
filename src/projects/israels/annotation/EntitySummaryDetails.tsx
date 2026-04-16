@@ -1,8 +1,8 @@
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../../stores/project";
 import {
   Artwork,
@@ -42,7 +42,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
 const ArtworkEntity = (props: { artworks: Artwork[] }) => {
   const { artworks } = props;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   return (
     <>

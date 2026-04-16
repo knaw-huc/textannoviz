@@ -1,14 +1,11 @@
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslateProject } from "../../stores/project";
 
 type FacetItemsFilterProps = {
   inputFilterOnChangeHandler: (value: string) => void;
 };
 
 export const FacetItemsFilter = (props: FacetItemsFilterProps) => {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   return (
     <input

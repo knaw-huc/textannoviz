@@ -3,8 +3,8 @@ import React from "react";
 import { Facet, FacetName, SearchQuery, Terms } from "../../model/Search.ts";
 import {
   projectNameSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../stores/project.ts";
 import {
   CheckboxComponent,
@@ -29,7 +29,7 @@ export function KeywordFacet(props: {
 }) {
   const { searchQuery, updateSearchQuery } = useUrlSearchParamsStore();
   const facetLength = Object.keys(props.facet).length;
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const projectName = useProjectStore(projectNameSelector);
   const [selected, setSelected] = React.useState<string[]>(
     props.selectedFacets[props.facetName] ?? [],

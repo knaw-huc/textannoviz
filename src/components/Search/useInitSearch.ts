@@ -20,16 +20,18 @@ import { useInitSearchUrlParams } from "./useInitSearchUrlParams.tsx";
 export function useInitSearch() {
   const projectConfig = useProjectStore(projectConfigSelector);
 
-  const {
-    setSearchResults,
-    setKeywordFacets,
-    searchFacetTypes,
-    defaultQuery,
-    isInitDefaultQuery,
-    isInitSearch,
-    isLoadingSearch,
-    setSearchInitStatus,
-  } = useSearchStore();
+  const setSearchResults = useSearchStore((state) => state.setSearchResults);
+  const setKeywordFacets = useSearchStore((state) => state.setKeywordFacets);
+  const searchFacetTypes = useSearchStore((state) => state.searchFacetTypes);
+  const defaultQuery = useSearchStore((state) => state.defaultQuery);
+  const isInitDefaultQuery = useSearchStore(
+    (state) => state.isInitDefaultQuery,
+  );
+  const isInitSearch = useSearchStore((state) => state.isInitSearch);
+  const isLoadingSearch = useSearchStore((state) => state.isLoadingSearch);
+  const setSearchInitStatus = useSearchStore(
+    (state) => state.setSearchInitStatus,
+  );
 
   const { getSearchResults } = useSearchResults();
   const { searchQuery, isInitSearchUrlParams, searchParams } =

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { GlobaliseSearchResultsBody } from "../../model/Search.ts";
 
 import { SearchItemProps } from "../../model/SearchItemProps.ts";

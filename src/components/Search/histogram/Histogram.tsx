@@ -1,4 +1,4 @@
-import { CategoricalChartState } from "recharts/types/chart/types";
+import { MouseHandlerDataParam } from "recharts/types/synchronisation/types";
 import { SearchResult } from "../../../model/Search";
 import { createIndices } from "../../../utils/createIndices";
 import { BarChartHistogram } from "./BarChartHistogram";
@@ -11,7 +11,7 @@ type HistogramProps = {
   graphFrom: string;
   graphTo: string;
   showHistogram: boolean;
-  filterDateQuery: (event: CategoricalChartState) => void;
+  filterDateQuery: (event: MouseHandlerDataParam) => void;
 };
 
 export type HitsYear = {

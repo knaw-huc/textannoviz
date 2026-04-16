@@ -1,16 +1,16 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import { Checkbox, CheckboxChangeEvent } from "primereact/checkbox";
 import React from "react";
 import { ProjectConfig } from "../../model/ProjectConfig";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store.ts";
+import { Checkbox } from "react-aria-components";
 
 type ToggleTextPanelsProps = {
-  textPanelsCheckboxHandler: (event: CheckboxChangeEvent) => void;
+  onChange: (panel: string, checked: boolean) => void;
   panels: string[];
 };
 
@@ -25,12 +25,14 @@ const CheckboxList = React.memo((props: CheckboxListProps) => (
     {props.viewsInData.map((panel) => (
       <div key={panel} className="toggleTextPanelCheckbox">
         <Checkbox
-          inputId={`panel-${panel}`}
+          id={`panel-${panel}`}
           name="textPanels"
           value={panel}
-          onChange={props.textPanelsCheckboxHandler}
-          checked={props.panels.includes(panel)}
-        />
+          isSelected={props.panels.includes(panel)}
+          onChange={(isSelected) => props.onChange(panel, isSelected)}
+        >
+          {props.translateProject(panel)}
+        </Checkbox>
         <label
           className="toggleTextPanelCheckboxLabel"
           htmlFor={`panel-${panel}`}
@@ -46,7 +48,7 @@ CheckboxList.displayName = "CheckboxList";
 
 export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const [show, setShow] = React.useState(false);
   const views = useTextStore((state) => state.views);
@@ -64,7 +66,7 @@ export const ToggleTextPanels = (props: ToggleTextPanelsProps) => {
       {show && views && (
         <CheckboxList
           panels={props.panels}
-          textPanelsCheckboxHandler={props.textPanelsCheckboxHandler}
+          onChange={props.onChange}
           projectConfig={projectConfig}
           translateProject={translateProject}
           viewsInData={filteredViewsInData}

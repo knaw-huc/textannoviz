@@ -2,7 +2,7 @@ import { Checkbox, CheckboxGroup, Label } from "react-aria-components";
 import { CheckIcon } from "@heroicons/react/16/solid";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import React from "react";
@@ -12,12 +12,12 @@ import { HelpTooltip } from "../common/HelpTooltip";
 
 export const SelectSearchInTextViews = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const [selected, setSelected] = React.useState<string[]>(
     projectConfig.viewsToSearchIn,
   );
   const { updateSearchQuery } = useUrlSearchParamsStore();
-  const { isInitSearch } = useSearchStore();
+  const isInitSearch = useSearchStore((state) => state.isInitSearch);
 
   React.useEffect(() => {
     //Only update the search query once the search interface is initialised.

@@ -1,18 +1,18 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { toast } from "../../utils/toast.ts";
 import { PxPageBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useCanvas } from "@knaw-huc/osd-iiif-viewer";
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
+import { useTranslate } from "../../stores/project.ts";
 
 export const AnnotationButtons = () => {
   const { next, prev } = useCanvas();
   const annotations = useAnnotationStore((state) => state.annotations);
   const params = useParams();
   const { navigateDetail } = useDetailNavigation();
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
 
   const pageAnnotation = annotations.find(
     (annotation) => annotation.body.type === "px:Page",

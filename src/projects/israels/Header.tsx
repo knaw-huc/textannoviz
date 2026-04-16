@@ -1,15 +1,15 @@
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../stores/project.ts";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { Header as KunstenaarsbrievenHeader } from "../kunstenaarsbrieven/Header.tsx";
 
 export const Header = () => {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const annotations = useAnnotationStore().annotations;
   const params = useParams();

@@ -2,7 +2,7 @@ import React from "react";
 import { ProjectAnnotatedText } from "../../components/Text/Annotated/project/ProjectAnnotatedText";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
@@ -10,8 +10,8 @@ import { useTextStore } from "../../stores/text/text-store";
 export const NotesPanel = () => {
   const views = useTextStore((state) => state.views);
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const translateProject = useProjectStore(translateProjectSelector);
-  const { activeFootnote } = useTextStore();
+  const translateProject = useTranslateProject();
+  const activeFootnote = useTextStore((state) => state.activeFootnote);
 
   React.useEffect(() => {
     if (!activeFootnote) return;

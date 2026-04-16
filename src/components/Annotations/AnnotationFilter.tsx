@@ -1,9 +1,8 @@
 import React from "react";
-import { Button } from "reactions-knaw-huc";
 import { useAnnotationStore } from "../../stores/annotation";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { selectDistinctBodyTypes } from "../../utils/broccoli";
@@ -11,7 +10,7 @@ import { selectDistinctBodyTypes } from "../../utils/broccoli";
 export const AnnotationFilter = () => {
   const [isOpen, setOpen] = React.useState(false);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const setAnnotationTypesToInclude = useAnnotationStore(
     (state) => state.setAnnotationTypesToInclude,
   );
@@ -102,3 +101,14 @@ export const AnnotationFilter = () => {
     </>
   );
 };
+
+function Button(props: { children?: React.ReactNode; onClick: () => void }) {
+  return (
+    <button
+      className="mr-2 rounded border-none bg-blue-600 px-2 py-1 text-white"
+      onClick={props.onClick}
+    >
+      {props.children}
+    </button>
+  );
+}

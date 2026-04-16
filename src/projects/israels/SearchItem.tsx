@@ -3,15 +3,15 @@ import { IsraelsSearchResultsBody } from "../../model/Search.ts";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../stores/project.ts";
 
 export const SearchItem = (
   props: SearchItemProps<IsraelsSearchResultsBody>,
 ) => {
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   let searchItemTitle: string;
   if (props.result.type === "letter") {

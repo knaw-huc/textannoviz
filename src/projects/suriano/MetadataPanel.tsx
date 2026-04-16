@@ -2,19 +2,15 @@ import {
   AnnoRepoAnnotation,
   SurianoTfFileBody,
 } from "../../model/AnnoRepoAnnotation";
-import {
-  translateProjectSelector,
-  translateSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslate, useTranslateProject } from "../../stores/project";
 
 type MetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
 export const MetadataPanel = (props: MetadataPanelProps) => {
-  const translate = useProjectStore(translateSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translate = useTranslate();
+  const translateProject = useTranslateProject();
 
   const fileAnno = props.annotations.find(
     (anno) => anno.body.type === "tf:File",

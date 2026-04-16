@@ -1,15 +1,15 @@
 import { useRef } from "react";
-import { Skeleton } from "primereact/skeleton";
 import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
 import { useViewText } from "./useViewText.tsx";
 import { useSyncHeaderOnScroll } from "./Toc/useSyncHeaderOnScroll.tsx";
 import { useSyncHeaderWithHashOnInit } from "./Toc/useSyncHeaderWithHashOnInit.tsx";
+import { SkeletonLoader } from "../common/SkeletonLoader.tsx";
 
 type TextComponentProps = {
   viewToRender: string | string[];
@@ -19,7 +19,7 @@ type TextComponentProps = {
 export const TextComponent = (props: TextComponentProps) => {
   const text = useViewText(props.viewToRender);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const scrollRef = useRef<HTMLDivElement>(null);
   useSyncHeaderWithHashOnInit(scrollRef);
@@ -50,11 +50,7 @@ export const TextComponent = (props: TextComponentProps) => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-2 pl-2 pt-2">
-            <Skeleton width="16rem" borderRadius="8px" className="h-4" />
-            <Skeleton width="24rem" borderRadius="8px" className="h-4" />
-            <Skeleton width="12rem" borderRadius="8px" className="h-4" />
-          </div>
+          <SkeletonLoader />
         )}
       </div>
     </div>
