@@ -1,15 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 import React from "react";
-import {
-  Button,
-  ListBox,
-  ListBoxItem,
-  type Selection,
-} from "react-aria-components";
+import type { Selection } from "react-aria-components";
 import { useTranslate, useTranslateProject } from "../../stores/project";
-import { ChevronDown } from "../common/icons/ChevronDown";
-import { ChevronRight } from "../common/icons/ChevronRight";
-import { HelpTooltip } from "../common/HelpTooltip.tsx";
 import { FacetEntry } from "../../model/Search.ts";
 
 type FacetFilterProps = {
@@ -20,7 +12,6 @@ type FacetFilterProps = {
 
 export function FacetFilter(props: FacetFilterProps) {
   const [selected, setSelected] = React.useState<Selection>(new Set());
-  const [isOpen, setIsOpen] = React.useState(false);
   const translateProject = useTranslateProject();
   const translate = useTranslate();
 
@@ -30,42 +21,49 @@ export function FacetFilter(props: FacetFilterProps) {
     }
   }, [props.filteredKeywordFacets]);
 
-  function listBoxItemToggleHandler(keys: Selection) {
-    setSelected(new Set(keys));
+  const selectedSet = selected as Set<string>;
+
+  function toggleFacet(facetId: string, checked: boolean) {
+    const next = new Set(selectedSet);
+    if (checked) {
+      next.add(facetId);
+    } else {
+      next.delete(facetId);
+    }
+    const keys = next as Selection;
+    setSelected(keys);
     props.facetFilterChangeHandler(keys);
   }
 
+  if (isEmpty(props.allPossibleKeywordFacets)) {
+    return null;
+  }
+
   return (
-    <>
-      <Button
-        className="bg-brand2-100 hover:bg-brand2-50 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-500 flex w-fit flex-row items-center rounded px-2 py-2 text-sm text-black outline-none transition hover:text-black"
-        onPress={() => setIsOpen(!isOpen)}
-      >
-        {translate("FILTER_FACETS")}{" "}
-        <HelpTooltip label={translateProject("FILTER_FACETS_HELP")} />
-        {!isOpen ? <ChevronRight /> : <ChevronDown />}
-      </Button>
-      {isOpen ? (
-        <ListBox
-          aria-label={translate("FILTER_FACETS")}
-          selectionMode="multiple"
-          selectionBehavior="toggle"
-          selectedKeys={selected}
-          onSelectionChange={listBoxItemToggleHandler}
-          className="border-brand1Grey-200 flex max-h-64 cursor-default flex-col gap-2 overflow-auto rounded border bg-white px-1 py-1 text-sm"
-        >
-          {!isEmpty(props.allPossibleKeywordFacets) &&
-            props.allPossibleKeywordFacets.map(([facetLabel], index) => (
-              <ListBoxItem
-                key={index}
-                id={facetLabel}
-                className="selected:bg-brand1-200 selected:rounded-sm hover:bg-brand1-100 cursor-default px-2 py-1 outline-none"
-              >
-                {translateProject(facetLabel)}
-              </ListBoxItem>
-            ))}
-        </ListBox>
-      ) : null}
-    </>
+    <ul
+      aria-label={translate("FILTER_FACETS")}
+      className="flex max-h-64 list-none flex-col gap-2 overflow-auto bg-white p-1 text-sm"
+    >
+      {props.allPossibleKeywordFacets.map(([facetLabel], index) => {
+        const inputId = `facet-filter-${index}`;
+        return (
+          <li key={facetLabel}>
+            <label
+              htmlFor={inputId}
+              className="flex cursor-pointer items-start gap-2 rounded px-2 py-1 text-neutral-900 has-[:checked]:bg-neutral-100"
+            >
+              <input
+                id={inputId}
+                type="checkbox"
+                checked={selectedSet.has(facetLabel)}
+                onChange={(e) => toggleFacet(facetLabel, e.target.checked)}
+                className="mt-0.5 size-4 shrink-0 rounded border-neutral-400 text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-700 focus-visible:ring-offset-2"
+              />
+              {translateProject(facetLabel)}
+            </label>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
