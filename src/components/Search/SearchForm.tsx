@@ -27,6 +27,7 @@ import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
 import { toast } from "../../utils/toast.ts";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 import { SelectSearchInTextViews } from "./SelectSearchInTextViews.tsx";
+import { ChevronDown } from "../common/icons/ChevronDown";
 
 interface SearchFormProps {
   onSearch: (toFirstPage: boolean) => void;
@@ -297,7 +298,7 @@ export function SearchForm(props: SearchFormProps) {
                 <div className="flex w-full justify-end">
                   <button
                     type="button"
-                    className="my-2 text-sm text-neutral-700 outline-none focus-visible:ring-2 focus-visible:ring-neutral-700"
+                    className="my-2 inline-flex items-center rounded-full border border-neutral-400 px-2 text-sm text-neutral-700 outline-none focus-visible:ring-2 focus-visible:ring-neutral-700"
                     aria-expanded={searchInTextViewsExpanded}
                     aria-controls={searchInTextViewsPanelId}
                     aria-label={
@@ -314,6 +315,14 @@ export function SearchForm(props: SearchFormProps) {
                     {searchInTextViewsExpanded
                       ? translate("SHOW_LESS")
                       : translate("SEARCH_ONLY_IN_SELECTED_LAYERS")}
+                    <span
+                      aria-hidden="true"
+                      className={`inline-flex transition-transform duration-150 ${
+                        searchInTextViewsExpanded ? "rotate-180" : "rotate-0"
+                      }`}
+                    >
+                      <ChevronDown />
+                    </span>
                   </button>
                 </div>
                 <div
