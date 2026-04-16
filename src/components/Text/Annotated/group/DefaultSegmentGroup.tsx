@@ -6,7 +6,7 @@ import { GroupProps } from "../core";
 import { isProjectAnnotation } from "../utils/isProjectAnnotation.ts";
 import { AnnotationLink } from "./AnnotationLink.tsx";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
-import { orThrow } from "../project/utils/orThrow.tsx";
+import { orThrow } from "../../../../utils/orThrow.tsx";
 
 export function DefaultSegmentGroup(props: GroupProps) {
   const projectConfig = useProjectStore(projectConfigSelector);

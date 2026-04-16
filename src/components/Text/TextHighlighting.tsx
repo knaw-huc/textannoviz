@@ -3,10 +3,10 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
-import { getAnnotationsByTypes } from "./Annotated/project/utils/getAnnotationsByTypes.ts";
 import { createSearchRegex } from "./createSearchRegex.tsx";
 import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { normalizeClassname } from "./Annotated/utils/createAnnotationClasses.ts";
+import { getAnnotationsByTypes } from "./Annotated/utils/getAnnotationsByTypes.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;

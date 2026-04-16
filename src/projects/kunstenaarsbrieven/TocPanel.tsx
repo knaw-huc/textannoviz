@@ -5,10 +5,10 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import { findRelativePosition } from "../../components/Text/Annotated/utils/createTextOffsets.ts";
-import { WithRelativePosition } from "../../components/Text/Annotated/project/WithRelativePosition.ts";
+import { WithRelativePosition } from "../../model/WithRelativePosition.ts";
 import { HeadBody, isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 import { getTocId, getTocLevel } from "./TocUtils.ts";
-import { orThrow } from "../../components/Text/Annotated/project/utils/orThrow.tsx";
+import { orThrow } from "../../utils/orThrow.tsx";
 import { Toc, TocHeader } from "../../components/Text/Toc/Toc.tsx";
 
 export const TocPanel = () => {

@@ -19,8 +19,8 @@ import {
   hasMarkerPositions,
   isMarker,
 } from "../marker/DefaultMarkerAnnotation.tsx";
-import { EntityModal } from "./EntityModal.tsx";
-import { WithRelativePosition } from "./WithRelativePosition.ts";
+import { EntityModal } from "../EntityModal.tsx";
+import { WithRelativePosition } from "../../../../model/WithRelativePosition.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;

@@ -1,16 +1,16 @@
-import { StyledText } from "../../StyledText.tsx";
-import { GroupedSegments, TextSegmentsViewer } from "../core";
+import { StyledText } from "../StyledText.tsx";
+import { GroupedSegments, TextSegmentsViewer } from "./core";
 import _ from "lodash";
 import {
   projectConfigSelector,
   useProjectStore,
   useTranslateProject,
-} from "../../../../stores/project.ts";
-import { ProjectEntityBody } from "../../../../model/ProjectConfig.ts";
-import { AnnoRepoBodyBase } from "../../../../model/AnnoRepoAnnotation.ts";
-import { useTextStore } from "../../../../stores/text/text-store.ts";
-import { ScrollableModal } from "../../../common/ScrollableModal.tsx";
-import { isProjectAnnotation } from "../utils/isProjectAnnotation.ts";
+} from "../../../stores/project.ts";
+import { ProjectEntityBody } from "../../../model/ProjectConfig.ts";
+import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
+import { useTextStore } from "../../../stores/text/text-store.ts";
+import { ScrollableModal } from "../../common/ScrollableModal.tsx";
+import { isProjectAnnotation } from "./utils/isProjectAnnotation.ts";
 
 export function EntityModal() {
   const translateProject = useTranslateProject();

@@ -1,5 +1,5 @@
-import { EntityDetail } from "../../../../model/AnnoRepoAnnotation.ts";
-import { useTranslateProject } from "../../../../stores/project.ts";
+import { EntityDetail } from "../../../model/AnnoRepoAnnotation.ts";
+import { useTranslateProject } from "../../../stores/project.ts";
 
 export function MetadataDetailLabelValues(props: { details?: EntityDetail[] }) {
   const translateProject = useTranslateProject();

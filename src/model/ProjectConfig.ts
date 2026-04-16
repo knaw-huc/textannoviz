@@ -2,7 +2,7 @@ import {
   AnyAnnotatedTextConfig,
   MarkerSegment,
 } from "../components/Text/Annotated/core";
-import { EntitySummaryProps } from "../components/Text/Annotated/project/EntitySummaryProps.ts";
+import { EntitySummaryProps } from "./EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
 import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
