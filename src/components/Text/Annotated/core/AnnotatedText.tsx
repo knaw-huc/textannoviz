@@ -28,10 +28,10 @@ import { Any } from "../../../../utils/Any.ts";
  * See also: {@link AnnotatedTextConfig}
  */
 export function AnnotatedText<
-  ANNOTATION extends Body = Body,
+  NESTED extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
->(props: AnnotatedTextProps<ANNOTATION, HIGHLIGHT, MARKER>) {
+>(props: AnnotatedTextProps<NESTED, HIGHLIGHT, MARKER>) {
   return (
     <AnnotatedTextProvider
       value={props.config as unknown as AnnotatedTextConfig}
@@ -58,18 +58,18 @@ export const AnnotatedTextProvider = AnnotatedTextContext.Provider;
  * - Group: wrapper around segments connected by overlapping annotations
  */
 export type AnnotatedTextConfig<
-  ANNOTATION extends Body = Body,
+  NESTED extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
 > = {
-  Annotation: FC<AnnotationProps<ANNOTATION>>;
+  Nested: FC<NestedProps<NESTED>>;
   Highlight: FC<HighlightProps<HIGHLIGHT>>;
   Marker: FC<MarkerProps<MARKER>>;
   Group: FC<GroupProps>;
 };
 
-export type AnnotationProps<ANNOTATION extends Body = Body> = {
-  annotation: NestedAnnotationSegment<ANNOTATION>;
+export type NestedProps<ANNOTATION extends Body = Body> = {
+  nested: NestedAnnotationSegment<ANNOTATION>;
   segment: Segment;
   children: ReactNode;
 };

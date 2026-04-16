@@ -4,7 +4,7 @@ export {
 } from "./AnnotatedText.tsx";
 
 export type {
-  AnnotationProps,
+  NestedProps,
   HighlightProps,
   MarkerProps,
   GroupProps,

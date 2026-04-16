@@ -5,7 +5,7 @@ import { DefaultSegmentGroup } from "../../components/Text/Annotated/group/Defau
 import { DefaultNestedAnnotation } from "../../components/Text/Annotated/nested/DefaultNestedAnnotation.tsx";
 
 export const defaultAnnotatedTextConfig: AnyAnnotatedTextConfig = {
-  Annotation: DefaultNestedAnnotation,
+  Nested: DefaultNestedAnnotation,
   Highlight: DefaultHighlightAnnotations,
   Marker: DefaultMarkerAnnotation,
   Group: DefaultSegmentGroup,
