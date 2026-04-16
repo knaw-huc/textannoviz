@@ -7,7 +7,7 @@ import {
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { AnnotatedTextFromConfig } from "../../components/Text/Annotated/AnnotatedTextFromConfig.tsx";
+import { Annotated } from "../../components/Text/Annotated/Annotated.tsx";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -54,7 +54,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                   <div className={labelStyling}>
                     {translateProject("addInfo")}:{" "}
                   </div>
-                  <AnnotatedTextFromConfig
+                  <Annotated
                     text={typedNoteText}
                     showDetail={false}
                     key={interfaceLang}

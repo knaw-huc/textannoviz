@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { AnnotatedTextFromConfig } from "./Annotated/AnnotatedTextFromConfig";
+import { Annotated } from "./Annotated/Annotated.tsx";
 import {
   projectConfigSelector,
   useTranslateProject,
@@ -43,7 +43,7 @@ export const TextComponent = (props: TextComponentProps) => {
             {/* eslint-disable-next-line jsx-a11y/aria-role */}
             <div className="prose max-w-[550px]" role="textpanel">
               {projectConfig.showAnnotations ? (
-                <AnnotatedTextFromConfig text={text} showDetail={false} />
+                <Annotated text={text} showDetail={false} />
               ) : (
                 <TextHighlighting text={text} />
               )}

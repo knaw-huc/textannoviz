@@ -24,7 +24,7 @@ type TextHighlightingProps = {
   showDetail: boolean;
 };
 
-export const AnnotatedTextFromConfig = (props: TextHighlightingProps) => {
+export const Annotated = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { entityAnnotationTypes, highlightedAnnotationTypes } = projectConfig;
   const typesToInclude = uniq([
