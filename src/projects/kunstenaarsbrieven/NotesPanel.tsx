@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectAnnotatedText } from "../../components/Text/Annotated/project/ProjectAnnotatedText";
+import { AnnotatedTextFromConfig } from "../../components/Text/Annotated/AnnotatedTextFromConfig";
 import {
   projectConfigSelector,
   useTranslateProject,
@@ -44,7 +44,7 @@ export const NotesPanel = () => {
             {footnoteNumber}.{" "}
           </span>
           <div className="text-sm">
-            <ProjectAnnotatedText text={note} showDetail={false} />
+            <AnnotatedTextFromConfig text={note} showDetail={false} />
           </div>
         </div>
       ))}

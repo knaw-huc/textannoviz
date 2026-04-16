@@ -5,7 +5,7 @@ import {
   useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
-import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText.tsx";
+import { AnnotatedTextFromConfig } from "./Annotated/AnnotatedTextFromConfig.tsx";
 import { TextHighlighting } from "./TextHighlighting.tsx";
 
 type TextPanelProps = {
@@ -38,7 +38,7 @@ export const TextPanel = (props: TextPanelProps) => {
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <div className="prose max-w-[450px]" role="textpanel">
           {projectConfig.showAnnotations ? (
-            <ProjectAnnotatedText text={props.text} showDetail={false} />
+            <AnnotatedTextFromConfig text={props.text} showDetail={false} />
           ) : (
             <TextHighlighting text={props.text} />
           )}

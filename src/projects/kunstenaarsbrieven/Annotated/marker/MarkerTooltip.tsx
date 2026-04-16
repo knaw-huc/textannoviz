@@ -11,7 +11,7 @@ import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { Optional } from "../../../../utils/Optional.ts";
 import { SpanTooltipButton } from "../../../../components/common/SpanTooltipButton.tsx";
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
-import { ProjectAnnotatedText } from "../../../../components/Text/Annotated/project/ProjectAnnotatedText.tsx";
+import { AnnotatedTextFromConfig } from "../../../../components/Text/Annotated/AnnotatedTextFromConfig.tsx";
 
 // Detail.tsx performs an additional broccoli call to retrieve notes:
 export const NOTES_VIEW = "notes";
@@ -56,7 +56,7 @@ export function MarkerTooltip(props: FootnoteModalProps) {
           <path d="M0 0 L4 4 L8 0" />
         </svg>
       </OverlayArrow>
-      <ProjectAnnotatedText text={tooltipBody} showDetail={false} />
+      <AnnotatedTextFromConfig text={tooltipBody} showDetail={false} />
     </Tooltip>
   );
 }

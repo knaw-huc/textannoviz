@@ -1,33 +1,33 @@
-import { BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
-import { useAnnotationStore } from "../../../../stores/annotation.ts";
-import { AnnotatedText, TextOffsets } from "../core";
-import { createSearchHighlightOffsets } from "../utils/createSearchHighlightOffsets.ts";
+import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
+import { useAnnotationStore } from "../../../stores/annotation.ts";
 import "../annotated.css";
 import {
   projectConfigSelector,
   useProjectStore,
-} from "../../../../stores/project.ts";
-import {
-  createAnnotationTextOffsets,
-  createMarkerTextOffsets,
-  findRelativePosition,
-} from "../utils/createTextOffsets.ts";
-import { createSearchRegex } from "../../createSearchRegex.tsx";
-import { useDetailNavigation } from "../../../Detail/useDetailNavigation.tsx";
+} from "../../../stores/project.ts";
+import { createSearchRegex } from "../createSearchRegex.tsx";
+import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
 import {
   hasMarkerPositions,
   isMarker,
-} from "../marker/DefaultMarkerAnnotation.tsx";
-import { EntityModal } from "../EntityModal.tsx";
-import { WithRelativePosition } from "../../../../model/WithRelativePosition.ts";
+} from "./marker/DefaultMarkerAnnotation.tsx";
+import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
+import {
+  createAnnotationTextOffsets,
+  createMarkerTextOffsets,
+  findRelativePosition,
+} from "./utils/createTextOffsets.ts";
+import { AnnotatedText, TextOffsets } from "./core";
+import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
+import { EntityModal } from "./EntityModal.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
   showDetail: boolean;
 };
 
-export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
+export const AnnotatedTextFromConfig = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { entityAnnotationTypes, highlightedAnnotationTypes } = projectConfig;
   const typesToInclude = uniq([

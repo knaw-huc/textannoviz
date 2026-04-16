@@ -1,4 +1,4 @@
-import { ProjectAnnotatedText } from "../../components/Text/Annotated/project/ProjectAnnotatedText";
+import { AnnotatedTextFromConfig } from "../../components/Text/Annotated/AnnotatedTextFromConfig";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { useTranslateProject } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
@@ -65,7 +65,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                   <div className={labelStyling}>
                     {translateProject("addInfo")}:{" "}
                   </div>
-                  <ProjectAnnotatedText
+                  <AnnotatedTextFromConfig
                     text={typedNoteText}
                     showDetail={false}
                   />
