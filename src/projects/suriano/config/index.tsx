@@ -5,6 +5,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextConfig } from "../../default/defaultAnnotatedTextConfig";
+import { SurianoMarker } from "../Annotated/marker/SurianoMarker";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
@@ -81,6 +83,10 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tei:Metamark",
   ],
   showAnnotations: true,
+  annotatedTextConfig: {
+    ...defaultAnnotatedTextConfig,
+    Marker: SurianoMarker,
+  },
   annotationTypesToHighlight: [],
   entityAnnotationTypes: projectEntityTypes,
   highlightedAnnotationTypes: projectHighlightedTypes,
