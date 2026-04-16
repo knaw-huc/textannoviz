@@ -15,14 +15,7 @@ import {
 import { createSearchRegex } from "../../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
-import {
-  hasMarkerPositions,
-  isMarker,
-  ProjectMarkerAnnotation,
-} from "./ProjectMarkerAnnotation.tsx";
-import { ProjectNestedAnnotation } from "./ProjectNestedAnnotation.tsx";
-import { ProjectHighlightAnnotations } from "./ProjectHighlightAnnotations.tsx";
-import { ProjectSegmentGroup } from "./ProjectSegmentGroup.tsx";
+import { hasMarkerPositions, isMarker } from "./ProjectMarkerAnnotation.tsx";
 import { EntityModal } from "./EntityModal.tsx";
 import { WithRelativePosition } from "./WithRelativePosition.ts";
 
@@ -90,12 +83,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   return (
     <div className="whitespace-pre-wrap">
       <AnnotatedText
-        config={{
-          Annotation: ProjectNestedAnnotation,
-          Highlight: ProjectHighlightAnnotations,
-          Marker: ProjectMarkerAnnotation,
-          Group: ProjectSegmentGroup,
-        }}
+        config={projectConfig.annotatedTextConfig}
         body={textBody}
         offsets={offsets}
       >
