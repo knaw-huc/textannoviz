@@ -7,7 +7,7 @@ import {
   SearchResult,
 } from "../model/Search";
 import { Broccoli } from "../model/Broccoli.ts";
-import { cleanUrlParams } from "./UrlParamUtils.ts";
+import { cleanUrlParams } from "./url/UrlParamUtils.ts";
 
 const headers = {
   "Content-Type": "application/json",

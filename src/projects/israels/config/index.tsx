@@ -3,7 +3,6 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import projectCss from "../project.css?inline";
 import { englishIsraelsLabels } from "./englishIsraelsLabels";
 import { dutchIsraelsLabels } from "./dutchIsraelsLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
@@ -64,28 +63,32 @@ export const israelsConfig: ProjectConfig = merge(
         name: "facs",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 650px)",
+        region: "left",
+        size: "minmax(300px, 650fr)",
         panel: PanelTemplates.facsPanel,
       },
       {
         name: "text.orig",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 750px)",
+        region: "main",
+        size: "minmax(300px, 750fr)",
         panel: TextPanels.origTextPanel,
       },
       {
         name: "text.trans",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 750px)",
+        region: "main",
+        size: "minmax(300px, 750fr)",
         panel: TextPanels.transTextPanel,
       },
       {
         name: "metadata",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 400px)",
+        region: "right",
+        size: "minmax(300px, 400fr)",
         panel: PanelTemplates.metadataPanel,
       },
     ],
@@ -122,7 +125,6 @@ export const israelsConfig: ProjectConfig = merge(
       { code: "nl", labels: dutchIsraelsLabels },
       { code: "en", labels: englishIsraelsLabels },
     ],
-    projectCss: projectCss,
     routes: [
       {
         path: "persons",
@@ -137,5 +139,8 @@ export const israelsConfig: ProjectConfig = merge(
         element: <Bibliography />,
       },
     ],
+    showFacsimilePrevNextScanButtonsButtons: true,
+    showSearchInTextViews: true,
+    zoomToAnnoOnFacsimile: true,
   } as ProjectSpecificConfig,
 );

@@ -1,18 +1,14 @@
-import { MarkerSegment } from "../components/Text/Annotated/AnnotationModel.ts";
-import { EntitySummaryProps } from "../components/Text/Annotated/details/EntitySummaryProps.ts";
+import { MarkerSegment } from "../components/Text/Annotated/core";
+import { EntitySummaryProps } from "../components/Text/Annotated/project/EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
-import {
-  AnnoRepoAnnotation,
-  AnnoRepoBody,
-  AnnoRepoBodyBase,
-} from "./AnnoRepoAnnotation.ts";
+import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
-import { MiradorConfig } from "./MiradorConfig.ts";
 import {
   BrederodeSearchResultsBody,
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
+  OratiesSearchResultsBody,
   RepublicSearchResultBody,
   SearchParams,
   SearchQuery,
@@ -21,6 +17,18 @@ import {
   VanGoghSearchResultsBody,
 } from "./Search.ts";
 import { NoteReferenceBody } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+
+export type PanelRegion = "left" | "main" | "right";
+export type DetailPanelConfig = {
+  name: string;
+  visible: boolean;
+  size: string;
+  region: PanelRegion;
+  disabled: boolean;
+  panel: {
+    content: JSX.Element;
+  };
+};
 
 export type ProjectConfig = SearchConfig &
   AnnotationConfig &
@@ -36,8 +44,11 @@ export type ProjectConfig = SearchConfig &
     selectedLanguage: LanguageCode;
     languages: Language[];
     useExternalConfig: boolean;
-    visualizeAnnosMirador: boolean;
     showWebAnnoTab: boolean;
+
+    /**
+     * See {@link ProjectConfig.NotesPanel}
+     */
     showNotesTab: boolean;
     showArtworksTab: boolean;
     personsUrl: string;
@@ -45,18 +56,9 @@ export type ProjectConfig = SearchConfig &
     biblUrl: Partial<Record<LanguageCode, string>>;
     siteTitle: string;
 
-    detailPanels: {
-      name: string;
-      visible: boolean;
-      size: string;
-      disabled: boolean;
-      panel: {
-        content: JSX.Element;
-      };
-    }[];
+    detailPanels: DetailPanelConfig[];
 
     components: ComponentsConfig;
-    projectCss: string;
 
     routes: {
       path: string;
@@ -65,19 +67,12 @@ export type ProjectConfig = SearchConfig &
   };
 
 type FacsimileConfig = {
-  showFacsimileButtonFooter: boolean;
-  showSettingsMenuFooter: boolean;
-  defaultShowMetadataPanel: boolean;
-  zoomAnnoMirador: boolean;
-  miradorZoomRatio: number;
-  showMirador: boolean;
-  showMiradorNavigationButtons: boolean;
+  zoomToAnnoOnFacsimile: boolean;
+  showAnnosOnFacsimile: boolean;
+  showFacsimile: boolean;
   pageAnnotation: string;
   showPrevNextScanButtons: boolean;
-  mirador: {
-    showWindowSideBar: boolean;
-    showTopMenuButton: boolean;
-  };
+  showFacsimilePrevNextScanButtonsButtons: boolean;
 };
 
 export type ComponentsConfig = {
@@ -102,13 +97,15 @@ export type ComponentsConfig = {
       | SurianoSearchResultsBody
       | VanGoghSearchResultsBody
       | IsraelsSearchResultsBody
-      | BrederodeSearchResultsBody;
+      | BrederodeSearchResultsBody
+      | OratiesSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
   ArtworksTab: () => JSX.Element;
   InsertMarkerAnnotation: (props: { marker: MarkerSegment }) => JSX.Element;
   Header: () => JSX.Element;
+  TocPanel: () => JSX.Element;
 };
 
 type TextConfig = {
@@ -214,6 +211,17 @@ type AnnotationConfig = {
   getAnnotationCategory: CategoryGetter;
   getHighlightCategory: CategoryGetter;
   isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
+
+  isLink: (toTest: AnnoRepoBodyBase) => boolean;
+  getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;
+
+  showToc: (annotations: AnnoRepoAnnotation[]) => boolean;
+  getTocId: (body: AnnoRepoBodyBase) => string | undefined;
+
+  filterPanels?: (
+    panels: DetailPanelConfig[],
+    annotations: AnnoRepoAnnotation[],
+  ) => string[];
 };
 
 export interface AnnotationItemProps {
@@ -228,7 +236,7 @@ export type EntitySummaryDetailsProps = {
   body: ProjectEntityBody;
 };
 
-export type CategoryGetter = (annoRepoBody: AnnoRepoBody) => string;
+export type CategoryGetter = (annoRepoBody: AnnoRepoBodyBase) => string;
 
 export type ProjectSpecificProperties =
   | "id"
@@ -248,7 +256,6 @@ export type ProjectSpecificConfig = Pick<
   ProjectSpecificProperties
 > &
   // Make nested config properties optional:
-  Omit<Partial<ProjectConfig>, "components" | "mirador"> & {
+  Omit<Partial<ProjectConfig>, "components"> & {
     components?: Partial<ComponentsConfig>;
-    mirador?: Partial<MiradorConfig>;
   };

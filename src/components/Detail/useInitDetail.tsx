@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAnnotationStore } from "../../stores/annotation.ts";
-import { useMiradorStore } from "../../stores/mirador.ts";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -17,6 +16,7 @@ import {
   isNoteBody,
   NoteBody,
 } from "../../model/AnnoRepoAnnotation.ts";
+import { useLoadManifest } from "@knaw-huc/osd-iiif-viewer";
 
 /**
  * Initialize views, annotations and iiif
@@ -29,9 +29,9 @@ export function useInitDetail() {
   const [isInitDetail, setInitDetail] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
-  const { setStore } = useMiradorStore();
-  const { setCurrentCanvas } = useMiradorStore();
-  const { setAnnotations, setPtrToNoteAnnosMap } = useAnnotationStore();
+  const loadManifest = useLoadManifest();
+  const { setAnnotations, setPtrToNoteAnnosMap, setBodyId } =
+    useAnnotationStore();
   const { setViews } = useTextStore();
   const { setActivePanels } = useDetailViewStore();
 
@@ -89,23 +89,24 @@ export function useInitDetail() {
 
       const annotations = result.anno;
       const views = result.views;
-
-      setStore({
-        bodyId: result.request.bodyId,
-        iiif: result.iiif,
-      });
-      setCurrentCanvas(result.iiif.canvasIds[0]);
+      if (result.iiif.manifest) {
+        loadManifest(result.iiif.manifest, result.iiif.canvasIds[0]);
+      }
       setAnnotations(annotations);
+      setBodyId(result.request.bodyId);
 
       //TODO: Note anno type to project config
       if (annotations.some((anno) => anno.body.type === "Note")) {
         const ptrToNoteAnnos = new Map<string, AnnoRepoAnnotation<NoteBody>>();
 
         const noteAnnos = filterByBodyType(annotations, isNoteBody);
-        noteAnnos.forEach((noteAnno) => {
-          const targetId = (noteAnno.body as NoteBody)["xml:id"];
-          ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
-        });
+        noteAnnos
+          //we only need 'notes' and 'langnotes'
+          .filter((noteAnno) => noteAnno.body.subtype !== "typednotes")
+          .forEach((noteAnno) => {
+            const targetId = (noteAnno.body as NoteBody)["xml:id"];
+            ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
+          });
 
         setPtrToNoteAnnosMap(new Map(ptrToNoteAnnos));
       }

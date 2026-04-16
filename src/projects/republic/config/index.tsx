@@ -18,7 +18,6 @@ import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { Any } from "../../../utils/Any.ts";
-import projectCss from "../project.css?inline";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 import { Header } from "../Header.tsx";
 
@@ -67,9 +66,9 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
   showSliderFacets: true,
   showSettingsMenuFooter: false,
   useExternalConfig: true,
-  visualizeAnnosMirador: true,
-  zoomAnnoMirador: true,
-  showMiradorNavigationButtons: false,
+  showAnnosOnFacsimile: true,
+  zoomToAnnoOnFacsimile: true,
+  showFacsimilePrevNextScanButtonsButtons: false,
   overrideDefaultAggs: [
     {
       facetName: "sessionYear",
@@ -133,10 +132,6 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     { code: "nl", labels: dutchRepublicLabels },
     { code: "en", labels: englishRepublicLabels },
   ],
-  mirador: {
-    showTopMenuButton: true,
-    showWindowSideBar: true,
-  },
   annoToEntityCategory: {
     COM: "COM",
     DAT: "DAT",
@@ -150,5 +145,4 @@ export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
     PER: "PER",
     PERS: "PER",
   } as Any,
-  projectCss: projectCss,
 } as ProjectSpecificConfig);

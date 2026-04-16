@@ -42,7 +42,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
   headerColor: "bg-brand1-100 text-brand1-800",
   headerTitle: "The Correspondence of Pieter Cornelisz Brederode (1602–1637)",
   showSearchResultsButtonFooter: false,
-  showMirador: false,
+  showFacsimile: false,
   useExternalConfig: true,
   showSearchResultsOnInfoPage: true,
   overrideDefaultSearchParams: {

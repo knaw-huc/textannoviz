@@ -4,7 +4,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
-import { detailTier2Path } from "./components/Text/Annotated/utils/detailPath.ts";
+import { detailTier2Path } from "./components/Text/Annotated/project/utils/detailPath.ts";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
@@ -18,8 +18,25 @@ import {
 } from "./stores/project";
 import { getViteEnvVars } from "./utils/viteEnvVars.ts";
 
-const { projectName, routerBasename, prodMode } = getViteEnvVars();
+const { envProjectName, routerBasename, prodMode } = getViteEnvVars();
+
 const { project, config } = await selectProjectConfig();
+
+/**
+ * Tailwind and project css loading:
+ * - development:
+ *   - vite dynamically imports project.css
+ *   - tailwind css is processed with postcss using hot reloading
+ * - production:
+ *  - during build: merge project.css with tailwind.css
+ *  - during build: generate a css file for every project
+ *  - runtime: load the project-specific css file in {@link Layout}
+ */
+if (!prodMode) {
+  await import("./tailwind.css");
+  await import(`./projects/${project}/project.css`);
+}
+
 const router = await createRouter();
 
 export default function App() {
@@ -42,11 +59,16 @@ export default function App() {
 
 function Layout() {
   return (
-    <>
-      <style>{config.projectCss}</style>
+    <div className="flex h-screen flex-col">
+      {prodMode && (
+        <link
+          rel="stylesheet"
+          href={`${import.meta.env.BASE_URL}/${project}.css`}
+        />
+      )}
       <Header />
       <Outlet />
-    </>
+    </div>
   );
 }
 
@@ -124,7 +146,7 @@ async function selectProjectConfig() {
       if (biblUrl) config.biblUrl = biblUrl;
     }
   } else {
-    project = projectName;
+    project = envProjectName;
     config = projectConfigs[project];
   }
 

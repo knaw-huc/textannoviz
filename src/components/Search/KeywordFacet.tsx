@@ -146,7 +146,9 @@ export function KeywordFacet(props: {
                 }
                 isSelected={isSelected}
               >
-                {translateProject(facetValueName)}
+                <span className="whitespace-pre-wrap">
+                  {translateProject(facetValueName)}
+                </span>
               </CheckboxComponent>
               <div className="pr-2 text-sm text-neutral-500">
                 {facetValueCount}

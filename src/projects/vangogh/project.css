@@ -18,6 +18,19 @@
   font-size: 0.8rem;
 }
 
+.highlight-term {
+  font-style: italic;
+}
+
+.highlight-supplied::before {
+  content: "[";
+  position: relative;
+}
+
+.highlight-supplied::after {
+  content: "]";
+}
+
 .segmented-line:has(.highlight-caption) {
   margin-bottom: 1.5rem;
 }
@@ -127,4 +140,28 @@ img {
 .title_m,
 .title_j {
   font-style: italic;
+}
+
+.toc-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+
+  .toc-item {
+    color: darkgrey;
+    padding-bottom: 0.33rem;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: black;
+      }
+    }
+
+    &.toc-item-active {
+      color: black;
+    }
+  }
 }

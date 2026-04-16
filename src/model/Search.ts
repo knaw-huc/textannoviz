@@ -142,6 +142,17 @@ export type BrederodeSearchResultsBody = {
   };
 };
 
+export type OratiesSearchResultsBody = {
+  _id: string;
+  datePublished: string;
+  title: string;
+  publisher: string;
+  _hits: {
+    lectureOriginalText: string[];
+    text: string[]; //TODO: remove
+  };
+};
+
 export type FacetType = "date" | "keyword" | "short";
 
 export type FacetTypes = {

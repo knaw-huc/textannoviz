@@ -3,9 +3,8 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import projectCss from "../project.css?inline";
-import { englishVangoghLabels } from "./englishVangoghLabels";
-// import { dutchVangoghLabels } from "./dutchVangoghLabels";
+import { englishVanGoghLabels } from "./englishVanGoghLabels";
+// import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
@@ -49,7 +48,7 @@ export const vangoghConfig: ProjectConfig = merge(
     },
     defaultKeywordAggsToRender: [
       "type",
-      // "location",
+      "location",
       "period",
       "file",
       "persons",
@@ -57,34 +56,39 @@ export const vangoghConfig: ProjectConfig = merge(
       "artworksEN",
       "recipient",
       "sender",
+      "correspondent",
     ],
     detailPanels: [
       {
         name: "facs",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 650px)",
+        region: "left",
+        size: "minmax(300px, 650fr)",
         panel: PanelTemplates.facsPanel,
       },
       {
         name: "text.orig",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 750px)",
+        region: "main",
+        size: "minmax(300px, 750fr)",
         panel: TextPanels.origTextPanel,
       },
       {
         name: "text.trans",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 750px)",
+        region: "main",
+        size: "minmax(300px, 750fr)",
         panel: TextPanels.transTextPanel,
       },
       {
         name: "metadata",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 400px)",
+        region: "right",
+        size: "minmax(300px, 400fr)",
         panel: PanelTemplates.metadataPanel,
       },
     ],
@@ -107,6 +111,11 @@ export const vangoghConfig: ProjectConfig = merge(
         order: "keyAsc",
         size: 9999,
       },
+      {
+        facetName: "period",
+        order: "keyAsc",
+        size: 9999,
+      },
     ],
     viewsToSearchIn: [
       "letterOriginalText",
@@ -119,9 +128,8 @@ export const vangoghConfig: ProjectConfig = merge(
     selectedLanguage: "en",
     languages: [
       // { code: "nl", labels: dutchVangoghLabels },
-      { code: "en", labels: englishVangoghLabels },
+      { code: "en", labels: englishVanGoghLabels },
     ],
-    projectCss: projectCss,
     routes: [
       {
         path: "persons",
@@ -136,5 +144,9 @@ export const vangoghConfig: ProjectConfig = merge(
         element: <Bibliography />,
       },
     ],
+    zoomToAnnoOnFacsimile: true,
+    // TODO: how to test this?
+    showAnnosOnFacsimile: true,
+    showFacsimilePrevNextScanButtonsButtons: true,
   } as ProjectSpecificConfig,
 );

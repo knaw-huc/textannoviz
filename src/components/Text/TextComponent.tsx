@@ -1,18 +1,15 @@
+import { useRef } from "react";
 import { Skeleton } from "primereact/skeleton";
-import { useTextStore } from "../../stores/text/text-store.ts";
-import { AnnotatedText } from "./Annotated/AnnotatedText";
+import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText";
 import {
   projectConfigSelector,
   translateProjectSelector,
   useProjectStore,
 } from "../../stores/project";
 import { TextHighlighting } from "./TextHighlighting";
-import {
-  BroccoliTextGeneric,
-  ViewLang,
-  Broccoli,
-} from "../../model/Broccoli.ts";
-import React from "react";
+import { useViewText } from "./useViewText.tsx";
+import { useSyncHeaderOnScroll } from "./Toc/useSyncHeaderOnScroll.tsx";
+import { useSyncHeaderWithHashOnInit } from "./Toc/useSyncHeaderWithHashOnInit.tsx";
 
 type TextComponentProps = {
   viewToRender: string | string[];
@@ -20,40 +17,24 @@ type TextComponentProps = {
 };
 
 export const TextComponent = (props: TextComponentProps) => {
-  const textViews = useTextStore((state) => state.views);
+  const text = useViewText(props.viewToRender);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useProjectStore(translateProjectSelector);
-  const text: BroccoliTextGeneric | undefined = React.useMemo(() => {
-    const viewsToTry = Array.isArray(props.viewToRender)
-      ? props.viewToRender
-      : [props.viewToRender];
 
-    for (const viewStr of viewsToTry) {
-      const parts = viewStr.split(".");
-      const view = parts[0] as keyof Broccoli["views"];
-      const lang = parts[1] as ViewLang | undefined;
-
-      const candidate = textViews?.[view];
-      if (!candidate) continue;
-
-      if (lang === undefined) {
-        return candidate as BroccoliTextGeneric;
-      } else {
-        if (typeof candidate === "object" && lang in candidate) {
-          return (candidate as Record<string, BroccoliTextGeneric>)[lang];
-        }
-      }
-    }
-    return undefined;
-  }, [textViews, props.viewToRender]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useSyncHeaderWithHashOnInit(scrollRef);
+  useSyncHeaderOnScroll(scrollRef);
 
   return (
     <div className="flex h-auto justify-center overflow-y-hidden border-r">
       {/* <div className="sr-only">
         <h1>Resolutie</h1>
       </div> */}
-      <div className="flex w-full flex-col overflow-y-scroll px-6 pb-40 pt-4 xl:px-10">
-        <span className="my-6 mr-8 flex justify-end gap-1 text-sm uppercase text-neutral-500">
+      <div
+        ref={scrollRef}
+        className="flex w-full flex-col overflow-y-scroll px-6 pt-4 xl:px-10"
+      >
+        <span className="mr-8 mt-4 flex justify-end gap-1 text-sm uppercase text-neutral-500 lg:my-6">
           {translateProject(`${props.viewToRender}`)}
         </span>
         {text && !props.isLoading ? (
@@ -62,7 +43,7 @@ export const TextComponent = (props: TextComponentProps) => {
             {/* eslint-disable-next-line jsx-a11y/aria-role */}
             <div className="prose max-w-[550px]" role="textpanel">
               {projectConfig.showAnnotations ? (
-                <AnnotatedText text={text} showDetail={false} />
+                <ProjectAnnotatedText text={text} showDetail={false} />
               ) : (
                 <TextHighlighting text={text} />
               )}

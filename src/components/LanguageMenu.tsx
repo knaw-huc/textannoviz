@@ -37,7 +37,7 @@ export function LanguageMenu() {
 
   return (
     <div
-      className="languages ml-4 flex flex-row items-center gap-2"
+      className="languages flex flex-row items-center gap-2"
       aria-label="select language"
     >
       {languages.length > 1 && (

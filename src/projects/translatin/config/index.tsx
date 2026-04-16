@@ -7,7 +7,6 @@ import {
 import { defaultConfig } from "../../default/config";
 import { SearchItem } from "../SearchItem";
 import { projectHighlightedTypes } from "../annotation/ProjectAnnotationModel.ts";
-import projectCss from "../project.css?inline";
 import { isHighlightBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
@@ -42,7 +41,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   headerColor: "bg-brand1-700 text-brand1-100",
   headerTitle: "",
   showSearchResultsButtonFooter: false,
-  showMirador: false,
+  showFacsimile: false,
   showAnnotations: true,
   defaultKeywordAggsToRender: [
     "author",
@@ -84,5 +83,4 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
   getHighlightCategory: (body) =>
     isHighlightBody(body) ? body.style : body.type,
   getAnnotationCategory: (anno) => anno.type,
-  projectCss: projectCss,
 } as ProjectSpecificConfig);

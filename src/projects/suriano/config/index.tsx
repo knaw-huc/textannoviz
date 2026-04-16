@@ -81,6 +81,7 @@ export const surianoConfig: ProjectConfig = merge(
       },
     ],
     viewsToSearchIn: ["letterOriginalText", "letterNotesText"],
+    showFacsimilePrevNextScanButtonsButtons: false,
 
     selectedLanguage: "en",
     languages: [{ code: "en", labels: englishSurianoLabels }],

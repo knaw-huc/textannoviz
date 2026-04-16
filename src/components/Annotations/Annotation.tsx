@@ -14,6 +14,9 @@ type AnnotationProps = {
   isLoading: boolean;
 };
 
+/**
+ * Annotation metadata panel
+ */
 export function Annotation(props: AnnotationProps) {
   const { annotations } = useAnnotationStore();
   const { activeSidebarTab, setActiveSidebarTab } = useDetailViewStore();
@@ -37,6 +40,11 @@ export function Annotation(props: AnnotationProps) {
           aria-label="annotation-panel"
           className="flex w-full gap-4 border-b border-neutral-600 bg-neutral-100 px-6 pt-6"
         >
+          {projectConfig.showToc(annotations) && (
+            <Tab id="toc" className={tabStyling}>
+              {translateProject("toc")}
+            </Tab>
+          )}
           <Tab id="metadata" className={tabStyling}>
             {translate("METADATA")}
           </Tab>
@@ -56,6 +64,13 @@ export function Annotation(props: AnnotationProps) {
             </Tab>
           )}
         </TabList>
+        {projectConfig.showToc(annotations) && (
+          <TabPanel id="toc" className={tabPanelStyling}>
+            {annotations.length > 0 && !props.isLoading ? (
+              <projectConfig.components.TocPanel />
+            ) : null}
+          </TabPanel>
+        )}
         <TabPanel id="metadata" className={tabPanelStyling}>
           {annotations.length > 0 && !props.isLoading ? (
             <projectConfig.components.MetadataPanel annotations={annotations} />

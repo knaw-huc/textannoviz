@@ -10,7 +10,7 @@ import { usePagination } from "../../utils/usePagination.tsx";
 import { useSearchResults } from "../Search/useSearchResults.tsx";
 import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
-import { getUrlParams } from "../../utils/UrlParamUtils.ts";
+import { getUrlParams } from "../../utils/url/UrlParamUtils.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
 
@@ -105,15 +105,16 @@ export function DetailSearchResultsNavigation() {
       </FooterLink>
       <div className="relative flex items-center border border-stone-500 bg-white text-sm no-underline *:px-1 *:py-2 first-of-type:rounded-l-full last-of-type:rounded-r-full">
         <FooterLink
-          classes={["border-r"]}
+          classes={["border-r *:flex"]}
           onClick={handlePrevResultClick}
           disabled={
             !foundResultId || (!hasPrevResult(resultIndex) && !hasPrevPage())
           }
         >
-          &lt; {translate("PREV")}
+          <span className="px-2">&#9664;</span>
+          <span className="hidden md:block">{translate("PREV")}</span>
         </FooterLink>
-        <div className="border-r">
+        <div className="hidden border-r lg:block">
           <button className="flex items-center gap-1">
             {translateProject("NAVIGATE_SEARCH_RESULTS")}
           </button>
@@ -123,13 +124,15 @@ export function DetailSearchResultsNavigation() {
           <span> / {searchResults.total.value}</span>
         </div>
         <FooterLink
+          classes={["*:flex"]}
           onClick={handleNextResultClick}
           disabled={
             !foundResultId ||
             (!hasNextResult(resultIndex, searchResults) && !hasNextPage())
           }
         >
-          {translate("NEXT")} &gt;
+          <span className="hidden md:block">{translate("NEXT")}</span>
+          <span className="px-2">&#9654;</span>
         </FooterLink>
       </div>
       {/* <FooterLink
