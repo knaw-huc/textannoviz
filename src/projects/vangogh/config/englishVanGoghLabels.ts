@@ -3,11 +3,13 @@ import { englishLabels } from "../../default/config/englishLabels";
 export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   //Search facet titles + metadata panel titles
   institution: "Institution",
-  msid: "Shelfmark",
+  msId: "Shelfmark",
   location: "Location",
   recipient: "Recipient",
   sender: "Sender",
+  correspondent: "Correspondent",
   file: "Letter number",
+  title: "Title",
   letterid: "Letter ID",
   period: "Period",
   type: "Type",
@@ -48,6 +50,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   // introNotesText: "Editorial notes (about)",
   UNKNOWN: "Unknown document type",
   to: "to",
+  van: "out of",
   intro: "About this edition",
   LET_NUM: "Letter number",
   results: "results",

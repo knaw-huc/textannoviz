@@ -156,9 +156,7 @@ export function KeywordFacet(props: {
             </div>
           );
         })}
-        {(projectName === "republic" ||
-          projectName === "israels" ||
-          projectName === "vangogh") &&
+        {(projectName === "republic" || projectName === "israels") &&
         facetLength > 10 ? (
           //TODO: make generic
           <span className="pl-2 text-sm text-neutral-500">
@@ -181,6 +179,18 @@ export function KeywordFacet(props: {
                     kun je alle entiteiten vinden.
                   </>
                 ) : null}
+              </>
+            ) : null}
+          </span>
+        ) : null}
+        {projectName === "vangogh" && facetLength > 10 ? (
+          <span className="pl-2 text-sm text-neutral-500">
+            {Math.min(maxFacetItemsVisible, facetLength)} out of {facetLength}{" "}
+            items.{" "}
+            {maxFacetItemsVisible < facetLength ? (
+              <>
+                Use this facet&apos;s search bar to search in all {facetLength}{" "}
+                items.
               </>
             ) : null}
           </span>
