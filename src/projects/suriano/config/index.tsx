@@ -8,13 +8,10 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 import { Header } from "../Header";
-
 import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
-
-import projectCss from "../project.css?inline";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons.tsx";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
@@ -27,7 +24,6 @@ export const surianoConfig: ProjectConfig = merge(
     id: "suriano",
     broccoliUrl: "http://localhost:8082",
     siteTitle: "Correspondence of Suriano",
-
     elasticIndexName: "suriano",
     initialDateFrom: "1600-01-01",
     initialDateTo: "1700-01-01",
@@ -50,21 +46,24 @@ export const surianoConfig: ProjectConfig = merge(
         name: "facs",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 650px)",
+        region: "left",
+        size: "minmax(300px, 650fr)",
         panel: PanelTemplates.facsPanel,
       },
       {
         name: "text",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 750px)",
+        region: "main",
+        size: "minmax(300px, 750fr)",
         panel: TextPanels.origTextPanel,
       },
       {
         name: "metadata",
         visible: true,
         disabled: false,
-        size: "minmax(300px, 400px)",
+        region: "right",
+        size: "minmax(300px, 400fr)",
         panel: PanelTemplates.metadataPanel,
       },
     ],
@@ -82,19 +81,15 @@ export const surianoConfig: ProjectConfig = merge(
     ],
     viewsToSearchIn: ["letterOriginalText", "letterNotesText"],
     showFacsimilePrevNextScanButtonsButtons: false,
-
     selectedLanguage: "en",
     languages: [{ code: "en", labels: englishSurianoLabels }],
-    projectCss: projectCss,
     routes: [
       {
         path: "persons",
         element: <Persons />,
       },
     ],
-
     logoImageUrl: logo,
-
     overrideDefaultSearchParams: {
       sortBy: "file",
       sortOrder: "asc",
