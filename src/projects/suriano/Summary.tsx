@@ -23,9 +23,7 @@ function createSummaryHighlights(hits: string[]) {
     }
   });
 
-  const uniqueToHighlight = uniq(toHighlight);
-
-  return uniqueToHighlight;
+  return uniq(toHighlight);
 }
 
 export function Summary(props: SummaryProps) {
