@@ -52,8 +52,8 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       ...defaultAnnotatedTextConfig,
       Marker: KunstenaarsbrievenMarker,
     },
-    highlightedAnnotationTypes: projectHighlightedTypes,
-    entityAnnotationTypes: projectEntityTypes,
+    highlightTypes: projectHighlightedTypes,
+    nestedTypes: projectEntityTypes,
     isMarker: (body: AnnoRepoBodyBase) =>
       [
         ...projectPageMarkerAnnotationTypes,

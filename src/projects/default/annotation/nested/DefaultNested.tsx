@@ -1,5 +1,4 @@
 import { NestedProps } from "../../../../components/Text/Annotated/core";
-
 import {
   projectConfigSelector,
   useProjectStore,
@@ -13,7 +12,6 @@ import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 export function DefaultNested(props: NestedProps<AnnoRepoBody>) {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const entityTypes = projectConfig.entityAnnotationTypes;
   const { nested, segment, children } = props;
 
   const classes = [
@@ -21,7 +19,7 @@ export function DefaultNested(props: NestedProps<AnnoRepoBody>) {
     "cursor-pointer",
     "depth-" + nested.depth,
   ];
-  if (entityTypes.includes(nested.body.type)) {
+  if (projectConfig.isEntity(nested.body)) {
     const category = projectConfig.getAnnotationCategory(nested.body);
     classes.push(toEntityClassname(projectConfig, category));
   }

@@ -141,8 +141,8 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
    * Note: duplicated from kunstenaarsbrieven
    * TODO: move to projects/common?
    */
-  highlightedAnnotationTypes: projectHighlightedTypes,
-  entityAnnotationTypes: projectEntityTypes,
+  highlightTypes: projectHighlightedTypes,
+  nestedTypes: projectEntityTypes,
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
   isEntity: isEntity,

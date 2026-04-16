@@ -25,12 +25,8 @@ type TextHighlightingProps = {
 
 export const Annotated = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { entityAnnotationTypes, highlightedAnnotationTypes, isMarker } =
-    projectConfig;
-  const typesToInclude = uniq([
-    ...entityAnnotationTypes,
-    ...highlightedAnnotationTypes,
-  ]);
+  const { nestedTypes, highlightTypes, isMarker } = projectConfig;
+  const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
   const annotations = useAnnotationStore().annotations.filter((a) => {
     if (typesToInclude.includes(a.body.type)) {
       return true;
@@ -50,18 +46,15 @@ export const Annotated = (props: TextHighlightingProps) => {
   const textBody = props.text.body;
   const offsets: TextOffsets[] = [];
 
-  const nestedAnnotationTypes = [...entityAnnotationTypes];
   const nestedAnnotations = withRelative
-    .filter((a) => nestedAnnotationTypes.includes(a.annotation.body.type))
+    .filter((a) => nestedTypes.includes(a.annotation.body.type))
     .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "annotation"),
     );
   offsets.push(...nestedAnnotations);
   const highlightedAnnotations = withRelative
-    .filter(({ annotation }) =>
-      highlightedAnnotationTypes.includes(annotation.body.type),
-    )
+    .filter(({ annotation }) => highlightTypes.includes(annotation.body.type))
     .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "highlight"),

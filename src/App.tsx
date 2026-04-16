@@ -24,13 +24,13 @@ export default function App() {
   const setAnnotationTypesToInclude = useAnnotationStore(
     (state) => state.setAnnotationTypesToInclude,
   );
-  const setAnnotationTypesToHighlight = useAnnotationStore(
-    (state) => state.setAnnotationTypesToHighlight,
+  const setTextHighlightingTypes = useAnnotationStore(
+    (state) => state.setTextHighlightingTypes,
   );
   const setProjectConfig = useProjectStore(setProjectConfigSelector);
   const setProjectName = useProjectStore(setProjectNameSelector);
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
-  setAnnotationTypesToHighlight(config.annotationTypesToHighlight);
+  setTextHighlightingTypes(config.textHighlightingTypes);
 
   setProjectConfig(config);
   setProjectName(project);

@@ -153,11 +153,6 @@ type SearchConfig = {
 
 type AnnotationConfig = {
   /**
-   * Plugin components for rendering annotated text.
-   */
-  annotatedTextConfig: AnyAnnotatedTextConfig;
-
-  /**
    * Offsets relative to the closest annotation of type {relativeTo}
    * - AnnoRepo finds closest annotation
    * - Broccoli calculates offsets
@@ -165,44 +160,54 @@ type AnnotationConfig = {
   relativeTo: string;
 
   /**
+   * Should annotations be visualised using {@link AnnotatedText}
+   * as opposed to the default, more basic {@link TextHighlighting}
+   */
+  showAnnotations: boolean;
+
+  /**
    * Annotation types to load from the backend
    */
   annotationTypesToInclude: string[];
 
   /**
-   * Should annotations be visualised using {@link AnnotatedText} component
-   * as opposed to the default, more basic {@link TextHighlighting} component
-   */
-  showAnnotations: boolean;
-
-  /**
    * Highlighted annotation types when using the {@link TextHighlighting} component
    * i.e. when `showAnnotations === false`
    */
-  annotationTypesToHighlight: string[];
+  textHighlightingTypes: string[];
+
+  /**
+   * Plugin components for rendering with {@link AnnotatedText}
+   */
+  annotatedTextConfig: AnyAnnotatedTextConfig;
+
+  /**
+   * Annotations that are nested inside each other, a span for every annotation
+   * see also {@link isEntity}
+   */
+  nestedTypes: string[];
+
+  /**
+   * Annotation types that are highlighted in the text
+   */
+  highlightTypes: string[];
 
   /**
    * Annotations that should be rendered as zero-length markers
    * e.g., page breaks, note pointers, pictures
+   * Note: some markers cannot be detected using type alone, hence the fn
    */
   isMarker: (body: AnnoRepoBodyBase) => boolean;
 
   /**
-   * Annotation types that are highlighted in the text
-   * and that can be clicked on and opened in the annotation detail viewer
+   * Entities, clickable, styled and displayed in the EntityModal
    */
-  entityAnnotationTypes: string[];
-  /**
-   * Annotation types that are highlighted in the text
-   * but that cannot be clicked on
-   */
-  highlightedAnnotationTypes: string[];
+  isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   annoToEntityCategory: Any;
 
   getAnnotationCategory: CategoryGetter;
   getHighlightCategory: CategoryGetter;
-  isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   isLink: (toTest: AnnoRepoBodyBase) => boolean;
   getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;
