@@ -9,6 +9,7 @@ import {
 } from "./AnnotationModel.ts";
 import { SegmentedText } from "./SegmentedText.tsx";
 import { createContext, FC, PropsWithChildren, ReactNode } from "react";
+import { Any } from "../../../../utils/Any.ts";
 
 /**
  * AnnotatedText renders text segments and their annotations
@@ -98,3 +99,5 @@ export type AnnotatedTextProps<
   body: string;
   offsets: TextOffsets[];
 }>;
+
+export type AnyAnnotatedTextConfig = AnnotatedTextConfig<Any, Any, Any>;

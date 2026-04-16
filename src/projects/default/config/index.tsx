@@ -13,6 +13,7 @@ import { isEntity } from "./isEntity.ts";
 import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { getTocId, showToc } from "./showToc.ts";
 import { getUrl, isLink } from "./isLink.ts";
+import { defaultAnnotatedTextConfig } from "../defaultAnnotatedTextConfig.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -29,6 +30,7 @@ export const defaultConfig: DefaultProjectConfig = {
   annotationTypesToInclude: [],
   annotationTypesToHighlight: [],
 
+  annotatedTextConfig: defaultAnnotatedTextConfig,
   tooltipMarkerAnnotationTypes: [],
   insertTextMarkerAnnotationTypes: [],
   pageMarkerAnnotationTypes: [],

@@ -2,7 +2,7 @@ import { BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
 import { AnnotatedText, TextOffsets } from "../core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
-import "./annotated.css";
+import "../annotated.css";
 import {
   projectConfigSelector,
   useProjectStore,
