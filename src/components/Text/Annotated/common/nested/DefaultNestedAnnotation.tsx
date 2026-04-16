@@ -1,15 +1,15 @@
-import { NestedProps } from "../core";
+import { NestedProps } from "../../core";
 
 import {
   projectConfigSelector,
   useProjectStore,
-} from "../../../../stores/project.ts";
+} from "../../../../../stores/project.ts";
 import {
   createStartEndClasses,
   normalizeClassname,
   toEntityClassname,
-} from "../utils/createAnnotationClasses.ts";
-import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
+} from "../../utils/createAnnotationClasses.ts";
+import { AnnoRepoBody } from "../../../../../model/AnnoRepoAnnotation.ts";
 
 export function DefaultNestedAnnotation(props: NestedProps<AnnoRepoBody>) {
   const projectConfig = useProjectStore(projectConfigSelector);

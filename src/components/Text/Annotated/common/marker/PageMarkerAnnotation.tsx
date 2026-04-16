@@ -9,14 +9,14 @@ import {
   CanvasSelector,
   CanvasTarget,
   MarkerBody,
-} from "../../../../model/AnnoRepoAnnotation.ts";
-import { useAnnotationStore } from "../../../../stores/annotation.ts";
+} from "../../../../../model/AnnoRepoAnnotation.ts";
+import { useAnnotationStore } from "../../../../../stores/annotation.ts";
 import {
   projectConfigSelector,
   useProjectStore,
   useTranslateProject,
-} from "../../../../stores/project.ts";
-import { MarkerSegment } from "../core";
+} from "../../../../../stores/project.ts";
+import { MarkerSegment } from "../../core";
 import { toArray } from "lodash";
 
 export function PageMarkerAnnotation(props: {

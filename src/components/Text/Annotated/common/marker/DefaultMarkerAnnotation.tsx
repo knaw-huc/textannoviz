@@ -1,5 +1,5 @@
-import { MarkerProps } from "../core";
-import { throwUnknownAnnotation } from "../throwUnknownAnnotation.ts";
+import { MarkerProps } from "../../core";
+import { throwUnknownAnnotation } from "../../throwUnknownAnnotation.ts";
 
 /**
  * Marker implementation used by projects that do not emit marker offsets
