@@ -6,7 +6,7 @@ export function isMarker(
   annotation: AnnoRepoAnnotation,
   config: ProjectConfig,
 ): boolean {
-  return config.markerAnnotationTypes.includes(annotation.body.type);
+  return config.isMarker(annotation.body);
 }
 
 export function hasMarkerPositions(annotation: BroccoliRelativeAnno) {

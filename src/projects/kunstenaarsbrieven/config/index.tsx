@@ -6,11 +6,11 @@ import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnno
 import { KunstenaarsbrievenMarker } from "../annotation/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
-  teiArtwork,
   document,
   getAnnotationCategory,
   getHighlightCategory,
   isEntity,
+  isNoteReference,
   letter,
   note,
   person,
@@ -20,7 +20,7 @@ import {
   projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
   reference,
-  projectTooltipMarkerAnnotationTypes,
+  teiArtwork,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
@@ -31,6 +31,7 @@ import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
 import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 import { filterPanels } from "../filterPanels.ts";
+import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
@@ -53,11 +54,11 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     },
     highlightedAnnotationTypes: projectHighlightedTypes,
     entityAnnotationTypes: projectEntityTypes,
-    markerAnnotationTypes: [
-      ...projectPageMarkerAnnotationTypes,
-      ...projectInsertTextMarkerAnnotationTypes,
-      ...projectTooltipMarkerAnnotationTypes,
-    ],
+    isMarker: (body: AnnoRepoBodyBase) =>
+      [
+        ...projectPageMarkerAnnotationTypes,
+        ...projectInsertTextMarkerAnnotationTypes,
+      ].includes(body.type) || isNoteReference(body),
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,

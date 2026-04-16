@@ -88,10 +88,11 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   },
   annotationTypesToHighlight: [],
   entityAnnotationTypes: projectEntityTypes,
-  markerAnnotationTypes: [
-    ...projectPageMarkerAnnotationTypes,
-    ...projectInsertTextMarkerAnnotationTypes,
-  ],
+  isMarker: (body) =>
+    [
+      ...projectPageMarkerAnnotationTypes,
+      ...projectInsertTextMarkerAnnotationTypes,
+    ].includes(body.type),
   highlightedAnnotationTypes: projectHighlightedTypes,
   // TODO: use Reference instead of tei:Ptr
 

@@ -182,10 +182,10 @@ type AnnotationConfig = {
   annotationTypesToHighlight: string[];
 
   /**
-   * Annotation types that render as zero-length markers
+   * Annotations that should be rendered as zero-length markers
    * e.g., page breaks, note pointers, pictures
    */
-  markerAnnotationTypes: string[];
+  isMarker: (body: AnnoRepoBodyBase) => boolean;
 
   /**
    * Annotation types that are highlighted in the text

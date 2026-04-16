@@ -8,7 +8,6 @@ import {
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
-import { hasMarkerPositions, isMarker } from "./utils/isMarker.ts";
 import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
 import {
   createAnnotationTextOffsets,
@@ -26,7 +25,8 @@ type TextHighlightingProps = {
 
 export const Annotated = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { entityAnnotationTypes, highlightedAnnotationTypes } = projectConfig;
+  const { entityAnnotationTypes, highlightedAnnotationTypes, isMarker } =
+    projectConfig;
   const typesToInclude = uniq([
     ...entityAnnotationTypes,
     ...highlightedAnnotationTypes,
@@ -35,9 +35,7 @@ export const Annotated = (props: TextHighlightingProps) => {
     if (typesToInclude.includes(a.body.type)) {
       return true;
     }
-    if (isMarker(a, projectConfig)) {
-      return true;
-    }
+    return isMarker(a.body);
   });
   const withRelative: WithRelativePosition[] = annotations
     .map((annotation) => {
@@ -55,7 +53,7 @@ export const Annotated = (props: TextHighlightingProps) => {
   const nestedAnnotationTypes = [...entityAnnotationTypes];
   const nestedAnnotations = withRelative
     .filter((a) => nestedAnnotationTypes.includes(a.annotation.body.type))
-    .filter(({ relative }) => !hasMarkerPositions(relative))
+    .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "annotation"),
     );
@@ -64,7 +62,7 @@ export const Annotated = (props: TextHighlightingProps) => {
     .filter(({ annotation }) =>
       highlightedAnnotationTypes.includes(annotation.body.type),
     )
-    .filter(({ relative }) => !hasMarkerPositions(relative))
+    .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "highlight"),
     );
@@ -74,7 +72,7 @@ export const Annotated = (props: TextHighlightingProps) => {
   offsets.push(...createSearchHighlightOffsets(textBody, searchHighlight));
 
   const markerAnnotations = withRelative
-    .filter(({ annotation }) => isMarker(annotation, projectConfig))
+    .filter(({ annotation }) => isMarker(annotation.body))
     .map(({ annotation, relative }) =>
       createMarkerTextOffsets(annotation, relative),
     );
