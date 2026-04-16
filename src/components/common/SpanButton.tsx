@@ -1,5 +1,5 @@
 import { ElementType, PropsWithChildren, useRef } from "react";
-import { AriaButtonOptions } from "@react-aria/button";
+import type { AriaButtonOptions } from "react-aria";
 import { useButton } from "react-aria";
 
 export function SpanButton(

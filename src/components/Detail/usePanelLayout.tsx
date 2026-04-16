@@ -35,7 +35,8 @@ export const layoutBreakpoints: Record<WindowSize, string> = {
 export function usePanelLayout(): null {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { filterPanels } = projectConfig;
-  const { activePanels, setActivePanels } = useDetailViewStore();
+  const activePanels = useDetailViewStore((state) => state.activePanels);
+  const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
   const annotations = useAnnotationStore((s) => s.annotations);
   const { isLoading, isReady } = useManifest();
 

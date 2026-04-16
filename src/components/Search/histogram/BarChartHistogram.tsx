@@ -8,17 +8,17 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CategoricalChartState } from "recharts/types/chart/types";
+import { MouseHandlerDataParam } from "recharts/types/synchronisation/types";
 import { HitsYear } from "./Histogram";
-import { translateSelector, useProjectStore } from "../../../stores/project.ts";
+import { useTranslate } from "../../../stores/project.ts";
 
 type BarChartHistorgramProps = {
   hitsYear: HitsYear;
-  filterDateQuery: (event: CategoricalChartState) => void;
+  filterDateQuery: (event: MouseHandlerDataParam) => void;
 };
 
 export const BarChartHistogram = (props: BarChartHistorgramProps) => {
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
 
   return (
     <ResponsiveContainer width="100%" height={400}>

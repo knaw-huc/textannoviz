@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { MondriaanSearchResultsBody } from "../../model/Search";
 
 import { SearchItemProps } from "../../model/SearchItemProps.ts";

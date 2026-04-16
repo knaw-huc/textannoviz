@@ -1,12 +1,9 @@
 import { ProjectAnnotatedText } from "../../components/Text/Annotated/project/ProjectAnnotatedText";
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslateProject } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
@@ -14,7 +11,7 @@ type RenderMetadataPanelProps = {
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useTextStore().views;
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const letterAnnoBody = findLetterBody(props.annotations);
 

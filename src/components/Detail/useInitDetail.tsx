@@ -32,8 +32,8 @@ export function useInitDetail() {
   const loadManifest = useLoadManifest();
   const { setAnnotations, setPtrToNoteAnnosMap, setBodyId } =
     useAnnotationStore();
-  const { setViews } = useTextStore();
-  const { setActivePanels } = useDetailViewStore();
+  const setViews = useTextStore((state) => state.setViews);
+  const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
 
   const { tier2 } = useDetailNavigation().getDetailParams();
   const [prevTier2, setPrevTier2] = useState(tier2);

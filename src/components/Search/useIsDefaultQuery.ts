@@ -6,7 +6,7 @@ import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 export function useIsDefaultQuery() {
   const { searchQuery } = useUrlSearchParamsStore();
   const [isDefaultQuery, setIsDefaultQuery] = useState(false);
-  const { defaultQuery } = useSearchStore();
+  const defaultQuery = useSearchStore((state) => state.defaultQuery);
 
   useEffect(() => {
     setIsDefaultQuery(_.isEqual(defaultQuery, searchQuery));

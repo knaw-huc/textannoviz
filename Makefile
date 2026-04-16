@@ -19,11 +19,11 @@ BUILD_SRC  := package-lock.json ./scripts/docker-build-push.sh $(SOURCES)
 	mkdir -p .make
 
 .make/install-dependencies: package.json package-lock.json | .make
-	npm ci --force
+	npm ci
 	@touch $@
 
 package-lock.json: package.json
-	npm install --force
+	npm install
 
 .PHONY: install-dependencies
 install-dependencies: .env .make/install-dependencies package-lock.json

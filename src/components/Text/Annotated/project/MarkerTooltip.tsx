@@ -40,7 +40,9 @@ type FootnoteModalProps = PropsWithChildren<{
 }>;
 
 export function MarkerTooltip(props: FootnoteModalProps) {
-  const { ptrToNoteAnnosMap } = useAnnotationStore();
+  const ptrToNoteAnnosMap = useAnnotationStore(
+    (state) => state.ptrToNoteAnnosMap,
+  );
   const textPanels = useTextStore((state) => state.views);
   const tooltipBody = getTooltipBody(
     textPanels?.["textNotes"],

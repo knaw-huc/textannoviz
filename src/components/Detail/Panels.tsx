@@ -4,7 +4,7 @@ import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.t
 
 export const Panels = () => {
   usePanelLayout();
-  const { activePanels } = useDetailViewStore();
+  const activePanels = useDetailViewStore((state) => state.activePanels);
   return (
     <>
       {activePanels.map((panel) => (

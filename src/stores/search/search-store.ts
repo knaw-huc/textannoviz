@@ -39,11 +39,3 @@ export const useSearchStore = create<SearchStore>()((...a) => ({
   ...createSearchResultsSlice(...a),
   ...createSearchHistorySlice(...a),
 }));
-
-export function defaultQuerySettersSelector(state: SearchStore) {
-  return {
-    setKeywordFacets: state.setKeywordFacets,
-    setSearchFacetTypes: state.setSearchFacetTypes,
-    setDefaultQuery: state.setDefaultQueryState,
-  };
-}

@@ -14,8 +14,8 @@ import { useAnnotationStore } from "../../../../stores/annotation.ts";
 import { useDetailViewStore } from "../../../../stores/detail-view/detail-view-store.ts";
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../../../stores/project.ts";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { MarkerProps, MarkerSegment } from "../core";
@@ -54,7 +54,7 @@ export function PageMarkerAnnotation(props: {
   const viewer = useViewer();
   const viewerReady = useViewerReady();
   const { currentCanvasId, goToById } = useCanvas();
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const { zoomToAnnoOnFacsimile } = useProjectStore(projectConfigSelector);
 
   const { canvas, region } = findCanvasRegion(annotations, marker.body.id);
@@ -113,9 +113,14 @@ export function PageMarkerAnnotation(props: {
 export function TooltipMarkerAnnotation(props: {
   marker: MarkerSegment<MarkerBody>;
 }) {
-  const { activeFootnote, setActiveFootnote } = useTextStore();
-  const { setActiveSidebarTab } = useDetailViewStore();
-  const { ptrToNoteAnnosMap } = useAnnotationStore();
+  const activeFootnote = useTextStore((state) => state.activeFootnote);
+  const setActiveFootnote = useTextStore((state) => state.setActiveFootnote);
+  const setActiveSidebarTab = useDetailViewStore(
+    (state) => state.setActiveSidebarTab,
+  );
+  const ptrToNoteAnnosMap = useAnnotationStore(
+    (state) => state.ptrToNoteAnnosMap,
+  );
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
   const classNames: string[] = [];

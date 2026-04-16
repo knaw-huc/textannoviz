@@ -7,7 +7,7 @@ import { handleAbort } from "../../utils/handleAbort";
 import { type Artwork } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
@@ -18,7 +18,7 @@ export function Artworks() {
   const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const { routerBasename } = getViteEnvVars();
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const artworksUrl = useProjectStore(projectConfigSelector).artworksUrl;
 
   React.useEffect(() => {

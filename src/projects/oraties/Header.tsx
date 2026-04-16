@@ -4,7 +4,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { matchPath, useLocation, useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { Button } from "react-aria-components";
 import { isDocumentBody } from "./annotation/ProjectAnnotationModel.ts";

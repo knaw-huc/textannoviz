@@ -1,12 +1,8 @@
 import React from "react";
 import { toast } from "../../utils/toast.ts";
-import {
-  translateProjectSelector,
-  translateSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 import { sanitiseString } from "../../utils/sanitiseString.ts";
 import { SearchFieldComponent } from "../common/SearchFieldComponent.tsx";
+import { useTranslate, useTranslateProject } from "../../stores/project.ts";
 
 export function FullTextSearchBar(props: {
   fullText: string;
@@ -14,8 +10,8 @@ export function FullTextSearchBar(props: {
   onBlur: (value: string) => void;
 }) {
   const [fullText, setFullText] = React.useState(props.fullText);
-  const translate = useProjectStore(translateSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translate = useTranslate();
+  const translateProject = useTranslateProject();
 
   function includesTrailingBackslash(value: string): boolean {
     if (value.charAt(value.length - 1).includes("\\")) {

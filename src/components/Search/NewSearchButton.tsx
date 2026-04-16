@@ -1,8 +1,8 @@
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
+import { useTranslate } from "../../stores/project.ts";
 
 export function NewSearchButton() {
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
   return (
     <div className="w-full max-w-[450px]">
       <Link

@@ -1,4 +1,4 @@
-{
+module.exports = {
   "env": {
     "browser": true,
     "es2021": true
@@ -23,7 +23,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module",
     "project": ["./tsconfig.json", "./tsconfig.node.json"],
-    "tsconfigRootDir": "./"
+    "tsconfigRootDir": __dirname
   },
   "plugins": ["react", "@typescript-eslint", "jsx-a11y"],
   "rules": {
@@ -31,4 +31,4 @@
     "react/react-in-jsx-scope": "off"
   },
   "ignorePatterns": ["tailwind.*", "*.cjs", "*.js"]
-}
+};

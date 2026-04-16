@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { LanguageMenu } from "../../components/LanguageMenu.tsx";
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../stores/project.ts";
-import { matchPath, useLocation, useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router";
 import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
 import { Button } from "react-aria-components";
 
@@ -18,7 +18,7 @@ type HeaderProps = {
 export const Header = (props: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const navigate = useNavigate();
   const location = useLocation();
 

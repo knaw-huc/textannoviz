@@ -4,7 +4,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Button } from "react-aria-components";
 
 export const Header = () => {

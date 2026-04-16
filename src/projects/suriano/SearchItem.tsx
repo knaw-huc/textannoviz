@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { SurianoSearchResultsBody } from "../../model/Search.ts";
 import { Summary } from "./Summary";
 import { SearchItemProps } from "../../model/SearchItemProps.ts";

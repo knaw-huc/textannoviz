@@ -1,7 +1,7 @@
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
@@ -16,7 +16,7 @@ type RenderMetadataPanelProps = {
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useTextStore().views;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const letterAnnoBody = findLetterBody(props.annotations);
 

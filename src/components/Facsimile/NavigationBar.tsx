@@ -1,7 +1,7 @@
 import {
   projectConfigSelector,
-  translateSelector,
   useProjectStore,
+  useTranslate,
 } from "../../stores/project.ts";
 import {
   useCanvas,
@@ -28,7 +28,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
   const { showFacsimilePrevNextScanButtonsButtons } = useProjectStore(
     projectConfigSelector,
   );
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
   const ready = useViewerReady();
   const { currentIndex, current, total, next, prev } = useCanvas();
   const {

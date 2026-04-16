@@ -12,7 +12,7 @@ import {
 import { getViteEnvVars } from "../../utils/viteEnvVars";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { Button } from "react-aria-components";
@@ -25,7 +25,7 @@ export function Persons(props: PersonsProps) {
   const [persons, setPersons] = React.useState<Person[]>();
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { routerBasename } = getViteEnvVars();
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
