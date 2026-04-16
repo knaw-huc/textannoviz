@@ -1,6 +1,6 @@
 import { MarkerProps } from "../../../../components/Text/Annotated/core";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
-import { PageMarkerAnnotation } from "../../../../components/Text/Annotated/common/marker/PageMarkerAnnotation.tsx";
+import { PageMarkerAnnotation } from "../../../default/annotation/marker/PageMarkerAnnotation.tsx";
 import { throwUnknownAnnotation } from "../../../../components/Text/Annotated/throwUnknownAnnotation.ts";
 import { isNoteReference } from "../../annotation/ProjectAnnotationModel.ts";
 import {

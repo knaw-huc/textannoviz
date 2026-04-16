@@ -1,14 +1,14 @@
 import {
   projectConfigSelector,
   useProjectStore,
-} from "../../../../../stores/project.ts";
-import { GroupProps } from "../../core";
-import { isProjectAnnotation } from "../../utils/isProjectAnnotation.ts";
+} from "../../../../stores/project.ts";
+import { GroupProps } from "../../../../components/Text/Annotated/core";
+import { isAnnotation } from "../../../../components/Text/Annotated/utils/isAnnotation.ts";
 import { AnnotationLink } from "./AnnotationLink.tsx";
-import { useTextStore } from "../../../../../stores/text/text-store.ts";
-import { orThrow } from "../../../../../utils/orThrow.tsx";
+import { useTextStore } from "../../../../stores/text/text-store.ts";
+import { orThrow } from "../../../../utils/orThrow.tsx";
 
-export function DefaultSegmentGroup(props: GroupProps) {
+export function DefaultGroup(props: GroupProps) {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { selectedLanguage } = projectConfig;
   const { group, children } = props;
@@ -20,7 +20,7 @@ export function DefaultSegmentGroup(props: GroupProps) {
 
   const link = group.segments
     .flatMap((s) => s.annotations)
-    .filter(isProjectAnnotation)
+    .filter(isAnnotation)
     .find((a) => projectConfig.isLink(a.body));
 
   if (link) {
