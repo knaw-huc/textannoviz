@@ -2,6 +2,8 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { DefaultProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextConfig } from "../../default/defaultAnnotatedTextConfig";
+import { KunstenaarsbrievenMarker } from "../Annotated/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
   teiArtwork,
@@ -23,7 +25,7 @@ import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
 import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
-import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
+import { InsertMarkerAnnotation } from "../Annotated/marker/InsertMarkerAnnotation";
 import { Header } from "../Header";
 import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
@@ -45,6 +47,10 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       ...projectAnnotationTypesToInclude,
     ],
     showAnnotations: true,
+    annotatedTextConfig: {
+      ...defaultAnnotatedTextConfig,
+      Marker: KunstenaarsbrievenMarker,
+    },
     highlightedAnnotationTypes: projectHighlightedTypes,
     pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
     entityAnnotationTypes: projectEntityTypes,
