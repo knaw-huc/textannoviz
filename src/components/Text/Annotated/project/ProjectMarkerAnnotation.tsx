@@ -19,7 +19,7 @@ import {
 } from "../../../../stores/project.ts";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { MarkerProps, MarkerSegment } from "../core";
-import { createTooltipMarkerClasses } from "./utils/createAnnotationClasses.ts";
+import { createTooltipMarkerClasses } from "../utils/createAnnotationClasses.ts";
 import { isNoteReference } from "../../../../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
@@ -66,6 +66,7 @@ export function PageMarkerAnnotation(props: {
 
     if (canvas === currentCanvasId && isZooming) {
       zoomToRegion(viewer, region);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsZooming(false);
     }
   }, [currentCanvasId, viewerReady]);

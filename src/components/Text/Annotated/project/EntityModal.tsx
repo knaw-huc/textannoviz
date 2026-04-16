@@ -10,7 +10,7 @@ import { ProjectEntityBody } from "../../../../model/ProjectConfig.ts";
 import { AnnoRepoBodyBase } from "../../../../model/AnnoRepoAnnotation.ts";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { ScrollableModal } from "../../../common/ScrollableModal.tsx";
-import { isProjectAnnotation } from "./utils/isProjectAnnotation.ts";
+import { isProjectAnnotation } from "../utils/isProjectAnnotation.ts";
 
 export function EntityModal() {
   const translateProject = useTranslateProject();

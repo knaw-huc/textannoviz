@@ -1,12 +1,12 @@
 import { AnyAnnotatedTextConfig } from "../../components/Text/Annotated/core";
-import { ProjectHighlightAnnotations } from "../../components/Text/Annotated/project/ProjectHighlightAnnotations";
+import { DefaultHighlightAnnotations } from "../../components/Text/Annotated/highlight/DefaultHighlightAnnotations";
 import { ProjectMarkerAnnotation } from "../../components/Text/Annotated/project/ProjectMarkerAnnotation";
-import { ProjectNestedAnnotation } from "../../components/Text/Annotated/project/ProjectNestedAnnotation";
 import { ProjectSegmentGroup } from "../../components/Text/Annotated/project/ProjectSegmentGroup";
+import { DefaultNestedAnnotation } from "../../components/Text/Annotated/nested/DefaultNestedAnnotation.tsx";
 
 export const defaultAnnotatedTextConfig: AnyAnnotatedTextConfig = {
-  Annotation: ProjectNestedAnnotation,
-  Highlight: ProjectHighlightAnnotations,
+  Annotation: DefaultNestedAnnotation,
+  Highlight: DefaultHighlightAnnotations,
   Marker: ProjectMarkerAnnotation,
   Group: ProjectSegmentGroup,
 };

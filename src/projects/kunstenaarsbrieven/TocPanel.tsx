@@ -4,7 +4,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { findRelativePosition } from "../../components/Text/Annotated/project/utils/createTextOffsets.ts";
+import { findRelativePosition } from "../../components/Text/Annotated/utils/createTextOffsets.ts";
 import { WithRelativePosition } from "../../components/Text/Annotated/project/WithRelativePosition.ts";
 import { HeadBody, isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 import { getTocId, getTocLevel } from "./TocUtils.ts";

@@ -1,7 +1,7 @@
 import { BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
 import { AnnotatedText, TextOffsets } from "../core";
-import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
+import { createSearchHighlightOffsets } from "../utils/createSearchHighlightOffsets.ts";
 import "../annotated.css";
 import {
   projectConfigSelector,
@@ -11,7 +11,7 @@ import {
   createAnnotationTextOffsets,
   createMarkerTextOffsets,
   findRelativePosition,
-} from "./utils/createTextOffsets.ts";
+} from "../utils/createTextOffsets.ts";
 import { createSearchRegex } from "../../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";

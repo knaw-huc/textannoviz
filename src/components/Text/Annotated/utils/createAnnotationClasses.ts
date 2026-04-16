@@ -1,5 +1,5 @@
-import { AnnotationSegment, Segment } from "../../core";
-import { ProjectConfig } from "../../../../../model/ProjectConfig.ts";
+import { AnnotationSegment, Segment } from "../core";
+import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
 
 export function createStartEndClasses(
   segment: Segment,

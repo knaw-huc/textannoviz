@@ -3,7 +3,7 @@ import {
   useProjectStore,
 } from "../../../../stores/project.ts";
 import { GroupProps } from "../core";
-import { isProjectAnnotation } from "./utils/isProjectAnnotation.ts";
+import { isProjectAnnotation } from "../utils/isProjectAnnotation.ts";
 import { orThrow } from "./utils/orThrow.tsx";
 import { AnnotationLink } from "./AnnotationLink.tsx";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
