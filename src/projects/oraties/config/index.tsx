@@ -135,7 +135,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     "Section",
     "Whitespace",
   ],
-  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  markerAnnotationTypes: projectPageMarkerAnnotationTypes,
 
   /**
    * Note: duplicated from kunstenaarsbrieven

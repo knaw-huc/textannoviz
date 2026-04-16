@@ -20,6 +20,7 @@ import {
   projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
   reference,
+  projectTooltipMarkerAnnotationTypes,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
@@ -52,9 +53,12 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       Marker: KunstenaarsbrievenMarker,
     },
     highlightedAnnotationTypes: projectHighlightedTypes,
-    pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
     entityAnnotationTypes: projectEntityTypes,
-    insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
+    markerAnnotationTypes: [
+      ...projectPageMarkerAnnotationTypes,
+      ...projectInsertTextMarkerAnnotationTypes,
+      ...projectTooltipMarkerAnnotationTypes,
+    ],
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,

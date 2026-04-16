@@ -32,7 +32,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchInfoPage,
     Header,
   },
-  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  markerAnnotationTypes: projectPageMarkerAnnotationTypes,
   elasticIndexName: "brederode",
   showAnnotations: true,
   annotatedTextConfig: {

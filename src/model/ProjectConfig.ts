@@ -19,7 +19,6 @@ import {
   TranslatinSearchResultsBody,
   VanGoghSearchResultsBody,
 } from "./Search.ts";
-import { NoteReferenceBody } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import type { JSX } from "react";
 
 export type PanelRegion = "left" | "main" | "right";
@@ -187,24 +186,11 @@ type AnnotationConfig = {
   annotationTypesToHighlight: string[];
 
   /**
-   * Show tooltip with note
+   * Annotation types that render as zero-length markers
+   * e.g., page breaks, note pointers, pictures
    */
-  tooltipMarkerAnnotationTypes: string[];
+  markerAnnotationTypes: string[];
 
-  /**
-   * @see {@link tooltipMarkerAnnotationTypes}
-   * annotation.body.type is not enough to determine if a Reference is a Note Reference:
-   */
-  isToolTipMarker: (toTest: AnnoRepoBodyBase) => toTest is NoteReferenceBody;
-
-  /**
-   * Insert additional text into main text
-   */
-  insertTextMarkerAnnotationTypes: string[];
-  /**
-   * Mark the start of a page
-   */
-  pageMarkerAnnotationTypes: string[];
   /**
    * Annotation types that are highlighted in the text
    * and that can be clicked on and opened in the annotation detail viewer
