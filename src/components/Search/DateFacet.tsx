@@ -45,7 +45,7 @@ export function DateFacet(props: DateFacetProps) {
   }
 
   return (
-    <div className="flex w-full max-w-[450px] flex-col gap-4 min-[1350px]:flex-row">
+    <div className="bg-brand2-50 flex w-full max-w-[450px] flex-col gap-4 rounded p-2 min-[1350px]:flex-row">
       <div className="flex w-full flex-col">
         <form>
           <label htmlFor="start" className="font-semibold">

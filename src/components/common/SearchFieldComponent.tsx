@@ -30,7 +30,7 @@ export function SearchFieldComponent({
           {helpLabel && <HelpTooltip label={helpLabel} />}
         </Label>
       )}
-      <Group className="group flex h-10 items-center overflow-hidden rounded-md border border-neutral-500 focus-within:border-black">
+      <Group className="group flex h-10 items-center overflow-hidden rounded-md border border-neutral-500 bg-white focus-within:border-black">
         <MagnifyingGlassIcon
           aria-hidden
           className="ml-2 h-4 w-4 text-gray-500"

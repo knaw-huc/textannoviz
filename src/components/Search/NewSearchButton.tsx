@@ -4,14 +4,12 @@ import { useTranslate } from "../../stores/project.ts";
 export function NewSearchButton() {
   const translate = useTranslate();
   return (
-    <div className="w-full max-w-[450px]">
-      <Link
-        to="/"
-        reloadDocument
-        className="bg-brand2-100 hover:bg-brand2-50 disabled:bg-brand2-50 active:bg-brand2-200 disabled:text-brand2-500 rounded px-2 py-2 text-sm text-black no-underline outline-none transition hover:text-black"
-      >
-        {translate("NEW_SEARCH_QUERY")}
-      </Link>
-    </div>
+    <Link
+      to="/"
+      reloadDocument
+      className="rounded-full border border-neutral-400 bg-white px-3 py-1 text-sm text-black no-underline outline-none transition hover:bg-neutral-200 hover:text-black focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-1"
+    >
+      {translate("NEW_SEARCH_QUERY")}
+    </Link>
   );
 }
