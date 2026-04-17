@@ -16,6 +16,8 @@ interface SelectComponentProps<T extends object>
   extends Omit<SelectProps<T>, "children"> {
   label?: string;
   helpLabel?: string;
+  hideLabel?: boolean;
+  triggerId?: string;
   items?: Iterable<T>;
   buttonWidth?: string;
   labelStyling?: string;
@@ -25,6 +27,8 @@ interface SelectComponentProps<T extends object>
 export function SelectComponent<T extends object>({
   label,
   helpLabel,
+  hideLabel,
+  triggerId,
   children,
   items,
   buttonWidth,
@@ -32,14 +36,24 @@ export function SelectComponent<T extends object>({
   ...props
 }: SelectComponentProps<T>) {
   return (
-    <Select {...props} className="flex flex-row items-center justify-between">
-      <Label
-        className={`${labelStyling ? labelStyling : "mr-1 font-semibold"}`}
-      >
-        {label}
-        <HelpTooltip label={helpLabel} />
-      </Label>
+    <Select
+      {...props}
+      className={
+        hideLabel
+          ? "flex w-full flex-col"
+          : "flex flex-row items-center justify-between"
+      }
+    >
+      {!hideLabel && (
+        <Label
+          className={`${labelStyling ? labelStyling : "mr-1 font-semibold"}`}
+        >
+          {label}
+          <HelpTooltip label={helpLabel} />
+        </Label>
+      )}
       <Button
+        id={triggerId}
         className={`${
           buttonWidth ? buttonWidth : "w-[150px]"
         } border-brand1Grey-700 flex cursor-default items-center justify-between rounded border bg-white px-2 py-1 text-sm`}

@@ -69,6 +69,7 @@ export function SearchForm(
     React.useState(false);
   const searchInTextViewsPanelId = "search-in-text-views-panel";
   const facetVisibilityGroupLabelId = "search-form-select-visible-facets-label";
+  const displayContextHeadingId = React.useId();
 
   const searchResults = useSearchStore((state) => state.searchResults);
   const { searchQuery, updateSearchQuery, searchParams, updateSearchParams } =
@@ -464,10 +465,14 @@ export function SearchForm(
         <TabPanel id="settings" className={tabPanelStyling}>
           {projectConfig.showFragmenter && (
             <div className="flex w-full max-w-[450px] flex-col gap-2">
-              <h2 className="text-base font-semibold text-neutral-900">
+              <h2
+                id={displayContextHeadingId}
+                className="text-base font-semibold text-neutral-900"
+              >
                 {translate("DISPLAY_CONTEXT")}
               </h2>
               <FragmenterSelection
+                headingId={displayContextHeadingId}
                 onChange={updateFragmenter}
                 value={searchParams.fragmentSize}
               />
