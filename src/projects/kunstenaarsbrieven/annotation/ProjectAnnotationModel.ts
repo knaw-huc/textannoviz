@@ -23,8 +23,7 @@ export const letter = "Letter";
 export const listItem = "ListItem";
 export const note = "Note";
 export const page = "Page";
-// TODO: ue this one as a blockType in a new projectConfig property:
-// export const paragraph = "Paragraph";
+export const paragraph = "Paragraph";
 export const person = "person";
 export const picture = "Picture";
 export const quote = "Quote";

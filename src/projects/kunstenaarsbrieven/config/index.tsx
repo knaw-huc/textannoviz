@@ -2,7 +2,7 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { DefaultProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { KunstenaarsbrievenMarker } from "../annotation/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
@@ -13,6 +13,7 @@ import {
   isNoteReference,
   letter,
   note,
+  paragraph,
   person,
   projectAnnotationTypesToInclude,
   projectEntityTypes,
@@ -33,6 +34,16 @@ import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 import { filterPanels } from "../filterPanels.ts";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
+import { KunstenaarsbrievenBlock } from "../annotation/KunstenaarsBrievenBlock.tsx";
+import { BlockSchema } from "../../../components/Text/Annotated/core";
+
+const blockSchema: BlockSchema = {
+  root: "root",
+  blocks: {
+    root: { blocks: ["paragraph"] },
+    paragraph: { blocks: [] },
+  },
+};
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
   defaultConfig,
@@ -45,12 +56,14 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       document,
       letter,
       note,
+      paragraph,
       ...projectAnnotationTypesToInclude,
     ],
     showAnnotations: true,
-    annotatedTextConfig: {
-      ...defaultAnnotatedTextConfig,
+    annotatedTextComponents: {
+      ...defaultAnnotatedTextComponents,
       Marker: KunstenaarsbrievenMarker,
+      Block: KunstenaarsbrievenBlock,
     },
     highlightTypes: projectHighlightedTypes,
     nestedTypes: projectEntityTypes,
@@ -59,6 +72,9 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
         ...projectPageMarkerAnnotationTypes,
         ...projectInsertTextMarkerAnnotationTypes,
       ].includes(body.type) || isNoteReference(body),
+    isBlock: (body: AnnoRepoBodyBase) => body.type === paragraph,
+    getBlockType: (body: AnnoRepoBodyBase) => body.type,
+    blockSchema,
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,

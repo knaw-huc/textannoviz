@@ -34,6 +34,7 @@ export type AnnotationOffset<T extends Body = Body> = WithTypeAndBody<T> & {
 type Annotation = { type: "annotation" };
 type Highlight = { type: "highlight" };
 type Marker = { type: "marker" };
+type Block = { type: "block"; blockType: BlockType };
 
 export type NestedAnnotationOffset = AnnotationOffset & Annotation;
 
@@ -44,11 +45,17 @@ export function isNestedAnnotationOffset(
 }
 
 export type HighlightAnnotationOffset = AnnotationOffset & Highlight;
-
 export function isHighlightAnnotationOffset(
   toTest: AnnotationOffset,
 ): toTest is HighlightAnnotationOffset {
   return toTest.type === "highlight";
+}
+
+export type BlockAnnotationOffset = AnnotationOffset & Block;
+export function isBlockAnnotationOffset(
+  toTest: AnnotationOffset,
+): toTest is BlockAnnotationOffset {
+  return toTest.type === "block";
 }
 
 export type MarkerAnnotationOffset = AnnotationOffset & Marker;

@@ -1,4 +1,8 @@
-import { AnyAnnotatedTextComponents } from "../components/Text/Annotated/core";
+import {
+  AnyAnnotatedTextComponents,
+  BlockSchema,
+  BlockType,
+} from "../components/Text/Annotated/core";
 import { EntitySummaryProps } from "./EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
 import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
@@ -180,6 +184,8 @@ type AnnotationConfig = {
    */
   annotatedTextComponents: AnyAnnotatedTextComponents;
 
+  blockSchema: BlockSchema;
+
   /**
    * Annotations that are nested inside each other, a span for every annotation
    * see also {@link isEntity}
@@ -197,6 +203,9 @@ type AnnotationConfig = {
    * Note: some markers cannot be detected using type alone, hence the fn
    */
   isMarker: (body: AnnoRepoBodyBase) => boolean;
+
+  isBlock: (body: AnnoRepoBodyBase) => boolean;
+  getBlockType: (body: AnnoRepoBodyBase) => BlockType;
 
   /**
    * Entities, clickable, styled and displayed in the EntityModal

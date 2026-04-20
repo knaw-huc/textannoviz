@@ -5,7 +5,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { BrederodeMarker } from "../annotation/BrederodeMarker";
 import { SearchItem } from "../SearchItem";
 import { englishBrederodeLabels } from "./englishBrederodeLabels";
@@ -36,7 +36,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
   elasticIndexName: "brederode",
   showAnnotations: true,
   annotatedTextComponents: {
-    ...defaultAnnotatedTextConfig,
+    ...defaultAnnotatedTextComponents,
     Marker: BrederodeMarker,
   },
   initialDateFrom: "1602-01-01",

@@ -49,9 +49,9 @@ export class BlockBuilder<T extends Body = Body> {
       const types = new Map<BlockType, BlockSegment<T>[]>();
       for (const annotation of segment.annotations) {
         if (isBlockAnnotationSegment(annotation)) {
-          const block = annotation as BlockSegment<T>;
+          const block = annotation;
           const list = types.get(block.blockType) ?? [];
-          list.push(block);
+          list.push(block as BlockSegment<T>);
           types.set(block.blockType, list);
         }
       }

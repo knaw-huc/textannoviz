@@ -5,7 +5,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { OratiesMarker } from "../annotation/OratiesMarker";
 import { SearchItem } from "../SearchItem";
 import { dutchOratiesLabels } from "./dutchOratiesLabels";
@@ -115,7 +115,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   // AnnotationConfig
   showAnnotations: true,
   annotatedTextComponents: {
-    ...defaultAnnotatedTextConfig,
+    ...defaultAnnotatedTextComponents,
     Marker: OratiesMarker,
   },
   relativeTo: "Document",

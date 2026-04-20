@@ -12,7 +12,8 @@ import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
 import { getTocId, showToc } from "./showToc.ts";
 import { getUrl, isLink } from "./isLink.ts";
-import { defaultAnnotatedTextConfig } from "../annotation/defaultAnnotatedTextConfig.ts";
+import { defaultAnnotatedTextComponents } from "../annotation/defaultAnnotatedTextComponents.ts";
+import { defaultBlockSchema } from "../annotation/defaultBlockSchema.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -28,7 +29,10 @@ export const defaultConfig: DefaultProjectConfig = {
 
   annotationTypesToInclude: [],
   textHighlightingTypes: [],
-  annotatedTextComponents: defaultAnnotatedTextConfig,
+  annotatedTextComponents: defaultAnnotatedTextComponents,
+  blockSchema: defaultBlockSchema,
+  isBlock: () => false,
+  getBlockType: () => "",
   nestedTypes: [],
   highlightTypes: [],
   isMarker: () => false,

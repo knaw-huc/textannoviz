@@ -12,6 +12,9 @@ import {
   NestedSegment,
   OffsetsByCharIndex,
   Segment,
+  BlockSegment,
+  isBlockAnnotationOffset,
+  BlockAnnotationOffset,
 } from "../AnnotationModel.ts";
 
 /**
@@ -179,13 +182,15 @@ export class AnnotationSegmenter {
   ): (AnnotationSegment | HighlightSegment)[] {
     return (
       startOffsets
-        // Markers are handled seperately:
+        // Markers are handled separately:
         .filter((o) => o.type !== "marker")
         .map((offset) => {
           if (isNestedAnnotationOffset(offset)) {
             return this.createNestedAnnotationSegment(offset);
           } else if (isHighlightAnnotationOffset(offset)) {
             return this.createHighlightAnnotationSegment(offset);
+          } else if (isBlockAnnotationOffset(offset)) {
+            return this.createBlockAnnotationSegment(offset);
           } else {
             throw new Error(
               "Could could determine offset type of " + JSON.stringify(offset),
@@ -281,6 +286,17 @@ export class AnnotationSegmenter {
       endSegment: this.segments.length, // Set endSegment at end offset
       type: "marker",
       body: startOffset.body,
+    };
+  }
+
+  private createBlockAnnotationSegment(
+    offset: BlockAnnotationOffset,
+  ): BlockSegment {
+    return {
+      ...this.createSegmentOffsets(),
+      type: "block",
+      blockType: offset.blockType,
+      body: offset.body,
     };
   }
 

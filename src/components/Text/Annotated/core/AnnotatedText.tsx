@@ -13,11 +13,6 @@ import { createContext, FC, PropsWithChildren, ReactNode } from "react";
 import { Any } from "../../../../utils/Any.ts";
 import { BlockSchema } from "./block";
 
-export const NO_BLOCKS: BlockSchema = {
-  root: "root",
-  blocks: { root: { blocks: [] } },
-};
-
 /**
  * AnnotatedText renders text segments and their annotations
  *

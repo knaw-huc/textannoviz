@@ -35,6 +35,18 @@ export function createMarkerTextOffsets(
   };
 }
 
+export function createBlockTextOffsets(
+  annotation: AnnoRepoAnnotation,
+  relative: BroccoliRelativeAnno,
+) {
+  return {
+    type: "block" as const,
+    body: annotation.body,
+    beginChar: relative.begin ?? 0,
+    endChar: relative.end,
+  };
+}
+
 export function findRelativePosition(
   annotation: AnnoRepoAnnotation,
   relativePositions: BroccoliRelativeAnno[],

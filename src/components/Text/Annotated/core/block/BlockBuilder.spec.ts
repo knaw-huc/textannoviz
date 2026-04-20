@@ -18,19 +18,14 @@ describe(BlockBuilder.name, () => {
     };
 
     const segA = seg(0, [ent("e-AB")]);
-    const segB = seg(1, [
-      ent("e-AB"),
-      ent("e-BC"),
-      blk("p-B", "paragraph"),
-      blk("s-BC", "section"),
-    ]);
-    const segC = seg(2, [
-      ent("e-BC"),
-      blk("p-C", "paragraph"),
-      blk("s-BC", "section"),
-    ]);
+    const pB = blk("p-B", "paragraph");
+    const secBC = blk("s-BC", "section");
+    const segB = seg(1, [ent("e-AB"), ent("e-BC"), pB, secBC]);
+    const pC = blk("p-C", "paragraph");
+    const segC = seg(2, [ent("e-BC"), pC, secBC]);
     const segD = seg(3, []);
-    const segE = seg(4, [blk("s-E", "section")]);
+    const secE = blk("s-E", "section");
+    const segE = seg(4, [secE]);
 
     const result = new BlockBuilder(blockSchema).build([
       segA,
@@ -46,18 +41,21 @@ describe(BlockBuilder.name, () => {
         id: "s-BC",
         isBlock: true,
         blockType: "section",
+        annotation: secBC,
         children: [
           {
             id: "p-B",
             isBlock: true,
             blockType: "paragraph",
             children: [{ isBlock: false, segments: [segB] }],
+            annotation: pB,
           },
           {
             id: "p-C",
             isBlock: true,
             blockType: "paragraph",
             children: [{ isBlock: false, segments: [segC] }],
+            annotation: pC,
           },
         ],
       },
@@ -66,6 +64,7 @@ describe(BlockBuilder.name, () => {
         id: "s-E",
         isBlock: true,
         blockType: "section",
+        annotation: secE,
         children: [{ isBlock: false, segments: [segE] }],
       },
     ]);
@@ -81,16 +80,13 @@ describe(BlockBuilder.name, () => {
       },
     };
 
-    const seg1 = seg(0, [
-      blk("s-outer", "section"),
-      blk("s-inner", "section"),
-      blk("p-1", "paragraph"),
-    ]);
-    const seg2 = seg(1, [
-      blk("s-outer", "section"),
-      blk("s-inner", "section"),
-      blk("p-2", "paragraph"),
-    ]);
+    const sOuter = blk("s-outer", "section");
+    const sInner = blk("s-inner", "section");
+    const p1 = blk("p-1", "paragraph");
+    const p2 = blk("p-2", "paragraph");
+
+    const seg1 = seg(0, [sOuter, sInner, p1]);
+    const seg2 = seg(1, [sOuter, sInner, p2]);
 
     const result = new BlockBuilder(schema).build([seg1, seg2]);
 
@@ -99,22 +95,26 @@ describe(BlockBuilder.name, () => {
         id: "s-outer",
         isBlock: true,
         blockType: "section",
+        annotation: sOuter,
         children: [
           {
             id: "s-inner",
             isBlock: true,
             blockType: "section",
+            annotation: sInner,
             children: [
               {
                 id: "p-1",
                 isBlock: true,
                 blockType: "paragraph",
+                annotation: p1,
                 children: [{ isBlock: false, segments: [seg1] }],
               },
               {
                 id: "p-2",
                 isBlock: true,
                 blockType: "paragraph",
+                annotation: p2,
                 children: [{ isBlock: false, segments: [seg2] }],
               },
             ],
@@ -134,11 +134,11 @@ describe(BlockBuilder.name, () => {
       },
     };
 
-    const seg1 = seg(0, [
-      blk("d-outer", "div"),
-      blk("sec-1", "section"),
-      blk("d-inner", "div"),
-    ]);
+    const dOuter = blk("d-outer", "div");
+    const sec1 = blk("sec-1", "section");
+    const dInner = blk("d-inner", "div");
+
+    const seg1 = seg(0, [dOuter, sec1, dInner]);
 
     const result = new BlockBuilder(schema).build([seg1]);
 
@@ -147,16 +147,19 @@ describe(BlockBuilder.name, () => {
         id: "d-outer",
         isBlock: true,
         blockType: "div",
+        annotation: dOuter,
         children: [
           {
             id: "sec-1",
             isBlock: true,
             blockType: "section",
+            annotation: sec1,
             children: [
               {
                 id: "d-inner",
                 isBlock: true,
                 blockType: "div",
+                annotation: dInner,
                 children: [{ isBlock: false, segments: [seg1] }],
               },
             ],
@@ -170,8 +173,8 @@ describe(BlockBuilder.name, () => {
 function blk(id: string, blockType: string): BlockSegment {
   return {
     type: "block",
-    blockType,
     body: { id },
+    blockType,
     startSegment: 0,
     endSegment: 0,
   };

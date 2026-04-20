@@ -5,7 +5,7 @@ import { DefaultGroup } from "./group/DefaultGroup.tsx";
 import { DefaultNested } from "./nested/DefaultNested.tsx";
 import { DefaultBlock } from "./block/DefaultBlock.tsx";
 
-export const defaultAnnotatedTextConfig: AnyAnnotatedTextComponents = {
+export const defaultAnnotatedTextComponents: AnyAnnotatedTextComponents = {
   Nested: DefaultNested,
   Highlight: DefaultHighlights,
   Marker: DefaultMarker,

@@ -5,7 +5,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
@@ -82,7 +82,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
   showAnnotations: true,
   annotatedTextComponents: {
-    ...defaultAnnotatedTextConfig,
+    ...defaultAnnotatedTextComponents,
     Marker: SurianoMarker,
   },
   textHighlightingTypes: [],

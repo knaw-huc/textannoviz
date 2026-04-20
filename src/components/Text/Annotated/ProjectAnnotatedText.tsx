@@ -11,6 +11,7 @@ import uniq from "lodash/uniq";
 import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
 import {
   createAnnotationTextOffsets,
+  createBlockTextOffsets,
   createMarkerTextOffsets,
   findRelativePosition,
 } from "./utils/createTextOffsets.ts";
@@ -18,7 +19,6 @@ import { AnnotatedText, TextOffsets } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
-import { NO_BLOCKS } from "./core/AnnotatedText.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -27,13 +27,13 @@ type TextHighlightingProps = {
 
 export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { nestedTypes, highlightTypes, isMarker } = projectConfig;
+  const { nestedTypes, highlightTypes, isMarker, isBlock } = projectConfig;
   const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
   const annotations = useAnnotationStore().annotations.filter((a) => {
     if (typesToInclude.includes(a.body.type)) {
       return true;
     }
-    return isMarker(a.body);
+    return isBlock(a.body) || isMarker(a.body);
   });
   const withRelative: WithRelativePosition[] = annotations
     .map((annotation) => {
@@ -73,13 +73,19 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     );
   offsets.push(...markerAnnotations);
 
+  const blockAnnotations = withRelative
+    .filter(({ annotation }) => isBlock(annotation.body))
+    .map(({ annotation, relative }) =>
+      createBlockTextOffsets(annotation, relative),
+    );
+  offsets.push(...blockAnnotations);
   return (
     <div className="whitespace-pre-wrap">
       <AnnotatedText
         components={projectConfig.annotatedTextComponents}
         text={textBody}
         offsets={offsets}
-        blockSchema={NO_BLOCKS}
+        blockSchema={projectConfig.blockSchema}
       >
         <EntityModal />
       </AnnotatedText>
