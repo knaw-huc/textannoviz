@@ -21,3 +21,8 @@ export type {
 } from "./AnnotationModel.ts";
 
 export { TextSegmentsViewer } from "./inline/TextSegmentsViewer.tsx";
+
+export type { BlockType, BlockSegment } from "./AnnotationModel.ts";
+export { isBlockAnnotationSegment } from "./AnnotationModel.ts";
+export { BlockBuilder, type BlockBuilderConfig } from "./block";
+export type { Element, Block, Inline } from "./block";

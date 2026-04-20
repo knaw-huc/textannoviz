@@ -1,4 +1,5 @@
 import {
+  BlockSegment,
   Body,
   GroupedSegments,
   HighlightSegment,
@@ -61,11 +62,13 @@ export type AnnotatedTextConfig<
   NESTED extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
+  BLOCK extends Body = Body,
 > = {
   Nested: FC<NestedProps<NESTED>>;
   Highlight: FC<HighlightProps<HIGHLIGHT>>;
   Marker: FC<MarkerProps<MARKER>>;
   Group: FC<GroupProps>;
+  Block: FC<BlockProps<BLOCK>>;
 };
 
 export type NestedProps<ANNOTATION extends Body = Body> = {
@@ -87,6 +90,11 @@ export type MarkerProps<MARKER extends Body = Body> = {
 
 export type GroupProps = {
   group: GroupedSegments;
+  children: ReactNode;
+};
+
+export type BlockProps<BLOCK extends Body = Body> = {
+  block: BlockSegment<BLOCK>;
   children: ReactNode;
 };
 

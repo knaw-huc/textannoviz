@@ -4,9 +4,9 @@
  * - annotation: entity annotations
  * - marker: marking places of zero length
  */
-export type AnnotationType = "highlight" | "annotation" | "marker";
-
-export type Body = { id: string };
+export type AnnotationType = "highlight" | "annotation" | "marker" | "block";
+export type AnnotationId = string;
+export type Body = { id: AnnotationId };
 
 export type WithTypeAndBody<T extends Body = Body> = {
   type: AnnotationType;
@@ -117,7 +117,8 @@ export type NestedAnnotationSegment<ANNOTATION extends Body = Body> =
 export type AnnotationSegment =
   | NestedAnnotationSegment
   | HighlightSegment
-  | MarkerSegment;
+  | MarkerSegment
+  | BlockSegment;
 
 export function isNestedAnnotationSegment(
   toTest: AnnotationSegment,
@@ -150,3 +151,17 @@ export type GroupedSegments = {
   id?: number;
   segments: Segment[];
 };
+
+export type BlockSegment<T extends Body = Body> =
+  AnnotationSegmentWithBodyAndOffsets<T> & {
+    type: "block";
+    blockType: BlockType;
+  };
+
+export function isBlockAnnotationSegment(
+  toTest: AnnotationSegment,
+): toTest is BlockSegment {
+  return toTest.type === "block";
+}
+
+export type BlockType = string;
