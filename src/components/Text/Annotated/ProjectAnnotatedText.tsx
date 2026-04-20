@@ -17,6 +17,7 @@ import {
 import { AnnotatedText, TextOffsets } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
+import { orThrow } from "../../../utils/orThrow.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -43,7 +44,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
 
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
-  const textBody = props.text.body;
+  const textBody = props.text.body || orThrow("No text body");
   const offsets: TextOffsets[] = [];
 
   const nestedAnnotations = withRelative

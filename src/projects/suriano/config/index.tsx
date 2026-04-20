@@ -26,7 +26,7 @@ import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
 import projectCss from "../project.css?inline";
-import { SurianoMarker } from "../annotation/marker/SurianoMarker.tsx";
+import { SurianoMarker } from "../annotation/SurianoMarker.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",

@@ -1,11 +1,11 @@
-import { MarkerProps } from "../../../../components/Text/Annotated/core";
-import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
-import { PageMarkerAnnotation } from "../../../default/annotation/marker/PageMarkerAnnotation.tsx";
-import { throwUnknownAnnotation } from "../../../../components/Text/Annotated/throwUnknownAnnotation.ts";
+import { MarkerProps } from "../../../components/Text/Annotated/core";
+import { MarkerBody } from "../../../model/AnnoRepoAnnotation.ts";
+import { PageMarkerAnnotation } from "../../default/annotation/marker/PageMarkerAnnotation.tsx";
+import { throwUnknownAnnotation } from "../../../components/Text/Annotated/throwUnknownAnnotation.ts";
 import {
   projectPageMarkerAnnotationTypes,
   projectInsertTextMarkerAnnotationTypes,
-} from "../ProjectAnnotationModel.ts";
+} from "./ProjectAnnotationModel.ts";
 
 export function SurianoMarker(props: MarkerProps<MarkerBody>) {
   const { marker } = props;
