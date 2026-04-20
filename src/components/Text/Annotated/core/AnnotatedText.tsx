@@ -7,7 +7,7 @@ import {
   Segment,
   TextOffsets,
 } from "./AnnotationModel.ts";
-import { SegmentedText } from "./SegmentedText.tsx";
+import { SegmentedText } from "./inline/SegmentedText.tsx";
 import { createContext, FC, PropsWithChildren, ReactNode } from "react";
 import { Any } from "../../../../utils/Any.ts";
 

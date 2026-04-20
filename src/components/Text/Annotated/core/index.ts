@@ -20,4 +20,4 @@ export type {
   TextOffsets,
 } from "./AnnotationModel.ts";
 
-export { TextSegmentsViewer } from "./TextSegmentsViewer.tsx";
+export { TextSegmentsViewer } from "./inline/TextSegmentsViewer.tsx";

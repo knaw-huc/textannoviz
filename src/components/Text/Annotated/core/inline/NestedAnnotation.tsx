@@ -2,10 +2,10 @@ import {
   AnnotationSegment,
   isNestedAnnotationSegment,
   Segment,
-} from "./AnnotationModel.ts";
+} from "../AnnotationModel.ts";
 import { HighlightAnnotations } from "./HighlightAnnotations.tsx";
 
-import { useAnnotatedTextConfig } from "./useAnnotatedTextConfig.tsx";
+import { useAnnotatedTextConfig } from "../useAnnotatedTextConfig.tsx";
 
 export type NestedAnnotationProps = {
   segment: Segment;

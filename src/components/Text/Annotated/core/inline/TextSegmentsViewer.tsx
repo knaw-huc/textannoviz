@@ -1,5 +1,5 @@
 import { TextSegment } from "./TextSegment.tsx";
-import { Segment } from "./AnnotationModel.ts";
+import { Segment } from "../AnnotationModel.ts";
 
 export type TextSegmentsViewerProps = {
   segments: Segment[];

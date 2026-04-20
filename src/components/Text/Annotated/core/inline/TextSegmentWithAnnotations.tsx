@@ -1,5 +1,5 @@
 import { NestedAnnotation } from "./NestedAnnotation.tsx";
-import { isNestedAnnotationSegment, Segment } from "./AnnotationModel.ts";
+import { isNestedAnnotationSegment, Segment } from "../AnnotationModel.ts";
 
 export function TextSegmentWithAnnotations(props: { segment: Segment }) {
   const nestedAnnotations = props.segment.annotations.filter(

@@ -1,6 +1,6 @@
 import { TextSegmentWithAnnotations } from "./TextSegmentWithAnnotations.tsx";
 import { SegmentBody } from "./SegmentBody.tsx";
-import { Segment } from "./AnnotationModel.ts";
+import { Segment } from "../AnnotationModel.ts";
 
 export function TextSegment(props: { segment: Segment }) {
   const hasAnnotations = props.segment.annotations[0];

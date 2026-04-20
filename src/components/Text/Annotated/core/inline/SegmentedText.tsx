@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Segment, TextOffsets } from "./AnnotationModel.ts";
+import { Segment, TextOffsets } from "../AnnotationModel.ts";
 import { SegmentGroup } from "./SegmentGroup.tsx";
-import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
-import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
-import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
+import { AnnotationSegmenter } from "../utils/AnnotationSegmenter.ts";
+import { groupSegmentsByGroupId } from "../utils/groupSegmentsByGroupId.ts";
+import { listOffsetsByChar } from "../utils/listOffsetsByChar.ts";
 
 type SegmentedTextProps = {
   body: string;
