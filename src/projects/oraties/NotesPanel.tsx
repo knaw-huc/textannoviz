@@ -8,7 +8,7 @@ import { useTextStore } from "../../stores/text/text-store";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { NotesPanel as KunstenaarsbrievenNotesPanel } from "../kunstenaarsbrieven/NotesPanel";
-import { Annotated } from "../../components/Text/Annotated/Annotated.tsx";
+import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 /**
  * Duplicated from {@link KunstenaarsbrievenNotesPanel}
  * // TODO: Collect reusable project components in projects/common
@@ -50,7 +50,7 @@ export const NotesPanel = () => {
             {footnoteNumber}.{" "}
           </span>
           <div className="text-sm">
-            <Annotated text={note} showDetail={false} />
+            <ProjectAnnotatedText text={note} showDetail={false} />
           </div>
         </div>
       ))}

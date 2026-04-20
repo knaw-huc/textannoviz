@@ -23,7 +23,7 @@ type TextHighlightingProps = {
   showDetail: boolean;
 };
 
-export const Annotated = (props: TextHighlightingProps) => {
+export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { nestedTypes, highlightTypes, isMarker } = projectConfig;
   const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
