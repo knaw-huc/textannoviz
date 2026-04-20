@@ -6,6 +6,7 @@ import {
   projectPageMarkerAnnotationTypes,
   projectInsertTextMarkerAnnotationTypes,
 } from "./ProjectAnnotationModel.ts";
+import { Empty } from "../../../components/Empty.tsx";
 
 export function SurianoMarker(props: MarkerProps<MarkerBody>) {
   const { marker } = props;
@@ -15,8 +16,8 @@ export function SurianoMarker(props: MarkerProps<MarkerBody>) {
     return <PageMarkerAnnotation marker={marker} />;
   }
   if (projectInsertTextMarkerAnnotationTypes.includes(type)) {
-    // tei:Metamark: currently rendered as nothing (legacy behavior via Empty component)
-    return null;
+    // TODO: remove suriano projectInsertTextMarkerAnnotationTypes
+    return Empty();
   }
   throwUnknownAnnotation("marker", marker.body);
 }
