@@ -2,7 +2,7 @@ import { ProjectAnnotatedText } from "../../components/Text/Annotated/project/Pr
 import { useTranslateProject } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
-import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 
 type RenderMetadataPanelProps = {
