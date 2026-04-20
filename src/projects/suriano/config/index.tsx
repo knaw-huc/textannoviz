@@ -25,7 +25,6 @@ import {
 import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 
-import projectCss from "../project.css?inline";
 import { SurianoMarker } from "../annotation/SurianoMarker.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
@@ -134,5 +133,4 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     sortBy: "date",
     sortOrder: "asc",
   },
-  projectCss: projectCss,
 } as ProjectSpecificConfig);
