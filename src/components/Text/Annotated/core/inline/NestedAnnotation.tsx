@@ -1,6 +1,6 @@
 import {
   AnnotationSegment,
-  isNestedAnnotationSegment,
+  isNestedSegment,
   Segment,
 } from "../AnnotationModel.ts";
 import { HighlightAnnotations } from "./HighlightAnnotations.tsx";
@@ -16,7 +16,7 @@ export type NestedAnnotationProps = {
 export function NestedAnnotation(props: NestedAnnotationProps) {
   const { Nested } = useAnnotatedTextConfig();
 
-  const nestedAnnotations = props.toNest.filter(isNestedAnnotationSegment);
+  const nestedAnnotations = props.toNest.filter(isNestedSegment);
   const toRender = nestedAnnotations[0];
   const toNest = nestedAnnotations.slice(1);
 

@@ -114,7 +114,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
 
   // AnnotationConfig
   showAnnotations: true,
-  annotatedTextConfig: {
+  annotatedTextComponents: {
     ...defaultAnnotatedTextConfig,
     Marker: OratiesMarker,
   },

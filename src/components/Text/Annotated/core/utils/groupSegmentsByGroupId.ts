@@ -1,6 +1,6 @@
 import {
   GroupedSegments,
-  isNestedAnnotationSegment,
+  isNestedSegment,
   Segment,
 } from "../AnnotationModel.ts";
 
@@ -8,9 +8,7 @@ export function groupSegmentsByGroupId(segments: Segment[]): GroupedSegments[] {
   const result: GroupedSegments[] = [];
   for (let i = 0; i < segments.length; i++) {
     const segment = segments[i];
-    const foundNestedAnnotation = segment.annotations.find(
-      isNestedAnnotationSegment,
-    );
+    const foundNestedAnnotation = segment.annotations.find(isNestedSegment);
     if (!foundNestedAnnotation) {
       result.push(createAnnotationlessGroup(segment));
       continue;

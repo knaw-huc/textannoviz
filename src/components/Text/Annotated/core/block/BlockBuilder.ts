@@ -11,7 +11,7 @@ type BlockConfig = {
   blocks: BlockType[];
 };
 
-export type BlockBuilderConfig = {
+export type BlockSchema = {
   root: BlockType;
   blocks: Record<BlockType, BlockConfig>;
 };
@@ -21,24 +21,29 @@ type GroupedSegments<T extends Body> = {
   segments: Segment[];
 };
 
+type SegmentIndex = number;
+
+/**
+ * Loop through segments, dequeue annotation after building a block
+ */
 type AnnotationQueue<T extends Body> = Map<
-  number,
+  SegmentIndex,
   Map<BlockType, BlockSegment<T>[]>
 >;
 
 export class BlockBuilder<T extends Body = Body> {
-  constructor(private readonly config: BlockBuilderConfig) {
+  constructor(private readonly config: BlockSchema) {
     if (!(config.root in config.blocks)) {
       throw new Error("No root in block config found");
     }
   }
 
   build(segments: Segment[]): Element[] {
-    const queue = this.createQueue(segments);
+    const queue = this.createBlockQueue(segments);
     return this.createBlocks(segments, this.config.root, queue);
   }
 
-  private createQueue(segments: Segment[]): AnnotationQueue<T> {
+  private createBlockQueue(segments: Segment[]): AnnotationQueue<T> {
     const queue: AnnotationQueue<T> = new Map();
     for (const segment of segments) {
       const types = new Map<BlockType, BlockSegment<T>[]>();
@@ -69,7 +74,8 @@ export class BlockBuilder<T extends Body = Body> {
     if (!allowed.length) {
       return [this.createInline(segments)];
     }
-    return this.groupSegmentsByBlock(segments, allowed, queue).map((group) =>
+    const groupedSegments = this.groupSegmentsByBlock(segments, allowed, queue);
+    return groupedSegments.map((group) =>
       group.block
         ? this.createBlock(group.block, group.segments, queue)
         : this.createInline(group.segments),
@@ -127,6 +133,7 @@ export class BlockBuilder<T extends Body = Body> {
       isBlock: true,
       id: annotation.body.id,
       blockType: annotation.blockType,
+      annotation,
       children: this.createBlocks(segments, annotation.blockType, queue),
     };
   }

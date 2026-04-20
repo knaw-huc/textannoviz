@@ -81,7 +81,7 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tei:Metamark",
   ],
   showAnnotations: true,
-  annotatedTextConfig: {
+  annotatedTextComponents: {
     ...defaultAnnotatedTextConfig,
     Marker: SurianoMarker,
   },

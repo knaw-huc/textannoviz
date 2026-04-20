@@ -35,7 +35,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
   isMarker: (body) => projectPageMarkerAnnotationTypes.includes(body.type),
   elasticIndexName: "brederode",
   showAnnotations: true,
-  annotatedTextConfig: {
+  annotatedTextComponents: {
     ...defaultAnnotatedTextConfig,
     Marker: BrederodeMarker,
   },

@@ -1,4 +1,4 @@
-import { AnyAnnotatedTextConfig } from "../components/Text/Annotated/core";
+import { AnyAnnotatedTextComponents } from "../components/Text/Annotated/core";
 import { EntitySummaryProps } from "./EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
 import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
@@ -178,7 +178,7 @@ type AnnotationConfig = {
   /**
    * Plugin components for rendering with {@link AnnotatedText}
    */
-  annotatedTextConfig: AnyAnnotatedTextConfig;
+  annotatedTextComponents: AnyAnnotatedTextComponents;
 
   /**
    * Annotations that are nested inside each other, a span for every annotation

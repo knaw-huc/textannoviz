@@ -1,6 +1,6 @@
 export {
   AnnotatedText,
-  type AnyAnnotatedTextConfig,
+  type AnyAnnotatedTextComponents,
 } from "./AnnotatedText.tsx";
 
 export type {
@@ -15,7 +15,7 @@ export type {
   AnnotationSegment,
   GroupedSegments,
   MarkerSegment,
-  NestedAnnotationSegment,
+  NestedSegment,
   Segment,
   TextOffsets,
 } from "./AnnotationModel.ts";
@@ -24,5 +24,5 @@ export { TextSegmentsViewer } from "./inline/TextSegmentsViewer.tsx";
 
 export type { BlockType, BlockSegment } from "./AnnotationModel.ts";
 export { isBlockAnnotationSegment } from "./AnnotationModel.ts";
-export { BlockBuilder, type BlockBuilderConfig } from "./block";
+export { BlockBuilder, type BlockSchema } from "./block";
 export type { Element, Block, Inline } from "./block";

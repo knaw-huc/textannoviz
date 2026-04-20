@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BlockBuilder, BlockBuilderConfig } from "./BlockBuilder.ts";
+import { BlockBuilder, BlockSchema } from "./BlockBuilder.ts";
 import {
   AnnotationSegment,
   BlockSegment,
@@ -8,7 +8,7 @@ import {
 
 describe(BlockBuilder.name, () => {
   it("builds example", () => {
-    const blockSchema: BlockBuilderConfig = {
+    const blockSchema: BlockSchema = {
       root: "root",
       blocks: {
         root: { blocks: ["section", "paragraph"] },
@@ -72,7 +72,7 @@ describe(BlockBuilder.name, () => {
   });
 
   it("builds section > section > p", () => {
-    const schema: BlockBuilderConfig = {
+    const schema: BlockSchema = {
       root: "root",
       blocks: {
         root: { blocks: ["section"] },
@@ -125,7 +125,7 @@ describe(BlockBuilder.name, () => {
   });
 
   it("builds div > section > div", () => {
-    const schema: BlockBuilderConfig = {
+    const schema: BlockSchema = {
       root: "root",
       blocks: {
         root: { blocks: ["div"] },

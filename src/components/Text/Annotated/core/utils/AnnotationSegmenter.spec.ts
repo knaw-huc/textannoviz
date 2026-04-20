@@ -6,7 +6,7 @@ import {
 import {
   Body,
   MarkerSegment,
-  NestedAnnotationSegment,
+  NestedSegment,
   OffsetsByCharIndex,
 } from "../AnnotationModel.ts";
 import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
@@ -26,7 +26,7 @@ describe("AnnotationSegmenter", () => {
 
     expect(segments[1].body).toEqual("bb");
     expect(segments[1].annotations!.length).toEqual(1);
-    const anno1 = segments[1].annotations![0] as NestedAnnotationSegment;
+    const anno1 = segments[1].annotations![0] as NestedSegment;
     expect(anno1.body.id).toEqual("anno1");
     expect(anno1.depth).toEqual(1);
   });
@@ -39,7 +39,7 @@ describe("AnnotationSegmenter", () => {
     expect(segments[2].body).toEqual("cc");
     const annotationsIdAndDepth = segments[2].annotations!.map((a) => ({
       id: a.body.id,
-      depth: (a as NestedAnnotationSegment).depth,
+      depth: (a as NestedSegment).depth,
     }));
     expect(annotationsIdAndDepth).toEqual([
       { id: "anno1", depth: 1 },
@@ -86,7 +86,7 @@ describe("AnnotationSegmenter", () => {
     ]).segment();
     expect(segments[0].body).toEqual("aa");
     expect(segments[0].annotations!.length).toEqual(1);
-    const anno1 = segments[0].annotations![0] as NestedAnnotationSegment;
+    const anno1 = segments[0].annotations![0] as NestedSegment;
     expect(anno1.body.id).toBe("anno1");
     expect(anno1.depth).toBe(1);
     expect(segments[1].body).toBe("b");
@@ -123,7 +123,7 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].annotations).toEqual([]);
     expect(segments[1].body).toEqual("bb");
     expect(segments[1].annotations!.length).toEqual(1);
-    const anno1 = segments[1].annotations![0] as NestedAnnotationSegment;
+    const anno1 = segments[1].annotations![0] as NestedSegment;
     expect(anno1.body.id).toEqual("anno1");
     expect(anno1.depth).toEqual(1);
   });
@@ -187,7 +187,7 @@ describe("AnnotationSegmenter", () => {
 
     const segment1 = segments[0];
     expect(segment1.annotations!.length).toEqual(1);
-    const anno1 = segment1.annotations![0] as NestedAnnotationSegment;
+    const anno1 = segment1.annotations![0] as NestedSegment;
     expect(anno1.body.id).toEqual("anno1");
     expect(anno1.depth).toEqual(1);
 
@@ -196,7 +196,7 @@ describe("AnnotationSegmenter", () => {
     expect(segmentWithNoAnnotations.annotations).toEqual([]);
 
     expect(segments[2].annotations!.length).toEqual(1);
-    const anno2 = segments[2].annotations![0] as NestedAnnotationSegment;
+    const anno2 = segments[2].annotations![0] as NestedSegment;
     expect(anno2.body.id).toEqual("anno2");
     expect(anno2.depth).toEqual(1);
   });
@@ -229,7 +229,7 @@ describe("AnnotationSegmenter", () => {
     ]).segment();
 
     expect(segments.length).toEqual(1);
-    const a = segments[0].annotations![0] as NestedAnnotationSegment;
+    const a = segments[0].annotations![0] as NestedSegment;
     expect(segments[0].annotations!.length).toEqual(1);
     expect(a.depth).toEqual(1);
     expect(a.group.maxDepth).toEqual(1);
@@ -299,7 +299,7 @@ describe("AnnotationSegmenter", () => {
     expect(segments.length).toEqual(3);
     expect(segments[0].annotations!.length).toEqual(1);
 
-    const abc = segments[0].annotations![0] as NestedAnnotationSegment;
+    const abc = segments[0].annotations![0] as NestedSegment;
     expect(abc.body.id).toEqual("aabbcc");
     expect(abc.depth).toEqual(1);
     expect(abc.group.maxDepth).toEqual(3);
@@ -354,11 +354,11 @@ describe("AnnotationSegmenter", () => {
       },
     ]).segment();
 
-    const segment1aa = segments[0].annotations![0] as NestedAnnotationSegment;
+    const segment1aa = segments[0].annotations![0] as NestedSegment;
     expect(segment1aa.body.id).toEqual("aa");
     expect(segment1aa.group.id).toEqual(1);
 
-    const segment3cc = segments[2].annotations![0] as NestedAnnotationSegment;
+    const segment3cc = segments[2].annotations![0] as NestedSegment;
     expect(segment3cc.body.id).toEqual("cc");
     expect(segment3cc.group.id).toEqual(2);
   });
@@ -407,11 +407,11 @@ describe("AnnotationSegmenter", () => {
       },
     ]).segment();
 
-    const segment1aa = segments[0].annotations![0] as NestedAnnotationSegment;
+    const segment1aa = segments[0].annotations![0] as NestedSegment;
     expect(segment1aa.body.id).toEqual("aa");
     expect(segment1aa.group.id).toEqual(1);
 
-    const segment2bb = segments[1].annotations![0] as NestedAnnotationSegment;
+    const segment2bb = segments[1].annotations![0] as NestedSegment;
     expect(segment2bb.body.id).toEqual("bb");
     expect(segment2bb.group.id).toEqual(2);
   });
@@ -487,10 +487,10 @@ describe("AnnotationSegmenter", () => {
       },
     ]).segment();
 
-    const segment1high = segments[0].annotations![1] as NestedAnnotationSegment;
+    const segment1high = segments[0].annotations![1] as NestedSegment;
     expect(segment1high.group.id).toEqual(1);
 
-    const segment3cc = segments[2].annotations![1] as NestedAnnotationSegment;
+    const segment3cc = segments[2].annotations![1] as NestedSegment;
     expect(segment3cc.group.id).toEqual(2);
   });
 
@@ -556,12 +556,12 @@ describe("AnnotationSegmenter", () => {
     ]).segment();
 
     // ab is shorter than abc:
-    const segment1ab = segments[0].annotations![1] as NestedAnnotationSegment;
+    const segment1ab = segments[0].annotations![1] as NestedSegment;
     expect(segment1ab.body.id).toEqual("ab");
     expect(segment1ab.depth).toEqual(2);
 
     // ab keeps depth across segments:
-    const segment2ab = segments[1].annotations![1] as NestedAnnotationSegment;
+    const segment2ab = segments[1].annotations![1] as NestedSegment;
     expect(segment2ab.body.id).toEqual("ab");
     expect(segment2ab.depth).toEqual(2);
   });
@@ -632,7 +632,7 @@ describe("AnnotationSegmenter", () => {
       },
     ]).segment();
 
-    const ab = segments[0].annotations![0] as NestedAnnotationSegment;
+    const ab = segments[0].annotations![0] as NestedSegment;
     expect(ab.body.id).toEqual("ab");
     expect(ab.depth).toEqual(1);
     expect(ab.group.maxDepth).toEqual(3);
@@ -721,7 +721,7 @@ describe("AnnotationSegmenter", () => {
       },
     ]).segment();
 
-    const e = segments[4].annotations![1] as NestedAnnotationSegment;
+    const e = segments[4].annotations![1] as NestedSegment;
     expect(e.body.id).toEqual("e");
     expect(e.depth).toEqual(2);
   });
@@ -753,7 +753,7 @@ describe("AnnotationSegmenter", () => {
       },
     ]).segment();
 
-    const abc = segments[1].annotations![0] as NestedAnnotationSegment;
+    const abc = segments[1].annotations![0] as NestedSegment;
     expect(abc.body.id).toEqual("bc");
     expect(abc.startSegment).toEqual(1);
     expect(abc.endSegment).toEqual(2);
@@ -786,7 +786,7 @@ describe("AnnotationSegmenter", () => {
       },
     ]).segment();
 
-    const abc = segments[0].annotations![0] as NestedAnnotationSegment;
+    const abc = segments[0].annotations![0] as NestedSegment;
     expect(abc.body.id).toEqual("abc");
     expect(abc.startSegment).toEqual(0);
     expect(abc.endSegment).toEqual(1);

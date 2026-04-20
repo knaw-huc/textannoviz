@@ -18,6 +18,7 @@ import { AnnotatedText, TextOffsets } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
+import { NO_BLOCKS } from "./core/AnnotatedText.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -75,9 +76,10 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   return (
     <div className="whitespace-pre-wrap">
       <AnnotatedText
-        config={projectConfig.annotatedTextConfig}
-        body={textBody}
+        components={projectConfig.annotatedTextComponents}
+        text={textBody}
         offsets={offsets}
+        blockSchema={NO_BLOCKS}
       >
         <EntityModal />
       </AnnotatedText>

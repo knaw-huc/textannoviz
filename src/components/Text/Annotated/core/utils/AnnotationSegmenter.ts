@@ -6,10 +6,10 @@ import {
   HighlightSegment,
   isMarkerAnnotationOffset,
   isNestedAnnotationOffset,
-  isNestedAnnotationSegment,
+  isNestedSegment,
   isHighlightAnnotationOffset,
   MarkerSegment,
-  NestedAnnotationSegment,
+  NestedSegment,
   OffsetsByCharIndex,
   Segment,
 } from "../AnnotationModel.ts";
@@ -210,9 +210,8 @@ export class AnnotationSegmenter {
     _.remove(this.currentAnnotationSegments, (a) =>
       annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
-    const currentNested = this.currentAnnotationSegments.filter(
-      isNestedAnnotationSegment,
-    );
+    const currentNested =
+      this.currentAnnotationSegments.filter(isNestedSegment);
     this.currentAnnotationDepth = _.maxBy(currentNested, "depth")?.depth || 0;
 
     // Create new annotation group when all annotations are closed:
@@ -256,14 +255,14 @@ export class AnnotationSegmenter {
 
   private createNestedAnnotationSegment(
     startOffset: AnnotationOffset,
-  ): NestedAnnotationSegment {
+  ): NestedSegment {
     return {
       ...this.createSegmentOffsets(),
       depth: ++this.currentAnnotationDepth,
       group: this.annotationGroup,
       type: "annotation",
       body: startOffset.body,
-    } as NestedAnnotationSegment;
+    } as NestedSegment;
   }
 
   private createHighlightAnnotationSegment(

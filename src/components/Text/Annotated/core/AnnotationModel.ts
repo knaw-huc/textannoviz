@@ -100,7 +100,7 @@ export type MarkerSegment<MARKER extends Body = Body> =
 /**
  * Segment of a nested annotation as found in {@link Segment}
  */
-export type NestedAnnotationSegment<ANNOTATION extends Body = Body> =
+export type NestedSegment<ANNOTATION extends Body = Body> =
   AnnotationSegmentWithBodyAndOffsets<ANNOTATION> &
     Annotation & {
       /**
@@ -115,14 +115,14 @@ export type NestedAnnotationSegment<ANNOTATION extends Body = Body> =
  * using body.id and offsets (startSegment, endSegment)
  */
 export type AnnotationSegment =
-  | NestedAnnotationSegment
+  | NestedSegment
   | HighlightSegment
   | MarkerSegment
   | BlockSegment;
 
-export function isNestedAnnotationSegment(
+export function isNestedSegment(
   toTest: AnnotationSegment,
-): toTest is NestedAnnotationSegment {
+): toTest is NestedSegment {
   return toTest.type === "annotation";
 }
 

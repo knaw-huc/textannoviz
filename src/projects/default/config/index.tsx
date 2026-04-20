@@ -28,7 +28,7 @@ export const defaultConfig: DefaultProjectConfig = {
 
   annotationTypesToInclude: [],
   textHighlightingTypes: [],
-  annotatedTextConfig: defaultAnnotatedTextConfig,
+  annotatedTextComponents: defaultAnnotatedTextConfig,
   nestedTypes: [],
   highlightTypes: [],
   isMarker: () => false,
