@@ -32,15 +32,15 @@ type AnnotationQueue<T extends Body> = Map<
 >;
 
 export class BlockBuilder<T extends Body = Body> {
-  constructor(private readonly config: BlockSchema) {
-    if (!(config.root in config.blocks)) {
+  constructor(private readonly schema: BlockSchema) {
+    if (!(schema.root in schema.blocks)) {
       throw new Error("No root in block config found");
     }
   }
 
   build(segments: Segment[]): Element[] {
     const queue = this.createBlockQueue(segments);
-    return this.createBlocks(segments, this.config.root, queue);
+    return this.createBlocks(segments, this.schema.root, queue);
   }
 
   private createBlockQueue(segments: Segment[]): AnnotationQueue<T> {
@@ -70,7 +70,7 @@ export class BlockBuilder<T extends Body = Body> {
     if (!segments.length) {
       return [];
     }
-    const allowed = this.config.blocks[parent]?.blocks ?? [];
+    const allowed = this.schema.blocks[parent]?.blocks ?? [];
     if (!allowed.length) {
       return [this.createInline(segments)];
     }

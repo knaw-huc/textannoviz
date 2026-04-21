@@ -27,13 +27,8 @@ describe(BlockBuilder.name, () => {
     const secE = blk("s-E", "section");
     const segE = seg(4, [secE]);
 
-    const result = new BlockBuilder(blockSchema).build([
-      segA,
-      segB,
-      segC,
-      segD,
-      segE,
-    ]);
+    const segments = [segA, segB, segC, segD, segE];
+    const result = new BlockBuilder(blockSchema).build(segments);
 
     expect(result).toEqual([
       { isBlock: false, segments: [segA] },

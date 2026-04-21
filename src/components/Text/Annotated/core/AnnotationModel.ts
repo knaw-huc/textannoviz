@@ -10,6 +10,7 @@ export type Body = { id: AnnotationId };
 
 export type WithTypeAndBody<T extends Body = Body> = {
   type: AnnotationType;
+  blockType?: BlockType;
   body: T;
 };
 
@@ -172,3 +173,4 @@ export function isBlockAnnotationSegment(
 }
 
 export type BlockType = string;
+export type GetBlockType<T extends Body = Body> = (body: T) => BlockType;

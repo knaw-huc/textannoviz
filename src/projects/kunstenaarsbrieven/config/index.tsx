@@ -40,8 +40,8 @@ import { BlockSchema } from "../../../components/Text/Annotated/core";
 const blockSchema: BlockSchema = {
   root: "root",
   blocks: {
-    root: { blocks: ["paragraph"] },
-    paragraph: { blocks: [] },
+    root: { blocks: [paragraph] },
+    [paragraph]: { blocks: [] },
   },
 };
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(

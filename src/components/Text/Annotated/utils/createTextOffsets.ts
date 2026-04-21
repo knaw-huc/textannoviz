@@ -1,5 +1,5 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { TextOffsets } from "../core";
+import { BlockType, TextOffsets } from "../core";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
 export function createAnnotationTextOffsets(
@@ -38,12 +38,14 @@ export function createMarkerTextOffsets(
 export function createBlockTextOffsets(
   annotation: AnnoRepoAnnotation,
   relative: BroccoliRelativeAnno,
-) {
+  blockType: BlockType,
+): TextOffsets {
   return {
     type: "block" as const,
     body: annotation.body,
     beginChar: relative.begin ?? 0,
     endChar: relative.end,
+    blockType,
   };
 }
 

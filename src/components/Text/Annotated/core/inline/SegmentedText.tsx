@@ -4,9 +4,8 @@ import { SegmentGroup } from "./SegmentGroup.tsx";
 import { AnnotationSegmenter } from "../utils/AnnotationSegmenter.ts";
 import { groupSegmentsByGroupId } from "../utils/groupSegmentsByGroupId.ts";
 import { listOffsetsByChar } from "../utils/listOffsetsByChar.ts";
-import { BlockBuilder, BlockSchema } from "../block";
+import { Block, BlockBuilder, BlockSchema, Element, Inline } from "../block";
 import { useAnnotatedTextConfig } from "../useAnnotatedTextConfig.tsx";
-import { Element, Inline, Block as BlockModel } from "../block";
 
 type SegmentedTextProps = {
   body: string;
@@ -22,10 +21,10 @@ export function SegmentedText(props: SegmentedTextProps) {
 
   useEffect(() => {
     const segments = new AnnotationSegmenter(body, offsetsByChar).segment();
-    const builder = new BlockBuilder(blockSchema);
-    setElements(builder.build(segments));
+    const elements = new BlockBuilder(blockSchema).build(segments);
+    setElements(elements);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [body]);
 
   return (
     <span style={{ display: "block" }}>
@@ -49,7 +48,7 @@ function InlineElement(props: { inline: Inline }) {
   return grouped.map((group, i) => <SegmentGroup key={i} group={group} />);
 }
 
-function BlockElement(props: { block: BlockModel }) {
+function BlockElement(props: { block: Block }) {
   const { Block } = useAnnotatedTextConfig();
   return (
     <Block block={props.block.annotation}>

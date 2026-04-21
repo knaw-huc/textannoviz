@@ -10,6 +10,7 @@ import {
  *
  * Excluding last character (see note {@link TextOffsets})
  */
+// TODO: Replace OffsetsByCharIndex with TextOffsets, or vice versa: unify model
 export function listOffsetsByChar(
   offsets: TextOffsets[],
 ): OffsetsByCharIndex[] {
@@ -20,6 +21,7 @@ export function listOffsetsByChar(
       mark: "start",
       type: offset.type,
       body: offset.body,
+      blockType: offset.blockType,
     };
     const offsetsAtStartChar = annotationPositions.get(offset.beginChar);
     if (offsetsAtStartChar) {

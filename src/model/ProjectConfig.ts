@@ -1,7 +1,6 @@
 import {
   AnyAnnotatedTextComponents,
   BlockSchema,
-  BlockType,
 } from "../components/Text/Annotated/core";
 import { EntitySummaryProps } from "./EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
@@ -21,6 +20,7 @@ import {
   VanGoghSearchResultsBody,
 } from "./Search.ts";
 import type { JSX } from "react";
+import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
 
 export type PanelRegion = "left" | "main" | "right";
 export type DetailPanelConfig = {
@@ -205,7 +205,7 @@ type AnnotationConfig = {
   isMarker: (body: AnnoRepoBodyBase) => boolean;
 
   isBlock: (body: AnnoRepoBodyBase) => boolean;
-  getBlockType: (body: AnnoRepoBodyBase) => BlockType;
+  getBlockType: GetBlockType<AnnoRepoBodyBase>;
 
   /**
    * Entities, clickable, styled and displayed in the EntityModal

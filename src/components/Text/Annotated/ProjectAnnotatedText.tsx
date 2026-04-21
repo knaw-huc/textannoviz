@@ -27,7 +27,8 @@ type TextHighlightingProps = {
 
 export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { nestedTypes, highlightTypes, isMarker, isBlock } = projectConfig;
+  const { nestedTypes, highlightTypes, isMarker, isBlock, getBlockType } =
+    projectConfig;
   const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
   const annotations = useAnnotationStore().annotations.filter((a) => {
     if (typesToInclude.includes(a.body.type)) {
@@ -72,12 +73,13 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
       createMarkerTextOffsets(annotation, relative),
     );
   offsets.push(...markerAnnotations);
-
+  console.log(`${ProjectAnnotatedText.name}:`);
   const blockAnnotations = withRelative
     .filter(({ annotation }) => isBlock(annotation.body))
-    .map(({ annotation, relative }) =>
-      createBlockTextOffsets(annotation, relative),
-    );
+    .map(({ annotation, relative }) => {
+      const blockType = getBlockType(annotation.body);
+      return createBlockTextOffsets(annotation, relative, blockType);
+    });
   offsets.push(...blockAnnotations);
   return (
     <div className="whitespace-pre-wrap">
