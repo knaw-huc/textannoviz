@@ -25,56 +25,6 @@ export type TextOffsets<T extends Body = Body> = WithTypeAndBody<T> & {
 };
 
 /**
- * Single (start or end) offset
- */
-export type AnnotationOffset<T extends Body = Body> = WithTypeAndBody<T> & {
-  charIndex: number;
-  mark: "start" | "end";
-};
-
-type Annotation = { type: "annotation" };
-type Highlight = { type: "highlight" };
-type Marker = { type: "marker" };
-type Block = { type: "block"; blockType: BlockType };
-
-export type NestedAnnotationOffset = AnnotationOffset & Annotation;
-
-export function isNestedAnnotationOffset(
-  toTest: AnnotationOffset,
-): toTest is NestedAnnotationOffset {
-  return toTest.type === "annotation";
-}
-
-export type HighlightAnnotationOffset = AnnotationOffset & Highlight;
-export function isHighlightAnnotationOffset(
-  toTest: AnnotationOffset,
-): toTest is HighlightAnnotationOffset {
-  return toTest.type === "highlight";
-}
-
-export type BlockAnnotationOffset = AnnotationOffset & Block;
-export function isBlockAnnotationOffset(
-  toTest: AnnotationOffset,
-): toTest is BlockAnnotationOffset {
-  return toTest.type === "block";
-}
-
-export type MarkerAnnotationOffset = AnnotationOffset & Marker;
-
-export function isMarkerAnnotationOffset(
-  toTest: AnnotationOffset,
-): toTest is MarkerAnnotationOffset {
-  return toTest.type === "marker";
-}
-
-export type CharIndex = number;
-
-export type OffsetsByCharIndex = {
-  charIndex: CharIndex;
-  offsets: AnnotationOffset[];
-};
-
-/**
  * Group of annotations connected by nesting or overlapping annotations
  */
 export type AnnotationGroup = {
@@ -95,6 +45,11 @@ export type WithSegmentOffsets = {
  */
 export type AnnotationSegmentWithBodyAndOffsets<T extends Body = Body> =
   WithTypeAndBody<T> & WithSegmentOffsets;
+
+type Annotation = { type: "annotation" };
+type Highlight = { type: "highlight" };
+type Marker = { type: "marker" };
+type Block = { type: "block"; blockType: BlockType };
 
 /**
  * Marker and highlight 'annotations' aren't part of nested annotations
@@ -161,10 +116,7 @@ export type GroupedSegments = {
 };
 
 export type BlockSegment<T extends Body = Body> =
-  AnnotationSegmentWithBodyAndOffsets<T> & {
-    type: "block";
-    blockType: BlockType;
-  };
+  AnnotationSegmentWithBodyAndOffsets<T> & Block;
 
 export function isBlockAnnotationSegment(
   toTest: AnnotationSegment,

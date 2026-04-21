@@ -1,28 +1,58 @@
 import { describe, expect, it } from "vitest";
 import {
   body,
-  offsetsByCharIndex,
+  annotations,
 } from "../test/resources/dummyLogicalTextAnnotations.ts";
 import {
+  BlockSegment,
   Body,
   MarkerSegment,
   NestedSegment,
-  OffsetsByCharIndex,
+  TextOffsets,
 } from "../AnnotationModel.ts";
 import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
 
+function anno(id: string, beginChar: number, endChar: number): TextOffsets {
+  return { type: "annotation", body: { id } as Body, beginChar, endChar };
+}
+
+function hi(id: string, beginChar: number, endChar: number): TextOffsets {
+  return { type: "highlight", body: { id } as Body, beginChar, endChar };
+}
+
+function mk(id: string, charIndex: number): TextOffsets {
+  return {
+    type: "marker",
+    body: { id } as Body,
+    beginChar: charIndex,
+    endChar: charIndex,
+  };
+}
+
+function block(
+  id: string,
+  beginChar: number,
+  endChar: number,
+  blockType: string,
+): TextOffsets {
+  return {
+    type: "block",
+    body: { id } as Body,
+    beginChar,
+    endChar,
+    blockType,
+  };
+}
+
 describe("AnnotationSegmenter", () => {
   it("starts with segment of text without annotations when no annotation found", () => {
-    const result = new AnnotationSegmenter(body, offsetsByCharIndex).segment();
+    const result = new AnnotationSegmenter(body, annotations).segment();
     expect(result[0].body).toEqual("aa");
     expect(result[0].annotations).toEqual([]);
   });
 
   it("creates segment of text with annotation", () => {
-    const segments = new AnnotationSegmenter(
-      body,
-      offsetsByCharIndex,
-    ).segment();
+    const segments = new AnnotationSegmenter(body, annotations).segment();
 
     expect(segments[1].body).toEqual("bb");
     expect(segments[1].annotations!.length).toEqual(1);
@@ -32,10 +62,7 @@ describe("AnnotationSegmenter", () => {
   });
 
   it("creates segment of text with multiple annotations", () => {
-    const segments = new AnnotationSegmenter(
-      body,
-      offsetsByCharIndex,
-    ).segment();
+    const segments = new AnnotationSegmenter(body, annotations).segment();
     expect(segments[2].body).toEqual("cc");
     const annotationsIdAndDepth = segments[2].annotations!.map((a) => ({
       id: a.body.id,
@@ -50,10 +77,7 @@ describe("AnnotationSegmenter", () => {
   });
 
   it("ends with segment of text without annotations when no annotation found", () => {
-    const segments = new AnnotationSegmenter(
-      body,
-      offsetsByCharIndex,
-    ).segment();
+    const segments = new AnnotationSegmenter(body, annotations).segment();
     expect(segments[4].body).toEqual("ee");
     expect(segments[4].annotations).toEqual([]);
   });
@@ -61,28 +85,7 @@ describe("AnnotationSegmenter", () => {
   it("can start with and end without annotation", () => {
     // <anno1>aa</anno1>b
     const segments = new AnnotationSegmenter("aab", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "anno1" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "end",
-            type: "annotation",
-            body: { id: "anno1" } as Body,
-          },
-        ],
-      },
+      anno("anno1", 0, 2),
     ]).segment();
     expect(segments[0].body).toEqual("aa");
     expect(segments[0].annotations!.length).toEqual(1);
@@ -96,28 +99,7 @@ describe("AnnotationSegmenter", () => {
   it("can start without and end with annotation", () => {
     // a<anno1>bb</anno1>
     const segments = new AnnotationSegmenter("abb", [
-      {
-        charIndex: 1,
-        offsets: [
-          {
-            charIndex: 1,
-            mark: "start",
-            type: "annotation",
-            body: { id: "anno1" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 3,
-        offsets: [
-          {
-            charIndex: 3,
-            mark: "end",
-            type: "annotation",
-            body: { id: "anno1" } as Body,
-          },
-        ],
-      },
+      anno("anno1", 1, 3),
     ]).segment();
     expect(segments[0].body).toEqual("a");
     expect(segments[0].annotations).toEqual([]);
@@ -138,50 +120,8 @@ describe("AnnotationSegmenter", () => {
   it("keeps annotationless text in between annotations", () => {
     // <aa>bb<cc>
     const segments = new AnnotationSegmenter("aabbcc", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "anno1" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "end",
-            type: "annotation",
-            body: { id: "anno1" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 4,
-        offsets: [
-          {
-            charIndex: 4,
-            mark: "start",
-            type: "annotation",
-            body: { id: "anno2" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "anno2" } as Body,
-          },
-        ],
-      },
+      anno("anno1", 0, 2),
+      anno("anno2", 4, 6),
     ]).segment();
     expect(segments.length).toEqual(3);
 
@@ -203,30 +143,7 @@ describe("AnnotationSegmenter", () => {
 
   it("creates group for single annotation with depth=1 and maxDepth=1", () => {
     // <a>aa</a>
-    const segments = new AnnotationSegmenter("aa", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "a" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "end",
-            type: "annotation",
-            body: { id: "a" } as Body,
-          },
-        ],
-      },
-    ]).segment();
+    const segments = new AnnotationSegmenter("aa", [anno("a", 0, 2)]).segment();
 
     expect(segments.length).toEqual(1);
     const a = segments[0].annotations![0] as NestedSegment;
@@ -238,62 +155,9 @@ describe("AnnotationSegmenter", () => {
   it("shares maximum annotation depth with group of connected annotations", () => {
     // <aa<bb<cc>>>
     const segments = new AnnotationSegmenter("aabbcc", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "aabbcc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "start",
-            type: "annotation",
-            body: { id: "bbcc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 4,
-        offsets: [
-          {
-            charIndex: 4,
-            mark: "start",
-            type: "annotation",
-            body: { id: "cc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "cc" } as Body,
-          },
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "bbcc" } as Body,
-          },
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "aabbcc" } as Body,
-          },
-        ],
-      },
+      anno("aabbcc", 0, 6),
+      anno("bbcc", 2, 6),
+      anno("cc", 4, 6),
     ]).segment();
 
     expect(segments.length).toEqual(3);
@@ -308,50 +172,8 @@ describe("AnnotationSegmenter", () => {
   it("creates new group after annotation-less part of text", () => {
     // <a>aa</a>bb<c>cc</c>
     const segments = new AnnotationSegmenter("aabbcc", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "aa" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "end",
-            type: "annotation",
-            body: { id: "aa" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 4,
-        offsets: [
-          {
-            charIndex: 4,
-            mark: "start",
-            type: "annotation",
-            body: { id: "cc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "cc" } as Body,
-          },
-        ],
-      },
+      anno("aa", 0, 2),
+      anno("cc", 4, 6),
     ]).segment();
 
     const segment1aa = segments[0].annotations![0] as NestedSegment;
@@ -366,45 +188,8 @@ describe("AnnotationSegmenter", () => {
   it("creates new group when no annotations are overlapping or connected", () => {
     // <aa><bb>
     const segments = new AnnotationSegmenter("aabb", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "aa" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "end",
-            type: "annotation",
-            body: { id: "aa" } as Body,
-          },
-          {
-            charIndex: 2,
-            mark: "start",
-            type: "annotation",
-            body: { id: "bb" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 4,
-        offsets: [
-          {
-            charIndex: 4,
-            mark: "end",
-            type: "annotation",
-            body: { id: "bb" } as Body,
-          },
-        ],
-      },
+      anno("aa", 0, 2),
+      anno("bb", 2, 4),
     ]).segment();
 
     const segment1aa = segments[0].annotations![0] as NestedSegment;
@@ -425,66 +210,9 @@ describe("AnnotationSegmenter", () => {
      * </highlight>
      */
     const segments = new AnnotationSegmenter("aabbcc", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "aa" } as Body,
-          },
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "highlight",
-            body: {
-              id: "high",
-            } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "end",
-            type: "annotation",
-            body: { id: "aa" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 4,
-        offsets: [
-          {
-            charIndex: 4,
-            mark: "start",
-            type: "annotation",
-            body: { id: "cc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "cc" } as Body,
-          },
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "highlight",
-            body: {
-              id: "high",
-            } as Body,
-          },
-        ],
-      },
+      anno("aa", 0, 2),
+      hi("high", 0, 6),
+      anno("cc", 4, 6),
     ]).segment();
 
     const segment1high = segments[0].annotations![1] as NestedSegment;
@@ -497,62 +225,9 @@ describe("AnnotationSegmenter", () => {
   it("sorts annotations by length when starting at the same char index", () => {
     // <abc><ab>aa<bc>bb</ab>cc</abc></bc>
     const segments = new AnnotationSegmenter("aabbcc", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "abc" } as Body,
-          },
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "ab" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "start",
-            body: { id: "bc" } as Body,
-            type: "annotation",
-          },
-        ],
-      },
-      {
-        charIndex: 4,
-        offsets: [
-          {
-            charIndex: 4,
-            mark: "end",
-            type: "annotation",
-            body: { id: "ab" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "abc" } as Body,
-          },
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "bc" } as Body,
-          },
-        ],
-      },
+      anno("abc", 0, 6),
+      anno("ab", 0, 4),
+      anno("bc", 2, 6),
     ]).segment();
 
     // ab is shorter than abc:
@@ -569,67 +244,9 @@ describe("AnnotationSegmenter", () => {
   it("supports two overlapping annotations", () => {
     // <ab>aa<bc>bb</ab><cd>cc</bc>dd</cd>
     const segments = new AnnotationSegmenter("aabbccdd", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "ab" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "start",
-            type: "annotation",
-            body: { id: "bc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 4,
-        offsets: [
-          {
-            charIndex: 4,
-            mark: "end",
-            body: { id: "ab" } as Body,
-            type: "annotation",
-          },
-          {
-            charIndex: 4,
-            mark: "start",
-            body: { id: "cd" } as Body,
-            type: "annotation",
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "bc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 8,
-        offsets: [
-          {
-            charIndex: 8,
-            mark: "end",
-            type: "annotation",
-            body: { id: "cd" } as Body,
-          },
-        ],
-      },
+      anno("ab", 0, 4),
+      anno("bc", 2, 6),
+      anno("cd", 4, 8),
     ]).segment();
 
     const ab = segments[0].annotations![0] as NestedSegment;
@@ -641,84 +258,10 @@ describe("AnnotationSegmenter", () => {
   it("resets depth correctly after closing two overlapping annotations", () => {
     // <abcde><ab>aa<bc>bb</ab>cc</bc>dd<e>ee</e></abcde>
     const segments = new AnnotationSegmenter("aabbccddee", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "abcde" } as Body,
-          },
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "ab" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "start",
-            type: "annotation",
-            body: { id: "bc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 4,
-        offsets: [
-          {
-            charIndex: 4,
-            mark: "end",
-            type: "annotation",
-            body: { id: "ab" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "bc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 8,
-        offsets: [
-          {
-            charIndex: 8,
-            mark: "start",
-            type: "annotation",
-            body: { id: "e" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 10,
-        offsets: [
-          {
-            charIndex: 10,
-            mark: "end",
-            type: "annotation",
-            body: { id: "e" } as Body,
-          },
-          {
-            charIndex: 10,
-            mark: "end",
-            type: "annotation",
-            body: { id: "abcde" } as Body,
-          },
-        ],
-      },
+      anno("abcde", 0, 10),
+      anno("ab", 0, 4),
+      anno("bc", 2, 6),
+      anno("e", 8, 10),
     ]).segment();
 
     const e = segments[4].annotations![1] as NestedSegment;
@@ -729,28 +272,7 @@ describe("AnnotationSegmenter", () => {
   it("sets start and end segment", () => {
     // aa<bc>bbcc</bc>dd
     const segments = new AnnotationSegmenter("aabbccdd", [
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "start",
-            type: "annotation",
-            body: { id: "bc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "bc" } as Body,
-          },
-        ],
-      },
+      anno("bc", 2, 6),
     ]).segment();
 
     const abc = segments[1].annotations![0] as NestedSegment;
@@ -762,28 +284,7 @@ describe("AnnotationSegmenter", () => {
   it("sets start and end segment when opening and closing at first and last segment", () => {
     // <abc>aabbcc</abc>
     const segments = new AnnotationSegmenter("aabbcc", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "annotation",
-            body: { id: "abc" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 6,
-        offsets: [
-          {
-            charIndex: 6,
-            mark: "end",
-            type: "annotation",
-            body: { id: "abc" } as Body,
-          },
-        ],
-      },
+      anno("abc", 0, 6),
     ]).segment();
 
     const abc = segments[0].annotations![0] as NestedSegment;
@@ -795,23 +296,7 @@ describe("AnnotationSegmenter", () => {
   it("creates empty note marker segment with endSegment equal to startSegment", () => {
     // aa*bb
     const segments = new AnnotationSegmenter("aabb", [
-      {
-        charIndex: 2,
-        offsets: [
-          {
-            charIndex: 2,
-            mark: "start",
-            type: "marker",
-            body: { id: "urn:foo:ptr:1" },
-          },
-          {
-            charIndex: 2,
-            mark: "end",
-            type: "marker",
-            body: { id: "urn:foo:ptr:1" },
-          },
-        ],
-      },
+      mk("urn:foo:ptr:1", 2),
     ]).segment();
     expect(segments.length).toBe(3);
     const markerSegment = segments[1];
@@ -824,28 +309,7 @@ describe("AnnotationSegmenter", () => {
   it("can contain bodiless marker", () => {
     // a[marker1]b
     const segments = new AnnotationSegmenter("ab", [
-      {
-        charIndex: 1,
-        offsets: [
-          {
-            charIndex: 1,
-            mark: "start",
-            type: "marker",
-            body: { id: "marker1" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 1,
-        offsets: [
-          {
-            charIndex: 1,
-            mark: "end",
-            type: "marker",
-            body: { id: "anno1" } as Body,
-          },
-        ],
-      },
+      mk("marker1", 1),
     ]).segment();
     expect(segments.length).toEqual(3);
     expect(segments[1].body).toEqual("");
@@ -856,60 +320,14 @@ describe("AnnotationSegmenter", () => {
 
   it("can contain bodiless marker after last char", () => {
     // a[marker1]
-    const segments = new AnnotationSegmenter("a", [
-      {
-        charIndex: 1,
-        offsets: [
-          {
-            charIndex: 1,
-            mark: "start",
-            type: "marker",
-            body: { id: "marker1" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 1,
-        offsets: [
-          {
-            charIndex: 1,
-            mark: "end",
-            type: "marker",
-            body: { id: "marker1" } as Body,
-          },
-        ],
-      },
-    ]).segment();
+    const segments = new AnnotationSegmenter("a", [mk("marker1", 1)]).segment();
     expect(segments.length).toEqual(2);
     expect(segments[1].annotations[0].body.id).toEqual("marker1");
   });
 
   it("creates one text segment when empty text contains marker", () => {
     // [marker1]
-    const segments = new AnnotationSegmenter("", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "marker",
-            body: { id: "marker1" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "end",
-            type: "marker",
-            body: { id: "marker1" } as Body,
-          },
-        ],
-      },
-    ]).segment();
+    const segments = new AnnotationSegmenter("", [mk("marker1", 0)]).segment();
     expect(segments.length).toEqual(1);
     expect(segments[0].annotations.length).toEqual(1);
     expect(segments[0].annotations[0].body.id).toEqual("marker1");
@@ -917,30 +335,7 @@ describe("AnnotationSegmenter", () => {
 
   it("creates two text segments when single space contains marker at char 0", () => {
     // [marker1]<space>
-    const segments = new AnnotationSegmenter(" ", [
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "start",
-            type: "marker",
-            body: { id: "marker1" } as Body,
-          },
-        ],
-      },
-      {
-        charIndex: 0,
-        offsets: [
-          {
-            charIndex: 0,
-            mark: "end",
-            type: "marker",
-            body: { id: "marker1" } as Body,
-          },
-        ],
-      },
-    ]).segment();
+    const segments = new AnnotationSegmenter(" ", [mk("marker1", 0)]).segment();
     expect(segments.length).toEqual(2);
     expect(segments[0].body).toBe("");
     expect(segments[0].annotations.length).toEqual(1);
@@ -950,63 +345,45 @@ describe("AnnotationSegmenter", () => {
   });
 
   it("Includes marker segment when indexing segments", () => {
-    const testData = {
-      t: "schetsen.\n\n020 – Isaac Israëls, Vrouwenkop in profiel, 1895. Van Gogh Museum, Amsterdam. (Ill. 14)\n\n049 – Isaac Israëls, Boerin die een juk draagt, 1897",
-      oTest: [
-        {
-          charIndex: 13,
-          offsets: [
-            {
-              charIndex: 13,
-              mark: "start",
-              type: "annotation",
-              body: { id: "id1" },
-            },
-            {
-              charIndex: 13,
-              mark: "start",
-              type: "highlight",
-              body: { id: "id2" },
-            },
-            {
-              charIndex: 13,
-              mark: "start",
-              type: "marker",
-              body: { id: "id3" },
-            },
-            { charIndex: 13, mark: "end", type: "marker", body: { id: "id3" } },
-          ],
-        },
-        {
-          charIndex: 16,
-          offsets: [
-            {
-              charIndex: 16,
-              mark: "end",
-              type: "annotation",
-              body: { id: "id1" },
-            },
-          ],
-        },
-        {
-          charIndex: 100,
-          offsets: [
-            {
-              charIndex: 100,
-              mark: "end",
-              type: "highlight",
-              body: { id: "id2" },
-            },
-          ],
-        },
-      ],
-    };
-    const text = testData.t;
-    const offsets = structuredClone(testData.oTest) as OffsetsByCharIndex[];
-    const segments = new AnnotationSegmenter(text, offsets).segment();
+    const text =
+      "schetsen.\n\n020 – Isaac Israëls, Vrouwenkop in profiel, 1895. Van Gogh Museum, Amsterdam. (Ill. 14)\n\n049 – Isaac Israëls, Boerin die een juk draagt, 1897";
+    const segments = new AnnotationSegmenter(text, [
+      anno("id1", 13, 16),
+      hi("id2", 13, 100),
+      mk("id3", 13),
+    ]).segment();
     const segmentWithMarker = segments[1];
     expect(segmentWithMarker.index).toBe(1);
     const segmentAfterMarker = segments[2];
     expect(segmentAfterMarker.index).toBe(2);
+  });
+
+  it("creates block annotation segment", () => {
+    const segments = new AnnotationSegmenter("aabb", [
+      block("b1", 0, 4, "paragraph"),
+    ]).segment();
+    expect(segments.length).toBe(1);
+    expect(segments[0].annotations.length).toBe(1);
+    const b = segments[0].annotations[0] as BlockSegment;
+    expect(b.type).toBe("block");
+    expect(b.body.id).toBe("b1");
+    expect(b.blockType).toBe("paragraph");
+  });
+
+  it("creates segments with mixed annotation types", () => {
+    // <anno>aa[marker]bb</anno><highlight>cc</highlight>
+    const segments = new AnnotationSegmenter("aabbcc", [
+      anno("a1", 0, 4),
+      mk("m1", 2),
+      hi("h1", 4, 6),
+    ]).segment();
+    expect(segments.length).toBe(4);
+    expect(segments[0].body).toBe("aa");
+    expect(segments[0].annotations[0].type).toBe("annotation");
+    expect(segments[1].body).toBe("");
+    expect(segments[1].annotations[0].type).toBe("marker");
+    expect(segments[2].body).toBe("bb");
+    expect(segments[3].body).toBe("cc");
+    expect(segments[3].annotations[0].type).toBe("highlight");
   });
 });

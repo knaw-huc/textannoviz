@@ -3,7 +3,6 @@ import { TextOffsets } from "../AnnotationModel.ts";
 import { SegmentGroup } from "./SegmentGroup.tsx";
 import { AnnotationSegmenter } from "../utils/AnnotationSegmenter.ts";
 import { groupSegmentsByGroupId } from "../utils/groupSegmentsByGroupId.ts";
-import { listOffsetsByChar } from "../utils/listOffsetsByChar.ts";
 import { Block, BlockBuilder, BlockSchema, Element, Inline } from "../block";
 import { useAnnotatedTextConfig } from "../useAnnotatedTextConfig.tsx";
 
@@ -17,10 +16,8 @@ export function SegmentedText(props: SegmentedTextProps) {
   const { body, offsets, blockSchema } = props;
   const [elements, setElements] = useState<Element[]>([]);
 
-  const offsetsByChar = listOffsetsByChar(offsets);
-
   useEffect(() => {
-    const segments = new AnnotationSegmenter(body, offsetsByChar).segment();
+    const segments = new AnnotationSegmenter(body, offsets).segment();
     const elements = new BlockBuilder(blockSchema).build(segments);
     setElements(elements);
     // eslint-disable-next-line react-hooks/exhaustive-deps

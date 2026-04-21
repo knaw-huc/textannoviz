@@ -1,8 +1,4 @@
-import {
-  Body,
-  OffsetsByCharIndex,
-  TextOffsets,
-} from "../../AnnotationModel.ts";
+import { Body, TextOffsets } from "../../AnnotationModel.ts";
 
 /**
  * aa<anno1>bb<anno2><anno3>cc</anno2></anno1>dd</anno3>ee
@@ -35,64 +31,5 @@ export const annotations: TextOffsets[] = [
     body: { id: "anno3" } as Body,
     beginChar: 4,
     endChar: 8,
-  },
-];
-
-export const offsetsByCharIndex: OffsetsByCharIndex[] = [
-  {
-    charIndex: 2,
-    offsets: [
-      {
-        charIndex: 2,
-        mark: "start",
-        type: "annotation",
-        body: { id: "anno1" } as Body,
-      },
-    ],
-  },
-  {
-    charIndex: 4,
-    offsets: [
-      {
-        charIndex: 4,
-        mark: "start",
-        type: "annotation",
-        body: { id: "anno2" } as Body,
-      },
-      {
-        charIndex: 4,
-        mark: "start",
-        type: "annotation",
-        body: { id: "anno3" } as Body,
-      },
-    ],
-  },
-  {
-    charIndex: 6,
-    offsets: [
-      {
-        charIndex: 6,
-        mark: "end",
-        type: "annotation",
-        body: { id: "anno1" } as Body,
-      },
-      {
-        charIndex: 6,
-        mark: "end",
-        type: "annotation",
-        body: { id: "anno2" } as Body,
-      },
-    ],
-  },
-  {
-    charIndex: 8,
-    offsets: [
-      {
-        charIndex: 8,
-        mark: "end",
-        type: "annotation",
-        body: { id: "anno3" } as Body,
-      },
-    ],
   },
 ];

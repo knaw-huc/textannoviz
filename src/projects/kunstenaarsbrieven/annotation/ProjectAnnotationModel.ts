@@ -168,11 +168,10 @@ export type BibliographyReferenceBody = AnnoRepoBodyBase & {
 export const isBibliographyReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is BibliographyReferenceBody => {
-  const result =
+  return (
     isReference(toTest) &&
-    (toTest as BibliographyReferenceBody).subtype === "BibReference";
-
-  return result;
+    (toTest as BibliographyReferenceBody).subtype === "BibReference"
+  );
 };
 
 export type LetterReferenceBody = AnnoRepoBodyBase & {
