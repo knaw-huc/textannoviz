@@ -34,8 +34,9 @@ import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 import { filterPanels } from "../filterPanels.ts";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
-import { KunstenaarsbrievenBlock } from "../annotation/KunstenaarsBrievenBlock.tsx";
+import { KunstenaarsbrievenBlock } from "../annotation/KunstenaarsbrievenBlock.tsx";
 import { BlockSchema } from "../../../components/Text/Annotated/core";
+import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
 
 const blockSchema: BlockSchema = {
   root: "root",
@@ -64,6 +65,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       ...defaultAnnotatedTextComponents,
       Marker: KunstenaarsbrievenMarker,
       Block: KunstenaarsbrievenBlock,
+      Highlight: KunstenaarsbrievenHighlight,
     },
     highlightTypes: projectHighlightedTypes,
     nestedTypes: projectEntityTypes,
