@@ -35,6 +35,7 @@ export const teiArtwork = "artwork";
 export const teiIll = "ill";
 export const teiNote = "note";
 export const unknown = "unknown";
+export const whitespace = "Whitespace";
 
 export type ArtworkBody = AnnoRepoBodyBase & {
   type: typeof entity;
@@ -149,6 +150,14 @@ export const isReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is ReferenceBody => !!toTest && toTest.type === reference;
 
+export type WhitespaceBody = AnnoRepoBodyBase & {
+  type: typeof whitespace;
+  isTextSuffix: boolean;
+};
+export const isWhitespace = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is WhitespaceBody => !!toTest && toTest.type === whitespace;
+
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   id: string;
   url: string;
@@ -179,7 +188,6 @@ export const isLetterReference = (
   const result =
     isReference(toTest) &&
     (toTest as LetterReferenceBody).subtype === "LetterReference";
-
   return result;
 };
 
@@ -253,6 +261,7 @@ export const projectHighlightedTypes = [
   caption,
   term,
   supplied,
+  whitespace,
 ];
 export const projectTooltipMarkerAnnotationTypes = [reference];
 export const projectPageMarkerAnnotationTypes = [page];
@@ -303,9 +312,16 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
 
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   if (
-    [head, caption, label, listItem, quote, term, supplied].includes(
-      annoRepoBody.type,
-    )
+    [
+      head,
+      caption,
+      label,
+      listItem,
+      quote,
+      term,
+      supplied,
+      whitespace,
+    ].includes(annoRepoBody.type)
   ) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {

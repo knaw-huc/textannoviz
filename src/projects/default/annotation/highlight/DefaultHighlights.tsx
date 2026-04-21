@@ -15,6 +15,7 @@ import {
 import _ from "lodash";
 import { TocHeader } from "./TocHeader.tsx";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
+import { isWhitespace } from "../../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 export function DefaultHighlights(props: HighlightProps<HighlightBody>) {
   const { highlights, segment, children } = props;
@@ -44,6 +45,13 @@ export function DefaultHighlights(props: HighlightProps<HighlightBody>) {
   }
 
   const classNames = _.uniq(allClasses).map(normalizeClassname);
+  const isWhitespaceMarkup = highlights.every(
+    (h) => isWhitespace(h.body) && h.body.isTextSuffix,
+  );
+
+  if (isWhitespaceMarkup) {
+    return <span className="whitespace-markup">{children}</span>;
+  }
 
   if (tocId) {
     return (

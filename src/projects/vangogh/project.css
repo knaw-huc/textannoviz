@@ -22,6 +22,18 @@
   font-style: italic;
 }
 
+/* Whitespace styling */
+.text-segment {
+  &:has(> .annotated-segment > .highlight-whitespace) {
+    line-height: 1em;
+    display: block;
+  }
+
+  &:has(> .annotated-segment > .whitespace-markup) {
+    display: none;
+  }
+}
+
 .highlight-supplied::before {
   content: "[";
   position: relative;
