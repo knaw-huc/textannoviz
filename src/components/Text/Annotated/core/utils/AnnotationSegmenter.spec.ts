@@ -381,6 +381,21 @@ describe("AnnotationSegmenter", () => {
 
     expect(e1.group.id).toBe(1);
   });
+
+  it("keeps (block) annotation order in place", () => {
+    // <section><p>aa</p></section>
+    const segments = new AnnotationSegmenter("aab", [
+      blk("s1", 0, 2, "section"),
+      blk("p1", 0, 2, "p"),
+    ]).segment();
+
+    const blocks = segments[0].annotations.filter(
+      (a) => a.type === "block",
+    ) as BlockAnnotationSegment[];
+
+    expect(blocks[0].body.id).toBe("s1");
+    expect(blocks[1].body.id).toBe("p1");
+  });
 });
 
 function ann(id: string, beginChar: number, endChar: number): TextOffsets {
