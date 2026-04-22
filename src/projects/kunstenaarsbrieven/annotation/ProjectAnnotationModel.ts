@@ -252,8 +252,8 @@ export function findLetterBody(
   }
 }
 
-export const projectEntityTypes = [entity, reference];
-export const projectHighlightedTypes = [
+export const entityTypes = [entity, reference];
+export const highlightTypes = [
   highlight,
   listItem,
   quote,
@@ -262,26 +262,26 @@ export const projectHighlightedTypes = [
   supplied,
   whitespace,
 ];
-export const projectTooltipMarkerAnnotationTypes = [reference];
-export const projectPageMarkerAnnotationTypes = [page];
-export const projectInsertTextMarkerAnnotationTypes = [picture, head];
-export const projectBlockTypes = [paragraph, head];
+export const tooltipMarkerTypes = [reference];
+export const pageMarkerTypes = [page];
+export const insertMarkerTypes = [picture, head];
+export const blockTypes = [paragraph, head];
 
-export const projectAnnotationTypesToInclude = [
+export const typesToInclude = [
   ...new Set([
-    ...projectInsertTextMarkerAnnotationTypes,
-    ...projectPageMarkerAnnotationTypes,
-    ...projectTooltipMarkerAnnotationTypes,
-    ...projectHighlightedTypes,
-    ...projectEntityTypes,
-    ...projectBlockTypes,
+    ...insertMarkerTypes,
+    ...pageMarkerTypes,
+    ...tooltipMarkerTypes,
+    ...highlightTypes,
+    ...entityTypes,
+    ...blockTypes,
   ]),
 ];
 
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
 ): toTest is IsraelsEntityBody => {
-  return projectEntityTypes.includes(toTest.type);
+  return entityTypes.includes(toTest.type);
 };
 
 export const isPerson = (toTest: AnnoRepoBodyBase): toTest is PersonBody => {
