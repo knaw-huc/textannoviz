@@ -6,6 +6,7 @@ import { defaultAnnotatedTextComponents } from "../../default/annotation/default
 import { KunstenaarsbrievenMarker } from "../annotation/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
+  blockSchema,
   document,
   getAnnotationCategory,
   getHighlightCategory,
@@ -13,9 +14,9 @@ import {
   isNoteReference,
   letter,
   note,
-  paragraph,
   person,
   projectAnnotationTypesToInclude,
+  projectBlockTypes,
   projectEntityTypes,
   projectHighlightedTypes,
   projectInsertTextMarkerAnnotationTypes,
@@ -35,16 +36,8 @@ import { filterPanels } from "../filterPanels.ts";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
 import { KunstenaarsbrievenBlock } from "../annotation/KunstenaarsbrievenBlock.tsx";
-import { BlockSchema } from "../../../components/Text/Annotated/core";
 import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
 
-const blockSchema: BlockSchema = {
-  root: "root",
-  blocks: {
-    root: { blocks: [paragraph] },
-    [paragraph]: { blocks: [] },
-  },
-};
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
   defaultConfig,
@@ -57,7 +50,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       document,
       letter,
       note,
-      paragraph,
       ...projectAnnotationTypesToInclude,
     ],
     showAnnotations: true,
@@ -74,7 +66,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
         ...projectPageMarkerAnnotationTypes,
         ...projectInsertTextMarkerAnnotationTypes,
       ].includes(body.type) || isNoteReference(body),
-    isBlock: (body: AnnoRepoBodyBase) => body.type === paragraph,
+    isBlock: (body: AnnoRepoBodyBase) => projectBlockTypes.includes(body.type),
     getBlockType: (body: AnnoRepoBodyBase) => body.type,
     blockSchema,
     getAnnotationCategory: getAnnotationCategory,

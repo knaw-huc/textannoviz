@@ -6,6 +6,7 @@ import {
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
 import { ViewLang } from "../../../model/Broccoli";
+import { BlockSchema } from "../../../components/Text/Annotated/core";
 
 /**
  * Kunstenaarsbrieven Annotation, element and tei type names
@@ -254,7 +255,6 @@ export function findLetterBody(
 export const projectEntityTypes = [entity, reference];
 export const projectHighlightedTypes = [
   highlight,
-  head,
   listItem,
   quote,
   caption,
@@ -265,6 +265,7 @@ export const projectHighlightedTypes = [
 export const projectTooltipMarkerAnnotationTypes = [reference];
 export const projectPageMarkerAnnotationTypes = [page];
 export const projectInsertTextMarkerAnnotationTypes = [picture, head];
+export const projectBlockTypes = [paragraph, head];
 
 export const projectAnnotationTypesToInclude = [
   ...new Set([
@@ -273,6 +274,7 @@ export const projectAnnotationTypesToInclude = [
     ...projectTooltipMarkerAnnotationTypes,
     ...projectHighlightedTypes,
     ...projectEntityTypes,
+    ...projectBlockTypes,
   ]),
 ];
 
@@ -334,4 +336,13 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
 export const entityCategoryToAgg: Record<string, string> = {
   PER: "persons",
   ART: "artworks",
+};
+
+export const blockSchema: BlockSchema = {
+  root: "root",
+  blocks: {
+    root: { blocks: [paragraph, head] },
+    [paragraph]: { blocks: [] },
+    [head]: { blocks: [] },
+  },
 };

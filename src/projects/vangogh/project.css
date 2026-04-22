@@ -2,11 +2,10 @@
   font-style: italic;
 }
 
-.marker-head,
-.highlight-head {
-  font-size: 1.17rem;
-  font-weight: bold;
-  text-align: center;
+.project-annotated-text {
+  h2 {
+    margin-top: 0;
+  }
 }
 
 .segmented-line:has(.marker-head) {
