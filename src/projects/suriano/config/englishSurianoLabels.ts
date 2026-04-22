@@ -56,6 +56,7 @@ export const englishSurianoLabels = Object.assign({}, englishLabels, {
   letterNotesText: "Letter notes",
   NO_ARTWORKS: "No artworks in this letter",
   SHOW_PAGE: "Show facsimile",
+  NO_NOTES: "This letter contains no notes.",
 
   // Facet Help Texts
   SEARCH_IN_HELP:
