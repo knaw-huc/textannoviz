@@ -179,7 +179,7 @@ describe("AnnotationSegmenter", () => {
      */
     const segments = new AnnotationSegmenter("aabbcc", [
       ann("aa", 0, 2),
-      hlt("high", 0, 6),
+      hgl("high", 0, 6),
       ann("cc", 4, 6),
     ]).segment();
 
@@ -321,7 +321,7 @@ describe("AnnotationSegmenter", () => {
       "schetsen.\n\n020 – Isaac Israëls, Vrouwenkop in profiel, 1895. Van Gogh Museum, Amsterdam. (Ill. 14)\n\n049 – Isaac Israëls, Boerin die een juk draagt, 1897";
     const segments = new AnnotationSegmenter(text, [
       ann("id1", 13, 16),
-      hlt("id2", 13, 100),
+      hgl("id2", 13, 100),
       mrk("id3", 13),
     ]).segment();
     const segmentWithMarker = segments[1];
@@ -347,7 +347,7 @@ describe("AnnotationSegmenter", () => {
     const segments = new AnnotationSegmenter("aabbcc", [
       ann("a1", 0, 4),
       mrk("m1", 2),
-      hlt("h1", 4, 6),
+      hgl("h1", 4, 6),
     ]).segment();
     expect(segments.length).toBe(4);
     expect(segments[0].body).toBe("aa");
@@ -402,7 +402,7 @@ function ann(id: string, beginChar: number, endChar: number): TextOffsets {
   return { type: "nested", body: { id } as Body, beginChar, endChar };
 }
 
-function hlt(id: string, beginChar: number, endChar: number): TextOffsets {
+function hgl(id: string, beginChar: number, endChar: number): TextOffsets {
   return { type: "highlight", body: { id } as Body, beginChar, endChar };
 }
 
