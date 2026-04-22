@@ -4,6 +4,7 @@ import {
   AnnotationSegment,
   BlockAnnotationSegment,
   Segment,
+  SegmentIndex,
 } from "../AnnotationModel.ts";
 
 describe(BlockBuilder.name, () => {
@@ -220,6 +221,6 @@ function ent(id: string): AnnotationSegment {
   };
 }
 
-function seg(index: number, annotations: AnnotationSegment[]): Segment {
-  return { index, body: "aa", annotations };
+function seg(index: SegmentIndex, annotations: AnnotationSegment[]): Segment {
+  return { index, begin: 0, end: 2, body: "aa", annotations };
 }

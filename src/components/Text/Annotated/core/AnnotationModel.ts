@@ -1,3 +1,5 @@
+import { Offsets } from "@knaw-huc/text-annotation-segmenter";
+
 /**
  * Annotation types:
  * - highlight: highlighted but unclickable
@@ -110,16 +112,13 @@ export function isGrouplessNestedSegment(
 /**
  * Segment of a text with its text and the annotations that apply
  */
-export type Segment = {
-  index: number;
-  annotations: AnnotationSegment[];
+export type Segment<T extends object = AnnotationSegment> = Offsets & {
+  index: SegmentIndex;
+  annotations: T[];
   body: string;
 };
-export type GrouplessSegment = {
-  index: number;
-  annotations: GrouplessAnnotationSegment[];
-  body: string;
-};
+export type SegmentIndex = number;
+export type GrouplessSegment = Segment<GrouplessAnnotationSegment>;
 
 export type GroupedSegments = {
   id?: number;

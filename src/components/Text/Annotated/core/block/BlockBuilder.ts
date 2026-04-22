@@ -4,6 +4,7 @@ import {
   Body,
   isBlockAnnotationSegment,
   Segment,
+  SegmentIndex,
 } from "../AnnotationModel.ts";
 import { Block, Element, Inline } from "./BlockModel.ts";
 
@@ -20,8 +21,6 @@ type GroupedSegments<T extends Body> = {
   block?: BlockAnnotationSegment<T>;
   segments: Segment[];
 };
-
-type SegmentIndex = number;
 
 /**
  * Loop through segments, dequeue annotation after building a block

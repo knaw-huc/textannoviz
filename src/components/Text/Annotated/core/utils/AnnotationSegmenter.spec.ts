@@ -245,22 +245,12 @@ describe("AnnotationSegmenter", () => {
   });
 });
 
-function ann(id: string, beginChar: number, endChar: number): TextOffsets {
-  return {
-    type: "nested",
-    body: { id } as Body,
-    begin: beginChar,
-    end: endChar,
-  };
+function ann(id: string, begin: number, end: number): TextOffsets {
+  return { type: "nested", body: { id } as Body, begin, end };
 }
 
-function hgl(id: string, beginChar: number, endChar: number): TextOffsets {
-  return {
-    type: "highlight",
-    body: { id } as Body,
-    begin: beginChar,
-    end: endChar,
-  };
+function hgl(id: string, begin: number, end: number): TextOffsets {
+  return { type: "highlight", body: { id } as Body, begin, end };
 }
 
 function mrk(id: string, charIndex: number): TextOffsets {
@@ -274,15 +264,15 @@ function mrk(id: string, charIndex: number): TextOffsets {
 
 function blk(
   id: string,
-  beginChar: number,
-  endChar: number,
+  begin: number,
+  end: number,
   blockType: string,
 ): TextOffsets {
   return {
     type: "block",
     body: { id } as Body,
-    begin: beginChar,
-    end: endChar,
+    begin,
+    end,
     blockType,
   };
 }

@@ -1,21 +1,14 @@
 import {
+  segment,
+  TextSegment as TextSegment,
+  AnnotationOffsets,
+  Offsets,
+} from "@knaw-huc/text-annotation-segmenter";
+import {
   GrouplessAnnotationSegment,
-  BlockAnnotationSegment,
-  HighlightSegment,
-  MarkerSegment,
-  GrouplessNestedSegment,
   GrouplessSegment,
   TextOffsets,
 } from "../AnnotationModel.ts";
-
-type Offsets = {
-  starting: TextOffsets[];
-  ending: TextOffsets[];
-};
-
-type OffsetsAtChar = Offsets & {
-  charIndex: number;
-};
 
 /**
  * A {@link TextOffsets} range marks an annotation with begin and end character offsets.
@@ -24,15 +17,7 @@ type OffsetsAtChar = Offsets & {
  * When a text segment contains no annotations, the segment annotation list will be empty.
  */
 export class AnnotationSegmenter {
-  /**
-   * Annotations that include the current character
-   */
-  private currentAnnotationSegments: GrouplessAnnotationSegment[] = [];
-
-  /**
-   * Segments to return
-   */
-  private segments: GrouplessSegment[] = [];
+  private cache = new Map<TextOffsets, GrouplessAnnotationSegment>();
 
   constructor(
     private body: string,
@@ -40,222 +25,96 @@ export class AnnotationSegmenter {
   ) {}
 
   public segment(): GrouplessSegment[] {
-    const offsetsByChar = this.groupOffsetsByChar();
+    // TODO: why not pass in AnnotationOffsets<TextOffsets>[], to prevent any unneeded mapping?
+    const mapped: AnnotationOffsets<TextOffsets>[] = this.offsets.map((o) => ({
+      begin: o.begin,
+      end: o.end,
+      body: o,
+    }));
 
-    this.handleAnnotationlessStart(offsetsByChar);
-
-    for (let i = 0; i < offsetsByChar.length; i++) {
-      const offsetsAtChar = offsetsByChar[i];
-      const nextCharIndex = offsetsByChar[i + 1]?.charIndex;
-      this.handleEndOffsets(offsetsAtChar);
-      this.handleStartOffsets(offsetsAtChar, nextCharIndex);
-    }
-
-    this.handleAnnotationlessEnd(offsetsByChar);
-
-    return this.segments;
-  }
-
-  private groupOffsetsByChar(): OffsetsAtChar[] {
-    const positions = new Map<number, Offsets>();
-
-    const getOrCreate = (charIndex: number) => {
-      let entry = positions.get(charIndex);
-      if (!entry) {
-        entry = { starting: [], ending: [] };
-        positions.set(charIndex, entry);
-      }
-      return entry;
-    };
-
-    for (const offset of this.offsets) {
-      getOrCreate(offset.begin).starting.push(offset);
-      getOrCreate(offset.end).ending.push(offset);
-    }
-
-    return Array.from(positions.entries())
-      .sort(([a], [b]) => a - b)
-      .map(([charIndex, { starting, ending }]) => ({
-        charIndex,
-        starting: starting.sort(byAnnotationSize),
-        ending,
-      }));
-  }
-
-  private handleAnnotationlessStart(offsetsByChar: OffsetsAtChar[]) {
-    const firstCharIndex = offsetsByChar[0]?.charIndex;
-    const textStartsWithAnnotation = firstCharIndex === 0;
-    if (!textStartsWithAnnotation) {
-      this.segments.push({
-        index: this.segments.length,
-        body: this.body.slice(0, firstCharIndex),
-        annotations: [],
-      });
-    }
-  }
-
-  private handleAnnotationlessEnd(offsetsByChar: OffsetsAtChar[]) {
-    const lastOffsets = offsetsByChar.at(-1);
-
-    // No annotations, already sorted by annotationless start:
-    if (!lastOffsets) {
-      return;
-    }
-
-    const lastAnnotatedChar = lastOffsets.charIndex;
-
-    // End offset excludes last char, so no .length-1:
-    const lastChar = this.body.length;
-
-    const textEndsWithAnnotation = lastAnnotatedChar === lastChar;
-    if (!textEndsWithAnnotation) {
-      this.segments.push({
-        index: this.segments.length,
-        body: this.body.slice(lastAnnotatedChar, lastChar),
-        annotations: [],
-      });
-    }
-  }
-
-  private handleStartOffsets(
-    offsetsAtChar: OffsetsAtChar,
-    nextCharIndex: number | undefined,
-  ) {
-    this.currentAnnotationSegments.push(
-      ...this.createAnnotationSegments(offsetsAtChar.starting),
-    );
-
-    this.segments.push(...this.createMarkerSegments(offsetsAtChar.starting));
-    this.segments.push(
-      ...this.createSegmentWithBody(offsetsAtChar.charIndex, nextCharIndex),
-    );
-  }
-
-  private createSegmentWithBody(
-    charIndex: number,
-    nextCharIndex: number | undefined,
-  ): GrouplessSegment[] {
-    if (nextCharIndex === undefined) {
-      return [];
-    }
-    const segmentBody = this.body.slice(charIndex, nextCharIndex);
-    if (!segmentBody) {
-      return [];
-    }
-    return [this.createTextSegment(segmentBody)];
-  }
-
-  private createTextSegment(
-    textFromCurrentToNextOffset: string,
-  ): GrouplessSegment {
-    return {
-      index: this.segments.length,
-      body: textFromCurrentToNextOffset,
-      annotations: [...this.currentAnnotationSegments],
-    };
-  }
-
-  private createMarkerSegments(
-    startingOffsets: TextOffsets[],
-  ): GrouplessSegment[] {
-    return startingOffsets
-      .filter((o) => o.type === "marker")
-      .map((offset) => {
-        return {
-          index: this.segments.length,
-          body: "",
-          annotations: [
-            this.createMarkerSegment(offset),
-            ...this.currentAnnotationSegments,
-          ],
-        };
-      });
-  }
-
-  private createAnnotationSegments(
-    startingOffsets: TextOffsets[],
-  ): GrouplessAnnotationSegment[] {
-    return (
-      startingOffsets
-        // Markers are handled separately:
-        .filter((o) => o.type !== "marker")
-        .map((offset) => {
-          if (offset.type === "nested") {
-            return this.createNestedAnnotationSegment(offset);
-          } else if (offset.type === "highlight") {
-            return this.createHighlightAnnotationSegment(offset);
-          } else if (offset.type === "block") {
-            return this.createBlockAnnotationSegment(offset);
-          } else {
-            throw new Error(
-              "Could not determine offset type of " + JSON.stringify(offset),
-            );
-          }
-        })
-    );
-  }
-
-  private handleEndOffsets(offsetsAtChar: OffsetsAtChar) {
-    const annotationIdsClosingAtCharIndex = offsetsAtChar.ending
-      // Marker start sets end, ignore end offset:
-      .filter((offset) => offset.type !== "marker")
-      .map((offset) => offset.body.id);
-    const closingAnnotations = this.currentAnnotationSegments.filter((a) =>
-      annotationIdsClosingAtCharIndex.includes(a.body.id),
-    );
-    closingAnnotations.forEach((a) => {
-      a.endSegment = this.segments.length;
+    const segments = segment(this.body, mapped);
+    const spans = this.createSegmentOffsets(segments);
+    return segments.map((s, index) => {
+      const annotations = this.toAnnotationSegments(s.annotations, spans);
+      return { ...s, index, annotations };
     });
-    this.currentAnnotationSegments = this.currentAnnotationSegments.filter(
-      (a) => !annotationIdsClosingAtCharIndex.includes(a.body.id),
-    );
   }
 
-  private createNestedAnnotationSegment(
+  private toAnnotationSegments(
+    annotations: TextOffsets[],
+    spans: Map<string, Offsets>,
+  ): GrouplessAnnotationSegment[] {
+    const markers = annotations
+      .filter((a) => a.type === "marker")
+      .map((a) => this.getOrCreate(a, spans));
+    const rest = annotations
+      .filter((a) => a.type !== "marker")
+      .sort(byAnnotationSize)
+      .map((a) => this.getOrCreate(a, spans));
+    return [...markers, ...rest];
+  }
+
+  private getOrCreate(
     offset: TextOffsets,
-  ): GrouplessNestedSegment {
-    return {
-      ...this.createSegmentOffsets(),
-      type: "nested",
-      body: offset.body,
-    };
+    spans: Map<string, Offsets>,
+  ): GrouplessAnnotationSegment {
+    const existing = this.cache.get(offset);
+    if (existing) {
+      return existing;
+    }
+    const created = this.toAnnotationSegment(offset, spans);
+    this.cache.set(offset, created);
+    return created;
   }
 
-  private createHighlightAnnotationSegment(
+  // TODO: Is this really needed? Cannot we do without in textannoviz?
+  private createSegmentOffsets(
+    segments: TextSegment<TextOffsets>[],
+  ): Map<string, Offsets> {
+    const offsets = new Map<string, Offsets>();
+    for (let i = 0; i < segments.length; i++) {
+      for (const offset of segments[i].annotations) {
+        const id = offset.body.id;
+        const existing = offsets.get(id);
+        if (!existing) {
+          offsets.set(id, { begin: i, end: i + 1 });
+        } else {
+          existing.end = i + 1;
+        }
+      }
+    }
+    return offsets;
+  }
+
+  private toAnnotationSegment(
     offset: TextOffsets,
-  ): HighlightSegment {
-    return {
-      ...this.createSegmentOffsets(),
-      type: "highlight",
+    spans: Map<string, Offsets>,
+  ): GrouplessAnnotationSegment {
+    const span = spans.get(offset.body.id) ?? { begin: 0, end: 0 };
+    const base = {
       body: offset.body,
+      startSegment: span.begin,
+      endSegment: span.end,
     };
-  }
 
-  private createMarkerSegment(offset: TextOffsets): MarkerSegment {
-    return {
-      startSegment: this.segments.length,
-      endSegment: this.segments.length,
-      type: "marker",
-      body: offset.body,
-    };
-  }
-
-  private createBlockAnnotationSegment(
-    offset: TextOffsets,
-  ): BlockAnnotationSegment {
-    return {
-      ...this.createSegmentOffsets(),
-      type: "block",
-      blockType: offset.blockType!,
-      body: offset.body,
-    };
-  }
-
-  private createSegmentOffsets() {
-    return {
-      startSegment: this.segments.length,
-      endSegment: -1, // Set endSegment at end offset
-    };
+    if (offset.type === "block") {
+      return { ...base, type: "block", blockType: offset.blockType! };
+    }
+    if (offset.type === "highlight") {
+      return { ...base, type: "highlight" };
+    }
+    if (offset.type === "nested") {
+      return { ...base, type: "nested" };
+    }
+    if (offset.type === "marker") {
+      return {
+        type: "marker",
+        body: offset.body,
+        startSegment: span.begin,
+        endSegment: span.begin,
+      };
+    }
+    throw new Error("Unknown offset type: " + offset.type);
   }
 }
 
