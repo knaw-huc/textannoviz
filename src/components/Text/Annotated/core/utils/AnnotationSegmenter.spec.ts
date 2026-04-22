@@ -354,6 +354,15 @@ describe("AnnotationSegmenter", () => {
     expect(segments[3].body).toBe("cc");
     expect(segments[3].annotations[0].type).toBe("highlight");
   });
+
+  it("sets correct index on annotationless end segment", () => {
+    // <a>aa</a>bb
+    const segments = new AnnotationSegmenter("aabb", [
+      ann("a1", 0, 2),
+    ]).segment();
+    expect(segments[0].index).toBe(0);
+    expect(segments[1].index).toBe(1);
+  });
 });
 
 function ann(id: string, beginChar: number, endChar: number): TextOffsets {

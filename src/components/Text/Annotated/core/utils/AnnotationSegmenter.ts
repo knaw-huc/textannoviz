@@ -105,7 +105,7 @@ export class AnnotationSegmenter {
     const textStartsWithAnnotation = firstCharIndex === 0;
     if (!textStartsWithAnnotation) {
       this.segments.push({
-        index: 0,
+        index: this.segments.length,
         body: this.body.slice(0, firstCharIndex),
         annotations: [],
       });
@@ -128,7 +128,7 @@ export class AnnotationSegmenter {
     const textEndsWithAnnotation = lastAnnotatedChar === lastChar;
     if (!textEndsWithAnnotation) {
       this.segments.push({
-        index: 0,
+        index: this.segments.length,
         body: this.body.slice(lastAnnotatedChar, lastChar),
         annotations: [],
       });
