@@ -21,8 +21,8 @@ export type WithTypeAndBody<T extends Body = Body> = {
  * Note: end offset excludes last character
  */
 export type TextOffsets<T extends Body = Body> = WithTypeAndBody<T> & {
-  beginChar: number;
-  endChar: number;
+  begin: number;
+  end: number;
 };
 
 /**

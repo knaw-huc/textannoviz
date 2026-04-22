@@ -10,10 +10,10 @@ export function createGroupedAnnotationTextOffsets(
   const result = {
     type,
     body: annotation.body,
-    beginChar: relativePosition.begin ?? 0,
-    endChar: relativePosition.end,
+    begin: relativePosition.begin ?? 0,
+    end: relativePosition.end,
   };
-  if (result.beginChar === result.endChar) {
+  if (result.begin === result.end) {
     throw new Error(`Should not be marker: ${JSON.stringify(annotation.body)}`);
   }
   return result;
@@ -30,8 +30,8 @@ export function createMarkerTextOffsets(
   return {
     type: "marker",
     body: annotation.body,
-    beginChar: startChar,
-    endChar: startChar,
+    begin: startChar,
+    end: startChar,
   };
 }
 
@@ -43,8 +43,8 @@ export function createBlockTextOffsets(
   return {
     type: "block" as const,
     body: annotation.body,
-    beginChar: relative.begin ?? 0,
-    endChar: relative.end,
+    begin: relative.begin ?? 0,
+    end: relative.end,
     blockType,
   };
 }

@@ -133,11 +133,21 @@ describe("groupSegments", () => {
 });
 
 function ann(id: string, beginChar: number, endChar: number): TextOffsets {
-  return { type: "nested", body: { id } as Body, beginChar, endChar };
+  return {
+    type: "nested",
+    body: { id } as Body,
+    begin: beginChar,
+    end: endChar,
+  };
 }
 
 function hgl(id: string, beginChar: number, endChar: number): TextOffsets {
-  return { type: "highlight", body: { id } as Body, beginChar, endChar };
+  return {
+    type: "highlight",
+    body: { id } as Body,
+    begin: beginChar,
+    end: endChar,
+  };
 }
 
 function blk(
@@ -149,8 +159,8 @@ function blk(
   return {
     type: "block",
     body: { id } as Body,
-    beginChar,
-    endChar,
+    begin: beginChar,
+    end: endChar,
     blockType,
   };
 }

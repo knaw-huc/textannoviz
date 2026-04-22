@@ -17,19 +17,19 @@ export const annotations: TextOffsets[] = [
   {
     type: "nested",
     body: { id: "anno1" } as Body,
-    beginChar: 2,
-    endChar: 6,
+    begin: 2,
+    end: 6,
   },
   {
     type: "nested",
     body: { id: "anno2" } as Body,
-    beginChar: 4,
-    endChar: 6,
+    begin: 4,
+    end: 6,
   },
   {
     type: "nested",
     body: { id: "anno3" } as Body,
-    beginChar: 4,
-    endChar: 8,
+    begin: 4,
+    end: 8,
   },
 ];

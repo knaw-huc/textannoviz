@@ -69,8 +69,8 @@ export class AnnotationSegmenter {
     };
 
     for (const offset of this.offsets) {
-      getOrCreate(offset.beginChar).starting.push(offset);
-      getOrCreate(offset.endChar).ending.push(offset);
+      getOrCreate(offset.begin).starting.push(offset);
+      getOrCreate(offset.end).ending.push(offset);
     }
 
     return Array.from(positions.entries())
@@ -263,5 +263,5 @@ export class AnnotationSegmenter {
  * Nest smallest annotations deepest
  */
 function byAnnotationSize(a: TextOffsets, b: TextOffsets) {
-  return b.endChar - b.beginChar - (a.endChar - a.beginChar);
+  return b.end - b.begin - (a.end - a.begin);
 }
