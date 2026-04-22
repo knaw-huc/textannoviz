@@ -7,5 +7,5 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   if (block.blockType === paragraph) {
     return <p>{children}</p>;
   }
-  return <div>{children}</div>;
+  return <div className={block.blockType}>{children}</div>;
 }
