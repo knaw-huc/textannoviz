@@ -7,7 +7,11 @@ import {
 } from "../../stores/project.ts";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
-import { Button } from "react-aria-components";
+import { Button, Text } from "react-aria-components";
+import { toast } from "../../utils/toast.ts";
+import React from "react";
+import { handleAbort } from "../../utils/handleAbort.tsx";
+import { Menu, MenuItem, MenuTrigger, SubmenuTrigger } from "./Menu.tsx";
 
 type HeaderProps = {
   introIds: { name: string; id: string }[];
@@ -15,12 +19,54 @@ type HeaderProps = {
   letterNumber: string | undefined;
 };
 
+// Individual link in menu
+interface MenuItem {
+  label: string;
+  target: string;
+}
+
+/**
+ * Represents a menu category.
+ * It can contain a list of `items` (links)
+ * OR another `menu` array (nested categories).
+ */
+interface MenuCategory {
+  label: string;
+  items?: MenuItem[];
+  menu?: MenuCategory[];
+}
+
+// Root structure of menu
+interface RootMenu {
+  menu: MenuCategory[];
+}
+
 export const Header = (props: HeaderProps) => {
+  const [menu, setMenu] = React.useState<RootMenu>();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useTranslateProject();
   const navigate = useNavigate();
   const location = useLocation();
+
+  React.useEffect(() => {
+    const aborter = new AbortController();
+    async function initPersons(aborter: AbortController) {
+      const newMenu = await fetchMenu(
+        "http://localhost:8040/files/vangogh/menu/menu.json",
+        aborter.signal,
+      );
+      if (!newMenu) return;
+
+      setMenu(newMenu);
+    }
+
+    initPersons(aborter).catch(handleAbort);
+
+    return () => {
+      aborter.abort();
+    };
+  }, []);
 
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
 
@@ -33,9 +79,10 @@ export const Header = (props: HeaderProps) => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isMenuOpen]);
 
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location.pathname]);
+  // SvD, 22042026: this appears to be unnecessary?
+  // useEffect(() => {
+  //   setIsMenuOpen(false);
+  // }, [location.pathname]);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -87,31 +134,46 @@ export const Header = (props: HeaderProps) => {
           className="mr-4 hidden flex-row gap-4 text-sm *:no-underline lg:flex"
           aria-label="Main navigation"
         >
-          {props.introIds.map((introId) => (
-            <Button
-              key={introId.id}
-              className="text-inherit no-underline hover:underline"
-              onPress={() => navigate(`/detail/${introId.id}`)}
-            >
-              {introId.name}
-            </Button>
+          {menu?.menu.map((category) => (
+            <MenuTrigger key={category.label}>
+              <Button className="font-bold">{category.label}</Button>
+              <Menu>
+                {category.items?.map((item) => (
+                  <MenuItem
+                    key={item.target}
+                    onAction={() =>
+                      navigate(
+                        `/detail/urn:mace:huc.knaw.nl:vangogh:${item.target}`,
+                      )
+                    }
+                  >
+                    <Text slot="label">{item.label}</Text>
+                  </MenuItem>
+                ))}
+                {category.menu?.map((submenu) => (
+                  <SubmenuTrigger key={submenu.label}>
+                    <MenuItem className="flex flex-row items-center gap-4 font-bold">
+                      <Text slot="label">{submenu.label}</Text>
+                    </MenuItem>
+                    <Menu>
+                      {submenu.items?.map((item) => (
+                        <MenuItem
+                          key={item.target}
+                          onAction={() =>
+                            navigate(
+                              `/detail/urn:mace:huc.knaw.nl:vangogh:${item.target}`,
+                            )
+                          }
+                        >
+                          <Text slot="label">{item.label}</Text>
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </SubmenuTrigger>
+                ))}
+              </Menu>
+            </MenuTrigger>
           ))}
-
-          {projectConfig.routes.map((route) => (
-            <Button
-              key={route.path}
-              className="text-inherit no-underline hover:underline"
-              onPress={() => navigate(`/${route.path}`)}
-            >
-              {translateProject(route.path)}
-            </Button>
-          ))}
-          <Button
-            className="text-inherit no-underline hover:underline"
-            onPress={() => navigate("/help")}
-          >
-            {translateProject("help")}
-          </Button>
         </nav>
       </div>
 
@@ -207,3 +269,16 @@ export const Header = (props: HeaderProps) => {
     </header>
   );
 };
+
+async function fetchMenu(
+  url: string,
+  signal: AbortSignal,
+): Promise<RootMenu | null> {
+  const response = await fetch(url, { signal });
+  if (!response.ok) {
+    const error = await response.json();
+    toast(`${error.message}`, { type: "error" });
+    return null;
+  }
+  return await response.json();
+}
