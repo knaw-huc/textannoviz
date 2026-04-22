@@ -48,6 +48,8 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const offsets: TextOffsets[] = [];
 
   const nestedAnnotations = withRelative
+    // Some nestedAnnotationTypes overlap with marker, need to be filtered out:
+    // TODO: replace nestedAnnotationTypes + isMarker with projectConfig.isNested
     .filter((a) => nestedTypes.includes(a.annotation.body.type))
     .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
@@ -56,7 +58,6 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   offsets.push(...nestedAnnotations);
   const highlightedAnnotations = withRelative
     .filter(({ annotation }) => highlightTypes.includes(annotation.body.type))
-    .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "highlight"),
     );

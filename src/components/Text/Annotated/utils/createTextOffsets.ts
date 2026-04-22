@@ -14,7 +14,7 @@ export function createAnnotationTextOffsets(
     endChar: relativePosition.end,
   };
   if (result.beginChar === result.endChar) {
-    throw new Error("Should not be marker");
+    throw new Error(`Should not be marker: ${JSON.stringify(annotation.body)}`);
   }
   return result;
 }
