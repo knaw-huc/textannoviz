@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { TextOffsets } from "../AnnotationModel.ts";
-import { SegmentGroup } from "./SegmentGroup.tsx";
-import { AnnotationSegmenter } from "../utils/AnnotationSegmenter.ts";
-import { groupSegments } from "../utils/groupSegments.ts";
-import { groupSegmentsByGroupId } from "../utils/groupSegmentsByGroupId.ts";
-import { Block, BlockBuilder, BlockSchema, Element, Inline } from "../block";
-import { useAnnotatedTextConfig } from "../useAnnotatedTextConfig.tsx";
+import { TextOffsets } from "./AnnotationModel.ts";
+import { SegmentGroup } from "./inline/SegmentGroup.tsx";
+import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
+import { assignGroupToSegments } from "./utils/assignGroupToSegments.ts";
+import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
+import { Block, BlockBuilder, BlockSchema, Element, Inline } from "./block";
+import { useAnnotatedTextConfig } from "./useAnnotatedTextConfig.tsx";
 
 type SegmentedTextProps = {
   body: string;
@@ -19,7 +19,7 @@ export function SegmentedText(props: SegmentedTextProps) {
 
   useEffect(() => {
     const segments = new AnnotationSegmenter(body, offsets).segment();
-    const grouped = groupSegments(segments);
+    const grouped = assignGroupToSegments(segments);
     const elements = new BlockBuilder(blockSchema).build(grouped);
     setElements(elements);
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -5,11 +5,11 @@ import {
 } from "../test/resources/dummyLogicalTextAnnotations.ts";
 import { Body, NestedSegment, TextOffsets } from "../AnnotationModel.ts";
 import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
-import { groupSegments } from "./groupSegments.ts";
+import { assignGroupToSegments } from "./assignGroupToSegments.ts";
 
 function segmentAndGroup(text: string, offsets: TextOffsets[]) {
   const segments = new AnnotationSegmenter(text, offsets).segment();
-  return groupSegments(segments);
+  return assignGroupToSegments(segments);
 }
 
 describe("groupSegments", () => {

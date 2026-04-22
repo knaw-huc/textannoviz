@@ -33,4 +33,4 @@ export { TextSegmentsViewer } from "./inline/TextSegmentsViewer.tsx";
 export type { BlockType, BlockAnnotationSegment } from "./AnnotationModel.ts";
 export { BlockBuilder, type BlockSchema } from "./block";
 export type { Element, Block, Inline } from "./block";
-export { groupSegments } from "./utils/groupSegments.ts";
+export { assignGroupToSegments } from "./utils/assignGroupToSegments.ts";
