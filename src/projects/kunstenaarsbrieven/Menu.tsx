@@ -27,7 +27,7 @@ export function Menu<T extends object>(props: MenuProps<T>) {
   return (
     <AriaMenu
       {...props}
-      className="max-h-[inherit] overflow-auto bg-[#dddddd] p-4 font-sans outline outline-0 [clip-path:inset(0_0_0_0_round_.75rem)] empty:pb-2 empty:text-center"
+      className="max-h-[inherit] overflow-auto bg-[#dddddd] p-4 outline outline-0 empty:pb-2 empty:text-center"
     />
   );
 }
