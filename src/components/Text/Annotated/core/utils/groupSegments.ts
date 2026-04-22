@@ -7,7 +7,7 @@ import {
   isHighlightSegment,
   NestedSegment,
   Segment,
-  WithSegmentOffsets,
+  SegmentOffsets,
 } from "../AnnotationModel.ts";
 import { orThrow } from "../../../../../utils/orThrow.tsx";
 
@@ -22,7 +22,7 @@ export function groupSegments(segments: GrouplessSegment[]): Segment[] {
   const groupedSegmentsMap = new Map<GrouplessNestedSegment, NestedSegment>();
   let currentDepth = 0;
   let currentGroup: AnnotationGroup = { id: 1, maxDepth: 0 };
-  let activeGroupAnnotations: WithSegmentOffsets[] = [];
+  let activeGroupAnnotations: SegmentOffsets[] = [];
 
   for (const segment of segments) {
     // Close annotations ending at this segment:

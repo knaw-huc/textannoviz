@@ -1,8 +1,8 @@
 /**
  * Annotation types:
  * - highlight: highlighted but unclickable
- * - annotation: entity annotations
- * - marker: marking places of zero length
+ * - nested: every annotation nested inside its own clickable, stylable span
+ * - marker: marking zero-length places in the text
  * - block: block elements like p, section or div
  */
 export type AnnotationType = "highlight" | "nested" | "marker" | "block";
@@ -33,7 +33,7 @@ export type AnnotationGroup = {
   maxDepth: number;
 };
 
-export type WithSegmentOffsets = {
+export type SegmentOffsets = {
   startSegment: number;
   /**
    * Excluding last segment
@@ -45,7 +45,7 @@ export type WithSegmentOffsets = {
  * Segment of an annotation as found in {@link Segment}
  */
 export type AnnotationSegmentWithBodyAndOffsets<T extends Body = Body> =
-  WithTypeAndBody<T> & WithSegmentOffsets;
+  WithTypeAndBody<T> & SegmentOffsets;
 
 type Highlight = { type: "highlight" };
 type Marker = { type: "marker" };
@@ -64,18 +64,6 @@ export type NestedSegment<T extends Body = Body> = GrouplessNestedSegment<T> & {
   depth: number;
   group: AnnotationGroup;
 };
-
-export function isNestedSegment(
-  toTest: AnnotationSegment,
-): toTest is NestedSegment {
-  return toTest.type === "nested";
-}
-
-export function isGrouplessNestedSegment(
-  toTest: GrouplessAnnotationSegment,
-): toTest is GrouplessNestedSegment {
-  return toTest.type === "nested";
-}
 
 /**
  * Annotation with its start and end offsets
@@ -98,34 +86,38 @@ export function isHighlightSegment(
 ): toTest is HighlightSegment {
   return toTest.type === "highlight";
 }
-
 export function isMarkerSegment(
   toTest: AnnotationSegment,
 ): toTest is MarkerSegment {
   return toTest.type === "marker";
 }
-
 export function isBlockAnnotationSegment(
   toTest: AnnotationSegment,
 ): toTest is BlockAnnotationSegment {
   return toTest.type === "block";
 }
+export function isNestedSegment(
+  toTest: AnnotationSegment,
+): toTest is NestedSegment {
+  return toTest.type === "nested";
+}
+export function isGrouplessNestedSegment(
+  toTest: GrouplessAnnotationSegment,
+): toTest is GrouplessNestedSegment {
+  return toTest.type === "nested";
+}
 
 /**
  * Segment of a text with its text and the annotations that apply
  */
-export type GrouplessSegment = {
-  index: number;
-  annotations: GrouplessAnnotationSegment[];
-  body: string;
-};
-
-/**
- * Segment with grouped annotation info (depth, group)
- */
 export type Segment = {
   index: number;
   annotations: AnnotationSegment[];
+  body: string;
+};
+export type GrouplessSegment = {
+  index: number;
+  annotations: GrouplessAnnotationSegment[];
   body: string;
 };
 
