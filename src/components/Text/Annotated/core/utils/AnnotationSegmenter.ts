@@ -198,7 +198,7 @@ export class AnnotationSegmenter {
         // Markers are handled separately:
         .filter((o) => o.type !== "marker")
         .map((offset) => {
-          if (offset.type === "annotation") {
+          if (offset.type === "nested") {
             return this.createNestedAnnotationSegment(offset);
           } else if (offset.type === "highlight") {
             return this.createHighlightAnnotationSegment(offset);
@@ -233,12 +233,15 @@ export class AnnotationSegmenter {
 
     // Create new annotation group when all annotations are closed:
     const hasCurrentNestedAnnotations = this.currentAnnotationSegments.find(
-      (s) => s.type === "annotation",
+      (s) => s.type === "nested",
     );
-    const isClosingAtCurrentChar = annotationIdsClosingAtCharIndex.length;
-    const hasClosedAllAnnotationsAtCurrentChar =
-      !hasCurrentNestedAnnotations && isClosingAtCurrentChar;
-    if (hasClosedAllAnnotationsAtCurrentChar) {
+
+    const groupAnnotationsEnding = offsetsAtChar.ending
+      .filter(isGroupedAnnotation)
+      .map((offset) => offset.body.id);
+    const isClosingGroupAtCurrentChar =
+      groupAnnotationsEnding.length && !hasCurrentNestedAnnotations;
+    if (isClosingGroupAtCurrentChar) {
       this.annotationGroup = {
         id: this.annotationGroup.id + 1,
         maxDepth: 0,
@@ -266,7 +269,7 @@ export class AnnotationSegmenter {
       ...this.createSegmentOffsets(),
       depth: ++this.currentAnnotationDepth,
       group: this.annotationGroup,
-      type: "annotation",
+      type: "nested",
       body: offset.body,
     } as NestedSegment;
   }
@@ -307,4 +310,12 @@ export class AnnotationSegmenter {
       endSegment: -1, // Set endSegment at end offset
     };
   }
+}
+
+/**
+ * Blocks and markers are not included in groups,
+ * nested and highlight annotations are
+ */
+export function isGroupedAnnotation(offset: TextOffsets) {
+  return offset.type !== "marker" && offset.type !== "block";
 }

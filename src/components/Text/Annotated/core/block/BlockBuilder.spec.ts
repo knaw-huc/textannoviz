@@ -177,7 +177,7 @@ function blk(id: string, blockType: string): BlockAnnotationSegment {
 
 function ent(id: string): AnnotationSegment {
   return {
-    type: "annotation",
+    type: "nested",
     body: { id },
     depth: 0,
     group: { id: 0, maxDepth: 0 },

@@ -179,7 +179,7 @@ describe("AnnotationSegmenter", () => {
      */
     const segments = new AnnotationSegmenter("aabbcc", [
       ann("aa", 0, 2),
-      hi("high", 0, 6),
+      hlt("high", 0, 6),
       ann("cc", 4, 6),
     ]).segment();
 
@@ -264,7 +264,7 @@ describe("AnnotationSegmenter", () => {
   it("creates empty note marker segment with endSegment equal to startSegment", () => {
     // aa*bb
     const segments = new AnnotationSegmenter("aabb", [
-      mk("urn:foo:ptr:1", 2),
+      mrk("urn:foo:ptr:1", 2),
     ]).segment();
     expect(segments.length).toBe(3);
     const markerSegment = segments[1];
@@ -277,7 +277,7 @@ describe("AnnotationSegmenter", () => {
   it("can contain bodiless marker", () => {
     // a[marker1]b
     const segments = new AnnotationSegmenter("ab", [
-      mk("marker1", 1),
+      mrk("marker1", 1),
     ]).segment();
     expect(segments.length).toEqual(3);
     expect(segments[1].body).toEqual("");
@@ -288,14 +288,16 @@ describe("AnnotationSegmenter", () => {
 
   it("can contain bodiless marker after last char", () => {
     // a[marker1]
-    const segments = new AnnotationSegmenter("a", [mk("marker1", 1)]).segment();
+    const segments = new AnnotationSegmenter("a", [
+      mrk("marker1", 1),
+    ]).segment();
     expect(segments.length).toEqual(2);
     expect(segments[1].annotations[0].body.id).toEqual("marker1");
   });
 
   it("creates one text segment when empty text contains marker", () => {
     // [marker1]
-    const segments = new AnnotationSegmenter("", [mk("marker1", 0)]).segment();
+    const segments = new AnnotationSegmenter("", [mrk("marker1", 0)]).segment();
     expect(segments.length).toEqual(1);
     expect(segments[0].annotations.length).toEqual(1);
     expect(segments[0].annotations[0].body.id).toEqual("marker1");
@@ -303,7 +305,9 @@ describe("AnnotationSegmenter", () => {
 
   it("creates two text segments when single space contains marker at char 0", () => {
     // [marker1]<space>
-    const segments = new AnnotationSegmenter(" ", [mk("marker1", 0)]).segment();
+    const segments = new AnnotationSegmenter(" ", [
+      mrk("marker1", 0),
+    ]).segment();
     expect(segments.length).toEqual(2);
     expect(segments[0].body).toBe("");
     expect(segments[0].annotations.length).toEqual(1);
@@ -317,8 +321,8 @@ describe("AnnotationSegmenter", () => {
       "schetsen.\n\n020 – Isaac Israëls, Vrouwenkop in profiel, 1895. Van Gogh Museum, Amsterdam. (Ill. 14)\n\n049 – Isaac Israëls, Boerin die een juk draagt, 1897";
     const segments = new AnnotationSegmenter(text, [
       ann("id1", 13, 16),
-      hi("id2", 13, 100),
-      mk("id3", 13),
+      hlt("id2", 13, 100),
+      mrk("id3", 13),
     ]).segment();
     const segmentWithMarker = segments[1];
     expect(segmentWithMarker.index).toBe(1);
@@ -342,12 +346,12 @@ describe("AnnotationSegmenter", () => {
     // <anno>aa[marker]bb</anno><highlight>cc</highlight>
     const segments = new AnnotationSegmenter("aabbcc", [
       ann("a1", 0, 4),
-      mk("m1", 2),
-      hi("h1", 4, 6),
+      mrk("m1", 2),
+      hlt("h1", 4, 6),
     ]).segment();
     expect(segments.length).toBe(4);
     expect(segments[0].body).toBe("aa");
-    expect(segments[0].annotations[0].type).toBe("annotation");
+    expect(segments[0].annotations[0].type).toBe("nested");
     expect(segments[1].body).toBe("");
     expect(segments[1].annotations[0].type).toBe("marker");
     expect(segments[2].body).toBe("bb");
@@ -363,17 +367,31 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].index).toBe(0);
     expect(segments[1].index).toBe(1);
   });
+
+  it("does not increment group when a block closes", () => {
+    // <p1>aa</p1>bb<e1>cc</e1>
+    const segments = new AnnotationSegmenter("aabbcc", [
+      blk("p1", 0, 2, "paragraph"),
+      ann("e1", 4, 6),
+    ]).segment();
+
+    const e1 = segments[2].annotations.find(
+      (a) => a.type === "nested",
+    ) as NestedSegment;
+
+    expect(e1.group.id).toBe(1);
+  });
 });
 
 function ann(id: string, beginChar: number, endChar: number): TextOffsets {
-  return { type: "annotation", body: { id } as Body, beginChar, endChar };
+  return { type: "nested", body: { id } as Body, beginChar, endChar };
 }
 
-function hi(id: string, beginChar: number, endChar: number): TextOffsets {
+function hlt(id: string, beginChar: number, endChar: number): TextOffsets {
   return { type: "highlight", body: { id } as Body, beginChar, endChar };
 }
 
-function mk(id: string, charIndex: number): TextOffsets {
+function mrk(id: string, charIndex: number): TextOffsets {
   return {
     type: "marker",
     body: { id } as Body,

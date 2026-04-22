@@ -10,7 +10,7 @@ import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
 import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
 import {
-  createAnnotationTextOffsets,
+  createGroupedAnnotationTextOffsets,
   createBlockTextOffsets,
   createMarkerTextOffsets,
   findRelativePosition,
@@ -53,14 +53,14 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     .filter((a) => nestedTypes.includes(a.annotation.body.type))
     .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
-      createAnnotationTextOffsets(annotation, relative, "annotation"),
+      createGroupedAnnotationTextOffsets(annotation, relative, "nested"),
     );
   offsets.push(...nestedAnnotations);
   const highlightedAnnotations = withRelative
     .filter(({ annotation }) => highlightTypes.includes(annotation.body.type))
     .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
-      createAnnotationTextOffsets(annotation, relative, "highlight"),
+      createGroupedAnnotationTextOffsets(annotation, relative, "highlight"),
     );
   offsets.push(...highlightedAnnotations);
 

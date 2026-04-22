@@ -2,10 +2,10 @@ import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BlockType, TextOffsets } from "../core";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
-export function createAnnotationTextOffsets(
+export function createGroupedAnnotationTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
-  type: "annotation" | "highlight",
+  type: "nested" | "highlight",
 ): TextOffsets {
   const result = {
     type,

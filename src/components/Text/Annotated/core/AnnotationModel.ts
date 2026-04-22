@@ -4,7 +4,7 @@
  * - annotation: entity annotations
  * - marker: marking places of zero length
  */
-export type AnnotationType = "highlight" | "annotation" | "marker" | "block";
+export type AnnotationType = "highlight" | "nested" | "marker" | "block";
 export type AnnotationId = string;
 export type Body = { id: AnnotationId };
 
@@ -46,7 +46,7 @@ export type WithSegmentOffsets = {
 export type AnnotationSegmentWithBodyAndOffsets<T extends Body = Body> =
   WithTypeAndBody<T> & WithSegmentOffsets;
 
-type Annotation = { type: "annotation" };
+type Nested = { type: "nested" };
 type Highlight = { type: "highlight" };
 type Marker = { type: "marker" };
 type Block = { type: "block"; blockType: BlockType };
@@ -65,7 +65,7 @@ export type MarkerSegment<MARKER extends Body = Body> =
  */
 export type NestedSegment<ANNOTATION extends Body = Body> =
   AnnotationSegmentWithBodyAndOffsets<ANNOTATION> &
-    Annotation & {
+    Nested & {
       /**
        * Depth of nesting in other annotations
        */
@@ -86,7 +86,7 @@ export type AnnotationSegment =
 export function isNestedSegment(
   toTest: AnnotationSegment,
 ): toTest is NestedSegment {
-  return toTest.type === "annotation";
+  return toTest.type === "nested";
 }
 
 export function isHighlightSegment(

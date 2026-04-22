@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   createMarkerTextOffsets,
-  createAnnotationTextOffsets,
+  createGroupedAnnotationTextOffsets,
 } from "./createTextOffsets.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
@@ -42,10 +42,10 @@ describe("createTextOffsets", () => {
       begin: 162,
       end: 194,
     };
-    const result = createAnnotationTextOffsets(
+    const result = createGroupedAnnotationTextOffsets(
       annotation,
       positionsRelativeToView,
-      "annotation",
+      "nested",
     );
     expect(result.body.id).toEqual(
       "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",

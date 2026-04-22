@@ -15,19 +15,19 @@ export const body = "aabbccddee";
  */
 export const annotations: TextOffsets[] = [
   {
-    type: "annotation",
+    type: "nested",
     body: { id: "anno1" } as Body,
     beginChar: 2,
     endChar: 6,
   },
   {
-    type: "annotation",
+    type: "nested",
     body: { id: "anno2" } as Body,
     beginChar: 4,
     endChar: 6,
   },
   {
-    type: "annotation",
+    type: "nested",
     body: { id: "anno3" } as Body,
     beginChar: 4,
     endChar: 8,

@@ -3,7 +3,7 @@ import {
   useProjectStore,
 } from "../../../../stores/project.ts";
 import { GroupProps } from "../../../../components/Text/Annotated/core";
-import { isAnnotation } from "../../../../components/Text/Annotated/utils/isAnnotation.ts";
+import { isNested } from "../../../../components/Text/Annotated/utils/isNested.ts";
 import { AnnotationLink } from "./AnnotationLink.tsx";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { orThrow } from "../../../../utils/orThrow.tsx";
@@ -20,7 +20,7 @@ export function DefaultGroup(props: GroupProps) {
 
   const link = group.segments
     .flatMap((s) => s.annotations)
-    .filter(isAnnotation)
+    .filter(isNested)
     .find((a) => projectConfig.isLink(a.body));
 
   if (link) {
