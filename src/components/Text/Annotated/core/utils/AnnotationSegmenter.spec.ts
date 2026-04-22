@@ -368,7 +368,7 @@ describe("AnnotationSegmenter", () => {
     expect(segments[1].index).toBe(1);
   });
 
-  it("does not increment group when a block closes", () => {
+  it("does not increment group id when a block closes", () => {
     // <p1>aa</p1>bb<e1>cc</e1>
     const segments = new AnnotationSegmenter("aabbcc", [
       blk("p1", 0, 2, "paragraph"),

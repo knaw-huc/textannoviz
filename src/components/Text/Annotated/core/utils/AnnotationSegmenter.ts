@@ -1,4 +1,3 @@
-import _ from "lodash";
 import {
   AnnotationGroup,
   AnnotationSegment,
@@ -95,7 +94,7 @@ export class AnnotationSegmenter {
       .sort(([a], [b]) => a - b)
       .map(([charIndex, { starting, ending }]) => ({
         charIndex,
-        starting: starting.sort(this.byAnnotationSize.bind(this)),
+        starting: starting.sort(byAnnotationSize),
         ending,
       }));
   }
@@ -142,10 +141,10 @@ export class AnnotationSegmenter {
     this.currentAnnotationSegments.push(
       ...this.createAnnotationSegments(offsetsAtChar.starting),
     );
-    this.annotationGroup.maxDepth = _.max([
+    this.annotationGroup.maxDepth = Math.max(
       this.annotationGroup.maxDepth,
       this.currentAnnotationDepth,
-    ])!;
+    );
 
     this.segments.push(...this.createMarkerSegments(offsetsAtChar.starting));
     this.segments.push(
@@ -192,7 +191,7 @@ export class AnnotationSegmenter {
 
   private createAnnotationSegments(
     startingOffsets: TextOffsets[],
-  ): (AnnotationSegment | HighlightSegment)[] {
+  ): AnnotationSegment[] {
     return (
       startingOffsets
         // Markers are handled separately:
@@ -224,12 +223,15 @@ export class AnnotationSegmenter {
     closingAnnotations.forEach((a) => {
       a.endSegment = this.segments.length;
     });
-    _.remove(this.currentAnnotationSegments, (a) =>
-      annotationIdsClosingAtCharIndex.includes(a.body.id),
+    this.currentAnnotationSegments = this.currentAnnotationSegments.filter(
+      (a) => !annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
     const currentNested =
       this.currentAnnotationSegments.filter(isNestedSegment);
-    this.currentAnnotationDepth = _.maxBy(currentNested, "depth")?.depth || 0;
+    this.currentAnnotationDepth = currentNested.reduce(
+      (max, segment) => Math.max(max, segment.depth),
+      0,
+    );
 
     // Create new annotation group when all annotations are closed:
     const hasCurrentNestedAnnotations = this.currentAnnotationSegments.find(
@@ -249,21 +251,6 @@ export class AnnotationSegmenter {
     }
   }
 
-  /**
-   * Nest smallest annotations deepest
-   */
-  private byAnnotationSize(a: TextOffsets, b: TextOffsets) {
-    const sizeA = a.endChar - a.beginChar;
-    const sizeB = b.endChar - b.beginChar;
-    if (sizeA < sizeB) {
-      return 1;
-    } else if (sizeA > sizeB) {
-      return -1;
-    } else {
-      return 0;
-    }
-  }
-
   private createNestedAnnotationSegment(offset: TextOffsets): NestedSegment {
     return {
       ...this.createSegmentOffsets(),
@@ -271,7 +258,7 @@ export class AnnotationSegmenter {
       group: this.annotationGroup,
       type: "nested",
       body: offset.body,
-    } as NestedSegment;
+    };
   }
 
   private createHighlightAnnotationSegment(
@@ -310,6 +297,13 @@ export class AnnotationSegmenter {
       endSegment: -1, // Set endSegment at end offset
     };
   }
+}
+
+/**
+ * Nest smallest annotations deepest
+ */
+function byAnnotationSize(a: TextOffsets, b: TextOffsets) {
+  return b.endChar - b.beginChar - (a.endChar - a.beginChar);
 }
 
 /**
