@@ -8,14 +8,13 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 import { Header } from "../Header";
-import { Empty } from "../../../components/Empty.tsx";
-import { EntitySummary } from "../annotation/EntitySummary.tsx";
-import { NotesPanel } from "../NotesPanel.tsx";
+import { EntitySummary } from "../annotation/EntitySummary";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons.tsx";
-import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
+import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { TextPanels } from "../TextPanels.tsx";
+import { Empty } from "../../../components/Empty";
 
 export const surianoConfig: ProjectConfig = merge(
   {},
@@ -37,8 +36,7 @@ export const surianoConfig: ProjectConfig = merge(
       MetadataPanel,
       SearchInfoPage,
       EntitySummary,
-      HelpLink: Empty,
-      NotesPanel,
+      ArtworksTab: Empty,
     },
     defaultKeywordAggsToRender: ["persons", "recipient", "sender"],
     detailPanels: [
@@ -73,11 +71,6 @@ export const surianoConfig: ProjectConfig = merge(
         order: "keyAsc",
         size: 9999,
       },
-      {
-        facetName: "file",
-        order: "keyAsc",
-        size: 9999,
-      },
     ],
     viewsToSearchIn: ["letterOriginalText", "letterNotesText"],
     showFacsimilePrevNextScanButtonsButtons: false,
@@ -94,5 +87,8 @@ export const surianoConfig: ProjectConfig = merge(
       sortBy: "file",
       sortOrder: "asc",
     },
+    zoomToAnnoOnFacsimile: true,
+    // TODO: how to test this?
+    showAnnosOnFacsimile: true,
   } as ProjectSpecificConfig,
 );
