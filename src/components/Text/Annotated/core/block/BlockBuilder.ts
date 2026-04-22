@@ -1,5 +1,5 @@
 import {
-  BlockSegment,
+  BlockAnnotationSegment,
   BlockType,
   Body,
   isBlockAnnotationSegment,
@@ -17,7 +17,7 @@ export type BlockSchema = {
 };
 
 type GroupedSegments<T extends Body> = {
-  block?: BlockSegment<T>;
+  block?: BlockAnnotationSegment<T>;
   segments: Segment[];
 };
 
@@ -28,7 +28,7 @@ type SegmentIndex = number;
  */
 type AnnotationQueue<T extends Body> = Map<
   SegmentIndex,
-  Map<BlockType, BlockSegment<T>[]>
+  Map<BlockType, BlockAnnotationSegment<T>[]>
 >;
 
 export class BlockBuilder<T extends Body = Body> {
@@ -46,12 +46,12 @@ export class BlockBuilder<T extends Body = Body> {
   private createBlockQueue(segments: Segment[]): AnnotationQueue<T> {
     const queue: AnnotationQueue<T> = new Map();
     for (const segment of segments) {
-      const types = new Map<BlockType, BlockSegment<T>[]>();
+      const types = new Map<BlockType, BlockAnnotationSegment<T>[]>();
       for (const annotation of segment.annotations) {
         if (isBlockAnnotationSegment(annotation)) {
           const block = annotation;
           const list = types.get(block.blockType) ?? [];
-          list.push(block as BlockSegment<T>);
+          list.push(block as BlockAnnotationSegment<T>);
           types.set(block.blockType, list);
         }
       }
@@ -110,7 +110,7 @@ export class BlockBuilder<T extends Body = Body> {
     queue: AnnotationQueue<T>,
     childTypes: BlockType[],
     segment: Segment,
-  ): BlockSegment<T> | undefined {
+  ): BlockAnnotationSegment<T> | undefined {
     const types = queue.get(segment.index);
     if (!types) {
       return undefined;
@@ -125,7 +125,7 @@ export class BlockBuilder<T extends Body = Body> {
   }
 
   private createBlock(
-    annotation: BlockSegment<T>,
+    annotation: BlockAnnotationSegment<T>,
     segments: Segment[],
     queue: AnnotationQueue<T>,
   ): Block {

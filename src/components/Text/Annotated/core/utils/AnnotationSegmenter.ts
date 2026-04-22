@@ -2,7 +2,7 @@ import _ from "lodash";
 import {
   AnnotationGroup,
   AnnotationSegment,
-  BlockSegment,
+  BlockAnnotationSegment,
   HighlightSegment,
   isNestedSegment,
   MarkerSegment,
@@ -291,7 +291,9 @@ export class AnnotationSegmenter {
     };
   }
 
-  private createBlockAnnotationSegment(offset: TextOffsets): BlockSegment {
+  private createBlockAnnotationSegment(
+    offset: TextOffsets,
+  ): BlockAnnotationSegment {
     return {
       ...this.createSegmentOffsets(),
       type: "block",

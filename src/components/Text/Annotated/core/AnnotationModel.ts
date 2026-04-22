@@ -81,7 +81,7 @@ export type AnnotationSegment =
   | NestedSegment
   | HighlightSegment
   | MarkerSegment
-  | BlockSegment;
+  | BlockAnnotationSegment;
 
 export function isNestedSegment(
   toTest: AnnotationSegment,
@@ -115,12 +115,12 @@ export type GroupedSegments = {
   segments: Segment[];
 };
 
-export type BlockSegment<T extends Body = Body> =
+export type BlockAnnotationSegment<T extends Body = Body> =
   AnnotationSegmentWithBodyAndOffsets<T> & Block;
 
 export function isBlockAnnotationSegment(
   toTest: AnnotationSegment,
-): toTest is BlockSegment {
+): toTest is BlockAnnotationSegment {
   return toTest.type === "block";
 }
 

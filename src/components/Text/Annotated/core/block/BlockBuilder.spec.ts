@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { BlockBuilder, BlockSchema } from "./BlockBuilder.ts";
 import {
   AnnotationSegment,
-  BlockSegment,
+  BlockAnnotationSegment,
   Segment,
 } from "../AnnotationModel.ts";
 
@@ -165,7 +165,7 @@ describe(BlockBuilder.name, () => {
   });
 });
 
-function blk(id: string, blockType: string): BlockSegment {
+function blk(id: string, blockType: string): BlockAnnotationSegment {
   return {
     type: "block",
     body: { id },

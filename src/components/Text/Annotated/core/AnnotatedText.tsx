@@ -1,5 +1,5 @@
 import {
-  BlockSegment,
+  BlockAnnotationSegment,
   Body,
   GroupedSegments,
   HighlightSegment,
@@ -99,7 +99,7 @@ export type GroupProps = {
 };
 
 export type BlockProps<BLOCK extends Body = Body> = {
-  block: BlockSegment<BLOCK>;
+  block: BlockAnnotationSegment<BLOCK>;
   children: ReactNode;
 };
 

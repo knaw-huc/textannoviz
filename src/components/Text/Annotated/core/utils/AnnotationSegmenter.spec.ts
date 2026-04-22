@@ -4,7 +4,7 @@ import {
   annotations,
 } from "../test/resources/dummyLogicalTextAnnotations.ts";
 import {
-  BlockSegment,
+  BlockAnnotationSegment,
   Body,
   MarkerSegment,
   NestedSegment,
@@ -332,7 +332,7 @@ describe("AnnotationSegmenter", () => {
     ]).segment();
     expect(segments.length).toBe(1);
     expect(segments[0].annotations.length).toBe(1);
-    const b = segments[0].annotations[0] as BlockSegment;
+    const b = segments[0].annotations[0] as BlockAnnotationSegment;
     expect(b.type).toBe("block");
     expect(b.body.id).toBe("b1");
     expect(b.blockType).toBe("paragraph");

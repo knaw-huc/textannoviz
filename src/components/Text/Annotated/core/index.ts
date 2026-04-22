@@ -22,7 +22,7 @@ export type {
 
 export { TextSegmentsViewer } from "./inline/TextSegmentsViewer.tsx";
 
-export type { BlockType, BlockSegment } from "./AnnotationModel.ts";
+export type { BlockType, BlockAnnotationSegment } from "./AnnotationModel.ts";
 export { isBlockAnnotationSegment } from "./AnnotationModel.ts";
 export { BlockBuilder, type BlockSchema } from "./block";
 export type { Element, Block, Inline } from "./block";

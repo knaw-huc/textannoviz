@@ -1,4 +1,8 @@
-import { BlockSegment, BlockType, Segment } from "../AnnotationModel.ts";
+import {
+  BlockAnnotationSegment,
+  BlockType,
+  Segment,
+} from "../AnnotationModel.ts";
 
 export type Element = Block | Inline;
 
@@ -11,6 +15,6 @@ export type Block = {
   isBlock: true;
   id: string;
   blockType: BlockType;
-  annotation: BlockSegment;
+  annotation: BlockAnnotationSegment;
   children: Element[];
 };
