@@ -239,7 +239,6 @@ export class AnnotationSegmenter {
     const hasClosedAllAnnotationsAtCurrentChar =
       !hasCurrentNestedAnnotations && isClosingAtCurrentChar;
     if (hasClosedAllAnnotationsAtCurrentChar) {
-      this.currentAnnotationDepth = 0;
       this.annotationGroup = {
         id: this.annotationGroup.id + 1,
         maxDepth: 0,
