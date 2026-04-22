@@ -7,7 +7,7 @@ import {
   BlockAnnotationSegment,
   Body,
   MarkerSegment,
-  NestedSegment,
+  GrouplessNestedSegment,
   TextOffsets,
 } from "../AnnotationModel.ts";
 import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
@@ -21,27 +21,16 @@ describe("AnnotationSegmenter", () => {
 
   it("creates segment of text with annotation", () => {
     const segments = new AnnotationSegmenter(body, annotations).segment();
-
     expect(segments[1].body).toEqual("bb");
-    expect(segments[1].annotations!.length).toEqual(1);
-    const anno1 = segments[1].annotations![0] as NestedSegment;
-    expect(anno1.body.id).toEqual("anno1");
-    expect(anno1.depth).toEqual(1);
+    expect(segments[1].annotations.length).toEqual(1);
+    expect(segments[1].annotations[0].body.id).toEqual("anno1");
   });
 
-  it("creates segment of text with multiple annotations", () => {
+  it("creates segment of text with multiple annotations in size order", () => {
     const segments = new AnnotationSegmenter(body, annotations).segment();
     expect(segments[2].body).toEqual("cc");
-    const annotationsIdAndDepth = segments[2].annotations!.map((a) => ({
-      id: a.body.id,
-      depth: (a as NestedSegment).depth,
-    }));
-    expect(annotationsIdAndDepth).toEqual([
-      { id: "anno1", depth: 1 },
-      { id: "anno3", depth: 2 },
-      // anno2 is shorter and nested deeper:
-      { id: "anno2", depth: 3 },
-    ]);
+    const ids = segments[2].annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["anno1", "anno3", "anno2"]);
   });
 
   it("ends with segment of text without annotations when no annotation found", () => {
@@ -56,10 +45,8 @@ describe("AnnotationSegmenter", () => {
       ann("anno1", 0, 2),
     ]).segment();
     expect(segments[0].body).toEqual("aa");
-    expect(segments[0].annotations!.length).toEqual(1);
-    const anno1 = segments[0].annotations![0] as NestedSegment;
-    expect(anno1.body.id).toBe("anno1");
-    expect(anno1.depth).toBe(1);
+    expect(segments[0].annotations.length).toEqual(1);
+    expect(segments[0].annotations[0].body.id).toBe("anno1");
     expect(segments[1].body).toBe("b");
     expect(segments[1].annotations).toEqual([]);
   });
@@ -72,10 +59,8 @@ describe("AnnotationSegmenter", () => {
     expect(segments[0].body).toEqual("a");
     expect(segments[0].annotations).toEqual([]);
     expect(segments[1].body).toEqual("bb");
-    expect(segments[1].annotations!.length).toEqual(1);
-    const anno1 = segments[1].annotations![0] as NestedSegment;
-    expect(anno1.body.id).toEqual("anno1");
-    expect(anno1.depth).toEqual(1);
+    expect(segments[1].annotations.length).toEqual(1);
+    expect(segments[1].annotations[0].body.id).toEqual("anno1");
   });
 
   it("can contain no annotations", () => {
@@ -92,102 +77,12 @@ describe("AnnotationSegmenter", () => {
       ann("anno2", 4, 6),
     ]).segment();
     expect(segments.length).toEqual(3);
-
-    const segment1 = segments[0];
-    expect(segment1.annotations!.length).toEqual(1);
-    const anno1 = segment1.annotations![0] as NestedSegment;
-    expect(anno1.body.id).toEqual("anno1");
-    expect(anno1.depth).toEqual(1);
-
-    const segmentWithNoAnnotations = segments[1];
-    expect(segmentWithNoAnnotations.body).toEqual("bb");
-    expect(segmentWithNoAnnotations.annotations).toEqual([]);
-
-    expect(segments[2].annotations!.length).toEqual(1);
-    const anno2 = segments[2].annotations![0] as NestedSegment;
-    expect(anno2.body.id).toEqual("anno2");
-    expect(anno2.depth).toEqual(1);
-  });
-
-  it("creates group for single annotation with depth=1 and maxDepth=1", () => {
-    // <a>aa</a>
-    const segments = new AnnotationSegmenter("aa", [ann("a", 0, 2)]).segment();
-
-    expect(segments.length).toEqual(1);
-    const a = segments[0].annotations![0] as NestedSegment;
-    expect(segments[0].annotations!.length).toEqual(1);
-    expect(a.depth).toEqual(1);
-    expect(a.group.maxDepth).toEqual(1);
-  });
-
-  it("shares maximum annotation depth with group of connected annotations", () => {
-    // <aa<bb<cc>>>
-    const segments = new AnnotationSegmenter("aabbcc", [
-      ann("aabbcc", 0, 6),
-      ann("bbcc", 2, 6),
-      ann("cc", 4, 6),
-    ]).segment();
-
-    expect(segments.length).toEqual(3);
-    expect(segments[0].annotations!.length).toEqual(1);
-
-    const abc = segments[0].annotations![0] as NestedSegment;
-    expect(abc.body.id).toEqual("aabbcc");
-    expect(abc.depth).toEqual(1);
-    expect(abc.group.maxDepth).toEqual(3);
-  });
-
-  it("creates new group after annotation-less part of text", () => {
-    // <a>aa</a>bb<c>cc</c>
-    const segments = new AnnotationSegmenter("aabbcc", [
-      ann("aa", 0, 2),
-      ann("cc", 4, 6),
-    ]).segment();
-
-    const segment1aa = segments[0].annotations![0] as NestedSegment;
-    expect(segment1aa.body.id).toEqual("aa");
-    expect(segment1aa.group.id).toEqual(1);
-
-    const segment3cc = segments[2].annotations![0] as NestedSegment;
-    expect(segment3cc.body.id).toEqual("cc");
-    expect(segment3cc.group.id).toEqual(2);
-  });
-
-  it("creates new group when no annotations are overlapping or connected", () => {
-    // <aa><bb>
-    const segments = new AnnotationSegmenter("aabb", [
-      ann("aa", 0, 2),
-      ann("bb", 2, 4),
-    ]).segment();
-
-    const segment1aa = segments[0].annotations![0] as NestedSegment;
-    expect(segment1aa.body.id).toEqual("aa");
-    expect(segment1aa.group.id).toEqual(1);
-
-    const segment2bb = segments[1].annotations![0] as NestedSegment;
-    expect(segment2bb.body.id).toEqual("bb");
-    expect(segment2bb.group.id).toEqual(2);
-  });
-
-  it("creates two groups when a highlight connects two annotations", () => {
-    /**
-     * <highlight> --> does not belong to groups
-     *   <a>aa</a> --> group 1
-     *   bb
-     *   <c>cc</c> --> group 2
-     * </highlight>
-     */
-    const segments = new AnnotationSegmenter("aabbcc", [
-      ann("aa", 0, 2),
-      hgl("high", 0, 6),
-      ann("cc", 4, 6),
-    ]).segment();
-
-    const segment1high = segments[0].annotations![1] as NestedSegment;
-    expect(segment1high.group.id).toEqual(1);
-
-    const segment3cc = segments[2].annotations![1] as NestedSegment;
-    expect(segment3cc.group.id).toEqual(2);
+    expect(segments[0].annotations.length).toEqual(1);
+    expect(segments[0].annotations[0].body.id).toEqual("anno1");
+    expect(segments[1].body).toEqual("bb");
+    expect(segments[1].annotations).toEqual([]);
+    expect(segments[2].annotations.length).toEqual(1);
+    expect(segments[2].annotations[0].body.id).toEqual("anno2");
   });
 
   it("sorts annotations by length when starting at the same char index", () => {
@@ -198,43 +93,9 @@ describe("AnnotationSegmenter", () => {
       ann("bc", 2, 6),
     ]).segment();
 
-    // ab is shorter than abc:
-    const segment1ab = segments[0].annotations![1] as NestedSegment;
-    expect(segment1ab.body.id).toEqual("ab");
-    expect(segment1ab.depth).toEqual(2);
-
-    // ab keeps depth across segments:
-    const segment2ab = segments[1].annotations![1] as NestedSegment;
-    expect(segment2ab.body.id).toEqual("ab");
-    expect(segment2ab.depth).toEqual(2);
-  });
-
-  it("supports two overlapping annotations", () => {
-    // <ab>aa<bc>bb</ab><cd>cc</bc>dd</cd>
-    const segments = new AnnotationSegmenter("aabbccdd", [
-      ann("ab", 0, 4),
-      ann("bc", 2, 6),
-      ann("cd", 4, 8),
-    ]).segment();
-
-    const ab = segments[0].annotations![0] as NestedSegment;
-    expect(ab.body.id).toEqual("ab");
-    expect(ab.depth).toEqual(1);
-    expect(ab.group.maxDepth).toEqual(3);
-  });
-
-  it("resets depth correctly after closing two overlapping annotations", () => {
-    // <abcde><ab>aa<bc>bb</ab>cc</bc>dd<e>ee</e></abcde>
-    const segments = new AnnotationSegmenter("aabbccddee", [
-      ann("abcde", 0, 10),
-      ann("ab", 0, 4),
-      ann("bc", 2, 6),
-      ann("e", 8, 10),
-    ]).segment();
-
-    const e = segments[4].annotations![1] as NestedSegment;
-    expect(e.body.id).toEqual("e");
-    expect(e.depth).toEqual(2);
+    expect(segments[0].annotations[0].body.id).toEqual("abc");
+    expect(segments[0].annotations[1].body.id).toEqual("ab");
+    expect(segments[1].annotations[1].body.id).toEqual("ab");
   });
 
   it("sets start and end segment", () => {
@@ -243,10 +104,10 @@ describe("AnnotationSegmenter", () => {
       ann("bc", 2, 6),
     ]).segment();
 
-    const abc = segments[1].annotations![0] as NestedSegment;
-    expect(abc.body.id).toEqual("bc");
-    expect(abc.startSegment).toEqual(1);
-    expect(abc.endSegment).toEqual(2);
+    const bc = segments[1].annotations[0] as GrouplessNestedSegment;
+    expect(bc.body.id).toEqual("bc");
+    expect(bc.startSegment).toEqual(1);
+    expect(bc.endSegment).toEqual(2);
   });
 
   it("sets start and end segment when opening and closing at first and last segment", () => {
@@ -255,7 +116,7 @@ describe("AnnotationSegmenter", () => {
       ann("abc", 0, 6),
     ]).segment();
 
-    const abc = segments[0].annotations![0] as NestedSegment;
+    const abc = segments[0].annotations[0] as GrouplessNestedSegment;
     expect(abc.body.id).toEqual("abc");
     expect(abc.startSegment).toEqual(0);
     expect(abc.endSegment).toEqual(1);
@@ -368,23 +229,9 @@ describe("AnnotationSegmenter", () => {
     expect(segments[1].index).toBe(1);
   });
 
-  it("does not increment group id when a block closes", () => {
-    // <p1>aa</p1>bb<e1>cc</e1>
-    const segments = new AnnotationSegmenter("aabbcc", [
-      blk("p1", 0, 2, "paragraph"),
-      ann("e1", 4, 6),
-    ]).segment();
-
-    const e1 = segments[2].annotations.find(
-      (a) => a.type === "nested",
-    ) as NestedSegment;
-
-    expect(e1.group.id).toBe(1);
-  });
-
   it("keeps (block) annotation order in place", () => {
     // <section><p>aa</p></section>
-    const segments = new AnnotationSegmenter("aab", [
+    const segments = new AnnotationSegmenter("aa", [
       blk("s1", 0, 2, "section"),
       blk("p1", 0, 2, "p"),
     ]).segment();

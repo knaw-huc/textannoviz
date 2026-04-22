@@ -12,17 +12,25 @@ export type {
 
 export type {
   Body,
+  GrouplessAnnotationSegment,
   AnnotationSegment,
-  GroupedSegments,
-  MarkerSegment,
   NestedSegment,
   Segment,
+  GroupedSegments,
+  MarkerSegment,
+  GrouplessNestedSegment,
+  GrouplessSegment,
   TextOffsets,
+} from "./AnnotationModel.ts";
+
+export {
+  isBlockAnnotationSegment,
+  isNestedSegment,
 } from "./AnnotationModel.ts";
 
 export { TextSegmentsViewer } from "./inline/TextSegmentsViewer.tsx";
 
 export type { BlockType, BlockAnnotationSegment } from "./AnnotationModel.ts";
-export { isBlockAnnotationSegment } from "./AnnotationModel.ts";
 export { BlockBuilder, type BlockSchema } from "./block";
 export type { Element, Block, Inline } from "./block";
+export { groupSegments } from "./utils/groupSegments.ts";

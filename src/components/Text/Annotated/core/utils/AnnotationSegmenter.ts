@@ -1,12 +1,10 @@
 import {
-  AnnotationGroup,
-  AnnotationSegment,
+  GrouplessAnnotationSegment,
   BlockAnnotationSegment,
   HighlightSegment,
-  isNestedSegment,
   MarkerSegment,
-  NestedSegment,
-  Segment,
+  GrouplessNestedSegment,
+  GrouplessSegment,
   TextOffsets,
 } from "../AnnotationModel.ts";
 
@@ -21,7 +19,7 @@ type OffsetsAtChar = Offsets & {
 
 /**
  * A {@link TextOffsets} range marks an annotation with begin and end character offsets.
- * All offsets together result in a text split up into a list of {@link Segment}s.
+ * All offsets together result in a text split up into a list of {@link GrouplessSegment}s.
  * A Segment also contains a list of annotations that apply to that text segment.
  * When a text segment contains no annotations, the segment annotation list will be empty.
  */
@@ -29,34 +27,19 @@ export class AnnotationSegmenter {
   /**
    * Annotations that include the current character
    */
-  private currentAnnotationSegments: AnnotationSegment[] = [];
-
-  /**
-   * Depth of nested annotations in an annotation group
-   * prefix increment, i.e. first depth is 1
-   */
-  private currentAnnotationDepth = 0;
-
-  /**
-   * Group of annotations connected through overlap or nesting
-   * (just touching is not enough)
-   */
-  private annotationGroup: AnnotationGroup = {
-    id: 1,
-    maxDepth: 0,
-  };
+  private currentAnnotationSegments: GrouplessAnnotationSegment[] = [];
 
   /**
    * Segments to return
    */
-  private segments: Segment[] = [];
+  private segments: GrouplessSegment[] = [];
 
   constructor(
     private body: string,
     private offsets: TextOffsets[],
   ) {}
 
-  public segment(): Segment[] {
+  public segment(): GrouplessSegment[] {
     const offsetsByChar = this.groupOffsetsByChar();
 
     this.handleAnnotationlessStart(offsetsByChar);
@@ -141,10 +124,6 @@ export class AnnotationSegmenter {
     this.currentAnnotationSegments.push(
       ...this.createAnnotationSegments(offsetsAtChar.starting),
     );
-    this.annotationGroup.maxDepth = Math.max(
-      this.annotationGroup.maxDepth,
-      this.currentAnnotationDepth,
-    );
 
     this.segments.push(...this.createMarkerSegments(offsetsAtChar.starting));
     this.segments.push(
@@ -155,7 +134,7 @@ export class AnnotationSegmenter {
   private createSegmentWithBody(
     charIndex: number,
     nextCharIndex: number | undefined,
-  ): Segment[] {
+  ): GrouplessSegment[] {
     if (nextCharIndex === undefined) {
       return [];
     }
@@ -166,7 +145,9 @@ export class AnnotationSegmenter {
     return [this.createTextSegment(segmentBody)];
   }
 
-  private createTextSegment(textFromCurrentToNextOffset: string): Segment {
+  private createTextSegment(
+    textFromCurrentToNextOffset: string,
+  ): GrouplessSegment {
     return {
       index: this.segments.length,
       body: textFromCurrentToNextOffset,
@@ -174,7 +155,9 @@ export class AnnotationSegmenter {
     };
   }
 
-  private createMarkerSegments(startingOffsets: TextOffsets[]): Segment[] {
+  private createMarkerSegments(
+    startingOffsets: TextOffsets[],
+  ): GrouplessSegment[] {
     return startingOffsets
       .filter((o) => o.type === "marker")
       .map((offset) => {
@@ -191,7 +174,7 @@ export class AnnotationSegmenter {
 
   private createAnnotationSegments(
     startingOffsets: TextOffsets[],
-  ): AnnotationSegment[] {
+  ): GrouplessAnnotationSegment[] {
     return (
       startingOffsets
         // Markers are handled separately:
@@ -226,36 +209,13 @@ export class AnnotationSegmenter {
     this.currentAnnotationSegments = this.currentAnnotationSegments.filter(
       (a) => !annotationIdsClosingAtCharIndex.includes(a.body.id),
     );
-    const currentNested =
-      this.currentAnnotationSegments.filter(isNestedSegment);
-    this.currentAnnotationDepth = currentNested.reduce(
-      (max, segment) => Math.max(max, segment.depth),
-      0,
-    );
-
-    // Create new annotation group when all annotations are closed:
-    const hasCurrentNestedAnnotations = this.currentAnnotationSegments.find(
-      (s) => s.type === "nested",
-    );
-
-    const groupAnnotationsEnding = offsetsAtChar.ending
-      .filter(isGroupedAnnotation)
-      .map((offset) => offset.body.id);
-    const isClosingGroupAtCurrentChar =
-      groupAnnotationsEnding.length && !hasCurrentNestedAnnotations;
-    if (isClosingGroupAtCurrentChar) {
-      this.annotationGroup = {
-        id: this.annotationGroup.id + 1,
-        maxDepth: 0,
-      };
-    }
   }
 
-  private createNestedAnnotationSegment(offset: TextOffsets): NestedSegment {
+  private createNestedAnnotationSegment(
+    offset: TextOffsets,
+  ): GrouplessNestedSegment {
     return {
       ...this.createSegmentOffsets(),
-      depth: ++this.currentAnnotationDepth,
-      group: this.annotationGroup,
       type: "nested",
       body: offset.body,
     };
@@ -304,12 +264,4 @@ export class AnnotationSegmenter {
  */
 function byAnnotationSize(a: TextOffsets, b: TextOffsets) {
   return b.endChar - b.beginChar - (a.endChar - a.beginChar);
-}
-
-/**
- * Blocks and markers are not included in groups,
- * nested and highlight annotations are
- */
-export function isGroupedAnnotation(offset: TextOffsets) {
-  return offset.type !== "marker" && offset.type !== "block";
 }

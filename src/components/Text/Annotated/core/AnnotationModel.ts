@@ -3,6 +3,7 @@
  * - highlight: highlighted but unclickable
  * - annotation: entity annotations
  * - marker: marking places of zero length
+ * - block: block elements like p, section or div
  */
 export type AnnotationType = "highlight" | "nested" | "marker" | "block";
 export type AnnotationId = string;
@@ -48,15 +49,33 @@ export type AnnotationSegmentWithBodyAndOffsets<T extends Body = Body> =
 
 type Highlight = { type: "highlight" };
 type Marker = { type: "marker" };
-type Nested = {
-  type: "nested";
+type Nested = { type: "nested" };
+type Block = { type: "block"; blockType: BlockType };
+
+export type HighlightSegment<T extends Body = Body> = Highlight &
+  AnnotationSegmentWithBodyAndOffsets<T>;
+export type MarkerSegment<T extends Body = Body> = Marker &
+  AnnotationSegmentWithBodyAndOffsets<T>;
+export type BlockAnnotationSegment<T extends Body = Body> = Block &
+  AnnotationSegmentWithBodyAndOffsets<T>;
+export type GrouplessNestedSegment<T extends Body = Body> = Nested &
+  AnnotationSegmentWithBodyAndOffsets<T>;
+export type NestedSegment<T extends Body = Body> = GrouplessNestedSegment<T> & {
   depth: number;
   group: AnnotationGroup;
 };
-type Block = {
-  type: "block";
-  blockType: BlockType;
-};
+
+export function isNestedSegment(
+  toTest: AnnotationSegment,
+): toTest is NestedSegment {
+  return toTest.type === "nested";
+}
+
+export function isGrouplessNestedSegment(
+  toTest: GrouplessAnnotationSegment,
+): toTest is GrouplessNestedSegment {
+  return toTest.type === "nested";
+}
 
 /**
  * Annotation with its start and end offsets
@@ -68,34 +87,24 @@ export type AnnotationSegment =
   | MarkerSegment
   | BlockAnnotationSegment;
 
-/**
- * Marker and highlight 'annotations' aren't part of nested annotations
- * but are nested inside the other nested annotations
- */
-export type HighlightSegment<HIGHLIGHT extends Body = Body> = Highlight &
-  AnnotationSegmentWithBodyAndOffsets<HIGHLIGHT>;
-export type MarkerSegment<MARKER extends Body = Body> = Marker &
-  AnnotationSegmentWithBodyAndOffsets<MARKER>;
-export type NestedSegment<ANNOTATION extends Body = Body> = Nested &
-  AnnotationSegmentWithBodyAndOffsets<ANNOTATION>;
-export type BlockAnnotationSegment<T extends Body = Body> =
-  AnnotationSegmentWithBodyAndOffsets<T> & Block;
+export type GrouplessAnnotationSegment =
+  | GrouplessNestedSegment
+  | HighlightSegment
+  | MarkerSegment
+  | BlockAnnotationSegment;
 
-export function isNestedSegment(
-  toTest: AnnotationSegment,
-): toTest is NestedSegment {
-  return toTest.type === "nested";
-}
 export function isHighlightSegment(
   toTest: AnnotationSegment,
 ): toTest is HighlightSegment {
   return toTest.type === "highlight";
 }
+
 export function isMarkerSegment(
   toTest: AnnotationSegment,
 ): toTest is MarkerSegment {
   return toTest.type === "marker";
 }
+
 export function isBlockAnnotationSegment(
   toTest: AnnotationSegment,
 ): toTest is BlockAnnotationSegment {
@@ -104,6 +113,15 @@ export function isBlockAnnotationSegment(
 
 /**
  * Segment of a text with its text and the annotations that apply
+ */
+export type GrouplessSegment = {
+  index: number;
+  annotations: GrouplessAnnotationSegment[];
+  body: string;
+};
+
+/**
+ * Segment with grouped annotation info (depth, group)
  */
 export type Segment = {
   index: number;
