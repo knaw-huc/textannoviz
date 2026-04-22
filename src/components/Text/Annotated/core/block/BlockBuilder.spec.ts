@@ -163,6 +163,40 @@ describe(BlockBuilder.name, () => {
       },
     ]);
   });
+
+  it("picks first div as parent of second div", () => {
+    const schema: BlockSchema = {
+      root: "root",
+      blocks: {
+        root: { blocks: ["div"] },
+        div: { blocks: ["div"] },
+      },
+    };
+
+    const d1 = blk("d1", "div");
+    const d2 = blk("d2", "div");
+    const seg1 = seg(0, [d1, d2]);
+
+    const result = new BlockBuilder(schema).build([seg1]);
+
+    expect(result).toEqual([
+      {
+        id: "d1",
+        isBlock: true,
+        blockType: "div",
+        annotation: d1,
+        children: [
+          {
+            id: "d2",
+            isBlock: true,
+            blockType: "div",
+            annotation: d2,
+            children: [{ isBlock: false, segments: [seg1] }],
+          },
+        ],
+      },
+    ]);
+  });
 });
 
 function blk(id: string, blockType: string): BlockAnnotationSegment {
