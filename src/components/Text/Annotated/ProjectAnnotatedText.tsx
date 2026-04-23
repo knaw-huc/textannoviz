@@ -83,7 +83,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     });
   offsets.push(...blockAnnotations);
   return (
-    <div className="project-annotated-text whitespace-pre-wrap">
+    <div className="annotated-text whitespace-pre-wrap">
       <AnnotatedText
         components={projectConfig.annotatedTextComponents}
         text={textBody}
