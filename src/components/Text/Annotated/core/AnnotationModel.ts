@@ -71,17 +71,13 @@ export type NestedSegment<T extends Body = Body> = GrouplessNestedSegment<T> & {
  * Annotation with its start and end offsets
  * using body.id and offsets (startSegment, endSegment)
  */
-export type AnnotationSegment =
-  | NestedSegment
+export type AnnotationSegment<NESTED_SEGMENT extends object = NestedSegment> =
+  | NESTED_SEGMENT
   | HighlightSegment
   | MarkerSegment
   | BlockAnnotationSegment;
-
 export type GrouplessAnnotationSegment =
-  | GrouplessNestedSegment
-  | HighlightSegment
-  | MarkerSegment
-  | BlockAnnotationSegment;
+  AnnotationSegment<GrouplessNestedSegment>;
 
 export function isHighlightSegment(
   toTest: AnnotationSegment,
