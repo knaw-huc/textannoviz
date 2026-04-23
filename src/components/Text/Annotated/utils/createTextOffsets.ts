@@ -1,6 +1,6 @@
-import { AnnoRepoAnnotation } from "../../../../../model/AnnoRepoAnnotation.ts";
-import { TextOffsets } from "../../core";
-import { BroccoliRelativeAnno } from "../../../../../model/Broccoli.ts";
+import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
+import { TextOffsets } from "../core";
+import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
 export function createAnnotationTextOffsets(
   annotation: AnnoRepoAnnotation,
@@ -14,7 +14,7 @@ export function createAnnotationTextOffsets(
     endChar: relativePosition.end,
   };
   if (result.beginChar === result.endChar) {
-    throw new Error("Should not be marker");
+    throw new Error(`Should not be marker: ${JSON.stringify(annotation.body)}`);
   }
   return result;
 }

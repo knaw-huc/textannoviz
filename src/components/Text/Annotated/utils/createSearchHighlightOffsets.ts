@@ -1,4 +1,4 @@
-import { TextOffsets } from "../../core";
+import { TextOffsets } from "../core";
 import { HighlightBody } from "./highlightBodyGuards.ts";
 
 export function createSearchHighlightOffsets(

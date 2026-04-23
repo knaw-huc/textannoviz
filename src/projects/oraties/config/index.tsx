@@ -5,6 +5,8 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { OratiesMarker } from "../annotation/OratiesMarker";
 import { SearchItem } from "../SearchItem";
 import { dutchOratiesLabels } from "./dutchOratiesLabels";
 import { MetadataPanel } from "../MetadataPanel";
@@ -112,6 +114,10 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
 
   // AnnotationConfig
   showAnnotations: true,
+  annotatedTextConfig: {
+    ...defaultAnnotatedTextConfig,
+    Marker: OratiesMarker,
+  },
   relativeTo: "Document",
   annotationTypesToInclude: [
     "Division",
@@ -127,14 +133,14 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     "Section",
     "Whitespace",
   ],
-  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  isMarker: (body) => projectPageMarkerAnnotationTypes.includes(body.type),
 
   /**
    * Note: duplicated from kunstenaarsbrieven
    * TODO: move to projects/common?
    */
-  highlightedAnnotationTypes: projectHighlightedTypes,
-  entityAnnotationTypes: projectEntityTypes,
+  highlightTypes: projectHighlightedTypes,
+  nestedTypes: projectEntityTypes,
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
   isEntity: isEntity,

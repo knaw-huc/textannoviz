@@ -1,4 +1,4 @@
-import { AnnoRepoBody } from "../../../../../model/AnnoRepoAnnotation.ts";
+import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 
 type SearchHighlightBody = {
   id: string;

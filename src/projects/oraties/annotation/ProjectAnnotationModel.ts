@@ -5,7 +5,7 @@ import {
   LetterReferenceBody,
   NoteReferenceBody,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { normalizeClassname } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
+import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 
 /**
  * Oratie specific document body:

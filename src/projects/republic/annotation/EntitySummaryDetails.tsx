@@ -1,4 +1,4 @@
-import { trimMiddle } from "../../../components/Text/Annotated/project/utils/trimMiddle.ts";
+import { trimMiddle } from "../../../utils/trimMiddle.ts";
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig.ts";
 import {
   DateEntityBody,

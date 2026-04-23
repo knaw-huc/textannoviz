@@ -2,12 +2,12 @@ import {
   HighlightBody,
   isAnnotationHighlightBody,
   isSearchHighlightBody,
-} from "./utils/highlightBodyGuards.ts";
-import { HighlightProps } from "../core";
+} from "../../../../components/Text/Annotated/utils/highlightBodyGuards.ts";
+import { HighlightProps } from "../../../../components/Text/Annotated/core";
 import {
   createStartEndClasses,
   normalizeClassname,
-} from "./utils/createAnnotationClasses.ts";
+} from "../../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -16,9 +16,7 @@ import _ from "lodash";
 import { TocHeader } from "./TocHeader.tsx";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
 
-export function ProjectHighlightAnnotations(
-  props: HighlightProps<HighlightBody>,
-) {
+export function DefaultHighlights(props: HighlightProps<HighlightBody>) {
   const { highlights, segment, children } = props;
 
   const { getHighlightCategory, showToc, getTocId } = useProjectStore(
