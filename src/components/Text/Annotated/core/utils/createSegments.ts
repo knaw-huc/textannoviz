@@ -32,7 +32,8 @@ export function createSegments(
 }
 
 /**
- * Map annotation segments, keyed by object reference
+ * Map annotation segments, keyed by object reference.
+ * Add type and type-specific segment props.
  */
 function mapSegmentsByOffsets(
   segmentRanges: Map<TextOffsets, SegmentRange>,

@@ -10,7 +10,6 @@ import { Offsets } from "@knaw-huc/text-annotation-segmenter";
 export type AnnotationType = "highlight" | "nested" | "marker" | "block";
 export type AnnotationId = string;
 export type Body = { id: AnnotationId };
-
 export type WithTypeAndBody<T extends Body = Body> = {
   type: AnnotationType;
   blockType?: BlockType;
@@ -44,7 +43,7 @@ export type SegmentOffsets = {
 };
 
 /**
- * Segment of an annotation as found in {@link Segment}
+ * Annotation linked to its segments
  */
 export type AnnotationSegmentWithBodyAndOffsets<T extends Body = Body> =
   WithTypeAndBody<T> & SegmentOffsets;

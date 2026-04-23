@@ -15,8 +15,8 @@ import { orThrow } from "../../../../../utils/orThrow.tsx";
  * Assign depth and group to nested annotations
  *
  * A group is a set of nested and highlight annotations connected through
- * overlap or nesting. Touching annotations (end of one === start of next)
- * start a new group. Blocks and markers do not affect groups.
+ * overlap or nesting. When annotations only touch (e.g. <aa><bb>)
+ * they are not part of the same group. Blocks and markers do not affect groups.
  */
 export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
   const groupedSegmentsMap = new Map<GrouplessNestedSegment, NestedSegment>();
