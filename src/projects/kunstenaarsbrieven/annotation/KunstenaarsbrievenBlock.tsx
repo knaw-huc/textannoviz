@@ -7,12 +7,10 @@ import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
 
-  const childSegments = findBlockSegments(block.children);
+  const segments = findBlockSegments(block.children);
 
   if (block.blockType === paragraph) {
-    const isBlockquote = childSegments.every((s) =>
-      s.annotations.some(isQuote),
-    );
+    const isBlockquote = segments.every((s) => s.annotations.some(isQuote));
     if (isBlockquote) {
       return <blockquote>{children}</blockquote>;
     }

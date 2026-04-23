@@ -23,11 +23,7 @@ export function SegmentedText(props: SegmentedTextProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [body]);
 
-  return (
-    <span style={{ display: "block" }}>
-      <Elements elements={elements} />
-    </span>
-  );
+  return <Elements elements={elements} />;
 }
 
 function Elements(props: { elements: Element[] }) {
