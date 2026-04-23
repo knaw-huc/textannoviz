@@ -27,7 +27,7 @@ export function Menu<T extends object>(props: MenuProps<T>) {
   return (
     <AriaMenu
       {...props}
-      className="max-h-[inherit] overflow-auto bg-[#dddddd] p-4 outline outline-0 empty:pb-2 empty:text-center"
+      className="min-w-[220px] rounded-xl bg-white px-3 py-2 shadow-md outline-none ring-1 ring-black/5"
     />
   );
 }
@@ -37,7 +37,11 @@ export function MenuItem(props: MenuItemProps) {
     props.textValue ||
     (typeof props.children === "string" ? props.children : undefined);
   return (
-    <AriaMenuItem textValue={textValue} {...props}>
+    <AriaMenuItem
+      textValue={textValue}
+      {...props}
+      className="flex cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:bg-neutral-500 hover:text-neutral-900 focus:bg-neutral-100 focus:outline-none focus-visible:bg-neutral-100 focus-visible:text-neutral-900 focus-visible:outline-none"
+    >
       {composeRenderProps(
         props.children,
         (children, { selectionMode, isSelected, hasSubmenu }) => (
@@ -47,10 +51,10 @@ export function MenuItem(props: MenuItemProps) {
                 {isSelected && <ChevronRight aria-hidden />}
               </span>
             )}
-            <span className="group-selected:font-semibold flex flex-1 items-center gap-2 truncate font-normal">
+            <span className="group-selected:font-semibold flex flex-1">
               {children}
             </span>
-            {hasSubmenu && <ChevronRight aria-hidden />}
+            {hasSubmenu && <ChevronRight aria-hidden className="opacity-60" />}
           </>
         ),
       )}
@@ -100,7 +104,11 @@ export function MenuTrigger(props: MenuTriggerProps) {
   return (
     <AriaMenuTrigger {...props}>
       {trigger}
-      <Popover placement={props.placement} className="min-w-[150px]">
+      <Popover
+        placement={props.placement}
+        offset={14}
+        className="min-w-[150px]"
+      >
         {menu}
       </Popover>
     </AriaMenuTrigger>

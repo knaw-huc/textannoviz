@@ -12,6 +12,7 @@ import { toast } from "../../utils/toast.ts";
 import React from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { Menu, MenuItem, MenuTrigger, SubmenuTrigger } from "./Menu.tsx";
+import { ChevronDown } from "../../components/common/icons/ChevronDown.tsx";
 
 type HeaderProps = {
   introIds: { name: string; id: string }[];
@@ -43,7 +44,8 @@ interface RootMenu {
 
 export const Header = (props: HeaderProps) => {
   const [menu, setMenu] = React.useState<RootMenu>();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openMenuLabel, setOpenMenuLabel] = useState<string | null>(null);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useTranslateProject();
   const navigate = useNavigate();
@@ -71,13 +73,13 @@ export const Header = (props: HeaderProps) => {
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
 
   useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMobileMenuOpen) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsMenuOpen(false);
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isMenuOpen]);
+  }, [isMobileMenuOpen]);
 
   // SvD, 22042026: this appears to be unnecessary?
   // useEffect(() => {
@@ -85,14 +87,14 @@ export const Header = (props: HeaderProps) => {
   // }, [location.pathname]);
 
   useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMobileMenuOpen) return;
     const { style } = document.body;
     const prevOverflow = style.overflow;
     style.overflow = "hidden";
     return () => {
       style.overflow = prevOverflow;
     };
-  }, [isMenuOpen]);
+  }, [isMobileMenuOpen]);
 
   return (
     <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_110px]">
@@ -109,16 +111,16 @@ export const Header = (props: HeaderProps) => {
         <Button
           className="mr-2 inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 lg:hidden"
           aria-label={
-            isMenuOpen
+            isMobileMenuOpen
               ? translateProject("CLOSE_MAIN_NAVIGATION")
               : translateProject("OPEN_MAIN_NAVIGATION")
           }
-          aria-expanded={isMenuOpen}
+          aria-expanded={isMobileMenuOpen}
           aria-controls="main-navigation-mobile"
-          onPress={() => setIsMenuOpen((open) => !open)}
+          onPress={() => setIsMobileMenuOpen((open) => !open)}
         >
           <span className="sr-only">
-            {isMenuOpen
+            {isMobileMenuOpen
               ? translateProject("CLOSE_MAIN_NAVIGATION")
               : translateProject("OPEN_MAIN_NAVIGATION")}
           </span>
@@ -131,12 +133,30 @@ export const Header = (props: HeaderProps) => {
         </Button>
 
         <nav
-          className="mr-4 hidden flex-row gap-4 text-sm *:no-underline lg:flex"
+          className="hidden flex-row gap-4 text-sm *:no-underline lg:flex"
           aria-label="Main navigation"
         >
           {menu?.menu.map((category) => (
-            <MenuTrigger key={category.label}>
-              <Button className="font-bold">{category.label}</Button>
+            <MenuTrigger
+              key={category.label}
+              isOpen={openMenuLabel === category.label}
+              onOpenChange={(isOpen) =>
+                setOpenMenuLabel(isOpen ? category.label : null)
+              }
+            >
+              <Button
+                className={`flex items-center gap-1 rounded-md font-medium hover:bg-neutral-300 ${
+                  openMenuLabel === category.label ? "bg-neutral-300" : ""
+                }
+  `}
+              >
+                {category.label}
+                <ChevronDown
+                  className={`transition-transform ${
+                    openMenuLabel === category.label ? "rotate-180" : ""
+                  }`}
+                />
+              </Button>
               <Menu>
                 {category.items?.map((item) => (
                   <MenuItem
@@ -152,7 +172,7 @@ export const Header = (props: HeaderProps) => {
                 ))}
                 {category.menu?.map((submenu) => (
                   <SubmenuTrigger key={submenu.label}>
-                    <MenuItem className="flex flex-row items-center gap-4 font-bold">
+                    <MenuItem className="flex items-center justify-between rounded-md px-3 py-2">
                       <Text slot="label">{submenu.label}</Text>
                     </MenuItem>
                     <Menu>
@@ -181,7 +201,7 @@ export const Header = (props: HeaderProps) => {
         <LanguageMenu />
       </div>
 
-      {isMenuOpen && (
+      {isMobileMenuOpen && (
         <div
           className="fixed inset-0 z-40 bg-white lg:hidden"
           role="dialog"
@@ -193,7 +213,7 @@ export const Header = (props: HeaderProps) => {
               <Button
                 className="inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
                 aria-label={translateProject("CLOSE_MAIN_NAVIGATION")}
-                onPress={() => setIsMenuOpen(false)}
+                onPress={() => setIsMobileMenuOpen(false)}
               >
                 <span aria-hidden="true">&#10006;</span>
               </Button>
@@ -215,7 +235,7 @@ export const Header = (props: HeaderProps) => {
                       className="w-full justify-start text-left text-inherit no-underline hover:underline"
                       onPress={() => {
                         navigate(`/detail/${introId.id}`);
-                        setIsMenuOpen(false);
+                        setIsMobileMenuOpen(false);
                       }}
                     >
                       {introId.name}
@@ -229,7 +249,7 @@ export const Header = (props: HeaderProps) => {
                       className="w-full justify-start text-left text-inherit no-underline hover:underline"
                       onPress={() => {
                         navigate(`/${route.path}`);
-                        setIsMenuOpen(false);
+                        setIsMobileMenuOpen(false);
                       }}
                     >
                       {translateProject(route.path)}
@@ -242,7 +262,7 @@ export const Header = (props: HeaderProps) => {
                     className="w-full justify-start text-left text-inherit no-underline hover:underline"
                     onPress={() => {
                       navigate("/help");
-                      setIsMenuOpen(false);
+                      setIsMobileMenuOpen(false);
                     }}
                   >
                     {translateProject("help")}
