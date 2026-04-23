@@ -8,14 +8,14 @@ import {
 } from "../AnnotationModel.ts";
 import { createSegments } from "./createSegments.ts";
 
-const body = "aabbccddee";
-const annotations: TextOffsets[] = [
-  { type: "nested", body: { id: "anno1" } as Body, begin: 2, end: 6 },
-  { type: "nested", body: { id: "anno2" } as Body, begin: 4, end: 6 },
-  { type: "nested", body: { id: "anno3" } as Body, begin: 4, end: 8 },
-];
-
 describe("createSegments", () => {
+  const body = "aabbccddee";
+  const annotations: TextOffsets[] = [
+    { type: "nested", body: { id: "anno1" } as Body, begin: 2, end: 6 },
+    { type: "nested", body: { id: "anno2" } as Body, begin: 4, end: 6 },
+    { type: "nested", body: { id: "anno3" } as Body, begin: 4, end: 8 },
+  ];
+
   it("starts with segment of text without annotations when no annotation found", () => {
     const result = createSegments(body, annotations);
     expect(result[0].body).toEqual("aa");
@@ -216,6 +216,48 @@ describe("createSegments", () => {
     expect(aInFirstSegment.body.id).toBe("a");
     expect(aInSecondSegment.body.id).toBe("a");
     expect(aInFirstSegment).toBe(aInSecondSegment);
+  });
+
+  it("sorts annotations by starting position", () => {
+    const segments = createSegments("abc", [ann("bc", 1, 3), ann("ab", 0, 2)]);
+
+    const ids = segments[1].annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["ab", "bc"]);
+  });
+
+  it("sorts annotations largest-first", () => {
+    const segments = createSegments("ab", [ann("a", 0, 1), ann("ab", 0, 2)]);
+
+    const ids = segments[0].annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["ab", "a"]);
+  });
+
+  it("keeps sorting order for same sized annotations", () => {
+    const segments = createSegments("ab", [
+      ann("a1", 0, 1),
+      ann("a3", 0, 1),
+      ann("a2", 0, 1),
+      hgl("h1", 0, 1),
+      ann("a4", 0, 1),
+      hgl("h3", 0, 1),
+      hgl("h2", 0, 1),
+      ann("a5", 0, 1),
+    ]);
+
+    const ids = segments[0].annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["a1", "a3", "a2", "h1", "a4", "h3", "h2", "a5"]);
+  });
+
+  it("places markers before annotations with length", () => {
+    const segments = createSegments("abc", [
+      ann("abc", 0, 3),
+      mrk("marker", 1),
+      ann("bc", 1, 3),
+    ]);
+
+    const markerSegment = segments[1];
+    const ids = markerSegment.annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["marker", "abc", "bc"]);
   });
 });
 
