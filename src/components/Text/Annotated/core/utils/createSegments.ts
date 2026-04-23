@@ -23,9 +23,9 @@ export function createSegments(
   const textSegments = segment(body, offsets);
   const annotationRanges = mapAnnotationSegmentRanges(textSegments);
   const segmentsByOffsets = mapSegmentsByOffsets(annotationRanges);
-  const sortedSegments = textSegments.map((textSegment, index) => {
+  const sortedSegments = textSegments.map((textSegment) => {
     const sorted = sortAnnotations(textSegment.annotations, segmentsByOffsets);
-    return { ...textSegment, index, annotations: sorted };
+    return { ...textSegment, annotations: sorted };
   });
   const groupedSegments = assignGroupToSegments(sortedSegments);
   return groupedSegments;

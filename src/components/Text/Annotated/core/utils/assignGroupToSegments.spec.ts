@@ -10,14 +10,14 @@ const annotations: TextOffsets[] = [
   { type: "nested", body: { id: "anno3" } as Body, begin: 4, end: 8 },
 ];
 
-function segmentAndGroup(text: string, offsets: TextOffsets[]) {
+function createTestData(text: string, offsets: TextOffsets[]) {
   const segments = createSegments(text, offsets);
   return assignGroupToSegments(segments);
 }
 
 describe("groupSegments", () => {
   it("assigns depth to nested annotations", () => {
-    const segments = segmentAndGroup(body, annotations);
+    const segments = createTestData(body, annotations);
     const annotationsIdAndDepth = segments[2].annotations.map((a) => ({
       id: a.body.id,
       depth: (a as NestedSegment).depth,
@@ -30,7 +30,7 @@ describe("groupSegments", () => {
   });
 
   it("creates group with depth=1 and maxDepth=1 for single annotation", () => {
-    const segments = segmentAndGroup("aa", [ann("a", 0, 2)]);
+    const segments = createTestData("aa", [ann("a", 0, 2)]);
     expect(segments.length).toEqual(1);
     const a = segments[0].annotations[0] as NestedSegment;
     expect(a.depth).toEqual(1);
@@ -39,7 +39,7 @@ describe("groupSegments", () => {
 
   it("shares maximum annotation depth with group of connected annotations", () => {
     // <aa<bb<cc>>>
-    const segments = segmentAndGroup("aabbcc", [
+    const segments = createTestData("aabbcc", [
       ann("aabbcc", 0, 6),
       ann("bbcc", 2, 6),
       ann("cc", 4, 6),
@@ -52,7 +52,7 @@ describe("groupSegments", () => {
 
   it("creates new group after annotation-less part of text", () => {
     // <a>aa</a>bb<c>cc</c>
-    const segments = segmentAndGroup("aabbcc", [
+    const segments = createTestData("aabbcc", [
       ann("aa", 0, 2),
       ann("cc", 4, 6),
     ]);
@@ -64,10 +64,7 @@ describe("groupSegments", () => {
 
   it("creates new group when no annotations are overlapping or connected", () => {
     // <aa><bb>
-    const segments = segmentAndGroup("aabb", [
-      ann("aa", 0, 2),
-      ann("bb", 2, 4),
-    ]);
+    const segments = createTestData("aabb", [ann("aa", 0, 2), ann("bb", 2, 4)]);
     const aa = segments[0].annotations[0] as NestedSegment;
     expect(aa.group.id).toEqual(1);
     const bb = segments[1].annotations[0] as NestedSegment;
@@ -82,7 +79,7 @@ describe("groupSegments", () => {
      *   <c>cc</c>
      * </highlight>
      */
-    const segments = segmentAndGroup("aabbcc", [
+    const segments = createTestData("aabbcc", [
       ann("aa", 0, 2),
       hgl("high", 0, 6),
       ann("cc", 4, 6),
@@ -98,7 +95,7 @@ describe("groupSegments", () => {
 
   it("tracks maxDepth for overlapping annotations", () => {
     // <ab>aa<bc>bb</ab><cd>cc</bc>dd</cd>
-    const segments = segmentAndGroup("aabbccdd", [
+    const segments = createTestData("aabbccdd", [
       ann("ab", 0, 4),
       ann("bc", 2, 6),
       ann("cd", 4, 8),
@@ -110,7 +107,7 @@ describe("groupSegments", () => {
 
   it("resets depth correctly after closing overlapping annotations", () => {
     // <abcde><ab>aa<bc>bb</ab>cc</bc>dd<e>ee</e></abcde>
-    const segments = segmentAndGroup("aabbccddee", [
+    const segments = createTestData("aabbccddee", [
       ann("abcde", 0, 10),
       ann("ab", 0, 4),
       ann("bc", 2, 6),
@@ -124,7 +121,7 @@ describe("groupSegments", () => {
 
   it("does not increment group id when a block closes", () => {
     // <p1>aa</p1>bb<e1>cc</e1>
-    const segments = segmentAndGroup("aabbcc", [
+    const segments = createTestData("aabbcc", [
       blk("p1", 0, 2, "paragraph"),
       ann("e1", 4, 6),
     ]);
