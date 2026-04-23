@@ -354,3 +354,12 @@ export const blockSchema: BlockSchema = {
     [head]: { blocks: [] },
   },
 };
+
+export const isMarker = (body: AnnoRepoBodyBase) =>
+  [...pageMarkerTypes, ...insertMarkerTypes].includes(body.type) ||
+  isNoteReference(body);
+
+export const isBlock = (body: AnnoRepoBodyBase) =>
+  blockTypes.includes(body.type);
+
+export const getBlockType = (body: AnnoRepoBodyBase) => body.type;

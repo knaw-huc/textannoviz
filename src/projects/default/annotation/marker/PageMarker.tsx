@@ -21,6 +21,7 @@ import { toArray } from "lodash";
 
 export function PageMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   const { marker } = props;
+  console.log("PageMarker", { marker });
   const [isZooming, setIsZooming] = useState(false);
   const annotations = useAnnotationStore().annotations;
   const viewer = useViewer();

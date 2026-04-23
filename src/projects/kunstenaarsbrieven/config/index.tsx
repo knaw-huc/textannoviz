@@ -8,21 +8,20 @@ import { NotesPanel } from "../NotesPanel";
 import {
   blockSchema,
   document,
+  entityTypes,
   getAnnotationCategory,
+  getBlockType,
   getHighlightCategory,
+  highlightTypes,
+  isBlock,
   isEntity,
-  isNoteReference,
+  isMarker,
   letter,
   note,
   person,
-  typesToInclude,
-  blockTypes,
-  entityTypes,
-  highlightTypes,
-  insertMarkerTypes,
-  pageMarkerTypes,
   reference,
   teiArtwork,
+  typesToInclude,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
@@ -33,7 +32,6 @@ import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
 import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 import { filterPanels } from "../filterPanels.ts";
-import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
 import { KunstenaarsbrievenBlock } from "../annotation/KunstenaarsbrievenBlock.tsx";
 import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
@@ -61,11 +59,9 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     },
     highlightTypes: highlightTypes,
     nestedTypes: entityTypes,
-    isMarker: (body: AnnoRepoBodyBase) =>
-      [...pageMarkerTypes, ...insertMarkerTypes].includes(body.type) ||
-      isNoteReference(body),
-    isBlock: (body: AnnoRepoBodyBase) => blockTypes.includes(body.type),
-    getBlockType: (body: AnnoRepoBodyBase) => body.type,
+    isMarker: isMarker,
+    isBlock: isBlock,
+    getBlockType: getBlockType,
     blockSchema,
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
