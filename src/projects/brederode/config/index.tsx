@@ -10,7 +10,7 @@ import { BrederodeMarker } from "../annotation/BrederodeMarker";
 import { SearchItem } from "../SearchItem";
 import { englishBrederodeLabels } from "./englishBrederodeLabels";
 import { MetadataPanel } from "../MetadataPanel";
-import { projectPageMarkerAnnotationTypes } from "../annotation/ProjectAnnotationModel";
+import { pageMarkerTypes } from "../annotation/ProjectAnnotationModel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
 
@@ -32,7 +32,7 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchInfoPage,
     Header,
   },
-  isMarker: (body) => projectPageMarkerAnnotationTypes.includes(body.type),
+  isMarker: (body) => pageMarkerTypes.includes(body.type),
   elasticIndexName: "brederode",
   showAnnotations: true,
   annotatedTextComponents: {

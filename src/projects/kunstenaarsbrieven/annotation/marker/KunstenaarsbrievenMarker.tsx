@@ -1,12 +1,8 @@
 import { MarkerProps } from "../../../../components/Text/Annotated/core";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
-import { PageMarker } from "../../../default/annotation/marker/PageMarker.tsx";
 import { throwUnknownAnnotation } from "../../../../components/Text/Annotated/throwUnknownAnnotation.ts";
-import { isNoteReference } from "../../annotation/ProjectAnnotationModel.ts";
-import {
-  pageMarkerTypes,
-  insertMarkerTypes,
-} from "../ProjectAnnotationModel.ts";
+import { isNoteReference } from "../ProjectAnnotationModel.ts";
+import { insertMarkerTypes } from "../ProjectAnnotationModel.ts";
 import { TooltipMarkerAnnotation } from "./TooltipMarkerAnnotation.tsx";
 import { InsertMarkerAnnotation } from "./InsertMarkerAnnotation.tsx";
 
@@ -17,9 +13,6 @@ export function KunstenaarsbrievenMarker(props: MarkerProps<MarkerBody>) {
 
   if (isNoteReference(body)) {
     return <TooltipMarkerAnnotation marker={marker} />;
-  }
-  if (pageMarkerTypes.includes(type)) {
-    return <PageMarker marker={marker} />;
   }
   if (insertMarkerTypes.includes(type)) {
     return <InsertMarkerAnnotation marker={marker} />;

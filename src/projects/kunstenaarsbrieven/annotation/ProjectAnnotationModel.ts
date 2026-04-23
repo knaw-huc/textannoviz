@@ -267,14 +267,12 @@ export const highlightTypes = [
   whitespace,
 ];
 export const tooltipMarkerTypes = [reference];
-export const pageMarkerTypes = [page];
 export const insertMarkerTypes = [picture, head];
-export const blockTypes = [paragraph, head];
+export const blockTypes = [paragraph, head, page];
 
 export const typesToInclude = [
   ...new Set([
     ...insertMarkerTypes,
-    ...pageMarkerTypes,
     ...tooltipMarkerTypes,
     ...highlightTypes,
     ...entityTypes,
@@ -349,15 +347,15 @@ export const entityCategoryToAgg: Record<string, string> = {
 export const blockSchema: BlockSchema = {
   root: "root",
   blocks: {
-    root: { blocks: [paragraph, head] },
+    root: { blocks: [page] },
+    [page]: { blocks: [paragraph, head] },
     [paragraph]: { blocks: [] },
     [head]: { blocks: [] },
   },
 };
 
 export const isMarker = (body: AnnoRepoBodyBase) =>
-  [...pageMarkerTypes, ...insertMarkerTypes].includes(body.type) ||
-  isNoteReference(body);
+  [...insertMarkerTypes].includes(body.type) || isNoteReference(body);
 
 export const isBlock = (body: AnnoRepoBodyBase) =>
   blockTypes.includes(body.type);
