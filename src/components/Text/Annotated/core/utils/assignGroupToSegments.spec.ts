@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest";
-import {
-  body,
-  annotations,
-} from "../test/resources/dummyLogicalTextAnnotations.ts";
 import { Body, NestedSegment, TextOffsets } from "../AnnotationModel.ts";
-import { AnnotationSegmenter } from "./AnnotationSegmenter.ts";
+import { createSegments } from "./createSegments.ts";
 import { assignGroupToSegments } from "./assignGroupToSegments.ts";
 
+const body = "aabbccddee";
+const annotations: TextOffsets[] = [
+  { type: "nested", body: { id: "anno1" } as Body, begin: 2, end: 6 },
+  { type: "nested", body: { id: "anno2" } as Body, begin: 4, end: 6 },
+  { type: "nested", body: { id: "anno3" } as Body, begin: 4, end: 8 },
+];
+
 function segmentAndGroup(text: string, offsets: TextOffsets[]) {
-  const segments = new AnnotationSegmenter(text, offsets).segment();
+  const segments = createSegments(text, offsets);
   return assignGroupToSegments(segments);
 }
 
