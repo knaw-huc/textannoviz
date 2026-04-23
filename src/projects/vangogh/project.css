@@ -24,18 +24,6 @@
   font-style: italic;
 }
 
-/* Whitespace styling */
-.text-segment {
-  &:has(> .annotated-segment > .highlight-whitespace) {
-    line-height: 1em;
-    display: block;
-  }
-
-  &:has(> .annotated-segment > .whitespace-markup) {
-    display: none;
-  }
-}
-
 .highlight-supplied::before {
   content: "[";
   position: relative;
@@ -59,16 +47,15 @@
   cursor: text;
 }
 
-.text-segment:has(.highlight-quote) {
-  display: block;
+p:has(.highlight-quote) {
   text-align: right;
   margin-bottom: 1em;
 
   /* Show marker next to quote: */
-  &:has(+ .text-segment .marker) {
+  &:has(+ .annotated-segment .marker) {
     padding-right: 2em;
 
-    & + .text-segment {
+    & + .annotated-segment {
       display: block;
       float: right;
       margin-top: -2.5em;
@@ -178,4 +165,10 @@ img {
       color: black;
     }
   }
+}
+
+/* Whitespace styling */
+.annotated-segment:has(> .highlight-whitespace),
+.annotated-segment:has(> .whitespace-markup) {
+  display: none;
 }
