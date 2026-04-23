@@ -6,7 +6,11 @@ import {
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
 import { ViewLang } from "../../../model/Broccoli";
-import { BlockSchema } from "../../../components/Text/Annotated/core";
+import {
+  AnnotationSegment,
+  BlockSchema,
+} from "../../../components/Text/Annotated/core";
+import { isHighlightSegment } from "../../../components/Text/Annotated/core/AnnotationModel.ts";
 
 /**
  * Kunstenaarsbrieven Annotation, element and tei type names
@@ -332,6 +336,10 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
     return unknown;
   }
 }
+
+export const isQuote = (toTest: AnnotationSegment): boolean =>
+  isHighlightSegment(toTest) &&
+  (toTest.body as AnnoRepoBodyBase).type === quote;
 
 export const entityCategoryToAgg: Record<string, string> = {
   PER: "persons",

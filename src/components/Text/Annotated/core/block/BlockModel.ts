@@ -2,6 +2,7 @@ import {
   BlockAnnotationSegment,
   BlockType,
   Segment,
+  Body,
 } from "../AnnotationModel.ts";
 
 export type Element = Block | Inline;
@@ -11,10 +12,10 @@ export type Inline = {
   segments: Segment[];
 };
 
-export type Block = {
+export type Block<T extends Body = Body> = {
   isBlock: true;
   id: string;
   blockType: BlockType;
-  annotation: BlockAnnotationSegment;
+  annotation: BlockAnnotationSegment<T>;
   children: Element[];
 };

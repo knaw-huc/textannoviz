@@ -6,7 +6,7 @@ import { tocScrollHeader } from "../../../components/Text/Toc/useSyncHeaderOnScr
 export function BlockTocHeader(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
 
-  const tocId = getTocId(block.body);
+  const tocId = getTocId(block.annotation.body);
   return (
     <h2 id={tocId} className={tocScrollHeader}>
       {children}

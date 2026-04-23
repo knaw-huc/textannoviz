@@ -1,5 +1,4 @@
 import {
-  BlockAnnotationSegment,
   Body,
   GroupedSegments,
   HighlightSegment,
@@ -11,7 +10,7 @@ import {
 import { SegmentedText } from "./SegmentedText.tsx";
 import { createContext, FC, PropsWithChildren, ReactNode } from "react";
 import { Any } from "../../../../utils/Any.ts";
-import { BlockSchema } from "./block";
+import { Block, BlockSchema } from "./block";
 
 /**
  * AnnotatedText renders text segments and their annotations
@@ -33,8 +32,7 @@ export function AnnotatedText<
   NESTED extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
-  BLOCK extends Body = Body,
->(props: AnnotatedTextProps<NESTED, HIGHLIGHT, MARKER, BLOCK>) {
+>(props: AnnotatedTextProps<NESTED, HIGHLIGHT, MARKER>) {
   return (
     <AnnotatedTextProvider
       value={props.components as unknown as AnnotatedTextComponents}
@@ -67,13 +65,12 @@ export type AnnotatedTextComponents<
   NESTED extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
-  BLOCK extends Body = Body,
 > = {
   Nested: FC<NestedProps<NESTED>>;
   Highlight: FC<HighlightProps<HIGHLIGHT>>;
   Marker: FC<MarkerProps<MARKER>>;
   Group: FC<GroupProps>;
-  Block: FC<BlockProps<BLOCK>>;
+  Block: FC<BlockProps>;
 };
 
 export type NestedProps<ANNOTATION extends Body = Body> = {
@@ -98,8 +95,8 @@ export type GroupProps = {
   children: ReactNode;
 };
 
-export type BlockProps<BLOCK extends Body = Body> = {
-  block: BlockAnnotationSegment<BLOCK>;
+export type BlockProps<T extends Body = Body> = {
+  block: Block<T>;
   children: ReactNode;
 };
 
@@ -107,9 +104,8 @@ export type AnnotatedTextProps<
   ANNOTATION extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
-  BLOCK extends Body = Body,
 > = PropsWithChildren<{
-  components: AnnotatedTextComponents<ANNOTATION, HIGHLIGHT, MARKER, BLOCK>;
+  components: AnnotatedTextComponents<ANNOTATION, HIGHLIGHT, MARKER>;
   text: string;
   offsets: TextOffsets[];
   blockSchema: BlockSchema;

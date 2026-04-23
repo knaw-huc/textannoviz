@@ -9,6 +9,25 @@
     color: rgb(55, 65, 81);
     font-size: 1.5em;
   }
+
+  blockquote {
+    text-align: right;
+    margin-bottom: 1em;
+    border-left: 0;
+    font-style: normal;
+
+    /* Show marker next to quote: */
+    &:has(+ .annotated-segment .marker) {
+      padding-right: 2em;
+
+      & + .annotated-segment {
+        display: block;
+        float: right;
+        margin-top: -2.5em;
+        clear: none;
+      }
+    }
+  }
 }
 
 .segmented-line:has(.marker-head) {
@@ -45,23 +64,6 @@
 /* Remove annotated-segment [role="button"] pointer cursor: */
 [role="button"]:has(:not(.nested-annotation)) {
   cursor: text;
-}
-
-p:has(.highlight-quote) {
-  text-align: right;
-  margin-bottom: 1em;
-
-  /* Show marker next to quote: */
-  &:has(+ .annotated-segment .marker) {
-    padding-right: 2em;
-
-    & + .annotated-segment {
-      display: block;
-      float: right;
-      margin-top: -2.5em;
-      clear: none;
-    }
-  }
 }
 
 .highlight-item {

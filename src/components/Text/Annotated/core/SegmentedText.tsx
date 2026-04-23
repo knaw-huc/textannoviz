@@ -48,7 +48,7 @@ function InlineElement(props: { inline: Inline }) {
 function BlockElement(props: { block: Block }) {
   const { Block } = useAnnotatedTextConfig();
   return (
-    <Block block={props.block.annotation}>
+    <Block block={props.block}>
       <Elements elements={props.block.children} />
     </Block>
   );
