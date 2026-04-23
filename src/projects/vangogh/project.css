@@ -28,6 +28,12 @@
       }
     }
   }
+
+  /* Hide whitespace between block elements: */
+  > .annotated-segment:has(> .highlight-whitespace),
+  > .page > .annotated-segment:has(> .highlight-whitespace) {
+    display: none;
+  }
 }
 
 .segmented-line:has(.marker-head) {
@@ -167,10 +173,4 @@ img {
       color: black;
     }
   }
-}
-
-/* Whitespace styling */
-.annotated-segment:has(> .highlight-whitespace),
-.annotated-segment:has(> .whitespace-markup) {
-  display: none;
 }
