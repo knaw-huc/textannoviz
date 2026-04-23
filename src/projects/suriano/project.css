@@ -3,7 +3,7 @@
   font-style: italic;
 }
 
-.highlight-tei-head {
+.highlight-head {
   font-size: 0.8em;
   font-weight: bold;
   color: #aaa;
@@ -13,7 +13,7 @@
   text-transform: uppercase;
 }
 
-.highlight-superscript {
+.highlight-super {
   vertical-align: super;
   font-size: 0.7em;
 }
