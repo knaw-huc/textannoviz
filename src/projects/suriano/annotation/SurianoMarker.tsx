@@ -1,6 +1,6 @@
 import { MarkerProps } from "../../../components/Text/Annotated/core";
 import { MarkerBody } from "../../../model/AnnoRepoAnnotation.ts";
-import { PageMarkerAnnotation } from "../../default/annotation/marker/PageMarkerAnnotation.tsx";
+import { PageMarker } from "../../default/annotation/marker/PageMarker.tsx";
 import { throwUnknownAnnotation } from "../../../components/Text/Annotated/throwUnknownAnnotation.ts";
 import {
   projectPageMarkerAnnotationTypes,
@@ -13,7 +13,7 @@ export function SurianoMarker(props: MarkerProps<MarkerBody>) {
   const type = marker.body.type;
 
   if (projectPageMarkerAnnotationTypes.includes(type)) {
-    return <PageMarkerAnnotation marker={marker} />;
+    return <PageMarker marker={marker} />;
   }
   if (projectInsertTextMarkerAnnotationTypes.includes(type)) {
     // TODO: remove suriano projectInsertTextMarkerAnnotationTypes

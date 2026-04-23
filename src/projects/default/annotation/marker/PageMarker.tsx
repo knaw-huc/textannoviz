@@ -19,9 +19,7 @@ import {
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { toArray } from "lodash";
 
-export function PageMarkerAnnotation(props: {
-  marker: MarkerSegment<MarkerBody>;
-}) {
+export function PageMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   const { marker } = props;
   const [isZooming, setIsZooming] = useState(false);
   const annotations = useAnnotationStore().annotations;

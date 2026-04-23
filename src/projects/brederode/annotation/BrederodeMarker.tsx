@@ -1,6 +1,6 @@
 import { MarkerProps } from "../../../components/Text/Annotated/core";
 import { MarkerBody } from "../../../model/AnnoRepoAnnotation.ts";
-import { PageMarkerAnnotation } from "../../default/annotation/marker/PageMarkerAnnotation.tsx";
+import { PageMarker } from "../../default/annotation/marker/PageMarker.tsx";
 import { throwUnknownAnnotation } from "../../../components/Text/Annotated/throwUnknownAnnotation.ts";
 import { projectPageMarkerAnnotationTypes } from "./ProjectAnnotationModel.ts";
 
@@ -9,7 +9,7 @@ export function BrederodeMarker(props: MarkerProps<MarkerBody>) {
   const type = marker.body.type;
 
   if (projectPageMarkerAnnotationTypes.includes(type)) {
-    return <PageMarkerAnnotation marker={marker} />;
+    return <PageMarker marker={marker} />;
   }
   throwUnknownAnnotation("marker", marker.body);
 }
