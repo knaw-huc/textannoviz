@@ -31,7 +31,7 @@ export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
     );
     if (closing.length) {
       activeGroupAnnotations = activeGroupAnnotations.filter(
-        (n) => n.endSegment !== segment.index,
+        (offsets) => offsets.endSegment !== segment.index,
       );
       currentDepth = activeGroupAnnotations
         .filter((a) => (a as GrouplessAnnotationSegment).type === "nested")

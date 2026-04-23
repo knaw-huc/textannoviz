@@ -11,7 +11,7 @@ import {
 import { assignGroupToSegments } from "./assignGroupToSegments.ts";
 
 /**
- * Split a text into {@link GrouplessSegment}s using annotation character offsets.
+ * Split a text into {@link Segment}s using annotation character offsets.
  *
  * Each segment contains the text and a sorted list of annotation segments:
  * markers first, then remaining annotations sorted largest-first (so smallest nest deepest).
@@ -22,25 +22,23 @@ export function createSegments(
 ): Segment[] {
   const textSegments = segment(body, offsets);
   const annotationRanges = mapAnnotationSegmentRanges(textSegments);
-  const annotationSegments = mapSegmentsByOffsets(annotationRanges);
-  const segments = textSegments.map((textSegment, index) => {
-    return {
-      ...textSegment,
-      index,
-      annotations: sortByLength(textSegment.annotations, annotationSegments),
-    };
+  const segmentsByOffsets = mapSegmentsByOffsets(annotationRanges);
+  const sortedSegments = textSegments.map((textSegment, index) => {
+    const sorted = sortAnnotations(textSegment.annotations, segmentsByOffsets);
+    return { ...textSegment, index, annotations: sorted };
   });
-  return assignGroupToSegments(segments);
+  const groupedSegments = assignGroupToSegments(sortedSegments);
+  return groupedSegments;
 }
 
 /**
- * Map annotation segments, keyed by object identity.
+ * Map annotation segments, keyed by object reference
  */
 function mapSegmentsByOffsets(
-  ranges: Map<TextOffsets, SegmentRange>,
+  segmentRanges: Map<TextOffsets, SegmentRange>,
 ): Map<TextOffsets, GrouplessAnnotationSegment> {
   const result = new Map<TextOffsets, GrouplessAnnotationSegment>();
-  for (const [offset, range] of ranges) {
+  for (const [offset, range] of segmentRanges) {
     result.set(offset, toAnnotationSegment(offset, range));
   }
   return result;
@@ -60,17 +58,23 @@ function toAnnotationSegment(
   }
 }
 
-function sortByLength(
+/**
+ * Sort annotations:
+ * - markers first
+ * - longest first
+ */
+function sortAnnotations(
   annotations: TextOffsets[],
-  segmentMap: Map<TextOffsets, GrouplessAnnotationSegment>,
+  segmentByOffsets: Map<TextOffsets, GrouplessAnnotationSegment>,
 ): GrouplessAnnotationSegment[] {
-  const resolve = (a: TextOffsets) => segmentMap.get(a)!;
-  const markers = annotations.filter((a) => a.type === "marker").map(resolve);
-  const rest = annotations
+  const markers = annotations
+    .filter((a) => a.type === "marker")
+    .map((a) => segmentByOffsets.get(a)!);
+  const withLength = annotations
     .filter((a) => a.type !== "marker")
     .sort(bySegmentLength)
-    .map(resolve);
-  return [...markers, ...rest];
+    .map((a) => segmentByOffsets.get(a)!);
+  return [...markers, ...withLength];
 }
 
 /**
