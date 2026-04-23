@@ -17,10 +17,10 @@
     font-style: normal;
 
     /* Show marker next to quote: */
-    &:has(+ .annotated-segment .marker) {
+    &:has(+ .marker) {
       padding-right: 2em;
 
-      & + .annotated-segment {
+      & + .marker {
         display: block;
         float: right;
         margin-top: -2.5em;
@@ -30,8 +30,7 @@
   }
 
   /* Hide whitespace between block elements: */
-  > .annotated-segment:has(> .highlight-whitespace),
-  > .page > .annotated-segment:has(> .highlight-whitespace) {
+  :is(&, & > .page) > .highlight-whitespace {
     display: none;
   }
 }

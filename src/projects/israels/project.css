@@ -32,16 +32,16 @@
   cursor: text;
 }
 
-.annotated-segment:has(.highlight-quote) {
+.highlight-quote {
   display: block;
   text-align: right;
   margin-bottom: 1em;
 
   /* Show marker next to quote: */
-  &:has(+ .annotated-segment .marker) {
+  &:has(+ .marker) {
     padding-right: 2em;
 
-    & + .annotated-segment {
+    & + .marker {
       display: block;
       float: right;
       margin-top: -2.5em;

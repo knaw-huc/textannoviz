@@ -5,8 +5,6 @@ export function TextSegmentWithAnnotations(props: { segment: Segment }) {
   const nestedAnnotations = props.segment.annotations.filter(isNestedSegment);
 
   return (
-    <span className="annotated-segment">
-      <NestedAnnotation segment={props.segment} toNest={nestedAnnotations} />
-    </span>
+    <NestedAnnotation segment={props.segment} toNest={nestedAnnotations} />
   );
 }
