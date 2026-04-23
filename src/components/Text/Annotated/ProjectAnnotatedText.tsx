@@ -74,7 +74,6 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
       createMarkerTextOffsets(annotation, relative),
     );
   offsets.push(...markerAnnotations);
-  console.log(`${ProjectAnnotatedText.name}:`);
   const blockAnnotations = withRelative
     .filter(({ annotation }) => isBlock(annotation.body))
     .map(({ annotation, relative }) => {
