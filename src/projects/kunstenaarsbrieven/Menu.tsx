@@ -40,7 +40,7 @@ export function MenuItem(props: MenuItemProps) {
     <AriaMenuItem
       textValue={textValue}
       {...props}
-      className="flex cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:bg-neutral-500 hover:text-neutral-900 focus:bg-neutral-100 focus:outline-none focus-visible:bg-neutral-100 focus-visible:text-neutral-900 focus-visible:outline-none"
+      className="flex cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:text-neutral-900 focus:bg-[#FFCE01] focus:outline-none focus-visible:bg-[#FFCE01] focus-visible:text-neutral-900 focus-visible:outline-none"
     >
       {composeRenderProps(
         props.children,
