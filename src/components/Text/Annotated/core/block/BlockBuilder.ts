@@ -1,103 +1,51 @@
 import {
   BlockAnnotationSegment,
-  BlockType,
   Body,
   isBlockAnnotationSegment,
   Segment,
-  SegmentIndex,
 } from "../AnnotationModel.ts";
 import { Block, Element, Inline } from "./BlockModel.ts";
-
-type BlockConfig = {
-  blocks: BlockType[];
-};
-
-export type BlockSchema = {
-  root: BlockType;
-  blocks: Record<BlockType, BlockConfig>;
-};
 
 type GroupedSegments<T extends Body> = {
   block?: BlockAnnotationSegment<T>;
   segments: Segment[];
 };
 
-/**
- * Loop through segments, dequeue annotation after building a block
- */
-type AnnotationQueue<T extends Body> = Map<
-  SegmentIndex,
-  Map<BlockType, BlockAnnotationSegment<T>[]>
->;
-
 export class BlockBuilder<T extends Body = Body> {
-  constructor(private readonly schema: BlockSchema) {
-    if (!(schema.root in schema.blocks)) {
-      throw new Error("No root in block config found");
-    }
-  }
-
   build(segments: Segment[]): Element[] {
-    const queue = this.createBlockQueue(segments);
-    return this.createBlocks(segments, this.schema.root, queue);
+    return this.createElements(segments, 0);
   }
 
-  private createBlockQueue(segments: Segment[]): AnnotationQueue<T> {
-    const queue: AnnotationQueue<T> = new Map();
-    for (const segment of segments) {
-      const types = new Map<BlockType, BlockAnnotationSegment<T>[]>();
-      for (const annotation of segment.annotations) {
-        if (isBlockAnnotationSegment(annotation)) {
-          const block = annotation;
-          const list = types.get(block.blockType) ?? [];
-          list.push(block as BlockAnnotationSegment<T>);
-          types.set(block.blockType, list);
-        }
-      }
-      if (types.size) {
-        queue.set(segment.index, types);
-      }
-    }
-    return queue;
-  }
-
-  private createBlocks(
+  private createElements(
     segments: Segment[],
-    parent: BlockType,
-    queue: AnnotationQueue<T>,
+    annotationIndex: number,
   ): Element[] {
-    if (!segments.length) {
-      return [];
-    }
-    const allowed = this.schema.blocks[parent]?.blocks ?? [];
-    if (!allowed.length) {
-      return [this.createInline(segments)];
-    }
-    const groupedSegments = this.groupSegmentsByBlock(segments, allowed, queue);
-    return groupedSegments.map((group) =>
+    const groups = this.groupSegmentsByBlock(segments, annotationIndex);
+    return groups.map((group) =>
       group.block
-        ? this.createBlock(group.block, group.segments, queue)
+        ? this.createBlock(group.block, group.segments, annotationIndex)
         : this.createInline(group.segments),
     );
   }
 
   private groupSegmentsByBlock(
     segments: Segment[],
-    allowed: BlockType[],
-    queue: AnnotationQueue<T>,
+    annotationIndex: number,
   ): GroupedSegments<T>[] {
     const groups: GroupedSegments<T>[] = [];
     let currentId: string | undefined;
     let currentGroup: GroupedSegments<T> | undefined;
 
     for (const segment of segments) {
-      const block = this.dequeue(queue, allowed, segment);
-      if (block?.body.id !== currentId || !currentGroup) {
+      const block = this.getBlockAt(segment, annotationIndex);
+      const id = block?.body.id;
+
+      if (id !== currentId || !currentGroup) {
         currentGroup = block
           ? { block, segments: [segment] }
           : { segments: [segment] };
         groups.push(currentGroup);
-        currentId = block?.body.id;
+        currentId = id;
       } else {
         currentGroup.segments.push(segment);
       }
@@ -105,35 +53,33 @@ export class BlockBuilder<T extends Body = Body> {
     return groups;
   }
 
-  private dequeue(
-    queue: AnnotationQueue<T>,
-    childTypes: BlockType[],
+  private getBlockAt(
     segment: Segment,
+    annotationIndex: number,
   ): BlockAnnotationSegment<T> | undefined {
-    const types = queue.get(segment.index);
-    if (!types) {
-      return undefined;
-    }
-    for (const childType of childTypes) {
-      const annotations = types.get(childType);
-      if (annotations?.length) {
-        return annotations.shift();
+    let blockIndex = 0;
+    for (const annotation of segment.annotations) {
+      if (isBlockAnnotationSegment<T>(annotation)) {
+        if (blockIndex === annotationIndex) {
+          return annotation;
+        }
+        blockIndex++;
       }
     }
-    return undefined;
+    return;
   }
 
   private createBlock(
     annotation: BlockAnnotationSegment<T>,
     segments: Segment[],
-    queue: AnnotationQueue<T>,
+    annotationIndex: number,
   ): Block {
     return {
       isBlock: true,
       id: annotation.body.id,
       blockType: annotation.blockType,
       annotation,
-      children: this.createBlocks(segments, annotation.blockType, queue),
+      children: this.createElements(segments, annotationIndex + 1),
     };
   }
 

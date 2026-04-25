@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BlockBuilder, BlockSchema } from "./BlockBuilder.ts";
+import { BlockBuilder } from "./BlockBuilder.ts";
 import {
   AnnotationSegment,
   BlockAnnotationSegment,
@@ -9,27 +9,18 @@ import {
 
 describe(BlockBuilder.name, () => {
   it("builds example", () => {
-    const blockSchema: BlockSchema = {
-      root: "root",
-      blocks: {
-        root: { blocks: ["section", "paragraph"] },
-        section: { blocks: ["paragraph"] },
-        paragraph: { blocks: [] },
-      },
-    };
-
     const segA = seg(0, [ent("e-AB")]);
     const pB = blk("p-B", "paragraph");
     const secBC = blk("s-BC", "section");
-    const segB = seg(1, [ent("e-AB"), ent("e-BC"), pB, secBC]);
+    const segB = seg(1, [ent("e-AB"), ent("e-BC"), secBC, pB]);
     const pC = blk("p-C", "paragraph");
-    const segC = seg(2, [ent("e-BC"), pC, secBC]);
+    const segC = seg(2, [ent("e-BC"), secBC, pC]);
     const segD = seg(3, []);
     const secE = blk("s-E", "section");
     const segE = seg(4, [secE]);
 
     const segments = [segA, segB, segC, segD, segE];
-    const result = new BlockBuilder(blockSchema).build(segments);
+    const result = new BlockBuilder().build(segments);
 
     expect(result).toEqual([
       { isBlock: false, segments: [segA] },
@@ -67,15 +58,6 @@ describe(BlockBuilder.name, () => {
   });
 
   it("builds section > section > p", () => {
-    const schema: BlockSchema = {
-      root: "root",
-      blocks: {
-        root: { blocks: ["section"] },
-        section: { blocks: ["section", "paragraph"] },
-        paragraph: { blocks: [] },
-      },
-    };
-
     const sOuter = blk("s-outer", "section");
     const sInner = blk("s-inner", "section");
     const p1 = blk("p-1", "paragraph");
@@ -84,7 +66,7 @@ describe(BlockBuilder.name, () => {
     const seg1 = seg(0, [sOuter, sInner, p1]);
     const seg2 = seg(1, [sOuter, sInner, p2]);
 
-    const result = new BlockBuilder(schema).build([seg1, seg2]);
+    const result = new BlockBuilder().build([seg1, seg2]);
 
     expect(result).toEqual([
       {
@@ -121,22 +103,13 @@ describe(BlockBuilder.name, () => {
   });
 
   it("builds div > section > div", () => {
-    const schema: BlockSchema = {
-      root: "root",
-      blocks: {
-        root: { blocks: ["div"] },
-        div: { blocks: ["section"] },
-        section: { blocks: ["div"] },
-      },
-    };
-
     const dOuter = blk("d-outer", "div");
     const sec1 = blk("sec-1", "section");
     const dInner = blk("d-inner", "div");
 
     const seg1 = seg(0, [dOuter, sec1, dInner]);
 
-    const result = new BlockBuilder(schema).build([seg1]);
+    const result = new BlockBuilder().build([seg1]);
 
     expect(result).toEqual([
       {
@@ -166,19 +139,11 @@ describe(BlockBuilder.name, () => {
   });
 
   it("picks first div as parent of second div", () => {
-    const schema: BlockSchema = {
-      root: "root",
-      blocks: {
-        root: { blocks: ["div"] },
-        div: { blocks: ["div"] },
-      },
-    };
-
     const d1 = blk("d1", "div");
     const d2 = blk("d2", "div");
     const seg1 = seg(0, [d1, d2]);
 
-    const result = new BlockBuilder(schema).build([seg1]);
+    const result = new BlockBuilder().build([seg1]);
 
     expect(result).toEqual([
       {
@@ -195,6 +160,44 @@ describe(BlockBuilder.name, () => {
             children: [{ isBlock: false, segments: [seg1] }],
           },
         ],
+      },
+    ]);
+  });
+
+  it("splits overlapping paragraph across section boundary", () => {
+    const sec = blk("sec", "section");
+    const p = blk("p", "paragraph");
+
+    const s0 = seg(0, [sec]);
+    const s1 = seg(1, [sec, p]);
+    const s2 = seg(2, [sec, p]);
+    const s3 = seg(3, [p]);
+
+    const result = new BlockBuilder().build([s0, s1, s2, s3]);
+
+    expect(result).toEqual([
+      {
+        id: "sec",
+        isBlock: true,
+        blockType: "section",
+        annotation: sec,
+        children: [
+          { isBlock: false, segments: [s0] },
+          {
+            id: "p",
+            isBlock: true,
+            blockType: "paragraph",
+            annotation: p,
+            children: [{ isBlock: false, segments: [s1, s2] }],
+          },
+        ],
+      },
+      {
+        id: "p",
+        isBlock: true,
+        blockType: "paragraph",
+        annotation: p,
+        children: [{ isBlock: false, segments: [s3] }],
       },
     ]);
   });

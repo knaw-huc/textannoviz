@@ -13,12 +13,12 @@ type SegmentedTextProps = {
 };
 
 export function SegmentedText(props: SegmentedTextProps) {
-  const { body, offsets, blockSchema } = props;
+  const { body, offsets } = props;
   const [elements, setElements] = useState<Element[]>([]);
 
   useEffect(() => {
     const segments = createSegments(body, offsets);
-    const elements = new BlockBuilder(blockSchema).build(segments);
+    const elements = new BlockBuilder().build(segments);
     setElements(elements);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [body]);

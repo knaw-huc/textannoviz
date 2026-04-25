@@ -4,47 +4,29 @@ import type {
   Body,
   Segment,
 } from "../AnnotationModel.ts";
-import { BlockBuilder, type BlockSchema } from "./BlockBuilder.ts";
+import { BlockBuilder } from "./BlockBuilder.ts";
 
 type TestBody = Body & { id: string };
 
 describe("BlockBuilder", () => {
-  const flatSchema: BlockSchema = {
-    root: "root",
-    blocks: {
-      root: { blocks: ["section", "paragraph"] },
-      section: { blocks: ["paragraph"] },
-      paragraph: { blocks: [] },
-    },
-  };
-
-  const nestedSchema: BlockSchema = {
-    root: "root",
-    blocks: {
-      root: { blocks: ["section"] },
-      section: { blocks: ["section", "paragraph"] },
-      paragraph: { blocks: [] },
-    },
-  };
-
   const small = generateDocument(5, ["section", "paragraph"]);
   bench("section>p: 5 children per level (25 segments)", () => {
-    new BlockBuilder<TestBody>(flatSchema).build(small);
+    new BlockBuilder<TestBody>().build(small);
   });
 
   const medium = generateDocument(50, ["section", "paragraph"]);
   bench("section>p: 50 children per level (2.5k segments)", () => {
-    new BlockBuilder<TestBody>(flatSchema).build(medium);
+    new BlockBuilder<TestBody>().build(medium);
   });
 
   const smallNested = generateDocument(5, ["section", "section", "paragraph"]);
   bench("section>section>p: 5 children per level (125 segments)", () => {
-    new BlockBuilder<TestBody>(nestedSchema).build(smallNested);
+    new BlockBuilder<TestBody>().build(smallNested);
   });
 
   const largeNested = generateDocument(50, ["section", "section", "paragraph"]);
   bench("section>section>p: 50 children per level (125k segments)", () => {
-    new BlockBuilder<TestBody>(nestedSchema).build(largeNested);
+    new BlockBuilder<TestBody>().build(largeNested);
   });
 });
 

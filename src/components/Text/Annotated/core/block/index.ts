@@ -1,2 +1,3 @@
-export { BlockBuilder, type BlockSchema } from "./BlockBuilder.ts";
+export { BlockBuilder } from "./BlockBuilder.ts";
 export type { Element, Block, Inline } from "./BlockModel.ts";
+export type { BlockSchema } from "./BlockSchema.ts";

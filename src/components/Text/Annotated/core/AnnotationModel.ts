@@ -88,9 +88,9 @@ export function isMarkerSegment(
 ): toTest is MarkerSegment {
   return toTest.type === "marker";
 }
-export function isBlockAnnotationSegment(
+export function isBlockAnnotationSegment<T extends Body = Body>(
   toTest: AnnotationSegment,
-): toTest is BlockAnnotationSegment {
+): toTest is BlockAnnotationSegment<T> {
   return toTest.type === "block";
 }
 export function isNestedSegment(
