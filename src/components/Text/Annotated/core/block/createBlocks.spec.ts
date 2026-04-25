@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BlockBuilder } from "./BlockBuilder.ts";
+import { createBlocks } from "./createBlocks.ts";
 import {
   AnnotationSegment,
   BlockAnnotationSegment,
@@ -7,7 +7,7 @@ import {
   SegmentIndex,
 } from "../AnnotationModel.ts";
 
-describe(BlockBuilder.name, () => {
+describe(createBlocks.name, () => {
   it("builds example", () => {
     const segA = seg(0, [ent("e-AB")]);
     const pB = blk("p-B", "paragraph");
@@ -20,7 +20,7 @@ describe(BlockBuilder.name, () => {
     const segE = seg(4, [secE]);
 
     const segments = [segA, segB, segC, segD, segE];
-    const result = new BlockBuilder().build(segments);
+    const result = createBlocks(segments);
 
     expect(result).toEqual([
       { isBlock: false, segments: [segA] },
@@ -66,7 +66,7 @@ describe(BlockBuilder.name, () => {
     const seg1 = seg(0, [sOuter, sInner, p1]);
     const seg2 = seg(1, [sOuter, sInner, p2]);
 
-    const result = new BlockBuilder().build([seg1, seg2]);
+    const result = createBlocks([seg1, seg2]);
 
     expect(result).toEqual([
       {
@@ -109,7 +109,7 @@ describe(BlockBuilder.name, () => {
 
     const seg1 = seg(0, [dOuter, sec1, dInner]);
 
-    const result = new BlockBuilder().build([seg1]);
+    const result = createBlocks([seg1]);
 
     expect(result).toEqual([
       {
@@ -143,7 +143,7 @@ describe(BlockBuilder.name, () => {
     const d2 = blk("d2", "div");
     const seg1 = seg(0, [d1, d2]);
 
-    const result = new BlockBuilder().build([seg1]);
+    const result = createBlocks([seg1]);
 
     expect(result).toEqual([
       {
@@ -173,7 +173,7 @@ describe(BlockBuilder.name, () => {
     const s2 = seg(2, [sec, p]);
     const s3 = seg(3, [p]);
 
-    const result = new BlockBuilder().build([s0, s1, s2, s3]);
+    const result = createBlocks([s0, s1, s2, s3]);
 
     expect(result).toEqual([
       {

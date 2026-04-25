@@ -2,6 +2,7 @@ import {
   mapAnnotationSegmentRanges,
   segment,
   SegmentRange,
+  TextSegment,
 } from "@knaw-huc/text-annotation-segmenter";
 import {
   GrouplessAnnotationSegment,
@@ -21,8 +22,7 @@ export function createSegments(
   offsets: TextOffsets[],
 ): Segment[] {
   const textSegments = segment(body, offsets);
-  const annotationRanges = mapAnnotationSegmentRanges(textSegments);
-  const segmentsByOffsets = mapSegmentsByOffsets(annotationRanges);
+  const segmentsByOffsets = mapSegmentsByOffsets(textSegments);
   const sortedSegments = textSegments.map((textSegment) => {
     const sorted = sortAnnotations(textSegment.annotations, segmentsByOffsets);
     return { ...textSegment, annotations: sorted };
@@ -36,10 +36,11 @@ export function createSegments(
  * Add type and type-specific segment props.
  */
 function mapSegmentsByOffsets(
-  segmentRanges: Map<TextOffsets, SegmentRange>,
+  textSegments: TextSegment<TextOffsets>[],
 ): Map<TextOffsets, GrouplessAnnotationSegment> {
+  const annotationRanges = mapAnnotationSegmentRanges(textSegments);
   const result = new Map<TextOffsets, GrouplessAnnotationSegment>();
-  for (const [offset, range] of segmentRanges) {
+  for (const [offset, range] of annotationRanges) {
     result.set(offset, toAnnotationSegment(offset, range));
   }
   return result;

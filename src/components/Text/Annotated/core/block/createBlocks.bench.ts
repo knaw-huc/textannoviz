@@ -4,29 +4,29 @@ import type {
   Body,
   Segment,
 } from "../AnnotationModel.ts";
-import { BlockBuilder } from "./BlockBuilder.ts";
+import { createBlocks } from "./createBlocks.ts";
 
 type TestBody = Body & { id: string };
 
-describe("BlockBuilder", () => {
+describe(createBlocks.name, () => {
   const small = generateDocument(5, ["section", "paragraph"]);
   bench("section>p: 5 children per level (25 segments)", () => {
-    new BlockBuilder<TestBody>().build(small);
+    createBlocks(small);
   });
 
   const medium = generateDocument(50, ["section", "paragraph"]);
   bench("section>p: 50 children per level (2.5k segments)", () => {
-    new BlockBuilder<TestBody>().build(medium);
+    createBlocks(medium);
   });
 
   const smallNested = generateDocument(5, ["section", "section", "paragraph"]);
   bench("section>section>p: 5 children per level (125 segments)", () => {
-    new BlockBuilder<TestBody>().build(smallNested);
+    createBlocks(smallNested);
   });
 
   const largeNested = generateDocument(50, ["section", "section", "paragraph"]);
   bench("section>section>p: 50 children per level (125k segments)", () => {
-    new BlockBuilder<TestBody>().build(largeNested);
+    createBlocks(largeNested);
   });
 });
 
