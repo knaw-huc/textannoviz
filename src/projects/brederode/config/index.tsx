@@ -5,10 +5,12 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
+import { BrederodeMarker } from "../annotation/BrederodeMarker";
 import { SearchItem } from "../SearchItem";
 import { englishBrederodeLabels } from "./englishBrederodeLabels";
 import { MetadataPanel } from "../MetadataPanel";
-import { projectPageMarkerAnnotationTypes } from "../annotation/ProjectAnnotationModel";
+import { pageMarkerTypes } from "../annotation/ProjectAnnotationModel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
 
@@ -30,9 +32,13 @@ export const brederodeConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchInfoPage,
     Header,
   },
-  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  isMarker: (body) => pageMarkerTypes.includes(body.type),
   elasticIndexName: "brederode",
   showAnnotations: true,
+  annotatedTextComponents: {
+    ...defaultAnnotatedTextComponents,
+    Marker: BrederodeMarker,
+  },
   initialDateFrom: "1602-01-01",
   initialDateTo: "1638-01-01",
   initialRangeFrom: "0",

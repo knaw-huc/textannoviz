@@ -2,33 +2,39 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { DefaultProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
+import { KunstenaarsbrievenMarker } from "../annotation/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
-  teiArtwork,
+  blockSchema,
   document,
+  entityTypes,
   getAnnotationCategory,
+  getBlockType,
   getHighlightCategory,
+  highlightTypes,
+  isBlock,
   isEntity,
+  isMarker,
   letter,
   note,
   person,
-  projectAnnotationTypesToInclude,
-  projectEntityTypes,
-  projectHighlightedTypes,
-  projectInsertTextMarkerAnnotationTypes,
-  projectPageMarkerAnnotationTypes,
   reference,
+  teiArtwork,
+  typesToInclude,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
 import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
-import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { Header } from "../Header";
 import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
 import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 import { filterPanels } from "../filterPanels.ts";
+
+import { KunstenaarsbrievenBlock } from "../annotation/KunstenaarsbrievenBlock.tsx";
+import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
@@ -42,13 +48,21 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       document,
       letter,
       note,
-      ...projectAnnotationTypesToInclude,
+      ...typesToInclude,
     ],
     showAnnotations: true,
-    highlightedAnnotationTypes: projectHighlightedTypes,
-    pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
-    entityAnnotationTypes: projectEntityTypes,
-    insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
+    annotatedTextComponents: {
+      ...defaultAnnotatedTextComponents,
+      Marker: KunstenaarsbrievenMarker,
+      Block: KunstenaarsbrievenBlock,
+      Highlight: KunstenaarsbrievenHighlight,
+    },
+    highlightTypes: highlightTypes,
+    nestedTypes: entityTypes,
+    isMarker: isMarker,
+    isBlock: isBlock,
+    getBlockType: getBlockType,
+    blockSchema: blockSchema,
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,
@@ -69,7 +83,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       SearchItem,
       NotesPanel,
       ArtworksTab,
-      InsertMarkerAnnotation,
       Header,
       TocPanel,
     },

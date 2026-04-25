@@ -1,15 +1,18 @@
+import { Offsets } from "@knaw-huc/text-annotation-segmenter";
+
 /**
  * Annotation types:
  * - highlight: highlighted but unclickable
- * - annotation: entity annotations
- * - marker: marking places of zero length
+ * - nested: every annotation nested inside its own clickable, stylable span
+ * - marker: marking zero-length places in the text
+ * - block: block elements like p, section or div
  */
-export type AnnotationType = "highlight" | "annotation" | "marker";
-
-export type Body = { id: string };
-
+export type AnnotationType = "highlight" | "nested" | "marker" | "block";
+export type AnnotationId = string;
+export type Body = { id: AnnotationId };
 export type WithTypeAndBody<T extends Body = Body> = {
   type: AnnotationType;
+  blockType?: BlockType;
   body: T;
 };
 
@@ -19,51 +22,8 @@ export type WithTypeAndBody<T extends Body = Body> = {
  * Note: end offset excludes last character
  */
 export type TextOffsets<T extends Body = Body> = WithTypeAndBody<T> & {
-  beginChar: number;
-  endChar: number;
-};
-
-/**
- * Single (start or end) offset
- */
-export type AnnotationOffset<T extends Body = Body> = WithTypeAndBody<T> & {
-  charIndex: number;
-  mark: "start" | "end";
-};
-
-type Annotation = { type: "annotation" };
-type Highlight = { type: "highlight" };
-type Marker = { type: "marker" };
-
-export type NestedAnnotationOffset = AnnotationOffset & Annotation;
-
-export function isNestedAnnotationOffset(
-  toTest: AnnotationOffset,
-): toTest is NestedAnnotationOffset {
-  return toTest.type === "annotation";
-}
-
-export type HighlightAnnotationOffset = AnnotationOffset & Highlight;
-
-export function isHighlightAnnotationOffset(
-  toTest: AnnotationOffset,
-): toTest is HighlightAnnotationOffset {
-  return toTest.type === "highlight";
-}
-
-export type MarkerAnnotationOffset = AnnotationOffset & Marker;
-
-export function isMarkerAnnotationOffset(
-  toTest: AnnotationOffset,
-): toTest is MarkerAnnotationOffset {
-  return toTest.type === "marker";
-}
-
-export type CharIndex = number;
-
-export type OffsetsByCharIndex = {
-  charIndex: CharIndex;
-  offsets: AnnotationOffset[];
+  begin: number;
+  end: number;
 };
 
 /**
@@ -74,7 +34,7 @@ export type AnnotationGroup = {
   maxDepth: number;
 };
 
-export type WithSegmentOffsets = {
+export type SegmentOffsets = {
   startSegment: number;
   /**
    * Excluding last segment
@@ -83,70 +43,83 @@ export type WithSegmentOffsets = {
 };
 
 /**
- * Segment of an annotation as found in {@link Segment}
+ * Annotation linked to its segments
  */
 export type AnnotationSegmentWithBodyAndOffsets<T extends Body = Body> =
-  WithTypeAndBody<T> & WithSegmentOffsets;
+  WithTypeAndBody<T> & SegmentOffsets;
+
+type Highlight = { type: "highlight" };
+type Marker = { type: "marker" };
+type Nested = { type: "nested" };
+type Block = { type: "block"; blockType: BlockType };
+
+export type HighlightSegment<T extends Body = Body> = Highlight &
+  AnnotationSegmentWithBodyAndOffsets<T>;
+export type MarkerSegment<T extends Body = Body> = Marker &
+  AnnotationSegmentWithBodyAndOffsets<T>;
+export type BlockAnnotationSegment<T extends Body = Body> = Block &
+  AnnotationSegmentWithBodyAndOffsets<T>;
+export type GrouplessNestedSegment<T extends Body = Body> = Nested &
+  AnnotationSegmentWithBodyAndOffsets<T>;
+export type NestedSegment<T extends Body = Body> = GrouplessNestedSegment<T> & {
+  depth: number;
+  group: AnnotationGroup;
+};
 
 /**
- * Marker and highlight 'annotations' aren't part of nested annotations
- * but are nested inside the other nested annotations
- */
-export type HighlightSegment<HIGHLIGHT extends Body = Body> =
-  AnnotationSegmentWithBodyAndOffsets<HIGHLIGHT> & Highlight;
-export type MarkerSegment<MARKER extends Body = Body> =
-  AnnotationSegmentWithBodyAndOffsets<MARKER> & Marker;
-
-/**
- * Segment of an annotation as found in {@link Segment}
- */
-export type NestedAnnotationSegment<ANNOTATION extends Body = Body> =
-  AnnotationSegmentWithBodyAndOffsets<ANNOTATION> &
-    Annotation & {
-      /**
-       * Depth of nesting in other annotations
-       */
-      depth: number;
-      group: AnnotationGroup;
-    };
-
-/**
- * Annotation applied to a text segment
+ * Annotation with its start and end offsets
  * using body.id and offsets (startSegment, endSegment)
  */
-export type AnnotationSegment =
-  | NestedAnnotationSegment
+export type AnnotationSegment<NESTED_SEGMENT extends object = NestedSegment> =
+  | NESTED_SEGMENT
   | HighlightSegment
-  | MarkerSegment;
-
-export function isNestedAnnotationSegment(
-  toTest: AnnotationSegment,
-): toTest is NestedAnnotationSegment {
-  return toTest.type === "annotation";
-}
+  | MarkerSegment
+  | BlockAnnotationSegment;
+export type GrouplessAnnotationSegment =
+  AnnotationSegment<GrouplessNestedSegment>;
 
 export function isHighlightSegment(
   toTest: AnnotationSegment,
 ): toTest is HighlightSegment {
   return toTest.type === "highlight";
 }
-
 export function isMarkerSegment(
   toTest: AnnotationSegment,
 ): toTest is MarkerSegment {
   return toTest.type === "marker";
 }
+export function isBlockAnnotationSegment<T extends Body = Body>(
+  toTest: AnnotationSegment,
+): toTest is BlockAnnotationSegment<T> {
+  return toTest.type === "block";
+}
+export function isNestedSegment(
+  toTest: AnnotationSegment,
+): toTest is NestedSegment {
+  return toTest.type === "nested";
+}
+export function isGrouplessNestedSegment(
+  toTest: GrouplessAnnotationSegment,
+): toTest is GrouplessNestedSegment {
+  return toTest.type === "nested";
+}
 
 /**
  * Segment of a text with its text and the annotations that apply
  */
-export type Segment = {
-  index: number;
-  annotations: AnnotationSegment[];
+export type Segment<T extends object = AnnotationSegment> = Offsets & {
+  index: SegmentIndex;
+  annotations: T[];
   body: string;
 };
+export type SegmentIndex = number;
+export type GrouplessSegment = Segment<GrouplessAnnotationSegment>;
 
 export type GroupedSegments = {
   id?: number;
+  offsets: Offsets;
   segments: Segment[];
 };
+
+export type BlockType = string;
+export type GetBlockType<T extends Body = Body> = (body: T) => BlockType;

@@ -1,34 +1,57 @@
 import { useEffect, useState } from "react";
-import { Segment, TextOffsets } from "./AnnotationModel.ts";
-import { SegmentGroup } from "./SegmentGroup.tsx";
-import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
+import { TextOffsets } from "./AnnotationModel.ts";
+import { SegmentGroup } from "./inline/SegmentGroup.tsx";
+import { createSegments } from "./utils/createSegments.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
-import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
+import { Block, BlockBuilder, BlockSchema, Element, Inline } from "./block";
+import { useAnnotatedTextConfig } from "./useAnnotatedTextConfig.tsx";
+import { validateBlockOrder } from "./block/validateBlockOrder.ts";
 
 type SegmentedTextProps = {
   body: string;
   offsets: TextOffsets[];
+  blockSchema: BlockSchema;
 };
 
 export function SegmentedText(props: SegmentedTextProps) {
-  const { body, offsets } = props;
-  const [segments, setSegments] = useState<Segment[]>([]);
-
-  const offsetsByChar = listOffsetsByChar(offsets);
+  const { body, offsets, blockSchema } = props;
+  const [elements, setElements] = useState<Element[]>([]);
 
   useEffect(() => {
-    const newSegments = new AnnotationSegmenter(body, offsetsByChar).segment();
-    setSegments(newSegments);
+    const segments = createSegments(body, offsets);
+    validateBlockOrder(segments, blockSchema);
+    const elements = new BlockBuilder().build(segments);
+    setElements(elements);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [body]);
 
-  const grouped = groupSegmentsByGroupId(segments);
+  return <Elements elements={elements} />;
+}
 
+function Elements(props: { elements: Element[] }) {
+  return props.elements.map((e, i) =>
+    e.isBlock ? (
+      <BlockElement key={e.id} block={e} />
+    ) : (
+      <InlineElement key={i} inline={e} />
+    ),
+  );
+}
+
+function InlineElement(props: { inline: Inline }) {
+  const { segments } = props.inline;
+  const begin = segments[0].index;
+  const end = segments.at(-1)!.index + 1;
+  const grouped = groupSegmentsByGroupId(props.inline.segments, { begin, end });
+
+  return grouped.map((group, i) => <SegmentGroup key={i} group={group} />);
+}
+
+function BlockElement(props: { block: Block }) {
+  const { Block } = useAnnotatedTextConfig();
   return (
-    <span style={{ display: "block" }}>
-      {grouped.map((group, i) => (
-        <SegmentGroup key={i} group={group} />
-      ))}
-    </span>
+    <Block block={props.block}>
+      <Elements elements={props.block.children} />
+    </Block>
   );
 }

@@ -1,4 +1,4 @@
-import { MetadataDetailLabelValues } from "../../../components/Text/Annotated/project/MetadataDetailLabelValues.tsx";
+import { MetadataDetailLabelValues } from "./MetadataDetailLabelValues.tsx";
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig.ts";
 import { isEntity } from "./ProjectAnnotationModel.ts";
 
