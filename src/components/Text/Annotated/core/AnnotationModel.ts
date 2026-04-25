@@ -117,6 +117,7 @@ export type GrouplessSegment = Segment<GrouplessAnnotationSegment>;
 
 export type GroupedSegments = {
   id?: number;
+  offsets: Offsets;
   segments: Segment[];
 };
 

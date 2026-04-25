@@ -39,7 +39,11 @@ function Elements(props: { elements: Element[] }) {
 }
 
 function InlineElement(props: { inline: Inline }) {
-  const grouped = groupSegmentsByGroupId(props.inline.segments);
+  const { segments } = props.inline;
+  const begin = segments[0].index;
+  const end = segments.at(-1)!.index + 1;
+  const grouped = groupSegmentsByGroupId(props.inline.segments, { begin, end });
+
   return grouped.map((group, i) => <SegmentGroup key={i} group={group} />);
 }
 
