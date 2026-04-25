@@ -5,6 +5,7 @@ import { createSegments } from "./utils/createSegments.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
 import { Block, BlockBuilder, BlockSchema, Element, Inline } from "./block";
 import { useAnnotatedTextConfig } from "./useAnnotatedTextConfig.tsx";
+import { validateBlockOrder } from "./block/validateBlockOrder.ts";
 
 type SegmentedTextProps = {
   body: string;
@@ -13,11 +14,12 @@ type SegmentedTextProps = {
 };
 
 export function SegmentedText(props: SegmentedTextProps) {
-  const { body, offsets } = props;
+  const { body, offsets, blockSchema } = props;
   const [elements, setElements] = useState<Element[]>([]);
 
   useEffect(() => {
     const segments = createSegments(body, offsets);
+    validateBlockOrder(segments, blockSchema);
     const elements = new BlockBuilder().build(segments);
     setElements(elements);
     // eslint-disable-next-line react-hooks/exhaustive-deps
