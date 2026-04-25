@@ -13,10 +13,10 @@ export function validateBlockOrder(
         continue;
       }
 
-      const allowed = schema.blocks[parent]?.blocks ?? [];
+      const allowed = schema.blocks[parent]?.children ?? [];
       const type = annotation.blockType;
       if (!allowed.includes(type)) {
-        throw new Error(`Block type ${parent} does not allow ${type}`);
+        throw new Error(`Block type ${parent} does not allow child ${type}`);
       }
       parent = type;
     }

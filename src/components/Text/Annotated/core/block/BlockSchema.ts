@@ -6,5 +6,5 @@ export type BlockSchema = {
 };
 
 type BlockConfig = {
-  blocks: BlockType[];
+  children: BlockType[];
 };
