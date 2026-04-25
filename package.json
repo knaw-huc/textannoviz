@@ -13,6 +13,7 @@
     "prepare": "husky install",
     "test": "vitest run",
     "test-watch": "vitest",
+    "bench": "vitest bench",
     "docker:build:dev": "./scripts/docker-dev.sh",
     "docker:build-push:globalise": "./scripts/docker-globalise-all.sh",
     "docker:build-push:globalise-demo": "./scripts/docker-globalise-demo-all.sh",

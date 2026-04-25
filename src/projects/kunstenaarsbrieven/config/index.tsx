@@ -62,7 +62,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     isMarker: isMarker,
     isBlock: isBlock,
     getBlockType: getBlockType,
-    blockSchema,
+    blockSchema: blockSchema,
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,
