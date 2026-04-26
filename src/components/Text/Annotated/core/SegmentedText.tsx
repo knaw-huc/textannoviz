@@ -18,7 +18,7 @@ export function SegmentedText(props: SegmentedTextProps) {
   const [elements, setElements] = useState<Element[]>([]);
 
   useEffect(() => {
-    const segments = createSegments(body, offsets);
+    const segments = createSegments(body, offsets, blockSchema);
     validateBlockOrder(segments, blockSchema);
     const elements = createBlocks(segments);
     setElements(elements);

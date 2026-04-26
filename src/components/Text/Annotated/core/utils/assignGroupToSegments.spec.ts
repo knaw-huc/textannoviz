@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { Body, NestedSegment, TextOffsets } from "../AnnotationModel.ts";
 import { createSegments } from "./createSegments.ts";
 import { assignGroupToSegments } from "./assignGroupToSegments.ts";
+import { BlockSchema } from "../block";
 
 const body = "aabbccddee";
 const annotations: TextOffsets[] = [
@@ -10,8 +11,15 @@ const annotations: TextOffsets[] = [
   { type: "nested", body: { id: "anno3" } as Body, begin: 4, end: 8 },
 ];
 
+const emptySchema: BlockSchema = {
+  root: "root",
+  blocks: {
+    root: { children: [] },
+  },
+};
+
 function createTestData(text: string, offsets: TextOffsets[]) {
-  const segments = createSegments(text, offsets);
+  const segments = createSegments(text, offsets, emptySchema);
   return assignGroupToSegments(segments);
 }
 
