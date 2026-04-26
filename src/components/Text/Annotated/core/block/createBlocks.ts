@@ -1,27 +1,21 @@
 import {
   BlockAnnotationSegment,
-  Body,
   isBlockAnnotationSegment,
   Segment,
 } from "../AnnotationModel.ts";
 import { Block, Element, Inline } from "./BlockModel.ts";
 
-type GroupedSegments<T extends Body> = {
-  block?: BlockAnnotationSegment<T>;
+type GroupedSegments = {
+  block?: BlockAnnotationSegment;
   segments: Segment[];
 };
 
-export function createBlocks<T extends Body = Body>(
-  segments: Segment[],
-): Element[] {
-  return createElements<T>(segments, 0);
+export function createBlocks(segments: Segment[]): Element[] {
+  return createElements(segments, 0);
 }
 
-function createElements<T extends Body = Body>(
-  segments: Segment[],
-  depth: number,
-): Element[] {
-  const groups = groupSegmentsByBlock<T>(segments, depth);
+function createElements(segments: Segment[], depth: number): Element[] {
+  const groups = groupSegmentsByBlock(segments, depth);
   return groups.map((group) =>
     group.block
       ? createBlock(group.block, group.segments, depth)
@@ -29,16 +23,16 @@ function createElements<T extends Body = Body>(
   );
 }
 
-function groupSegmentsByBlock<T extends Body = Body>(
+function groupSegmentsByBlock(
   segments: Segment[],
   depth: number,
-): GroupedSegments<T>[] {
-  const groups: GroupedSegments<T>[] = [];
+): GroupedSegments[] {
+  const groups: GroupedSegments[] = [];
   let currentId: string | undefined;
-  let currentGroup: GroupedSegments<T> | undefined;
+  let currentGroup: GroupedSegments | undefined;
 
   for (const segment of segments) {
-    const block = getBlock<T>(segment, depth);
+    const block = getBlock(segment, depth);
     const id = block?.body.id;
 
     if (!currentGroup || id !== currentId) {
@@ -54,13 +48,13 @@ function groupSegmentsByBlock<T extends Body = Body>(
   return groups;
 }
 
-function getBlock<T extends Body = Body>(
+function getBlock(
   segment: Segment,
   depth: number,
-): BlockAnnotationSegment<T> | undefined {
+): BlockAnnotationSegment | undefined {
   let blockIndex = 0;
   for (const annotation of segment.annotations) {
-    if (isBlockAnnotationSegment<T>(annotation)) {
+    if (isBlockAnnotationSegment(annotation)) {
       if (blockIndex === depth) {
         return annotation;
       }
@@ -70,8 +64,8 @@ function getBlock<T extends Body = Body>(
   return;
 }
 
-function createBlock<T extends Body = Body>(
-  annotation: BlockAnnotationSegment<T>,
+function createBlock(
+  annotation: BlockAnnotationSegment,
   segments: Segment[],
   depth: number,
 ): Block {
