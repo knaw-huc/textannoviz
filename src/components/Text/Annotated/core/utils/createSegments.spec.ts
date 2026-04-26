@@ -96,7 +96,7 @@ describe("createSegments", () => {
     const segments = createSegments("aabbccdd", [ann("bc", 2, 6)]);
     const bc = segments[1].annotations[0] as GrouplessNestedSegment;
     expect(bc.body.id).toEqual("bc");
-    expect(bc.startSegment).toEqual(1);
+    expect(bc.beginSegment).toEqual(1);
     expect(bc.endSegment).toEqual(2);
   });
 
@@ -104,11 +104,11 @@ describe("createSegments", () => {
     const segments = createSegments("aabbcc", [ann("abc", 0, 6)]);
     const abc = segments[0].annotations[0] as GrouplessNestedSegment;
     expect(abc.body.id).toEqual("abc");
-    expect(abc.startSegment).toEqual(0);
+    expect(abc.beginSegment).toEqual(0);
     expect(abc.endSegment).toEqual(1);
   });
 
-  it("creates empty note marker segment with endSegment equal to startSegment", () => {
+  it("creates empty note marker segment with endSegment equal to beginSegment", () => {
     const segments = createSegments("aabb", [mrk("urn:foo:ptr:1", 2)]);
     expect(segments.length).toBe(3);
     const markerSegment = segments[1];

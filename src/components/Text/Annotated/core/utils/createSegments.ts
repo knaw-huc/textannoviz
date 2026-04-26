@@ -1,7 +1,7 @@
 import {
-  mapAnnotationSegmentRanges,
+  mapAnnotationSegmentOffsets,
   segment,
-  SegmentRange,
+  SegmentOffsets,
   TextSegment,
 } from "@knaw-huc/text-annotation-segmenter";
 import {
@@ -38,7 +38,7 @@ export function createSegments(
 function mapSegmentsByOffsets(
   textSegments: TextSegment<TextOffsets>[],
 ): Map<TextOffsets, GrouplessAnnotationSegment> {
-  const annotationRanges = mapAnnotationSegmentRanges(textSegments);
+  const annotationRanges = mapAnnotationSegmentOffsets(textSegments);
   const result = new Map<TextOffsets, GrouplessAnnotationSegment>();
   for (const [offset, range] of annotationRanges) {
     result.set(offset, toAnnotationSegment(offset, range));
@@ -47,16 +47,16 @@ function mapSegmentsByOffsets(
 }
 
 function toAnnotationSegment(
-  offset: TextOffsets,
-  range: SegmentRange,
+  textOffsets: TextOffsets,
+  segmentOffsets: SegmentOffsets,
 ): GrouplessAnnotationSegment {
-  const base = { ...range, ...offset };
-  if (offset.type === "block") {
-    return { ...base, blockType: offset.blockType! };
-  } else if (offset.type === "marker") {
-    return { ...base, type: "marker", endSegment: base.startSegment };
+  const base = { ...segmentOffsets, ...textOffsets };
+  if (textOffsets.type === "block") {
+    return { ...base, blockType: textOffsets.blockType! };
+  } else if (textOffsets.type === "marker") {
+    return { ...base, type: "marker", endSegment: base.beginSegment };
   } else {
-    return { ...base, type: offset.type };
+    return { ...base, type: textOffsets.type };
   }
 }
 

@@ -1,4 +1,4 @@
-import { Offsets } from "@knaw-huc/text-annotation-segmenter";
+import { Offsets, SegmentOffsets } from "@knaw-huc/text-annotation-segmenter";
 
 /**
  * Annotation types:
@@ -34,14 +34,6 @@ export type AnnotationGroup = {
   maxDepth: number;
 };
 
-export type SegmentOffsets = {
-  startSegment: number;
-  /**
-   * Excluding last segment
-   */
-  endSegment: number;
-};
-
 /**
  * Annotation linked to its segments
  */
@@ -68,7 +60,7 @@ export type NestedSegment<T extends Body = Body> = GrouplessNestedSegment<T> & {
 
 /**
  * Annotation with its start and end offsets
- * using body.id and offsets (startSegment, endSegment)
+ * using body.id and offsets (beginSegment, endSegment)
  */
 export type AnnotationSegment<NESTED_SEGMENT extends object = NestedSegment> =
   | NESTED_SEGMENT

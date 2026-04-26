@@ -208,7 +208,7 @@ function blk(id: string, blockType: string): BlockAnnotationSegment {
     type: "block",
     body: { id },
     blockType,
-    startSegment: 0,
+    beginSegment: 0,
     endSegment: 0,
   };
 }
@@ -219,7 +219,7 @@ function ent(id: string): AnnotationSegment {
     body: { id },
     depth: 0,
     group: { id: 0, maxDepth: 0 },
-    startSegment: 0,
+    beginSegment: 0,
     endSegment: 0,
   };
 }

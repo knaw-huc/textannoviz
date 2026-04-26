@@ -22,7 +22,7 @@ function isStartOfAnnotation(
   annotation: AnnotationSegment,
   offsets?: Offsets,
 ): boolean {
-  if (segment.index === annotation.startSegment) {
+  if (segment.index === annotation.beginSegment) {
     return true;
   }
   if (!offsets) {
@@ -31,7 +31,7 @@ function isStartOfAnnotation(
   // When an annotation was split by a block, re-start annotation in second block:
   const isFirstSegmentInGroup = segment.index === offsets.begin;
   const isAnnotationStartedBeforeGroup =
-    annotation.startSegment < offsets.begin;
+    annotation.beginSegment < offsets.begin;
   return isFirstSegmentInGroup && isAnnotationStartedBeforeGroup;
 }
 

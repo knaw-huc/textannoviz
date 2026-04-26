@@ -7,9 +7,9 @@ import {
   isHighlightSegment,
   NestedSegment,
   Segment,
-  SegmentOffsets,
 } from "../AnnotationModel.ts";
 import { orThrow } from "../../../../../utils/orThrow.tsx";
+import { SegmentOffsets } from "@knaw-huc/text-annotation-segmenter";
 
 /**
  * Assign depth and group to nested annotations
