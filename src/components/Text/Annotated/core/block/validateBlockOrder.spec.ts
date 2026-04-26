@@ -70,7 +70,7 @@ describe(validateBlockOrder.name, () => {
     ];
 
     expect(() => validateBlockOrder(sectionInP, schema)).toThrow(
-      "Block type paragraph does not allow section",
+      "Block type paragraph does not allow child section",
     );
   });
 });
