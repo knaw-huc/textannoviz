@@ -24,7 +24,7 @@ export function createSegments(
   offsets: TextOffsets[],
   blockSchema: BlockSchema,
 ): Segment[] {
-  const textSegments = segment(body, offsets);
+  const textSegments = segment(body, offsets, (offset) => offset);
   const segmentsByOffsets = mapSegmentsByOffsets(textSegments);
   const allowedDescendantTypes = findDescendantTypes(blockSchema);
   const sortedSegments = textSegments.map((textSegment) => {
