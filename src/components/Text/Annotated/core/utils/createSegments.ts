@@ -1,5 +1,5 @@
 import {
-  mapAnnotationSegmentOffsets,
+  findSegmentOffsets,
   segment,
   SegmentOffsets,
   TextSegment,
@@ -46,10 +46,10 @@ export function createSegments(
 function mapSegmentsByOffsets(
   textSegments: TextSegment<TextOffsets>[],
 ): Map<TextOffsets, GrouplessAnnotationSegment> {
-  const annotationRanges = mapAnnotationSegmentOffsets(textSegments);
+  const segmentOffsetsMap = findSegmentOffsets(textSegments);
   const result = new Map<TextOffsets, GrouplessAnnotationSegment>();
-  for (const [offset, range] of annotationRanges) {
-    result.set(offset, toAnnotationSegment(offset, range));
+  for (const [textOffsets, segmentOffsets] of segmentOffsetsMap) {
+    result.set(textOffsets, toAnnotationSegment(textOffsets, segmentOffsets));
   }
   return result;
 }
