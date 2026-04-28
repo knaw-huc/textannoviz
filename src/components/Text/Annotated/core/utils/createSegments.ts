@@ -2,9 +2,9 @@ import {
   findSegmentOffsets,
   segment,
   SegmentOffsets,
-  TextSegment,
 } from "@knaw-huc/text-annotation-segmenter";
 import {
+  BlockAnnotationSegment,
   BlockType,
   GrouplessAnnotationSegment,
   Segment,
@@ -24,37 +24,27 @@ export function createSegments(
   offsets: TextOffsets[],
   blockSchema: BlockSchema,
 ): Segment[] {
-  const textSegments = segment(body, offsets, (offset) => offset);
-  const segmentsByOffsets = mapSegmentsByOffsets(textSegments);
-  const allowedDescendantTypes = findDescendantTypes(blockSchema);
-  const sortedSegments = textSegments.map((textSegment) => {
-    const sorted = sortAnnotations(
-      textSegment.annotations,
-      segmentsByOffsets,
-      allowedDescendantTypes,
-    );
-    return { ...textSegment, annotations: sorted };
-  });
-  const groupedSegments = assignGroupToSegments(sortedSegments);
-  return groupedSegments;
-}
-
-/**
- * Map annotation segments, keyed by object reference.
- * Add type and type-specific segment props.
- */
-function mapSegmentsByOffsets(
-  textSegments: TextSegment<TextOffsets>[],
-): Map<TextOffsets, GrouplessAnnotationSegment> {
-  const segmentOffsetsMap = findSegmentOffsets(textSegments);
-  const result = new Map<TextOffsets, GrouplessAnnotationSegment>();
+  const segments = segment(body, offsets, (offset) => offset);
+  const segmentOffsetsMap = findSegmentOffsets(segments);
+  const withSegmentOffsets = new Map<TextOffsets, GrouplessAnnotationSegment>();
   for (const [textOffsets, segmentOffsets] of segmentOffsetsMap) {
-    result.set(textOffsets, toAnnotationSegment(textOffsets, segmentOffsets));
+    const segment = addSegmentTypeProps(textOffsets, segmentOffsets);
+    withSegmentOffsets.set(textOffsets, segment);
   }
-  return result;
+
+  const allowedDescendantTypes = findDescendantTypes(blockSchema);
+  const sortedSegments = segments.map((textSegment) => ({
+    ...textSegment,
+    annotations: sortAnnotations(
+      textSegment.annotations.map((a) => withSegmentOffsets.get(a)!),
+      allowedDescendantTypes,
+    ),
+  }));
+
+  return assignGroupToSegments(sortedSegments);
 }
 
-function toAnnotationSegment(
+function addSegmentTypeProps(
   textOffsets: TextOffsets,
   segmentOffsets: SegmentOffsets,
 ): GrouplessAnnotationSegment {
@@ -75,48 +65,51 @@ function toAnnotationSegment(
  * - inlines: longest first
  */
 function sortAnnotations(
-  annotations: TextOffsets[],
-  segmentByOffsets: Map<TextOffsets, GrouplessAnnotationSegment>,
+  annotations: GrouplessAnnotationSegment[],
   allowedDescendantTypes: Map<BlockType, Set<BlockType>>,
 ): GrouplessAnnotationSegment[] {
-  const markers = annotations
-    .filter((a) => a.type === "marker")
-    .map((a) => segmentByOffsets.get(a)!);
+  const markers: GrouplessAnnotationSegment[] = [];
+  const blocks: GrouplessAnnotationSegment[] = [];
+  const inlines: GrouplessAnnotationSegment[] = [];
 
-  const blocks = annotations
-    .filter((a) => a.type === "block")
-    .sort((a, b) => compareBlocks(a, b, allowedDescendantTypes))
-    .map((a) => segmentByOffsets.get(a)!);
+  for (const a of annotations) {
+    if (a.type === "marker") markers.push(a);
+    else if (a.type === "block") blocks.push(a);
+    else inlines.push(a);
+  }
 
-  const inlines = annotations
-    .filter((a) => a.type !== "marker" && a.type !== "block")
-    .sort(bySegmentLength)
-    .map((a) => segmentByOffsets.get(a)!);
+  blocks.sort((a, b) =>
+    compareBlocks(
+      a as BlockAnnotationSegment,
+      b as BlockAnnotationSegment,
+      allowedDescendantTypes,
+    ),
+  );
+  inlines.sort(bySegmentSpan);
 
   return [...markers, ...blocks, ...inlines];
 }
 
 function compareBlocks(
-  a: TextOffsets,
-  b: TextOffsets,
+  a: BlockAnnotationSegment,
+  b: BlockAnnotationSegment,
   descendantTypes: Map<BlockType, Set<BlockType>>,
 ): number {
-  const aHasB = descendantTypes.get(a.blockType!)?.has(b.blockType!) ?? false;
-  const bHasA = descendantTypes.get(b.blockType!)?.has(a.blockType!) ?? false;
-  if (aHasB && !bHasA) {
-    return -1;
-  }
-  if (bHasA && !aHasB) {
-    return 1;
-  }
-  return bySegmentLength(a, b);
+  const aHasB = descendantTypes.get(a.blockType)?.has(b.blockType) ?? false;
+  const bHasA = descendantTypes.get(b.blockType)?.has(a.blockType) ?? false;
+  if (aHasB && !bHasA) return -1;
+  if (bHasA && !aHasB) return 1;
+  return bySegmentSpan(a, b);
 }
 
 /**
  * Nest smallest annotations deepest
  */
-function bySegmentLength(a: TextOffsets, b: TextOffsets) {
-  return b.end - b.begin - (a.end - a.begin);
+function bySegmentSpan(
+  a: GrouplessAnnotationSegment,
+  b: GrouplessAnnotationSegment,
+) {
+  return b.endSegment - b.beginSegment - (a.endSegment - a.beginSegment);
 }
 
 /**
