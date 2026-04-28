@@ -9,7 +9,7 @@ export function OratiesMarker(props: MarkerProps<MarkerBody>) {
   const type = marker.body.type;
 
   if (pageMarkerTypes.includes(type) && isPageBody(marker.body)) {
-    return <PageMarker body={marker.body} />;
+    return <PageMarker id={marker.body.id} label={marker.body.n} />;
   }
   throwUnknownAnnotation("marker", marker.body);
 }

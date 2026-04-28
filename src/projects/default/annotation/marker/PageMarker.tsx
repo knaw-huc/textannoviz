@@ -8,7 +8,6 @@ import {
   AnnoRepoAnnotation,
   CanvasSelector,
   CanvasTarget,
-  PageBody,
 } from "../../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
 import {
@@ -18,8 +17,10 @@ import {
 } from "../../../../stores/project.ts";
 import { toArray } from "lodash";
 
-export function PageMarker(props: { body: PageBody }) {
-  const { body } = props;
+type PageMarkerProps = { id: string; label?: string };
+
+export function PageMarker(props: PageMarkerProps) {
+  const { id, label } = props;
   const [isZooming, setIsZooming] = useState(false);
   const annotations = useAnnotationStore().annotations;
   const viewer = useViewer();
@@ -28,7 +29,7 @@ export function PageMarker(props: { body: PageBody }) {
   const translateProject = useTranslateProject();
   const { zoomToAnnoOnFacsimile } = useProjectStore(projectConfigSelector);
 
-  const { canvas, region } = findCanvasRegion(annotations, body.id);
+  const { canvas, region } = findCanvasRegion(annotations, id);
 
   useEffect(() => {
     if (!zoomToAnnoOnFacsimile || !viewer || !viewerReady || !region) {
@@ -58,7 +59,6 @@ export function PageMarker(props: { body: PageBody }) {
     }
   }
 
-  const pageNumber = body.n;
   return (
     <div className="mt-20 border-t border-neutral-100 first:mt-10">
       <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-600">
@@ -73,9 +73,7 @@ export function PageMarker(props: { body: PageBody }) {
           </span>
         </button>
         <div className="border2 inline-flex rounded border-neutral-200 bg-white px-2 py-1  ">
-          {pageNumber
-            ? `${translateProject("page")} ${pageNumber}`
-            : "page break"}
+          {label ? `${translateProject("page")} ${label}` : "page break"}
         </div>
       </div>
     </div>
