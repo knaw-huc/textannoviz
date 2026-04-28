@@ -18,8 +18,11 @@
   }
 
   /* Hide whitespace between block elements: */
-  :is(&, & > .page) > .highlight-whitespace {
+  .whitespace {
     display: none;
+    p & {
+      display: inline;
+    }
   }
 }
 
