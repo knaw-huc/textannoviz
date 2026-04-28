@@ -19,6 +19,11 @@ import { AnnotatedText, TextOffsets } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
+import {
+  cell,
+  row,
+  table,
+} from "../../../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -84,6 +89,13 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
       return createBlockTextOffsets(annotation, relative, blockType);
     });
   offsets.push(...blockAnnotations);
+
+  const tableTypes = [table, row, cell];
+  const tableAnnotations = annotations.filter((a) =>
+    tableTypes.includes(a.body.type),
+  );
+  console.log(ProjectAnnotatedText.name, { annotations, tableAnnotations });
+
   return (
     <div className="annotated-text whitespace-pre-wrap">
       <AnnotatedText

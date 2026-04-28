@@ -18,10 +18,12 @@ export function SegmentedText(props: SegmentedTextProps) {
   const [elements, setElements] = useState<Element[]>([]);
 
   useEffect(() => {
+    console.time("segment-and-block");
     const segments = createSegments(body, offsets, blockSchema);
     validateBlockOrder(segments, blockSchema);
     const elements = createBlocks(segments);
     setElements(elements);
+    console.timeEnd("segment-and-block");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [body]);
 

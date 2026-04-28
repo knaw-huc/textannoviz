@@ -17,6 +17,7 @@ import { isHighlightSegment } from "../../../components/Text/Annotated/core/Anno
  */
 
 export const caption = "Caption";
+export const cell = "Cell";
 export const document = "Document";
 export const elementRs = "rs";
 export const elementPtr = "ptr";
@@ -33,7 +34,9 @@ export const person = "person";
 export const picture = "Picture";
 export const quote = "Quote";
 export const reference = "Reference";
+export const row = "Row";
 export const supplied = "Supplied";
+export const table = "Table";
 export const term = "Term";
 export const teiArt = "art";
 export const teiArtwork = "artwork";
@@ -268,7 +271,7 @@ export const highlightTypes = [
 ];
 export const tooltipMarkerTypes = [reference];
 export const insertMarkerTypes = [picture, head];
-export const blockTypes = [paragraph, head, page];
+export const blockTypes = [cell, head, page, paragraph, row, table];
 
 export const typesToInclude = [
   ...new Set([
@@ -347,10 +350,13 @@ export const entityCategoryToAgg: Record<string, string> = {
 export const blockSchema: BlockSchema = {
   root: "root",
   blocks: {
-    root: { children: [page, paragraph, head] },
-    [page]: { children: [paragraph, head] },
+    root: { children: [page, paragraph, head, table] },
+    [page]: { children: [paragraph, head, table] },
     [paragraph]: { children: [] },
     [head]: { children: [] },
+    [table]: { children: [row] },
+    [row]: { children: [cell] },
+    [cell]: { children: [cell] },
   },
 };
 
