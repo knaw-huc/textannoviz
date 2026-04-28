@@ -146,7 +146,34 @@ img {
   }
 
   /* Hide whitespace between block elements: */
-  :is(&, & > .page) > .highlight-whitespace {
+  .highlight-whitespace {
     display: none;
+    p & {
+      display: inline;
+    }
+  }
+}
+
+.toc-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+
+  .toc-item {
+    color: darkgrey;
+    padding-bottom: 0.33rem;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: black;
+      }
+    }
+
+    &.toc-item-active {
+      color: black;
+    }
   }
 }
