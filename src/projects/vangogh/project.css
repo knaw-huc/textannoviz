@@ -15,18 +15,6 @@
     margin-bottom: 1em;
     border-left: 0;
     font-style: normal;
-
-    /* Show marker next to quote: */
-    &:has(+ .marker) {
-      padding-right: 2em;
-
-      & + .marker {
-        display: block;
-        float: right;
-        margin-top: -2.5em;
-        clear: none;
-      }
-    }
   }
 
   /* Hide whitespace between block elements: */
