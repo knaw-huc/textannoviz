@@ -73,9 +73,13 @@ function sortAnnotations(
   const inlines: GrouplessAnnotationSegment[] = [];
 
   for (const a of annotations) {
-    if (a.type === "marker") markers.push(a);
-    else if (a.type === "block") blocks.push(a);
-    else inlines.push(a);
+    if (a.type === "marker") {
+      markers.push(a);
+    } else if (a.type === "block") {
+      blocks.push(a);
+    } else {
+      inlines.push(a);
+    }
   }
 
   blocks.sort((a, b) =>
@@ -85,7 +89,7 @@ function sortAnnotations(
       allowedDescendantTypes,
     ),
   );
-  inlines.sort(bySegmentSpan);
+  inlines.sort(bySegmentLength);
 
   return [...markers, ...blocks, ...inlines];
 }
@@ -97,15 +101,19 @@ function compareBlocks(
 ): number {
   const aHasB = descendantTypes.get(a.blockType)?.has(b.blockType) ?? false;
   const bHasA = descendantTypes.get(b.blockType)?.has(a.blockType) ?? false;
-  if (aHasB && !bHasA) return -1;
-  if (bHasA && !aHasB) return 1;
-  return bySegmentSpan(a, b);
+  if (aHasB && !bHasA) {
+    return -1;
+  }
+  if (bHasA && !aHasB) {
+    return 1;
+  }
+  return bySegmentLength(a, b);
 }
 
 /**
  * Nest smallest annotations deepest
  */
-function bySegmentSpan(
+function bySegmentLength(
   a: GrouplessAnnotationSegment,
   b: GrouplessAnnotationSegment,
 ) {
