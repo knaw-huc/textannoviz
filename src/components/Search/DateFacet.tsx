@@ -45,47 +45,53 @@ export function DateFacet(props: DateFacetProps) {
   }
 
   return (
-    <div className="bg-brand2-50 flex w-full max-w-[450px] flex-col gap-4 rounded p-2 min-[1350px]:flex-row">
-      <div className="flex w-full flex-col">
-        <form>
-          <label htmlFor="start" className="font-semibold">
-            {translate("DATE_FROM")}
-            <HelpTooltip label={translateProject("DATE_HELP")} />
-          </label>
-          <input
-            className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
-            type="date"
-            id="start"
-            value={props.dateFrom}
-            min={projectConfig.initialDateFrom}
-            max={projectConfig.initialDateTo}
-            onChange={(event) => fromDateChangeHandler(event)}
-            required
-          />
-          <span className="validity" />
-        </form>
+    <div className="bg-brand2-50 flex w-full max-w-[450px] flex-col gap-2 rounded p-2 lg:flex-row">
+      <div className="flex w-full flex-col gap-4 2xl:flex-row">
+        <div className="flex w-full flex-col">
+          <form>
+            <label htmlFor="start" className="font-semibold">
+              {translate("DATE_FROM")}
+              <HelpTooltip label={translateProject("DATE_HELP")} />
+            </label>
+            <input
+              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
+              type="date"
+              id="start"
+              value={props.dateFrom}
+              min={projectConfig.initialDateFrom}
+              max={projectConfig.initialDateTo}
+              onChange={(event) => fromDateChangeHandler(event)}
+              required
+            />
+            <span className="validity" />
+          </form>
+        </div>
+
+        <div className="flex w-full flex-col">
+          <form>
+            <label htmlFor="end" className="font-semibold">
+              {translate("UP_TO_AND_INCLUDING")}
+            </label>
+            <input
+              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
+              type="date"
+              id="end"
+              value={props.dateTo}
+              min={projectConfig.initialDateFrom}
+              max={projectConfig.initialDateTo}
+              onChange={(event) => toDateChangeHandler(event)}
+              required
+            />
+            <span className="validity" />
+          </form>
+        </div>
       </div>
-      <div className="flex w-full flex-col">
-        <form>
-          <label htmlFor="end" className="font-semibold">
-            {translate("UP_TO_AND_INCLUDING")}
-          </label>
-          <input
-            className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
-            type="date"
-            id="end"
-            value={props.dateTo}
-            min={projectConfig.initialDateFrom}
-            max={projectConfig.initialDateTo}
-            onChange={(event) => toDateChangeHandler(event)}
-            required
-          />
-          <span className="validity" />
-        </form>
+
+      <div className="flex justify-end xl:justify-center">
+        <Button onPress={resetClickHandler}>
+          <ArrowRotateLeft />
+        </Button>
       </div>
-      <Button onPress={resetClickHandler}>
-        <ArrowRotateLeft />
-      </Button>
     </div>
   );
 }
