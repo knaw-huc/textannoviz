@@ -26,6 +26,11 @@
     :is(p, h2) + & {
       display: none;
     }
+    /* Render double whitespace after p or h2 as a line break: */
+    :is(p, h2) + & + & {
+      display: block;
+      line-height: 1em;
+    }
     /* Show whitespace inside p: */
     p & {
       display: inline;
