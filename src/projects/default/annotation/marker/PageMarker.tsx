@@ -8,7 +8,7 @@ import {
   AnnoRepoAnnotation,
   CanvasSelector,
   CanvasTarget,
-  MarkerBody,
+  PageBody,
 } from "../../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
 import {
@@ -16,13 +16,10 @@ import {
   useProjectStore,
   useTranslateProject,
 } from "../../../../stores/project.ts";
-import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { toArray } from "lodash";
 
-export function PageMarkerAnnotation(props: {
-  marker: MarkerSegment<MarkerBody>;
-}) {
-  const { marker } = props;
+export function PageMarker(props: { body: PageBody }) {
+  const { body } = props;
   const [isZooming, setIsZooming] = useState(false);
   const annotations = useAnnotationStore().annotations;
   const viewer = useViewer();
@@ -31,7 +28,7 @@ export function PageMarkerAnnotation(props: {
   const translateProject = useTranslateProject();
   const { zoomToAnnoOnFacsimile } = useProjectStore(projectConfigSelector);
 
-  const { canvas, region } = findCanvasRegion(annotations, marker.body.id);
+  const { canvas, region } = findCanvasRegion(annotations, body.id);
 
   useEffect(() => {
     if (!zoomToAnnoOnFacsimile || !viewer || !viewerReady || !region) {
@@ -61,7 +58,7 @@ export function PageMarkerAnnotation(props: {
     }
   }
 
-  const pageNumber = marker.body.n;
+  const pageNumber = body.n;
   return (
     <div className="mt-20 border-t border-neutral-100 first:mt-10">
       <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-600">

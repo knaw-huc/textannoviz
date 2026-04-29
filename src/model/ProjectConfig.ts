@@ -1,4 +1,7 @@
-import { AnyAnnotatedTextConfig } from "../components/Text/Annotated/core";
+import {
+  AnyAnnotatedTextComponents,
+  BlockSchema,
+} from "../components/Text/Annotated/core";
 import { EntitySummaryProps } from "./EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
 import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
@@ -17,6 +20,7 @@ import {
   VanGoghSearchResultsBody,
 } from "./Search.ts";
 import type { JSX } from "react";
+import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
 
 export type PanelRegion = "left" | "main" | "right";
 export type DetailPanelConfig = {
@@ -178,7 +182,9 @@ type AnnotationConfig = {
   /**
    * Plugin components for rendering with {@link AnnotatedText}
    */
-  annotatedTextConfig: AnyAnnotatedTextConfig;
+  annotatedTextComponents: AnyAnnotatedTextComponents;
+
+  blockSchema: BlockSchema;
 
   /**
    * Annotations that are nested inside each other, a span for every annotation
@@ -197,6 +203,9 @@ type AnnotationConfig = {
    * Note: some markers cannot be detected using type alone, hence the fn
    */
   isMarker: (body: AnnoRepoBodyBase) => boolean;
+
+  isBlock: (body: AnnoRepoBodyBase) => boolean;
+  getBlockType: GetBlockType<AnnoRepoBodyBase>;
 
   /**
    * Entities, clickable, styled and displayed in the EntityModal

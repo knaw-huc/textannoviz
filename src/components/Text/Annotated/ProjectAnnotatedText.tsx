@@ -10,7 +10,8 @@ import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
 import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
 import {
-  createAnnotationTextOffsets,
+  createGroupedAnnotationTextOffsets,
+  createBlockTextOffsets,
   createMarkerTextOffsets,
   findRelativePosition,
 } from "./utils/createTextOffsets.ts";
@@ -26,13 +27,14 @@ type TextHighlightingProps = {
 
 export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { nestedTypes, highlightTypes, isMarker } = projectConfig;
+  const { nestedTypes, highlightTypes, isMarker, isBlock, getBlockType } =
+    projectConfig;
   const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
   const annotations = useAnnotationStore().annotations.filter((a) => {
     if (typesToInclude.includes(a.body.type)) {
       return true;
     }
-    return isMarker(a.body);
+    return isBlock(a.body) || isMarker(a.body);
   });
   const withRelative: WithRelativePosition[] = annotations
     .map((annotation) => {
@@ -48,18 +50,21 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const offsets: TextOffsets[] = [];
 
   const nestedAnnotations = withRelative
-    // Some nestedAnnotationTypes overlap with marker, need to be filtered out:
-    // TODO: replace nestedAnnotationTypes + isMarker with projectConfig.isNested
+    // Some nested annotations are markers, need to be filtered out:
+    // TODO: replace types + offset filter with projectConfig.isNested
     .filter((a) => nestedTypes.includes(a.annotation.body.type))
-    .filter(({ annotation }) => !isMarker(annotation.body))
+    .filter(({ relative }) => relative.begin !== relative.end)
     .map(({ annotation, relative }) =>
-      createAnnotationTextOffsets(annotation, relative, "annotation"),
+      createGroupedAnnotationTextOffsets(annotation, relative, "nested"),
     );
   offsets.push(...nestedAnnotations);
   const highlightedAnnotations = withRelative
+    // Some highlights are markers, need to be filtered out:
+    // TODO: replace types + offset filtering with projectConfig.isHighlight
     .filter(({ annotation }) => highlightTypes.includes(annotation.body.type))
+    .filter(({ relative }) => relative.begin !== relative.end)
     .map(({ annotation, relative }) =>
-      createAnnotationTextOffsets(annotation, relative, "highlight"),
+      createGroupedAnnotationTextOffsets(annotation, relative, "highlight"),
     );
   offsets.push(...highlightedAnnotations);
 
@@ -72,13 +77,20 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
       createMarkerTextOffsets(annotation, relative),
     );
   offsets.push(...markerAnnotations);
-
+  const blockAnnotations = withRelative
+    .filter(({ annotation }) => isBlock(annotation.body))
+    .map(({ annotation, relative }) => {
+      const blockType = getBlockType(annotation.body);
+      return createBlockTextOffsets(annotation, relative, blockType);
+    });
+  offsets.push(...blockAnnotations);
   return (
-    <div className="whitespace-pre-wrap">
+    <div className="annotated-text whitespace-pre-wrap">
       <AnnotatedText
-        config={projectConfig.annotatedTextConfig}
-        body={textBody}
+        components={projectConfig.annotatedTextComponents}
+        text={textBody}
         offsets={offsets}
+        blockSchema={projectConfig.blockSchema}
       >
         <EntityModal />
       </AnnotatedText>

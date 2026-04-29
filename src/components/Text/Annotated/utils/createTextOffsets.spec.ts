@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   createMarkerTextOffsets,
-  createAnnotationTextOffsets,
+  createGroupedAnnotationTextOffsets,
 } from "./createTextOffsets.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
@@ -42,16 +42,16 @@ describe("createTextOffsets", () => {
       begin: 162,
       end: 194,
     };
-    const result = createAnnotationTextOffsets(
+    const result = createGroupedAnnotationTextOffsets(
       annotation,
       positionsRelativeToView,
-      "annotation",
+      "nested",
     );
     expect(result.body.id).toEqual(
       "urn:republic:entity-occurrence:session-3248-num-14-para-6:162-194",
     );
-    expect(result.beginChar).toEqual(162);
-    expect(result.endChar).toEqual(194);
+    expect(result.begin).toEqual(162);
+    expect(result.end).toEqual(194);
   });
 
   it("supports markers", () => {
@@ -71,7 +71,7 @@ describe("createTextOffsets", () => {
     const result = createMarkerTextOffsets(annotation, positionsRelativeToView);
     expect(result.body.id).toEqual("urn:foo:ptr:1978932");
     expect(result.type).toEqual("marker");
-    expect(result.beginChar).toEqual(5);
-    expect(result.endChar).toEqual(5);
+    expect(result.begin).toEqual(5);
+    expect(result.end).toEqual(5);
   });
 });

@@ -2,9 +2,9 @@ import {
   isHighlightSegment,
   isMarkerSegment,
   Segment,
-} from "./AnnotationModel.ts";
+} from "../AnnotationModel.ts";
 import { SegmentBody } from "./SegmentBody.tsx";
-import { useAnnotatedTextConfig } from "./useAnnotatedTextConfig.tsx";
+import { useAnnotatedTextConfig } from "../useAnnotatedTextConfig.tsx";
 
 export function HighlightAnnotations(props: { segment: Segment }) {
   const { Highlight, Marker } = useAnnotatedTextConfig();

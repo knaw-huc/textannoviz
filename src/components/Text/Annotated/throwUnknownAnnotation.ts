@@ -1,5 +1,7 @@
+import { AnnotationType } from "./core/AnnotationModel.ts";
+
 export function throwUnknownAnnotation(
-  type: "annotation" | "highlight" | "marker" | "group",
+  type: AnnotationType,
   body: unknown,
 ): never {
   throw new Error(`Unknown ${type}: ${JSON.stringify(body)}`);
