@@ -27,6 +27,7 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   //panels
   facs: "Facsimile",
   metadata: "Info",
+  toc: "Inhoud",
 
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",

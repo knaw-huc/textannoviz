@@ -25,8 +25,8 @@ function createSearchAnnotation(
         id: `search-highlight-${i + 1}`,
         type: "search",
       },
-      beginChar: startEndChars[0],
-      endChar: startEndChars[1],
+      begin: startEndChars[0],
+      end: startEndChars[1],
     };
   });
 }

@@ -1,19 +1,19 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { TextOffsets } from "../core";
+import { BlockType, TextOffsets } from "../core";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
-export function createAnnotationTextOffsets(
+export function createGroupedAnnotationTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
-  type: "annotation" | "highlight",
+  type: "nested" | "highlight",
 ): TextOffsets {
   const result = {
     type,
     body: annotation.body,
-    beginChar: relativePosition.begin ?? 0,
-    endChar: relativePosition.end,
+    begin: relativePosition.begin ?? 0,
+    end: relativePosition.end,
   };
-  if (result.beginChar === result.endChar) {
+  if (result.begin === result.end) {
     throw new Error(`Should not be marker: ${JSON.stringify(annotation.body)}`);
   }
   return result;
@@ -30,8 +30,22 @@ export function createMarkerTextOffsets(
   return {
     type: "marker",
     body: annotation.body,
-    beginChar: startChar,
-    endChar: startChar,
+    begin: startChar,
+    end: startChar,
+  };
+}
+
+export function createBlockTextOffsets(
+  annotation: AnnoRepoAnnotation,
+  relative: BroccoliRelativeAnno,
+  blockType: BlockType,
+): TextOffsets {
+  return {
+    type: "block" as const,
+    body: annotation.body,
+    begin: relative.begin ?? 0,
+    end: relative.end,
+    blockType,
   };
 }
 

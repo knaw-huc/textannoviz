@@ -6,6 +6,11 @@ import {
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
 import { ViewLang } from "../../../model/Broccoli";
+import {
+  AnnotationSegment,
+  BlockSchema,
+} from "../../../components/Text/Annotated/core";
+import { isHighlightSegment } from "../../../components/Text/Annotated/core/AnnotationModel.ts";
 
 /**
  * Kunstenaarsbrieven Annotation, element and tei type names
@@ -23,8 +28,7 @@ export const letter = "Letter";
 export const listItem = "ListItem";
 export const note = "Note";
 export const page = "Page";
-// TODO: ue this one as a blockType in a new projectConfig property:
-// export const paragraph = "Paragraph";
+export const paragraph = "Paragraph";
 export const person = "person";
 export const picture = "Picture";
 export const quote = "Quote";
@@ -36,6 +40,7 @@ export const teiArtwork = "artwork";
 export const teiIll = "ill";
 export const teiNote = "note";
 export const unknown = "unknown";
+export const whitespace = "Whitespace";
 
 export type ArtworkBody = AnnoRepoBodyBase & {
   type: typeof entity;
@@ -150,6 +155,14 @@ export const isReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is ReferenceBody => !!toTest && toTest.type === reference;
 
+export type WhitespaceBody = AnnoRepoBodyBase & {
+  type: typeof whitespace;
+  isTextSuffix: boolean;
+};
+export const isWhitespace = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is WhitespaceBody => !!toTest && toTest.type === whitespace;
+
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   id: string;
   url: string;
@@ -160,11 +173,10 @@ export type BibliographyReferenceBody = AnnoRepoBodyBase & {
 export const isBibliographyReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is BibliographyReferenceBody => {
-  const result =
+  return (
     isReference(toTest) &&
-    (toTest as BibliographyReferenceBody).subtype === "BibReference";
-
-  return result;
+    (toTest as BibliographyReferenceBody).subtype === "BibReference"
+  );
 };
 
 export type LetterReferenceBody = AnnoRepoBodyBase & {
@@ -180,7 +192,6 @@ export const isLetterReference = (
   const result =
     isReference(toTest) &&
     (toTest as LetterReferenceBody).subtype === "LetterReference";
-
   return result;
 };
 
@@ -245,34 +256,34 @@ export function findLetterBody(
   }
 }
 
-export const projectEntityTypes = [entity, reference];
-export const projectHighlightedTypes = [
+export const entityTypes = [entity, reference];
+export const highlightTypes = [
   highlight,
-  head,
   listItem,
   quote,
   caption,
   term,
   supplied,
+  whitespace,
 ];
-export const projectTooltipMarkerAnnotationTypes = [reference];
-export const projectPageMarkerAnnotationTypes = [page];
-export const projectInsertTextMarkerAnnotationTypes = [picture, head];
+export const tooltipMarkerTypes = [reference];
+export const insertMarkerTypes = [picture, head];
+export const blockTypes = [paragraph, head, page];
 
-export const projectAnnotationTypesToInclude = [
+export const typesToInclude = [
   ...new Set([
-    ...projectInsertTextMarkerAnnotationTypes,
-    ...projectPageMarkerAnnotationTypes,
-    ...projectTooltipMarkerAnnotationTypes,
-    ...projectHighlightedTypes,
-    ...projectEntityTypes,
+    ...insertMarkerTypes,
+    ...tooltipMarkerTypes,
+    ...highlightTypes,
+    ...entityTypes,
+    ...blockTypes,
   ]),
 ];
 
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
 ): toTest is IsraelsEntityBody => {
-  return projectEntityTypes.includes(toTest.type);
+  return entityTypes.includes(toTest.type);
 };
 
 export const isPerson = (toTest: AnnoRepoBodyBase): toTest is PersonBody => {
@@ -304,9 +315,16 @@ export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
 
 export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   if (
-    [head, caption, label, listItem, quote, term, supplied].includes(
-      annoRepoBody.type,
-    )
+    [
+      head,
+      caption,
+      label,
+      listItem,
+      quote,
+      term,
+      supplied,
+      whitespace,
+    ].includes(annoRepoBody.type)
   ) {
     return normalizeClassname(annoRepoBody.type);
   } else if (annoRepoBody.type === highlight) {
@@ -317,7 +335,29 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
   }
 }
 
+export const isQuote = (toTest: AnnotationSegment): boolean =>
+  isHighlightSegment(toTest) &&
+  (toTest.body as AnnoRepoBodyBase).type === quote;
+
 export const entityCategoryToAgg: Record<string, string> = {
   PER: "persons",
   ART: "artworks",
 };
+
+export const blockSchema: BlockSchema = {
+  root: "root",
+  blocks: {
+    root: { children: [page, paragraph, head] },
+    [page]: { children: [paragraph, head] },
+    [paragraph]: { children: [] },
+    [head]: { children: [] },
+  },
+};
+
+export const isMarker = (body: AnnoRepoBodyBase) =>
+  [...insertMarkerTypes].includes(body.type) || isNoteReference(body);
+
+export const isBlock = (body: AnnoRepoBodyBase) =>
+  blockTypes.includes(body.type);
+
+export const getBlockType = (body: AnnoRepoBodyBase) => body.type;

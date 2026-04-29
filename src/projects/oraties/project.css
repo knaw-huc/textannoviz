@@ -51,16 +51,16 @@
   cursor: text;
 }
 
-.text-segment:has(.highlight-quote) {
+.highlight-quote {
   display: block;
   text-align: right;
   margin-bottom: 1em;
 
   /* Show marker next to quote: */
-  &:has(+ .text-segment .marker) {
+  &:has(+ .marker) {
     padding-right: 2em;
 
-    & + .text-segment {
+    & + .marker {
       display: block;
       float: right;
       margin-top: -2.5em;

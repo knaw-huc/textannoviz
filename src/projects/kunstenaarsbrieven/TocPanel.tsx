@@ -32,15 +32,17 @@ export const TocPanel = () => {
     isHeadBody(a.body),
   ) as unknown as WithRelativePosition<HeadBody>[];
 
-  const tocHeaders: TocHeader[] = headers.map((header) => {
-    const id =
-      getTocId(header.annotation.body) ??
-      orThrow(`No toc id found for ${header.annotation.id}`);
-    const { begin, end } = header.relative;
-    const label = text.body.slice(begin, end);
-    const level = getTocLevel(header.annotation.body.n) ?? 0;
-    return { id, label, level };
-  });
+  const tocHeaders: TocHeader[] = headers
+    .map((header) => {
+      const id =
+        getTocId(header.annotation.body) ??
+        orThrow(`No toc id found for ${header.annotation.id}`);
+      const { begin, end } = header.relative;
+      const label = text.body.slice(begin, end);
+      const level = getTocLevel(header.annotation.body.n) ?? 0;
+      return { id, label, level };
+    })
+    .filter((h) => !!h.label);
 
   return <Toc headers={tocHeaders} />;
 };
