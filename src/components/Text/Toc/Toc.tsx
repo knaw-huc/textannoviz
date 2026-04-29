@@ -7,7 +7,8 @@ type TocProps = {
 };
 
 export const Toc = ({ headers }: TocProps) => {
-  useSyncHashWithHeader();
+  const firstHeader = headers[0]?.id || "";
+  useSyncHashWithHeader(firstHeader);
 
   if (!headers.length) {
     return null;
