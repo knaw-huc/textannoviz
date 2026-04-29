@@ -1,5 +1,12 @@
 import { BlockProps } from "../../../../components/Text/Annotated/core/AnnotatedText.tsx";
-import { head, page, paragraph } from "../ProjectAnnotationModel.ts";
+import {
+  cell,
+  head,
+  page,
+  paragraph,
+  row,
+  table,
+} from "../ProjectAnnotationModel.ts";
 import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { Paragraph } from "./Paragraph.tsx";
 import { Page } from "./Page.tsx";
@@ -14,8 +21,29 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   if (block.blockType === paragraph) {
     return <Paragraph {...props} />;
   }
+  if (tableTypes.includes(block.blockType)) {
+    return <TableRowCellBlock {...props} />;
+  }
   if (block.blockType === head) {
     return <TocHeader {...props} />;
   }
   return <div className={block.blockType}>{children}</div>;
+}
+
+export const tableTypes = [table, row, cell];
+
+export function TableRowCellBlock(props: BlockProps<AnnoRepoBody>) {
+  const { block, children } = props;
+
+  if (block.blockType === table) {
+    return (
+      <table>
+        <tbody>{children}</tbody>
+      </table>
+    );
+  } else if (block.blockType === row) {
+    return <tr>{children}</tr>;
+  } else if (block.blockType === cell) {
+    return <td>{children}</td>;
+  }
 }
