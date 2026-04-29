@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react";
 import { TextOffsets } from "./AnnotationModel.ts";
 import { SegmentGroup } from "./inline/SegmentGroup.tsx";
 import { createSegments } from "./utils/createSegments.ts";
 import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
-import { Block, BlockSchema, createBlocks, Element, Inline } from "./block";
+import {
+  Block,
+  BlockSchema,
+  createBlocks,
+  Element,
+  Inline,
+  removeInvalidElements,
+} from "./block";
 import { useAnnotatedTextConfig } from "./useAnnotatedTextConfig.tsx";
-import { removeInvalidElements } from "./block";
+import { useMemo } from "react";
 
 type SegmentedTextProps = {
   body: string;
@@ -15,17 +21,15 @@ type SegmentedTextProps = {
 
 export function SegmentedText(props: SegmentedTextProps) {
   const { body, offsets, blockSchema } = props;
-  const [elements, setElements] = useState<Element[]>([]);
 
-  useEffect(() => {
+  const elements = useMemo(() => {
     console.time("segment-and-block");
     const segments = createSegments(body, offsets, blockSchema);
-    const elements = createBlocks(segments);
-    const cleaned = removeInvalidElements(elements, blockSchema);
-    setElements(cleaned);
+    const blocks = createBlocks(segments);
+    const cleaned = removeInvalidElements(blocks, blockSchema);
     console.timeEnd("segment-and-block");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [body]);
+    return cleaned;
+  }, [body, offsets, blockSchema]);
 
   return <Elements elements={elements} />;
 }

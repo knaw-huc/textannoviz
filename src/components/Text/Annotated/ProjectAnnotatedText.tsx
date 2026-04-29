@@ -8,18 +8,17 @@ import {
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
-import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
 import {
   createBlockTextOffsets,
   createGroupedAnnotationTextOffsets,
   createMarkerTextOffsets,
-  findRelativePosition,
+  mapRelativePositions,
 } from "./utils/createTextOffsets.ts";
 import { AnnotatedText, TextOffsets } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
-import { tableTypes } from "../../../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { useMemo } from "react";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -31,65 +30,76 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const { nestedTypes, highlightTypes, isMarker, isBlock, getBlockType } =
     projectConfig;
   const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
-  const annotations = useAnnotationStore().annotations.filter((a) => {
-    if (typesToInclude.includes(a.body.type)) {
-      return true;
-    }
-    return isBlock(a.body) || isMarker(a.body);
-  });
-  const withRelative: WithRelativePosition[] = annotations
-    .map((annotation) => {
-      const relativePositions = props.text.locations.annotations;
-      const relative = findRelativePosition(annotation, relativePositions);
-      return { annotation, relative };
-    })
-    .filter((toTest): toTest is WithRelativePosition => !!toTest.relative);
-
+  const annotations = useAnnotationStore().annotations;
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
   const textBody = props.text.body || orThrow("No text body");
-  const offsets: TextOffsets[] = [];
+  const relativeAnnotations = props.text.locations.annotations;
 
-  const nestedAnnotations = withRelative
-    // Some nested annotations are markers, need to be filtered out:
-    // TODO: replace types + offset filter with projectConfig.isNested
-    .filter((a) => nestedTypes.includes(a.annotation.body.type))
-    .filter(({ relative }) => relative.begin !== relative.end)
-    .map(({ annotation, relative }) =>
-      createGroupedAnnotationTextOffsets(annotation, relative, "nested"),
-    );
-  offsets.push(...nestedAnnotations);
-  const highlightedAnnotations = withRelative
-    // Some highlights are markers, need to be filtered out:
-    // TODO: replace types + offset filtering with projectConfig.isHighlight
-    .filter(({ annotation }) => highlightTypes.includes(annotation.body.type))
-    .filter(({ relative }) => relative.begin !== relative.end)
-    .map(({ annotation, relative }) =>
-      createGroupedAnnotationTextOffsets(annotation, relative, "highlight"),
-    );
-  offsets.push(...highlightedAnnotations);
+  const offsets = useMemo(() => {
+    const relativePositionMap = mapRelativePositions(relativeAnnotations);
 
-  const searchHighlight = createSearchRegex(searchTerms, tier2);
-  offsets.push(...createSearchHighlightOffsets(textBody, searchHighlight));
+    const result: TextOffsets[] = [];
 
-  const markerAnnotations = withRelative
-    .filter(({ annotation }) => isMarker(annotation.body))
-    .map(({ annotation, relative }) =>
-      createMarkerTextOffsets(annotation, relative),
-    );
-  offsets.push(...markerAnnotations);
-  const blockAnnotations = withRelative
-    .filter(({ annotation }) => isBlock(annotation.body))
-    .map(({ annotation, relative }) => {
-      const blockType = getBlockType(annotation.body);
-      return createBlockTextOffsets(annotation, relative, blockType);
-    });
-  offsets.push(...blockAnnotations);
+    for (const annotation of annotations) {
+      const { body } = annotation;
+      const isNested = nestedTypes.includes(body.type);
+      const isHighlight = highlightTypes.includes(body.type);
+      const isAnnotationBlock = isBlock(body);
+      const isAnnotationMarker = isMarker(body);
 
-  const tableAnnotations = annotations.filter((a) =>
-    tableTypes.includes(a.body.type),
-  );
-  console.log(ProjectAnnotatedText.name, { annotations, tableAnnotations });
+      if (
+        !isNested &&
+        !isHighlight &&
+        !isAnnotationBlock &&
+        !isAnnotationMarker &&
+        !typesToInclude.includes(body.type)
+      ) {
+        continue;
+      }
+
+      const relative = relativePositionMap.get(body.id);
+      if (!relative) {
+        continue;
+      }
+
+      if (isNested && relative.begin !== relative.end) {
+        result.push(
+          createGroupedAnnotationTextOffsets(annotation, relative, "nested"),
+        );
+      }
+      if (isHighlight && relative.begin !== relative.end) {
+        result.push(
+          createGroupedAnnotationTextOffsets(annotation, relative, "highlight"),
+        );
+      }
+      if (isAnnotationMarker) {
+        result.push(createMarkerTextOffsets(annotation, relative));
+      }
+      if (isAnnotationBlock) {
+        result.push(
+          createBlockTextOffsets(annotation, relative, getBlockType(body)),
+        );
+      }
+    }
+
+    const searchHighlight = createSearchRegex(searchTerms, tier2);
+    result.push(...createSearchHighlightOffsets(textBody, searchHighlight));
+
+    return result;
+  }, [
+    annotations,
+    relativeAnnotations,
+    nestedTypes,
+    highlightTypes,
+    typesToInclude,
+    isMarker,
+    isBlock,
+    getBlockType,
+    searchTerms,
+    tier2,
+    textBody,
+  ]);
 
   return (
     <div className="annotated-text whitespace-pre-wrap">

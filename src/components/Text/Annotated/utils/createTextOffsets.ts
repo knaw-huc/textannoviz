@@ -2,6 +2,16 @@ import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BlockType, TextOffsets } from "../core";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 
+export function mapRelativePositions(
+  relativePositions: BroccoliRelativeAnno[],
+): Map<string, BroccoliRelativeAnno> {
+  const map = new Map<string, BroccoliRelativeAnno>();
+  for (const p of relativePositions) {
+    map.set(p.bodyId, p);
+  }
+  return map;
+}
+
 export function createGroupedAnnotationTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
@@ -47,19 +57,4 @@ export function createBlockTextOffsets(
     end: relative.end,
     blockType,
   };
-}
-
-export function findRelativePosition(
-  annotation: AnnoRepoAnnotation,
-  relativePositions: BroccoliRelativeAnno[],
-): BroccoliRelativeAnno | undefined {
-  const found = relativePositions.find((p) => p.bodyId === annotation.body.id);
-  if (!found) {
-    /**
-     * A view does not contain relative positions
-     * to all annotations, so this can happen:
-     */
-    return undefined;
-  }
-  return found;
 }
