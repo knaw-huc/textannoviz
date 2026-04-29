@@ -21,9 +21,12 @@
     font-weight: bold;
   }
 
-  /* Hide whitespace between block elements: */
   .whitespace {
-    display: none;
+    /* Hide whitespace after p or h2: */
+    :is(p, h2) + & {
+      display: none;
+    }
+    /* Show whitespace inside p: */
     p & {
       display: inline;
     }

@@ -25,7 +25,7 @@ function filterBlock(block: Block, schema: BlockSchema): Block {
   const children = block.children.flatMap((child) => {
     if (!child.isBlock) {
       if (config?.blockOnly && isWhitespaceOnly(child)) {
-        console.debug(`Remove whitespace from ${block.blockType} ${block.id}`);
+        // console.debug(`Remove whitespace from ${block.blockType} ${block.id}`);
         return [];
       }
       return [child];
@@ -33,9 +33,7 @@ function filterBlock(block: Block, schema: BlockSchema): Block {
     if (allowed.includes(child.blockType)) {
       return [filterBlock(child, schema)];
     }
-    console.debug(
-      `Unwrap ${child.blockType} ${child.id} into ${block.blockType}`,
-    );
+    // console.debug(`Unwrap ${child.blockType} ${child.id} into ${block.blockType}`);
     return child.children;
   });
 

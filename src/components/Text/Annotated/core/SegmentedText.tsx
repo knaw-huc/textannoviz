@@ -23,11 +23,9 @@ export function SegmentedText(props: SegmentedTextProps) {
   const { body, offsets, blockSchema } = props;
 
   const elements = useMemo(() => {
-    console.time("segment-and-block");
     const segments = createSegments(body, offsets, blockSchema);
     const blocks = createBlocks(segments);
     const cleaned = removeInvalidElements(blocks, blockSchema);
-    console.timeEnd("segment-and-block");
     return cleaned;
   }, [body, offsets, blockSchema]);
 
