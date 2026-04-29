@@ -32,7 +32,7 @@ export function SegmentedText(props: SegmentedTextProps) {
   return <Elements elements={elements} />;
 }
 
-function Elements(props: { elements: Element[] }) {
+export function Elements(props: { elements: Element[] }) {
   return props.elements.map((e, i) =>
     e.isBlock ? (
       <BlockElement key={e.id} block={e} />
