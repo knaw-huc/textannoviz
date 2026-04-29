@@ -39,7 +39,6 @@
     "@knaw-huc/osd-iiif-viewer": "^0.2.5",
     "@knaw-huc/text-annotation-segmenter": "^0.3.0",
     "@spectrum-icons/workflow": "^4.2.11",
-    "@tanstack/react-virtual": "^3.13.24",
     "@types/qs": "^6.9.18",
     "js-base64": "^3.7.7",
     "lodash": "^4.17.21",

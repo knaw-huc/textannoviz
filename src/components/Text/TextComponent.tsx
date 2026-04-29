@@ -10,7 +10,6 @@ import { useViewText } from "./useViewText.tsx";
 import { useSyncHeaderOnScroll } from "./Toc/useSyncHeaderOnScroll.tsx";
 import { useSyncHeaderWithHashOnInit } from "./Toc/useSyncHeaderWithHashOnInit.tsx";
 import { SkeletonLoader } from "../common/SkeletonLoader.tsx";
-import { ScrollContainerContext } from "./ScrollContainerContext.tsx";
 
 type TextComponentProps = {
   viewToRender: string | string[];
@@ -31,30 +30,28 @@ export const TextComponent = (props: TextComponentProps) => {
       {/* <div className="sr-only">
         <h1>Resolutie</h1>
       </div> */}
-      <ScrollContainerContext.Provider value={scrollRef}>
-        <div
-          ref={scrollRef}
-          className="flex w-full flex-col overflow-y-scroll px-6 pt-4 xl:px-10"
-        >
-          <span className="mr-8 mt-4 flex justify-end gap-1 text-sm uppercase text-neutral-500 lg:my-6">
-            {translateProject(`${props.viewToRender}`)}
-          </span>
-          {text && !props.isLoading ? (
-            <div className="flex justify-center">
-              {/* eslint-disable-next-line jsx-a11y/aria-role */}
-              <div className="prose max-w-[550px]" role="textpanel">
-                {projectConfig.showAnnotations ? (
-                  <ProjectAnnotatedText text={text} showDetail={false} />
-                ) : (
-                  <TextHighlighting text={text} />
-                )}
-              </div>
+      <div
+        ref={scrollRef}
+        className="flex w-full flex-col overflow-y-scroll px-6 pt-4 xl:px-10"
+      >
+        <span className="mr-8 mt-4 flex justify-end gap-1 text-sm uppercase text-neutral-500 lg:my-6">
+          {translateProject(`${props.viewToRender}`)}
+        </span>
+        {text && !props.isLoading ? (
+          <div className="flex justify-center">
+            {/* eslint-disable-next-line jsx-a11y/aria-role */}
+            <div className="prose max-w-[550px]" role="textpanel">
+              {projectConfig.showAnnotations ? (
+                <ProjectAnnotatedText text={text} showDetail={false} />
+              ) : (
+                <TextHighlighting text={text} />
+              )}
             </div>
-          ) : (
-            <SkeletonLoader />
-          )}
-        </div>
-      </ScrollContainerContext.Provider>
+          </div>
+        ) : (
+          <SkeletonLoader />
+        )}
+      </div>
     </div>
   );
 };
