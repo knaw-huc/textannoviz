@@ -11,6 +11,7 @@ import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { Paragraph } from "./Paragraph.tsx";
 import { Page } from "./Page.tsx";
 import { TocHeader } from "./TocHeader.tsx";
+import { TableRowCell } from "./TableRowCell.tsx";
 
 export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
@@ -31,20 +32,3 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
 }
 
 export const tableTypes = [table, row, cell];
-
-export function TableRowCell(props: BlockProps<AnnoRepoBody>) {
-  const { block, children } = props;
-
-  if (block.blockType === table) {
-    return (
-      <table>
-        <tbody>{children}</tbody>
-      </table>
-    );
-  } else if (block.blockType === row) {
-    console.log("tr", block.annotation);
-    return <tr>{children}</tr>;
-  } else if (block.blockType === cell) {
-    return <td>{children}</td>;
-  }
-}
