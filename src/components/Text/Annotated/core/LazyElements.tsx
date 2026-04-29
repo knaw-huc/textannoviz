@@ -2,6 +2,10 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import { Element } from "./block";
 
 import { Elements } from "./Elements.tsx";
+import {
+  requestIdleCallback,
+  cancelIdleCallback,
+} from "./utils/requestIdleCallback.ts";
 
 type LazyElementsProps = {
   elements: Element[];
@@ -20,15 +24,14 @@ export function LazyElements({
   totalChars,
   initChars = 3000,
 }: LazyElementsProps) {
-  const initElementThreshold = useMemo(
-    () => findInitElementThreshold(elements, initChars),
+  const initElementIndex = useMemo(
+    () => findInitElementIndex(elements, initChars),
     [elements, initChars],
   );
 
-  const needsLazyLoad = initElementThreshold < elements.length;
-
+  const needsLazyLoad = initElementIndex !== -1;
   const [renderAll, setRenderAll] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [spacerHeight, setSpacerHeight] = useState(0);
   const [prevElements, setPrevElements] = useState(elements);
 
@@ -43,11 +46,11 @@ export function LazyElements({
       return;
     }
 
-    const el = contentRef.current;
-    if (el) {
-      const renderedHeight = el.getBoundingClientRect().height;
+    const container = containerRef.current;
+    if (container) {
+      const renderedHeight = container.getBoundingClientRect().height;
       const renderedChars = elements
-        .slice(0, initElementThreshold)
+        .slice(0, initElementIndex)
         .reduce((sum, e) => sum + countElementChars(e), 0);
 
       if (renderedChars) {
@@ -56,20 +59,19 @@ export function LazyElements({
       }
     }
 
-    const id = setTimeout(() => setRenderAll(true), 0);
-    return () => clearTimeout(id);
-  }, [needsLazyLoad, renderAll, elements, initElementThreshold, totalChars]);
+    // Wait for the browser to render the first batch, render the rest later:
+    const id = requestIdleCallback(() => setRenderAll(true), { timeout: 1000 });
+    return () => cancelIdleCallback(id);
+  }, [needsLazyLoad, renderAll, elements, initElementIndex, totalChars]);
 
   if (!needsLazyLoad) {
     return <Elements elements={elements} />;
   }
 
   return (
-    <div ref={contentRef}>
+    <div ref={containerRef}>
       <Elements
-        elements={
-          renderAll ? elements : elements.slice(0, initElementThreshold)
-        }
+        elements={renderAll ? elements : elements.slice(0, initElementIndex)}
       />
       {!renderAll && spacerHeight > 0 && (
         <div style={{ height: spacerHeight }} />
@@ -78,29 +80,32 @@ export function LazyElements({
   );
 }
 
-function findInitElementThreshold(
+/**
+ * Find the first root element that passes the initChars threshold
+ */
+function findInitElementIndex(
   elements: Element[],
-  threshold: number,
-): number {
+  initChars: number,
+): number | -1 {
   let total = 0;
   for (let i = 0; i < elements.length; i++) {
     total += countElementChars(elements[i]);
-    if (total >= threshold) {
+    if (total >= initChars) {
       return i + 1;
     }
   }
-  return elements.length;
+  return -1;
 }
 
 function countElementChars(element: Element): number {
   if (!element.isBlock) {
     return element.segments.reduce(
-      (counted, segment) => counted + segment.body.length,
+      (charCount, segment) => charCount + segment.body.length,
       0,
     );
   }
   return element.children.reduce(
-    (counted, child) => counted + countElementChars(child),
+    (charCount, child) => charCount + countElementChars(child),
     0,
   );
 }

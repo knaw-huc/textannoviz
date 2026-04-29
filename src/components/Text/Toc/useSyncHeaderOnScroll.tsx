@@ -17,8 +17,8 @@ export function useSyncHeaderOnScroll(
     const visibleHeaderIds = new Set<string>();
 
     // Headers visible on init are ignored until they leave the viewport:
-    let needsInit = true;
     const initialHeaderIds = new Set<string>();
+    let needsInit = true;
 
     const headerIntersections = new IntersectionObserver(
       (events) => {
@@ -57,8 +57,8 @@ export function useSyncHeaderOnScroll(
           }
         }
 
-        // When no headers visible, pick header above viewport:
-        if (!lowestId) {
+        // When no headers visible, pick (non-init) header above viewport:
+        if (!lowestId && current && !initialHeaderIds.has(current)) {
           const containerTop = scrollContainer.getBoundingClientRect().top;
           for (const h of headers) {
             if (

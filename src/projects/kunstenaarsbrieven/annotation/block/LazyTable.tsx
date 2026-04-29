@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Block, Element } from "../../../../components/Text/Annotated/core";
 
 import { Elements } from "../../../../components/Text/Annotated/core/Elements.tsx";
+import {
+  cancelIdleCallback,
+  requestIdleCallback,
+} from "../../../../components/Text/Annotated/core/utils/requestIdleCallback.ts";
 
 type LazyTableProps = {
   block: Block;
@@ -25,6 +29,7 @@ export function LazyTable({
   const [rowHeight, setRowHeight] = useState(initRowHeight);
 
   const rows = block.children.filter((e) => e.isBlock) as Block[];
+  // initBatchSize = rows.length
   const visibleRows = renderAll ? rows : rows.slice(0, initBatchSize);
   const remainingRows = renderAll ? 0 : rows.length - initBatchSize;
   const needsLazyLoad = rows.length > initBatchSize;
@@ -68,9 +73,9 @@ export function LazyTable({
     if (renderAll || !needsLazyLoad) {
       return;
     }
-    // Wait for the browser to render the first batch, render the rest after that:
-    const id = setTimeout(() => setRenderAll(true), 0);
-    return () => clearTimeout(id);
+    // Wait for the browser to render the first batch, render the rest later:
+    const id = requestIdleCallback(() => setRenderAll(true));
+    return () => cancelIdleCallback(id);
   }, [renderAll, needsLazyLoad]);
 
   const isWidthCalculated = colWidths.length > 0;
@@ -92,7 +97,7 @@ export function LazyTable({
         {visibleRows.map((row) => (
           <tr key={row.id}>
             <Elements
-              // tr elements should contain text nodes, i.e. whitespace:
+              // tr is not allowed to have text nodes, i.e. whitespace:
               elements={row.children.filter((e) => !isWhitespaceOnly(e))}
             />
           </tr>
