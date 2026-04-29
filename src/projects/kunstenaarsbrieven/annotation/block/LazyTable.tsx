@@ -9,9 +9,9 @@ type LazyTableProps = {
 };
 
 /**
- * For large tables, first render only the {@link initBatchSize} to populate the
+ * For large tables, first render the {@link initBatchSize} to populate the
  * screen, with an empty spacer at the bottom for scrolling. After the initial
- * loading, render the rest of the table.
+ * batch, render the rest of the table.
  */
 export function LazyTable({
   block,
