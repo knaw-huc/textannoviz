@@ -5,7 +5,7 @@ import {
   useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
-import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText.tsx";
+import { ProjectAnnotatedText } from "./Annotated/ProjectAnnotatedText.tsx";
 import { TextHighlighting } from "./TextHighlighting.tsx";
 
 type TextPanelProps = {

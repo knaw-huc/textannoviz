@@ -98,7 +98,7 @@ export type MarkerSegment<MARKER extends Body = Body> =
   AnnotationSegmentWithBodyAndOffsets<MARKER> & Marker;
 
 /**
- * Segment of an annotation as found in {@link Segment}
+ * Segment of a nested annotation as found in {@link Segment}
  */
 export type NestedAnnotationSegment<ANNOTATION extends Body = Body> =
   AnnotationSegmentWithBodyAndOffsets<ANNOTATION> &

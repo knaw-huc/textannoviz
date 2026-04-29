@@ -3,7 +3,7 @@ import {
   EntityDetail,
 } from "../../../model/AnnoRepoAnnotation.ts";
 import _ from "lodash";
-import { normalizeClassname } from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
+import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 
 /**
  * Highlighted element

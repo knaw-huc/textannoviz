@@ -1,4 +1,4 @@
-import { ProjectAnnotatedText } from "../../components/Text/Annotated/project/ProjectAnnotatedText";
+import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { useTranslateProject } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";

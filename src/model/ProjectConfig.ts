@@ -1,5 +1,5 @@
-import { MarkerSegment } from "../components/Text/Annotated/core";
-import { EntitySummaryProps } from "../components/Text/Annotated/project/EntitySummaryProps.ts";
+import { AnyAnnotatedTextConfig } from "../components/Text/Annotated/core";
+import { EntitySummaryProps } from "./EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
 import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
@@ -16,7 +16,6 @@ import {
   TranslatinSearchResultsBody,
   VanGoghSearchResultsBody,
 } from "./Search.ts";
-import { NoteReferenceBody } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import type { JSX } from "react";
 
 export type PanelRegion = "left" | "main" | "right";
@@ -104,7 +103,6 @@ export type ComponentsConfig = {
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
   ArtworksTab: () => JSX.Element;
-  InsertMarkerAnnotation: (props: { marker: MarkerSegment }) => JSX.Element;
   Header: () => JSX.Element;
   TocPanel: () => JSX.Element;
 };
@@ -161,57 +159,54 @@ type AnnotationConfig = {
   relativeTo: string;
 
   /**
+   * Should annotations be visualised using {@link AnnotatedText}
+   * as opposed to the default, more basic {@link TextHighlighting}
+   */
+  showAnnotations: boolean;
+
+  /**
    * Annotation types to load from the backend
    */
   annotationTypesToInclude: string[];
 
   /**
-   * Should annotations be visualised using {@link AnnotatedText} component
-   * as opposed to the default, more basic {@link TextHighlighting} component
-   */
-  showAnnotations: boolean;
-
-  /**
    * Highlighted annotation types when using the {@link TextHighlighting} component
    * i.e. when `showAnnotations === false`
    */
-  annotationTypesToHighlight: string[];
+  textHighlightingTypes: string[];
 
   /**
-   * Show tooltip with note
+   * Plugin components for rendering with {@link AnnotatedText}
    */
-  tooltipMarkerAnnotationTypes: string[];
+  annotatedTextConfig: AnyAnnotatedTextConfig;
 
   /**
-   * @see {@link tooltipMarkerAnnotationTypes}
-   * annotation.body.type is not enough to determine if a Reference is a Note Reference:
+   * Annotations that are nested inside each other, a span for every annotation
+   * see also {@link isEntity}
    */
-  isToolTipMarker: (toTest: AnnoRepoBodyBase) => toTest is NoteReferenceBody;
+  nestedTypes: string[];
 
-  /**
-   * Insert additional text into main text
-   */
-  insertTextMarkerAnnotationTypes: string[];
-  /**
-   * Mark the start of a page
-   */
-  pageMarkerAnnotationTypes: string[];
   /**
    * Annotation types that are highlighted in the text
-   * and that can be clicked on and opened in the annotation detail viewer
    */
-  entityAnnotationTypes: string[];
+  highlightTypes: string[];
+
   /**
-   * Annotation types that are highlighted in the text
-   * but that cannot be clicked on
+   * Annotations that should be rendered as zero-length markers
+   * e.g., page breaks, note pointers, pictures
+   * Note: some markers cannot be detected using type alone, hence the fn
    */
-  highlightedAnnotationTypes: string[];
+  isMarker: (body: AnnoRepoBodyBase) => boolean;
+
+  /**
+   * Entities, clickable, styled and displayed in the EntityModal
+   */
+  isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   annoToEntityCategory: Any;
 
   getAnnotationCategory: CategoryGetter;
   getHighlightCategory: CategoryGetter;
-  isEntity: (toTest: AnnoRepoBodyBase) => toTest is ProjectEntityBody;
 
   isLink: (toTest: AnnoRepoBodyBase) => boolean;
   getUrl: (toTest: AnnoRepoBodyBase) => string | undefined;

@@ -10,9 +10,9 @@ import { TextPanels } from "../TextPanels.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
-import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { getTocId, showToc } from "./showToc.ts";
 import { getUrl, isLink } from "./isLink.ts";
+import { defaultAnnotatedTextConfig } from "../annotation/defaultAnnotatedTextConfig.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -27,17 +27,14 @@ export const defaultConfig: DefaultProjectConfig = {
   showAnnotations: false,
 
   annotationTypesToInclude: [],
-  annotationTypesToHighlight: [],
-
-  tooltipMarkerAnnotationTypes: [],
-  insertTextMarkerAnnotationTypes: [],
-  pageMarkerAnnotationTypes: [],
-  entityAnnotationTypes: [],
-  highlightedAnnotationTypes: [],
+  textHighlightingTypes: [],
+  annotatedTextConfig: defaultAnnotatedTextConfig,
+  nestedTypes: [],
+  highlightTypes: [],
+  isMarker: () => false,
   getAnnotationCategory: getCategory,
   getHighlightCategory: getCategory,
   isEntity: isEntity,
-  isToolTipMarker: isNoteReference,
   isLink: isLink,
   getUrl: getUrl,
 
@@ -98,7 +95,6 @@ export const defaultConfig: DefaultProjectConfig = {
     BrowseScanButtons: Empty,
     NotesPanel: Placeholder,
     ArtworksTab: Placeholder,
-    InsertMarkerAnnotation: Empty,
     Header: Header,
     TocPanel: Placeholder,
   },

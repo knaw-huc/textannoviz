@@ -1,30 +1,23 @@
-import { BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
-import { useAnnotationStore } from "../../../../stores/annotation.ts";
-import { AnnotatedText, TextOffsets } from "../core";
-import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
+import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
+import { useAnnotationStore } from "../../../stores/annotation.ts";
 import "./annotated.css";
 import {
   projectConfigSelector,
   useProjectStore,
-} from "../../../../stores/project.ts";
+} from "../../../stores/project.ts";
+import { createSearchRegex } from "../createSearchRegex.tsx";
+import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
+import uniq from "lodash/uniq";
+import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
 import {
   createAnnotationTextOffsets,
   createMarkerTextOffsets,
   findRelativePosition,
 } from "./utils/createTextOffsets.ts";
-import { createSearchRegex } from "../../createSearchRegex.tsx";
-import { useDetailNavigation } from "../../../Detail/useDetailNavigation.tsx";
-import uniq from "lodash/uniq";
-import {
-  hasMarkerPositions,
-  isMarker,
-  ProjectMarkerAnnotation,
-} from "./ProjectMarkerAnnotation.tsx";
-import { ProjectNestedAnnotation } from "./ProjectNestedAnnotation.tsx";
-import { ProjectHighlightAnnotations } from "./ProjectHighlightAnnotations.tsx";
-import { ProjectSegmentGroup } from "./ProjectSegmentGroup.tsx";
+import { AnnotatedText, TextOffsets } from "./core";
+import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
-import { WithRelativePosition } from "./WithRelativePosition.ts";
+import { orThrow } from "../../../utils/orThrow.tsx";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -33,18 +26,13 @@ type TextHighlightingProps = {
 
 export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { entityAnnotationTypes, highlightedAnnotationTypes } = projectConfig;
-  const typesToInclude = uniq([
-    ...entityAnnotationTypes,
-    ...highlightedAnnotationTypes,
-  ]);
+  const { nestedTypes, highlightTypes, isMarker } = projectConfig;
+  const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
   const annotations = useAnnotationStore().annotations.filter((a) => {
     if (typesToInclude.includes(a.body.type)) {
       return true;
     }
-    if (isMarker(a, projectConfig)) {
-      return true;
-    }
+    return isMarker(a.body);
   });
   const withRelative: WithRelativePosition[] = annotations
     .map((annotation) => {
@@ -56,22 +44,20 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
 
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
-  const textBody = props.text.body;
+  const textBody = props.text.body || orThrow("No text body");
   const offsets: TextOffsets[] = [];
 
-  const nestedAnnotationTypes = [...entityAnnotationTypes];
   const nestedAnnotations = withRelative
-    .filter((a) => nestedAnnotationTypes.includes(a.annotation.body.type))
-    .filter(({ relative }) => !hasMarkerPositions(relative))
+    // Some nestedAnnotationTypes overlap with marker, need to be filtered out:
+    // TODO: replace nestedAnnotationTypes + isMarker with projectConfig.isNested
+    .filter((a) => nestedTypes.includes(a.annotation.body.type))
+    .filter(({ annotation }) => !isMarker(annotation.body))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "annotation"),
     );
   offsets.push(...nestedAnnotations);
   const highlightedAnnotations = withRelative
-    .filter(({ annotation }) =>
-      highlightedAnnotationTypes.includes(annotation.body.type),
-    )
-    .filter(({ relative }) => !hasMarkerPositions(relative))
+    .filter(({ annotation }) => highlightTypes.includes(annotation.body.type))
     .map(({ annotation, relative }) =>
       createAnnotationTextOffsets(annotation, relative, "highlight"),
     );
@@ -81,7 +67,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   offsets.push(...createSearchHighlightOffsets(textBody, searchHighlight));
 
   const markerAnnotations = withRelative
-    .filter(({ annotation }) => isMarker(annotation, projectConfig))
+    .filter(({ annotation }) => isMarker(annotation.body))
     .map(({ annotation, relative }) =>
       createMarkerTextOffsets(annotation, relative),
     );
@@ -90,12 +76,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   return (
     <div className="whitespace-pre-wrap">
       <AnnotatedText
-        config={{
-          Annotation: ProjectNestedAnnotation,
-          Highlight: ProjectHighlightAnnotations,
-          Marker: ProjectMarkerAnnotation,
-          Group: ProjectSegmentGroup,
-        }}
+        config={projectConfig.annotatedTextConfig}
         body={textBody}
         offsets={offsets}
       >

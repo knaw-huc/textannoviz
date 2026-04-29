@@ -9,9 +9,9 @@ import { BroccoliTextGeneric, ViewLang } from "../../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { Optional } from "../../../../utils/Optional.ts";
-import { SpanTooltipButton } from "../../../common/SpanTooltipButton.tsx";
-import { MarkerSegment } from "../core";
-import { ProjectAnnotatedText } from "./ProjectAnnotatedText.tsx";
+import { SpanTooltipButton } from "../../../../components/common/SpanTooltipButton.tsx";
+import { MarkerSegment } from "../../../../components/Text/Annotated/core";
+import { ProjectAnnotatedText } from "../../../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 
 // Detail.tsx performs an additional broccoli call to retrieve notes:
 export const NOTES_VIEW = "notes";
