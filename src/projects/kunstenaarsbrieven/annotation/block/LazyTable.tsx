@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Block } from "../../../../components/Text/Annotated/core";
-import { Elements } from "../../../../components/Text/Annotated/core/SegmentedText.tsx";
+
+import { Elements } from "../../../../components/Text/Annotated/core/Elements.tsx";
 
 type LazyTableProps = {
   block: Block;
