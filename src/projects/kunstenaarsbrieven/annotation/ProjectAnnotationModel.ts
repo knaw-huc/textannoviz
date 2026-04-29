@@ -271,7 +271,8 @@ export const highlightTypes = [
 ];
 export const tooltipMarkerTypes = [reference];
 export const insertMarkerTypes = [picture, head];
-export const blockTypes = [cell, head, page, paragraph, row, table];
+export const tableTypes = [table, row, cell];
+export const blockTypes = [cell, head, page, ...tableTypes];
 
 export const typesToInclude = [
   ...new Set([

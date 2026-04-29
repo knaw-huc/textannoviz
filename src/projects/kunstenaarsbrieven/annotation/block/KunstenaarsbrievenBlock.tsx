@@ -1,17 +1,15 @@
 import { BlockProps } from "../../../../components/Text/Annotated/core/AnnotatedText.tsx";
 import {
-  cell,
   head,
   page,
   paragraph,
-  row,
-  table,
+  tableTypes,
 } from "../ProjectAnnotationModel.ts";
 import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { Paragraph } from "./Paragraph.tsx";
 import { Page } from "./Page.tsx";
 import { TocHeader } from "./TocHeader.tsx";
-import { TableRowCell } from "./TableRowCell.tsx";
+import { RowCellTable } from "./RowCellTable.tsx";
 
 export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
@@ -23,12 +21,10 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
     return <Paragraph {...props} />;
   }
   if (tableTypes.includes(block.blockType)) {
-    return <TableRowCell {...props} />;
+    return <RowCellTable {...props} />;
   }
   if (block.blockType === head) {
     return <TocHeader {...props} />;
   }
   return <div className={block.blockType}>{children}</div>;
 }
-
-export const tableTypes = [table, row, cell];

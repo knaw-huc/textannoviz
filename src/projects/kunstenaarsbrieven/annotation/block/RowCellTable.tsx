@@ -2,7 +2,7 @@ import { BlockProps } from "../../../../components/Text/Annotated/core/Annotated
 import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { cell, row, table } from "../ProjectAnnotationModel.ts";
 
-export function TableRowCell(props: BlockProps<AnnoRepoBody>) {
+export function RowCellTable(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
 
   if (block.blockType === table) {
