@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   createMarkerTextOffsets,
-  createGroupedAnnotationTextOffsets,
+  createTextOffsets,
 } from "./createTextOffsets.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
@@ -42,7 +42,7 @@ describe("createTextOffsets", () => {
       begin: 162,
       end: 194,
     };
-    const result = createGroupedAnnotationTextOffsets(
+    const result = createTextOffsets(
       annotation,
       positionsRelativeToView,
       "nested",

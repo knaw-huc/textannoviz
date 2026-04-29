@@ -12,7 +12,7 @@ export function mapRelativePositions(
   return map;
 }
 
-export function createGroupedAnnotationTextOffsets(
+export function createTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
   type: "nested" | "highlight",
