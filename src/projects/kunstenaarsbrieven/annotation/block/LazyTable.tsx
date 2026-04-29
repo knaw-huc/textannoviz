@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Block } from "../../../../components/Text/Annotated/core";
+import { Block, Element } from "../../../../components/Text/Annotated/core";
 
 import { Elements } from "../../../../components/Text/Annotated/core/Elements.tsx";
 
@@ -91,7 +91,10 @@ export function LazyTable({
       <tbody>
         {visibleRows.map((row) => (
           <tr key={row.id}>
-            <Elements elements={row.children} />
+            <Elements
+              // tr elements should contain text nodes, i.e. whitespace:
+              elements={row.children.filter((e) => !isWhitespaceOnly(e))}
+            />
           </tr>
         ))}
         {/* To prevent flickering, show an empty spacer when the table is not fully loaded yet: */}
@@ -106,4 +109,11 @@ export function LazyTable({
       </tbody>
     </table>
   );
+}
+
+function isWhitespaceOnly(inline: Element): boolean {
+  if (inline.isBlock) {
+    return false;
+  }
+  return inline.segments.every((s) => /^\s*$/.test(s.body));
 }

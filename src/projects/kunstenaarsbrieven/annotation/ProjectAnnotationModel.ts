@@ -355,8 +355,8 @@ export const blockSchema: BlockSchema = {
     [page]: { children: [paragraph, head, table] },
     [paragraph]: { children: [] },
     [head]: { children: [] },
-    [table]: { children: [row], blockOnly: true },
-    [row]: { children: [cell], blockOnly: true },
+    [table]: { children: [row] },
+    [row]: { children: [cell] },
     [cell]: { children: [] },
   },
 };

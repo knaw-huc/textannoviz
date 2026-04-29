@@ -1,6 +1,6 @@
 import { TextOffsets } from "./AnnotationModel.ts";
 import { createSegments } from "./utils/createSegments.ts";
-import { BlockSchema, createBlocks, removeInvalidElements } from "./block";
+import { BlockSchema, createBlocks, removeInvalidBlocks } from "./block";
 import { useMemo } from "react";
 import { LazyElements } from "./LazyElements.tsx";
 
@@ -16,7 +16,7 @@ export function SegmentedText(props: SegmentedTextProps) {
   const elements = useMemo(() => {
     const segments = createSegments(body, offsets, blockSchema);
     const blocks = createBlocks(segments);
-    const cleaned = removeInvalidElements(blocks, blockSchema);
+    const cleaned = removeInvalidBlocks(blocks, blockSchema);
     return cleaned;
   }, [body, offsets, blockSchema]);
 

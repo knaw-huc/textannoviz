@@ -2,11 +2,10 @@ import { BlockSchema } from "./BlockSchema.ts";
 import { Block, Element } from "./BlockModel.ts";
 
 /**
- * Remove elements that violate block schema:
- * - unwrap children of invalid blocks into grandparent
- * - remove whitespace-only inlines inside blockOnly parents
+ * Remove blocks that violate block schema,
+ * unwrapping the children of invalid blocks into their grandparent.
  */
-export function removeInvalidElements(
+export function removeInvalidBlocks(
   elements: Element[],
   schema: BlockSchema,
 ): Element[] {
@@ -24,25 +23,13 @@ function filterBlock(block: Block, schema: BlockSchema): Block {
 
   const children = block.children.flatMap((child) => {
     if (!child.isBlock) {
-      if (config?.blockOnly && isWhitespaceOnly(child)) {
-        // console.debug(`Remove whitespace from ${block.blockType} ${block.id}`);
-        return [];
-      }
       return [child];
     }
     if (allowed.includes(child.blockType)) {
       return [filterBlock(child, schema)];
     }
-    // console.debug(`Unwrap ${child.blockType} ${child.id} into ${block.blockType}`);
     return child.children;
   });
 
   return { ...block, children };
-}
-
-function isWhitespaceOnly(inline: Element): boolean {
-  if (inline.isBlock) {
-    return false;
-  }
-  return inline.segments.every((s) => /^\s*$/.test(s.body));
 }
