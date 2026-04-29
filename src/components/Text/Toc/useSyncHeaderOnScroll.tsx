@@ -16,6 +16,10 @@ export function useSyncHeaderOnScroll(
 
     const visibleHeaderIds = new Set<string>();
 
+    // Headers visible on init are ignored until they leave the viewport:
+    let needsInit = true;
+    const initialHeaderIds = new Set<string>();
+
     const headerIntersections = new IntersectionObserver(
       (events) => {
         for (const event of events) {
@@ -23,7 +27,17 @@ export function useSyncHeaderOnScroll(
             visibleHeaderIds.add(event.target.id);
           } else {
             visibleHeaderIds.delete(event.target.id);
+            initialHeaderIds.delete(event.target.id);
           }
+        }
+
+        // First callback: snapshot which headers are already on screen:
+        if (needsInit) {
+          needsInit = false;
+          for (const id of visibleHeaderIds) {
+            initialHeaderIds.add(id);
+          }
+          return;
         }
 
         // Keep current header when still in view:
@@ -36,9 +50,9 @@ export function useSyncHeaderOnScroll(
 
         let lowestId: string | undefined;
 
-        // Pick lowest visible header:
+        // Pick lowest visible header, skipping initial ones:
         for (const h of headers) {
-          if (visibleHeaderIds.has(h.id)) {
+          if (visibleHeaderIds.has(h.id) && !initialHeaderIds.has(h.id)) {
             lowestId = h.id;
           }
         }
@@ -47,7 +61,10 @@ export function useSyncHeaderOnScroll(
         if (!lowestId) {
           const containerTop = scrollContainer.getBoundingClientRect().top;
           for (const h of headers) {
-            if (h.getBoundingClientRect().top < containerTop) {
+            if (
+              h.getBoundingClientRect().top < containerTop &&
+              !initialHeaderIds.has(h.id)
+            ) {
               lowestId = h.id;
             }
           }
