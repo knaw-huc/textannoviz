@@ -22,7 +22,7 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
     return <Paragraph {...props} />;
   }
   if (tableTypes.includes(block.blockType)) {
-    return <TableRowCellBlock {...props} />;
+    return <TableRowCell {...props} />;
   }
   if (block.blockType === head) {
     return <TocHeader {...props} />;
@@ -32,7 +32,7 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
 
 export const tableTypes = [table, row, cell];
 
-export function TableRowCellBlock(props: BlockProps<AnnoRepoBody>) {
+export function TableRowCell(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
 
   if (block.blockType === table) {
@@ -42,6 +42,7 @@ export function TableRowCellBlock(props: BlockProps<AnnoRepoBody>) {
       </table>
     );
   } else if (block.blockType === row) {
+    console.log("tr", block.annotation);
     return <tr>{children}</tr>;
   } else if (block.blockType === cell) {
     return <td>{children}</td>;

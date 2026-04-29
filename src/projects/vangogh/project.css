@@ -17,6 +17,10 @@
     font-style: normal;
   }
 
+  tbody tr:first-child {
+    font-weight: bold;
+  }
+
   /* Hide whitespace between block elements: */
   .whitespace {
     display: none;
