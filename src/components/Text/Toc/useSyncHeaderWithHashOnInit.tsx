@@ -20,14 +20,14 @@ export function useSyncHeaderWithHashOnInit(
     const selector = `#${CSS.escape(hash)}`;
     const header = container.querySelector(selector);
     if (header) {
-      setTimeout(() => header.scrollIntoView({ block: "start" }), 1000);
+      setTimeout(() => header.scrollIntoView({ block: "start" }), 250);
       return;
     }
 
     const observer = new MutationObserver(() => {
       const header = container.querySelector(selector);
       if (header) {
-        setTimeout(() => header.scrollIntoView({ block: "start" }), 1000);
+        setTimeout(() => header.scrollIntoView({ block: "start" }), 250);
         observer.disconnect();
       }
     });
