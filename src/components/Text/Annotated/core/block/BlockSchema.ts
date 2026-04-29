@@ -7,4 +7,5 @@ export type BlockSchema = {
 
 type BlockConfig = {
   children: BlockType[];
+  blockOnly?: boolean;
 };
