@@ -20,20 +20,35 @@ export function useSyncHeaderWithHashOnInit(
     const selector = `#${CSS.escape(hash)}`;
     const header = container.querySelector(selector);
     if (header) {
-      setTimeout(() => header.scrollIntoView({ block: "start" }), 250);
+      scrollIfNotInView(header, container);
       return;
     }
 
     const observer = new MutationObserver(() => {
       const header = container.querySelector(selector);
       if (header) {
-        setTimeout(() => header.scrollIntoView({ block: "start" }), 250);
+        scrollIfNotInView(header, container);
         observer.disconnect();
       }
     });
     observer.observe(container, { childList: true, subtree: true });
     return () => observer.disconnect();
   }, [scrollContainerRef, imageLoaded]);
+}
+
+function scrollIfNotInView(header: Element, container: Element): void {
+  if (!isInView(header, container)) {
+    setTimeout(() => header.scrollIntoView({ block: "start" }), 250);
+  }
+}
+
+function isInView(element: Element, container: Element): boolean {
+  const containerRect = container.getBoundingClientRect();
+  const elementRect = element.getBoundingClientRect();
+  return (
+    elementRect.top >= containerRect.top &&
+    elementRect.top <= containerRect.bottom
+  );
 }
 
 /**
