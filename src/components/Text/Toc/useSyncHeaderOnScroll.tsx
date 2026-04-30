@@ -16,7 +16,7 @@ export function useSyncHeaderOnScroll(
 
     const visibleHeaderIds = new Set<string>();
 
-    // Headers visible on init are ignored until they leave the viewport:
+    // Headers visible on init are ignored:
     const initialHeaderIds = new Set<string>();
     let needsInit = true;
 
@@ -27,7 +27,6 @@ export function useSyncHeaderOnScroll(
             visibleHeaderIds.add(event.target.id);
           } else {
             visibleHeaderIds.delete(event.target.id);
-            initialHeaderIds.delete(event.target.id);
           }
         }
 
@@ -48,30 +47,32 @@ export function useSyncHeaderOnScroll(
 
         const headers = scrollContainer.querySelectorAll(`.${tocScrollHeader}`);
 
-        let lowestId: string | undefined;
+        let newId: string | undefined;
 
         // Pick lowest visible header, skipping initial ones:
         for (const h of headers) {
-          if (visibleHeaderIds.has(h.id) && !initialHeaderIds.has(h.id)) {
-            lowestId = h.id;
+          if (visibleHeaderIds.has(h.id)) {
+            newId = h.id;
+            break;
           }
         }
 
         // When no headers visible, pick (non-init) header above viewport:
-        if (!lowestId && current && !initialHeaderIds.has(current)) {
+        if (!newId && current) {
           const containerTop = scrollContainer.getBoundingClientRect().top;
           for (const h of headers) {
-            if (
-              h.getBoundingClientRect().top < containerTop &&
-              !initialHeaderIds.has(h.id)
-            ) {
-              lowestId = h.id;
+            if (h.getBoundingClientRect().top < containerTop) {
+              newId = h.id;
             }
           }
         }
 
-        if (lowestId) {
-          setActiveHeader(lowestId);
+        if (newId) {
+          if (initialHeaderIds.has(newId)) {
+            setActiveHeader("");
+          } else {
+            setActiveHeader(newId);
+          }
         }
       },
       { root: scrollContainer },
