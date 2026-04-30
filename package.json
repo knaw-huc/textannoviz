@@ -37,7 +37,7 @@
     "@heroicons/react": "^2.2.0",
     "@iiif/helpers": "^1.5.8",
     "@knaw-huc/osd-iiif-viewer": "^0.2.5",
-    "@knaw-huc/text-annotation-segmenter": "^0.3.1",
+    "@knaw-huc/text-annotation-segmenter": "^0.4.0",
     "@spectrum-icons/workflow": "^4.2.11",
     "@types/qs": "^6.9.18",
     "js-base64": "^3.7.7",
