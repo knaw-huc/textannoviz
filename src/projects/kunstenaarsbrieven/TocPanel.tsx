@@ -8,7 +8,8 @@ import { HeadBody, isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 import { getTocId, getTocLevel } from "./TocUtils.ts";
 import { orThrow } from "../../utils/orThrow.tsx";
 import { Toc, TocHeader } from "../../components/Text/Toc/Toc.tsx";
-import { mapRelativePositions } from "../../components/Text/Annotated/utils/createTextOffsets.ts";
+
+import { mapRelativePositions } from "../../components/Text/Annotated/utils/mapRelativePositions.ts";
 
 export const TocPanel = () => {
   const projectConfig = useProjectStore(projectConfigSelector);

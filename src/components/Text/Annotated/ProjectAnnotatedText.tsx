@@ -12,13 +12,13 @@ import {
   createBlockTextOffsets,
   createTextOffsets,
   createMarkerTextOffsets,
-  mapRelativePositions,
 } from "./utils/createTextOffsets.ts";
 import { AnnotatedText, TextOffsets } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
 import { useMemo } from "react";
+import { mapRelativePositions } from "./utils/mapRelativePositions.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
