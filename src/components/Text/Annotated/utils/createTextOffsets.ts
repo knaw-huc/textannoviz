@@ -1,6 +1,7 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BlockType, TextOffsets } from "../core";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
+import { MarkerPosition } from "@knaw-huc/text-annotation-segmenter";
 
 export function createTextOffsets(
   annotation: AnnoRepoAnnotation,
@@ -25,6 +26,7 @@ export function createTextOffsets(
 export function createMarkerTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
+  markerPosition?: MarkerPosition,
 ): TextOffsets {
   const startChar = relativePosition.begin ?? 0;
   return {
@@ -32,6 +34,7 @@ export function createMarkerTextOffsets(
     body: annotation.body,
     begin: startChar,
     end: startChar,
+    markerPosition,
   };
 }
 

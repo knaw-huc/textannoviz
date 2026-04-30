@@ -364,6 +364,9 @@ export const blockSchema: BlockSchema = {
 export const isMarker = (body: AnnoRepoBodyBase) =>
   [...insertMarkerTypes].includes(body.type) || isNoteReference(body);
 
+export const getMarkerPosition = (body: AnnoRepoBodyBase) =>
+  isHeadBody(body) ? "prefix" : "postfix";
+
 export const isBlock = (body: AnnoRepoBodyBase) =>
   blockTypes.includes(body.type);
 

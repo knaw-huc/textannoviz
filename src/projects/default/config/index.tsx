@@ -36,6 +36,7 @@ export const defaultConfig: DefaultProjectConfig = {
   nestedTypes: [],
   highlightTypes: [],
   isMarker: () => false,
+  getMarkerPosition: () => "postfix",
   getAnnotationCategory: getCategory,
   getHighlightCategory: getCategory,
   isEntity: isEntity,

@@ -1,4 +1,8 @@
-import { Offsets, SegmentOffsets } from "@knaw-huc/text-annotation-segmenter";
+import {
+  Offsets,
+  SegmentOffsets,
+  MarkerPosition,
+} from "@knaw-huc/text-annotation-segmenter";
 
 /**
  * Annotation types:
@@ -24,6 +28,7 @@ export type WithTypeAndBody<T extends Body = Body> = {
 export type TextOffsets<T extends Body = Body> = WithTypeAndBody<T> & {
   begin: number;
   end: number;
+  markerPosition?: MarkerPosition;
 };
 
 /**

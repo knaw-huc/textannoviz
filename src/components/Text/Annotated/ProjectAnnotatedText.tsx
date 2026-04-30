@@ -27,8 +27,14 @@ type TextHighlightingProps = {
 
 export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { nestedTypes, highlightTypes, isMarker, isBlock, getBlockType } =
-    projectConfig;
+  const {
+    nestedTypes,
+    highlightTypes,
+    isMarker,
+    isBlock,
+    getBlockType,
+    getMarkerPosition,
+  } = projectConfig;
   const annotations = useAnnotationStore((s) => s.annotations);
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
@@ -71,7 +77,8 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
         result.push(createTextOffsets(annotation, relative, "highlight"));
       }
       if (isAnnotationMarker) {
-        result.push(createMarkerTextOffsets(annotation, relative));
+        const position = getMarkerPosition(body);
+        result.push(createMarkerTextOffsets(annotation, relative, position));
       }
       if (isAnnotationBlock) {
         const blockType = getBlockType(body);
@@ -89,6 +96,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     nestedTypes,
     highlightTypes,
     isMarker,
+    getMarkerPosition,
     isBlock,
     getBlockType,
     searchTerms,

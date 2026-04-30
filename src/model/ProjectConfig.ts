@@ -21,6 +21,7 @@ import {
 } from "./Search.ts";
 import type { JSX } from "react";
 import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
+import { MarkerPosition } from "@knaw-huc/text-annotation-segmenter";
 
 export type PanelRegion = "left" | "main" | "right";
 export type DetailPanelConfig = {
@@ -203,6 +204,7 @@ type AnnotationConfig = {
    * Note: some markers cannot be detected using type alone, hence the fn
    */
   isMarker: (body: AnnoRepoBodyBase) => boolean;
+  getMarkerPosition: (body: AnnoRepoBodyBase) => MarkerPosition;
 
   isBlock: (body: AnnoRepoBodyBase) => boolean;
   getBlockType: GetBlockType<AnnoRepoBodyBase>;

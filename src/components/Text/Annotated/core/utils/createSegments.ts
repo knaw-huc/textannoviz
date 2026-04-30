@@ -24,7 +24,11 @@ export function createSegments(
   offsets: TextOffsets[],
   blockSchema: BlockSchema,
 ): Segment[] {
-  const segments = segment(body, offsets, (offset) => offset);
+  const getOffsets = (offset: TextOffsets) => offset;
+  const getMarkerPosition = (offset: TextOffsets) =>
+    offset.markerPosition ?? "postfix";
+  const segments = segment(body, offsets, getOffsets, getMarkerPosition);
+
   const segmentOffsetsMap = findSegmentOffsets(segments);
   const withSegmentOffsets = new Map<TextOffsets, GrouplessAnnotationSegment>();
   for (const [textOffsets, segmentOffsets] of segmentOffsetsMap) {
