@@ -1,11 +1,11 @@
 import { ReactNode, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { LanguageCode, isValidLanguageCode } from "../model/Language.ts";
+import { useSearchParams } from "react-router";
+import { isValidLanguageCode, LanguageCode } from "../model/Language.ts";
 import {
   projectConfigSelector,
   setProjectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../stores/project.ts";
 import { LANGUAGE } from "./Search/SearchUrlParams.ts";
 import { HelpTooltip } from "./common/HelpTooltip.tsx";
@@ -13,7 +13,7 @@ import { HelpTooltip } from "./common/HelpTooltip.tsx";
 //TODO: move state of languages from project config to Zustand store
 export function LanguageMenu() {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const languages = projectConfig.languages;
   const setProjectConfig = useProjectStore(setProjectConfigSelector);
   const [searchParams, setSearchParams] = useSearchParams();

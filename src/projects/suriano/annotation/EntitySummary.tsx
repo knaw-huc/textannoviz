@@ -1,17 +1,17 @@
 import {
   toEntityCategory,
   toEntityClassname,
-} from "../../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
+} from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 import {
   projectConfigSelector,
-  translateProjectSelector,
   useProjectStore,
+  useTranslateProject,
 } from "../../../stores/project.ts";
 import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const projectConfig = useProjectStore(projectConfigSelector);
   const { getAnnotationCategory } = useProjectStore(projectConfigSelector);
   const { body } = props;

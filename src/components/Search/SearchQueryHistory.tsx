@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { Button } from "react-aria-components";
 import { ProjectConfig } from "../../model/ProjectConfig";
-import {
-  translateProjectSelector,
-  translateSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { HelpTooltip } from "../common/HelpTooltip.tsx";
 import { SearchQuery } from "../../model/Search.ts";
+import { useTranslate, useTranslateProject } from "../../stores/project.ts";
 
 type SearchQueryHistoryProps = {
   goToQuery: (query: SearchQuery) => void;
@@ -18,9 +14,12 @@ type SearchQueryHistoryProps = {
 const MAX_DISPLAY = 10;
 
 export const SearchQueryHistory = (props: SearchQueryHistoryProps) => {
-  const { searchQueryHistory, removeFromHistory } = useSearchStore();
-  const translate = useProjectStore(translateSelector);
-  const translateProject = useProjectStore(translateProjectSelector);
+  const searchQueryHistory = useSearchStore(
+    (state) => state.searchQueryHistory,
+  );
+  const removeFromHistory = useSearchStore((state) => state.removeFromHistory);
+  const translate = useTranslate();
+  const translateProject = useTranslateProject();
   const [isOpen, setOpen] = useState(false);
 
   const moreThanDisplayable = searchQueryHistory.length >= MAX_DISPLAY;

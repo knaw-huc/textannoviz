@@ -1,9 +1,9 @@
 import { StateCreator } from "zustand";
-import { ProjectConfig } from "../../model/ProjectConfig";
+import { DetailPanelConfig } from "../../model/ProjectConfig";
 
 export type ActivePanelsSlice = {
-  activePanels: ProjectConfig["detailPanels"];
-  setActivePanels: (newActivePanels: ProjectConfig["detailPanels"]) => void;
+  activePanels: DetailPanelConfig[];
+  setActivePanels: (newActivePanels: DetailPanelConfig[]) => void;
 };
 
 export const createActivePanelsSlice: StateCreator<

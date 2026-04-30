@@ -10,9 +10,9 @@ import { TextPanels } from "../TextPanels.tsx";
 import { englishLabels } from "./englishLabels.ts";
 import { getCategory } from "./getCategory.ts";
 import { isEntity } from "./isEntity.ts";
-import { isNoteReference } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { getTocId, showToc } from "./showToc.ts";
 import { getUrl, isLink } from "./isLink.ts";
+import { defaultAnnotatedTextConfig } from "../annotation/defaultAnnotatedTextConfig.ts";
 
 /**
  * Default configuration file with some sensible defaults
@@ -27,17 +27,14 @@ export const defaultConfig: DefaultProjectConfig = {
   showAnnotations: false,
 
   annotationTypesToInclude: [],
-  annotationTypesToHighlight: [],
-
-  tooltipMarkerAnnotationTypes: [],
-  insertTextMarkerAnnotationTypes: [],
-  pageMarkerAnnotationTypes: [],
-  entityAnnotationTypes: [],
-  highlightedAnnotationTypes: [],
+  textHighlightingTypes: [],
+  annotatedTextConfig: defaultAnnotatedTextConfig,
+  nestedTypes: [],
+  highlightTypes: [],
+  isMarker: () => false,
   getAnnotationCategory: getCategory,
   getHighlightCategory: getCategory,
   isEntity: isEntity,
-  isToolTipMarker: isNoteReference,
   isLink: isLink,
   getUrl: getUrl,
 
@@ -51,13 +48,9 @@ export const defaultConfig: DefaultProjectConfig = {
   allPossibleTextPanels: ["self"],
   defaultTextPanels: "self",
   showSearchSortBy: true,
-  showFacsimileButtonFooter: false,
   showSearchResultsButtonFooter: false,
-  showSettingsMenuFooter: false,
-  defaultShowMetadataPanel: true,
   showToggleTextPanels: false,
-  zoomAnnoMirador: false,
-  miradorZoomRatio: 0.75,
+  zoomToAnnoOnFacsimile: false,
   logoHref: "/",
   showSearchQueryHistory: true,
   showDateFacets: true,
@@ -73,10 +66,10 @@ export const defaultConfig: DefaultProjectConfig = {
   showArtworksTab: false,
   showHistogram: false,
   useExternalConfig: false,
-  visualizeAnnosMirador: false,
+  showAnnosOnFacsimile: false,
   allowEmptyStringSearch: true,
-  showMirador: true,
-  showMiradorNavigationButtons: false,
+  showFacsimile: true,
+  showFacsimilePrevNextScanButtonsButtons: false,
   showInputFacet: false,
   histogramFacet: "",
   inputFacetOptions: "",
@@ -102,7 +95,6 @@ export const defaultConfig: DefaultProjectConfig = {
     BrowseScanButtons: Empty,
     NotesPanel: Placeholder,
     ArtworksTab: Placeholder,
-    InsertMarkerAnnotation: Empty,
     Header: Header,
     TocPanel: Placeholder,
   },
@@ -113,32 +105,30 @@ export const defaultConfig: DefaultProjectConfig = {
       labels: englishLabels,
     },
   ],
-  mirador: {
-    showWindowSideBar: false,
-    showTopMenuButton: false,
-  },
   showSearchResultsOnInfoPage: false,
-  projectCss: "",
   detailPanels: [
     {
       name: "facs",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 650px)",
+      region: "left",
+      size: "minmax(300px, 650fr)",
       panel: PanelTemplates.facsPanel,
     },
     {
       name: "text.self",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 750px)",
+      region: "main",
+      size: "minmax(300px, 750fr)",
       panel: TextPanels.self,
     },
     {
       name: "metadata",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 400px)",
+      region: "right",
+      size: "minmax(300px, 400fr)",
       panel: PanelTemplates.metadataPanel,
     },
   ],

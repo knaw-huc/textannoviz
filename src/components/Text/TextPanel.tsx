@@ -2,10 +2,10 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
-import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText.tsx";
+import { ProjectAnnotatedText } from "./Annotated/ProjectAnnotatedText.tsx";
 import { TextHighlighting } from "./TextHighlighting.tsx";
 
 type TextPanelProps = {
@@ -15,7 +15,7 @@ type TextPanelProps = {
 };
 
 export const TextPanel = (props: TextPanelProps) => {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const projectConfig = useProjectStore(projectConfigSelector);
 
   return (

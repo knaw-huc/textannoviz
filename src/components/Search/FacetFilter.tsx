@@ -6,11 +6,7 @@ import {
   ListBoxItem,
   type Selection,
 } from "react-aria-components";
-import {
-  translateProjectSelector,
-  translateSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslate, useTranslateProject } from "../../stores/project";
 import { ChevronDown } from "../common/icons/ChevronDown";
 import { ChevronRight } from "../common/icons/ChevronRight";
 import { HelpTooltip } from "../common/HelpTooltip.tsx";
@@ -25,8 +21,8 @@ type FacetFilterProps = {
 export function FacetFilter(props: FacetFilterProps) {
   const [selected, setSelected] = React.useState<Selection>(new Set());
   const [isOpen, setIsOpen] = React.useState(false);
-  const translateProject = useProjectStore(translateProjectSelector);
-  const translate = useProjectStore(translateSelector);
+  const translateProject = useTranslateProject();
+  const translate = useTranslate();
 
   React.useEffect(() => {
     if (props.filteredKeywordFacets.length > 0) {

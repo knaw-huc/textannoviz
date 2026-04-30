@@ -14,7 +14,7 @@ export type NestedAnnotationProps = {
 };
 
 export function NestedAnnotation(props: NestedAnnotationProps) {
-  const { Annotation } = useAnnotatedTextConfig();
+  const { Nested } = useAnnotatedTextConfig();
 
   const nestedAnnotations = props.toNest.filter(isNestedAnnotationSegment);
   const toRender = nestedAnnotations[0];
@@ -25,12 +25,12 @@ export function NestedAnnotation(props: NestedAnnotationProps) {
   }
 
   return (
-    <Annotation annotation={toRender} segment={props.segment}>
+    <Nested nested={toRender} segment={props.segment}>
       {toNest.length ? (
         <NestedAnnotation {...props} toNest={toNest} />
       ) : (
         <HighlightAnnotations segment={props.segment} />
       )}
-    </Annotation>
+    </Nested>
   );
 }

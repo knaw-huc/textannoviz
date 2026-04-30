@@ -1,10 +1,10 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Base64 } from "js-base64";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { HammerIcon } from "../../components/common/icons/HammerIcon";
-import { toEntityCategory } from "../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
+import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoAnnotation,
   isResolution,
@@ -13,7 +13,7 @@ import {
 } from "../../model/AnnoRepoAnnotation";
 import {
   projectConfigSelector,
-  translateProjectSelector,
+  useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
@@ -33,7 +33,7 @@ type RenderMetadataPanelProps = {
 };
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const projectConfig = useProjectStore(projectConfigSelector);
 
   const params = useParams();
@@ -90,7 +90,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 };
 
 function DelegatesMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const session = props.annotations.find(
     (annotation) => annotation.body.type === "Session",
@@ -169,7 +169,7 @@ function handleDelegateSearchClick(delegateID: string, delegateName: string) {
 }
 
 function ResolutionMetadata(props: { annotations: AnnoRepoAnnotation[] }) {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   const resolution = props.annotations.find(
     (annotation) => annotation.body.type === "Resolution",
@@ -245,7 +245,7 @@ function EntitiesMetadata(props: {
   title: string;
   entities: AnnoRepoAnnotation[];
 }) {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   if (!props.entities.length) return null;
 

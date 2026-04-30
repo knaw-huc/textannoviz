@@ -2,13 +2,15 @@ import merge from "lodash/merge";
 import logo from "../../../assets/logo-republic-temp.png";
 import { DefaultProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { KunstenaarsbrievenMarker } from "../annotation/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
-  teiArtwork,
   document,
   getAnnotationCategory,
   getHighlightCategory,
   isEntity,
+  isNoteReference,
   letter,
   note,
   person,
@@ -18,16 +20,18 @@ import {
   projectInsertTextMarkerAnnotationTypes,
   projectPageMarkerAnnotationTypes,
   reference,
+  teiArtwork,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
 import { SearchItem } from "../SearchItem";
 import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
-import { InsertMarkerAnnotation } from "../InsertMarkerAnnotation";
 import { Header } from "../Header";
 import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
 import { getUrl, isLink } from "../annotation/LinkUtils.ts";
+import { filterPanels } from "../filterPanels.ts";
+import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
@@ -44,10 +48,17 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       ...projectAnnotationTypesToInclude,
     ],
     showAnnotations: true,
-    highlightedAnnotationTypes: projectHighlightedTypes,
-    pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
-    entityAnnotationTypes: projectEntityTypes,
-    insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
+    annotatedTextConfig: {
+      ...defaultAnnotatedTextConfig,
+      Marker: KunstenaarsbrievenMarker,
+    },
+    highlightTypes: projectHighlightedTypes,
+    nestedTypes: projectEntityTypes,
+    isMarker: (body: AnnoRepoBodyBase) =>
+      [
+        ...projectPageMarkerAnnotationTypes,
+        ...projectInsertTextMarkerAnnotationTypes,
+      ].includes(body.type) || isNoteReference(body),
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,
@@ -68,7 +79,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       SearchItem,
       NotesPanel,
       ArtworksTab,
-      InsertMarkerAnnotation,
       Header,
       TocPanel,
     },
@@ -96,5 +106,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     getTocId: getTocId,
     isLink: isLink,
     getUrl: getUrl,
+    filterPanels: filterPanels,
   },
 );

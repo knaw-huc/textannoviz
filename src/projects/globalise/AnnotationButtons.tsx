@@ -1,19 +1,18 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-import mirador from "mirador-knaw-huc-mui5";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { toast } from "../../utils/toast.ts";
 import { PxPageBody } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
-import { translateSelector, useProjectStore } from "../../stores/project.ts";
+import { useCanvas } from "@knaw-huc/osd-iiif-viewer";
 import { useDetailNavigation } from "../../components/Detail/useDetailNavigation.tsx";
+import { useTranslate } from "../../stores/project.ts";
 
 export const AnnotationButtons = () => {
-  const miradorStore = useInternalMiradorStore((state) => state.miradorStore);
+  const { next, prev } = useCanvas();
   const annotations = useAnnotationStore((state) => state.annotations);
   const params = useParams();
   const { navigateDetail } = useDetailNavigation();
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
 
   const pageAnnotation = annotations.find(
     (annotation) => annotation.body.type === "px:Page",
@@ -25,7 +24,7 @@ export const AnnotationButtons = () => {
     if (nextPage === undefined)
       return toast(translate("INFO_LAST_PAGE"), { type: "info" });
     navigateDetail(`/detail/${nextPage}`);
-    miradorStore.dispatch(mirador.actions.setNextCanvas("globalise"));
+    next();
   };
 
   const previousCanvasClickHandler = () => {
@@ -35,7 +34,7 @@ export const AnnotationButtons = () => {
       return toast(translate("INFO_FIRST_PAGE"), { type: "info" });
 
     navigateDetail(`/detail/${prevPage}`);
-    miradorStore.dispatch(mirador.actions.setPreviousCanvas("globalise"));
+    prev();
   };
 
   return (

@@ -1,14 +1,12 @@
 import React from "react";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslateProject } from "../../stores/project";
 import { HelpTooltip } from "../common/HelpTooltip";
 
 export const ViewSettings = () => {
-  const translateProject = useProjectStore(translateProjectSelector);
-  const { activePanels, setActivePanels } = useDetailViewStore();
+  const translateProject = useTranslateProject();
+  const activePanels = useDetailViewStore((state) => state.activePanels);
+  const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
   const [isMobileDialogOpen, setIsMobileDialogOpen] = React.useState(false);
   const firstToggleRef = React.useRef<HTMLButtonElement | null>(null);
   const triggerButtonRef = React.useRef<HTMLButtonElement | null>(null);
@@ -17,9 +15,7 @@ export const ViewSettings = () => {
     panelName: string,
     options?: { singleActive?: boolean },
   ) {
-    const isMobile =
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 767px)").matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     const singleActive = options?.singleActive ?? isMobile;
 
     const newActivePanels = activePanels.map((activePanel) => {

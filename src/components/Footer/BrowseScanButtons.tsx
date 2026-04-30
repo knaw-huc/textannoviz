@@ -1,24 +1,23 @@
-import mirador from "mirador-knaw-huc-mui5";
 import { Button } from "react-aria-components";
 import { CanvasTarget } from "../../model/AnnoRepoAnnotation";
 import { useAnnotationStore } from "../../stores/annotation";
-import { useInternalMiradorStore } from "../../stores/internal-mirador.ts";
-import { useMiradorStore } from "../../stores/mirador.ts";
 import {
   projectConfigSelector,
-  translateSelector,
+  useTranslate,
   useProjectStore,
 } from "../../stores/project";
-import { visualizeAnnosMirador } from "../../utils/visualizeAnnosMirador";
+import { useCanvas } from "@knaw-huc/osd-iiif-viewer";
 
 export function BrowseScanButtons() {
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
   const projectConfig = useProjectStore(projectConfigSelector);
   const annotations = useAnnotationStore().annotations;
-  const miradorStore = useInternalMiradorStore().miradorStore;
-  const projectName = useProjectStore().projectName;
+  const {
+    currentCanvasId: currentCanvas,
+    next: nextCanvas,
+    prev: prevCanvas,
+  } = useCanvas();
   const pageAnnoType = projectConfig.pageAnnotation;
-  const { currentCanvas } = useMiradorStore();
 
   const pageAnnotations = annotations.filter(
     (anno) => anno.body.type === pageAnnoType,
@@ -32,32 +31,6 @@ export function BrowseScanButtons() {
 
   const firstCanvas = canvases[0];
   const lastCanvas = canvases[canvases.length - 1];
-
-  function prevCanvas() {
-    miradorStore.dispatch(mirador.actions.setPreviousCanvas(projectName));
-    if (projectConfig.visualizeAnnosMirador) {
-      updateMiradorSvgs();
-    }
-  }
-
-  function nextCanvas() {
-    miradorStore.dispatch(mirador.actions.setNextCanvas(projectName));
-    if (projectConfig.visualizeAnnosMirador) {
-      updateMiradorSvgs();
-    }
-  }
-
-  function updateMiradorSvgs() {
-    /**
-     * Mirador's internal state is used below because the new contents of the state are needed in the same render as the state is updated
-     * (see {@link nextCanvas} and {@link prevCanvas} for where the state is updated)
-     * Mirador's internal state is always up-to-date, whilst TAV's own Mirador store is one behind at this point due to what is written above.
-     */
-    const newCanvas = miradorStore?.getState().windows[projectName]
-      .canvasId as string;
-
-    visualizeAnnosMirador(annotations, miradorStore, newCanvas, projectConfig);
-  }
 
   return (
     <>

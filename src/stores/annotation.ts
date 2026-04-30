@@ -6,6 +6,11 @@ export type AnnotationsSlice = {
   setAnnotations: (newAnnotations: AnnotationsSlice["annotations"]) => void;
 };
 
+export type BodyIdSlice = {
+  bodyId: string | null;
+  setBodyId: (bodyId: string | null) => void;
+};
+
 export type PtrToNoteAnnosSlice = {
   ptrToNoteAnnosMap: Map<string, AnnoRepoAnnotation<NoteBody>>;
   setPtrToNoteAnnosMap: (
@@ -22,15 +27,8 @@ export type AnnotationTypesToIncludeSlice = {
 
 export type AnnotationTypesToHighlightSlice = {
   annotationTypesToHighlight: string[];
-  setAnnotationTypesToHighlight: (
+  setTextHighlightingTypes: (
     newAnnotationTypesToHighlight: AnnotationTypesToHighlightSlice["annotationTypesToHighlight"],
-  ) => void;
-};
-
-export type ShowSvgsAnnosMiradorSlice = {
-  showSvgsAnnosMirador: boolean;
-  setShowSvgsAnnosMirador: (
-    newShowSvgsAnnosMirador: ShowSvgsAnnosMiradorSlice["showSvgsAnnosMirador"],
   ) => void;
 };
 
@@ -43,6 +41,13 @@ const createAnnotationSlice: StateCreator<
   annotations: [],
   setAnnotations: (newAnnotations) =>
     set(() => ({ annotations: newAnnotations })),
+});
+
+const createBodyIdSlice: StateCreator<BodyIdSlice, [], [], BodyIdSlice> = (
+  set,
+) => ({
+  bodyId: null,
+  setBodyId: (bodyId: string | null) => set(() => ({ bodyId })),
 });
 
 const createAnnotationTypesToIncluceSlice: StateCreator<
@@ -63,19 +68,8 @@ const createAnnotationTypesToHighlightSlice: StateCreator<
   AnnotationTypesToHighlightSlice
 > = (set) => ({
   annotationTypesToHighlight: [],
-  setAnnotationTypesToHighlight: (newAnnotationTypesToHighlight) =>
+  setTextHighlightingTypes: (newAnnotationTypesToHighlight) =>
     set(() => ({ annotationTypesToHighlight: newAnnotationTypesToHighlight })),
-});
-
-const createShowSvgsAnnosMiradorSlice: StateCreator<
-  ShowSvgsAnnosMiradorSlice,
-  [],
-  [],
-  ShowSvgsAnnosMiradorSlice
-> = (set) => ({
-  showSvgsAnnosMirador: true,
-  setShowSvgsAnnosMirador: (newShowSvgsAnnosMirador) =>
-    set(() => ({ showSvgsAnnosMirador: newShowSvgsAnnosMirador })),
 });
 
 const createPtrToNoteAnnosMapSlice: StateCreator<
@@ -93,12 +87,12 @@ export const useAnnotationStore = create<
   AnnotationsSlice &
     AnnotationTypesToIncludeSlice &
     AnnotationTypesToHighlightSlice &
-    ShowSvgsAnnosMiradorSlice &
+    BodyIdSlice &
     PtrToNoteAnnosSlice
 >()((...a) => ({
   ...createAnnotationSlice(...a),
+  ...createBodyIdSlice(...a),
   ...createAnnotationTypesToIncluceSlice(...a),
   ...createAnnotationTypesToHighlightSlice(...a),
-  ...createShowSvgsAnnosMiradorSlice(...a),
   ...createPtrToNoteAnnosMapSlice(...a),
 }));

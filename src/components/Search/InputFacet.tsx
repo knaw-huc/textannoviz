@@ -1,9 +1,6 @@
 import React from "react";
 import { toast } from "../../utils/toast.ts";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslateProject } from "../../stores/project";
 import { sanitiseString } from "../../utils/sanitiseString";
 import { SearchFieldComponent } from "../common/SearchFieldComponent";
 
@@ -16,7 +13,7 @@ type InputFacetProps = {
 export function InputFacet(props: InputFacetProps) {
   const [inputValue, setInputValue] = React.useState(props.inputValue);
 
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   function onSubmitHandler() {
     const sanitisedInputValue = sanitiseString(inputValue);

@@ -12,7 +12,7 @@ function toPageParams(searchParams: SearchParams) {
 export function usePagination() {
   const { searchParams, updateSearchParams } = useUrlSearchParamsStore();
 
-  const { searchResults } = useSearchStore();
+  const searchResults = useSearchStore((state) => state.searchResults);
 
   function getPrevFrom(): number {
     return searchParams.from - searchParams.size;

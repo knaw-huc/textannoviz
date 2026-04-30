@@ -1,10 +1,10 @@
-import { matchPath, Params, useNavigate, useParams } from "react-router-dom";
+import { matchPath, Params, useNavigate, useParams } from "react-router";
 import { decodeObject, getUrlParams } from "../../utils/url/UrlParamUtils.ts";
 import { SearchResult } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
 import { isNumber, isString } from "lodash";
-import { detailTier2Path } from "../Text/Annotated/project/utils/detailPath.ts";
+import { detailTier2Path } from "../../utils/detailPath.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 
 export type DetailTierAndParams = {
@@ -24,7 +24,7 @@ export type NavigateDetailProps =
 
 export function useDetailNavigation() {
   const params = useParams();
-  const { searchResults } = useSearchStore();
+  const searchResults = useSearchStore((state) => state.searchResults);
   const navigate = useNavigate();
   const { updateSearchParams, updateDetailParams, searchQuery, detailParams } =
     useUrlSearchParamsStore();

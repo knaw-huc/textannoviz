@@ -1,11 +1,12 @@
 import merge from "lodash/merge";
 import logo from "../../../assets/logo-huygens-wit.png";
-import projectCss from "../project.css?inline";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { OratiesMarker } from "../annotation/OratiesMarker";
 import { SearchItem } from "../SearchItem";
 import { dutchOratiesLabels } from "./dutchOratiesLabels";
 import { MetadataPanel } from "../MetadataPanel";
@@ -34,7 +35,6 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
 
   headerTitle: "Oraties",
   headerColor: "bg-brand1-800 text-white",
-  projectCss: projectCss,
   personsUrl: "http://localhost:8040/files/oraties/apparatus/bio-entities.json",
 
   logoImageUrl: logo,
@@ -53,21 +53,24 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
       name: "facs",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 650px)",
+      region: "left",
+      size: "minmax(300px, 650fr)",
       panel: PanelTemplates.facsPanel,
     },
     {
       name: "text.orig",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 750px)",
+      region: "main",
+      size: "minmax(300px, 750fr)",
       panel: TextPanels.origTextPanel,
     },
     {
       name: "metadata",
       visible: true,
       disabled: false,
-      size: "minmax(300px, 400px)",
+      region: "right",
+      size: "minmax(300px, 400fr)",
       panel: PanelTemplates.metadataPanel,
     },
   ],
@@ -79,7 +82,7 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
   ],
 
   // FacsimileConfig
-  showMirador: true,
+  showFacsimile: true,
   showMiradorNavigationButtons: true,
 
   // SearchConfig
@@ -111,6 +114,10 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
 
   // AnnotationConfig
   showAnnotations: true,
+  annotatedTextConfig: {
+    ...defaultAnnotatedTextConfig,
+    Marker: OratiesMarker,
+  },
   relativeTo: "Document",
   annotationTypesToInclude: [
     "Division",
@@ -126,14 +133,14 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     "Section",
     "Whitespace",
   ],
-  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
+  isMarker: (body) => projectPageMarkerAnnotationTypes.includes(body.type),
 
   /**
    * Note: duplicated from kunstenaarsbrieven
    * TODO: move to projects/common?
    */
-  highlightedAnnotationTypes: projectHighlightedTypes,
-  entityAnnotationTypes: projectEntityTypes,
+  highlightTypes: projectHighlightedTypes,
+  nestedTypes: projectEntityTypes,
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
   isEntity: isEntity,

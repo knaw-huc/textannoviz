@@ -15,7 +15,10 @@ import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
  */
 export function useInitSearchUrlParams() {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { defaultQuery, isInitDefaultQuery } = useSearchStore();
+  const defaultQuery = useSearchStore((state) => state.defaultQuery);
+  const isInitDefaultQuery = useSearchStore(
+    (state) => state.isInitDefaultQuery,
+  );
 
   const {
     isInitSearchUrlParams,

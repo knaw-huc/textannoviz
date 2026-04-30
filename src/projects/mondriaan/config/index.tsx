@@ -98,7 +98,7 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
     "postalData",
   ],
   defaultTextPanels: "textOrig",
-  annotationTypesToHighlight: ["tei:Rs"],
+  textHighlightingTypes: ["tei:Rs"],
   showToggleTextPanels: true,
   logoImageUrl: logo,
   headerColor: "bg-brand1-100 text-brand1-700",
@@ -135,7 +135,4 @@ export const mondriaanConfig: ProjectConfig = merge({}, defaultConfig, {
       labels: englishMondriaanLabels,
     },
   ],
-  mirador: {
-    showTopMenuButton: true,
-  },
 } as ProjectSpecificConfig);

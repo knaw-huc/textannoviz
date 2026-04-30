@@ -1,14 +1,11 @@
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../../stores/project.ts";
 import { ArchiveIcon } from "../../../components/common/icons/ArchiveIcon.tsx";
+import { useTranslateProject } from "../../../stores/project.ts";
 
 export function ProvenanceButton(props: {
   className?: string;
   onClick: () => void;
 }) {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   return (
     <button
       className={[

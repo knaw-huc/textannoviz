@@ -1,13 +1,10 @@
 import { Button } from "react-aria-components";
 import logoHuygens from "../../assets/logo-huygens.png";
 import logoVGM from "../../assets/logo-vgm.png";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project";
+import { useTranslateProject } from "../../stores/project";
 
 export const SearchInfoPage = () => {
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
 
   function scrollToSearchResultsButtonHandler() {
     const target = document.getElementById("search-results");

@@ -1,10 +1,7 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { FacetName, FacetOptionName } from "../../model/Search.ts";
-import {
-  translateProjectSelector,
-  useProjectStore,
-} from "../../stores/project.ts";
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
+import { useTranslateProject } from "../../stores/project.ts";
 
 export function KeywordFacetLabel(props: {
   option: FacetOptionName;
@@ -12,7 +9,7 @@ export function KeywordFacetLabel(props: {
   onRemove: (facet: string, option: string) => void;
 }) {
   const { option, facet, onRemove } = props;
-  const translateProject = useProjectStore(translateProjectSelector);
+  const translateProject = useTranslateProject();
   const optionClean = /^[a-z]/.test(option)
     ? firstLetterToUppercase(option)
     : translateProject(option);

@@ -8,12 +8,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CategoricalChartState } from "recharts/types/chart/types";
+import { MouseHandlerDataParam } from "recharts/types/synchronisation/types";
 import { HitsYear } from "./Histogram";
 
 type LineChartHistorgramProps = {
   hitsYear: HitsYear;
-  filterDateQuery: (event: CategoricalChartState) => void;
+  filterDateQuery: (event: MouseHandlerDataParam) => void;
 };
 
 export const LineChartHistogram = (props: LineChartHistorgramProps) => (

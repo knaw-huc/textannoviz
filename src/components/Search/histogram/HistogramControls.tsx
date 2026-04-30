@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-aria-components";
-import { translateSelector, useProjectStore } from "../../../stores/project";
+import { useTranslate } from "../../../stores/project.ts";
 
 type HistogramControlsProps = {
   graphTypeButtonClickHandler: (newGraphType: string) => void;
@@ -11,7 +11,7 @@ type HistogramControlsProps = {
 
 export const HistogramControls = (props: HistogramControlsProps) => {
   const [showHistogram, setShowHistogram] = React.useState(true);
-  const translate = useProjectStore(translateSelector);
+  const translate = useTranslate();
 
   function showHistogramButtonClickHandler() {
     setShowHistogram(!showHistogram);

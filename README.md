@@ -9,10 +9,8 @@ The `main` branch is the most up-to-date branch. Clone this branch if you want t
 - Install dependencies
 
   ```
-  npm ci --force
+  npm ci
   ```
-
-  Note: The `--force` is necessary due to Mirador depending on an older version of React.
 
 - Rename `.env.example` to `.env`
 
@@ -23,3 +21,15 @@ npm start
 ```
 
 - Open http://localhost:5173/ in browser
+
+### Run dev container
+
+To build and run a docker image locally, with a proxy and project config endpoint, run `docker:build:dev`:
+
+```shell
+npm run docker:build:dev
+cd deploy/dev
+docker compose up
+```
+
+Open: http://localhost:5183/app/

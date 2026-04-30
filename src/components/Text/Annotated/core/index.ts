@@ -1,7 +1,10 @@
-export { AnnotatedText } from "./AnnotatedText.tsx";
+export {
+  AnnotatedText,
+  type AnyAnnotatedTextConfig,
+} from "./AnnotatedText.tsx";
 
 export type {
-  AnnotationProps,
+  NestedProps,
   HighlightProps,
   MarkerProps,
   GroupProps,

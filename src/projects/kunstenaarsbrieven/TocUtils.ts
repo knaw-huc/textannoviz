@@ -2,13 +2,13 @@ import {
   AnnoRepoAnnotation,
   AnnoRepoBodyBase,
 } from "../../model/AnnoRepoAnnotation.ts";
-import { isHeadBody, letter } from "./annotation/ProjectAnnotationModel.ts";
+import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
+import { isLetterDetailPage } from "./isLetterDetailPage.ts";
 
 const TOC_PREFIX = "toc-";
 
-export function showToc(annotations: AnnoRepoAnnotation[]): boolean {
-  return !annotations.some((a) => a.body.type === letter);
-}
+export const showToc = (annotations: AnnoRepoAnnotation[]) =>
+  !isLetterDetailPage(annotations);
 
 export function getTocId(body: AnnoRepoBodyBase): string | undefined {
   if (isHeadBody(body)) {

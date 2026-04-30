@@ -7,13 +7,10 @@ import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import { createSearchQuery } from "./createSearchQuery.tsx";
 import {
   projectConfigSelector,
-  translateSelector,
   useProjectStore,
+  useTranslate,
 } from "../../stores/project.ts";
-import {
-  defaultQuerySettersSelector,
-  useSearchStore,
-} from "../../stores/search/search-store.ts";
+import { useSearchStore } from "../../stores/search/search-store.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { getDateFacetName } from "../../stores/search/getDateFacetName.ts";
 
@@ -24,12 +21,19 @@ import { getDateFacetName } from "../../stores/search/getDateFacetName.ts";
  */
 export function useInitDefaultQuery() {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translate = useProjectStore(translateSelector);
-  const { setDefaultQueryState, isInitDefaultQuery, isLoadingDefaultQuery } =
-    useSearchStore();
-
-  const { setKeywordFacets, setSearchFacetTypes } = useSearchStore(
-    defaultQuerySettersSelector,
+  const translate = useTranslate();
+  const setDefaultQueryState = useSearchStore(
+    (state) => state.setDefaultQueryState,
+  );
+  const isInitDefaultQuery = useSearchStore(
+    (state) => state.isInitDefaultQuery,
+  );
+  const isLoadingDefaultQuery = useSearchStore(
+    (state) => state.isLoadingDefaultQuery,
+  );
+  const setKeywordFacets = useSearchStore((state) => state.setKeywordFacets);
+  const setSearchFacetTypes = useSearchStore(
+    (state) => state.setSearchFacetTypes,
   );
 
   useEffect(() => {
