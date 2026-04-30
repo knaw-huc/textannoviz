@@ -4,7 +4,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { HeadBody, isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
+import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 import { getTocId, getTocLevel } from "./TocUtils.ts";
 import { orThrow } from "../../utils/orThrow.tsx";
 import { Toc, TocHeader } from "../../components/Text/Toc/Toc.tsx";
@@ -36,8 +36,10 @@ export const TocPanel = () => {
     const id =
       getTocId(annotation.body) ??
       orThrow(`No toc id found for ${annotation.id}`);
-    const label = text.body.slice(relative.begin, relative.end);
-    const level = getTocLevel((annotation.body as HeadBody).n) ?? 0;
+    const n = (isHeadBody(annotation.body) && annotation.body.n) || undefined;
+    const titleText = text.body.slice(relative.begin, relative.end);
+    const label = [n, titleText].join(". ");
+    const level = getTocLevel(n) ?? 0;
     if (label) {
       tocHeaders.push({ id, label, level });
     }
