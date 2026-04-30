@@ -4,6 +4,7 @@ import {
   useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
+import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
 import { Artwork, isArtwork } from "./annotation/ProjectAnnotationModel";
 
 export const ArtworksTab = () => {
@@ -45,7 +46,11 @@ export const ArtworksTab = () => {
 
             <div className="font-bold">{artwork.head[interfaceLang]}</div>
             <div>
-              <div>{artwork.relation?.ref?.displayLabel}</div>
+              {artwork.relation?.map((creator) => (
+                <div key={creator.ref}>
+                  {firstLetterToUppercase(creator.name)}: {creator.label}
+                </div>
+              ))}
               {artwork.date ? <div>{artwork.date.text}</div> : null}
             </div>
           </li>
