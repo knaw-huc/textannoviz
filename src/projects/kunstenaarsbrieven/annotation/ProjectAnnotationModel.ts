@@ -270,7 +270,7 @@ export const highlightTypes = [
   whitespace,
 ];
 export const tooltipMarkerTypes = [reference];
-export const insertMarkerTypes = [picture, head];
+export const insertMarkerTypes = [picture];
 export const tableTypes = [cell, row, table];
 export const blockTypes = [head, page, paragraph, ...tableTypes];
 

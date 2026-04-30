@@ -1,6 +1,5 @@
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
-import { isHeadBody } from "../ProjectAnnotationModel.ts";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment<MarkerBody>;
@@ -24,10 +23,5 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
       />
     );
   }
-
-  if (isHeadBody(body) && body.n) {
-    return <span className="insert-marker marker-head">{body.n}. </span>;
-  }
-
   return null;
 };
