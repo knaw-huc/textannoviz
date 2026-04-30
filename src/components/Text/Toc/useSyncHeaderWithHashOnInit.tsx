@@ -1,11 +1,9 @@
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, useEffect } from "react";
 import { getUrlHash } from "../../../utils/url/UrlHashUtils.ts";
 
 export function useSyncHeaderWithHashOnInit(
   scrollContainerRef: RefObject<HTMLElement | null>,
 ): void {
-  const imageLoaded = useLastImageLoaded(scrollContainerRef);
-
   useEffect(() => {
     const hash = getUrlHash();
     if (!hash) {
@@ -17,23 +15,45 @@ export function useSyncHeaderWithHashOnInit(
       return;
     }
 
-    const selector = `#${CSS.escape(hash)}`;
-    const header = container.querySelector(selector);
-    if (header) {
-      scrollIfNotInView(header, container);
+    const headerSelector = `#${CSS.escape(hash)}`;
+
+    const scroll = () => {
+      const header = container.querySelector(headerSelector);
+      if (header) {
+        scrollIfNotInView(header, container);
+        return true;
+      }
+      return false;
+    };
+
+    if (scroll()) {
       return;
     }
 
-    const observer = new MutationObserver(() => {
-      const header = container.querySelector(selector);
-      if (header) {
-        scrollIfNotInView(header, container);
-        observer.disconnect();
+    const scrollOnLoad = (e: Event) => {
+      if (e.target instanceof HTMLImageElement) {
+        scroll();
+      }
+    };
+
+    // Watch for the header to appear via DOM mutations:
+    const mutationObserver = new MutationObserver(() => {
+      if (scroll()) {
+        cleanup();
       }
     });
-    observer.observe(container, { childList: true, subtree: true });
-    return () => observer.disconnect();
-  }, [scrollContainerRef, imageLoaded]);
+    mutationObserver.observe(container, { childList: true, subtree: true });
+
+    // Scroll on image loads:
+    container.addEventListener("load", scrollOnLoad, true);
+
+    function cleanup() {
+      mutationObserver.disconnect();
+      container?.removeEventListener("load", scrollOnLoad, true);
+    }
+
+    return cleanup;
+  }, [scrollContainerRef]);
 }
 
 function scrollIfNotInView(header: Element, container: Element): void {
@@ -49,28 +69,4 @@ function isInView(element: Element, container: Element): boolean {
     elementRect.top >= containerRect.top &&
     elementRect.top <= containerRect.bottom
   );
-}
-
-/**
- * Track image loads inside the container to observe image loading
- */
-export function useLastImageLoaded(
-  containerRef: RefObject<HTMLElement | null>,
-): HTMLImageElement | null {
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const onLoad = (e: Event) => {
-      if (e.target instanceof HTMLImageElement) {
-        setImage(e.target);
-      }
-    };
-    container.addEventListener("load", onLoad, true);
-    return () => container.removeEventListener("load", onLoad, true);
-  }, [containerRef]);
-
-  return image;
 }

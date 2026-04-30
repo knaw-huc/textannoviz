@@ -29,14 +29,15 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
   const { nestedTypes, highlightTypes, isMarker, isBlock, getBlockType } =
     projectConfig;
-  const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
-  const annotations = useAnnotationStore().annotations;
+  const annotations = useAnnotationStore((s) => s.annotations);
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
   const textBody = props.text.body || orThrow("No text body");
   const relativeAnnotations = props.text.locations.annotations;
 
   const offsets = useMemo(() => {
+    const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
+
     const relativePositionMap = mapRelativePositions(relativeAnnotations);
 
     const result: TextOffsets[] = [];
@@ -87,7 +88,6 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     relativeAnnotations,
     nestedTypes,
     highlightTypes,
-    typesToInclude,
     isMarker,
     isBlock,
     getBlockType,
