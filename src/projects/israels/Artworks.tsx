@@ -27,18 +27,18 @@ export function Artworks() {
       const newArtworks = await fetchArtworks(artworksUrl, aborter.signal);
       if (!newArtworks) return;
 
-      const filteredArtworks = newArtworks.filter(
-        (artw) => artw["tei:type"] !== "ill",
-      );
+      // const filteredArtworks = newArtworks.filter(
+      //   (artw) => artw["tei:type"] !== "ill",
+      // );
 
-      filteredArtworks.sort((a, b) =>
-        a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
-          sensitivity: "base",
-          ignorePunctuation: true,
-        }),
-      );
+      // filteredArtworks.sort((a, b) =>
+      //   a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
+      //     sensitivity: "base",
+      //     ignorePunctuation: true,
+      //   }),
+      // );
 
-      setArtworks(filteredArtworks);
+      setArtworks(newArtworks);
     }
 
     initArtworks(aborter).catch(handleAbort);
@@ -107,7 +107,11 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {artw.relation?.ref?.displayLabel ? (
+            {/* SvD, 30042026: disabled this code because this commit breaks Artwork code for Israels
+          https://github.com/knaw-huc/textannoviz/commit/0a82b261a78e12686732f96c90f02690f7021ff7
+          When Israels is migrated completely to peenless, we will have to implement those changes below
+           */}
+            {/* {artw.relation?.ref?.displayLabel ? (
               <div>
                 {translateProject("artist")}: {artw.relation.ref.displayLabel}
               </div>
@@ -138,7 +142,7 @@ export function Artworks() {
                 alt={artw.head[interfaceLang]}
                 loading="lazy"
               />
-            </div>
+            </div> */}
           </div>
         ))}
       </div>
