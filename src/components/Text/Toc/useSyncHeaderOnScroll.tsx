@@ -49,7 +49,7 @@ export function useSyncHeaderOnScroll(
 
         let newId: string | undefined;
 
-        // Pick lowest visible header, skipping initial ones:
+        // Pick lowest visible header:
         for (const h of headers) {
           if (visibleHeaderIds.has(h.id)) {
             newId = h.id;
@@ -57,7 +57,7 @@ export function useSyncHeaderOnScroll(
           }
         }
 
-        // When no headers visible, pick (non-init) header above viewport:
+        // When no headers visible, pick header above viewport:
         if (!newId && current) {
           const containerTop = scrollContainer.getBoundingClientRect().top;
           for (const h of headers) {
