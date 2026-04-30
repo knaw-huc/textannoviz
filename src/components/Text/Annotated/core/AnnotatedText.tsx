@@ -3,13 +3,14 @@ import {
   GroupedSegments,
   HighlightSegment,
   MarkerSegment,
-  NestedAnnotationSegment,
+  NestedSegment,
   Segment,
   TextOffsets,
 } from "./AnnotationModel.ts";
 import { SegmentedText } from "./SegmentedText.tsx";
 import { createContext, FC, PropsWithChildren, ReactNode } from "react";
 import { Any } from "../../../../utils/Any.ts";
+import { Block, BlockSchema } from "./block";
 
 /**
  * AnnotatedText renders text segments and their annotations
@@ -25,7 +26,7 @@ import { Any } from "../../../../utils/Any.ts";
  * - Group: all segments connected through overlapping or nested annotations
  *   (touching annotations like <a>aa</a><b>bb</b> are separate groups)
  *
- * See also: {@link AnnotatedTextConfig}
+ * See also: {@link AnnotatedTextComponents}
  */
 export function AnnotatedText<
   NESTED extends Body = Body,
@@ -34,17 +35,20 @@ export function AnnotatedText<
 >(props: AnnotatedTextProps<NESTED, HIGHLIGHT, MARKER>) {
   return (
     <AnnotatedTextProvider
-      value={props.config as unknown as AnnotatedTextConfig}
+      value={props.components as unknown as AnnotatedTextComponents}
     >
-      <SegmentedText body={props.body} offsets={props.offsets} />
+      <SegmentedText
+        body={props.text}
+        offsets={props.offsets}
+        blockSchema={props.blockSchema}
+      />
       {props.children}
     </AnnotatedTextProvider>
   );
 }
 
-export const AnnotatedTextContext = createContext<AnnotatedTextConfig | null>(
-  null,
-);
+export const AnnotatedTextContext =
+  createContext<AnnotatedTextComponents | null>(null);
 
 export const AnnotatedTextProvider = AnnotatedTextContext.Provider;
 
@@ -57,7 +61,7 @@ export const AnnotatedTextProvider = AnnotatedTextContext.Provider;
  * - Marker: zero-length position in text (footnotes, page breaks)
  * - Group: wrapper around segments connected by overlapping annotations
  */
-export type AnnotatedTextConfig<
+export type AnnotatedTextComponents<
   NESTED extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
@@ -66,10 +70,11 @@ export type AnnotatedTextConfig<
   Highlight: FC<HighlightProps<HIGHLIGHT>>;
   Marker: FC<MarkerProps<MARKER>>;
   Group: FC<GroupProps>;
+  Block: FC<BlockProps>;
 };
 
 export type NestedProps<ANNOTATION extends Body = Body> = {
-  nested: NestedAnnotationSegment<ANNOTATION>;
+  nested: NestedSegment<ANNOTATION>;
   segment: Segment;
   children: ReactNode;
 };
@@ -90,14 +95,20 @@ export type GroupProps = {
   children: ReactNode;
 };
 
+export type BlockProps<T extends Body = Body> = {
+  block: Block<T>;
+  children: ReactNode;
+};
+
 export type AnnotatedTextProps<
   ANNOTATION extends Body = Body,
   HIGHLIGHT extends Body = Body,
   MARKER extends Body = Body,
 > = PropsWithChildren<{
-  config: AnnotatedTextConfig<ANNOTATION, HIGHLIGHT, MARKER>;
-  body: string;
+  components: AnnotatedTextComponents<ANNOTATION, HIGHLIGHT, MARKER>;
+  text: string;
   offsets: TextOffsets[];
+  blockSchema: BlockSchema;
 }>;
 
-export type AnyAnnotatedTextConfig = AnnotatedTextConfig<Any, Any, Any>;
+export type AnyAnnotatedTextComponents = AnnotatedTextComponents<Any, Any, Any>;

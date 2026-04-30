@@ -73,10 +73,10 @@
   @apply border-b-annotation-dat500 bg-none;
 }
 
-.fullNestedAnnotation .annotated-segment .depth-4.annotated-hoe {
+.fullNestedAnnotation .depth-4.annotated-hoe {
   @apply border-t-annotation-hoe500 bg-none;
 }
-.fullNestedAnnotation .annotated-segment .depth-4.annotated-com {
+.fullNestedAnnotation .depth-4.annotated-com {
   @apply border-t-annotation-com500 bg-none;
 }
 .fullNestedAnnotation .depth-4.annotated-loc {
@@ -105,18 +105,18 @@
   @apply border-b-annotation-dat500 bg-none;
 }
 
-.closedNestedAnnotation .annotated-segment > .annotated-hoe {
+.closedNestedAnnotation .annotated-hoe {
   @apply bg-annotation-hoe100;
 }
-.closedNestedAnnotation .annotated-segment > .annotated-com {
+.closedNestedAnnotation .annotated-com {
   @apply bg-annotation-com100;
 }
-.closedNestedAnnotation .annotated-segment > .annotated-loc {
+.closedNestedAnnotation .annotated-loc {
   @apply bg-annotation-loc100;
 }
-.closedNestedAnnotation .annotated-segment > .annotated-org {
+.closedNestedAnnotation .annotated-org {
   @apply bg-annotation-org100;
 }
-.closedNestedAnnotation .annotated-segment > .annotated-dat {
+.closedNestedAnnotation .annotated-dat {
   @apply bg-annotation-dat100;
 }

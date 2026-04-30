@@ -2,11 +2,40 @@
   font-style: italic;
 }
 
-.marker-head,
-.highlight-head {
-  font-size: 1.17rem;
-  font-weight: bold;
-  text-align: center;
+.annotated-text {
+  h2 {
+    margin-top: 1.5em;
+    /*color: var(--tw-prose-body);*/
+    color: rgb(55, 65, 81);
+    font-size: 1.5em;
+  }
+
+  blockquote {
+    text-align: right;
+    margin-bottom: 1em;
+    border-left: 0;
+    font-style: normal;
+  }
+
+  tbody tr:first-child {
+    font-weight: bold;
+  }
+
+  .whitespace {
+    /* Hide whitespace after p or h2: */
+    :is(p, h2) + & {
+      display: none;
+    }
+    /* Render double whitespace after p or h2 as a line break: */
+    :is(p, h2) + & + & {
+      display: block;
+      line-height: 1em;
+    }
+    /* Show whitespace inside p: */
+    p & {
+      display: inline;
+    }
+  }
 }
 
 .segmented-line:has(.marker-head) {
@@ -43,24 +72,6 @@
 /* Remove annotated-segment [role="button"] pointer cursor: */
 [role="button"]:has(:not(.nested-annotation)) {
   cursor: text;
-}
-
-.text-segment:has(.highlight-quote) {
-  display: block;
-  text-align: right;
-  margin-bottom: 1em;
-
-  /* Show marker next to quote: */
-  &:has(+ .text-segment .marker) {
-    padding-right: 2em;
-
-    & + .text-segment {
-      display: block;
-      float: right;
-      margin-top: -2.5em;
-      clear: none;
-    }
-  }
 }
 
 .highlight-item {
@@ -143,7 +154,7 @@ img {
 }
 
 .toc-list {
-  list-style-type: disc;
+  list-style-type: none;
   padding-left: 1.5rem;
 
   .toc-item {

@@ -24,10 +24,8 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
       />
     );
   }
-
   if (isHeadBody(body) && body.n) {
     return <span className="insert-marker marker-head">{body.n}. </span>;
   }
-
   return null;
 };

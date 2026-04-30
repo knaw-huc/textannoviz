@@ -1,19 +1,20 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { TextOffsets } from "../core";
+import { BlockType, TextOffsets } from "../core";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
+import { MarkerPosition } from "@knaw-huc/text-annotation-segmenter";
 
-export function createAnnotationTextOffsets(
+export function createTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
-  type: "annotation" | "highlight",
+  type: "nested" | "highlight",
 ): TextOffsets {
   const result = {
     type,
     body: annotation.body,
-    beginChar: relativePosition.begin ?? 0,
-    endChar: relativePosition.end,
+    begin: relativePosition.begin ?? 0,
+    end: relativePosition.end,
   };
-  if (result.beginChar === result.endChar) {
+  if (result.begin === result.end) {
     throw new Error(`Should not be marker: ${JSON.stringify(annotation.body)}`);
   }
   return result;
@@ -25,27 +26,28 @@ export function createAnnotationTextOffsets(
 export function createMarkerTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
+  markerPosition?: MarkerPosition,
 ): TextOffsets {
   const startChar = relativePosition.begin ?? 0;
   return {
     type: "marker",
     body: annotation.body,
-    beginChar: startChar,
-    endChar: startChar,
+    begin: startChar,
+    end: startChar,
+    markerPosition,
   };
 }
 
-export function findRelativePosition(
+export function createBlockTextOffsets(
   annotation: AnnoRepoAnnotation,
-  relativePositions: BroccoliRelativeAnno[],
-): BroccoliRelativeAnno | undefined {
-  const found = relativePositions.find((p) => p.bodyId === annotation.body.id);
-  if (!found) {
-    /**
-     * A view does not contain relative positions
-     * to all annotations, so this can happen:
-     */
-    return undefined;
-  }
-  return found;
+  relative: BroccoliRelativeAnno,
+  blockType: BlockType,
+): TextOffsets {
+  return {
+    type: "block" as const,
+    body: annotation.body,
+    begin: relative.begin ?? 0,
+    end: relative.end,
+    blockType,
+  };
 }

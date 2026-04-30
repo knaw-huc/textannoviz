@@ -16,7 +16,7 @@ import _ from "lodash";
 import { TocHeader } from "./TocHeader.tsx";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
 
-export function DefaultHighlights(props: HighlightProps<HighlightBody>) {
+export function DefaultHighlight(props: HighlightProps<HighlightBody>) {
   const { highlights, segment, children } = props;
 
   const { getHighlightCategory, showToc, getTocId } = useProjectStore(

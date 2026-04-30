@@ -1,34 +1,24 @@
-import { useEffect, useState } from "react";
-import { Segment, TextOffsets } from "./AnnotationModel.ts";
-import { SegmentGroup } from "./SegmentGroup.tsx";
-import { AnnotationSegmenter } from "./utils/AnnotationSegmenter.ts";
-import { groupSegmentsByGroupId } from "./utils/groupSegmentsByGroupId.ts";
-import { listOffsetsByChar } from "./utils/listOffsetsByChar.ts";
+import { TextOffsets } from "./AnnotationModel.ts";
+import { createSegments } from "./utils/createSegments.ts";
+import { BlockSchema, createBlocks, removeInvalidBlocks } from "./block";
+import { useMemo } from "react";
+import { LazyElements } from "./LazyElements.tsx";
 
 type SegmentedTextProps = {
   body: string;
   offsets: TextOffsets[];
+  blockSchema: BlockSchema;
 };
 
 export function SegmentedText(props: SegmentedTextProps) {
-  const { body, offsets } = props;
-  const [segments, setSegments] = useState<Segment[]>([]);
+  const { body, offsets, blockSchema } = props;
 
-  const offsetsByChar = listOffsetsByChar(offsets);
+  const elements = useMemo(() => {
+    const segments = createSegments(body, offsets, blockSchema);
+    const blocks = createBlocks(segments);
+    const cleaned = removeInvalidBlocks(blocks, blockSchema);
+    return cleaned;
+  }, [body, offsets, blockSchema]);
 
-  useEffect(() => {
-    const newSegments = new AnnotationSegmenter(body, offsetsByChar).segment();
-    setSegments(newSegments);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const grouped = groupSegmentsByGroupId(segments);
-
-  return (
-    <span style={{ display: "block" }}>
-      {grouped.map((group, i) => (
-        <SegmentGroup key={i} group={group} />
-      ))}
-    </span>
-  );
+  return <LazyElements elements={elements} totalChars={body.length} />;
 }

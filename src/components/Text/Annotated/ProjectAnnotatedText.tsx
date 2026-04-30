@@ -8,16 +8,17 @@ import {
 import { createSearchRegex } from "../createSearchRegex.tsx";
 import { useDetailNavigation } from "../../Detail/useDetailNavigation.tsx";
 import uniq from "lodash/uniq";
-import { WithRelativePosition } from "../../../model/WithRelativePosition.ts";
 import {
-  createAnnotationTextOffsets,
+  createBlockTextOffsets,
+  createTextOffsets,
   createMarkerTextOffsets,
-  findRelativePosition,
 } from "./utils/createTextOffsets.ts";
 import { AnnotatedText, TextOffsets } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
+import { useMemo } from "react";
+import { mapRelativePositions } from "./utils/mapRelativePositions.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -26,59 +27,90 @@ type TextHighlightingProps = {
 
 export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
   const projectConfig = useProjectStore(projectConfigSelector);
-  const { nestedTypes, highlightTypes, isMarker } = projectConfig;
-  const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
-  const annotations = useAnnotationStore().annotations.filter((a) => {
-    if (typesToInclude.includes(a.body.type)) {
-      return true;
-    }
-    return isMarker(a.body);
-  });
-  const withRelative: WithRelativePosition[] = annotations
-    .map((annotation) => {
-      const relativePositions = props.text.locations.annotations;
-      const relative = findRelativePosition(annotation, relativePositions);
-      return { annotation, relative };
-    })
-    .filter((toTest): toTest is WithRelativePosition => !!toTest.relative);
-
+  const {
+    nestedTypes,
+    highlightTypes,
+    isMarker,
+    isBlock,
+    getBlockType,
+    getMarkerPosition,
+  } = projectConfig;
+  const annotations = useAnnotationStore((s) => s.annotations);
   const { tier2, highlight } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
   const textBody = props.text.body || orThrow("No text body");
-  const offsets: TextOffsets[] = [];
+  const relativeAnnotations = props.text.locations.annotations;
 
-  const nestedAnnotations = withRelative
-    // Some nestedAnnotationTypes overlap with marker, need to be filtered out:
-    // TODO: replace nestedAnnotationTypes + isMarker with projectConfig.isNested
-    .filter((a) => nestedTypes.includes(a.annotation.body.type))
-    .filter(({ annotation }) => !isMarker(annotation.body))
-    .map(({ annotation, relative }) =>
-      createAnnotationTextOffsets(annotation, relative, "annotation"),
-    );
-  offsets.push(...nestedAnnotations);
-  const highlightedAnnotations = withRelative
-    .filter(({ annotation }) => highlightTypes.includes(annotation.body.type))
-    .map(({ annotation, relative }) =>
-      createAnnotationTextOffsets(annotation, relative, "highlight"),
-    );
-  offsets.push(...highlightedAnnotations);
+  const offsets = useMemo(() => {
+    const typesToInclude = uniq([...nestedTypes, ...highlightTypes]);
 
-  const searchHighlight = createSearchRegex(searchTerms, tier2);
-  offsets.push(...createSearchHighlightOffsets(textBody, searchHighlight));
+    const relativePositionMap = mapRelativePositions(relativeAnnotations);
 
-  const markerAnnotations = withRelative
-    .filter(({ annotation }) => isMarker(annotation.body))
-    .map(({ annotation, relative }) =>
-      createMarkerTextOffsets(annotation, relative),
-    );
-  offsets.push(...markerAnnotations);
+    const result: TextOffsets[] = [];
+
+    for (const annotation of annotations) {
+      const { body } = annotation;
+      const isNested = nestedTypes.includes(body.type);
+      const isHighlight = highlightTypes.includes(body.type);
+      const isAnnotationBlock = isBlock(body);
+      const isAnnotationMarker = isMarker(body);
+
+      if (
+        !isNested &&
+        !isHighlight &&
+        !isAnnotationBlock &&
+        !isAnnotationMarker &&
+        !typesToInclude.includes(body.type)
+      ) {
+        continue;
+      }
+
+      const relative = relativePositionMap.get(body.id);
+      if (!relative) {
+        continue;
+      }
+
+      if (isNested && relative.begin !== relative.end) {
+        result.push(createTextOffsets(annotation, relative, "nested"));
+      }
+      if (isHighlight && relative.begin !== relative.end) {
+        result.push(createTextOffsets(annotation, relative, "highlight"));
+      }
+      if (isAnnotationMarker) {
+        const position = getMarkerPosition(body);
+        result.push(createMarkerTextOffsets(annotation, relative, position));
+      }
+      if (isAnnotationBlock) {
+        const blockType = getBlockType(body);
+        result.push(createBlockTextOffsets(annotation, relative, blockType));
+      }
+    }
+
+    const searchHighlight = createSearchRegex(searchTerms, tier2);
+    result.push(...createSearchHighlightOffsets(textBody, searchHighlight));
+
+    return result;
+  }, [
+    annotations,
+    relativeAnnotations,
+    nestedTypes,
+    highlightTypes,
+    isMarker,
+    getMarkerPosition,
+    isBlock,
+    getBlockType,
+    searchTerms,
+    tier2,
+    textBody,
+  ]);
 
   return (
-    <div className="whitespace-pre-wrap">
+    <div className="annotated-text whitespace-pre-wrap">
       <AnnotatedText
-        config={projectConfig.annotatedTextConfig}
-        body={textBody}
+        components={projectConfig.annotatedTextComponents}
+        text={textBody}
         offsets={offsets}
+        blockSchema={projectConfig.blockSchema}
       >
         <EntityModal />
       </AnnotatedText>
