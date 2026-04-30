@@ -38,7 +38,7 @@ export const TocPanel = () => {
       orThrow(`No toc id found for ${annotation.id}`);
     const n = (isHeadBody(annotation.body) && annotation.body.n) || undefined;
     const titleText = text.body.slice(relative.begin, relative.end);
-    const label = [n, titleText].join(". ");
+    const label = n ? `${n}. ${titleText}` : titleText;
     const level = getTocLevel(n) ?? 0;
     if (label) {
       tocHeaders.push({ id, label, level });
