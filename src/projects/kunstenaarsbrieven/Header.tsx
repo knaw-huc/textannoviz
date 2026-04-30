@@ -145,10 +145,7 @@ export const Header = (props: HeaderProps) => {
               }
             >
               <Button
-                className={`flex items-center gap-1 rounded-md font-medium hover:bg-neutral-300 ${
-                  openMenuLabel === category.label ? "bg-neutral-300" : ""
-                }
-  `}
+                className={`flex items-center gap-1 rounded-md font-medium hover:underline`}
               >
                 {category.label}
                 <ChevronDown
