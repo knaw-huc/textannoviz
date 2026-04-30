@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Element } from "./block";
 
 import { Elements } from "./Elements.tsx";
 import {
-  requestIdleCallback,
   cancelIdleCallback,
+  requestIdleCallback,
 } from "./utils/requestIdleCallback.ts";
 
 type LazyElementsProps = {
@@ -22,13 +22,12 @@ type LazyElementsProps = {
 export function LazyElements({
   elements,
   totalChars,
-  initChars = 3000,
+  initChars = estimateInitChars(),
 }: LazyElementsProps) {
   const initElementIndex = useMemo(
     () => findInitElementIndex(elements, initChars),
     [elements, initChars],
   );
-
   const needsLazyLoad = initElementIndex !== -1;
   const [renderAll, setRenderAll] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -108,4 +107,12 @@ function countElementChars(element: Element): number {
     (charCount, child) => charCount + countElementChars(child),
     0,
   );
+}
+
+function estimateInitChars(): number {
+  const charsPerLine = 70;
+  const style = getComputedStyle(document.body);
+  const lineHeight = parseFloat(style.lineHeight) || 24;
+  const linesPerPage = Math.ceil(window.innerHeight / lineHeight);
+  return charsPerLine * linesPerPage;
 }
