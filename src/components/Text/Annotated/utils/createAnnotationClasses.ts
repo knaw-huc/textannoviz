@@ -1,11 +1,11 @@
 import { AnnotationSegment, Segment } from "../core";
 import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
-import { Offsets } from "@knaw-huc/text-annotation-segmenter";
+import { TextPosition } from "@knaw-huc/text-annotation-segmenter";
 
 export function createStartEndClasses(
   segment: Segment,
   annotationSegment: AnnotationSegment,
-  offsets?: Offsets,
+  offsets?: TextPosition,
 ): string[] {
   const classes = [];
   if (isStartOfAnnotation(segment, annotationSegment, offsets)) {
@@ -20,25 +20,25 @@ export function createStartEndClasses(
 function isStartOfAnnotation(
   segment: Segment,
   annotation: AnnotationSegment,
-  offsets?: Offsets,
+  offsets?: TextPosition,
 ): boolean {
-  if (segment.index === annotation.beginSegment) {
+  if (segment.index === annotation.startSegment) {
     return true;
   }
   if (!offsets) {
     return false;
   }
   // When an annotation was split by a block, re-start annotation in second block:
-  const isFirstSegmentInGroup = segment.index === offsets.begin;
+  const isFirstSegmentInGroup = segment.index === offsets.start;
   const isAnnotationStartedBeforeGroup =
-    annotation.beginSegment < offsets.begin;
+    annotation.startSegment < offsets.start;
   return isFirstSegmentInGroup && isAnnotationStartedBeforeGroup;
 }
 
 function isEndOfAnnotation(
   segment: Segment,
   annotation: AnnotationSegment,
-  offsets?: Offsets,
+  offsets?: TextPosition,
 ): boolean {
   if (segment.index === annotation.endSegment - 1) {
     return true;

@@ -13,7 +13,7 @@ import {
   createTextOffsets,
   createMarkerTextOffsets,
 } from "./utils/createTextOffsets.ts";
-import { AnnotatedText, TextOffsets } from "./core";
+import { AnnotatedText, TextPositions } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
 import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
@@ -46,7 +46,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
 
     const relativePositionMap = mapRelativePositions(relativeAnnotations);
 
-    const result: TextOffsets[] = [];
+    const result: TextPositions[] = [];
 
     for (const annotation of annotations) {
       const { body } = annotation;

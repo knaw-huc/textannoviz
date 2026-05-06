@@ -9,7 +9,7 @@ import {
   Segment,
 } from "../AnnotationModel.ts";
 import { orThrow } from "../../../../../utils/orThrow.tsx";
-import { SegmentOffsets } from "@knaw-huc/text-annotation-segmenter";
+import { SegmentRange } from "@knaw-huc/text-annotation-segmenter";
 
 /**
  * Assign depth and group to nested annotations
@@ -22,7 +22,7 @@ export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
   const groupedSegmentsMap = new Map<GrouplessNestedSegment, NestedSegment>();
   let currentDepth = 0;
   let currentGroup: AnnotationGroup = { id: 1, maxDepth: 0 };
-  let activeGroupAnnotations: SegmentOffsets[] = [];
+  let activeGroupAnnotations: SegmentRange[] = [];
 
   for (const segment of segments) {
     // Close annotations ending at this segment:

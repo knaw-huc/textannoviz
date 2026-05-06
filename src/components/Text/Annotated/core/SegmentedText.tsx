@@ -1,4 +1,4 @@
-import { TextOffsets } from "./AnnotationModel.ts";
+import { TextPositions } from "./AnnotationModel.ts";
 import { createSegments } from "./utils/createSegments.ts";
 import { BlockSchema, createBlocks, removeInvalidBlocks } from "./block";
 import { useMemo } from "react";
@@ -6,7 +6,7 @@ import { LazyElements } from "./LazyElements.tsx";
 
 type SegmentedTextProps = {
   body: string;
-  offsets: TextOffsets[];
+  offsets: TextPositions[];
   blockSchema: BlockSchema;
 };
 

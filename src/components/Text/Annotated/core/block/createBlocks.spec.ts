@@ -208,7 +208,7 @@ function blk(id: string, blockType: string): BlockAnnotationSegment {
     type: "block",
     body: { id },
     blockType,
-    beginSegment: 0,
+    startSegment: 0,
     endSegment: 0,
   };
 }
@@ -219,11 +219,11 @@ function ent(id: string): AnnotationSegment {
     body: { id },
     depth: 0,
     group: { id: 0, maxDepth: 0 },
-    beginSegment: 0,
+    startSegment: 0,
     endSegment: 0,
   };
 }
 
 function seg(index: SegmentIndex, annotations: AnnotationSegment[]): Segment {
-  return { index, begin: 0, end: 2, body: "aa", annotations };
+  return { index, start: 0, end: 2, value: "aa", annotations };
 }

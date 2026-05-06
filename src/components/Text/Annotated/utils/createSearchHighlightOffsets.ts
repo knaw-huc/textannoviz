@@ -1,11 +1,11 @@
-import { TextOffsets } from "../core";
+import { TextPositions } from "../core";
 import { HighlightBody } from "./highlightBodyGuards.ts";
 
 export function createSearchHighlightOffsets(
   body: string,
   regex: RegExp | undefined,
-): TextOffsets[] {
-  const annotations: TextOffsets[] = [];
+): TextPositions[] {
+  const annotations: TextPositions[] = [];
   if (!regex) {
     return annotations;
   }
@@ -16,7 +16,7 @@ export function createSearchHighlightOffsets(
 function createSearchAnnotation(
   body: string,
   regex: RegExp,
-): TextOffsets<HighlightBody>[] {
+): TextPositions<HighlightBody>[] {
   const matches = findStartEndChars(body, regex);
   return matches.map((startEndChars, i) => {
     return {
@@ -25,7 +25,7 @@ function createSearchAnnotation(
         id: `search-highlight-${i + 1}`,
         type: "search",
       },
-      begin: startEndChars[0],
+      start: startEndChars[0],
       end: startEndChars[1],
     };
   });

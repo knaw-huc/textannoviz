@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { Body, NestedSegment, TextOffsets } from "../AnnotationModel.ts";
+import { Body, NestedSegment, TextPositions } from "../AnnotationModel.ts";
 import { createSegments } from "./createSegments.ts";
 import { assignGroupToSegments } from "./assignGroupToSegments.ts";
 import { BlockSchema } from "../block";
 
 const body = "aabbccddee";
-const annotations: TextOffsets[] = [
-  { type: "nested", body: { id: "anno1" } as Body, begin: 2, end: 6 },
-  { type: "nested", body: { id: "anno2" } as Body, begin: 4, end: 6 },
-  { type: "nested", body: { id: "anno3" } as Body, begin: 4, end: 8 },
+const annotations: TextPositions[] = [
+  { type: "nested", body: { id: "anno1" } as Body, start: 2, end: 6 },
+  { type: "nested", body: { id: "anno2" } as Body, start: 4, end: 6 },
+  { type: "nested", body: { id: "anno3" } as Body, start: 4, end: 8 },
 ];
 
 const emptySchema: BlockSchema = {
@@ -18,7 +18,7 @@ const emptySchema: BlockSchema = {
   },
 };
 
-function createTestData(text: string, offsets: TextOffsets[]) {
+function createTestData(text: string, offsets: TextPositions[]) {
   const segments = createSegments(text, offsets, emptySchema);
   return assignGroupToSegments(segments);
 }
@@ -140,20 +140,20 @@ describe("groupSegments", () => {
   });
 });
 
-function ann(id: string, beginChar: number, endChar: number): TextOffsets {
+function ann(id: string, beginChar: number, endChar: number): TextPositions {
   return {
     type: "nested",
     body: { id } as Body,
-    begin: beginChar,
+    start: beginChar,
     end: endChar,
   };
 }
 
-function hgl(id: string, beginChar: number, endChar: number): TextOffsets {
+function hgl(id: string, beginChar: number, endChar: number): TextPositions {
   return {
     type: "highlight",
     body: { id } as Body,
-    begin: beginChar,
+    start: beginChar,
     end: endChar,
   };
 }
@@ -163,11 +163,11 @@ function blk(
   beginChar: number,
   endChar: number,
   blockType: string,
-): TextOffsets {
+): TextPositions {
   return {
     type: "block",
     body: { id } as Body,
-    begin: beginChar,
+    start: beginChar,
     end: endChar,
     blockType,
   };

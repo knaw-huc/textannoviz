@@ -5,7 +5,7 @@ import {
   MarkerSegment,
   NestedSegment,
   Segment,
-  TextOffsets,
+  TextPositions,
 } from "./AnnotationModel.ts";
 import { SegmentedText } from "./SegmentedText.tsx";
 import { createContext, FC, PropsWithChildren, ReactNode } from "react";
@@ -107,7 +107,7 @@ export type AnnotatedTextProps<
 > = PropsWithChildren<{
   components: AnnotatedTextComponents<ANNOTATION, HIGHLIGHT, MARKER>;
   text: string;
-  offsets: TextOffsets[];
+  offsets: TextPositions[];
   blockSchema: BlockSchema;
 }>;
 

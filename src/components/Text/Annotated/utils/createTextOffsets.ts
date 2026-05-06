@@ -1,20 +1,20 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { BlockType, TextOffsets } from "../core";
+import { BlockType, TextPositions } from "../core";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
-import { MarkerPosition } from "@knaw-huc/text-annotation-segmenter";
+import { MarkerPosition } from "../../../../model/ProjectConfig.ts";
 
 export function createTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
   type: "nested" | "highlight",
-): TextOffsets {
+): TextPositions {
   const result = {
     type,
     body: annotation.body,
-    begin: relativePosition.begin ?? 0,
+    start: relativePosition.begin ?? 0,
     end: relativePosition.end,
   };
-  if (result.begin === result.end) {
+  if (result.start === result.end) {
     throw new Error(`Should not be marker: ${JSON.stringify(annotation.body)}`);
   }
   return result;
@@ -27,12 +27,12 @@ export function createMarkerTextOffsets(
   annotation: AnnoRepoAnnotation,
   relativePosition: BroccoliRelativeAnno,
   markerPosition?: MarkerPosition,
-): TextOffsets {
+): TextPositions {
   const startChar = relativePosition.begin ?? 0;
   return {
     type: "marker",
     body: annotation.body,
-    begin: startChar,
+    start: startChar,
     end: startChar,
     markerPosition,
   };
@@ -42,11 +42,11 @@ export function createBlockTextOffsets(
   annotation: AnnoRepoAnnotation,
   relative: BroccoliRelativeAnno,
   blockType: BlockType,
-): TextOffsets {
+): TextPositions {
   return {
     type: "block" as const,
     body: annotation.body,
-    begin: relative.begin ?? 0,
+    start: relative.begin ?? 0,
     end: relative.end,
     blockType,
   };

@@ -20,7 +20,7 @@ export type {
   MarkerSegment,
   GrouplessNestedSegment,
   GrouplessSegment,
-  TextOffsets,
+  TextPositions,
 } from "./AnnotationModel.ts";
 
 export {

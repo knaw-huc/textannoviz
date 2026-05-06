@@ -99,7 +99,7 @@ function findInitElementIndex(
 function countElementChars(element: Element): number {
   if (!element.isBlock) {
     return element.segments.reduce(
-      (charCount, segment) => charCount + segment.body.length,
+      (charCount, segment) => charCount + segment.value.length,
       0,
     );
   }

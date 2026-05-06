@@ -1,8 +1,8 @@
 import {
-  Offsets,
-  SegmentOffsets,
-  MarkerPosition,
+  TextPosition,
+  SegmentRange,
 } from "@knaw-huc/text-annotation-segmenter";
+import { MarkerPosition } from "../../../../model/ProjectConfig.ts";
 
 /**
  * Annotation types:
@@ -21,12 +21,12 @@ export type WithTypeAndBody<T extends Body = Body> = {
 };
 
 /**
- * Annotation with offsets relative to text
+ * Annotation with character indexes marking its position in the text
  *
  * Note: end offset excludes last character
  */
-export type TextOffsets<T extends Body = Body> = WithTypeAndBody<T> & {
-  begin: number;
+export type TextPositions<T extends Body = Body> = WithTypeAndBody<T> & {
+  start: number;
   end: number;
   markerPosition?: MarkerPosition;
 };
@@ -43,7 +43,7 @@ export type AnnotationGroup = {
  * Annotation linked to its segments
  */
 export type AnnotationSegmentWithBodyAndOffsets<T extends Body = Body> =
-  WithTypeAndBody<T> & SegmentOffsets;
+  WithTypeAndBody<T> & SegmentRange;
 
 type Highlight = { type: "highlight" };
 type Marker = { type: "marker" };
@@ -104,17 +104,17 @@ export function isGrouplessNestedSegment(
 /**
  * Segment of a text with its text and the annotations that apply
  */
-export type Segment<T extends object = AnnotationSegment> = Offsets & {
+export type Segment<T extends object = AnnotationSegment> = TextPosition & {
   index: SegmentIndex;
   annotations: T[];
-  body: string;
+  value: string;
 };
 export type SegmentIndex = number;
 export type GrouplessSegment = Segment<GrouplessAnnotationSegment>;
 
 export type GroupedSegments = {
   id?: number;
-  offsets: Offsets;
+  offsets: TextPosition;
   segments: Segment[];
 };
 

@@ -131,5 +131,5 @@ function isWhitespaceOnly(inline: Element): boolean {
   if (inline.isBlock) {
     return false;
   }
-  return inline.segments.every((s) => /^\s*$/.test(s.body));
+  return inline.segments.every((s) => /^\s*$/.test(s.value));
 }

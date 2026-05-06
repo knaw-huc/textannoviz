@@ -15,9 +15,9 @@ export function Elements(props: { elements: Element[] }) {
 
 function InlineElement(props: { inline: Inline }) {
   const { segments } = props.inline;
-  const begin = segments[0].index;
+  const start = segments[0].index;
   const end = segments.at(-1)!.index + 1;
-  const grouped = groupSegmentsByGroupId(props.inline.segments, { begin, end });
+  const grouped = groupSegmentsByGroupId(props.inline.segments, { start, end });
 
   return grouped.map((group, i) => <SegmentGroup key={i} group={group} />);
 }

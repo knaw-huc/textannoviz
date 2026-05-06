@@ -21,7 +21,6 @@ import {
 } from "./Search.ts";
 import type { JSX } from "react";
 import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
-import { MarkerPosition } from "@knaw-huc/text-annotation-segmenter";
 
 export type PanelRegion = "left" | "main" | "right";
 export type DetailPanelConfig = {
@@ -154,6 +153,11 @@ type SearchConfig = {
   viewsToSearchIn: string[];
   showSearchInTextViews: boolean;
 };
+
+/**
+ * Should a marker be postfixed or prefixed to block elements?
+ */
+export type MarkerPosition = "postfix" | "prefix";
 
 type AnnotationConfig = {
   /**

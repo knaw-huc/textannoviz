@@ -3,11 +3,11 @@ import {
   GroupedSegments,
   isNestedSegment,
 } from "../AnnotationModel.ts";
-import { Offsets } from "@knaw-huc/text-annotation-segmenter";
+import { TextPosition } from "@knaw-huc/text-annotation-segmenter";
 
 export function groupSegmentsByGroupId(
   segments: Segment[],
-  offsets: Offsets,
+  offsets: TextPosition,
 ): GroupedSegments[] {
   const result: GroupedSegments[] = [];
   for (const segment of segments) {
