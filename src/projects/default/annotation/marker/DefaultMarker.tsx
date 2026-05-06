@@ -7,4 +7,5 @@ import { throwUnknownAnnotation } from "../../../../components/Text/Annotated/th
  */
 export function DefaultMarker(props: MarkerProps) {
   throwUnknownAnnotation("marker", props.marker.body);
+  return null;
 }
