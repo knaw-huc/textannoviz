@@ -14,6 +14,8 @@ type LazyTableProps = {
 };
 
 /**
+ * Render both a table block and its row children
+ *
  * For large tables, first render the {@link initBatchSize} to populate the
  * screen, with an empty spacer at the bottom for scrolling. After the initial
  * batch, render the rest of the table.
@@ -30,9 +32,11 @@ export function LazyTable({
 
   const rows = block.children.filter((e) => e.isBlock) as Block[];
   // initBatchSize = rows.length
-  const visibleRows = renderAll ? rows : rows.slice(0, initBatchSize);
-  const remainingRows = renderAll ? 0 : rows.length - initBatchSize;
-  const needsLazyLoad = rows.length > initBatchSize;
+  const headerRow = rows[0];
+  const dataRows = rows.slice(1);
+  const visibleRows = renderAll ? dataRows : dataRows.slice(0, initBatchSize);
+  const remainingRows = renderAll ? 0 : dataRows.length - initBatchSize;
+  const needsLazyLoad = dataRows.length > initBatchSize;
 
   useEffect(() => {
     if (colWidths.length) {
@@ -42,8 +46,8 @@ export function LazyTable({
     if (!table) {
       return;
     }
-    const firstRow = table.querySelector("tbody > tr");
-    if (!firstRow) {
+    const headerTr = table.querySelector("thead > tr");
+    if (!headerTr) {
       return;
     }
 
@@ -51,7 +55,7 @@ export function LazyTable({
     if (!tableWidth) {
       return;
     }
-    const cells = [...firstRow.querySelectorAll("td")];
+    const cells = [...headerTr.querySelectorAll("td")];
     const columnPercentages = cells.map(
       (cell) => (cell.getBoundingClientRect().width / tableWidth) * 100,
     );
@@ -93,6 +97,13 @@ export function LazyTable({
           ))}
         </colgroup>
       )}
+      <thead>
+        <tr key={headerRow.id}>
+          <Elements
+            elements={headerRow.children.filter((e) => !isWhitespaceOnly(e))}
+          />
+        </tr>
+      </thead>
       <tbody>
         {visibleRows.map((row) => (
           <tr key={row.id}>

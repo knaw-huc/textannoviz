@@ -17,7 +17,7 @@
     font-style: normal;
   }
 
-  tbody tr:first-child {
+  thead tr {
     font-weight: bold;
   }
 

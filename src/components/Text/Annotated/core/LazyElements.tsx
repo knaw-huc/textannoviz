@@ -113,6 +113,6 @@ function estimateInitChars(): number {
   const charsPerLine = 70;
   const style = getComputedStyle(document.body);
   const lineHeight = parseFloat(style.lineHeight) || 24;
-  const linesPerPage = Math.ceil(window.innerHeight / lineHeight);
-  return charsPerLine * linesPerPage;
+  const linesPerWindow = Math.ceil(window.innerHeight / lineHeight);
+  return charsPerLine * linesPerWindow;
 }
