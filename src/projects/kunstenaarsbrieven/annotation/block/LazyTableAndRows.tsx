@@ -20,7 +20,7 @@ type LazyTableProps = {
  * screen, with an empty spacer at the bottom for scrolling. After the initial
  * batch, render the rest of the table.
  */
-export function LazyTable({
+export function LazyTableAndRows({
   block,
   initBatchSize = 50,
   initRowHeight = 20,

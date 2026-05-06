@@ -4,13 +4,14 @@ import {
   head,
   page,
   paragraph,
+  row,
   table,
 } from "../ProjectAnnotationModel.ts";
 import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { Paragraph } from "./Paragraph.tsx";
 import { Page } from "./Page.tsx";
 import { TocHeader } from "./TocHeader.tsx";
-import { LazyTable } from "./LazyTable.tsx";
+import { LazyTableAndRows } from "./LazyTableAndRows.tsx";
 
 export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
@@ -23,7 +24,11 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   }
 
   if (block.blockType === table) {
-    return <LazyTable block={block} />;
+    return <LazyTableAndRows block={block} />;
+  }
+  if (block.blockType === row) {
+    // Rows are rendered by table:
+    return null;
   }
   if (block.blockType === cell) {
     return <td>{children}</td>;
