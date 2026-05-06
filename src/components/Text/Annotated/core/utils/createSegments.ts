@@ -47,7 +47,7 @@ export function createSegments(
     const markerPosition = markers[0]?.markerPosition ?? "postfix";
 
     const blocks = segment.annotations.filter((a) => a.type === "block");
-    const blockToInclude =
+    const blocksToInclude =
       markerPosition === "prefix"
         ? blocks.filter((a) => a.end > segment.start)
         : blocks.filter((a) => a.start < segment.start);
@@ -60,7 +60,7 @@ export function createSegments(
         a.end > segment.start,
     );
 
-    segment.annotations = [...markers, ...blockToInclude, ...spanningInlines];
+    segment.annotations = [...markers, ...blocksToInclude, ...spanningInlines];
   }
 
   const segmentRangesMap = findSegmentRange(segments);
