@@ -39,7 +39,7 @@ export const defaultConfig: DefaultProjectConfig = {
   getUrl: getUrl,
 
   personsUrl: "",
-  artworksUrl: "",
+  artworksUrl: [],
   biblUrl: { en: "", nl: "" },
   initialRangeFrom: "0",
   initialRangeTo: "30000",

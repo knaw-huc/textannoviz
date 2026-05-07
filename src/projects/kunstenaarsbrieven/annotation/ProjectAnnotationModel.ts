@@ -35,6 +35,12 @@ export const teiArtwork = "artwork";
 export const teiNote = "note";
 export const unknown = "unknown";
 
+export type ArtworkSections =
+  | "illustrated"
+  | "illustrations"
+  | "non-illustrated"
+  | "sketches";
+
 export type ArtworkBody = AnnoRepoBodyBase & {
   type: typeof entity;
   elementName: typeof elementRs;

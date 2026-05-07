@@ -24,7 +24,10 @@ export function Artworks() {
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initArtworks(aborter: AbortController) {
-      const newArtworks = await fetchArtworks(artworksUrl, aborter.signal);
+      const newArtworks = await fetchArtworks(
+        artworksUrl[0].url,
+        aborter.signal,
+      );
       if (!newArtworks) return;
 
       // const filteredArtworks = newArtworks.filter(
