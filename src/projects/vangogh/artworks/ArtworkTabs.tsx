@@ -64,7 +64,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           </label>
         </div>
       </div>
-      {isGlobal && query && (
+      {isGlobal && query.trim() && (
         <div className="mb-4 ml-8 text-xs font-semibold uppercase tracking-wider text-blue-500">
           Showing results from all sections matching &quot;{query}&quot;
         </div>
@@ -78,6 +78,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           items={getDataSource(illustrated)}
           CardComponent={ArtworkCard}
           query={deferredQuery}
+          isGlobal={isGlobal}
         />
       </TabPanel>
       <TabPanel
@@ -92,6 +93,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           }
           CardComponent={ArtworkCard}
           query={deferredQuery}
+          isGlobal={isGlobal}
         />
       </TabPanel>
       <TabPanel
@@ -106,6 +108,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           }
           CardComponent={ArtworkCard}
           query={deferredQuery}
+          isGlobal={isGlobal}
         />
       </TabPanel>
       <TabPanel
@@ -117,6 +120,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           items={getDataSource(sketches)}
           CardComponent={ArtworkCard}
           query={deferredQuery}
+          isGlobal={isGlobal}
         />
       </TabPanel>
     </Tabs>

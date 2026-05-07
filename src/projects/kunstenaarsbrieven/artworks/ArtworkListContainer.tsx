@@ -14,6 +14,7 @@ export function ArtworkListContainer(props: {
   }>;
   filter?: (item: Artwork) => boolean;
   query: string;
+  isGlobal: boolean;
 }) {
   const { items, CardComponent, filter } = props;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
@@ -21,9 +22,13 @@ export function ArtworkListContainer(props: {
   const observerTarget = React.useRef(null);
 
   const filteredData = React.useMemo(() => {
-    let newItems = filter ? items.filter(filter) : items;
+    const hasQuery = props.query.trim() !== "";
 
-    if (props.query.trim()) {
+    const shouldApplyFilter = filter && !(props.isGlobal && hasQuery);
+
+    let newItems = shouldApplyFilter ? items.filter(filter) : items;
+
+    if (hasQuery) {
       const queryLower = props.query.toLowerCase();
       newItems = newItems.filter(
         (item) =>
@@ -32,7 +37,7 @@ export function ArtworkListContainer(props: {
       );
     }
     return newItems;
-  }, [filter, interfaceLang, items, props.query]);
+  }, [filter, interfaceLang, items, props.isGlobal, props.query]);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
