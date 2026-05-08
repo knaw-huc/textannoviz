@@ -22,7 +22,7 @@ export const vangoghConfig: ProjectConfig = merge(
   kunstenaarsbrievenConfig,
   {
     id: "vangogh",
-    broccoliUrl: "https://preview.dev.diginfra.org/broccoli",
+    broccoliUrl: "http://localhost:8082",
     siteTitle: "Van Gogh Letters",
 
     elasticIndexName: "vangogh",
