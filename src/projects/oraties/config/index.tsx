@@ -5,7 +5,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { OratiesMarker } from "../annotation/OratiesMarker";
 import { SearchItem } from "../SearchItem";
 import { dutchOratiesLabels } from "./dutchOratiesLabels";
@@ -23,9 +23,9 @@ import {
   isBibliographyReference,
   isEntity,
   person,
-  projectEntityTypes,
-  projectHighlightedTypes,
-  projectPageMarkerAnnotationTypes,
+  entityTypes,
+  highlightTypes,
+  pageMarkerTypes,
   reference,
   teiArtwork,
 } from "../annotation/ProjectAnnotationModel.ts";
@@ -114,8 +114,8 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
 
   // AnnotationConfig
   showAnnotations: true,
-  annotatedTextConfig: {
-    ...defaultAnnotatedTextConfig,
+  annotatedTextComponents: {
+    ...defaultAnnotatedTextComponents,
     Marker: OratiesMarker,
   },
   relativeTo: "Document",
@@ -133,14 +133,14 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     "Section",
     "Whitespace",
   ],
-  isMarker: (body) => projectPageMarkerAnnotationTypes.includes(body.type),
+  isMarker: (body) => pageMarkerTypes.includes(body.type),
 
   /**
    * Note: duplicated from kunstenaarsbrieven
    * TODO: move to projects/common?
    */
-  highlightTypes: projectHighlightedTypes,
-  nestedTypes: projectEntityTypes,
+  highlightTypes: highlightTypes,
+  nestedTypes: entityTypes,
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,
   isEntity: isEntity,

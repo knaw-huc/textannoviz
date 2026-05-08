@@ -173,20 +173,14 @@ export type LetterBody = AnnoRepoBodyBase & {
   recipient: string;
 };
 
-export const projectEntityTypes = [entity, reference];
-export const projectHighlightedTypes = [
-  highlight,
-  head,
-  listItem,
-  quote,
-  caption,
-];
-export const projectPageMarkerAnnotationTypes = [page];
+export const entityTypes = [entity, reference];
+export const highlightTypes = [highlight, head, listItem, quote, caption];
+export const pageMarkerTypes = [page];
 
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
 ): toTest is IsraelsEntityBody => {
-  return projectEntityTypes.includes(toTest.type);
+  return entityTypes.includes(toTest.type);
 };
 
 export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {

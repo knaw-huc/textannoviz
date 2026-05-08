@@ -11,17 +11,17 @@ import { normalizeClassname } from "../../../components/Text/Annotated/utils/cre
 const teiHi = "tei:Hi";
 const teiHead = "tei:Head";
 const tfEnt = "tf:Ent";
-export const projectEntityTypes = [tfEnt];
-export const projectHighlightedTypes = [teiHi, teiHead];
-export const projectTooltipMarkerAnnotationTypes = [
+export const entityTypes = [tfEnt];
+export const highlightTypes = [teiHi, teiHead];
+export const tooltipMarkerTypes = [
   /**
    * Pointer pointing to a tei:Note
    * see {@link MarkerTooltip}
    */
   "tei:Ptr",
 ];
-export const projectPageMarkerAnnotationTypes = ["tf:Page"];
-export const projectInsertTextMarkerAnnotationTypes = [
+export const markerTypes = ["tf:Page"];
+export const insertTextMarkerTypes = [
   /**
    * Notes from the editor about what he encountered on the facsimile
    */
@@ -41,7 +41,7 @@ export type ProjectEntityBody = AnnoRepoBodyBase & EntBody;
 export function isEntity(
   toTest: AnnoRepoBodyBase,
 ): toTest is ProjectEntityBody {
-  return projectEntityTypes.includes(toTest.type);
+  return entityTypes.includes(toTest.type);
 }
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBodyBase) {

@@ -24,6 +24,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   //panels
   facs: "Facsimile",
   metadata: "Info",
+  toc: "Contents",
 
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigate search results",

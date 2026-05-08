@@ -5,7 +5,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { defaultAnnotatedTextConfig } from "../../default/annotation/defaultAnnotatedTextConfig";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
@@ -17,10 +17,10 @@ import {
   getAnnotationCategory,
   getHighlightCategory,
   isEntity,
-  projectEntityTypes,
-  projectHighlightedTypes,
-  projectInsertTextMarkerAnnotationTypes,
-  projectPageMarkerAnnotationTypes,
+  entityTypes,
+  highlightTypes,
+  insertTextMarkerTypes,
+  markerTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
@@ -81,18 +81,15 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tei:Metamark",
   ],
   showAnnotations: true,
-  annotatedTextConfig: {
-    ...defaultAnnotatedTextConfig,
+  annotatedTextComponents: {
+    ...defaultAnnotatedTextComponents,
     Marker: SurianoMarker,
   },
   textHighlightingTypes: [],
-  nestedTypes: projectEntityTypes,
+  nestedTypes: entityTypes,
   isMarker: (body) =>
-    [
-      ...projectPageMarkerAnnotationTypes,
-      ...projectInsertTextMarkerAnnotationTypes,
-    ].includes(body.type),
-  highlightTypes: projectHighlightedTypes,
+    [...markerTypes, ...insertTextMarkerTypes].includes(body.type),
+  highlightTypes: highlightTypes,
   // TODO: use Reference instead of tei:Ptr
 
   getAnnotationCategory: getAnnotationCategory,

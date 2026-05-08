@@ -4,12 +4,12 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-import { findRelativePosition } from "../../components/Text/Annotated/utils/createTextOffsets.ts";
-import { WithRelativePosition } from "../../model/WithRelativePosition.ts";
-import { HeadBody, isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
+import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 import { getTocId, getTocLevel } from "./TocUtils.ts";
 import { orThrow } from "../../utils/orThrow.tsx";
 import { Toc, TocHeader } from "../../components/Text/Toc/Toc.tsx";
+
+import { mapRelativePositions } from "../../components/Text/Annotated/utils/mapRelativePositions.ts";
 
 export const TocPanel = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -21,26 +21,29 @@ export const TocPanel = () => {
   }
 
   const relativePositions = text.locations.annotations;
-  const withRelative = annotations
-    .map((annotation) => {
-      const relative = findRelativePosition(annotation, relativePositions);
-      return { annotation, relative };
-    })
-    .filter((a): a is WithRelativePosition => !!a.relative);
+  const relativePositionMap = mapRelativePositions(relativePositions);
 
-  const headers = withRelative.filter(({ annotation: a }) =>
-    isHeadBody(a.body),
-  ) as unknown as WithRelativePosition<HeadBody>[];
+  const tocHeaders: TocHeader[] = [];
 
-  const tocHeaders: TocHeader[] = headers.map((header) => {
+  for (const annotation of annotations) {
+    if (!isHeadBody(annotation.body)) {
+      continue;
+    }
+    const relative = relativePositionMap.get(annotation.body.id);
+    if (!relative) {
+      continue;
+    }
     const id =
-      getTocId(header.annotation.body) ??
-      orThrow(`No toc id found for ${header.annotation.id}`);
-    const { begin, end } = header.relative;
-    const label = text.body.slice(begin, end);
-    const level = getTocLevel(header.annotation.body.n) ?? 0;
-    return { id, label, level };
-  });
+      getTocId(annotation.body) ??
+      orThrow(`No toc id found for ${annotation.id}`);
+    const n = (isHeadBody(annotation.body) && annotation.body.n) || undefined;
+    const titleText = text.body.slice(relative.begin, relative.end);
+    const label = n ? `${n}. ${titleText}` : titleText;
+    const level = getTocLevel(n) ?? 0;
+    if (label) {
+      tocHeaders.push({ id, label, level });
+    }
+  }
 
   return <Toc headers={tocHeaders} />;
 };
