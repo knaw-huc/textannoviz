@@ -14,7 +14,6 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   period: "Period",
   type: "Type",
   artworksEN: "Artworks",
-  correspondent: "Correspondent",
   artworkIds: "Artworks (ID)",
 
   facetInputFilterPlaceholder: "Search in facet",
