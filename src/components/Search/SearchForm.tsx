@@ -322,7 +322,7 @@ export function SearchForm(
                 <div className="flex w-full justify-end">
                   <button
                     type="button"
-                    className="my-2 inline-flex items-center rounded-full border border-neutral-400 px-2 text-sm text-neutral-700 outline-none focus-visible:ring-2 focus-visible:ring-neutral-700"
+                    className="my-2 inline-flex items-center gap-2 rounded-full border border-neutral-400 px-2 text-sm text-neutral-700 outline-none focus-visible:ring-2 focus-visible:ring-neutral-700"
                     aria-expanded={searchInTextViewsExpanded}
                     aria-controls={searchInTextViewsPanelId}
                     aria-label={
