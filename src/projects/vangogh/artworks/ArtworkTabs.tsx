@@ -8,6 +8,7 @@ import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationMo
 const tabStyling =
   "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-sm font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
 
+// TODO: link tabs to menu items (make tabs controlled and check with .includes in the menu item where the user wants to go? if (menuItem.includes("sketches")) setActiveTab("sketches"))
 export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
   const [query, setQuery] = React.useState("");
   const [isGlobal, setIsGlobal] = React.useState(false);
