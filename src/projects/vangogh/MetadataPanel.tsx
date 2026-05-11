@@ -56,7 +56,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("recipient")}:{" "}
                 </div>
-                {recipient}
+                {Array.isArray(recipient) ? recipient.join(", ") : recipient}
               </div>
             </li>
             {typedNoteText ? (

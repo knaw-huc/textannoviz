@@ -240,7 +240,7 @@ export type LetterBody = AnnoRepoBodyBase & {
   nextLetter: string;
   titles: Record<ViewLang, string>;
   title: string;
-  recipient: string;
+  recipient: string | string[];
 };
 
 export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {
