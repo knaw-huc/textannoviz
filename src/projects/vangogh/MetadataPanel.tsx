@@ -48,7 +48,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("sender")}:{" "}
                 </div>
-                {sender}
+                {Array.isArray(sender) ? sender.join(", ") : sender}
               </div>
             </li>
             <li className="mb-8">
