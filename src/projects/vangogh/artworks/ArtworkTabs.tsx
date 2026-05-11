@@ -1,31 +1,52 @@
-import { Tabs, TabList, Tab, TabPanel } from "react-aria-components";
+import { Tabs, TabList, Tab, TabPanel, Key } from "react-aria-components";
 import { ArtworkListContainer } from "../../kunstenaarsbrieven/artworks/ArtworkListContainer";
 import { ArtworkCard } from "./ArtworkCard";
 import { ArtworkData } from "./Artworks";
 import React from "react";
 import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
+import { useLocation } from "react-router";
+import { getTabFromHash } from "./utils/getTabFromHash";
 
 const tabStyling =
   "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-sm font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
 
-// TODO: link tabs to menu items (make tabs controlled and check with .includes in the menu item where the user wants to go? if (menuItem.includes("sketches")) setActiveTab("sketches"))
 export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
+  const [activeTab, setActiveTab] = React.useState<Key>("artworksAll");
   const [query, setQuery] = React.useState("");
   const [isGlobal, setIsGlobal] = React.useState(false);
   const deferredQuery = React.useDeferredValue(query);
+  const location = useLocation();
 
   const globalPool = React.useMemo(() => {
     return Object.values(props.artworks).flat();
   }, [props.artworks]);
 
-  const { illustrated = [], sketches = [] } = props.artworks;
+  const {
+    illustrated = [],
+    sketches = [],
+    "non-illustrated": nonIllustrated = [],
+  } = props.artworks;
 
   function getDataSource(tabItems: Artwork[]) {
     return isGlobal && query.trim() ? globalPool : tabItems;
   }
 
+  React.useEffect(() => {
+    function updateTabFromHash() {
+      const hash = location.hash.slice(1);
+      const tab = getTabFromHash(hash);
+      setActiveTab(tab);
+    }
+
+    updateTabFromHash();
+  }, [location.hash]);
+
   return (
-    <Tabs className="flex w-full flex-col gap-4">
+    <Tabs
+      className="flex w-full flex-col gap-4"
+      selectedKey={activeTab}
+      onSelectionChange={(key) => setActiveTab(key)}
+    >
       <TabList className="sticky top-0 z-20 flex w-full gap-4 border-b border-neutral-600 bg-white px-6 pt-6">
         <Tab id="artworksAll" className={tabStyling}>
           All artworks
@@ -35,6 +56,9 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         </Tab>
         <Tab id="artworksOthers" className={tabStyling}>
           Artworks by other artists
+        </Tab>
+        <Tab id="nonIllustrated" className={tabStyling}>
+          Artworks (non-illustrated)
         </Tab>
         <Tab id="sketches" className={tabStyling}>
           Sketches
@@ -65,9 +89,11 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           </label>
         </div>
       </div>
-      {isGlobal && query.trim() && (
+      {query.trim() && (
         <div className="mb-4 ml-8 text-xs font-semibold uppercase tracking-wider text-blue-500">
-          Showing results from all sections matching &quot;{query}&quot;
+          {isGlobal
+            ? `Showing results from all sections matching '${query}'`
+            : `Showing results from current section matching '${query}'`}
         </div>
       )}
       <TabPanel
@@ -107,6 +133,18 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           filter={(item) =>
             item.relation?.some((r) => r.ref !== "bio.xml#vg_2000") ?? false
           }
+          CardComponent={ArtworkCard}
+          query={deferredQuery}
+          isGlobal={isGlobal}
+        />
+      </TabPanel>
+      <TabPanel
+        id="nonIllustrated"
+        className="grid gap-6 px-8 pb-8"
+        style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
+      >
+        <ArtworkListContainer
+          items={getDataSource(nonIllustrated)}
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
