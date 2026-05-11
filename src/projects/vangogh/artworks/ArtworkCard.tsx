@@ -5,17 +5,19 @@ export function ArtworkCard(props: {
   artwork: Artwork;
   interfaceLang: LanguageCode;
 }) {
+  const { artwork, interfaceLang } = props;
+
   return (
     <div className="h-auto rounded bg-neutral-50 p-5 shadow-sm">
       <div className="font-bold">
-        {props.artwork.head[props.interfaceLang].length
-          ? props.artwork.head[props.interfaceLang]
-          : `${props.artwork.id} has no/empty/incorrect 'head' element in XML!`}
+        {artwork.head[interfaceLang].length
+          ? artwork.head[interfaceLang]
+          : `${artwork.id} has no/empty/incorrect 'head' element in XML!`}
       </div>
-      {props.artwork.graphic && (
+      {artwork.graphic && (
         <img
-          src={`${props.artwork.graphic.url}/full/200,/0/default.jpg`}
-          alt={props.artwork.head[props.interfaceLang]}
+          src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
+          alt={artwork.head[interfaceLang]}
           loading="lazy"
           className="rounded"
         />
