@@ -1,4 +1,4 @@
-import { Tabs, TabList, Tab, TabPanel, Key } from "react-aria-components";
+import { Tabs, TabList, Tab, TabPanel, type Key } from "react-aria-components";
 import { ArtworkListContainer } from "../../kunstenaarsbrieven/artworks/ArtworkListContainer";
 import { ArtworkCard } from "./ArtworkCard";
 import { ArtworkData } from "./Artworks";
