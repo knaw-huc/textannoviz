@@ -2,16 +2,16 @@ import {
   isHighlightSegment,
   isMarkerSegment,
   Segment,
-} from "./AnnotationModel.ts";
+} from "../AnnotationModel.ts";
 import { SegmentBody } from "./SegmentBody.tsx";
-import { useAnnotatedTextConfig } from "./useAnnotatedTextConfig.tsx";
+import { useAnnotatedTextConfig } from "../useAnnotatedTextConfig.tsx";
 
 export function HighlightAnnotations(props: { segment: Segment }) {
   const { Highlight, Marker } = useAnnotatedTextConfig();
   const highlights = props.segment.annotations.filter(isHighlightSegment);
   const marker = props.segment.annotations.find(isMarkerSegment);
 
-  const text = <SegmentBody body={props.segment.body} />;
+  const text = <SegmentBody body={props.segment.value} />;
 
   const children = marker ? (
     <Marker marker={marker} segment={props.segment} />

@@ -94,8 +94,6 @@ export function useDetailNavigation() {
     ) {
       return lastSearchResultParam;
     }
-
-    console.warn("findResultId: No last search result found");
   }
 
   return {

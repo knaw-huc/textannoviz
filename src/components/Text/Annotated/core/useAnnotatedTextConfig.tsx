@@ -1,7 +1,10 @@
 import { useContext } from "react";
-import { AnnotatedTextConfig, AnnotatedTextContext } from "./AnnotatedText.tsx";
+import {
+  AnnotatedTextComponents,
+  AnnotatedTextContext,
+} from "./AnnotatedText.tsx";
 
-export function useAnnotatedTextConfig(): AnnotatedTextConfig {
+export function useAnnotatedTextConfig(): AnnotatedTextComponents {
   const context = useContext(AnnotatedTextContext);
   if (!context) {
     throw new Error("Missing AnnotatedTextProvider");

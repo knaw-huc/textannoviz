@@ -42,7 +42,7 @@
   }
 
   /* show levels */
-  .fullNestedAnnotation .annotated-segment {
+  .fullNestedAnnotation .nested-annotation {
     @apply relative;
   }
 
@@ -103,16 +103,16 @@
   }
 
   /* annotations inline */
-  .closedNestedAnnotation .annotated-segment > span {
+  .closedNestedAnnotation span {
     @apply inline border-b-0 border-t-0;
   }
   .closedNestedAnnotation .depth-2 {
     @apply border-b border-dashed border-neutral-600;
   }
-  .closedNestedAnnotation .annotated-segment > .nested-annotation {
+  .closedNestedAnnotation .nested-annotation {
     @apply inline;
   }
-  .closedNestedAnnotation .annotated-segment > .annotated-per {
+  .closedNestedAnnotation .annotated-per {
     @apply bg-annotation-per100 hover:bg-annotation-per500/30;
   }
 
@@ -120,9 +120,7 @@
     @apply rounded-l;
   }
   /*Fix: apply rounded borders to nested-annotations starting with a marker: */
-  .annotated-segment:has(.insert-marker)
-    + .annotated-segment
-    .nested-annotation {
+  .insert-marker + .nested-annotation {
     @apply rounded-l;
   }
 
@@ -132,8 +130,8 @@
 
   .closedNestedAnnotation {
     @apply relative shadow-none
-        transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 before:font-sans
-        before:text-sm before:text-white hover:shadow hover:before:w-[160px] hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_detailed_view"];
+    transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 before:font-sans
+    before:text-sm before:text-white hover:shadow hover:before:w-[160px] hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_detailed_view"];
   }
   .closedNestedAnnotation.nl {
     @apply hover:before:content-["Meer_info"];

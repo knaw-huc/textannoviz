@@ -1,7 +1,7 @@
-export function ChevronDown() {
+export function ChevronDown(props: { className?: string }) {
   return (
     <svg
-      className="ml-2 h-3 w-3"
+      className={["h-3 w-3", props.className].join(" ")}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
     >

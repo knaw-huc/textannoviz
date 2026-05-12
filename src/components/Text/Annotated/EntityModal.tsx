@@ -10,7 +10,7 @@ import { ProjectEntityBody } from "../../../model/ProjectConfig.ts";
 import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 import { useTextStore } from "../../../stores/text/text-store.ts";
 import { ScrollableModal } from "../../common/ScrollableModal.tsx";
-import { isAnnotation } from "./utils/isAnnotation.ts";
+import { isNested } from "./utils/isNested.ts";
 
 export function EntityModal() {
   const translateProject = useTranslateProject();
@@ -54,7 +54,7 @@ function getAllEntities(
 ) {
   const allEntitiesFromAllSegments = clickedGroup.segments
     .flatMap((s) => s.annotations)
-    .filter(isAnnotation)
+    .filter(isNested)
     .map((a) => a.body)
     .filter(isEntity);
   const deduplicated = _.unionBy(allEntitiesFromAllSegments, "id");
