@@ -11,7 +11,7 @@ export function ArtworkCard(props: {
 
   return (
     <div className="h-auto rounded bg-neutral-50 p-5 shadow-sm">
-      <div className="font-bold">
+      <div className="mb-4 font-bold">
         {artwork.head[interfaceLang].length
           ? artwork.head[interfaceLang]
           : `${artwork.id} has no/empty/incorrect 'head' element in XML!`}
