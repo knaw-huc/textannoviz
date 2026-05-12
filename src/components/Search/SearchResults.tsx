@@ -279,14 +279,16 @@ export function SearchResults(props: SearchResultsProps) {
         </>
       ) : null}
       <div id="resultsList">
-        {searchResults.results.length >= 1 &&
-          searchResults.results.map((result, index) => (
-            <projectConfig.components.SearchItem
-              key={index}
-              result={result}
-              query={searchQuery}
-            />
-          ))}
+        <ul className="mx-auto max-w-6xl">
+          {searchResults.results.length >= 1 &&
+            searchResults.results.map((result, index) => (
+              <projectConfig.components.SearchItem
+                key={index}
+                result={result}
+                query={searchQuery}
+              />
+            ))}
+        </ul>
         {searchResults.results.length >= 1 && (
           <SearchPagination
             onPrevPageClick={handleSelectPrevPageClick}

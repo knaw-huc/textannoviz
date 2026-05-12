@@ -105,7 +105,7 @@ export const AnnotationFilter = () => {
 function Button(props: { children?: React.ReactNode; onClick: () => void }) {
   return (
     <button
-      className="mr-2 rounded border-none bg-blue-600 px-2 py-1 text-white"
+      className="mr-2 rounded-full border border-neutral-400 bg-neutral-100 px-2 py-1 text-sm text-black"
       onClick={props.onClick}
     >
       {props.children}
