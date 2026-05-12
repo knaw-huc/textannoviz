@@ -11,7 +11,7 @@ export function ShowLessButton(props: ShowLessButtonProps) {
   const translate = useTranslate();
   return (
     <Button
-      className="fill-brand2-700 border-brand2-100 bg-brand2-50 -mt-6 flex h-10 w-full max-w-[450px] items-center justify-end border-t-2 pr-2 text-black outline-none hover:fill-black"
+      className="border-brand2-100 bg-brand2-50 -mt-6 flex h-10 w-full max-w-[450px] items-center justify-end border-t-2 fill-black pr-2 text-black outline-none hover:fill-black"
       onPress={() => props.showLessButtonClickHandler(props.facetName)}
     >
       {translate("SHOW_LESS")}{" "}
