@@ -22,15 +22,15 @@ export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
 
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
-    <li className="divide-brand1Grey-100 border-brand1Grey-200 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-4 mb-6 w-full divide-y divide-solid rounded border border-b bg-white shadow-sm transition hover:bg-white">
+    <li className="my-4 flex flex-col border-b border-neutral-400 pb-4">
       <Link
         to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
-        className="hover:text-brand1-600 active:text-brand1-700 cursor-pointer text-inherit no-underline"
+        className="rounded bg-white text-neutral-900 no-underline shadow-sm"
       >
         <div className="flex flex-col p-4">
           <div className="font-semibold">{props.searchItemTitle}</div>
           {props.result.type === "letter" ? (
-            <div className="text-brand1Grey-600 italic">
+            <div className="italic text-neutral-600">
               {translateProject("LET_NUM")}: {letterNum}
             </div>
           ) : null}
