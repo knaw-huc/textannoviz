@@ -1,4 +1,5 @@
 import {
+  filterSegmentAnnotations,
   findSegmentRange,
   segment,
   SegmentRange,
@@ -28,42 +29,42 @@ export function createSegments(
   const segments = segment(body, offsets, getOffsets);
 
   /**
-   * Marker segments should only contain marker annotations, block annotations
-   * and inline annotations that span across the marker position.
-   *
-   * Inline annotations that 'touch' the marker at a boundary
-   * (i.e. ending or starting at index) should not be grouped
-   * inside the entity group.
-   *
-   * For blocks, use marker.markerPosition to prefix or postfix:
-   * - markers at the end of paragraphs should be postfixed
-   * - markers at the beginning of a header should be prefixed
+   * Filter marker annotations, so markers are grouped into the correct blocks
+   * and not into bordering entity groups.
    */
-  for (const segment of segments) {
+  const filtered = filterSegmentAnnotations(segments, (annotation, segment) => {
+    // Skip non-marker segments:
     if (segment.start !== segment.end) {
-      continue;
+      return true;
     }
-    const markers = segment.annotations.filter((a) => a.type === "marker");
-    const markerPosition = markers[0]?.markerPosition ?? "postfix";
 
-    const blocks = segment.annotations.filter((a) => a.type === "block");
-    const blocksToInclude =
-      markerPosition === "prefix"
-        ? blocks.filter((a) => a.end > segment.start)
-        : blocks.filter((a) => a.start < segment.start);
+    // keep marker annotations:
+    if (annotation.type === "marker") {
+      return true;
+    }
 
-    const spanningInlines = segment.annotations.filter(
-      (a) =>
-        a.type !== "marker" &&
-        a.type !== "block" &&
-        a.start < segment.start &&
-        a.end > segment.start,
-    );
+    const marker = segment.annotations.find((a) => a.type === "marker");
 
-    segment.annotations = [...markers, ...blocksToInclude, ...spanningInlines];
-  }
+    /**
+     * Keep block annotations according to configured marker position:
+     * - postfix: keep blocks ending at marker (e.g. note at the end of a paragraph)
+     * - prefix: keep blocks starting at marker (e.g. a header prefix)
+     */
+    const markerPosition = marker?.markerPosition ?? "postfix";
+    if (annotation.type === "block") {
+      return markerPosition === "prefix"
+        ? annotation.end > segment.start
+        : annotation.start < segment.start;
+    }
 
-  const segmentRangesMap = findSegmentRange(segments);
+    /**
+     * Entity groups ending with a marker should not include that marker,
+     * so inline annotations are removed that only border the marker:
+     */
+    return annotation.start < segment.start && annotation.end > segment.start;
+  });
+
+  const segmentRangesMap = findSegmentRange(filtered);
 
   const withSegmentOffsets = new Map<
     TextPositions,
@@ -75,7 +76,7 @@ export function createSegments(
   }
 
   const allowedDescendantTypes = findDescendantTypes(blockSchema);
-  const sortedSegments = segments.map((textSegment) => ({
+  const sortedSegments = filtered.map((textSegment) => ({
     ...textSegment,
     annotations: sortAnnotations(
       textSegment.annotations.map((a) => withSegmentOffsets.get(a)!),
