@@ -17,8 +17,8 @@ export function ArtworkCard(props: {
           : `${artwork.id} has no/empty/incorrect 'head' element in XML!`}
       </div>
       {artwork.relation
-        ? artwork.relation.map((relation, key) => (
-            <div key={key}>
+        ? artwork.relation.map((relation) => (
+            <div key={relation.label}>
               {translateProject(relation.name)}: {relation.label}
             </div>
           ))
