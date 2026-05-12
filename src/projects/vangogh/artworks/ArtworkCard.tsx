@@ -37,7 +37,7 @@ export function ArtworkCard(props: {
       {artwork.note?.some((note) => note.type === "technical") ? (
         <div>
           {translateProject("support")}:{" "}
-          {Object.values(artwork.note)
+          {artwork.note
             .filter((value) => value.type === "technical")
             .map((value, index) => (
               <span key={index}>{value.text}</span>
@@ -47,7 +47,7 @@ export function ArtworkCard(props: {
       {artwork.note?.some((note) => note.type === "collection") ? (
         <div>
           {translateProject("collection")}:{" "}
-          {Object.values(artwork.note)
+          {artwork.note
             .filter((value) => value.type === "collection")
             .map((value, index) => (
               <span key={index}>{value.text}</span>
@@ -57,7 +57,7 @@ export function ArtworkCard(props: {
       {artwork.idno?.some((idno) => idno.type === "inventory") ? (
         <div>
           {translateProject("inventory")}:{" "}
-          {Object.values(artwork.idno)
+          {artwork.idno
             .filter((value) => value.type === "inventory")
             .map((value, index) => (
               <span key={index}>{value.text}</span>
@@ -67,7 +67,7 @@ export function ArtworkCard(props: {
       {artwork.note?.some((note) => note.type === "creditline") ? (
         <div>
           {translateProject("credits")}:{" "}
-          {Object.values(artwork.note)
+          {artwork.note
             .filter((value) => value.type === "creditline")
             .map((value, index) => (
               <span key={index}>{value.text}</span>
