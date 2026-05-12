@@ -5,12 +5,16 @@ import {
   projectConfigSelector,
 } from "../../../stores/project";
 import { Artwork } from "../annotation/ProjectAnnotationModel";
+import { SearchQuery } from "../../../model/Search";
+import { encodeObject } from "../../../utils/url/UrlParamUtils";
+import { getViteEnvVars } from "../../../utils/viteEnvVars";
 
 export function ArtworkListContainer(props: {
   items: Artwork[];
   CardComponent: React.ComponentType<{
     artwork: Artwork;
     interfaceLang: LanguageCode;
+    handleSearch: (artwork: Artwork) => void;
   }>;
   filter?: (item: Artwork) => boolean;
   query: string;
@@ -20,6 +24,7 @@ export function ArtworkListContainer(props: {
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const [displayLimit, setDisplayLimit] = React.useState(100);
   const observerTarget = React.useRef(null);
+  const { routerBasename } = getViteEnvVars();
 
   const filteredData = React.useMemo(() => {
     const hasQuery = props.query.trim() !== "";
@@ -56,6 +61,20 @@ export function ArtworkListContainer(props: {
 
   const visibleArtworks = filteredData.slice(0, displayLimit);
 
+  function handleSearch(artwork: Artwork) {
+    const query: Partial<SearchQuery> = {
+      terms: {
+        ["artworkIds"]: [artwork.id],
+      },
+    };
+
+    const encodedQuery = encodeObject({ query: query });
+    window.open(
+      `${routerBasename === "/" ? "" : routerBasename}/?${encodedQuery}`,
+      "_blank",
+    );
+  }
+
   return (
     <>
       {visibleArtworks.map((artw) => (
@@ -63,6 +82,7 @@ export function ArtworkListContainer(props: {
           key={artw.id}
           artwork={artw}
           interfaceLang={interfaceLang}
+          handleSearch={handleSearch}
         />
       ))}
 

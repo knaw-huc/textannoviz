@@ -1,20 +1,33 @@
+import { Button } from "react-aria-components";
 import { LanguageCode } from "../../../model/Language";
 import { useTranslateProject } from "../../../stores/project";
 import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
 export function ArtworkCard(props: {
   artwork: Artwork;
   interfaceLang: LanguageCode;
+  handleSearch: (artwork: Artwork) => void;
 }) {
   const { artwork, interfaceLang } = props;
   const translateProject = useTranslateProject();
 
   return (
     <div className="h-auto rounded bg-neutral-50 p-5 shadow-sm">
-      <div className="mb-4 font-bold">
-        {artwork.head[interfaceLang].length
-          ? artwork.head[interfaceLang]
-          : `${artwork.id} has no/empty/incorrect 'head' element in XML!`}
+      <div className="mb-4 flex flex-row items-center">
+        <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
+          {artwork.head[interfaceLang].length
+            ? artwork.head[interfaceLang]
+            : `${artwork.id} has no/empty/incorrect 'head' element in XML!`}
+        </div>
+        <div className="flex flex-row items-center justify-end gap-1">
+          <Button onPress={() => props.handleSearch(artwork)}>
+            <MagnifyingGlassIcon
+              aria-hidden
+              className="h-4 w-4 cursor-pointer"
+            />
+          </Button>
+        </div>
       </div>
       {artwork.relation
         ? artwork.relation.map((relation) => (
