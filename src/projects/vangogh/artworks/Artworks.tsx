@@ -1,6 +1,4 @@
 import React from "react";
-// import { SearchQuery } from "../../../model/Search.ts";
-// import { encodeObject } from "../../../utils/url/UrlParamUtils.ts";
 import { handleAbort } from "../../../utils/handleAbort.tsx";
 import {
   ArtworkSections,
@@ -11,7 +9,6 @@ import {
   useTranslateProject,
   useProjectStore,
 } from "../../../stores/project.ts";
-// import { getViteEnvVars } from "../../../utils/viteEnvVars.ts";
 import { ArtworkTabs } from "./ArtworkTabs.tsx";
 import { fetchArtworks } from "./fetchArtworks.ts";
 
@@ -21,7 +18,6 @@ export function Artworks() {
   const [artworks, setArtworks] = React.useState<Partial<ArtworkData>>({});
   // const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  // const { routerBasename } = getViteEnvVars();
   const translateProject = useTranslateProject();
   const artworksUrl = useProjectStore(projectConfigSelector).artworksUrl;
 
@@ -69,20 +65,6 @@ export function Artworks() {
   //     };
   //   }
   // }, [artworks]);
-
-  // function searchArtwork(artw: Artwork) {
-  //   const query: Partial<SearchQuery> = {
-  //     terms: {
-  //       [`artworkIds`]: [artw.id],
-  //     },
-  //   };
-
-  //   const encodedQuery = encodeObject({ query: query });
-  //   window.open(
-  //     `${routerBasename === "/" ? "" : routerBasename}/?${encodedQuery}`,
-  //     "_blank",
-  //   );
-  // }
 
   return (
     <>
