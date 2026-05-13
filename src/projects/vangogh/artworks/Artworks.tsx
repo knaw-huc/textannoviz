@@ -68,7 +68,7 @@ export function Artworks() {
 
   return (
     <>
-      <h1 className="pl-8">{translateProject("artworks")}</h1>
+      <h1 className="mb-0 pl-8">{translateProject("artworks")}</h1>
       <ArtworkTabs artworks={artworks} />
     </>
   );
