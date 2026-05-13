@@ -1,13 +1,11 @@
-export {
-  AnnotatedText,
-  type AnyAnnotatedTextComponents,
-} from "./AnnotatedText.tsx";
+export { AnnotatedText, AnnotatedTextProvider } from "./AnnotatedText.tsx";
 
 export type {
   NestedProps,
   HighlightProps,
   MarkerProps,
   GroupProps,
+  AnyAnnotatedTextComponents,
 } from "./AnnotatedText.tsx";
 
 export type {

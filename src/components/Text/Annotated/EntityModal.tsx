@@ -11,10 +11,13 @@ import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 import { useTextStore } from "../../../stores/text/text-store.ts";
 import { ScrollableModal } from "../../common/ScrollableModal.tsx";
 import { isNested } from "./utils/isNested.ts";
+import { AnnotatedTextProvider } from "./core/AnnotatedText.tsx";
 
 export function EntityModal() {
   const translateProject = useTranslateProject();
-  const { isEntity, components } = useProjectStore(projectConfigSelector);
+  const { isEntity, components, annotatedTextComponents } = useProjectStore(
+    projectConfigSelector,
+  );
   const clickedGroup = useTextStore((s) => s.clickedGroup);
   const setClickedGroup = useTextStore((s) => s.setClickedGroup);
 
@@ -30,7 +33,9 @@ export function EntityModal() {
       {clickedGroup && (
         <>
           <StyledText panel="text-modal">
-            <TextSegmentsViewer segments={clickedGroup.segments} />
+            <AnnotatedTextProvider value={annotatedTextComponents}>
+              <TextSegmentsViewer segments={clickedGroup.segments} />
+            </AnnotatedTextProvider>
           </StyledText>
           <div className="rounded-b-lg bg-neutral-100 px-6 py-6 lg:px-10">
             <div className="mb-2 mt-4 font-bold">
