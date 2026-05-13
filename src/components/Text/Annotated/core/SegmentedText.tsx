@@ -3,6 +3,7 @@ import { createSegments } from "./utils/createSegments.ts";
 import { BlockSchema, createBlocks, removeInvalidBlocks } from "./block";
 import { useMemo } from "react";
 import { LazyElements } from "./LazyElements.tsx";
+import { debugSegments } from "./debugAnno.ts";
 
 type SegmentedTextProps = {
   body: string;
@@ -17,6 +18,7 @@ export function SegmentedText(props: SegmentedTextProps) {
     const segments = createSegments(body, offsets, blockSchema);
     const blocks = createBlocks(segments);
     const cleaned = removeInvalidBlocks(blocks, blockSchema);
+    debugSegments(offsets, segments);
     return cleaned;
   }, [body, offsets, blockSchema]);
 

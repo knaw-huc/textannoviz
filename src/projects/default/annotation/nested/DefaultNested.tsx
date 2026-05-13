@@ -10,6 +10,7 @@ import {
 } from "../../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { useGroup } from "../../../../components/Text/Annotated/core/inline/GroupContext.tsx";
+import { id } from "../../../../components/Text/Annotated/core/debugAnno.ts";
 
 export function DefaultNested(props: NestedProps<AnnoRepoBody>) {
   const projectConfig = useProjectStore(projectConfigSelector);
@@ -26,10 +27,7 @@ export function DefaultNested(props: NestedProps<AnnoRepoBody>) {
     classes.push(toEntityClassname(projectConfig, category));
   }
   classes.push(...createStartEndClasses(segment, nested, group?.offsets));
-
-  return (
-    <span className={classes.map(normalizeClassname).join(" ")}>
-      {children}
-    </span>
-  );
+  const normalized = classes.map(normalizeClassname);
+  normalized.push(id(nested.body.id) ?? "");
+  return <span className={normalized.join(" ")}>{children}</span>;
 }

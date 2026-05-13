@@ -2,6 +2,7 @@ import { BlockProps } from "../../../../components/Text/Annotated/core/Annotated
 import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { isQuote } from "../ProjectAnnotationModel.ts";
 import { findBlockSegments } from "./findBlockSegments.tsx";
+import { id } from "../../../../components/Text/Annotated/core/debugAnno.ts";
 
 export function Paragraph({ block, children }: BlockProps<AnnoRepoBody>) {
   const segments = findBlockSegments(block.children);
@@ -9,5 +10,5 @@ export function Paragraph({ block, children }: BlockProps<AnnoRepoBody>) {
   if (isBlockquote) {
     return <blockquote>{children}</blockquote>;
   }
-  return <p>{children}</p>;
+  return <p id={id(block.id)}>{children}</p>;
 }

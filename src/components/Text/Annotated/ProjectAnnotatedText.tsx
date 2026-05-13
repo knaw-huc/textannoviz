@@ -19,6 +19,7 @@ import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
 import { useMemo } from "react";
 import { mapRelativePositions } from "./utils/mapRelativePositions.ts";
+import { debugTextAnnoSlice } from "./core/debugAnno.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -104,6 +105,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     textBody,
   ]);
 
+  debugTextAnnoSlice(relativeAnnotations, annotations, textBody);
   return (
     <div className="annotated-text whitespace-pre-wrap">
       <AnnotatedText
