@@ -7,6 +7,7 @@ import { Panels } from "./components/Detail/Panels.tsx";
 import { useDetailViewStore } from "./stores/detail-view/detail-view-store";
 import { projectConfigSelector, useProjectStore } from "./stores/project";
 import { SkeletonLoader } from "./components/common/SkeletonLoader.tsx";
+import { EntityModal } from "./components/Text/Annotated/EntityModal.tsx";
 
 export const Detail = () => {
   return (
@@ -40,6 +41,7 @@ function DetailWithViewer() {
             <Panels />
           </main>
           <Footer />
+          <EntityModal />
         </>
       ) : (
         <SkeletonLoader />
