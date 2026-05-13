@@ -41,6 +41,15 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
     updateTabFromHash();
   }, [location.hash]);
 
+  function handleGlobalSearchCheckbox(
+    event: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
+  ) {
+    setIsGlobal(event.target.checked);
+    if (event.target.checked) {
+      setActiveTab("artworksAll");
+    }
+  }
+
   return (
     <Tabs
       className="flex w-full flex-col gap-4"
@@ -83,7 +92,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
               type="checkbox"
               className="h-5 w-5 rounded border-gray-300 accent-blue-600"
               checked={isGlobal}
-              onChange={(e) => setIsGlobal(e.target.checked)}
+              onChange={(event) => handleGlobalSearchCheckbox(event)}
             />
             Global Search
           </label>
