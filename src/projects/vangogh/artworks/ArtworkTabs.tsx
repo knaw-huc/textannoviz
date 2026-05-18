@@ -106,6 +106,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
+          setActiveTab={setActiveTab}
         />
       </TabPanel>
       <TabPanel
@@ -121,6 +122,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
+          setActiveTab={setActiveTab}
         />
       </TabPanel>
       <TabPanel
@@ -136,6 +138,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
+          setActiveTab={setActiveTab}
         />
       </TabPanel>
       <TabPanel
@@ -148,6 +151,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
+          setActiveTab={setActiveTab}
         />
       </TabPanel>
       <TabPanel
@@ -160,6 +164,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
+          setActiveTab={setActiveTab}
         />
       </TabPanel>
     </Tabs>
