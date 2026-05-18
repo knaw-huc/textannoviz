@@ -4,8 +4,8 @@ import { ArtworkCard } from "./ArtworkCard";
 import { ArtworkData } from "./Artworks";
 import React from "react";
 import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
-import { useLocation } from "react-router";
-import { getTabFromHash } from "./utils/getTabFromHash";
+// import { useLocation } from "react-router";
+// import { getTabFromHash } from "./utils/getTabFromHash";
 
 const tabStyling =
   "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-sm font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
@@ -15,7 +15,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
   const [query, setQuery] = React.useState("");
   const [isGlobal, setIsGlobal] = React.useState(false);
   const deferredQuery = React.useDeferredValue(query);
-  const location = useLocation();
+  // const location = useLocation();
 
   const globalPool = React.useMemo(() => {
     return Object.values(props.artworks).flat();
@@ -31,15 +31,15 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
     return isGlobal && query.trim() ? globalPool : tabItems;
   }
 
-  React.useEffect(() => {
-    function updateTabFromHash() {
-      const hash = location.hash.slice(1);
-      const tab = getTabFromHash(hash);
-      setActiveTab(tab);
-    }
+  // React.useEffect(() => {
+  //   function updateTabFromHash() {
+  //     const hash = location.hash.slice(1);
+  //     const tab = getTabFromHash(hash);
+  //     setActiveTab(tab);
+  //   }
 
-    updateTabFromHash();
-  }, [location.hash]);
+  //   updateTabFromHash();
+  // }, [location.hash]);
 
   return (
     <Tabs
