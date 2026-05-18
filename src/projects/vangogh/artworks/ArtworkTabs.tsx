@@ -4,6 +4,7 @@ import { ArtworkCard } from "./ArtworkCard";
 import { ArtworkData } from "./Artworks";
 import React from "react";
 import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
+import { ArtworkSearch } from "./ArtworkSearch";
 // import { useLocation } from "react-router";
 // import { getTabFromHash } from "./utils/getTabFromHash";
 
@@ -41,6 +42,14 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
   //   updateTabFromHash();
   // }, [location.hash]);
 
+  function handleQueryChange(newQuery: string) {
+    setQuery(newQuery);
+  }
+
+  function handleIsGlobalChecked(newChecked: boolean) {
+    setIsGlobal(newChecked);
+  }
+
   return (
     <Tabs
       className="flex w-full flex-col gap-4"
@@ -64,38 +73,14 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           Sketches
         </Tab>
       </TabList>
-      <div className="sticky top-16 z-10 mb-8 space-y-4 rounded-xl bg-neutral-100 p-6 shadow-inner">
-        <div className="flex items-center gap-4">
-          <input
-            type="text"
-            placeholder={
-              isGlobal
-                ? "Search all sections..."
-                : "Search within current section..."
-            }
-            className="flex-grow rounded-lg border-neutral-300 p-3 shadow-sm focus:ring-2 focus:ring-blue-500"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
 
-          <label className="flex cursor-pointer items-center gap-2 font-medium">
-            <input
-              type="checkbox"
-              className="h-5 w-5 rounded border-gray-300 accent-blue-600"
-              checked={isGlobal}
-              onChange={(e) => setIsGlobal(e.target.checked)}
-            />
-            Global Search
-          </label>
-        </div>
-      </div>
-      {query.trim() && (
-        <div className="mb-4 ml-8 text-xs font-semibold uppercase tracking-wider text-blue-500">
-          {isGlobal
-            ? `Showing results from all sections matching '${query}'`
-            : `Showing results from current section matching '${query}'`}
-        </div>
-      )}
+      <ArtworkSearch
+        query={query}
+        isGlobal={isGlobal}
+        handleQueryChange={handleQueryChange}
+        handleIsGlobalChecked={handleIsGlobalChecked}
+      />
+
       <TabPanel
         id="artworksAll"
         className="grid gap-6 px-8 pb-8"
