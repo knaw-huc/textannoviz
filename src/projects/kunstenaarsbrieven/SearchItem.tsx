@@ -22,10 +22,10 @@ export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
 
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
-    <li className="my-4 flex flex-col border-b border-neutral-400 pb-4">
+    <li className="my-4 flex flex-col pb-4 ">
       <Link
         to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
-        className="rounded bg-white text-neutral-900 no-underline shadow-sm"
+        className="group/card hover:border-300 rounded border-b bg-white text-neutral-900 no-underline shadow-sm"
       >
         <div className="flex flex-col p-4">
           <div className="font-semibold">{props.searchItemTitle}</div>
@@ -35,27 +35,31 @@ export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
             </div>
           ) : null}
         </div>
-      </Link>
-      {props.result._hits
-        ? Object.entries(props.result._hits).map(([viewType, hits]) => {
-            return (
-              <div key={viewType} className="w-full p-4">
-                <div className="mb-1 font-semibold">
-                  {translateProject(viewType)}:
+
+        {props.result._hits
+          ? Object.entries(props.result._hits).map(([viewType, hits]) => {
+              return (
+                <div
+                  key={viewType}
+                  className="w-full border-t border-neutral-200 p-4 transition group-hover/card:border-neutral-400 group-hover/card:text-neutral-900"
+                >
+                  <div className="mb-1 font-semibold">
+                    {translateProject(viewType)}:
+                  </div>
+                  <ul className="ml-4 list-disc">
+                    {hits.map((hit, index) => (
+                      <li
+                        className="mb-1 ml-4 list-disc font-serif text-base"
+                        dangerouslySetInnerHTML={{ __html: hit }}
+                        key={index}
+                      />
+                    ))}
+                  </ul>
                 </div>
-                <ul className="ml-4 list-disc">
-                  {hits.map((hit, index) => (
-                    <li
-                      className="mb-1 ml-4 list-disc font-serif text-base"
-                      dangerouslySetInnerHTML={{ __html: hit }}
-                      key={index}
-                    />
-                  ))}
-                </ul>
-              </div>
-            );
-          })
-        : null}
+              );
+            })
+          : null}
+      </Link>
     </li>
   );
 };
