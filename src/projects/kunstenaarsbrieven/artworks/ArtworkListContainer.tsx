@@ -8,8 +8,8 @@ import { Artwork } from "../annotation/ProjectAnnotationModel";
 import { SearchQuery } from "../../../model/Search";
 import { encodeObject } from "../../../utils/url/UrlParamUtils";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
-import { useLocation } from "react-router";
 import { Key } from "react-aria-components";
+import { useFilteredArtworks } from "../../vangogh/artworks/useFilteredArtworks";
 
 export function ArtworkListContainer(props: {
   items: Artwork[];
@@ -25,74 +25,16 @@ export function ArtworkListContainer(props: {
 }) {
   const { items, CardComponent, filter, query, isGlobal, setActiveTab } = props;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const [displayLimit, setDisplayLimit] = React.useState(100);
-  const observerTarget = React.useRef<HTMLDivElement | null>(null);
   const { routerBasename } = getViteEnvVars();
-  const location = useLocation();
 
-  const filteredData = React.useMemo(() => {
-    const hashId = location.hash.slice(1);
-    const hasQuery = query.trim() !== "";
-
-    syncActiveTabWithHash(hashId, setActiveTab);
-
-    if (hashId && !hasQuery) {
-      const focusedItem = items.find((item) => item.id === hashId);
-      if (focusedItem) {
-        return [focusedItem];
-      }
-    }
-
-    const shouldApplyFilter = filter && !(isGlobal && hasQuery);
-
-    let newItems = shouldApplyFilter ? items.filter(filter) : items;
-
-    if (hasQuery) {
-      const queryLower = query.toLowerCase();
-      newItems = newItems.filter(
-        (item) =>
-          item.head[interfaceLang]?.toLowerCase().includes(queryLower) ||
-          item.id.toLowerCase() === queryLower,
-      );
-    }
-    return newItems;
-  }, [
-    filter,
-    interfaceLang,
-    isGlobal,
-    items,
-    location.hash,
-    query,
-    setActiveTab,
-  ]);
-
-  const observerCallback = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      if (observerTarget.current) {
-        // Clean up previous observer
-        observerTarget.current = null;
-      }
-      if (node) {
-        observerTarget.current = node;
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (
-              entries[0].isIntersecting &&
-              displayLimit < filteredData.length
-            ) {
-              setDisplayLimit((prev) => prev + 100);
-            }
-          },
-          { threshold: 0.1 },
-        );
-        observer.observe(node);
-        return () => observer.disconnect();
-      }
-    },
-    [displayLimit, filteredData.length],
-  );
-
-  const visibleArtworks = filteredData.slice(0, displayLimit);
+  const { visibleArtworks, filteredData, displayLimit, observerCallback } =
+    useFilteredArtworks({
+      items,
+      filter,
+      query,
+      isGlobal,
+      setActiveTab,
+    });
 
   function handleSearch(artwork: Artwork) {
     const query: Partial<SearchQuery> = {
@@ -127,15 +69,4 @@ export function ArtworkListContainer(props: {
       </div>
     </>
   );
-}
-
-function syncActiveTabWithHash(
-  hashId: string,
-  setActiveTab: React.Dispatch<React.SetStateAction<Key>>,
-) {
-  if (hashId.startsWith("sketch")) {
-    setActiveTab("sketches");
-  } else if (hashId.startsWith("ill")) {
-    setActiveTab("artworksAll");
-  }
 }
