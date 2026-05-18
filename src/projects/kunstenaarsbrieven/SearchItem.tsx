@@ -23,18 +23,20 @@ export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
   const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
   return (
     <li className="my-4 flex flex-col border-b border-neutral-400 pb-4">
-      <Link
-        to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
-        className="group/card hover:border-300 rounded border-b bg-white text-neutral-900 no-underline shadow-sm"
-      >
-        <div className="flex flex-col p-4">
-          <div className="font-semibold">{props.searchItemTitle}</div>
-          {props.result.type === "letter" ? (
-            <div className="italic text-neutral-600">
-              {translateProject("LET_NUM")}: {letterNum}
-            </div>
-          ) : null}
-        </div>
+      <div className="group/card hover:border-300 rounded border-b bg-white text-neutral-900 no-underline shadow-sm">
+        <Link
+          to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
+          className=" hover:border-300  text-neutral-900 no-underline shadow-sm"
+        >
+          <div className="flex flex-col p-4">
+            <div className="font-semibold">{props.searchItemTitle}</div>
+            {props.result.type === "letter" ? (
+              <div className="italic text-neutral-600">
+                {translateProject("LET_NUM")}: {letterNum}
+              </div>
+            ) : null}
+          </div>
+        </Link>
 
         {props.result._hits
           ? Object.entries(props.result._hits).map(([viewType, hits]) => {
@@ -59,7 +61,7 @@ export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
               );
             })
           : null}
-      </Link>
+      </div>
     </li>
   );
 };
