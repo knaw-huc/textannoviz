@@ -32,4 +32,6 @@ cd deploy/dev
 docker compose up
 ```
 
-Open: http://localhost:5183/app/
+Open: http://localhost:5183/
+
+Project can be configured in `docker-dev.sh`.

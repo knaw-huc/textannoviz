@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectAnnotatedText } from "../../components/Text/Annotated/project/ProjectAnnotatedText";
+import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import {
   projectConfigSelector,
   useTranslateProject,

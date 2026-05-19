@@ -4,8 +4,9 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import { defaultConfig } from "../../default/config";
+import { defaultConfig } from "./index.tsx";
 import { englishLabels } from "./englishLabels";
+import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
 
 //RENAME THE VARIABLE!
 export const templateConfig: ProjectConfig = merge({}, defaultConfig, {
@@ -15,6 +16,7 @@ export const templateConfig: ProjectConfig = merge({}, defaultConfig, {
   annotationTypesToInclude: [
     "all annotations that should be shown/used in TAV",
   ],
+  isMarker: (body: AnnoRepoBodyBase) => ["my-marker-type"].includes(body.type),
   elasticIndexName: "REPLACEME",
   initialDateFrom: "1500-01-01",
   initialDateTo: "1800-01-01",
@@ -35,4 +37,5 @@ export const templateConfig: ProjectConfig = merge({}, defaultConfig, {
   viewsToSearchIn: ["replace with view as defined in Broccoli config/mapping"],
   showSearchInTextViews: false,
   showAnnotations: true,
+  markerAnnotationTypes: [],
 } as ProjectSpecificConfig);

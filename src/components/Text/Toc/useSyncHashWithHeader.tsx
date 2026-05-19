@@ -4,6 +4,7 @@ import { clearUrlHash, setUrlHash } from "../../../utils/url/UrlHashUtils.ts";
 
 export function useSyncHashWithHeader(): void {
   const activeHeader = useTextStore((s) => s.activeHeader);
+  const setActiveHeader = useTextStore((s) => s.setActiveHeader);
 
   useEffect(() => {
     if (activeHeader) {
@@ -12,4 +13,12 @@ export function useSyncHashWithHeader(): void {
       clearUrlHash();
     }
   }, [activeHeader]);
+
+  // Clear hash on unmount:
+  useEffect(() => {
+    return () => {
+      clearUrlHash();
+      setActiveHeader("");
+    };
+  }, [setActiveHeader]);
 }

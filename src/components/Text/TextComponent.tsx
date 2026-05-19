@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ProjectAnnotatedText } from "./Annotated/project/ProjectAnnotatedText";
+import { ProjectAnnotatedText } from "./Annotated/ProjectAnnotatedText.tsx";
 import {
   projectConfigSelector,
   useTranslateProject,
@@ -39,7 +39,6 @@ export const TextComponent = (props: TextComponentProps) => {
         </span>
         {text && !props.isLoading ? (
           <div className="flex justify-center">
-            {/* TODO 23102025: Use one of the pre-defined ARIA roles */}
             {/* eslint-disable-next-line jsx-a11y/aria-role */}
             <div className="prose max-w-[550px]" role="textpanel">
               {projectConfig.showAnnotations ? (

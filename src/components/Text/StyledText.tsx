@@ -6,7 +6,7 @@ export function StyledText(props: PropsWithChildren<{ panel: string }>) {
       id={props.panel}
       className="flex w-full flex-col border-t border-neutral-200 px-6 pb-8 pt-8 font-serif text-lg lg:px-10"
     >
-      {props.children}
+      <span>{props.children}</span>
     </div>
   );
 }

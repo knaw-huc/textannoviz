@@ -340,6 +340,18 @@ export function isHighlightBody(
   return toTest.type === "Highlight";
 }
 
+export type PageBody = AnnoRepoBodyBase & {
+  type: "Page";
+  n?: string;
+  elementName?: string;
+  "xml:id"?: string;
+  "tei:f"?: string;
+  "tei:facs"?: string;
+};
+
+export const isPageBody = (toTest: AnnoRepoBodyBase): toTest is PageBody =>
+  toTest.type === "Page";
+
 export type ImageTarget = {
   type: "Image";
   selector: ImageSelector[] | undefined;

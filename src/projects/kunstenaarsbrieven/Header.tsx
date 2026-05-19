@@ -6,7 +6,7 @@ import {
   useTranslateProject,
 } from "../../stores/project.ts";
 import { matchPath, useLocation, useNavigate } from "react-router";
-import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
+import { detailTier2Path } from "../../utils/detailPath.ts";
 import { Button, Text } from "react-aria-components";
 import { toast } from "../../utils/toast.ts";
 import React from "react";

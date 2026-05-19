@@ -8,7 +8,7 @@ import { matchPath, useLocation, useNavigate } from "react-router";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { Button } from "react-aria-components";
 import { isDocumentBody } from "./annotation/ProjectAnnotationModel.ts";
-import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
+import { detailTier2Path } from "../../utils/detailPath.ts";
 
 export const Header = () => {
   const projectConfig = useProjectStore(projectConfigSelector);

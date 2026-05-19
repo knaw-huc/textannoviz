@@ -5,25 +5,27 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { AnnotationButtons } from "../AnnotationButtons";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
 
-// import { TabRecipes } from "../../../components/Detail/TabRecipes.tsx";
 import { Empty } from "../../../components/Empty.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import {
   getAnnotationCategory,
   getHighlightCategory,
   isEntity,
-  projectEntityTypes,
-  projectHighlightedTypes,
-  projectInsertTextMarkerAnnotationTypes,
-  projectPageMarkerAnnotationTypes,
+  entityTypes,
+  highlightTypes,
+  insertTextMarkerTypes,
+  markerTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
+
+import { SurianoMarker } from "../annotation/SurianoMarker.tsx";
 
 export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "suriano",
@@ -79,12 +81,16 @@ export const surianoConfig: ProjectConfig = merge({}, defaultConfig, {
     "tei:Metamark",
   ],
   showAnnotations: true,
-  annotationTypesToHighlight: [],
-  entityAnnotationTypes: projectEntityTypes,
-  highlightedAnnotationTypes: projectHighlightedTypes,
+  annotatedTextComponents: {
+    ...defaultAnnotatedTextComponents,
+    Marker: SurianoMarker,
+  },
+  textHighlightingTypes: [],
+  nestedTypes: entityTypes,
+  isMarker: (body) =>
+    [...markerTypes, ...insertTextMarkerTypes].includes(body.type),
+  highlightTypes: highlightTypes,
   // TODO: use Reference instead of tei:Ptr
-  pageMarkerAnnotationTypes: projectPageMarkerAnnotationTypes,
-  insertTextMarkerAnnotationTypes: projectInsertTextMarkerAnnotationTypes,
 
   getAnnotationCategory: getAnnotationCategory,
   getHighlightCategory: getHighlightCategory,

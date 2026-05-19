@@ -6,7 +6,7 @@ export const englishLabels: Labels = {
   DATE_FROM: "From",
   DISPLAY_CONTEXT: "Display context",
   FROM: "Of",
-  NEW_SEARCH_QUERY: "New search query",
+  NEW_SEARCH_QUERY: "New search",
   NEXT: "Next",
   NO_SEARCH_HISTORY: "No search history",
   PREV: "Prev",
@@ -25,10 +25,12 @@ export const englishLabels: Labels = {
   RESULTS: "Results",
   FILTERS: "Filters",
   FILTER_FACETS: "Filter facets",
+  SELECT_VISIBLE_FACETS: "Select visible facets",
   facetInputFilterPlaceholder: "Search in facet",
 
   SHOW_MORE: "More",
   SHOW_LESS: "Less",
+  SEARCH_ONLY_IN_SELECTED_LAYERS: "Search only in selected text layers",
 
   RESET_DATE: "Reset date",
   LINE_CHART: "Line chart",
