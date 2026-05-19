@@ -21,20 +21,26 @@ export function ArtworkListContainer(props: {
   filter?: (item: Artwork) => boolean;
   query: string;
   isGlobal: boolean;
-  setActiveTab: React.Dispatch<React.SetStateAction<Key>>;
+  setActiveTab: (newTab: Key) => void;
 }) {
   const { items, CardComponent, filter, query, isGlobal, setActiveTab } = props;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const { routerBasename } = getViteEnvVars();
 
-  const { visibleArtworks, filteredData, displayLimit, observerCallback } =
-    useFilteredArtworks({
-      items,
-      filter,
-      query,
-      isGlobal,
-      setActiveTab,
-    });
+  const {
+    visibleArtworks,
+    filteredData,
+    displayLimit,
+    observerCallback,
+    isFocusedViewActive,
+    toggleFocusedView,
+  } = useFilteredArtworks({
+    items,
+    filter,
+    query,
+    isGlobal,
+    setActiveTab,
+  });
 
   function handleSearch(artwork: Artwork) {
     const query: Partial<SearchQuery> = {
@@ -52,6 +58,16 @@ export function ArtworkListContainer(props: {
 
   return (
     <>
+      {isFocusedViewActive && (
+        <div className="flex h-10 items-center justify-center p-4">
+          <button
+            onClick={toggleFocusedView}
+            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          >
+            Show All
+          </button>
+        </div>
+      )}
       {visibleArtworks.map((artw) => (
         <CardComponent
           key={artw.id}

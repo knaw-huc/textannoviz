@@ -1,12 +1,10 @@
 import { Key } from "react-aria-components";
+import { getTabFromHash } from "./getTabFromHash";
 
 export function syncActiveTabWithHash(
   hashId: string,
-  setActiveTab: React.Dispatch<React.SetStateAction<Key>>,
+  setActiveTab: (newId: Key) => void,
 ) {
-  if (hashId.startsWith("sketch")) {
-    setActiveTab("sketches");
-  } else if (hashId.startsWith("ill")) {
-    setActiveTab("artworksAll");
-  }
+  const tab = getTabFromHash(hashId);
+  setActiveTab(tab);
 }

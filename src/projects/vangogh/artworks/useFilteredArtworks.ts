@@ -13,21 +13,22 @@ export function useFilteredArtworks(props: {
   filter?: (item: Artwork) => boolean;
   query: string;
   isGlobal: boolean;
-  setActiveTab: React.Dispatch<React.SetStateAction<Key>>;
+  setActiveTab: (newTab: Key) => void;
 }) {
   const { items, filter, query, isGlobal, setActiveTab } = props;
   const location = useLocation();
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const [displayLimit, setDisplayLimit] = React.useState(100);
+  const [showFocusedOnly, setShowFocusedOnly] = React.useState(true);
   const observerTarget = React.useRef<HTMLDivElement | null>(null);
 
   const filteredData = React.useMemo(() => {
     const hashId = location.hash.slice(1);
     const hasQuery = query.trim() !== "";
 
-    // If hash is present and no search query, show only that item
-    if (hashId && !hasQuery) {
+    // If hash is present and no search query, show only that item (if showFocusedOnly is true)
+    if (hashId && !hasQuery && showFocusedOnly) {
       const focusedItem = items.find((item) => item.id === hashId);
       if (focusedItem) {
         return [focusedItem];
@@ -47,12 +48,20 @@ export function useFilteredArtworks(props: {
     }
 
     return newItems;
-  }, [filter, interfaceLang, isGlobal, items, location.hash, query]);
+  }, [
+    filter,
+    interfaceLang,
+    isGlobal,
+    items,
+    location.hash,
+    query,
+    showFocusedOnly,
+  ]);
 
   React.useEffect(() => {
     const hashId = location.hash.slice(1);
     syncActiveTabWithHash(hashId, setActiveTab);
-  }, [location.hash, setActiveTab]);
+  }, []);
 
   const observerCallback = React.useCallback(
     (node: HTMLDivElement | null) => {
@@ -82,11 +91,15 @@ export function useFilteredArtworks(props: {
   );
 
   const visibleArtworks = filteredData.slice(0, displayLimit);
+  const isFocusedViewActive =
+    showFocusedOnly && location.hash.slice(1) && !props.query.trim();
 
   return {
     filteredData,
     displayLimit,
     observerCallback,
     visibleArtworks,
+    isFocusedViewActive,
+    toggleFocusedView: () => setShowFocusedOnly(false),
   };
 }

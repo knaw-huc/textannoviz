@@ -5,18 +5,21 @@ import { ArtworkData } from "./Artworks";
 import React from "react";
 import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { ArtworkSearch } from "./ArtworkSearch";
-// import { useLocation } from "react-router";
-// import { getTabFromHash } from "./utils/getTabFromHash";
+import { useNavigate, useSearchParams } from "react-router";
+import { useLocation } from "react-router";
+import { getTabFromHash } from "./utils/getTabFromHash";
+import { isNavigationHash } from "./utils/isNavigationHash";
 
 const tabStyling =
   "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-sm font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
 
 export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
-  const [activeTab, setActiveTab] = React.useState<Key>("artworksAll");
   const [query, setQuery] = React.useState("");
   const [isGlobal, setIsGlobal] = React.useState(false);
   const deferredQuery = React.useDeferredValue(query);
-  // const location = useLocation();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const globalPool = React.useMemo(() => {
     return Object.values(props.artworks).flat();
@@ -28,19 +31,27 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
     "non-illustrated": nonIllustrated = [],
   } = props.artworks;
 
+  React.useEffect(() => {
+    const hashId = location.hash.slice(1);
+    if (!hashId) return;
+
+    const tabFromHash = getTabFromHash(hashId);
+    if (tabFromHash) {
+      const currentTab = searchParams.get("tab");
+      if (currentTab !== tabFromHash) {
+        const isNavHash = isNavigationHash(hashId);
+
+        // Only preserve hash if it's an artwork ID, not a navigation hash
+        const hashToPreserve = isNavHash ? "" : location.hash;
+
+        navigate(`?tab=${tabFromHash}${hashToPreserve}`, { replace: true });
+      }
+    }
+  }, [location.hash, navigate, searchParams]);
+
   function getDataSource(tabItems: Artwork[]) {
     return isGlobal && query.trim() ? globalPool : tabItems;
   }
-
-  // React.useEffect(() => {
-  //   function updateTabFromHash() {
-  //     const hash = location.hash.slice(1);
-  //     const tab = getTabFromHash(hash);
-  //     setActiveTab(tab);
-  //   }
-
-  //   updateTabFromHash();
-  // }, [location.hash]);
 
   function handleQueryChange(newQuery: string) {
     setQuery(newQuery);
@@ -50,11 +61,24 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
     setIsGlobal(newChecked);
   }
 
+  function handleTabChange(id: Key) {
+    if (typeof id === "number") return;
+
+    const currentTab = searchParams.get("tab") || "artworksAll";
+    const isSameTab = id === currentTab;
+
+    if (isSameTab && location.hash) {
+      return;
+    }
+
+    navigate(`?tab=${id}`, { replace: true });
+  }
+
   return (
     <Tabs
       className="flex w-full flex-col gap-4"
-      selectedKey={activeTab}
-      onSelectionChange={(key) => setActiveTab(key)}
+      selectedKey={searchParams.get("tab") || "artworksAll"}
+      onSelectionChange={(key) => handleTabChange(key)}
     >
       <TabList className="sticky top-0 z-20 flex w-full gap-4 border-b border-neutral-600 bg-white px-6 pt-6">
         <Tab id="artworksAll" className={tabStyling}>
@@ -91,7 +115,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange}
         />
       </TabPanel>
       <TabPanel
@@ -107,7 +131,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange}
         />
       </TabPanel>
       <TabPanel
@@ -123,7 +147,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange}
         />
       </TabPanel>
       <TabPanel
@@ -136,7 +160,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange}
         />
       </TabPanel>
       <TabPanel
@@ -149,7 +173,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange}
         />
       </TabPanel>
     </Tabs>
