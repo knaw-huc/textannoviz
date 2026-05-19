@@ -1,3 +1,5 @@
+@import "./components/Text/Annotated/annotated.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

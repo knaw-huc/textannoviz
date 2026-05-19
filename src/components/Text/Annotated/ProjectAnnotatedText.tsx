@@ -1,6 +1,5 @@
 import { BroccoliTextGeneric } from "../../../model/Broccoli.ts";
 import { useAnnotationStore } from "../../../stores/annotation.ts";
-import "./annotated.css";
 import {
   projectConfigSelector,
   useProjectStore,
