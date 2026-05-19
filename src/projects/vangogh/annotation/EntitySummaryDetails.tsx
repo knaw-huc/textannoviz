@@ -57,15 +57,13 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
             {/* <p>
               {translateProject("date")}: {artwork.date.text}
             </p> */}
-            {artwork.relation ? (
-              <p>
-                {artwork.relation.map((creator) => (
+            {artwork.relation
+              ? artwork.relation.map((creator) => (
                   <p key={creator.ref}>
                     {firstLetterToUppercase(creator.name)}: {creator.label}
                   </p>
-                ))}
-              </p>
-            ) : null}
+                ))
+              : null}
             {artwork.measure ? (
               <p>
                 {translateProject("size")}: {artwork.measure[0].quantity} x{" "}
