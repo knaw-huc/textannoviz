@@ -1,3 +1,5 @@
+@import "../../tailwind.css";
+
 /* Marker and highlight styling */
 .marker-head,
 .highlight-head {

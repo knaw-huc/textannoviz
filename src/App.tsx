@@ -31,8 +31,9 @@ const { project, config } = await selectProjectConfig();
  *  - runtime: load the project-specific css file in {@link Layout}
  */
 if (!prodMode) {
-  await import("./tailwind.css");
-  await import(`./projects/${project}/project.css`);
+  await import(`./projects/${project}/project.css`).catch(() =>
+    console.error(`No project.css found for ${project}`),
+  );
 }
 
 const router = await createRouter();
