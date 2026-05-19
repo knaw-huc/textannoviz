@@ -61,7 +61,9 @@ function Layout() {
       {prodMode && (
         <link
           rel="stylesheet"
-          href={`${import.meta.env.BASE_URL}/${project}.css`}
+          href={`${
+            routerBasename === "/" ? "" : routerBasename
+          }/${project}.css`}
         />
       )}
       <Header />
