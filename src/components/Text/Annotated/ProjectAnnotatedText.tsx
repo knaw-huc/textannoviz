@@ -15,7 +15,6 @@ import {
 } from "./utils/createTextOffsets.ts";
 import { AnnotatedText, TextPositions } from "./core";
 import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffsets.ts";
-import { EntityModal } from "./EntityModal.tsx";
 import { orThrow } from "../../../utils/orThrow.tsx";
 import { useMemo } from "react";
 import { mapRelativePositions } from "./utils/mapRelativePositions.ts";
@@ -111,9 +110,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
         text={textBody}
         offsets={offsets}
         blockSchema={projectConfig.blockSchema}
-      >
-        <EntityModal />
-      </AnnotatedText>
+      />
     </div>
   );
 };
