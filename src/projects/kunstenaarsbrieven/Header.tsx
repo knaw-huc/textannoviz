@@ -13,6 +13,7 @@ import React from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { Menu, MenuItem, MenuTrigger, SubmenuTrigger } from "./Menu.tsx";
 import { ChevronDown } from "../../components/common/icons/ChevronDown.tsx";
+import { buildNavLink } from "./utils/buildNavLink.ts";
 
 type HeaderProps = {
   introIds: { name: string; id: string }[];
@@ -21,26 +22,26 @@ type HeaderProps = {
 };
 
 // Individual link in menu
-interface MenuItem {
+type MenuItem = {
   label: string;
   target: string;
-}
+};
 
 /**
  * Represents a menu category.
  * It can contain a list of `items` (links)
  * OR another `menu` array (nested categories).
  */
-interface MenuCategory {
+type MenuCategory = {
   label: string;
   items?: MenuItem[];
   menu?: MenuCategory[];
-}
+};
 
 // Root structure of menu
-interface RootMenu {
+type RootMenu = {
   menu: MenuCategory[];
-}
+};
 
 export const Header = (props: HeaderProps) => {
   const [menu, setMenu] = React.useState<RootMenu>();
@@ -158,11 +159,7 @@ export const Header = (props: HeaderProps) => {
                 {category.items?.map((item) => (
                   <MenuItem
                     key={item.target}
-                    onAction={() =>
-                      navigate(
-                        `/detail/urn:mace:huc.knaw.nl:vangogh:${item.target}`,
-                      )
-                    }
+                    onAction={() => navigate(buildNavLink(item.target))}
                   >
                     <Text slot="label">{item.label}</Text>
                   </MenuItem>
@@ -176,11 +173,7 @@ export const Header = (props: HeaderProps) => {
                       {submenu.items?.map((item) => (
                         <MenuItem
                           key={item.target}
-                          onAction={() =>
-                            navigate(
-                              `/detail/urn:mace:huc.knaw.nl:vangogh:${item.target}`,
-                            )
-                          }
+                          onAction={() => navigate(buildNavLink(item.target))}
                         >
                           <Text slot="label">{item.label}</Text>
                         </MenuItem>
