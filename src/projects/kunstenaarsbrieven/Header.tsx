@@ -88,25 +88,6 @@ export const Header = (props: HeaderProps) => {
           className="mr-4 hidden flex-row gap-4 text-sm *:no-underline lg:flex"
           aria-label="Main navigation"
         >
-          {/* Placeholder buttons until branch `500-menu-structure` is merged */}
-          <Button
-            className="text-inherit no-underline hover:underline"
-            onPress={() => navigate("/artworks#illustrated")}
-          >
-            Artworks (illustrated)
-          </Button>
-          <Button
-            className="text-inherit no-underline hover:underline"
-            onPress={() => navigate("/artworks#non-illustrated")}
-          >
-            Artworks (non-illustrated)
-          </Button>
-          <Button
-            className="text-inherit no-underline hover:underline"
-            onPress={() => navigate("/artworks#sketches")}
-          >
-            Sketches
-          </Button>
           {props.introIds.map((introId) => (
             <Button
               key={introId.id}
