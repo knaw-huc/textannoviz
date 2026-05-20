@@ -6,5 +6,7 @@ export function syncActiveTabWithHash(
   setActiveTab: (newId: Key) => void,
 ) {
   const tab = getTabFromHash(hashId);
-  setActiveTab(tab);
+  if (tab) {
+    setActiveTab(tab);
+  }
 }

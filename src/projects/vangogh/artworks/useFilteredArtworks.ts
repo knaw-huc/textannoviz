@@ -6,7 +6,7 @@ import {
   useProjectStore,
 } from "../../../stores/project";
 import React from "react";
-import { syncActiveTabWithHash } from "./utils/syncActiveHeaderWithHash";
+import { syncActiveTabWithHash } from "./utils/syncActiveTabWithHash";
 
 export function useFilteredArtworks(props: {
   items: Artwork[];

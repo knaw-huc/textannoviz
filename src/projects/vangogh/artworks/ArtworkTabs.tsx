@@ -64,7 +64,9 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
   function handleTabChange(id: Key) {
     if (typeof id === "number") return;
 
-    const currentTab = searchParams.get("tab") || "artworksAll";
+    const currentTab = searchParams.get("tab");
+    if (!currentTab) return;
+
     const isSameTab = id === currentTab;
 
     if (isSameTab && location.hash) {

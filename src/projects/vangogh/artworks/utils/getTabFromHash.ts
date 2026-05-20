@@ -1,7 +1,7 @@
 import { Key } from "react-aria-components";
 import { HASH_CONFIG } from "./hashConfig";
 
-export function getTabFromHash(hash: string): Key {
+export function getTabFromHash(hash: string): Key | undefined {
   // Check navigation hashes first
   if (hash in HASH_CONFIG.navigation) {
     return HASH_CONFIG.navigation[hash as keyof typeof HASH_CONFIG.navigation];
@@ -13,6 +13,4 @@ export function getTabFromHash(hash: string): Key {
       return tab as Key;
     }
   }
-
-  return "artworksAll";
 }
