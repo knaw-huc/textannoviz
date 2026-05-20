@@ -49,23 +49,6 @@ export function Artworks() {
     };
   }, []);
 
-  // React.useEffect(() => {
-  //   if (!artworks) return;
-  //   const artwId = window.location.hash.split("#")[1];
-  //   if (!artwId) return;
-  //   const element = artworkRefs.current[artwId];
-  //   if (element) {
-  //     element.scrollIntoView({ behavior: "smooth", block: "center" });
-  //     element.style.setProperty("background-color", "#FFCE01", "important");
-  //     const timeout = setTimeout(() => {
-  //       element.style.removeProperty("background-color");
-  //     }, 2000);
-  //     return () => {
-  //       clearTimeout(timeout);
-  //     };
-  //   }
-  // }, [artworks]);
-
   return (
     <>
       <h1 className="pl-8">{translateProject("artworks")}</h1>
