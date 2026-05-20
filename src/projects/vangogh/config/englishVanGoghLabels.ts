@@ -75,6 +75,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   //Header
   persons: "Persons",
   artworks: "Artworks",
+  chronology: "Chronology",
   introHeader: "About this edition",
   bibliography: "Bibliography",
   TITLE_PT_1: "Vincent van Gogh",

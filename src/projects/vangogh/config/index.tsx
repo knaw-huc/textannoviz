@@ -9,6 +9,7 @@ import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 import { Artworks } from "../Artworks";
 import { Bibliography } from "../Bibliography";
+import { Chronology } from "../Chronology";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
@@ -142,6 +143,10 @@ export const vangoghConfig: ProjectConfig = merge(
       {
         path: "bibliography",
         element: <Bibliography />,
+      },
+      {
+        path: "chronology",
+        element: <Chronology />,
       },
     ],
     zoomToAnnoOnFacsimile: true,

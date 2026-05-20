@@ -57,7 +57,7 @@ export default function App() {
 
 function Layout() {
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-dvh flex-col overflow-hidden">
       {prodMode && (
         <link
           rel="stylesheet"
@@ -67,7 +67,9 @@ function Layout() {
         />
       )}
       <Header />
-      <Outlet />
+      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+        <Outlet />
+      </main>
     </div>
   );
 }
