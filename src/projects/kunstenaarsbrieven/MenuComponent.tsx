@@ -1,0 +1,96 @@
+import { ChevronDown } from "../../components/common/icons/ChevronDown";
+import { buildNavLink } from "./utils/buildNavLink";
+import React from "react";
+import {
+  Menu,
+  MenuItem,
+  MenuTrigger,
+  SubmenuTrigger,
+} from "../../components/common/Menu";
+import { Button, Text } from "react-aria-components";
+import { useNavigate } from "react-router";
+
+// Individual link in menu
+type MenuItem = {
+  label: string;
+  target: string;
+};
+
+/**
+ * Represents a menu category.
+ * It can contain a list of `items` (links)
+ * OR another `menu` array (nested categories).
+ */
+type MenuCategory = {
+  label: string;
+  items?: MenuItem[];
+  menu?: MenuCategory[];
+};
+
+// Root structure of menu
+export type RootMenu = {
+  menu: MenuCategory[];
+};
+
+export function MenuComponent(props: { menu: RootMenu | undefined }) {
+  const { menu } = props;
+  const [openMenuLabel, setOpenMenuLabel] = React.useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const menuStyling =
+    "min-w-[220px] rounded-xl bg-white px-3 py-2 shadow-md outline-none ring-1 ring-black/5";
+  const menuItemStyling =
+    "flex cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:text-neutral-900 focus:bg-[#FFCE01] focus:outline-none focus-visible:bg-[#FFCE01] focus-visible:text-neutral-900 focus-visible:outline-none";
+
+  return (
+    <>
+      {menu?.menu.map((category) => (
+        <MenuTrigger
+          key={category.label}
+          isOpen={openMenuLabel === category.label}
+          onOpenChange={(isOpen) =>
+            setOpenMenuLabel(isOpen ? category.label : null)
+          }
+        >
+          <Button className="flex items-center gap-1 rounded-md hover:underline">
+            {category.label}
+            <ChevronDown
+              className={`transition-transform ${
+                openMenuLabel === category.label ? "rotate-180" : ""
+              }`}
+            />
+          </Button>
+          <Menu className={menuStyling}>
+            {category.items?.map((item) => (
+              <MenuItem
+                key={item.target}
+                className={menuItemStyling}
+                onAction={() => navigate(buildNavLink(item.target))}
+              >
+                <Text slot="label">{item.label}</Text>
+              </MenuItem>
+            ))}
+            {category.menu?.map((submenu) => (
+              <SubmenuTrigger key={submenu.label}>
+                <MenuItem className={menuItemStyling}>
+                  <Text slot="label">{submenu.label}</Text>
+                </MenuItem>
+                <Menu className={menuStyling}>
+                  {submenu.items?.map((item) => (
+                    <MenuItem
+                      key={item.target}
+                      className={menuItemStyling}
+                      onAction={() => navigate(buildNavLink(item.target))}
+                    >
+                      <Text slot="label">{item.label}</Text>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </SubmenuTrigger>
+            ))}
+          </Menu>
+        </MenuTrigger>
+      ))}
+    </>
+  );
+}

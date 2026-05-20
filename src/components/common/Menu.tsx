@@ -4,32 +4,20 @@ import {
   MenuItem as AriaMenuItem,
   type MenuProps,
   type MenuItemProps,
-  MenuSection as AriaMenuSection,
-  type MenuSectionProps as AriaMenuSectionProps,
   MenuTrigger as AriaMenuTrigger,
   SubmenuTrigger as AriaSubmenuTrigger,
-  Separator,
-  type SeparatorProps,
-  Header,
-  Collection,
   type SubmenuTriggerProps,
   type MenuTriggerProps as AriaMenuTriggerProps,
   Popover,
   type PopoverProps,
 } from "react-aria-components/Menu";
 import { composeRenderProps } from "react-aria-components/composeRenderProps";
-import { ChevronRight } from "../../components/common/icons/ChevronRight";
-import { Any } from "../../utils/Any";
+import { ChevronRight } from "./icons/ChevronRight";
 
 // Adapted from https://react-aria.adobe.com/Menu
 
 export function Menu<T extends object>(props: MenuProps<T>) {
-  return (
-    <AriaMenu
-      {...props}
-      className="min-w-[220px] rounded-xl bg-white px-3 py-2 shadow-md outline-none ring-1 ring-black/5"
-    />
-  );
+  return <AriaMenu {...props} />;
 }
 
 export function MenuItem(props: MenuItemProps) {
@@ -37,11 +25,7 @@ export function MenuItem(props: MenuItemProps) {
     props.textValue ||
     (typeof props.children === "string" ? props.children : undefined);
   return (
-    <AriaMenuItem
-      textValue={textValue}
-      {...props}
-      className="flex cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:text-neutral-900 focus:bg-[#FFCE01] focus:outline-none focus-visible:bg-[#FFCE01] focus-visible:text-neutral-900 focus-visible:outline-none"
-    >
+    <AriaMenuItem textValue={textValue} {...props}>
       {composeRenderProps(
         props.children,
         (children, { selectionMode, isSelected, hasSubmenu }) => (
@@ -59,36 +43,6 @@ export function MenuItem(props: MenuItemProps) {
         ),
       )}
     </AriaMenuItem>
-  );
-}
-
-export function MenuSeparator(props: SeparatorProps) {
-  return (
-    <Separator
-      {...props}
-      className="mx-3 my-1 border-b border-neutral-300 dark:border-neutral-700"
-    />
-  );
-}
-
-export interface MenuSectionProps<T> extends AriaMenuSectionProps<T> {
-  title?: string;
-  items?: Any;
-}
-
-export function MenuSection<T extends object>(props: MenuSectionProps<T>) {
-  return (
-    <AriaMenuSection
-      {...props}
-      className="after:block after:h-[5px] after:content-[''] first:-mt-[5px]"
-    >
-      {props.title && (
-        <Header className="sticky -top-[5px] z-10 -mx-1 -mt-px truncate border-y border-y-neutral-200 bg-neutral-100/60 px-4 py-1 text-sm font-semibold text-neutral-500 backdrop-blur-md supports-[-moz-appearance:none]:bg-neutral-100 dark:border-y-neutral-700 dark:bg-neutral-700/60 dark:text-neutral-300 [&+*]:mt-1">
-          {props.title}
-        </Header>
-      )}
-      <Collection items={props.items}>{props.children}</Collection>
-    </AriaMenuSection>
   );
 }
 

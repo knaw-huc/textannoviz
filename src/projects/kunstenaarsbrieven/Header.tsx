@@ -7,13 +7,11 @@ import {
 } from "../../stores/project.ts";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import { detailTier2Path } from "../../utils/detailPath.ts";
-import { Button, Text } from "react-aria-components";
+import { Button } from "react-aria-components";
 import { toast } from "../../utils/toast.ts";
 import React from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
-import { Menu, MenuItem, MenuTrigger, SubmenuTrigger } from "./Menu.tsx";
-import { ChevronDown } from "../../components/common/icons/ChevronDown.tsx";
-import { buildNavLink } from "./utils/buildNavLink.ts";
+import { MenuComponent, RootMenu } from "./MenuComponent.tsx";
 
 type HeaderProps = {
   introIds: { name: string; id: string }[];
@@ -21,32 +19,9 @@ type HeaderProps = {
   letterNumber: string | undefined;
 };
 
-// Individual link in menu
-type MenuItem = {
-  label: string;
-  target: string;
-};
-
-/**
- * Represents a menu category.
- * It can contain a list of `items` (links)
- * OR another `menu` array (nested categories).
- */
-type MenuCategory = {
-  label: string;
-  items?: MenuItem[];
-  menu?: MenuCategory[];
-};
-
-// Root structure of menu
-type RootMenu = {
-  menu: MenuCategory[];
-};
-
 export const Header = (props: HeaderProps) => {
   const [menu, setMenu] = React.useState<RootMenu>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [openMenuLabel, setOpenMenuLabel] = useState<string | null>(null);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useTranslateProject();
   const navigate = useNavigate();
@@ -137,53 +112,7 @@ export const Header = (props: HeaderProps) => {
           className="hidden flex-row gap-4 text-sm *:no-underline lg:flex"
           aria-label="Main navigation"
         >
-          {menu?.menu.map((category) => (
-            <MenuTrigger
-              key={category.label}
-              isOpen={openMenuLabel === category.label}
-              onOpenChange={(isOpen) =>
-                setOpenMenuLabel(isOpen ? category.label : null)
-              }
-            >
-              <Button
-                className={`flex items-center gap-1 rounded-md font-medium hover:underline`}
-              >
-                {category.label}
-                <ChevronDown
-                  className={`transition-transform ${
-                    openMenuLabel === category.label ? "rotate-180" : ""
-                  }`}
-                />
-              </Button>
-              <Menu>
-                {category.items?.map((item) => (
-                  <MenuItem
-                    key={item.target}
-                    onAction={() => navigate(buildNavLink(item.target))}
-                  >
-                    <Text slot="label">{item.label}</Text>
-                  </MenuItem>
-                ))}
-                {category.menu?.map((submenu) => (
-                  <SubmenuTrigger key={submenu.label}>
-                    <MenuItem className="flex items-center justify-between rounded-md px-3 py-2">
-                      <Text slot="label">{submenu.label}</Text>
-                    </MenuItem>
-                    <Menu>
-                      {submenu.items?.map((item) => (
-                        <MenuItem
-                          key={item.target}
-                          onAction={() => navigate(buildNavLink(item.target))}
-                        >
-                          <Text slot="label">{item.label}</Text>
-                        </MenuItem>
-                      ))}
-                    </Menu>
-                  </SubmenuTrigger>
-                ))}
-              </Menu>
-            </MenuTrigger>
-          ))}
+          <MenuComponent menu={menu} />
         </nav>
       </div>
 
