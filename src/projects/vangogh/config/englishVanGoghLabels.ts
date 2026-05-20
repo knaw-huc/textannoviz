@@ -57,7 +57,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
-  NO_ARTWORKS: "No artworks in this letter.",
+  NO_ARTWORKS: "No artworks in this document.",
   letter: "Letter",
   invNr: "Shelfmark",
   addInfo: "Additional information",
