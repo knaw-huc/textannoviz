@@ -17,6 +17,7 @@ type HeaderProps = {
   introIds: { name: string; id: string }[];
   letterTitle: string;
   letterNumber: string | undefined;
+  menuUrl: string;
 };
 
 export const Header = (props: HeaderProps) => {
@@ -30,10 +31,7 @@ export const Header = (props: HeaderProps) => {
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initPersons(aborter: AbortController) {
-      const newMenu = await fetchMenu(
-        "http://localhost:8040/files/vangogh/menu/menu.json",
-        aborter.signal,
-      );
+      const newMenu = await fetchMenu(props.menuUrl, aborter.signal);
       if (!newMenu) return;
 
       setMenu(newMenu);
