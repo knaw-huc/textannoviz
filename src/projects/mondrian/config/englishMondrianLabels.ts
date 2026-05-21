@@ -77,7 +77,7 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   artworks: "Artworks",
   introHeader: "About this edition",
   bibliography: "Bibliography",
-  TITLE_PT_1: "Vincent van Gogh",
+  TITLE_PT_1: "Piet Mondriaan",
   TITLE_PT_2: "The Letters",
   help: "Help",
   OPEN_MAIN_NAVIGATION: "Open navigation",
@@ -96,7 +96,7 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   credits: "Credits",
 
   //Search info page
-  INFO_TITLE: "The letters of Vincent van Gogh",
+  INFO_TITLE: "The letters of Piet Mondriaan",
   EDITED_BY: "",
   P1: "",
   P2: "",
