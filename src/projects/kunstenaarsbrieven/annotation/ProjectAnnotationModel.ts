@@ -192,10 +192,10 @@ export type LetterReferenceBody = AnnoRepoBodyBase & {
 export const isLetterReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is LetterReferenceBody => {
-  const result =
+  return (
     isReference(toTest) &&
-    (toTest as LetterReferenceBody).subtype === "LetterReference";
-  return result;
+    (toTest as LetterReferenceBody).subtype === "LetterReference"
+  );
 };
 
 export type NoteReferenceBody = AnnoRepoBodyBase & {
@@ -241,6 +241,10 @@ export type LetterBody = AnnoRepoBodyBase & {
   titles: Record<ViewLang, string>;
   title: string;
   recipient: string | string[];
+  shelfmark: string;
+  fromLocation: string;
+  toLocation: string;
+  dateSent: string;
 };
 
 export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {

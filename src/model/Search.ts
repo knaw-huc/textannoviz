@@ -115,12 +115,12 @@ export type DefaultSearchResultsBody = {
 };
 
 export type SurianoSearchResultsBody = DefaultSearchResultsBody & {
-  bodyType: string;
+  type: string;
   date: string;
   recipient: string;
-  recipientLoc: string;
+  toLocation: string;
   sender: string;
-  senderLoc: string;
+  fromLocation: string;
   shelfmark: string;
   summary: string;
   _hits: {
