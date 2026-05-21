@@ -8,6 +8,7 @@ import { republicConfig } from "./republic/config";
 import { israelsConfig } from "./israels/config";
 import { brederodeConfig } from "./brederode/config";
 import { oratiesConfig } from "./oraties/config";
+import { mondrianConfig } from "./mondrian/config";
 
 export const projectConfigs = {
   vangogh: vangoghConfig,
@@ -15,6 +16,7 @@ export const projectConfigs = {
   suriano: surianoConfig,
   translatin: translatinConfig,
   mondriaan: mondriaanConfig,
+  mondrian: mondrianConfig,
   globalise: globaliseConfig,
   republic: republicConfig,
   israels: israelsConfig,
