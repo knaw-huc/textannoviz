@@ -11,12 +11,15 @@ import {
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { EntitySummaryDetails } from "./EntitySummaryDetails";
 import {
+  Artwork,
   getAnnotationCategory,
   isArtwork,
   isBibliographyReference,
+  isEntity,
   isLetterReference,
   isPerson,
   isReference,
+  PersonTeiRef,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 import { toast } from "../../../utils/toast.ts";
@@ -26,17 +29,9 @@ const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:vangogh:";
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useTranslateProject();
   const interfaceLang = projectConfig.selectedLanguage;
 
   const { routerBasename } = getViteEnvVars();
-
-  const entityCategory = toEntityCategory(
-    projectConfig,
-    getAnnotationCategory(body),
-  );
-
-  const entityClassname = toEntityClassname(projectConfig, entityCategory);
 
   const handleEntitySearchClick = () => {
     const basePath = routerBasename === "/" ? "" : routerBasename;
@@ -69,12 +64,62 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   };
 
   return (
+    <>
+      {isEntity(body) ? (
+        Array.isArray(body["tei:ref"]) ? (
+          body["tei:ref"].map((entityBody) => (
+            <EntityComponent
+              body={body}
+              key={entityBody.id}
+              entityBody={entityBody}
+              handleEntitySearchClick={handleEntitySearchClick}
+              handleMoreInfoClick={handleMoreInfoClick}
+            />
+          ))
+        ) : (
+          <EntityComponent
+            body={body}
+            key={body["tei:ref"].id}
+            entityBody={body["tei:ref"]}
+            handleEntitySearchClick={handleEntitySearchClick}
+            handleMoreInfoClick={handleMoreInfoClick}
+          />
+        )
+      ) : null}
+    </>
+  );
+}
+
+function EntityComponent(props: {
+  body: AnnoRepoBody;
+  entityBody: PersonTeiRef | Artwork;
+  handleEntitySearchClick: () => void;
+  handleMoreInfoClick: () => void;
+}) {
+  const { body, entityBody, handleEntitySearchClick, handleMoreInfoClick } =
+    props;
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useTranslateProject();
+
+  const entityCategory = toEntityCategory(
+    projectConfig,
+    getAnnotationCategory(body),
+  );
+
+  console.log(entityCategory);
+
+  const entityClassname = toEntityClassname(projectConfig, entityCategory);
+
+  return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
       <>
         <div className={`${entityClassname} annotationMarker italic`}>
           {translateProject(entityCategory)}
         </div>
-        <EntitySummaryDetails body={body} />
+        <EntitySummaryDetails
+          entityBody={entityBody}
+          entityCategory={entityCategory}
+        />
       </>
       <div className="flex">
         <div>

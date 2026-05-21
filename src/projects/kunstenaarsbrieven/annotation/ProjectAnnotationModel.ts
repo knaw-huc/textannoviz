@@ -49,7 +49,7 @@ export type ArtworkBody = AnnoRepoBodyBase & {
   type: typeof entity;
   elementName: typeof elementRs;
   "tei:type": typeof teiArtwork;
-  "tei:ref": ArtworkTeiRef;
+  "tei:ref": ArtworkTeiRef | ArtworkTeiRef[];
 };
 
 export type Artwork = ArtworkTeiRef;
@@ -117,7 +117,7 @@ export type PersonBody = AnnoRepoBodyBase & {
   type: typeof entity;
   elementName: typeof elementRs;
   "tei:type": typeof person;
-  "tei:ref": PersonTeiRef;
+  "tei:ref": PersonTeiRef | PersonTeiRef[];
 };
 export type Person = PersonTeiRef;
 export type PersonTeiRef = {

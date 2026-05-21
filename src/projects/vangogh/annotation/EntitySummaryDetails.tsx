@@ -1,4 +1,3 @@
-import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -6,18 +5,20 @@ import {
 } from "../../../stores/project";
 import {
   Artwork,
-  isArtwork,
-  isPerson,
   Person,
+  PersonTeiRef,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
-export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
-  if (isPerson(props.body)) {
-    return <PersonEntity persons={[props.body["tei:ref"]]} />;
+export const EntitySummaryDetails = (props: {
+  entityBody: PersonTeiRef | Artwork;
+  entityCategory: string;
+}) => {
+  if (props.entityCategory === "PER") {
+    return <PersonEntity persons={[props.entityBody as Person]} />;
   }
 
-  if (isArtwork(props.body)) {
-    return <ArtworkEntity artworks={[props.body["tei:ref"]]} />;
+  if (props.entityCategory === "ART") {
+    return <ArtworkEntity artworks={[props.entityBody as Artwork]} />;
   }
   return null;
 };
