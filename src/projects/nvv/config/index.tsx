@@ -23,8 +23,8 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   siteTitle: "Van Gogh Letters",
 
   elasticIndexName: "nvv",
-  initialDateFrom: "1872-01-01",
-  initialDateTo: "1890-12-31",
+  initialDateFrom: "1500-01-01",
+  initialDateTo: "2026-12-31",
   headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
   headerTitle: "Brieven van Van Gogh",
   personsUrl: "http://localhost:8040/files/nvv/apparatus/bio-entities.json",
