@@ -1,4 +1,4 @@
-import { ProjectAnnotatedText } from "../../components/Text/Annotated/project/ProjectAnnotatedText";
+import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { useTranslateProject } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
