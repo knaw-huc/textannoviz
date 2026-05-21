@@ -27,7 +27,7 @@ export type AnnotationTypesToIncludeSlice = {
 
 export type AnnotationTypesToHighlightSlice = {
   annotationTypesToHighlight: string[];
-  setAnnotationTypesToHighlight: (
+  setTextHighlightingTypes: (
     newAnnotationTypesToHighlight: AnnotationTypesToHighlightSlice["annotationTypesToHighlight"],
   ) => void;
 };
@@ -68,7 +68,7 @@ const createAnnotationTypesToHighlightSlice: StateCreator<
   AnnotationTypesToHighlightSlice
 > = (set) => ({
   annotationTypesToHighlight: [],
-  setAnnotationTypesToHighlight: (newAnnotationTypesToHighlight) =>
+  setTextHighlightingTypes: (newAnnotationTypesToHighlight) =>
     set(() => ({ annotationTypesToHighlight: newAnnotationTypesToHighlight })),
 });
 

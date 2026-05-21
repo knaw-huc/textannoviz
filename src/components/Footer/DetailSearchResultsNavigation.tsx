@@ -107,7 +107,7 @@ export function DetailSearchResultsNavigation() {
             !foundResultId || (!hasPrevResult(resultIndex) && !hasPrevPage())
           }
         >
-          <span className="px-2">&#9664;</span>
+          <span className="scale-90 px-2">&#9664;</span>
           <span className="hidden md:block">{translate("PREV")}</span>
         </FooterLink>
         <div className="hidden border-r lg:block">
@@ -128,7 +128,7 @@ export function DetailSearchResultsNavigation() {
           }
         >
           <span className="hidden md:block">{translate("NEXT")}</span>
-          <span className="px-2">&#9654;</span>
+          <span className="scale-90 px-2">&#9654;</span>
         </FooterLink>
       </div>
       {/* <FooterLink

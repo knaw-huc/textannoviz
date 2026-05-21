@@ -12,4 +12,4 @@ export type LetterAnnoBody = AnnoRepoBodyBase & {
 };
 
 const page = "Page";
-export const projectPageMarkerAnnotationTypes = [page];
+export const pageMarkerTypes = [page];

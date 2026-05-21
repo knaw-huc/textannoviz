@@ -4,6 +4,7 @@ import {
 } from "../../model/AnnoRepoAnnotation.ts";
 import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 import { isLetterDetailPage } from "./isLetterDetailPage.ts";
+import { languageCodes } from "../../model/Language.ts";
 
 const TOC_PREFIX = "toc-";
 
@@ -11,9 +12,16 @@ export const showToc = (annotations: AnnoRepoAnnotation[]) =>
   !isLetterDetailPage(annotations);
 
 export function getTocId(body: AnnoRepoBodyBase): string | undefined {
-  if (isHeadBody(body)) {
-    return `${TOC_PREFIX}${body["xml:id"]}`;
+  if (!isHeadBody(body)) {
+    return;
   }
+  let id = body["xml:id"];
+  const foundLanguage = languageCodes.find((code) => id.includes(`.${code}.`));
+  if (foundLanguage) {
+    id = id.replace(`.${foundLanguage}`, "");
+  }
+  const tocId = `${TOC_PREFIX}${id}`;
+  return tocId;
 }
 
 /**

@@ -4,7 +4,7 @@ import { Base64 } from "js-base64";
 import { useParams } from "react-router";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { HammerIcon } from "../../components/common/icons/HammerIcon";
-import { toEntityCategory } from "../../components/Text/Annotated/project/utils/createAnnotationClasses.ts";
+import { toEntityCategory } from "../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import {
   AnnoRepoAnnotation,
   isResolution,

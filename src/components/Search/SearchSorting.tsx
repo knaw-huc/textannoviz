@@ -90,8 +90,8 @@ export const SearchSorting = (props: SearchSortByProps) => {
       labelStyling="mr-1 text-sm"
       buttonWidth="w-[150px]"
       items={options}
-      selectedKey={selectedKey}
-      onSelectionChange={handleSorting}
+      value={selectedKey}
+      onChange={handleSorting}
     >
       {(item) => (
         <SelectItemComponent id={item.value} textValue={item.name}>

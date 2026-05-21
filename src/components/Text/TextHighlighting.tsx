@@ -3,10 +3,10 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { BroccoliTextGeneric } from "../../model/Broccoli";
 import { useAnnotationStore } from "../../stores/annotation";
 import { useProjectStore } from "../../stores/project";
-import { getAnnotationsByTypes } from "./Annotated/project/utils/getAnnotationsByTypes.ts";
 import { createSearchRegex } from "./createSearchRegex.tsx";
 import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
-import { normalizeClassname } from "./Annotated/project/utils/createAnnotationClasses.ts";
+import { normalizeClassname } from "./Annotated/utils/createAnnotationClasses.ts";
+import { getAnnotationsByTypes } from "./Annotated/utils/getAnnotationsByTypes.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -71,29 +71,31 @@ export const TextHighlighting = (props: TextHighlightingProps) => {
     if (highlight && tier2) {
       const regex = createSearchRegex(highlight, tier2)!;
 
-      projectName === "republic" || projectName === "globalise"
-        ? (result = (
-            <div
-              className={classNames + "w-fit"}
-              dangerouslySetInnerHTML={{
-                __html: line.replace(
-                  regex,
-                  '<span class="rounded bg-yellow-200 p-1">$&</span>',
-                ),
-              }}
-            />
-          ))
-        : (result = (
-            <span
-              className={classNames + "w-fit"}
-              dangerouslySetInnerHTML={{
-                __html: line.replace(
-                  regex,
-                  '<span class="rounded bg-yellow-200 p-1">$&</span>',
-                ),
-              }}
-            />
-          ));
+      if (projectName === "republic" || projectName === "globalise") {
+        result = (
+          <div
+            className={classNames + "w-fit"}
+            dangerouslySetInnerHTML={{
+              __html: line.replace(
+                regex,
+                '<span class="rounded bg-yellow-200 p-1">$&</span>',
+              ),
+            }}
+          />
+        );
+      } else {
+        result = (
+          <span
+            className={classNames + "w-fit"}
+            dangerouslySetInnerHTML={{
+              __html: line.replace(
+                regex,
+                '<span class="rounded bg-yellow-200 p-1">$&</span>',
+              ),
+            }}
+          />
+        );
+      }
       return result;
     } else {
       if (projectName === "republic" || projectName === "globalise") {

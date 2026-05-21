@@ -3,16 +3,17 @@ import { englishLabels } from "../../default/config/englishLabels";
 export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   //Search facet titles + metadata panel titles
   institution: "Institution",
-  msid: "Shelfmark",
+  msId: "Shelfmark",
   location: "Location",
   recipient: "Recipient",
   sender: "Sender",
+  correspondent: "Correspondent",
   file: "Letter number",
+  title: "Title",
   letterid: "Letter ID",
   period: "Period",
   type: "Type",
   artworksEN: "Artworks",
-  correspondent: "Correspondent",
   artworkIds: "Artworks (ID)",
 
   facetInputFilterPlaceholder: "Search in facet",
@@ -48,6 +49,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   // introNotesText: "Editorial notes (about)",
   UNKNOWN: "Unknown document type",
   to: "to",
+  van: "out of",
   intro: "About this edition",
   LET_NUM: "Letter number",
   results: "results",
@@ -55,7 +57,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
-  NO_ARTWORKS: "No artworks in this letter.",
+  NO_ARTWORKS: "No artworks in this document.",
   letter: "Letter",
   invNr: "Shelfmark",
   addInfo: "Additional information",
@@ -101,6 +103,18 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   SCROLL_TO_LETTERS: "Explore the letters",
 
   //Help labels
+  RECIPIENT_HELP:
+    "Filter by the person(s) to whom a letter was addressed. Use the search field at the top of the facet to find a specific recipient by name. Selecting a name will show only the letters addressed to that person. You can select multiple names at once; this will return letters addressed to any of the selected recipients. Uncheck a name to remove it from your selection.",
+  SENDER_HELP:
+    "Filter by the person who wrote the letter. In this edition, the vast majority of letters were written by Vincent van Gogh, but a small number were written by others. Selecting a name will show only the letters sent by that person.",
+  CORRESPONDENT_HELP:
+    "Filter by correspondent, combining both senders and recipients. Use this facet to find all letters exchanged between Van Gogh and a specific person, regardless of the direction of the correspondence.",
+  PERIOD_HELP:
+    "Filter by the date when a letter was written. For letters with uncertain dates, results include any document whose estimated date range overlaps with the selected period. The display format (day-month or month-day) is determined by your browser or computer settings.",
+  MS_ID_HELP:
+    "Filter by the shelfmark (manuscript identifier) of the original letter. Shelfmarks refer to the physical location of the manuscript in the holding institution, such as the Van Gogh Museum or other archives.",
+  TITLE_HELP:
+    "Filter or jump to documents by their specific title or heading. This is particularly useful for finding non-letter documents or specifically titled entries within the edition.",
   SEARCH_IN_HELP:
     "Use this control to limit your search to specific parts of the edition: the original texts, translations, or editorial notes in the letters or the introductory texts.",
   LANG_MENU_HELP:

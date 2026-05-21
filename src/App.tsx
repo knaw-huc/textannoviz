@@ -2,7 +2,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
-import { detailTier2Path } from "./components/Text/Annotated/project/utils/detailPath.ts";
+import { detailTier2Path } from "./utils/detailPath.ts";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
 import { ExternalConfig } from "./model/ExternalConfig";
@@ -31,8 +31,9 @@ const { project, config } = await selectProjectConfig();
  *  - runtime: load the project-specific css file in {@link Layout}
  */
 if (!prodMode) {
-  await import("./tailwind.css");
-  await import(`./projects/${project}/project.css`);
+  await import(`./projects/${project}/project.css`).catch(() =>
+    console.error(`No project.css found for ${project}`),
+  );
 }
 
 const router = await createRouter();
@@ -41,13 +42,13 @@ export default function App() {
   const setAnnotationTypesToInclude = useAnnotationStore(
     (state) => state.setAnnotationTypesToInclude,
   );
-  const setAnnotationTypesToHighlight = useAnnotationStore(
-    (state) => state.setAnnotationTypesToHighlight,
+  const setTextHighlightingTypes = useAnnotationStore(
+    (state) => state.setTextHighlightingTypes,
   );
   const setProjectConfig = useProjectStore(setProjectConfigSelector);
   const setProjectName = useProjectStore(setProjectNameSelector);
   setAnnotationTypesToInclude(config.annotationTypesToInclude);
-  setAnnotationTypesToHighlight(config.annotationTypesToHighlight);
+  setTextHighlightingTypes(config.textHighlightingTypes);
 
   setProjectConfig(config);
   setProjectName(project);
@@ -61,7 +62,9 @@ function Layout() {
       {prodMode && (
         <link
           rel="stylesheet"
-          href={`${import.meta.env.BASE_URL}/${project}.css`}
+          href={`${
+            routerBasename === "/" ? "" : routerBasename
+          }/${project}.css`}
         />
       )}
       <Header />

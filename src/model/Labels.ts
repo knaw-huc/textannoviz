@@ -23,8 +23,10 @@ export type Labels = {
   RESULTS: string;
   FILTERS: string;
   FILTER_FACETS: string;
+  SELECT_VISIBLE_FACETS: string;
   SHOW_MORE: string;
   SHOW_LESS: string;
+  SEARCH_ONLY_IN_SELECTED_LAYERS: string;
   facetInputFilterPlaceholder: string;
 
   RESET_DATE: string;

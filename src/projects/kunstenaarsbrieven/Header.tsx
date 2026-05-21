@@ -6,7 +6,7 @@ import {
   useTranslateProject,
 } from "../../stores/project.ts";
 import { matchPath, useLocation, useNavigate } from "react-router";
-import { detailTier2Path } from "../../components/Text/Annotated/project/utils/detailPath.ts";
+import { detailTier2Path } from "../../utils/detailPath.ts";
 import { Button } from "react-aria-components";
 
 type HeaderProps = {
@@ -34,6 +34,7 @@ export const Header = (props: HeaderProps) => {
   }, [isMenuOpen]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMenuOpen(false);
   }, [location.pathname]);
 

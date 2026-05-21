@@ -73,7 +73,7 @@ export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchItem,
     SearchInfoPage,
   },
-  highlightedAnnotationTypes: projectHighlightedTypes,
+  highlightTypes: projectHighlightedTypes,
 
   selectedLanguage: "en",
   languages: [{ code: "en", labels: englishTranslatinLabels }],

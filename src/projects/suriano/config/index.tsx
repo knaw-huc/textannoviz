@@ -4,9 +4,17 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchItem } from "../SearchItem";
 import { englishSurianoLabels } from "./englishSurianoLabels";
+
+import {
+  entityTypes,
+  highlightTypes,
+  insertTextMarkerTypes,
+  markerTypes,
+} from "../annotation/ProjectAnnotationModel.ts";
 import { Header } from "../Header";
 import { EntitySummary } from "../annotation/EntitySummary";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
@@ -15,6 +23,8 @@ import { Persons } from "../Persons.tsx";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { TextPanels } from "../TextPanels.tsx";
 import { Empty } from "../../../components/Empty";
+
+import { SurianoMarker } from "../annotation/SurianoMarker.tsx";
 
 export const surianoConfig: ProjectConfig = merge(
   {},
@@ -90,5 +100,14 @@ export const surianoConfig: ProjectConfig = merge(
     zoomToAnnoOnFacsimile: true,
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
+    annotatedTextComponents: {
+      ...defaultAnnotatedTextComponents,
+      Marker: SurianoMarker,
+    },
+    textHighlightingTypes: [],
+    nestedTypes: entityTypes,
+    isMarker: (body) =>
+      [...markerTypes, ...insertTextMarkerTypes].includes(body.type),
+    highlightTypes: highlightTypes,
   } as ProjectSpecificConfig,
 );
