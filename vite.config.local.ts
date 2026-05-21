@@ -53,6 +53,9 @@ export default defineConfig(({ mode }) => {
     case "oraties":
       tailwindConfig = "tailwind.config.oraties.js";
       break;
+    case "nvv":
+      tailwindConfig = "tailwind.config.nvv.js";
+      break;
     default:
       tailwindConfig = "tailwind.default.config.js";
   }
