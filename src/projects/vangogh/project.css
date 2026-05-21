@@ -82,6 +82,7 @@
 
 .highlight-super {
   vertical-align: super;
+  line-height: 0;
   font-size: 0.7em;
 }
 
