@@ -17,7 +17,9 @@ import { SegmentRange } from "@knaw-huc/text-annotation-segmenter";
  * overlap or nesting. When annotations only touch (e.g. <aa><bb>)
  * they are not part of the same group. Blocks and markers do not affect groups.
  */
-export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
+export function assignGroupToNestedSegments(
+  segments: GrouplessSegment[],
+): Segment[] {
   const groupedSegmentsMap = new Map<GrouplessNestedSegment, NestedSegment>();
   let currentDepth = 0;
   let currentGroup: AnnotationGroup = { id: 1, maxDepth: 0 };
