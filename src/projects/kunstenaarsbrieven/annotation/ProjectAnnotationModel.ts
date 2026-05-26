@@ -147,6 +147,8 @@ export type PersonLifespan = {
   notAfter?: string;
 };
 
+export type EntityRefs = PersonTeiRef | Artwork;
+
 export type IsraelsEntityBody = PersonBody | ArtworkBody;
 
 export type ReferenceBody =
@@ -316,12 +318,21 @@ export const isPerson = (toTest: AnnoRepoBodyBase): toTest is PersonBody => {
   return toTest["tei:type"] === person;
 };
 
+export function isPersonBody(toTest: EntityRefs): toTest is PersonTeiRef {
+  return "birth" in toTest;
+}
+
 export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
   if (!isEntity(toTest)) {
     return false;
   }
   return toTest["tei:type"] === teiArtwork;
 };
+
+// This check is still fragile. TODO: find better way to detect if ref is an artwork
+export function isArtworkBody(toTest: EntityRefs): toTest is Artwork {
+  return !toTest.id.startsWith("vg");
+}
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
