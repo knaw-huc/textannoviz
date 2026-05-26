@@ -23,6 +23,20 @@
     font-weight: bold;
   }
 
+  /* Remove margins introduced by 'prose' styling in src/components/Text/TextComponent.tsx */
+  p {
+    margin: 0;
+  }
+
+  p.paragraph-indent {
+    text-indent: 1.5rem;
+  }
+
+  /* Do not add text-indent to the child elements */
+  p.paragraph-indent > * {
+    text-indent: 0;
+  }
+
   .whitespace {
     /* Hide whitespace after p or h2: */
     :is(p, h2) + & {

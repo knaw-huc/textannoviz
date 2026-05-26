@@ -263,6 +263,21 @@ export function findLetterBody(
   }
 }
 
+export type ParagraphBody = AnnoRepoBodyBase & {
+  elementName: string;
+  n: string;
+  "tei:corresp": string;
+  "xml:id": string;
+  style: string;
+  "tei:rend": string;
+};
+
+export function isParagraphBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is ParagraphBody {
+  return !!toTest && toTest.type === paragraph;
+}
+
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
   highlight,
