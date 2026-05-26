@@ -28,6 +28,8 @@ const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:vangogh:";
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
 
+  console.log(body);
+
   return (
     <>
       {isEntity(body) ? (
@@ -42,7 +44,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         ) : (
           <EntityComponent
             body={body}
-            key={body["tei:ref"].id}
+            key={body.id}
             entityBody={body["tei:ref"]}
           />
         )
