@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Body, NestedSegment, TextPositions } from "../AnnotationModel.ts";
 import { createSegments } from "./createSegments.ts";
-import { assignGroupToSegments } from "./assignGroupToSegments.ts";
+import { assignGroupToNestedSegments } from "./assignGroupToNestedSegments.ts";
 import { BlockSchema } from "../block";
 
 const body = "aabbccddee";
@@ -20,10 +20,10 @@ const emptySchema: BlockSchema = {
 
 function createTestData(text: string, offsets: TextPositions[]) {
   const segments = createSegments(text, offsets, emptySchema);
-  return assignGroupToSegments(segments);
+  return assignGroupToNestedSegments(segments);
 }
 
-describe("groupSegments", () => {
+describe(assignGroupToNestedSegments, () => {
   it("assigns depth to nested annotations", () => {
     const segments = createTestData(body, annotations);
     const annotationsIdAndDepth = segments[2].annotations.map((a) => ({
@@ -79,7 +79,7 @@ describe("groupSegments", () => {
     expect(bb.group.id).toEqual(2);
   });
 
-  it("keeps one group when a highlight connects two annotations", () => {
+  it("does not group two annotations connected only by a highlight", () => {
     /**
      * <highlight>
      *   <a>aa</a>
@@ -98,7 +98,7 @@ describe("groupSegments", () => {
     const cc = segments[2].annotations.find(
       (a) => a.type === "nested",
     ) as NestedSegment;
-    expect(aa.group.id).toBe(cc.group.id);
+    expect(aa.group.id).not.toBe(cc.group.id);
   });
 
   it("tracks maxDepth for overlapping annotations", () => {

@@ -4,7 +4,6 @@ import {
   GrouplessNestedSegment,
   GrouplessSegment,
   isGrouplessNestedSegment,
-  isHighlightSegment,
   NestedSegment,
   Segment,
 } from "../AnnotationModel.ts";
@@ -14,11 +13,14 @@ import { SegmentRange } from "@knaw-huc/text-annotation-segmenter";
 /**
  * Assign depth and group to nested annotations
  *
- * A group is a set of nested and highlight annotations connected through
+ * A group is a set of nested annotations connected through
  * overlap or nesting. When annotations only touch (e.g. <aa><bb>)
- * they are not part of the same group. Blocks and markers do not affect groups.
+ * they are not part of the same group.
+ * Blocks, highlights and markers do not affect groups.
  */
-export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
+export function assignGroupToNestedSegments(
+  segments: GrouplessSegment[],
+): Segment[] {
   const groupedSegmentsMap = new Map<GrouplessNestedSegment, NestedSegment>();
   let currentDepth = 0;
   let currentGroup: AnnotationGroup = { id: 1, maxDepth: 0 };
@@ -44,7 +46,7 @@ export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
       }
     }
 
-    // Process new nested and highlight annotations:
+    // Process new nested annotations:
     for (const annotation of segment.annotations) {
       if (isGrouplessNestedSegment(annotation)) {
         if (groupedSegmentsMap.has(annotation)) {
@@ -58,10 +60,6 @@ export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
         groupedSegmentsMap.set(annotation, grouped);
         activeGroupAnnotations.push(grouped);
         currentGroup.maxDepth = Math.max(currentGroup.maxDepth, currentDepth);
-      } else if (isHighlightSegment(annotation)) {
-        if (!activeGroupAnnotations.includes(annotation)) {
-          activeGroupAnnotations.push(annotation);
-        }
       }
     }
   }
