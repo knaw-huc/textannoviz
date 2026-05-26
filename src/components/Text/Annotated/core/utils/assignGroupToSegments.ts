@@ -4,7 +4,6 @@ import {
   GrouplessNestedSegment,
   GrouplessSegment,
   isGrouplessNestedSegment,
-  isHighlightSegment,
   NestedSegment,
   Segment,
 } from "../AnnotationModel.ts";
@@ -44,7 +43,7 @@ export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
       }
     }
 
-    // Process new nested and highlight annotations:
+    // Process new nested annotations:
     for (const annotation of segment.annotations) {
       if (isGrouplessNestedSegment(annotation)) {
         if (groupedSegmentsMap.has(annotation)) {
@@ -58,10 +57,6 @@ export function assignGroupToSegments(segments: GrouplessSegment[]): Segment[] {
         groupedSegmentsMap.set(annotation, grouped);
         activeGroupAnnotations.push(grouped);
         currentGroup.maxDepth = Math.max(currentGroup.maxDepth, currentDepth);
-      } else if (isHighlightSegment(annotation)) {
-        if (!activeGroupAnnotations.includes(annotation)) {
-          activeGroupAnnotations.push(annotation);
-        }
       }
     }
   }

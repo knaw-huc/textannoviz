@@ -79,7 +79,7 @@ describe("groupSegments", () => {
     expect(bb.group.id).toEqual(2);
   });
 
-  it("keeps one group when a highlight connects two annotations", () => {
+  it("does not group two annotations connected only by a highlight", () => {
     /**
      * <highlight>
      *   <a>aa</a>
@@ -98,7 +98,7 @@ describe("groupSegments", () => {
     const cc = segments[2].annotations.find(
       (a) => a.type === "nested",
     ) as NestedSegment;
-    expect(aa.group.id).toBe(cc.group.id);
+    expect(aa.group.id).not.toBe(cc.group.id);
   });
 
   it("tracks maxDepth for overlapping annotations", () => {
