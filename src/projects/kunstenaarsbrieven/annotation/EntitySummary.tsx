@@ -9,7 +9,6 @@ import {
   useTranslateProject,
 } from "../../../stores/project";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
-import { EntitySummaryDetails } from "./EntitySummaryDetails";
 import {
   Artwork,
   getAnnotationCategory,
@@ -59,6 +58,7 @@ function EntityComponent(props: {
   const { body, entityBody } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useTranslateProject();
+  const components = projectConfig.components;
 
   const entityCategory = toEntityCategory(
     projectConfig,
@@ -105,10 +105,12 @@ function EntityComponent(props: {
         <div className={`${entityClassname} annotationMarker italic`}>
           {translateProject(entityCategory)}
         </div>
-        <EntitySummaryDetails
-          entityBody={entityBody}
-          entityCategory={entityCategory}
-        />
+        {
+          <components.EntitySummaryDetails
+            entityBody={entityBody}
+            entityCategory={entityCategory}
+          />
+        }
       </>
       <div className="flex">
         <div>

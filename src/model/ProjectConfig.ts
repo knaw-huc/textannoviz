@@ -21,6 +21,10 @@ import {
 } from "./Search.ts";
 import type { JSX } from "react";
 import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
+import {
+  Artwork,
+  PersonTeiRef,
+} from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 export type PanelRegion = "left" | "main" | "right";
 export type DetailPanelConfig = {
@@ -87,6 +91,10 @@ export type ComponentsConfig = {
   }) => JSX.Element;
   AnnotationLinks: () => JSX.Element | null;
   EntitySummary: (props: EntitySummaryProps) => JSX.Element;
+  EntitySummaryDetails: (props: {
+    entityBody: PersonTeiRef | Artwork;
+    entityCategory: string;
+  }) => JSX.Element;
   Help: () => JSX.Element;
   HelpLink: () => JSX.Element;
   MetadataPanel: (props: { annotations: AnnoRepoAnnotation[] }) => JSX.Element;

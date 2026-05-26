@@ -15,7 +15,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
-import { EntitySummary } from "../annotation/EntitySummary";
+import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 
 export const vangoghConfig: ProjectConfig = merge(
   {},
@@ -44,7 +44,7 @@ export const vangoghConfig: ProjectConfig = merge(
       MetadataPanel,
       // SearchInfoPage is too project-specific to make generic
       SearchInfoPage,
-      EntitySummary,
+      EntitySummaryDetails,
     },
     defaultKeywordAggsToRender: [
       "type",
