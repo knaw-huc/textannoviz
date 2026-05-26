@@ -13,9 +13,10 @@ import { SegmentRange } from "@knaw-huc/text-annotation-segmenter";
 /**
  * Assign depth and group to nested annotations
  *
- * A group is a set of nested and highlight annotations connected through
+ * A group is a set of nested annotations connected through
  * overlap or nesting. When annotations only touch (e.g. <aa><bb>)
- * they are not part of the same group. Blocks and markers do not affect groups.
+ * they are not part of the same group.
+ * Blocks, highlights and markers do not affect groups.
  */
 export function assignGroupToNestedSegments(
   segments: GrouplessSegment[],
