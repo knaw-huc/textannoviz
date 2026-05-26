@@ -28,7 +28,45 @@ const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:vangogh:";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
+
+  return (
+    <>
+      {isEntity(body) ? (
+        Array.isArray(body["tei:ref"]) ? (
+          body["tei:ref"].map((entityBody) => (
+            <EntityComponent
+              body={body}
+              key={entityBody.id}
+              entityBody={entityBody}
+            />
+          ))
+        ) : (
+          <EntityComponent
+            body={body}
+            key={body["tei:ref"].id}
+            entityBody={body["tei:ref"]}
+          />
+        )
+      ) : null}
+    </>
+  );
+}
+
+function EntityComponent(props: {
+  body: AnnoRepoBody;
+  entityBody: PersonTeiRef | Artwork;
+}) {
+  const { body, entityBody } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
+  const translateProject = useTranslateProject();
+
+  const entityCategory = toEntityCategory(
+    projectConfig,
+    getAnnotationCategory(body),
+  );
+
+  const entityClassname = toEntityClassname(projectConfig, entityCategory);
+
   const interfaceLang = projectConfig.selectedLanguage;
 
   const { routerBasename } = getViteEnvVars();
@@ -50,10 +88,10 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const handleMoreInfoClick = () => {
     const basePath = routerBasename === "/" ? "" : routerBasename;
     if (isPerson(body)) {
-      const id = body["tei:ref"].id;
+      const id = entityBody.id;
       window.open(`${basePath}/persons#${id}`);
     } else if (isArtwork(body)) {
-      const id = body["tei:ref"].id;
+      const id = entityBody.id;
       window.open(`${basePath}/artworks#${id}`);
     } else if (isBibliographyReference(body)) {
       const id = body.url.split("#")[1];
@@ -62,53 +100,6 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
       toast(`Unknown annotation body: ${body}`);
     }
   };
-
-  return (
-    <>
-      {isEntity(body) ? (
-        Array.isArray(body["tei:ref"]) ? (
-          body["tei:ref"].map((entityBody) => (
-            <EntityComponent
-              body={body}
-              key={entityBody.id}
-              entityBody={entityBody}
-              handleEntitySearchClick={handleEntitySearchClick}
-              handleMoreInfoClick={handleMoreInfoClick}
-            />
-          ))
-        ) : (
-          <EntityComponent
-            body={body}
-            key={body["tei:ref"].id}
-            entityBody={body["tei:ref"]}
-            handleEntitySearchClick={handleEntitySearchClick}
-            handleMoreInfoClick={handleMoreInfoClick}
-          />
-        )
-      ) : null}
-    </>
-  );
-}
-
-function EntityComponent(props: {
-  body: AnnoRepoBody;
-  entityBody: PersonTeiRef | Artwork;
-  handleEntitySearchClick: () => void;
-  handleMoreInfoClick: () => void;
-}) {
-  const { body, entityBody, handleEntitySearchClick, handleMoreInfoClick } =
-    props;
-  const projectConfig = useProjectStore(projectConfigSelector);
-  const translateProject = useTranslateProject();
-
-  const entityCategory = toEntityCategory(
-    projectConfig,
-    getAnnotationCategory(body),
-  );
-
-  console.log(entityCategory);
-
-  const entityClassname = toEntityClassname(projectConfig, entityCategory);
 
   return (
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
