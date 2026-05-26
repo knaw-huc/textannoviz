@@ -67,8 +67,6 @@ function EntityComponent(props: {
 
   const entityClassname = toEntityClassname(projectConfig, entityCategory);
 
-  const interfaceLang = projectConfig.selectedLanguage;
-
   const { routerBasename } = getViteEnvVars();
 
   const handleEntitySearchClick = () => {
@@ -80,7 +78,7 @@ function EntityComponent(props: {
         : "";
       window.open(`${basePath}/detail/${newTier2}`, "_blank");
     } else {
-      const query = toEntitySearchQuery(body, projectConfig, interfaceLang);
+      const query = toEntitySearchQuery(entityBody, entityCategory);
       window.open(`${basePath}/?${query}`, "_blank");
     }
   };
