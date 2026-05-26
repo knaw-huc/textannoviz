@@ -15,8 +15,13 @@ export const ArtworksTab = () => {
   const artworkAnnos = annotations.reduce<Artwork[]>((acc, anno) => {
     if (isArtwork(anno.body)) {
       const artwork = anno.body["tei:ref"];
-      if (!acc.some((a) => a.id === artwork.id)) {
-        acc.push(artwork);
+
+      const artworks = Array.isArray(artwork) ? artwork : [artwork];
+
+      for (const item of artworks) {
+        if (!acc.some((a) => a.id === item.id)) {
+          acc.push(item);
+        }
       }
     }
     return acc;
