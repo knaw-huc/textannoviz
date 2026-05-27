@@ -7,7 +7,7 @@ import { englishVanGoghLabels } from "./englishVanGoghLabels";
 // import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
-import { Artworks } from "../Artworks";
+import { Artworks } from "../artworks/Artworks";
 import { Bibliography } from "../Bibliography";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
@@ -32,11 +32,28 @@ export const vangoghConfig: ProjectConfig = merge(
     headerTitle: "Brieven van Van Gogh",
     personsUrl:
       "http://localhost:8040/files/vangogh/apparatus/bio-entities.json",
-    artworksUrl:
-      "http://localhost:8040/files/vangogh/apparatus/artwork-entities.json",
+    artworksUrl: [
+      {
+        key: "illustrated",
+        url: "http://localhost:8040/files/vangogh/apparatus/artwork.illustrated-entities.json",
+      },
+      {
+        key: "illustrations",
+        url: "http://localhost:8040/files/vangogh/apparatus/artwork.illustrations-entities.json",
+      },
+      {
+        key: "non-illustrated",
+        url: "http://localhost:8040/files/vangogh/apparatus/artwork.non-illustrated-entities.json",
+      },
+      {
+        key: "sketches",
+        url: "http://localhost:8040/files/vangogh/apparatus/artwork.sketches-entities.json",
+      },
+    ],
     biblUrl: {
       en: "http://localhost:8040/files/vangogh/apparatus/bibliolist.html",
     },
+    menuUrl: "http://localhost:8040/files/vangogh/menu/menu.json",
     components: {
       Header,
       SearchItem,

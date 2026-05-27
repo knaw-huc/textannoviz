@@ -33,8 +33,12 @@ export const israelsConfig: ProjectConfig = merge(
     headerTitle: "Brieven van Isaac Israëls",
     personsUrl:
       "http://localhost:8040/files/israels/apparatus/bio-entities.json",
-    artworksUrl:
-      "http://localhost:8040/files/israels/apparatus/artwork-entities.json",
+    artworksUrl: [
+      {
+        key: "illustrated",
+        url: "http://localhost:8040/files/israels/apparatus/artwork-entities.json",
+      },
+    ],
     biblUrl: {
       en: "http://localhost:8040/files/israels/apparatus/bibliolist-en.html",
       nl: "http://localhost:8040/files/israels/apparatus/bibliolist-nl.html",

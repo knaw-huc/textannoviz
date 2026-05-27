@@ -2,12 +2,17 @@ import { useParams } from "react-router";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { Header as KunstenaarsbrievenHeader } from "../kunstenaarsbrieven/Header.tsx";
-import { useTranslateProject } from "../../stores/project.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+  useTranslateProject,
+} from "../../stores/project.ts";
 
 export const Header = () => {
   const translateProject = useTranslateProject();
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
+  const menuUrl = useProjectStore(projectConfigSelector).menuUrl;
 
   const introIds = [
     { name: "intro1", id: "urn:mace:huc.knaw.nl:vangogh:introI" },
@@ -30,6 +35,7 @@ export const Header = () => {
       letterTitle={letterTitle}
       letterNumber={letterAnnoBody?.n}
       introIds={introIds}
+      menuUrl={menuUrl}
     />
   );
 };
