@@ -107,7 +107,10 @@ export function ArtworkCard(props: {
       ) : null}
       {artwork.graphic && (
         <img
-          src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
+          src={`${artwork.graphic.url}/full/${Math.min(
+            artwork.graphic.width,
+            300,
+          )},/0/default.jpg`}
           alt={artwork.head[interfaceLang]}
           loading="lazy"
           className="mt-4 rounded"
