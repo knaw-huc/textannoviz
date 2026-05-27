@@ -11,7 +11,7 @@ import {
   Segment,
   TextPositions,
 } from "../AnnotationModel.ts";
-import { assignGroupToSegments } from "./assignGroupToSegments.ts";
+import { assignGroupToNestedSegments } from "./assignGroupToNestedSegments.ts";
 import { BlockSchema } from "../block";
 
 /**
@@ -83,7 +83,7 @@ export function createSegments(
       allowedDescendantTypes,
     ),
   }));
-  return assignGroupToSegments(sortedSegments);
+  return assignGroupToNestedSegments(sortedSegments);
 }
 
 function addSegmentTypeProps(

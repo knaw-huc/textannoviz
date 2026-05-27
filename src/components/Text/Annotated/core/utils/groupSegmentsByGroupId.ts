@@ -17,11 +17,13 @@ export function groupSegmentsByGroupId(
       continue;
     }
     const groupId = foundNestedAnnotation.group.id;
-    const foundGroup = result.find((g) => g.id === groupId);
-    if (!foundGroup) {
-      result.push({ segments: [segment], id: groupId, offsets });
+    const lastGroup = result.at(-1);
+
+    // Add to group when previous ID matches, otherwise create new group:
+    if (lastGroup?.id === groupId) {
+      lastGroup.segments.push(segment);
     } else {
-      foundGroup.segments.push(segment);
+      result.push({ segments: [segment], id: groupId, offsets });
     }
   }
   return result;

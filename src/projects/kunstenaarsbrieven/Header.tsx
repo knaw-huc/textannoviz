@@ -8,45 +8,62 @@ import {
 import { matchPath, useLocation, useNavigate } from "react-router";
 import { detailTier2Path } from "../../utils/detailPath.ts";
 import { Button } from "react-aria-components";
+import { toast } from "../../utils/toast.ts";
+import React from "react";
+import { handleAbort } from "../../utils/handleAbort.tsx";
+import { MenuComponent, RootMenu } from "./MenuComponent.tsx";
 
 type HeaderProps = {
   introIds: { name: string; id: string }[];
   letterTitle: string;
   letterNumber: string | undefined;
+  menuUrl: string;
 };
 
 export const Header = (props: HeaderProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [menu, setMenu] = React.useState<RootMenu>();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useTranslateProject();
   const navigate = useNavigate();
   const location = useLocation();
 
+  React.useEffect(() => {
+    const aborter = new AbortController();
+    async function initPersons(aborter: AbortController) {
+      const newMenu = await fetchMenu(props.menuUrl, aborter.signal);
+      if (!newMenu) return;
+
+      setMenu(newMenu);
+    }
+
+    initPersons(aborter).catch(handleAbort);
+
+    return () => {
+      aborter.abort();
+    };
+  }, []);
+
   const isOnDetailPage = !!matchPath(detailTier2Path, location.pathname);
 
   useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMobileMenuOpen) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsMenuOpen(false);
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isMenuOpen]);
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsMenuOpen(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (!isMenuOpen) return;
+    if (!isMobileMenuOpen) return;
     const { style } = document.body;
     const prevOverflow = style.overflow;
     style.overflow = "hidden";
     return () => {
       style.overflow = prevOverflow;
     };
-  }, [isMenuOpen]);
+  }, [isMobileMenuOpen]);
 
   return (
     <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_110px]">
@@ -63,16 +80,16 @@ export const Header = (props: HeaderProps) => {
         <Button
           className="mr-2 inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 lg:hidden"
           aria-label={
-            isMenuOpen
+            isMobileMenuOpen
               ? translateProject("CLOSE_MAIN_NAVIGATION")
               : translateProject("OPEN_MAIN_NAVIGATION")
           }
-          aria-expanded={isMenuOpen}
+          aria-expanded={isMobileMenuOpen}
           aria-controls="main-navigation-mobile"
-          onPress={() => setIsMenuOpen((open) => !open)}
+          onPress={() => setIsMobileMenuOpen((open) => !open)}
         >
           <span className="sr-only">
-            {isMenuOpen
+            {isMobileMenuOpen
               ? translateProject("CLOSE_MAIN_NAVIGATION")
               : translateProject("OPEN_MAIN_NAVIGATION")}
           </span>
@@ -85,34 +102,10 @@ export const Header = (props: HeaderProps) => {
         </Button>
 
         <nav
-          className="mr-4 hidden flex-row gap-4 text-sm *:no-underline lg:flex"
+          className="hidden flex-row gap-4 text-sm *:no-underline lg:flex"
           aria-label="Main navigation"
         >
-          {props.introIds.map((introId) => (
-            <Button
-              key={introId.id}
-              className="text-inherit no-underline hover:underline"
-              onPress={() => navigate(`/detail/${introId.id}`)}
-            >
-              {introId.name}
-            </Button>
-          ))}
-
-          {projectConfig.routes.map((route) => (
-            <Button
-              key={route.path}
-              className="text-inherit no-underline hover:underline"
-              onPress={() => navigate(`/${route.path}`)}
-            >
-              {translateProject(route.path)}
-            </Button>
-          ))}
-          <Button
-            className="text-inherit no-underline hover:underline"
-            onPress={() => navigate("/help")}
-          >
-            {translateProject("help")}
-          </Button>
+          <MenuComponent menu={menu} />
         </nav>
       </div>
 
@@ -120,7 +113,7 @@ export const Header = (props: HeaderProps) => {
         <LanguageMenu />
       </div>
 
-      {isMenuOpen && (
+      {isMobileMenuOpen && (
         <div
           className="fixed inset-0 z-40 bg-white lg:hidden"
           role="dialog"
@@ -132,7 +125,7 @@ export const Header = (props: HeaderProps) => {
               <Button
                 className="inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
                 aria-label={translateProject("CLOSE_MAIN_NAVIGATION")}
-                onPress={() => setIsMenuOpen(false)}
+                onPress={() => setIsMobileMenuOpen(false)}
               >
                 <span aria-hidden="true">&#10006;</span>
               </Button>
@@ -154,7 +147,7 @@ export const Header = (props: HeaderProps) => {
                       className="w-full justify-start text-left text-inherit no-underline hover:underline"
                       onPress={() => {
                         navigate(`/detail/${introId.id}`);
-                        setIsMenuOpen(false);
+                        setIsMobileMenuOpen(false);
                       }}
                     >
                       {introId.name}
@@ -168,7 +161,7 @@ export const Header = (props: HeaderProps) => {
                       className="w-full justify-start text-left text-inherit no-underline hover:underline"
                       onPress={() => {
                         navigate(`/${route.path}`);
-                        setIsMenuOpen(false);
+                        setIsMobileMenuOpen(false);
                       }}
                     >
                       {translateProject(route.path)}
@@ -181,7 +174,7 @@ export const Header = (props: HeaderProps) => {
                     className="w-full justify-start text-left text-inherit no-underline hover:underline"
                     onPress={() => {
                       navigate("/help");
-                      setIsMenuOpen(false);
+                      setIsMobileMenuOpen(false);
                     }}
                   >
                     {translateProject("help")}
@@ -208,3 +201,16 @@ export const Header = (props: HeaderProps) => {
     </header>
   );
 };
+
+async function fetchMenu(
+  url: string,
+  signal: AbortSignal,
+): Promise<RootMenu | null> {
+  const response = await fetch(url, { signal });
+  if (!response.ok) {
+    const error = await response.json();
+    toast(`${error.message}`, { type: "error" });
+    return null;
+  }
+  return await response.json();
+}

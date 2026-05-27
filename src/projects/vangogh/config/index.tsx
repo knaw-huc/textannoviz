@@ -53,6 +53,7 @@ export const vangoghConfig: ProjectConfig = merge(
     biblUrl: {
       en: "http://localhost:8040/files/vangogh/apparatus/bibliolist.html",
     },
+    menuUrl: "http://localhost:8040/files/vangogh/menu/menu.json",
     components: {
       Header,
       SearchItem,

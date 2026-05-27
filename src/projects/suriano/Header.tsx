@@ -1,28 +1,22 @@
-import {
-  projectConfigSelector,
-  useProjectStore,
-  useTranslateProject,
-} from "../../stores/project.ts";
 import { useParams } from "react-router";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { Header as KunstenaarsbrievenHeader } from "../kunstenaarsbrieven/Header.tsx";
+import { useTranslateProject } from "../../stores/project.ts";
 
 export const Header = () => {
   const translateProject = useTranslateProject();
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
-  const menuUrl = useProjectStore(projectConfigSelector).menuUrl;
 
   const introIds = [
-    { name: "intro1", id: "urn:mace:huc.knaw.nl:israels:intro" },
+    { name: "intro", id: "urn:mace:huc.knaw.nl:suriano:intro" },
   ];
 
   const letterAnnoBody = findLetterBody(annotations);
 
   const letterTitle =
-    letterAnnoBody?.titles[interfaceLang] ||
+    letterAnnoBody?.title ||
     (params.tier2 && introIds.some((intro) => intro.id === params.tier2)
       ? translateProject("intro")
       : "");
@@ -32,7 +26,6 @@ export const Header = () => {
       letterTitle={letterTitle}
       letterNumber={letterAnnoBody?.n}
       introIds={introIds}
-      menuUrl={menuUrl}
     />
   );
 };

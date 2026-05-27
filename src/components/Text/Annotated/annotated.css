@@ -35,6 +35,7 @@
   .annotated-per.start-annotation,
   .annotated-per.annotationMarker {
     @apply before:content-[url('/src/assets/icon-annotation-person.svg')];
+    white-space: nowrap;
   }
 
   /* show levels */

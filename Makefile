@@ -15,10 +15,10 @@ BUILD_SRC  := package-lock.json ./scripts/docker-build-push.sh $(SOURCES)
 .env: | .env.example
 	cp .env.example .env
 
-.make:
-	mkdir -p .make
+.make/:
+	mkdir -p $@
 
-.make/install-dependencies: package.json package-lock.json | .make
+.make/install-dependencies: package.json package-lock.json | .make/
 	npm ci
 	@touch $@
 
@@ -37,29 +37,21 @@ start: .env
 test: .make/install-dependencies
 	npm test
 
-.PHONY: push-brederode
-push-brederode: .make/push-brederode
-.make/push-brederode: ./scripts/docker-brederode-all.sh ./deploy/Dockerfile-prod $(BUILD_SRC) | .make
-	npm run docker:build-push:brederode
+.PHONY: build-css
+build-css: .make/css
+
+.make/css: ./scripts/build-project-css.sh $(wildcard tailwind.config.*.js) | .make/
+	npm run build:css
+	@touch $@
+
+.PHONY: push
+push: .make/push
+.make/push: ./scripts/docker-build-push.sh ./deploy/Dockerfile-prod $(BUILD_SRC) .make/css | .make/
+	npm run docker:build-push
 	touch $@
 
-.PHONY: push-oraties-staging
-push-oraties-staging: .make/push-oraties-staging
-.make/push-oraties-staging: ./scripts/docker-oraties-all-staging.sh ./deploy/Dockerfile-staging $(BUILD_SRC) | .make
-	npm run docker:build-push:oraties-peen-staging
-	touch $@
-
-.PHONY: push-oraties-prod
-push-oraties-prod: .make/push-oraties-prod
-.make/push-oraties-prod: ./scripts/docker-oraties-peen-all.sh ./deploy/Dockerfile-prod $(BUILD_SRC) | .make
-	npm run docker:build-push:oraties-peen-prod
-	touch $@
-
-#.PHONY: push-bc1900
-#push-bc1900: .make/push-bc1900
-#.make/push-bc1900: ./scripts/docker-bc1900-all.sh $(BUILDSRC) | .make
-#	npm run docker:build-push:bc1900
-#	touch $@
+clean:
+	rm -rf .make/ dist/
 
 .PHONY: help
 help:
@@ -68,8 +60,8 @@ help:
 	@echo -e "Please use \`$(YELLOW)make <target>$(RESET)', where $(YELLOW)<target>$(RESET) is one of:"
 	@echo
 	@echo -e " $(BLUE)install-dependencies$(RESET) - install the code dependencies"
+	@echo -e " $(BLUE)build-css$(RESET)            - generate bespoke css per project, bases on tailwind.config.*.js"
 	@echo -e " $(BLUE)test$(RESET)                 - run the tests"
+	@echo -e " $(BLUE)clean$(RESET)                - remove generated files"
 	@echo -e " $(BLUE)start$(RESET)                - run the front-end"
-	@echo -e " $(BLUE)push-brederode$(RESET)       - build the docker image for brederode and push it to the registry"
-	@echo -e " $(BLUE)push-oraties-staging$(RESET) - build the docker image for oraties (staging) and push it to the registry"
-	@echo -e " $(BLUE)push-oraties-prod$(RESET)    - build the docker image for oraties (prod) and push it to the registry"
+	@echo -e " $(BLUE)push$(RESET)                 - build the docker image and push it to the registry"

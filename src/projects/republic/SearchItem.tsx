@@ -28,7 +28,7 @@ export const SearchItem = (
   };
 
   return (
-    <ul className="border-brand1Grey-200 mb-4 border-b">
+    <>
       <li className="mb-3 text-base">
         {translateProject(props.result.sessionWeekday)}{" "}
         <span className="font-semibold">
@@ -37,7 +37,7 @@ export const SearchItem = (
           {props.result.sessionYear}
         </span>
       </li>
-      <li className="divide-brand1Grey-100 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-6 w-full divide-y divide-solid rounded border bg-white shadow-sm transition hover:bg-white">
+      <li className="divide-brand1Grey-100 border-brand1Grey-200 border-brand1Grey-50 hover:divide-brand1Grey-200 hover:border-brand1Grey-200 mb-4 mb-6 w-full divide-y divide-solid rounded border border-b bg-white shadow-sm transition hover:bg-white">
         <Link
           to={createDetailUrl(props.result._id)}
           className="hover:text-brand1-700 cursor-pointer text-inherit no-underline transition"
@@ -61,6 +61,6 @@ export const SearchItem = (
           </div>
         ))}
       </li>
-    </ul>
+    </>
   );
 };

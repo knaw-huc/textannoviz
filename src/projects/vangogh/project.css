@@ -23,9 +23,23 @@
     font-weight: bold;
   }
 
+  /* Remove margins introduced by 'prose' styling in src/components/Text/TextComponent.tsx */
+  p {
+    margin: 0;
+  }
+
+  p.paragraph-indent {
+    text-indent: 1.5rem;
+  }
+
+  /* Do not add text-indent to the child elements */
+  p.paragraph-indent > * {
+    text-indent: 0;
+  }
+
   .whitespace {
-    /* Hide whitespace after p or h2: */
-    :is(p, h2) + & {
+    /* Hide whitespace after p, h2 or div (div is necessary to hide whitespace at the beginning of documents): */
+    :is(p, h2, div) + & {
       display: none;
     }
     /* Render double whitespace after p or h2 as a line break: */
@@ -51,6 +65,10 @@
 
 .highlight-term {
   font-style: italic;
+}
+
+.highlight-sc {
+  font-variant: small-caps;
 }
 
 .highlight-supplied::before {
@@ -82,6 +100,7 @@
 
 .highlight-super {
   vertical-align: super;
+  line-height: 0;
   font-size: 0.7em;
 }
 
