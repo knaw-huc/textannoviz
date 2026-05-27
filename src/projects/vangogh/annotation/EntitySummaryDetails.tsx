@@ -4,6 +4,7 @@ import {
   useProjectStore,
   useTranslateProject,
 } from "../../../stores/project";
+import { firstLetterToUppercase } from "../../../utils/firstLetterToUppercase.ts";
 import {
   Artwork,
   isArtwork,
@@ -56,11 +57,13 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
             {/* <p>
               {translateProject("date")}: {artwork.date.text}
             </p> */}
-            {artwork.relation ? (
-              <p>
-                {translateProject("artist")}: {artwork.relation.ref?.sortLabel}
-              </p>
-            ) : null}
+            {artwork.relation
+              ? artwork.relation.map((creator) => (
+                  <p key={creator.ref}>
+                    {firstLetterToUppercase(creator.name)}: {creator.label}
+                  </p>
+                ))
+              : null}
             {artwork.measure ? (
               <p>
                 {translateProject("size")}: {artwork.measure[0].quantity} x{" "}

@@ -24,21 +24,13 @@ export function Artworks() {
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initArtworks(aborter: AbortController) {
-      const newArtworks = await fetchArtworks(artworksUrl, aborter.signal);
+      const newArtworks = await fetchArtworks(
+        artworksUrl[0].url,
+        aborter.signal,
+      );
       if (!newArtworks) return;
 
-      const filteredArtworks = newArtworks.filter(
-        (artw) => artw["tei:type"] !== "ill",
-      );
-
-      filteredArtworks.sort((a, b) =>
-        a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
-          sensitivity: "base",
-          ignorePunctuation: true,
-        }),
-      );
-
-      setArtworks(filteredArtworks);
+      setArtworks(newArtworks);
     }
 
     initArtworks(aborter).catch(handleAbort);
@@ -106,38 +98,6 @@ export function Artworks() {
                   />
                 </Button>
               </div>
-            </div>
-            {artw.relation?.ref?.displayLabel ? (
-              <div>
-                {translateProject("artist")}: {artw.relation.ref.displayLabel}
-              </div>
-            ) : null}
-            <div>
-              {translateProject("date")}: {artw.date.text}
-            </div>
-            <div>
-              {Object.entries(artw.note[interfaceLang])
-                .filter(([key]) => key === "creditline")
-                .map(([, value], index) => (
-                  <span key={index}>
-                    {translateProject("credits")}: {value}
-                  </span>
-                ))}
-            </div>
-            {Object.entries(artw.note[interfaceLang])
-              .filter(([key]) => key === "photocredits")
-              .map(([, value], index) =>
-                value.length ? <span key={index}>{value}</span> : null,
-              )}
-            <div className="pt-4">
-              <img
-                src={`${artw.graphic.url}/full/${Math.min(
-                  artw.graphic.width,
-                  200,
-                )},/0/default.jpg`}
-                alt={artw.head[interfaceLang]}
-                loading="lazy"
-              />
             </div>
           </div>
         ))}

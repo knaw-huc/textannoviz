@@ -20,6 +20,7 @@ import {
   VanGoghSearchResultsBody,
 } from "./Search.ts";
 import type { JSX } from "react";
+import { ArtworkSections } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
 
 export type PanelRegion = "left" | "main" | "right";
@@ -56,7 +57,10 @@ export type ProjectConfig = SearchConfig &
     showNotesTab: boolean;
     showArtworksTab: boolean;
     personsUrl: string;
-    artworksUrl: string;
+    artworksUrl: {
+      key: ArtworkSections;
+      url: string;
+    }[];
     biblUrl: Partial<Record<LanguageCode, string>>;
     menuUrl: string;
     siteTitle: string;

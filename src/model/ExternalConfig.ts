@@ -1,5 +1,6 @@
 import { ProjectName } from "../projects/projectConfigs";
 import { LanguageCode } from "./Language";
+import { ProjectConfig } from "./ProjectConfig";
 
 export type ExternalConfig = {
   projectName: ProjectName;
@@ -14,7 +15,7 @@ export type ExternalConfig = {
   annotationTypesToInclude?: string[];
   showWebAnnoTab?: boolean;
   personsUrl?: string;
-  artworksUrl?: string;
+  artworksUrl?: ProjectConfig["artworksUrl"];
   biblUrl?: Partial<Record<LanguageCode, string>>;
   menuUrl: string;
 };

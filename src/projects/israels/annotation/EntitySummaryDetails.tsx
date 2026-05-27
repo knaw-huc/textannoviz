@@ -1,9 +1,9 @@
 import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
-import {
-  projectConfigSelector,
-  useProjectStore,
-  useTranslateProject,
-} from "../../../stores/project";
+// import {
+//   projectConfigSelector,
+//   useProjectStore,
+//   useTranslateProject,
+// } from "../../../stores/project";
 import {
   Artwork,
   isArtwork,
@@ -41,8 +41,8 @@ const PersonEntity = (props: { persons: Person[] }) => {
 
 const ArtworkEntity = (props: { artworks: Artwork[] }) => {
   const { artworks } = props;
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
-  const translateProject = useTranslateProject();
+  // const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
+  // const translateProject = useTranslateProject();
 
   return (
     <>
@@ -51,7 +51,11 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
           key={artwork.id}
           className="flex items-start justify-between gap-4"
         >
-          <div className="flex max-w-[500px] flex-col justify-start">
+          {/* SvD, 30042026: disabled this code because this commit breaks Artwork code for Israels
+          https://github.com/knaw-huc/textannoviz/commit/0a82b261a78e12686732f96c90f02690f7021ff7
+          When Israels is migrated completely to peenless, we will have to implement those changes below
+           */}
+          {/* <div className="flex max-w-[500px] flex-col justify-start">
             <p className="font-bold">{artwork.head[interfaceLang]}</p>
             <p>
               {translateProject("date")}: {artwork.date.text}
@@ -98,7 +102,7 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
               alt={artwork.head[interfaceLang]}
               className="h-auto w-[200px] object-contain"
             />
-          </div>
+          </div> */}
         </div>
       ))}
     </>
