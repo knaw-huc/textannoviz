@@ -33,7 +33,7 @@ export const SearchInfoPage = () => {
         </a>{" "}
         repository and experiment with ways to make our data and transcriptions
         more accessible. These experiments are shared on the{" "}
-        <a href="http://lab.globalise.huygens.knaw.nl/">GLOBALISE Lab</a> page.
+        <a href="https://lab.globalise.huygens.knaw.nl/">GLOBALISE Lab</a> page.
       </p>
 
       <h4>Data and License</h4>
@@ -56,7 +56,7 @@ export const SearchInfoPage = () => {
 
       <p className="mb-4 mt-4 block">
         All versions of the transcriptions are available under a{" "}
-        <a href="http://creativecommons.org/publicdomain/zero/1.0">
+        <a href="https://creativecommons.org/publicdomain/zero/1.0">
           Creative Commons CC0
         </a>{" "}
         license. You are free to build upon, enhance, and reuse the
