@@ -37,6 +37,9 @@ export function usePanelLayout(): null {
   const { filterPanels } = projectConfig;
   const activePanels = useDetailViewStore((state) => state.activePanels);
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
+  const panelVisibilityPreferences = useDetailViewStore(
+    (state) => state.panelVisibilityPreferences,
+  );
   const annotations = useAnnotationStore((s) => s.annotations);
   const { isLoading, isReady } = useManifest();
 
@@ -65,7 +68,8 @@ export function usePanelLayout(): null {
           ...panel,
           visible:
             filteredByProject.includes(panel.name) &&
-            filteredBySize.includes(panel.name),
+            filteredBySize.includes(panel.name) &&
+            panelVisibilityPreferences[panel.name] !== false,
         })),
       );
     }

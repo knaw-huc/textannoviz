@@ -7,6 +7,9 @@ export const ViewSettings = () => {
   const translateProject = useTranslateProject();
   const activePanels = useDetailViewStore((state) => state.activePanels);
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
+  const setPanelVisibilityPreference = useDetailViewStore(
+    (state) => state.setPanelVisibilityPreference,
+  );
   const [isMobileDialogOpen, setIsMobileDialogOpen] = React.useState(false);
   const firstToggleRef = React.useRef<HTMLButtonElement | null>(null);
   const triggerButtonRef = React.useRef<HTMLButtonElement | null>(null);
@@ -30,6 +33,7 @@ export const ViewSettings = () => {
 
       if (activePanel.name === panelName) {
         activePanel.visible = !activePanel.visible;
+        setPanelVisibilityPreference(panelName, activePanel.visible);
         return activePanel;
       }
 
