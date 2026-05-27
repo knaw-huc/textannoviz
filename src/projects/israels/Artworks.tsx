@@ -30,17 +30,6 @@ export function Artworks() {
       );
       if (!newArtworks) return;
 
-      // const filteredArtworks = newArtworks.filter(
-      //   (artw) => artw["tei:type"] !== "ill",
-      // );
-
-      // filteredArtworks.sort((a, b) =>
-      //   a.head[interfaceLang].localeCompare(b.head[interfaceLang], "en", {
-      //     sensitivity: "base",
-      //     ignorePunctuation: true,
-      //   }),
-      // );
-
       setArtworks(newArtworks);
     }
 
@@ -110,42 +99,6 @@ export function Artworks() {
                 </Button>
               </div>
             </div>
-            {/* SvD, 30042026: disabled this code because this commit breaks Artwork code for Israels
-          https://github.com/knaw-huc/textannoviz/commit/0a82b261a78e12686732f96c90f02690f7021ff7
-          When Israels is migrated completely to peenless, we will have to implement those changes below
-           */}
-            {/* {artw.relation?.ref?.displayLabel ? (
-              <div>
-                {translateProject("artist")}: {artw.relation.ref.displayLabel}
-              </div>
-            ) : null}
-            <div>
-              {translateProject("date")}: {artw.date.text}
-            </div>
-            <div>
-              {Object.entries(artw.note[interfaceLang])
-                .filter(([key]) => key === "creditline")
-                .map(([, value], index) => (
-                  <span key={index}>
-                    {translateProject("credits")}: {value}
-                  </span>
-                ))}
-            </div>
-            {Object.entries(artw.note[interfaceLang])
-              .filter(([key]) => key === "photocredits")
-              .map(([, value], index) =>
-                value.length ? <span key={index}>{value}</span> : null,
-              )}
-            <div className="pt-4">
-              <img
-                src={`${artw.graphic.url}/full/${Math.min(
-                  artw.graphic.width,
-                  200,
-                )},/0/default.jpg`}
-                alt={artw.head[interfaceLang]}
-                loading="lazy"
-              />
-            </div> */}
           </div>
         ))}
       </div>
