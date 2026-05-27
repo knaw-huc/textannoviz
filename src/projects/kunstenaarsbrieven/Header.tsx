@@ -17,7 +17,7 @@ type HeaderProps = {
   introIds: { name: string; id: string }[];
   letterTitle: string;
   letterNumber: string | undefined;
-  menuUrl: string;
+  menuUrl?: string;
 };
 
 export const Header = (props: HeaderProps) => {
@@ -31,6 +31,7 @@ export const Header = (props: HeaderProps) => {
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initPersons(aborter: AbortController) {
+      if (!props.menuUrl) return;
       const newMenu = await fetchMenu(props.menuUrl, aborter.signal);
       if (!newMenu) return;
 
