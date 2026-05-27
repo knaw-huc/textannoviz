@@ -1,4 +1,3 @@
-import { Key } from "react-aria-components";
 import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { useLocation } from "react-router";
 import {
@@ -7,13 +6,14 @@ import {
 } from "../../../stores/project";
 import React from "react";
 import { syncActiveTabWithHash } from "./utils/syncActiveTabWithHash";
+import { TabId } from "./utils/hashConfig";
 
 export function useFilteredArtworks(props: {
   items: Artwork[];
   filter?: (item: Artwork) => boolean;
   query: string;
   isGlobal: boolean;
-  setActiveTab: (newTab: Key) => void;
+  setActiveTab: (newTab: TabId) => void;
 }) {
   const { items, filter, query, isGlobal, setActiveTab } = props;
   const location = useLocation();

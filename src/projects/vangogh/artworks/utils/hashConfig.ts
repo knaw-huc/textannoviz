@@ -1,4 +1,11 @@
-import { Key } from "react-aria-components";
+export const TAB_IDS = {
+  artworksAll: "artworksAll",
+  artworksVG: "artworksVG",
+  artworksOthers: "artworksOthers",
+  nonIllustrated: "nonIllustrated",
+  sketches: "sketches",
+} as const;
+export type TabId = (typeof TAB_IDS)[keyof typeof TAB_IDS];
 
 /**
  * There are two types of hashes:
@@ -10,15 +17,15 @@ import { Key } from "react-aria-components";
 export const HASH_CONFIG = {
   // Navigation hashes
   navigation: {
-    sketches: "sketches" as Key,
-    illustrated: "artworksAll" as Key,
-    "non-illustrated": "nonIllustrated" as Key,
+    sketches: "sketches",
+    illustrated: "artworksAll",
+    "non-illustrated": "nonIllustrated",
   },
   // Focus hash prefixes
   prefixes: {
-    sketch_: "sketches" as Key,
-    ill_: "artworksAll" as Key,
-    noill_: "nonIllustrated" as Key,
+    sketch_: "sketches",
+    ill_: "artworksAll",
+    noill_: "nonIllustrated",
   },
 } as const;
 

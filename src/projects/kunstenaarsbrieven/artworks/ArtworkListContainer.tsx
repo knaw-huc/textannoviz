@@ -8,8 +8,8 @@ import { Artwork } from "../annotation/ProjectAnnotationModel";
 import { SearchQuery } from "../../../model/Search";
 import { encodeObject } from "../../../utils/url/UrlParamUtils";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
-import { Key } from "react-aria-components";
 import { useFilteredArtworks } from "../../vangogh/artworks/useFilteredArtworks";
+import { TabId } from "../../vangogh/artworks/utils/hashConfig";
 
 export function ArtworkListContainer(props: {
   items: Artwork[];
@@ -21,7 +21,7 @@ export function ArtworkListContainer(props: {
   filter?: (item: Artwork) => boolean;
   query: string;
   isGlobal: boolean;
-  setActiveTab: (newTab: Key) => void;
+  setActiveTab: (newTab: TabId) => void;
 }) {
   const { items, CardComponent, filter, query, isGlobal, setActiveTab } = props;
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;

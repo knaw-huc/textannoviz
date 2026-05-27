@@ -1,4 +1,4 @@
-import { Tabs, TabList, Tab, TabPanel, type Key } from "react-aria-components";
+import { Tabs, TabList, Tab, TabPanel } from "react-aria-components";
 import { ArtworkListContainer } from "../../kunstenaarsbrieven/artworks/ArtworkListContainer";
 import { ArtworkCard } from "./ArtworkCard";
 import { ArtworkData } from "./Artworks";
@@ -9,6 +9,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useLocation } from "react-router";
 import { getTabFromHash } from "./utils/getTabFromHash";
 import { isNavigationHash } from "./utils/isNavigationHash";
+import { TAB_IDS, TabId } from "./utils/hashConfig";
 
 const tabStyling =
   "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-sm font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
@@ -61,10 +62,8 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
     setIsGlobal(newChecked);
   }
 
-  function handleTabChange(id: Key) {
-    if (typeof id === "number") return;
-
-    const currentTab = searchParams.get("tab");
+  function handleTabChange(id: TabId) {
+    const currentTab = searchParams.get("tab") ?? TAB_IDS.artworksAll;
     if (!currentTab) return;
 
     const isSameTab = id === currentTab;
@@ -80,22 +79,22 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
     <Tabs
       className="flex w-full flex-col gap-4"
       selectedKey={searchParams.get("tab") || "artworksAll"}
-      onSelectionChange={(key) => handleTabChange(key)}
+      onSelectionChange={(key) => handleTabChange(key as TabId)}
     >
       <TabList className="sticky top-0 z-20 flex w-full gap-4 border-b border-neutral-600 bg-white px-6 pt-6">
-        <Tab id="artworksAll" className={tabStyling}>
+        <Tab id={TAB_IDS.artworksAll} className={tabStyling}>
           All artworks
         </Tab>
-        <Tab id="artworksVG" className={tabStyling}>
+        <Tab id={TAB_IDS.artworksVG} className={tabStyling}>
           Artworks by Vincent van Gogh
         </Tab>
-        <Tab id="artworksOthers" className={tabStyling}>
+        <Tab id={TAB_IDS.artworksOthers} className={tabStyling}>
           Artworks by other artists
         </Tab>
-        <Tab id="nonIllustrated" className={tabStyling}>
+        <Tab id={TAB_IDS.nonIllustrated} className={tabStyling}>
           Artworks (non-illustrated)
         </Tab>
-        <Tab id="sketches" className={tabStyling}>
+        <Tab id={TAB_IDS.sketches} className={tabStyling}>
           Sketches
         </Tab>
       </TabList>
@@ -108,7 +107,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
       />
 
       <TabPanel
-        id="artworksAll"
+        id={TAB_IDS.artworksAll}
         className="grid gap-6 px-8 pb-8"
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
       >
@@ -121,7 +120,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         />
       </TabPanel>
       <TabPanel
-        id="artworksVG"
+        id={TAB_IDS.artworksVG}
         className="grid gap-6 px-8 pb-8"
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
       >
@@ -137,7 +136,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         />
       </TabPanel>
       <TabPanel
-        id="artworksOthers"
+        id={TAB_IDS.artworksOthers}
         className="grid gap-6 px-8 pb-8"
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
       >
@@ -153,7 +152,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         />
       </TabPanel>
       <TabPanel
-        id="nonIllustrated"
+        id={TAB_IDS.nonIllustrated}
         className="grid gap-6 px-8 pb-8"
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
       >
@@ -166,7 +165,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         />
       </TabPanel>
       <TabPanel
-        id="sketches"
+        id={TAB_IDS.sketches}
         className="grid gap-6 px-8 pb-8"
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
       >
