@@ -53,7 +53,7 @@ export type ArtworkBody = AnnoRepoBodyBase & {
   type: typeof entity;
   elementName: typeof elementRs;
   "tei:type": typeof teiArtwork;
-  "tei:ref": ArtworkTeiRef;
+  "tei:ref": ArtworkTeiRef | ArtworkTeiRef[];
 };
 
 export type Artwork = ArtworkTeiRef;
@@ -113,7 +113,7 @@ export type PersonBody = AnnoRepoBodyBase & {
   type: typeof entity;
   elementName: typeof elementRs;
   "tei:type": typeof person;
-  "tei:ref": PersonTeiRef;
+  "tei:ref": PersonTeiRef | PersonTeiRef[];
 };
 export type Person = PersonTeiRef;
 export type PersonTeiRef = {
@@ -142,6 +142,8 @@ export type PersonLifespan = {
   notBefore?: string;
   notAfter?: string;
 };
+
+export type EntityRefs = PersonTeiRef | Artwork;
 
 export type IsraelsEntityBody = PersonBody | ArtworkBody;
 
@@ -312,12 +314,21 @@ export const isPerson = (toTest: AnnoRepoBodyBase): toTest is PersonBody => {
   return toTest["tei:type"] === person;
 };
 
+export function isPersonBody(toTest: EntityRefs): toTest is PersonTeiRef {
+  return "birth" in toTest;
+}
+
 export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
   if (!isEntity(toTest)) {
     return false;
   }
   return toTest["tei:type"] === teiArtwork;
 };
+
+// This check is still fragile. TODO: find better way to detect if ref is an artwork
+export function isArtworkBody(toTest: EntityRefs): toTest is Artwork {
+  return !toTest.id.startsWith("vg");
+}
 
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {

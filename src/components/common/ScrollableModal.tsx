@@ -18,7 +18,7 @@ export function ScrollableModal(props: ScrollableModalProps) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
     >
       <Modal className="h-fit w-full max-w-4xl rounded-lg bg-white shadow-xl">
-        <Dialog>
+        <Dialog aria-label="entity modal">
           <div className="scrollable-modal-content">
             <div className="my-4 flex w-full justify-end px-4">
               <Button

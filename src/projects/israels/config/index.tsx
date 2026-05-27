@@ -16,7 +16,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { TextPanels } from "../TextPanels";
-import { EntitySummary } from "../annotation/EntitySummary";
+import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 
 export const israelsConfig: ProjectConfig = merge(
   {},
@@ -51,7 +51,7 @@ export const israelsConfig: ProjectConfig = merge(
       MetadataPanel,
       // SearchInfoPage is too project-specific to make generic
       SearchInfoPage,
-      EntitySummary,
+      EntitySummaryDetails,
     },
     defaultKeywordAggsToRender: [
       "type",
