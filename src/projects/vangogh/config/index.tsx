@@ -22,13 +22,13 @@ export const vangoghConfig: ProjectConfig = merge(
   kunstenaarsbrievenConfig,
   {
     id: "vangogh",
-    broccoliUrl: "http://localhost:8082",
+    broccoliUrl: "https://vangogh.dev.huygens.knaw.nl/broccoli",
     siteTitle: "Van Gogh Letters",
 
     elasticIndexName: "vangogh",
     initialDateFrom: "1872-01-01",
     initialDateTo: "1890-12-31",
-    headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
+    headerColor: "bg-[#DACC98] text-black",
     headerTitle: "Brieven van Van Gogh",
     personsUrl:
       "http://localhost:8040/files/vangogh/apparatus/bio-entities.json",
