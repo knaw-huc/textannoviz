@@ -279,7 +279,7 @@ export function SearchResults(props: SearchResultsProps) {
         </>
       ) : null}
       <div id="resultsList">
-        <ul className="mx-auto max-w-6xl">
+        <ul>
           {searchResults.results.length >= 1 &&
             searchResults.results.map((result, index) => (
               <projectConfig.components.SearchItem
@@ -306,7 +306,7 @@ export function SearchResults(props: SearchResultsProps) {
 
 export function SearchResultsColumn(props: { children?: ReactNode }) {
   return (
-    <main className="bg-brand1Grey-50 w-9/12 grow self-stretch px-6 py-16 lg:px-10">
+    <main className="w-9/12 grow self-stretch bg-neutral-100 px-6 py-16 lg:px-10">
       {props.children}
     </main>
   );
