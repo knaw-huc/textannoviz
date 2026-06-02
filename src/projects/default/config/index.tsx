@@ -47,6 +47,7 @@ export const defaultConfig: DefaultProjectConfig = {
   artworksUrl: [],
   biblUrl: { en: "", nl: "" },
   menuUrl: "",
+  letterIdUrl: "",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,

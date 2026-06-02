@@ -54,6 +54,7 @@ export const vangoghConfig: ProjectConfig = merge(
       en: "http://localhost:8040/files/vangogh/apparatus/bibliolist.html",
     },
     menuUrl: "http://localhost:8040/files/vangogh/menu/menu.json",
+    letterIdUrl: "http://localhost:8040/files/vangogh/letter-ids.json",
     components: {
       Header,
       SearchItem,
