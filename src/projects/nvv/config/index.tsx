@@ -6,16 +6,12 @@ import {
 import { englishNvvLabels } from "./englishNvvLabels";
 // import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
-import { Persons } from "../Persons";
-import { Artworks } from "../Artworks";
-import { Bibliography } from "../Bibliography";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
-import { EntitySummary } from "../annotation/EntitySummary";
 
 export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   id: "nvv",
@@ -27,12 +23,6 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   initialDateTo: "2026-12-31",
   headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
   headerTitle: "Brieven van Van Gogh",
-  personsUrl: "http://localhost:8040/files/nvv/apparatus/bio-entities.json",
-  artworksUrl:
-    "http://localhost:8040/files/nvv/apparatus/artwork-entities.json",
-  biblUrl: {
-    en: "http://localhost:8040/files/nvv/apparatus/bibliolist.html",
-  },
   components: {
     Header,
     SearchItem,
@@ -40,7 +30,6 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
     MetadataPanel,
     // SearchInfoPage is too project-specific to make generic
     SearchInfoPage,
-    EntitySummary,
   },
   defaultKeywordAggsToRender: [
     "type",
@@ -90,19 +79,6 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   ],
   overrideDefaultAggs: [
     {
-      facetName: "persons",
-      order: "keyAsc",
-      size: 9999,
-    },
-    {
-      facetName: "artworksNL",
-      size: 9999,
-    },
-    {
-      facetName: "artworksEN",
-      size: 9999,
-    },
-    {
       facetName: "file",
       order: "keyAsc",
       size: 9999,
@@ -125,20 +101,6 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   languages: [
     // { code: "nl", labels: dutchVangoghLabels },
     { code: "en", labels: englishNvvLabels },
-  ],
-  routes: [
-    {
-      path: "persons",
-      element: <Persons />,
-    },
-    {
-      path: "artworks",
-      element: <Artworks />,
-    },
-    {
-      path: "bibliography",
-      element: <Bibliography />,
-    },
   ],
   zoomToAnnoOnFacsimile: true,
   // TODO: how to test this?

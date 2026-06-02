@@ -7,7 +7,6 @@ import { englishMondrianLabels } from "./englishMondrianLabels";
 // import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
-import { Artworks } from "../Artworks";
 import { Bibliography } from "../Bibliography";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
@@ -15,7 +14,8 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
-import { EntitySummary } from "../annotation/EntitySummary";
+import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
+import { Placeholder } from "../../../components/Placeholder";
 
 export const mondrianConfig: ProjectConfig = merge(
   {},
@@ -32,11 +32,28 @@ export const mondrianConfig: ProjectConfig = merge(
     headerTitle: "Brieven van Van Gogh",
     personsUrl:
       "http://localhost:8040/files/mondrian/apparatus/bio-entities.json",
-    artworksUrl:
-      "http://localhost:8040/files/mondrian/apparatus/artwork-entities.json",
+    artworksUrl: [
+      {
+        key: "illustrated",
+        url: "http://localhost:8040/files/mondrian/apparatus/artwork.illustrated-entities.json",
+      },
+      {
+        key: "illustrations",
+        url: "http://localhost:8040/files/mondrian/apparatus/artwork.illustrations-entities.json",
+      },
+      {
+        key: "non-illustrated",
+        url: "http://localhost:8040/files/mondrian/apparatus/artwork.non-illustrated-entities.json",
+      },
+      {
+        key: "sketches",
+        url: "http://localhost:8040/files/mondrian/apparatus/artwork.sketches-entities.json",
+      },
+    ],
     biblUrl: {
       en: "http://localhost:8040/files/mondrian/apparatus/bibliolist.html",
     },
+    menuUrl: "http://localhost:8040/files/mondrian/menu/menu.json",
     components: {
       Header,
       SearchItem,
@@ -44,7 +61,7 @@ export const mondrianConfig: ProjectConfig = merge(
       MetadataPanel,
       // SearchInfoPage is too project-specific to make generic
       SearchInfoPage,
-      EntitySummary,
+      EntitySummaryDetails,
     },
     defaultKeywordAggsToRender: [
       "type",
@@ -137,7 +154,7 @@ export const mondrianConfig: ProjectConfig = merge(
       },
       {
         path: "artworks",
-        element: <Artworks />,
+        element: <Placeholder />,
       },
       {
         path: "bibliography",
