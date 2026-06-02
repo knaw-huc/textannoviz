@@ -16,15 +16,14 @@ import {
   markerTypes,
 } from "../annotation/ProjectAnnotationModel.ts";
 import { Header } from "../Header";
-import { EntitySummary } from "../annotation/EntitySummary";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons.tsx";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { TextPanels } from "../TextPanels.tsx";
 import { Empty } from "../../../components/Empty";
-
 import { SurianoMarker } from "../annotation/SurianoMarker.tsx";
+import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
 
 export const surianoConfig: ProjectConfig = merge(
   {},
@@ -45,7 +44,7 @@ export const surianoConfig: ProjectConfig = merge(
       SearchItem,
       MetadataPanel,
       SearchInfoPage,
-      EntitySummary,
+      EntitySummaryDetails,
       ArtworksTab: Empty,
     },
     defaultKeywordAggsToRender: ["persons", "recipient", "sender"],

@@ -38,10 +38,8 @@ export function Persons(props: PersonsProps) {
       newPersons.sort((a, b) =>
         a.sortLabel.localeCompare(b.sortLabel, "en", {
           sensitivity: "base",
-          ignorePunctuation: true,
         }),
       );
-      console.log("newPersons", newPersons);
       setPersons(newPersons);
     }
 

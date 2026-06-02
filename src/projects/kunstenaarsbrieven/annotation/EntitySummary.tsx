@@ -9,14 +9,16 @@ import {
   useTranslateProject,
 } from "../../../stores/project";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
-import { EntitySummaryDetails } from "./EntitySummaryDetails";
 import {
+  Artwork,
   getAnnotationCategory,
   isArtwork,
   isBibliographyReference,
+  isEntity,
   isLetterReference,
   isPerson,
   isReference,
+  PersonTeiRef,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 import { toast } from "../../../utils/toast.ts";
@@ -25,11 +27,40 @@ const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:vangogh:";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
+
+  console.log(body);
+
+  return (
+    <>
+      {isEntity(body) ? (
+        Array.isArray(body["tei:ref"]) ? (
+          body["tei:ref"].map((entityBody) => (
+            <EntityComponent
+              body={body}
+              key={entityBody.id}
+              entityBody={entityBody}
+            />
+          ))
+        ) : (
+          <EntityComponent
+            body={body}
+            key={body.id}
+            entityBody={body["tei:ref"]}
+          />
+        )
+      ) : null}
+    </>
+  );
+}
+
+function EntityComponent(props: {
+  body: AnnoRepoBody;
+  entityBody: PersonTeiRef | Artwork;
+}) {
+  const { body, entityBody } = props;
   const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useTranslateProject();
-  const interfaceLang = projectConfig.selectedLanguage;
-
-  const { routerBasename } = getViteEnvVars();
+  const components = projectConfig.components;
 
   const entityCategory = toEntityCategory(
     projectConfig,
@@ -37,6 +68,8 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   );
 
   const entityClassname = toEntityClassname(projectConfig, entityCategory);
+
+  const { routerBasename } = getViteEnvVars();
 
   const handleEntitySearchClick = () => {
     const basePath = routerBasename === "/" ? "" : routerBasename;
@@ -47,7 +80,7 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         : "";
       window.open(`${basePath}/detail/${newTier2}`, "_blank");
     } else {
-      const query = toEntitySearchQuery(body, projectConfig, interfaceLang);
+      const query = toEntitySearchQuery(entityBody, entityCategory);
       window.open(`${basePath}/?${query}`, "_blank");
     }
   };
@@ -55,10 +88,10 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
   const handleMoreInfoClick = () => {
     const basePath = routerBasename === "/" ? "" : routerBasename;
     if (isPerson(body)) {
-      const id = body["tei:ref"].id;
+      const id = entityBody.id;
       window.open(`${basePath}/persons#${id}`);
     } else if (isArtwork(body)) {
-      const id = body["tei:ref"].id;
+      const id = entityBody.id;
       window.open(`${basePath}/artworks#${id}`);
     } else if (isBibliographyReference(body)) {
       const id = body.url.split("#")[1];
@@ -74,7 +107,12 @@ export function EntitySummary(props: { body: AnnoRepoBody }) {
         <div className={`${entityClassname} annotationMarker italic`}>
           {translateProject(entityCategory)}
         </div>
-        <EntitySummaryDetails body={body} />
+        {
+          <components.EntitySummaryDetails
+            entityBody={entityBody}
+            entityCategory={entityCategory}
+          />
+        }
       </>
       <div className="flex">
         <div>

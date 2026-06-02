@@ -1,56 +1,38 @@
-import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
-import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation";
-import { LanguageCode } from "../../../model/Language";
-import { ProjectConfig } from "../../../model/ProjectConfig";
 import { SearchQuery } from "../../../model/Search";
 import { encodeObject } from "../../../utils/url/UrlParamUtils";
 import {
+  Artwork,
   entityCategoryToAgg,
-  isArtwork,
-  isPerson,
-} from "./ProjectAnnotationModel";
+  isArtworkBody,
+  isPersonBody,
+  PersonTeiRef,
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 export function toEntitySearchQuery(
-  anno: AnnoRepoBodyBase,
-  projectConfig: ProjectConfig,
-  interfaceLang: LanguageCode,
+  entityBody: PersonTeiRef | Artwork,
+  entityCategory: string,
 ): string {
-  if (isPerson(anno)) {
+  if (isPersonBody(entityBody)) {
     return createSearchQueryParam(
-      toEntityTerms(
-        anno["tei:type"],
-        anno["tei:ref"].sortLabel,
-        projectConfig,
-        interfaceLang,
-      ),
+      toEntityTerms(entityCategory, entityBody.sortLabel),
     );
-  } else if (isArtwork(anno)) {
-    return createSearchQueryParam(
-      toEntityTerms(
-        anno["tei:type"],
-        anno["tei:ref"].head[interfaceLang],
-        projectConfig,
-        interfaceLang,
-      ),
-    );
+  } else if (isArtworkBody(entityBody)) {
+    return createSearchQueryParam(toEntityTerms(entityCategory, entityBody.id));
   } else {
-    throw new Error("Unknown entity: " + JSON.stringify(anno));
+    throw new Error("Unknown entity: " + JSON.stringify(entityBody));
   }
 }
 
 function toEntityTerms(
   annoCategory: string,
   searchString: string,
-  projectConfig: ProjectConfig,
-  interfaceLang: LanguageCode,
 ): Partial<SearchQuery> {
-  const entityAgg =
-    entityCategoryToAgg[toEntityCategory(projectConfig, annoCategory)];
+  const entityAgg = entityCategoryToAgg[annoCategory];
 
-  if (annoCategory === "artwork") {
+  if (annoCategory === "ART") {
     return {
       terms: {
-        [`${entityAgg}${interfaceLang.toUpperCase()}`]: [searchString],
+        [`artworkIds`]: [searchString],
       },
     };
   } else {

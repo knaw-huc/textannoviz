@@ -44,8 +44,9 @@ export const defaultConfig: DefaultProjectConfig = {
   getUrl: getUrl,
 
   personsUrl: "",
-  artworksUrl: "",
+  artworksUrl: [],
   biblUrl: { en: "", nl: "" },
+  menuUrl: "",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,
@@ -92,6 +93,7 @@ export const defaultConfig: DefaultProjectConfig = {
     AnnotationLinks: Placeholder,
     AnnotationButtons: Empty,
     EntitySummary: Placeholder,
+    EntitySummaryDetails: Placeholder,
     Help: Placeholder,
     HelpLink: Empty,
     MetadataPanel: Placeholder,

@@ -13,6 +13,7 @@ export const Header = () => {
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
+  const menuUrl = useProjectStore(projectConfigSelector).menuUrl;
 
   const introIds = [
     { name: "intro1", id: "urn:mace:huc.knaw.nl:israels:intro" },
@@ -31,6 +32,7 @@ export const Header = () => {
       letterTitle={letterTitle}
       letterNumber={letterAnnoBody?.n}
       introIds={introIds}
+      menuUrl={menuUrl}
     />
   );
 };
