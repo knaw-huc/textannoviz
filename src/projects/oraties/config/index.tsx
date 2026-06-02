@@ -16,7 +16,6 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates.tsx";
 import { TextPanels } from "../TextPanels.tsx";
 import { NotesPanel } from "../NotesPanel.tsx";
 import { Persons } from "../Persons.tsx";
-import { EntitySummary } from "../../vangogh/annotation/EntitySummary.tsx";
 import {
   getAnnotationCategory,
   getHighlightCategory,
@@ -106,7 +105,6 @@ export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
     SearchInfoPage,
     NotesPanel,
     Persons,
-    EntitySummary,
   },
 
   // TextConfig

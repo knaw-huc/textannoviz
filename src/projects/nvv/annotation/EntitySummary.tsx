@@ -1,15 +1,15 @@
 import {
   toEntityCategory,
   toEntityClassname,
-} from "../../../components/Text/Annotated/utils/createAnnotationClasses";
-import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation";
+} from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+import { AnnoRepoBody } from "../../../model/AnnoRepoAnnotation.ts";
 import {
   projectConfigSelector,
   useProjectStore,
   useTranslateProject,
-} from "../../../stores/project";
-import { getViteEnvVars } from "../../../utils/viteEnvVars";
-import { EntitySummaryDetails } from "./EntitySummaryDetails";
+} from "../../../stores/project.ts";
+import { getViteEnvVars } from "../../../utils/viteEnvVars.ts";
+import { EntitySummaryDetails } from "./EntitySummaryDetails.tsx";
 import {
   getAnnotationCategory,
   isArtwork,
@@ -18,10 +18,10 @@ import {
   isPerson,
   isReference,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { toEntitySearchQuery } from "./toEntitySearchQuery";
+import { toEntitySearchQuery } from "./toEntitySearchQuery.ts";
 import { toast } from "../../../utils/toast.ts";
 
-const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:israels:";
+const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:vangogh:";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;

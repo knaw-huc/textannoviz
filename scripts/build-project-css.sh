@@ -1,7 +1,7 @@
 #!/bin/sh
 set -xe
 
-PROJECTS="brederode globalise hooft israels mondriaan oraties republic suriano translatin vangogh"
+PROJECTS="brederode globalise hooft israels mondrian nvv oraties republic suriano translatin vangogh"
 
 for PROJECT in $PROJECTS; do
   CONFIG="tailwind.config.${PROJECT}.js"

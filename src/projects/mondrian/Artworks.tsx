@@ -1,16 +1,16 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import { toast } from "../../utils/toast.ts";
-import { SearchQuery } from "../../model/Search";
-import { encodeObject } from "../../utils/url/UrlParamUtils";
-import { handleAbort } from "../../utils/handleAbort";
+import { SearchQuery } from "../../model/Search.ts";
+import { encodeObject } from "../../utils/url/UrlParamUtils.ts";
+import { handleAbort } from "../../utils/handleAbort.tsx";
 import { type Artwork } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import {
   projectConfigSelector,
   useTranslateProject,
   useProjectStore,
-} from "../../stores/project";
-import { getViteEnvVars } from "../../utils/viteEnvVars";
+} from "../../stores/project.ts";
+import { getViteEnvVars } from "../../utils/viteEnvVars.ts";
 import { Button } from "react-aria-components";
 
 export function Artworks() {

@@ -16,7 +16,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { TextPanels } from "../TextPanels";
-import { EntitySummary } from "../annotation/EntitySummary";
+import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 
 export const israelsConfig: ProjectConfig = merge(
   {},
@@ -33,8 +33,12 @@ export const israelsConfig: ProjectConfig = merge(
     headerTitle: "Brieven van Isaac Israëls",
     personsUrl:
       "http://localhost:8040/files/israels/apparatus/bio-entities.json",
-    artworksUrl:
-      "http://localhost:8040/files/israels/apparatus/artwork-entities.json",
+    artworksUrl: [
+      {
+        key: "illustrated",
+        url: "http://localhost:8040/files/israels/apparatus/artwork-entities.json",
+      },
+    ],
     biblUrl: {
       en: "http://localhost:8040/files/israels/apparatus/bibliolist-en.html",
       nl: "http://localhost:8040/files/israels/apparatus/bibliolist-nl.html",
@@ -47,7 +51,7 @@ export const israelsConfig: ProjectConfig = merge(
       MetadataPanel,
       // SearchInfoPage is too project-specific to make generic
       SearchInfoPage,
-      EntitySummary,
+      EntitySummaryDetails,
     },
     defaultKeywordAggsToRender: [
       "type",

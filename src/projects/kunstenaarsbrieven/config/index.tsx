@@ -33,9 +33,9 @@ import { getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
 import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 import { filterPanels } from "../filterPanels.ts";
-
 import { KunstenaarsbrievenBlock } from "../annotation/block/KunstenaarsbrievenBlock.tsx";
 import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
+import { EntitySummary } from "../annotation/EntitySummary.tsx";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
   {},
@@ -87,6 +87,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
       ArtworksTab,
       Header,
       TocPanel,
+      EntitySummary,
     },
     zoomAnnoMirador: true,
     miradorZoomRatio: 1.5,

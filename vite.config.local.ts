@@ -23,8 +23,8 @@ export default defineConfig(({ mode }) => {
       tailwindConfig = "tailwind.config.republic.js";
       htmlInjectionPluginConfig = republicHtmlInjectionPluginConfig;
       break;
-    case "mondriaan":
-      tailwindConfig = "tailwind.config.mondriaan.js";
+    case "mondrian":
+      tailwindConfig = "tailwind.config.mondrian.js";
       break;
     case "globalise":
       tailwindConfig = "tailwind.config.globalise.js";
@@ -52,6 +52,9 @@ export default defineConfig(({ mode }) => {
       break;
     case "oraties":
       tailwindConfig = "tailwind.config.oraties.js";
+      break;
+    case "nvv":
+      tailwindConfig = "tailwind.config.nvv.js";
       break;
     default:
       tailwindConfig = "tailwind.default.config.js";

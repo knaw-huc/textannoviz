@@ -44,7 +44,7 @@ export const defaultConfig: DefaultProjectConfig = {
   getUrl: getUrl,
 
   personsUrl: "",
-  artworksUrl: "",
+  artworksUrl: [],
   biblUrl: { en: "", nl: "" },
   menuUrl: "",
   letterIdUrl: "",
@@ -94,6 +94,7 @@ export const defaultConfig: DefaultProjectConfig = {
     AnnotationLinks: Placeholder,
     AnnotationButtons: Empty,
     EntitySummary: Placeholder,
+    EntitySummaryDetails: Placeholder,
     Help: Placeholder,
     HelpLink: Empty,
     MetadataPanel: Placeholder,

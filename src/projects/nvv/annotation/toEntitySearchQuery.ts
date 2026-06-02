@@ -1,9 +1,9 @@
-import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses";
-import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation";
-import { LanguageCode } from "../../../model/Language";
-import { ProjectConfig } from "../../../model/ProjectConfig";
-import { SearchQuery } from "../../../model/Search";
-import { encodeObject } from "../../../utils/url/UrlParamUtils";
+import { toEntityCategory } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+import { AnnoRepoBodyBase } from "../../../model/AnnoRepoAnnotation.ts";
+import { LanguageCode } from "../../../model/Language.ts";
+import { ProjectConfig } from "../../../model/ProjectConfig.ts";
+import { SearchQuery } from "../../../model/Search.ts";
+import { encodeObject } from "../../../utils/url/UrlParamUtils.ts";
 import {
   entityCategoryToAgg,
   isArtwork,

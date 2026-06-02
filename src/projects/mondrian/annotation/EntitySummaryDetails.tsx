@@ -1,10 +1,15 @@
-import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
+import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig.ts";
 import {
   projectConfigSelector,
   useProjectStore,
   useTranslateProject,
-} from "../../../stores/project";
-import { Artwork, isArtwork, isPerson, Person } from "./ProjectAnnotationModel";
+} from "../../../stores/project.ts";
+import {
+  Artwork,
+  isArtwork,
+  isPerson,
+  Person,
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
   if (isPerson(props.body)) {
@@ -22,11 +27,11 @@ const PersonEntity = (props: { persons: Person[] }) => {
   const { persons } = props;
   return (
     <>
-      {persons.map((pers) => (
-        <div key={pers.id}>
+      {persons.map((pers, i) => (
+        <div key={i}>
           <p className="font-bold">{pers.sortLabel}</p>
           <p>
-            {pers.birth && pers.birth.when}-{pers.death && pers.death.when}
+            {pers.birth?.when}-{pers.death && pers.death.when}
           </p>
         </div>
       ))}
@@ -48,9 +53,9 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
         >
           <div className="flex max-w-[500px] flex-col justify-start">
             <p className="font-bold">{artwork.head[interfaceLang]}</p>
-            <p>
+            {/* <p>
               {translateProject("date")}: {artwork.date.text}
-            </p>
+            </p> */}
             {artwork.relation ? (
               <p>
                 {translateProject("artist")}: {artwork.relation.ref?.sortLabel}
@@ -62,15 +67,15 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
                 {artwork.measure[1].quantity} {artwork.measure[0].unit}
               </p>
             ) : null}
-            <p>
+            {/* <p>
               {translateProject("support")}:{" "}
               {Object.entries(artwork.note[interfaceLang])
                 .filter(([key]) => key === "technical")
                 .map(([, value], index) => (
                   <span key={index}>{value}</span>
                 ))}
-            </p>
-            <p>
+            </p> */}
+            {/* <p>
               {translateProject("collection")}:{" "}
               {Object.entries(artwork.note[interfaceLang])
                 .filter(([key]) => key === "collection")
@@ -85,15 +90,17 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
                 .map(([, value], index) => (
                   <span key={index}>{value}</span>
                 ))}
-            </p>
+            </p> */}
           </div>
-          <div className="flex items-start justify-end">
-            <img
-              src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
-              alt={artwork.head[interfaceLang]}
-              className="h-auto w-[200px] object-contain"
-            />
-          </div>
+          {artwork.graphic ? (
+            <div className="flex items-start justify-end">
+              <img
+                src={`${artwork.graphic.url}/full/200,/0/default.jpg`}
+                alt={artwork.head[interfaceLang]}
+                className="h-auto w-[200px] object-contain"
+              />
+            </div>
+          ) : null}
         </div>
       ))}
     </>

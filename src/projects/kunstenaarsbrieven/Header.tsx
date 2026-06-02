@@ -58,11 +58,6 @@ export const Header = (props: HeaderProps) => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isMobileMenuOpen]);
 
-  // SvD, 22042026: this appears to be unnecessary?
-  // useEffect(() => {
-  //   setIsMenuOpen(false);
-  // }, [location.pathname]);
-
   useEffect(() => {
     if (!isMobileMenuOpen) return;
     const { style } = document.body;

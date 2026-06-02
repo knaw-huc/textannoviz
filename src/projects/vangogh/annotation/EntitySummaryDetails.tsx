@@ -1,23 +1,25 @@
-import { EntitySummaryDetailsProps } from "../../../model/ProjectConfig";
 import {
   projectConfigSelector,
   useProjectStore,
   useTranslateProject,
 } from "../../../stores/project";
+import { firstLetterToUppercase } from "../../../utils/firstLetterToUppercase.ts";
 import {
   Artwork,
-  isArtwork,
-  isPerson,
   Person,
+  PersonTeiRef,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
-export const EntitySummaryDetails = (props: EntitySummaryDetailsProps) => {
-  if (isPerson(props.body)) {
-    return <PersonEntity persons={[props.body["tei:ref"]]} />;
+export const EntitySummaryDetails = (props: {
+  entityBody: PersonTeiRef | Artwork;
+  entityCategory: string;
+}) => {
+  if (props.entityCategory === "PER") {
+    return <PersonEntity persons={[props.entityBody as Person]} />;
   }
 
-  if (isArtwork(props.body)) {
-    return <ArtworkEntity artworks={[props.body["tei:ref"]]} />;
+  if (props.entityCategory === "ART") {
+    return <ArtworkEntity artworks={[props.entityBody as Artwork]} />;
   }
   return null;
 };
@@ -56,11 +58,13 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
             {/* <p>
               {translateProject("date")}: {artwork.date.text}
             </p> */}
-            {artwork.relation ? (
-              <p>
-                {translateProject("artist")}: {artwork.relation.ref?.sortLabel}
-              </p>
-            ) : null}
+            {artwork.relation
+              ? artwork.relation.map((creator) => (
+                  <p key={creator.ref}>
+                    {firstLetterToUppercase(creator.name)}: {creator.label}
+                  </p>
+                ))
+              : null}
             {artwork.measure ? (
               <p>
                 {translateProject("size")}: {artwork.measure[0].quantity} x{" "}

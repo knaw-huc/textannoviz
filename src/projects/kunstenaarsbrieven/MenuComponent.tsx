@@ -23,9 +23,7 @@ type MenuItem = {
  */
 type MenuCategory = {
   label: string;
-  items?: MenuItem[];
-  menu?: MenuCategory[];
-};
+} & ({ items: MenuItem[] } | { menu: MenuCategory[] });
 
 // Root structure of menu
 export type RootMenu = {
@@ -61,33 +59,36 @@ export function MenuComponent(props: { menu: RootMenu | undefined }) {
             />
           </Button>
           <Menu className={menuStyling}>
-            {category.items?.map((item) => (
-              <MenuItem
-                key={item.target}
-                className={menuItemStyling}
-                onAction={() => navigate(buildNavLink(item.target))}
-              >
-                <Text slot="label">{item.label}</Text>
-              </MenuItem>
-            ))}
-            {category.menu?.map((submenu) => (
-              <SubmenuTrigger key={submenu.label}>
-                <MenuItem className={menuItemStyling}>
-                  <Text slot="label">{submenu.label}</Text>
+            {"items" in category &&
+              category.items?.map((item) => (
+                <MenuItem
+                  key={item.target}
+                  className={menuItemStyling}
+                  onAction={() => navigate(buildNavLink(item.target))}
+                >
+                  <Text slot="label">{item.label}</Text>
                 </MenuItem>
-                <Menu className={menuStyling}>
-                  {submenu.items?.map((item) => (
-                    <MenuItem
-                      key={item.target}
-                      className={menuItemStyling}
-                      onAction={() => navigate(buildNavLink(item.target))}
-                    >
-                      <Text slot="label">{item.label}</Text>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </SubmenuTrigger>
-            ))}
+              ))}
+            {"menu" in category &&
+              category.menu?.map((submenu) => (
+                <SubmenuTrigger key={submenu.label}>
+                  <MenuItem className={menuItemStyling}>
+                    <Text slot="label">{submenu.label}</Text>
+                  </MenuItem>
+                  <Menu className={menuStyling}>
+                    {"items" in submenu &&
+                      submenu.items?.map((item) => (
+                        <MenuItem
+                          key={item.target}
+                          className={menuItemStyling}
+                          onAction={() => navigate(buildNavLink(item.target))}
+                        >
+                          <Text slot="label">{item.label}</Text>
+                        </MenuItem>
+                      ))}
+                  </Menu>
+                </SubmenuTrigger>
+              ))}
           </Menu>
         </MenuTrigger>
       ))}

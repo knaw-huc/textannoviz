@@ -1,6 +1,6 @@
 services:
   tav:
-    image: registry.diginfra.net/tt/textannoviz-vangogh-frontend:dev
+    image: textannoviz:dev
   proxy:
     image: nginx:stable-alpine-slim
     ports:
