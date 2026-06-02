@@ -12,12 +12,14 @@ import { toast } from "../../utils/toast.ts";
 import React from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import { MenuComponent, RootMenu } from "./MenuComponent.tsx";
+import { QuickSearch } from "./QuickSearch.tsx";
 
 type HeaderProps = {
   introIds: { name: string; id: string }[];
   letterTitle: string;
   letterNumber: string | undefined;
-  menuUrl: string;
+  menuUrl?: string;
+  letterIdSet?: Set<string>;
 };
 
 export const Header = (props: HeaderProps) => {
@@ -31,6 +33,7 @@ export const Header = (props: HeaderProps) => {
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initPersons(aborter: AbortController) {
+      if (!props.menuUrl) return;
       const newMenu = await fetchMenu(props.menuUrl, aborter.signal);
       if (!newMenu) return;
 
@@ -110,6 +113,7 @@ export const Header = (props: HeaderProps) => {
           className="hidden flex-row gap-4 text-sm *:no-underline lg:flex"
           aria-label="Main navigation"
         >
+          <QuickSearch letterIdSet={props.letterIdSet} />
           <MenuComponent menu={menu} />
         </nav>
       </div>

@@ -59,6 +59,7 @@ export type ProjectConfig = SearchConfig &
     artworksUrl: string;
     biblUrl: Partial<Record<LanguageCode, string>>;
     menuUrl: string;
+    letterIdUrl: string;
     siteTitle: string;
 
     detailPanels: DetailPanelConfig[];
