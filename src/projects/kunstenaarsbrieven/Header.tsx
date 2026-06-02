@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { LanguageMenu } from "../../components/LanguageMenu.tsx";
-import {
-  projectConfigSelector,
-  useProjectStore,
-  useTranslateProject,
-} from "../../stores/project.ts";
+import { useTranslateProject } from "../../stores/project.ts";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import { detailTier2Path } from "../../utils/detailPath.ts";
 import { Button } from "react-aria-components";
@@ -23,7 +19,6 @@ type HeaderProps = {
 export const Header = (props: HeaderProps) => {
   const [menu, setMenu] = React.useState<RootMenu>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const projectConfig = useProjectStore(projectConfigSelector);
   const translateProject = useTranslateProject();
   const navigate = useNavigate();
   const location = useLocation();
@@ -98,7 +93,6 @@ export const Header = (props: HeaderProps) => {
             <span className="block h-[2px] w-5 bg-current" />
             <span className="block h-[2px] w-5 bg-current" />
             <span className="block h-[2px] w-5 bg-current" />
-            <span className="block h-[2px] w-5 bg-current" />
           </span>
         </Button>
 
@@ -141,47 +135,11 @@ export const Header = (props: HeaderProps) => {
               aria-label="Main navigation"
               className="flex-1 overflow-y-auto text-sm"
             >
-              <ul className="flex flex-col gap-2">
-                {props.introIds.map((introId) => (
-                  <li key={introId.id}>
-                    <Button
-                      className="w-full justify-start text-left text-inherit no-underline hover:underline"
-                      onPress={() => {
-                        navigate(`/detail/${introId.id}`);
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      {introId.name}
-                    </Button>
-                  </li>
-                ))}
-
-                {projectConfig.routes.map((route) => (
-                  <li key={route.path}>
-                    <Button
-                      className="w-full justify-start text-left text-inherit no-underline hover:underline"
-                      onPress={() => {
-                        navigate(`/${route.path}`);
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      {translateProject(route.path)}
-                    </Button>
-                  </li>
-                ))}
-
-                <li>
-                  <Button
-                    className="w-full justify-start text-left text-inherit no-underline hover:underline"
-                    onPress={() => {
-                      navigate("/help");
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    {translateProject("help")}
-                  </Button>
-                </li>
-              </ul>
+              <MenuComponent
+                menu={menu}
+                variant="expanded"
+                onNavigate={() => setIsMobileMenuOpen(false)}
+              />
             </nav>
           </div>
         </div>
