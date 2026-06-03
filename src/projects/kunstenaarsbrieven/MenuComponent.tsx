@@ -30,8 +30,14 @@ export type RootMenu = {
   menu: MenuCategory[];
 };
 
-export function MenuComponent(props: { menu: RootMenu | undefined }) {
-  const { menu } = props;
+type MenuComponentProps = {
+  menu: RootMenu | undefined;
+  variant?: "desktop" | "mobile";
+  onNavigate?: () => void;
+};
+
+export function MenuComponent(props: MenuComponentProps) {
+  const { menu, variant = "desktop", onNavigate } = props;
   const [openMenuLabel, setOpenMenuLabel] = React.useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -39,6 +45,60 @@ export function MenuComponent(props: { menu: RootMenu | undefined }) {
     "min-w-[220px] rounded-xl bg-white px-3 py-2 shadow-md outline-none ring-1 ring-black/5";
   const menuItemStyling =
     "flex cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:text-neutral-900 focus:bg-[#FFCE01] focus:outline-none focus-visible:bg-[#FFCE01] focus-visible:text-neutral-900 focus-visible:outline-none";
+
+  const navigateTo = (target: string) => {
+    navigate(buildNavLink(target));
+    onNavigate?.();
+  };
+
+  if (variant === "mobile") {
+    return (
+      <ul className="flex flex-col gap-3">
+        {menu?.menu.map((category) => (
+          <li key={category.label} className="flex flex-col gap-2">
+            <strong>{category.label}</strong>
+            {"items" in category && (
+              <ul className="ml-3 flex flex-col gap-2">
+                {category.items.map((item) => (
+                  <li key={item.target}>
+                    <Button
+                      className="w-full justify-start text-left text-inherit no-underline hover:underline"
+                      onPress={() => navigateTo(item.target)}
+                    >
+                      {item.label}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {"menu" in category && (
+              <ul className="ml-3 flex flex-col gap-3">
+                {category.menu.map((submenu) => (
+                  <li key={submenu.label} className="flex flex-col gap-2">
+                    <span>{submenu.label}</span>
+                    {"items" in submenu && (
+                      <ul className="ml-3 flex flex-col gap-2">
+                        {submenu.items.map((item) => (
+                          <li key={item.target}>
+                            <Button
+                              className="w-full justify-start text-left text-inherit no-underline hover:underline"
+                              onPress={() => navigateTo(item.target)}
+                            >
+                              {item.label}
+                            </Button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
   return (
     <>
@@ -64,7 +124,7 @@ export function MenuComponent(props: { menu: RootMenu | undefined }) {
                 <MenuItem
                   key={item.target}
                   className={menuItemStyling}
-                  onAction={() => navigate(buildNavLink(item.target))}
+                  onAction={() => navigateTo(item.target)}
                 >
                   <Text slot="label">{item.label}</Text>
                 </MenuItem>
@@ -81,7 +141,7 @@ export function MenuComponent(props: { menu: RootMenu | undefined }) {
                         <MenuItem
                           key={item.target}
                           className={menuItemStyling}
-                          onAction={() => navigate(buildNavLink(item.target))}
+                          onAction={() => navigateTo(item.target)}
                         >
                           <Text slot="label">{item.label}</Text>
                         </MenuItem>
