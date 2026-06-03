@@ -40,6 +40,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
 
   CONTENT_VIEWS: "Content views",
   CONTENT_PANELS: "Content views",
+  SETTINGS: "Settings",
 
   //Search item
   letterOriginalText: "Edited text (letter)",

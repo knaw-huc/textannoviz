@@ -36,6 +36,7 @@ export const dutchVanGoghLabels = Object.assign({}, dutchLabels, {
 
   CONTENT_VIEWS: "Inhoud weergave",
   CONTENT_PANELS: "Inhoud weergave",
+  SETTINGS: "Instellingen",
 
   //Search item
   letterOriginalText: "Geëditeerde tekst (brief)",
