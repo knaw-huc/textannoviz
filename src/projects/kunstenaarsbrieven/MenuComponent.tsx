@@ -32,12 +32,12 @@ export type RootMenu = {
 
 type MenuComponentProps = {
   menu: RootMenu | undefined;
-  variant?: "dropdown" | "expanded";
+  variant?: "desktop" | "mobile";
   onNavigate?: () => void;
 };
 
 export function MenuComponent(props: MenuComponentProps) {
-  const { menu, variant = "dropdown", onNavigate } = props;
+  const { menu, variant = "desktop", onNavigate } = props;
   const [openMenuLabel, setOpenMenuLabel] = React.useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -51,7 +51,7 @@ export function MenuComponent(props: MenuComponentProps) {
     onNavigate?.();
   };
 
-  if (variant === "expanded") {
+  if (variant === "mobile") {
     return (
       <ul className="flex flex-col gap-3">
         {menu?.menu.map((category) => (

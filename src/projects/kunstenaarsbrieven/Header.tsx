@@ -137,7 +137,7 @@ export const Header = (props: HeaderProps) => {
             >
               <MenuComponent
                 menu={menu}
-                variant="expanded"
+                variant="mobile"
                 onNavigate={() => setIsMobileMenuOpen(false)}
               />
             </nav>
