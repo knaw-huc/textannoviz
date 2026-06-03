@@ -147,6 +147,10 @@ img {
   margin-left: 1rem;
 }
 
+.bibl {
+  margin-bottom: 0.75rem;
+}
+
 .label {
   font-weight: bold;
   margin-left: -1rem;
@@ -161,12 +165,13 @@ img {
 .bibl-highlight::before {
   content: "";
   position: absolute;
-  left: -1rem; /* cover the negative margin used by .label */
+  left: -1.5rem; /* cover the negative margin used by .label + 0.5rem for some padding */
   right: 0;
   top: 0;
   bottom: 0;
   background-color: #ffce01;
   z-index: -1;
+  border-radius: 0.25rem;
 }
 
 .title_m,
