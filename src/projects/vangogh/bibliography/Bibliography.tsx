@@ -69,14 +69,8 @@ export const Bibliography = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
       element.classList.add("bibl-highlight");
-      // const timeout = setTimeout(() => {
-      //   element.classList.remove("bibl-highlight");
-      // }, 5000);
-      return () => {
-        // clearTimeout(timeout);
-      };
     }
-  }, [content]);
+  }, [content, location.hash]);
 
   function handleTabChange(id: TabId) {
     const currentTab = searchParams.get("tab") ?? TAB_IDS.vangogh;
