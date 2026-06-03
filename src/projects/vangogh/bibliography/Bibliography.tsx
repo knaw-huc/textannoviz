@@ -103,10 +103,10 @@ export const Bibliography = () => {
             Bibliography
           </Tab>
         </TabList>
-        <TabPanel id={TAB_IDS.vangogh} className="grid gap-6 px-8 pb-8">
+        <TabPanel id={TAB_IDS.vangogh}>
           <div dangerouslySetInnerHTML={{ __html: vangogh }} />
         </TabPanel>
-        <TabPanel id={TAB_IDS.editors} className="grid gap-6 px-8 pb-8">
+        <TabPanel id={TAB_IDS.editors}>
           <div dangerouslySetInnerHTML={{ __html: editors }} />
         </TabPanel>
       </Tabs>
