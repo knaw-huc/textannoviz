@@ -91,7 +91,7 @@ export const englishLabels: Labels = {
   SORT_BY_HELP: "",
   TOGGLE_INFO_HELP: "",
 
-  OCCURRENCES_PER_YEAR: "Occurences per year",
+  OCCURRENCES_PER_YEAR: "Occurrences per year",
 
   NAVIGATE_SEARCH_RESULTS: "Navigate search results",
   SEARCH: "Search",
