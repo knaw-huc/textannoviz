@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import logo from "../../../assets/logo-republic-temp.png";
 import { DefaultProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
@@ -36,8 +36,9 @@ import { filterPanels } from "../filterPanels.ts";
 import { KunstenaarsbrievenBlock } from "../annotation/block/KunstenaarsbrievenBlock.tsx";
 import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
+import { overrideArrays } from "../../default/config/overrideArray.ts";
 
-export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
+export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
   {},
   defaultConfig,
   {
@@ -91,7 +92,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     },
     zoomAnnoMirador: true,
     miradorZoomRatio: 1.5,
-    allPossibleTextPanels: ["text", "textNotes", "typedNotes"],
+    allPossibleTextPanels: ["text", "textNotes"],
     defaultTextPanels: "text",
     searchSorting: [
       { name: "Letter number (ascending)", value: `file-${ASC}` },
@@ -115,4 +116,5 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     getUrl: getUrl,
     filterPanels: filterPanels,
   },
+  overrideArrays,
 );
