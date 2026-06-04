@@ -105,4 +105,5 @@ export const englishLabels: Labels = {
   ZOOM_RESET: "Reset zoom",
   FULLSCREEN: "Fullscreen",
   EXIT_FULLSCREEN: "Exit fullscreen",
+  CONTENT_VIEW: "Content view",
 };
