@@ -23,6 +23,7 @@ export const dutchNvvLabels = Object.assign({}, dutchLabels, {
 
   // page: "Pagina",
   SHOW_PAGE: "Pagina tonen",
+  NO_DATA: "Geen metadata",
 
   //panels
   facs: "Facsimile",
