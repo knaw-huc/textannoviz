@@ -20,11 +20,9 @@ export const dutchNvvLabels = Object.assign({}, dutchLabels, {
 
   //Text panel titles
   "text.nl": "",
-  unitText: "vergaderstuktekst",
 
-  page: "Pagina",
+  // page: "Pagina",
   SHOW_PAGE: "Pagina tonen",
-  NO_DATA: "Geen metadata",
 
   //panels
   facs: "Facsimile",
