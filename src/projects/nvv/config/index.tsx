@@ -12,6 +12,7 @@ import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { dutchNvvLabels } from "./dutchNvvLabels.ts";
 import { ASC, DESC } from "../../../model/Search.ts";
+import { filterPanels } from "../filterPanels.ts";
 
 export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   id: "nvv",
@@ -24,7 +25,6 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
   headerTitle: "NVV Archief",
   annotationTypesToInclude: ["Dataset", "Division", "Line", "Page", "Unit"],
-
   components: {
     Header,
     SearchItem,
@@ -77,4 +77,5 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
     { name: "Vergaderstuk (oplopend)", value: `file-${ASC}` },
     { name: "Vergaderstuk (aflopend)", value: `file-${DESC}` },
   ],
+  filterPanels: filterPanels,
 } as ProjectSpecificConfig);
