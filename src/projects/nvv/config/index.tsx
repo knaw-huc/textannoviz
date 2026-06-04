@@ -13,6 +13,7 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { dutchNvvLabels } from "./dutchNvvLabels.ts";
 import { ASC, DESC } from "../../../model/Search.ts";
+import { filterPanels } from "../filterPanels.ts";
 
 export const nvvConfig: ProjectConfig = mergeWith(
   {},
@@ -28,7 +29,6 @@ export const nvvConfig: ProjectConfig = mergeWith(
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "NVV Archief",
     annotationTypesToInclude: ["Dataset", "Division", "Line", "Page", "Unit"],
-
     components: {
       Header,
       SearchItem,
@@ -81,6 +81,7 @@ export const nvvConfig: ProjectConfig = mergeWith(
       { name: "Vergaderstuk (oplopend)", value: `file-${ASC}` },
       { name: "Vergaderstuk (aflopend)", value: `file-${DESC}` },
     ],
+    filterPanels: filterPanels,
   } as ProjectSpecificConfig,
   replaceArrays,
 );
