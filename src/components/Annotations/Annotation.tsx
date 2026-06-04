@@ -46,7 +46,7 @@ export function Annotation(props: AnnotationProps) {
   }
 
   const tabStyling =
-    "flex cursor-pointer items-end border-b-4 border-neutral-50 p-2 text-left text-xs font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
+    "flex cursor-pointer items-end border-b-4 border-neutral-100 p-2 text-left text-xs font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";
 
   const tabPanelStyling = "flex flex-col gap-6 overflow-auto px-6 pt-6";
 
