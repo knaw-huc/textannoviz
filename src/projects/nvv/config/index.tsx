@@ -24,7 +24,7 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   initialDateTo: "1999-12-31",
   headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
   headerTitle: "NVV Archief",
-  annotationTypesToInclude: ["Dataset", "Division", "Line", "Page", "Unit"],
+  annotationTypesToInclude: ["Division", "Page", "Unit"],
   components: {
     Header,
     SearchItem,
