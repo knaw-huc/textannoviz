@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import logo from "../../../assets/logo-translatin-transp.png";
 import {
   ProjectConfig,
@@ -11,76 +11,82 @@ import { isHighlightBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { englishTranslatinLabels } from "./englishTranslatinLabels.ts";
+import { overrideArrays } from "../../default/config/overrideArray.ts";
 
-export const translatinConfig: ProjectConfig = merge({}, defaultConfig, {
-  id: "translatin",
-  relativeTo: "Document",
-  broccoliUrl: "http://localhost:8082",
-  annotationTypesToInclude: [
-    "Document",
-    ...projectHighlightedTypes,
-    // "Dataset",
-    // "Division",
-    // "Head",
-    // "Highlight",
-    // "List",
-    // "ListItem",
-    // "Note",
-    // "Page",
-    // "Paragraph",
-    // "Quote",
-    // "Reference",
-  ],
-  elasticIndexName: "translatin",
-  initialDateFrom: "1500-01-01",
-  initialDateTo: "1800-01-01",
-  initialRangeFrom: "0",
-  initialRangeTo: "30000",
-  maxRange: 30000,
-  logoImageUrl: logo,
-  headerColor: "bg-brand1-700 text-brand1-100",
-  headerTitle: "",
-  showSearchResultsButtonFooter: false,
-  showFacsimile: false,
-  showAnnotations: true,
-  defaultKeywordAggsToRender: [
-    "author",
-    "title",
-    "genre",
-    "firstEdition",
-    "datePublished",
-    "location",
-    "publisher",
-  ],
-  overrideDefaultAggs: [
-    {
-      facetName: "author",
-      order: "keyAsc",
+export const translatinConfig: ProjectConfig = mergeWith(
+  {},
+  defaultConfig,
+  {
+    id: "translatin",
+    relativeTo: "Document",
+    broccoliUrl: "http://localhost:8082",
+    annotationTypesToInclude: [
+      "Document",
+      ...projectHighlightedTypes,
+      // "Dataset",
+      // "Division",
+      // "Head",
+      // "Highlight",
+      // "List",
+      // "ListItem",
+      // "Note",
+      // "Page",
+      // "Paragraph",
+      // "Quote",
+      // "Reference",
+    ],
+    elasticIndexName: "translatin",
+    initialDateFrom: "1500-01-01",
+    initialDateTo: "1800-01-01",
+    initialRangeFrom: "0",
+    initialRangeTo: "30000",
+    maxRange: 30000,
+    logoImageUrl: logo,
+    headerColor: "bg-brand1-700 text-brand1-100",
+    headerTitle: "",
+    showSearchResultsButtonFooter: false,
+    showFacsimile: false,
+    showAnnotations: true,
+    defaultKeywordAggsToRender: [
+      "author",
+      "title",
+      "genre",
+      "firstEdition",
+      "datePublished",
+      "location",
+      "publisher",
+    ],
+    overrideDefaultAggs: [
+      {
+        facetName: "author",
+        order: "keyAsc",
+      },
+      {
+        facetName: "title",
+        order: "keyAsc",
+      },
+      {
+        facetName: "location",
+        order: "keyAsc",
+      },
+    ],
+    components: {
+      // TODO:
+      MetadataPanel,
+      // MetadataPanel: Empty,
+      SearchItem,
+      SearchInfoPage,
     },
-    {
-      facetName: "title",
-      order: "keyAsc",
-    },
-    {
-      facetName: "location",
-      order: "keyAsc",
-    },
-  ],
-  components: {
-    // TODO:
-    MetadataPanel,
-    // MetadataPanel: Empty,
-    SearchItem,
-    SearchInfoPage,
-  },
-  highlightTypes: projectHighlightedTypes,
+    highlightTypes: projectHighlightedTypes,
 
-  selectedLanguage: "en",
-  languages: [{ code: "en", labels: englishTranslatinLabels }],
+    selectedLanguage: "en",
+    languages: [{ code: "en", labels: englishTranslatinLabels }],
 
-  viewsToSearchIn: ["playText"],
+    viewsToSearchIn: ["playText"],
 
-  getHighlightCategory: (body) =>
-    isHighlightBody(body) ? body.style : body.type,
-  getAnnotationCategory: (anno) => anno.type,
-} as ProjectSpecificConfig);
+    getHighlightCategory: (body) =>
+      isHighlightBody(body) ? body.style : body.type,
+    getAnnotationCategory: (anno) => anno.type,
+  } as ProjectSpecificConfig,
+  overrideArrays,
+);

@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import logo from "../../../assets/logo-correspondense-of-Suriano.png";
 import {
   ProjectConfig,
@@ -24,8 +24,9 @@ import { TextPanels } from "../TextPanels.tsx";
 import { Empty } from "../../../components/Empty";
 import { SurianoMarker } from "../annotation/SurianoMarker.tsx";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
+import { overrideArrays } from "../../default/config/overrideArray.ts";
 
-export const surianoConfig: ProjectConfig = merge(
+export const surianoConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
@@ -109,4 +110,5 @@ export const surianoConfig: ProjectConfig = merge(
       [...markerTypes, ...insertTextMarkerTypes].includes(body.type),
     highlightTypes: highlightTypes,
   } as ProjectSpecificConfig,
+  overrideArrays,
 );

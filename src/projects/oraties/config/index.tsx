@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import logo from "../../../assets/logo-huygens-wit.png";
 import {
   ProjectConfig,
@@ -28,126 +28,133 @@ import {
   reference,
   teiArtwork,
 } from "../annotation/ProjectAnnotationModel.ts";
+import { overrideArrays } from "../../default/config/overrideArray.ts";
 
-export const oratiesConfig: ProjectConfig = merge({}, defaultConfig, {
-  id: "oraties",
+export const oratiesConfig: ProjectConfig = mergeWith(
+  {},
+  defaultConfig,
+  {
+    id: "oraties",
 
-  headerTitle: "Oraties",
-  headerColor: "bg-brand1-800 text-white",
-  personsUrl: "http://localhost:8040/files/oraties/apparatus/bio-entities.json",
+    headerTitle: "Oraties",
+    headerColor: "bg-brand1-800 text-white",
+    personsUrl:
+      "http://localhost:8040/files/oraties/apparatus/bio-entities.json",
 
-  logoImageUrl: logo,
-  logoHref: "https://www.huygens.knaw.nl/",
+    logoImageUrl: logo,
+    logoHref: "https://www.huygens.knaw.nl/",
 
-  languages: [{ code: "nl", labels: dutchOratiesLabels }],
-  selectedLanguage: "nl",
+    languages: [{ code: "nl", labels: dutchOratiesLabels }],
+    selectedLanguage: "nl",
 
-  showNotesTab: true,
-  useExternalConfig: true,
+    showNotesTab: true,
+    useExternalConfig: true,
 
-  broccoliUrl: "http://localhost:8082",
+    broccoliUrl: "http://localhost:8082",
 
-  detailPanels: [
-    {
-      name: "facs",
-      visible: true,
-      disabled: false,
-      region: "left",
-      size: "minmax(300px, 650fr)",
-      panel: PanelTemplates.facsPanel,
+    detailPanels: [
+      {
+        name: "facs",
+        visible: true,
+        disabled: false,
+        region: "left",
+        size: "minmax(300px, 650fr)",
+        panel: PanelTemplates.facsPanel,
+      },
+      {
+        name: "text.orig",
+        visible: true,
+        disabled: false,
+        region: "main",
+        size: "minmax(300px, 750fr)",
+        panel: TextPanels.origTextPanel,
+      },
+      {
+        name: "metadata",
+        visible: true,
+        disabled: false,
+        region: "right",
+        size: "minmax(300px, 400fr)",
+        panel: PanelTemplates.metadataPanel,
+      },
+    ],
+    routes: [
+      {
+        path: "persons",
+        element: <Persons />,
+      },
+    ],
+
+    // FacsimileConfig
+    showFacsimile: true,
+    showMiradorNavigationButtons: true,
+
+    // SearchConfig
+    elasticIndexName: "oraties",
+    initialDateFrom: "2026-03-04",
+    initialDateTo: "2026-03-04",
+    showSearchResultsButtonFooter: false,
+    showSearchResultsOnInfoPage: true,
+    defaultKeywordAggsToRender: ["author", "location"],
+    overrideDefaultSearchParams: {
+      sortBy: "date",
+      sortOrder: "asc",
     },
-    {
-      name: "text.orig",
-      visible: true,
-      disabled: false,
-      region: "main",
-      size: "minmax(300px, 750fr)",
-      panel: TextPanels.origTextPanel,
+    viewsToSearchIn: ["lectureOriginalText"],
+
+    // ProjectSpecificConfig
+    components: {
+      Header,
+      SearchItem,
+      MetadataPanel,
+      SearchInfoPage,
+      NotesPanel,
+      Persons,
     },
-    {
-      name: "metadata",
-      visible: true,
-      disabled: false,
-      region: "right",
-      size: "minmax(300px, 400fr)",
-      panel: PanelTemplates.metadataPanel,
+
+    // TextConfig
+    allPossibleTextPanels: ["text", "textNotes"],
+
+    // AnnotationConfig
+    showAnnotations: true,
+    annotatedTextComponents: {
+      ...defaultAnnotatedTextComponents,
+      Marker: OratiesMarker,
     },
-  ],
-  routes: [
-    {
-      path: "persons",
-      element: <Persons />,
+    relativeTo: "Document",
+    annotationTypesToInclude: [
+      "Division",
+      "Document",
+      "Entity",
+      "Head",
+      "Highlight",
+      "List",
+      "Note",
+      "Page",
+      "Paragraph",
+      "Reference",
+      "Section",
+      "Whitespace",
+    ],
+    isMarker: (body) => pageMarkerTypes.includes(body.type),
+
+    /**
+     * Note: duplicated from kunstenaarsbrieven
+     * TODO: move to projects/common?
+     */
+    highlightTypes: highlightTypes,
+    nestedTypes: entityTypes,
+    getAnnotationCategory: getAnnotationCategory,
+    getHighlightCategory: getHighlightCategory,
+    isEntity: isEntity,
+    isLink: isBibliographyReference,
+    getUrl: (a) => isBibliographyReference(a) && a.url,
+    annoToEntityCategory: {
+      [person]: "PER",
+      [teiArtwork]: "ART",
+      [reference.toLowerCase()]: "REF",
+      PER: "PER",
     },
-  ],
-
-  // FacsimileConfig
-  showFacsimile: true,
-  showMiradorNavigationButtons: true,
-
-  // SearchConfig
-  elasticIndexName: "oraties",
-  initialDateFrom: "2026-03-04",
-  initialDateTo: "2026-03-04",
-  showSearchResultsButtonFooter: false,
-  showSearchResultsOnInfoPage: true,
-  defaultKeywordAggsToRender: ["author", "location"],
-  overrideDefaultSearchParams: {
-    sortBy: "date",
-    sortOrder: "asc",
-  },
-  viewsToSearchIn: ["lectureOriginalText"],
-
-  // ProjectSpecificConfig
-  components: {
-    Header,
-    SearchItem,
-    MetadataPanel,
-    SearchInfoPage,
-    NotesPanel,
-    Persons,
-  },
-
-  // TextConfig
-  allPossibleTextPanels: ["text", "textNotes"],
-
-  // AnnotationConfig
-  showAnnotations: true,
-  annotatedTextComponents: {
-    ...defaultAnnotatedTextComponents,
-    Marker: OratiesMarker,
-  },
-  relativeTo: "Document",
-  annotationTypesToInclude: [
-    "Division",
-    "Document",
-    "Entity",
-    "Head",
-    "Highlight",
-    "List",
-    "Note",
-    "Page",
-    "Paragraph",
-    "Reference",
-    "Section",
-    "Whitespace",
-  ],
-  isMarker: (body) => pageMarkerTypes.includes(body.type),
-
-  /**
-   * Note: duplicated from kunstenaarsbrieven
-   * TODO: move to projects/common?
-   */
-  highlightTypes: highlightTypes,
-  nestedTypes: entityTypes,
-  getAnnotationCategory: getAnnotationCategory,
-  getHighlightCategory: getHighlightCategory,
-  isEntity: isEntity,
-  isLink: isBibliographyReference,
-  getUrl: (a) => isBibliographyReference(a) && a.url,
-  annoToEntityCategory: {
-    [person]: "PER",
-    [teiArtwork]: "ART",
-    [reference.toLowerCase()]: "REF",
-    PER: "PER",
-  },
-} as ProjectSpecificConfig);
+  } as ProjectSpecificConfig,
+  overrideArrays,
+);
