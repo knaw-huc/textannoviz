@@ -3,7 +3,6 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
@@ -13,8 +12,10 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { dutchNvvLabels } from "./dutchNvvLabels.ts";
 import { ASC, DESC } from "../../../model/Search.ts";
 import { filterPanels } from "../filterPanels.ts";
+import { defaultConfig } from "../../default/config";
+import { document } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
-export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
+export const nvvConfig: ProjectConfig = merge({}, defaultConfig, {
   id: "nvv",
   broccoliUrl: "http://localhost:8082",
   siteTitle: "NVV Archief",
@@ -25,6 +26,7 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
   headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
   headerTitle: "NVV Archief",
   annotationTypesToInclude: ["Division", "Page", "Unit"],
+  showAnnotations: true,
   components: {
     Header,
     SearchItem,
@@ -60,6 +62,9 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
       panel: PanelTemplates.metadataPanel,
     },
   ],
+  allPossibleTextPanels: ["text"], // NB: because of the merge(), this value is not overwritten, but this value is added to the original.
+  defaultTextPanels: "text",
+
   overrideDefaultAggs: [
     {
       facetName: "file",
@@ -68,14 +73,28 @@ export const nvvConfig: ProjectConfig = merge({}, kunstenaarsbrievenConfig, {
     },
   ],
   viewsToSearchIn: ["unitText"],
-  selectedLanguage: "nl",
+
   languages: [{ code: "nl", labels: dutchNvvLabels }],
+  selectedLanguage: "nl",
+
+  zoomAnnoMirador: true,
+  miradorZoomRatio: 1.5,
+
   zoomToAnnoOnFacsimile: true,
   showAnnosOnFacsimile: true,
   showFacsimilePrevNextScanButtonsButtons: true,
+  showSearchResultsOnInfoPage: true,
   searchSorting: [
     { name: "Vergaderstuk (oplopend)", value: `file-${ASC}` },
     { name: "Vergaderstuk (aflopend)", value: `file-${DESC}` },
   ],
+  overrideDefaultSearchParams: {
+    sortBy: "file",
+    sortOrder: "asc",
+  },
+  showMiradorNavigationButtons: true,
+  showSearchInTextViews: false,
+
   filterPanels: filterPanels,
+  relativeTo: document,
 } as ProjectSpecificConfig);
