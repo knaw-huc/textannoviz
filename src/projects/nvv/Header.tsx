@@ -9,13 +9,7 @@ export const Header = () => {
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
 
-  const introIds = [
-    { name: "intro1", id: "urn:mace:huc.knaw.nl:vangogh:introI" },
-    { name: "intro2", id: "urn:mace:huc.knaw.nl:vangogh:introII" },
-    { name: "intro3", id: "urn:mace:huc.knaw.nl:vangogh:introIII" },
-    { name: "intro4", id: "urn:mace:huc.knaw.nl:vangogh:introIV" },
-    { name: "intro6", id: "urn:mace:huc.knaw.nl:vangogh:introVI" },
-  ];
+  const introIds = [{ name: "intro", id: "urn:mace:huc.knaw.nl:nvv:intro" }];
 
   const letterAnnoBody = findLetterBody(annotations);
 

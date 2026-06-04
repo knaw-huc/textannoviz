@@ -1,6 +1,5 @@
 import { Button } from "react-aria-components";
-import logoHuygens from "../../assets/logo-huygens.png";
-import logoVGM from "../../assets/logo-vgm.png";
+import logoIISG from "../../assets/logo-iisg.png";
 import { useTranslateProject } from "../../stores/project";
 
 export const SearchInfoPage = () => {
@@ -21,19 +20,15 @@ export const SearchInfoPage = () => {
         <h2>{translateProject("EDITED_BY")}</h2>
 
         <div className="flex max-w-3xl flex-col gap-6 text-justify">
-          <p>{translateProject("P1")}</p>
-          <p>{translateProject("P2")}</p>
-          <p>© 2026 Van Gogh Museum, Amsterdam</p>
+          <p>Archieven van Nederlands Verbond van Vakverenigingen</p>
+          <p>© 2026 IISG, Amsterdam</p>
         </div>
 
         <div className="my-8 flex max-w-3xl items-start justify-between md:items-end">
           {/* Logos */}
           <div className="flex flex-col gap-8 md:flex-row md:items-end">
             <div>
-              <img src={logoVGM} className="h-20" alt="logo" />
-            </div>
-            <div>
-              <img src={logoHuygens} className="h-14" alt="logo" />
+              <img src={logoIISG} className="h-14" alt="logo" />
             </div>
           </div>
 
