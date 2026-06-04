@@ -95,6 +95,8 @@ export const dutchLabels: Labels = {
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
+  SETTINGS: "Instellingen",
+
   "text.self": "Tekst",
   facs: "Facsimile",
   metadata: "Info",

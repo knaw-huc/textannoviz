@@ -95,6 +95,7 @@ export const englishLabels: Labels = {
 
   NAVIGATE_SEARCH_RESULTS: "Navigate search results",
   SEARCH: "Search",
+  SETTINGS: "Settings",
   "text.self": "Text",
   facs: "Facsimile",
   metadata: "Info",
