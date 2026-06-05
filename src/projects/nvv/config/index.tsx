@@ -16,6 +16,7 @@ import { defaultConfig } from "../../default/config";
 import { document } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 export const nvvConfig: ProjectConfig = merge({}, defaultConfig, {
+  relativeTo: document,
   id: "nvv",
   broccoliUrl: "http://localhost:8082",
   siteTitle: "NVV Archief",
@@ -96,5 +97,4 @@ export const nvvConfig: ProjectConfig = merge({}, defaultConfig, {
   showSearchInTextViews: false,
 
   filterPanels: filterPanels,
-  relativeTo: document,
 } as ProjectSpecificConfig);
