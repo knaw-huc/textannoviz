@@ -15,6 +15,8 @@ import { ASC, DESC } from "../../../model/Search.ts";
 import { filterPanels } from "../filterPanels.ts";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { document } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
+import { NVVMarker } from "../annotation/NVVMarker.tsx";
 
 export const nvvConfig: ProjectConfig = mergeWith(
   {},
@@ -39,6 +41,11 @@ export const nvvConfig: ProjectConfig = mergeWith(
       // SearchInfoPage is too project-specific to make generic
       SearchInfoPage,
     },
+  annotatedTextComponents: {
+    ...defaultAnnotatedTextComponents,
+    Marker: NVVMarker,
+  },
+
     defaultKeywordAggsToRender: ["file"],
     detailPanels: [
       {
