@@ -13,10 +13,11 @@ import { dutchNvvLabels } from "./dutchNvvLabels.ts";
 import { ASC, DESC } from "../../../model/Search.ts";
 import { filterPanels } from "../filterPanels.ts";
 import { defaultConfig } from "../../default/config";
-import { document } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
+import { NVVMarker } from "../annotation/NVVMarker.tsx";
 
 export const nvvConfig: ProjectConfig = merge({}, defaultConfig, {
-  relativeTo: document,
+  relativeTo: "Unit",
   id: "nvv",
   broccoliUrl: "http://localhost:8082",
   siteTitle: "NVV Archief",
@@ -36,6 +37,11 @@ export const nvvConfig: ProjectConfig = merge({}, defaultConfig, {
     // SearchInfoPage is too project-specific to make generic
     SearchInfoPage,
   },
+  annotatedTextComponents: {
+    ...defaultAnnotatedTextComponents,
+    Marker: NVVMarker,
+  },
+
   defaultKeywordAggsToRender: ["file"],
   detailPanels: [
     {
