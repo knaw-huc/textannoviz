@@ -105,6 +105,7 @@ export const nvvConfig: ProjectConfig = mergeWith(
     },
     showMiradorNavigationButtons: true,
     showSearchInTextViews: false,
+  showToc: () => false,
 
     filterPanels: filterPanels,
     relativeTo: document,
