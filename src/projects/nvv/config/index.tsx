@@ -101,6 +101,7 @@ export const nvvConfig: ProjectConfig = merge({}, defaultConfig, {
   },
   showMiradorNavigationButtons: true,
   showSearchInTextViews: false,
+  showToc: () => false,
 
   filterPanels: filterPanels,
 } as ProjectSpecificConfig);
