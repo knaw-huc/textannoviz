@@ -19,8 +19,8 @@
     font-style: normal;
   }
 
-  thead tr {
-    font-weight: bold;
+  tr {
+    vertical-align: top;
   }
 
   /* Remove margins introduced by 'prose' styling in src/components/Text/TextComponent.tsx */
