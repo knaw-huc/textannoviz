@@ -2,6 +2,8 @@ import { BlockProps } from "../../../../components/Text/Annotated/core/Annotated
 import {
   cell,
   head,
+  list,
+  listItem,
   page,
   paragraph,
   row,
@@ -12,6 +14,7 @@ import { Paragraph } from "./Paragraph.tsx";
 import { Page } from "./Page.tsx";
 import { TocHeader } from "./TocHeader.tsx";
 import { LazyTableAndRows } from "./LazyTableAndRows.tsx";
+import { ListAndListItems } from "./ListAndListItems.tsx";
 
 export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
@@ -38,5 +41,15 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   if (block.blockType === head) {
     return <TocHeader {...props} />;
   }
+
+  // Lists and list items:
+  if (block.blockType === list) {
+    return <ListAndListItems block={block} />;
+  }
+  if (block.blockType === listItem) {
+    // List items are rendered by list:
+    return null;
+  }
+
   return <div className={block.blockType}>{children}</div>;
 }
