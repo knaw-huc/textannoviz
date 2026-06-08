@@ -23,6 +23,7 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
     return <Paragraph {...props} />;
   }
 
+  // Tables, rows and cells:
   if (block.blockType === table) {
     return <LazyTableAndRows block={block} />;
   }

@@ -303,6 +303,9 @@ export const highlightTypes = [
 export const tooltipMarkerTypes = [reference];
 export const insertMarkerTypes = [picture, head];
 export const tableTypes = [cell, row, table];
+/**
+ * See {@link blockSchema}
+ */
 export const blockTypes = [head, page, paragraph, ...tableTypes];
 
 export const typesToInclude = [
@@ -388,16 +391,19 @@ export const entityCategoryToAgg: Record<string, string> = {
   ART: "artworks",
 };
 
+/**
+ * See {@link blockTypes}
+ */
 export const blockSchema: BlockSchema = {
   root: "root",
   blocks: {
     root: { children: [page, paragraph, head, table] },
+    [cell]: { children: [] },
+    [head]: { children: [] },
     [page]: { children: [paragraph, head, table] },
     [paragraph]: { children: [] },
-    [head]: { children: [] },
-    [table]: { children: [row] },
     [row]: { children: [cell] },
-    [cell]: { children: [] },
+    [table]: { children: [row] },
   },
 };
 
