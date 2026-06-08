@@ -63,13 +63,22 @@ export function usePanelLayout(): null {
 
       const filteredBySize = isVisibleInLayout(activePanels, windowSize);
 
+      const filteredByPreference = activePanels
+        .filter((p) => {
+          if (p.name in panelVisibilityPreferences) {
+            return panelVisibilityPreferences[p.name];
+          }
+          return true;
+        })
+        .map((p) => p.name);
+
       setActivePanels(
         activePanels.map((panel) => ({
           ...panel,
           visible:
             filteredByProject.includes(panel.name) &&
             filteredBySize.includes(panel.name) &&
-            panelVisibilityPreferences[panel.name] !== false,
+            filteredByPreference.includes(panel.name),
         })),
       );
     }
