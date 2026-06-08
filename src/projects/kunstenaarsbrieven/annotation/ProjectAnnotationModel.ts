@@ -26,6 +26,7 @@ export const head = "Head";
 export const highlight = "Highlight";
 export const label = "Label";
 export const letter = "Letter";
+export const list = "List";
 export const listItem = "ListItem";
 export const note = "Note";
 export const page = "Page";
@@ -288,11 +289,12 @@ export const highlightTypes = [
 ];
 export const tooltipMarkerTypes = [reference];
 export const insertMarkerTypes = [picture, head];
+export const listTypes = [list, listItem];
 export const tableTypes = [cell, row, table];
 /**
  * See {@link blockSchema}
  */
-export const blockTypes = [head, page, paragraph, ...tableTypes];
+export const blockTypes = [head, page, paragraph, ...tableTypes, ...listTypes];
 
 export const typesToInclude = [
   ...new Set([
@@ -383,9 +385,10 @@ export const entityCategoryToAgg: Record<string, string> = {
 export const blockSchema: BlockSchema = {
   root: "root",
   blocks: {
-    root: { children: [page, paragraph, head, table] },
+    root: { children: [list, page, paragraph, head, table] },
     [cell]: { children: [] },
     [head]: { children: [] },
+    [list]: { children: [listItem] },
     [page]: { children: [paragraph, head, table] },
     [paragraph]: { children: [] },
     [row]: { children: [cell] },
