@@ -6,7 +6,7 @@ type InsertMarkerAnnotationProps = {
   marker: MarkerSegment<MarkerBody>;
 };
 
-export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
+export const InsertMarker = (props: InsertMarkerAnnotationProps) => {
   const body = props.marker.body;
   if (body.type === "tei:Space") {
     return <br className="insert-marker" />;

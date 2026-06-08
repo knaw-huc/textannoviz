@@ -5,11 +5,9 @@ import { useDetailViewStore } from "../../../../stores/detail-view/detail-view-s
 import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { createTooltipMarkerClasses } from "../../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
-import { isNoteReference } from "../../annotation/ProjectAnnotationModel.ts";
+import { isNoteReference } from "../ProjectAnnotationModel.ts";
 
-export function TooltipMarkerAnnotation(props: {
-  marker: MarkerSegment<MarkerBody>;
-}) {
+export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   const activeFootnote = useTextStore((state) => state.activeFootnote);
   const setActiveFootnote = useTextStore((state) => state.setActiveFootnote);
   const setActiveSidebarTab = useDetailViewStore(
