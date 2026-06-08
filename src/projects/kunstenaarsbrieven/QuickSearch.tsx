@@ -53,7 +53,7 @@ export function QuickSearch(props: { letterIdSet: Set<string> | undefined }) {
         navigate(`${BASE_URL}let${normalisedLetterId}`);
       }
     }
-    // Otherwise, treat is a regular full text search
+    // Otherwise, treat it as a regular full text search
     else {
       const query: Partial<SearchQuery> = {
         fullText: sanitisedLowercaseFullText,
