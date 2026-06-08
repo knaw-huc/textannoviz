@@ -147,4 +147,5 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
     "Use facets (e.g., Persons, Location) to narrow down your results. Multiple facets and values can be combined.",
   SEARCH_HISTORY_HELP:
     "Shows the last ten searches executed on this browser. Clicking a search re-executes it. It is also possible to remove a previous search from the history.",
+  QUICK_SEARCH_HELP: "PLACEHOLDER",
 });
