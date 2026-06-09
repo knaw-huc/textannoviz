@@ -6,9 +6,10 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
+import { useKunstenaarsbrievenTextViews } from "./text/useKunstenaarsbrievenTextViews.ts";
 
 export const NotesPanel = () => {
-  const views = useTextStore((state) => state.views);
+  const views = useKunstenaarsbrievenTextViews();
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useTranslateProject();
   const activeFootnote = useTextStore((state) => state.activeFootnote);
