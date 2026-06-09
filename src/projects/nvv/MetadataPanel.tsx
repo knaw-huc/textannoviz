@@ -1,77 +1,49 @@
-import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
-import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  AnnoRepoBodyBase,
+} from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
-import { useTextStore } from "../../stores/text/text-store.ts";
 import { gridOneColumn } from "../../utils/gridOneColumn.ts";
-import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
+type UnitBody = AnnoRepoBodyBase & {
+  n: string;
+  title: string;
+};
+
+const unit = "Unit";
+
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
-  const textViews = useTextStore().views;
   const translateProject = useTranslateProject();
 
-  const letterAnnoBody = findLetterBody(props.annotations);
+  const unitAnnoBody = findUnitBody(props.annotations);
 
-  const { n, identifier, recipient, sender } = letterAnnoBody ?? {};
-
-  const typedNotes = textViews?.["typedNotes"];
-  const typedNoteText = typedNotes?.["en"];
+  const { n, title } = unitAnnoBody ?? {};
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
+
+  console.log(props);
 
   return (
     <>
       <ul className="m-0 list-none p-0">
-        {letterAnnoBody ? (
+        {unitAnnoBody ? (
           <>
             <li className="mb-8">
               <div className={gridOneColumn}>
-                <div className={labelStyling}>
-                  {translateProject("letter")}:{" "}
-                </div>
+                <div className={labelStyling}>vergaderstuk:</div>
                 {n}
               </div>
             </li>
             <li className="mb-8">
               <div className={gridOneColumn}>
-                <div className={labelStyling}>
-                  {translateProject("invNr")}:{" "}
-                </div>
-                VGM, {identifier}
+                <div className={labelStyling}>titel:</div>
+                {title}
               </div>
             </li>
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <div className={labelStyling}>
-                  {translateProject("sender")}:{" "}
-                </div>
-                {Array.isArray(sender) ? sender.join(", ") : sender}
-              </div>
-            </li>
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <div className={labelStyling}>
-                  {translateProject("recipient")}:{" "}
-                </div>
-                {Array.isArray(recipient) ? recipient.join(", ") : recipient}
-              </div>
-            </li>
-            {typedNoteText ? (
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <div className={labelStyling}>
-                    {translateProject("addInfo")}:{" "}
-                  </div>
-                  <ProjectAnnotatedText
-                    text={typedNoteText}
-                    showDetail={false}
-                  />
-                </div>
-              </li>
-            ) : null}
           </>
         ) : (
           translateProject("NO_DATA")
@@ -80,3 +52,17 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     </>
   );
 };
+
+function findUnitBody(annotations: AnnoRepoAnnotation[]): UnitBody | undefined {
+  const found = annotations.find((anno) => anno.body.type === unit);
+  if (isUnitBody(found?.body)) {
+    return found.body;
+  }
+}
+
+function isUnitBody(toTest?: AnnoRepoBodyBase): toTest is UnitBody {
+  if (!toTest) {
+    return false;
+  }
+  return toTest.type === "Unit";
+}
