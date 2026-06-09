@@ -22,7 +22,9 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
           alt="Not available"
         />
       );
-    } else {
+    }
+    // In all other cases, we need to build the URL ourselves
+    else {
       const maxWidth = body.width ?? "400";
       const width = Math.min(parseInt(maxWidth), 400);
       return (
