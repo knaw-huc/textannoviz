@@ -5,7 +5,11 @@ import {
   AnnoRepoBody,
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
-import { ViewLang } from "../../../model/Broccoli";
+import {
+  BroccoliTextGeneric,
+  BroccoliViews,
+  ViewLang,
+} from "../../../model/Broccoli";
 import {
   AnnotationSegment,
   BlockSchema,
@@ -42,6 +46,14 @@ export const teiArtwork = "artwork";
 export const teiNote = "note";
 export const unknown = "unknown";
 export const whitespace = "Whitespace";
+
+export type KunstenaarsbrievenTextViews = BroccoliViews & {
+  text: Record<ViewLang, BroccoliTextGeneric>;
+  textNotes: Record<ViewLang, Record<string, BroccoliTextGeneric>>;
+  transcrSource?: Record<ViewLang, BroccoliTextGeneric>;
+  dating?: Record<ViewLang, BroccoliTextGeneric>;
+  remarks?: Record<ViewLang, BroccoliTextGeneric>;
+};
 
 export type ArtworkSections =
   | "illustrated"
