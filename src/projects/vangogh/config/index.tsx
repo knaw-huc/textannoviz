@@ -75,6 +75,7 @@ export const vangoghConfig: ProjectConfig = merge(
       "recipient",
       "sender",
       "correspondent",
+      "bibleRefs",
     ],
     detailPanels: [
       {
