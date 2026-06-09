@@ -26,6 +26,7 @@ export const head = "Head";
 export const highlight = "Highlight";
 export const label = "Label";
 export const letter = "Letter";
+export const list = "List";
 export const listItem = "ListItem";
 export const note = "Note";
 export const page = "Page";
@@ -302,8 +303,12 @@ export const highlightTypes = [
 ];
 export const tooltipMarkerTypes = [reference];
 export const insertMarkerTypes = [picture, head];
+export const listTypes = [list, listItem];
 export const tableTypes = [cell, row, table];
-export const blockTypes = [head, page, paragraph, ...tableTypes];
+/**
+ * See {@link blockSchema}
+ */
+export const blockTypes = [head, page, paragraph, ...tableTypes, ...listTypes];
 
 export const typesToInclude = [
   ...new Set([
@@ -388,16 +393,20 @@ export const entityCategoryToAgg: Record<string, string> = {
   ART: "artworks",
 };
 
+/**
+ * See {@link blockTypes} and {@link KunstenaarsbrievenBlock}
+ */
 export const blockSchema: BlockSchema = {
   root: "root",
   blocks: {
-    root: { children: [page, paragraph, head, table] },
-    [page]: { children: [paragraph, head, table] },
-    [paragraph]: { children: [] },
-    [head]: { children: [] },
-    [table]: { children: [row] },
-    [row]: { children: [cell] },
+    root: { children: [head, list, page, paragraph, table] },
     [cell]: { children: [] },
+    [head]: { children: [] },
+    [list]: { children: [listItem] },
+    [page]: { children: [paragraph, head, table, list] },
+    [paragraph]: { children: [] },
+    [row]: { children: [cell] },
+    [table]: { children: [row] },
   },
 };
 

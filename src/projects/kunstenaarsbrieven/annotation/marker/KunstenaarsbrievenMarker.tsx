@@ -3,8 +3,8 @@ import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { throwUnknownAnnotation } from "../../../../components/Text/Annotated/throwUnknownAnnotation.ts";
 import { isNoteReference } from "../ProjectAnnotationModel.ts";
 import { insertMarkerTypes } from "../ProjectAnnotationModel.ts";
-import { TooltipMarkerAnnotation } from "./TooltipMarkerAnnotation.tsx";
-import { InsertMarkerAnnotation } from "./InsertMarkerAnnotation.tsx";
+import { NoteMarker } from "./NoteMarker.tsx";
+import { InsertMarker } from "./InsertMarker.tsx";
 
 export function KunstenaarsbrievenMarker(props: MarkerProps<MarkerBody>) {
   const { marker } = props;
@@ -12,10 +12,10 @@ export function KunstenaarsbrievenMarker(props: MarkerProps<MarkerBody>) {
   const type = body.type;
 
   if (isNoteReference(body)) {
-    return <TooltipMarkerAnnotation marker={marker} />;
+    return <NoteMarker marker={marker} />;
   }
   if (insertMarkerTypes.includes(type)) {
-    return <InsertMarkerAnnotation marker={marker} />;
+    return <InsertMarker marker={marker} />;
   }
   throwUnknownAnnotation("marker", body);
 }
