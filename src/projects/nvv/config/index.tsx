@@ -17,6 +17,7 @@ import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { document } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { NVVMarker } from "../annotation/NVVMarker.tsx";
+import { pageMarkerTypes } from "../annotation/ProjectAnnotationModel.ts";
 
 export const nvvConfig: ProjectConfig = mergeWith(
   {},
@@ -106,6 +107,7 @@ export const nvvConfig: ProjectConfig = mergeWith(
     showMiradorNavigationButtons: true,
     showSearchInTextViews: false,
   showToc: () => false,
+  isMarker: (body) => pageMarkerTypes.includes(body.type),
 
     filterPanels: filterPanels,
     relativeTo: document,
