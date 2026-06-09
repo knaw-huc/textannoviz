@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -17,8 +17,9 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { TextPanels } from "../TextPanels";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
+import { replaceArrays } from "../../default/config/replaceArrays";
 
-export const israelsConfig: ProjectConfig = merge(
+export const israelsConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
@@ -147,4 +148,5 @@ export const israelsConfig: ProjectConfig = merge(
     showSearchInTextViews: true,
     zoomToAnnoOnFacsimile: true,
   } as ProjectSpecificConfig,
+  replaceArrays,
 );

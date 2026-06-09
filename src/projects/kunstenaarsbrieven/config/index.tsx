@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import logo from "../../../assets/logo-republic-temp.png";
 import { DefaultProjectConfig } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
@@ -36,8 +36,9 @@ import { filterPanels } from "../filterPanels.ts";
 import { KunstenaarsbrievenBlock } from "../annotation/block/KunstenaarsbrievenBlock.tsx";
 import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
-export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
+export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
   {},
   defaultConfig,
   {
@@ -115,4 +116,5 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = merge(
     getUrl: getUrl,
     filterPanels: filterPanels,
   },
+  replaceArrays,
 );
