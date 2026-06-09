@@ -276,6 +276,20 @@ export function isParagraphBody(
   return !!toTest && toTest.type === paragraph;
 }
 
+export type PictureBody = AnnoRepoBodyBase & {
+  elementName: string;
+  "xml:id": string;
+  n: string;
+  "tei:facs": string;
+  url: string;
+};
+
+export function isPictureBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is PictureBody {
+  return !!toTest && toTest.type === picture;
+}
+
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
   highlight,
