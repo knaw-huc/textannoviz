@@ -11,6 +11,7 @@ import {
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
+  NVVSearchResultsBody,
   OratiesSearchResultsBody,
   RepublicSearchResultBody,
   SearchParams,
@@ -115,6 +116,7 @@ export type ComponentsConfig = {
       | VanGoghSearchResultsBody
       | IsraelsSearchResultsBody
       | BrederodeSearchResultsBody
+      | NVVSearchResultsBody
       | OratiesSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;

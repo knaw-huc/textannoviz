@@ -25,8 +25,6 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
-  console.log(props);
-
   return (
     <>
       <ul className="m-0 list-none p-0">
@@ -64,5 +62,5 @@ function isUnitBody(toTest?: AnnoRepoBodyBase): toTest is UnitBody {
   if (!toTest) {
     return false;
   }
-  return toTest.type === "Unit";
+  return toTest.type === unit;
 }
