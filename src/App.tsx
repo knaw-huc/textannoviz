@@ -127,6 +127,7 @@ async function selectProjectConfig() {
         artworksUrl,
         biblUrl,
         menuUrl,
+        letterIdUrl,
       } = externalConfig;
       project = externalProjectName;
       config = projectConfigs[project];
@@ -147,6 +148,7 @@ async function selectProjectConfig() {
       if (artworksUrl) config.artworksUrl = artworksUrl;
       if (biblUrl) config.biblUrl = biblUrl;
       if (menuUrl) config.menuUrl = menuUrl;
+      if (letterIdUrl) config.letterIdUrl = letterIdUrl;
     }
   } else {
     project = envProjectName;

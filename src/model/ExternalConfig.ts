@@ -18,4 +18,5 @@ export type ExternalConfig = {
   artworksUrl?: ProjectConfig["artworksUrl"];
   biblUrl?: Partial<Record<LanguageCode, string>>;
   menuUrl: string;
+  letterIdUrl: string;
 };

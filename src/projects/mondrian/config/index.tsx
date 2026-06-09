@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -16,8 +16,9 @@ import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { Placeholder } from "../../../components/Placeholder";
+import { replaceArrays } from "../../default/config/replaceArrays";
 
-export const mondrianConfig: ProjectConfig = merge(
+export const mondrianConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
@@ -166,4 +167,5 @@ export const mondrianConfig: ProjectConfig = merge(
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
   } as ProjectSpecificConfig,
+  replaceArrays,
 );

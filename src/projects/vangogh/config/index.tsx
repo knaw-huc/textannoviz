@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -16,8 +16,9 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
+import { replaceArrays } from "../../default/config/replaceArrays";
 
-export const vangoghConfig: ProjectConfig = merge(
+export const vangoghConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
@@ -54,6 +55,7 @@ export const vangoghConfig: ProjectConfig = merge(
       en: "http://localhost:8040/files/vangogh/apparatus/bibliolist.html",
     },
     menuUrl: "http://localhost:8040/files/vangogh/menu/menu.json",
+    letterIdUrl: "http://localhost:8040/files/vangogh/letter-ids.json",
     components: {
       Header,
       SearchItem,
@@ -74,6 +76,7 @@ export const vangoghConfig: ProjectConfig = merge(
       "recipient",
       "sender",
       "correspondent",
+      "bibleRefs",
     ],
     detailPanels: [
       {
@@ -166,4 +169,5 @@ export const vangoghConfig: ProjectConfig = merge(
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
   } as ProjectSpecificConfig,
+  replaceArrays,
 );

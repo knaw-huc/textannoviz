@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import logo from "../../../assets/logo-goetgevonden.png";
 import {
   ProjectConfig,
@@ -20,129 +20,135 @@ import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { Any } from "../../../utils/Any.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 import { Header } from "../Header.tsx";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
-export const republicConfig: ProjectConfig = merge({}, defaultConfig, {
-  id: "republic",
-  broccoliUrl: "https://api.goetgevonden.nl",
-  // broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
-  // broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
-  colours: {
-    resolution: "yellow",
-    attendant: "#DB4437",
-    reviewed: "cyan",
-    attendancelist: "yellow",
-    textregion: "blue",
-  },
-  relativeTo: "Page",
-  annotationTypesToInclude: [
-    // "Paragraph",
-    "Resolution",
-    "Session",
-    "Entity",
-    "Page",
-    "DateOccurrence",
-  ],
+export const republicConfig: ProjectConfig = mergeWith(
+  {},
+  defaultConfig,
+  {
+    id: "republic",
+    broccoliUrl: "https://api.goetgevonden.nl",
+    // broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
+    // broccoliUrl: "https://broccoli.republic-caf.diginfra.org",
+    colours: {
+      resolution: "yellow",
+      attendant: "#DB4437",
+      reviewed: "cyan",
+      attendancelist: "yellow",
+      textregion: "blue",
+    },
+    relativeTo: "Page",
+    annotationTypesToInclude: [
+      // "Paragraph",
+      "Resolution",
+      "Session",
+      "Entity",
+      "Page",
+      "DateOccurrence",
+    ],
 
-  showAnnotations: true,
-  textHighlightingTypes: [],
-  nestedTypes: projectEntityTypes,
-  getAnnotationCategory: getAnnotationCategory,
-  isEntity: isEntity,
+    showAnnotations: true,
+    textHighlightingTypes: [],
+    nestedTypes: projectEntityTypes,
+    getAnnotationCategory: getAnnotationCategory,
+    isEntity: isEntity,
 
-  pageAnnotation: "Page",
-  showPrevNextScanButtons: true,
-  elasticIndexName: "republic-2025-05-01",
-  initialDateFrom: "1576-08-04",
-  initialDateTo: "1796-03-01",
-  initialRangeFrom: "0",
-  initialRangeTo: "66000",
-  maxRange: 66000,
-  logoImageUrl: logo,
-  headerColor: "bg-brand1-950 text-brand1-400",
-  headerTitle: "",
-  logoHref: "https://goetgevonden.nl",
-  histogramFacet: "sessionYear",
-  showHistogram: true,
-  showSliderFacets: true,
-  showSettingsMenuFooter: false,
-  useExternalConfig: true,
-  showAnnosOnFacsimile: true,
-  zoomToAnnoOnFacsimile: true,
-  showFacsimilePrevNextScanButtonsButtons: false,
-  overrideDefaultAggs: [
-    {
-      facetName: "sessionYear",
-      order: "countDesc",
-      size: 250,
+    pageAnnotation: "Page",
+    showPrevNextScanButtons: true,
+    elasticIndexName: "republic-2025-05-01",
+    initialDateFrom: "1576-08-04",
+    initialDateTo: "1796-03-01",
+    initialRangeFrom: "0",
+    initialRangeTo: "66000",
+    maxRange: 66000,
+    logoImageUrl: logo,
+    headerColor: "bg-brand1-950 text-brand1-400",
+    headerTitle: "",
+    logoHref: "https://goetgevonden.nl",
+    histogramFacet: "sessionYear",
+    showHistogram: true,
+    showSliderFacets: true,
+    showSettingsMenuFooter: false,
+    useExternalConfig: true,
+    showAnnosOnFacsimile: true,
+    zoomToAnnoOnFacsimile: true,
+    showFacsimilePrevNextScanButtonsButtons: false,
+    overrideDefaultAggs: [
+      {
+        facetName: "sessionYear",
+        order: "countDesc",
+        size: 250,
+      },
+      {
+        facetName: "delegateName",
+        order: "keyAsc",
+        size: 9999,
+      },
+      {
+        facetName: "commissionName",
+        order: "keyAsc",
+        size: 9999,
+      },
+      {
+        facetName: "locationName",
+        order: "keyAsc",
+        size: 9999,
+      },
+      {
+        facetName: "organisationName",
+        order: "keyAsc",
+        size: 9999,
+      },
+      {
+        facetName: "personName",
+        order: "keyAsc",
+        size: 9999,
+      },
+      {
+        facetName: "roleName",
+        order: "keyAsc",
+        size: 9999,
+      },
+    ],
+    defaultKeywordAggsToRender: [
+      "propositionType",
+      "resolutionType",
+      "delegateName",
+      "commissionName",
+      "locationName",
+      "organisationName",
+      "personName",
+      "roleName",
+    ],
+    showFacetFilter: true,
+    showWebAnnoTab: false,
+    components: {
+      EntitySummary,
+      MetadataPanel,
+      SearchItem,
+      AnnotationButtons,
+      HelpLink,
+      SearchInfoPage,
+      Header,
     },
-    {
-      facetName: "delegateName",
-      order: "keyAsc",
-      size: 9999,
-    },
-    {
-      facetName: "commissionName",
-      order: "keyAsc",
-      size: 9999,
-    },
-    {
-      facetName: "locationName",
-      order: "keyAsc",
-      size: 9999,
-    },
-    {
-      facetName: "organisationName",
-      order: "keyAsc",
-      size: 9999,
-    },
-    {
-      facetName: "personName",
-      order: "keyAsc",
-      size: 9999,
-    },
-    {
-      facetName: "roleName",
-      order: "keyAsc",
-      size: 9999,
-    },
-  ],
-  defaultKeywordAggsToRender: [
-    "propositionType",
-    "resolutionType",
-    "delegateName",
-    "commissionName",
-    "locationName",
-    "organisationName",
-    "personName",
-    "roleName",
-  ],
-  showFacetFilter: true,
-  showWebAnnoTab: false,
-  components: {
-    EntitySummary,
-    MetadataPanel,
-    SearchItem,
-    AnnotationButtons,
-    HelpLink,
-    SearchInfoPage,
-    Header,
-  },
-  selectedLanguage: "nl",
-  languages: [
-    { code: "nl", labels: dutchRepublicLabels },
-    { code: "en", labels: englishRepublicLabels },
-  ],
-  annoToEntityCategory: {
-    COM: "COM",
-    DAT: "DAT",
-    HOE: "HOE",
-    LOC: "LOC",
-    ORG: "ORG",
+    selectedLanguage: "nl",
+    languages: [
+      { code: "nl", labels: dutchRepublicLabels },
+      { code: "en", labels: englishRepublicLabels },
+    ],
+    annoToEntityCategory: {
+      COM: "COM",
+      DAT: "DAT",
+      HOE: "HOE",
+      LOC: "LOC",
+      ORG: "ORG",
 
-    /**
-     * PER can also be named PERS
-     */
-    PER: "PER",
-    PERS: "PER",
-  } as Any,
-} as ProjectSpecificConfig);
+      /**
+       * PER can also be named PERS
+       */
+      PER: "PER",
+      PERS: "PER",
+    } as Any,
+  } as ProjectSpecificConfig,
+  replaceArrays,
+);

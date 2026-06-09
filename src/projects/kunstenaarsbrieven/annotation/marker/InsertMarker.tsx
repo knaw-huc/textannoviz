@@ -1,6 +1,6 @@
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
-import { isHeadBody } from "../ProjectAnnotationModel.ts";
+import { isHeadBody, isPictureBody } from "../ProjectAnnotationModel.ts";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment<MarkerBody>;
@@ -12,17 +12,29 @@ export const InsertMarker = (props: InsertMarkerAnnotationProps) => {
     return <br className="insert-marker" />;
   }
 
-  if (body.type === "Picture") {
-    const maxWidth = body.width ?? "400";
-    const width = Math.min(parseInt(maxWidth), 400);
-    return (
-      // eslint-disable-next-line jsx-a11y/img-redundant-alt
-      <img
-        className="insert-marker marker-picture"
-        src={`${body.url}/full/${width},/0/default.jpg`}
-        alt="Image not available (yet)"
-      />
-    );
+  if (isPictureBody(body) && body.url) {
+    // Images of sketches contain a full IIIF URL, meaning that default.jpg is already in the URL
+    if (body.url.includes("default.jpg")) {
+      return (
+        <img
+          className="insert-marker marker-picture"
+          src={body.url}
+          alt="Not available"
+        />
+      );
+    }
+    // In all other cases, we need to build the URL ourselves
+    else {
+      const maxWidth = body.width ?? "400";
+      const width = Math.min(parseInt(maxWidth), 400);
+      return (
+        <img
+          className="insert-marker marker-picture"
+          src={`${body.url}/full/${width},/0/default.jpg`}
+          alt="Not available"
+        />
+      );
+    }
   }
   if (isHeadBody(body) && body.n) {
     return <span className="insert-marker marker-head">{body.n}. </span>;
