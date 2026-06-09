@@ -16,6 +16,9 @@ import { TocHeader } from "./TocHeader.tsx";
 import { LazyTableAndRows } from "./LazyTableAndRows.tsx";
 import { ListAndListItems } from "./ListAndListItems.tsx";
 
+/**
+ * See {@link import("../ProjectAnnotationModel.ts").blockSchema}
+ */
 export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
 
