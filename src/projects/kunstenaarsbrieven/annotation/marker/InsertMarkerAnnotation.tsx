@@ -1,6 +1,6 @@
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
-import { isHeadBody } from "../ProjectAnnotationModel.ts";
+import { isHeadBody, isPictureBody } from "../ProjectAnnotationModel.ts";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment<MarkerBody>;
@@ -12,9 +12,9 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
     return <br className="insert-marker" />;
   }
 
-  if (body.type === "Picture") {
+  if (isPictureBody(body) && body.url) {
     // Images of sketches contain a full IIIF URL, meaning that default.jpg is already in the URL
-    if (body.url?.includes("default.jpg")) {
+    if (body.url.includes("default.jpg")) {
       return (
         <img
           className="insert-marker marker-picture"
