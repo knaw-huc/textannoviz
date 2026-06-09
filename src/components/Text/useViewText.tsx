@@ -40,7 +40,9 @@ export function findViewText(
     }
 
     if (typeof candidate === "object" && lang in candidate) {
-      return (candidate as Record<string, BroccoliTextGeneric>)[lang];
+      return (candidate as unknown as Record<string, BroccoliTextGeneric>)[
+        lang
+      ];
     }
   }
 
