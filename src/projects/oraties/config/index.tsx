@@ -28,7 +28,7 @@ import {
   reference,
   teiArtwork,
 } from "../annotation/ProjectAnnotationModel.ts";
-import { overrideArrays } from "../../default/config/overrideArray.ts";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
 export const oratiesConfig: ProjectConfig = mergeWith(
   {},
@@ -156,5 +156,5 @@ export const oratiesConfig: ProjectConfig = mergeWith(
       PER: "PER",
     },
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

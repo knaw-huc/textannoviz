@@ -20,7 +20,7 @@ import { dutchRepublicLabels } from "./dutchRepublicLabels.ts";
 import { Any } from "../../../utils/Any.ts";
 import { englishRepublicLabels } from "./englishRepublicLabels.ts";
 import { Header } from "../Header.tsx";
-import { overrideArrays } from "../../default/config/overrideArray.ts";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
 export const republicConfig: ProjectConfig = mergeWith(
   {},
@@ -150,5 +150,5 @@ export const republicConfig: ProjectConfig = mergeWith(
       PERS: "PER",
     } as Any,
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

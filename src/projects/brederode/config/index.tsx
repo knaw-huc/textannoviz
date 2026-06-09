@@ -13,7 +13,7 @@ import { MetadataPanel } from "../MetadataPanel";
 import { pageMarkerTypes } from "../annotation/ProjectAnnotationModel";
 import { SearchInfoPage } from "../SearchInfoPage";
 import { Header } from "../Header";
-import { overrideArrays } from "../../default/config/overrideArray.ts";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
 export const brederodeConfig: ProjectConfig = mergeWith(
   {},
@@ -69,5 +69,5 @@ export const brederodeConfig: ProjectConfig = mergeWith(
     selectedLanguage: "en",
     languages: [{ code: "en", labels: englishBrederodeLabels }],
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

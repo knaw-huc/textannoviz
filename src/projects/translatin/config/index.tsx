@@ -11,7 +11,7 @@ import { isHighlightBody } from "../../../model/AnnoRepoAnnotation.ts";
 import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { englishTranslatinLabels } from "./englishTranslatinLabels.ts";
-import { overrideArrays } from "../../default/config/overrideArray.ts";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
 export const translatinConfig: ProjectConfig = mergeWith(
   {},
@@ -88,5 +88,5 @@ export const translatinConfig: ProjectConfig = mergeWith(
       isHighlightBody(body) ? body.style : body.type,
     getAnnotationCategory: (anno) => anno.type,
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

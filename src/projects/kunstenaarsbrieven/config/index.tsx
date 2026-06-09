@@ -36,7 +36,7 @@ import { filterPanels } from "../filterPanels.ts";
 import { KunstenaarsbrievenBlock } from "../annotation/block/KunstenaarsbrievenBlock.tsx";
 import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
-import { overrideArrays } from "../../default/config/overrideArray.ts";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
   {},
@@ -116,5 +116,5 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     getUrl: getUrl,
     filterPanels: filterPanels,
   },
-  overrideArrays,
+  replaceArrays,
 );

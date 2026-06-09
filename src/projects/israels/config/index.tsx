@@ -17,7 +17,7 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { TextPanels } from "../TextPanels";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
-import { overrideArrays } from "../../default/config/overrideArray";
+import { replaceArrays } from "../../default/config/replaceArrays";
 
 export const israelsConfig: ProjectConfig = mergeWith(
   {},
@@ -148,5 +148,5 @@ export const israelsConfig: ProjectConfig = mergeWith(
     showSearchInTextViews: true,
     zoomToAnnoOnFacsimile: true,
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

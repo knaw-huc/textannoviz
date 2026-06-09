@@ -12,7 +12,7 @@ import { MetadataPanel } from "../MetadataPanel.tsx";
 import { SearchInfoPage } from "../SearchInfoPage.tsx";
 import { SearchItem } from "../SearchItem.tsx";
 import { englishGlobaliseLabels } from "./englishGlobaliseLabels.ts";
-import { overrideArrays } from "../../default/config/overrideArray.ts";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
 export const globaliseConfig: ProjectConfig = mergeWith(
   {},
@@ -72,5 +72,5 @@ export const globaliseConfig: ProjectConfig = mergeWith(
     ],
     defaultKeywordAggsToRender: ["langLabel"],
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

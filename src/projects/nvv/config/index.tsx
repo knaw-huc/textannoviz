@@ -1,4 +1,4 @@
-import mergeWith from "lodash/merge";
+import mergeWith from "lodash/mergeWith";
 import {
   ProjectConfig,
   ProjectSpecificConfig,
@@ -16,7 +16,7 @@ import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { NVVMarker } from "../annotation/NVVMarker.tsx";
 import { pageMarkerTypes } from "../annotation/ProjectAnnotationModel.ts";
-import { overrideArrays } from "../../default/config/overrideArray";
+import { replaceArrays } from "../../default/config/replaceArrays";
 
 export const nvvConfig: ProjectConfig = mergeWith(
   {},
@@ -111,5 +111,5 @@ export const nvvConfig: ProjectConfig = mergeWith(
 
     filterPanels: filterPanels,
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

@@ -24,7 +24,7 @@ import { TextPanels } from "../TextPanels.tsx";
 import { Empty } from "../../../components/Empty";
 import { SurianoMarker } from "../annotation/SurianoMarker.tsx";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails.tsx";
-import { overrideArrays } from "../../default/config/overrideArray.ts";
+import { replaceArrays } from "../../default/config/replaceArrays.ts";
 
 export const surianoConfig: ProjectConfig = mergeWith(
   {},
@@ -110,5 +110,5 @@ export const surianoConfig: ProjectConfig = mergeWith(
       [...markerTypes, ...insertTextMarkerTypes].includes(body.type),
     highlightTypes: highlightTypes,
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );
