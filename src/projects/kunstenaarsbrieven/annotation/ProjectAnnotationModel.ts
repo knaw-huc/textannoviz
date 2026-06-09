@@ -394,7 +394,7 @@ export const entityCategoryToAgg: Record<string, string> = {
 };
 
 /**
- * See {@link blockTypes}
+ * See {@link blockTypes} and {@link KunstenaarsbrievenBlock}
  */
 export const blockSchema: BlockSchema = {
   root: "root",
