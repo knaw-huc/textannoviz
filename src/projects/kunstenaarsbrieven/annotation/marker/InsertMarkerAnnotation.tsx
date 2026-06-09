@@ -13,16 +13,26 @@ export const InsertMarkerAnnotation = (props: InsertMarkerAnnotationProps) => {
   }
 
   if (body.type === "Picture") {
-    const maxWidth = body.width ?? "400";
-    const width = Math.min(parseInt(maxWidth), 400);
-    return (
-      // eslint-disable-next-line jsx-a11y/img-redundant-alt
-      <img
-        className="insert-marker marker-picture"
-        src={`${body.url}/full/${width},/0/default.jpg`}
-        alt="Image not available (yet)"
-      />
-    );
+    // Images of sketches contain a full IIIF URL, meaning that default.jpg is already in the URL
+    if (body.url?.includes("default.jpg")) {
+      return (
+        <img
+          className="insert-marker marker-picture"
+          src={body.url}
+          alt="Not available"
+        />
+      );
+    } else {
+      const maxWidth = body.width ?? "400";
+      const width = Math.min(parseInt(maxWidth), 400);
+      return (
+        <img
+          className="insert-marker marker-picture"
+          src={`${body.url}/full/${width},/0/default.jpg`}
+          alt="Not available"
+        />
+      );
+    }
   }
   if (isHeadBody(body) && body.n) {
     return <span className="insert-marker marker-head">{body.n}. </span>;
