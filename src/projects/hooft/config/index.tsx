@@ -5,7 +5,7 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { defaultConfig } from "../../default/config";
-import { overrideArrays } from "../../default/config/overrideArray";
+import { replaceArrays } from "../../default/config/replaceArrays";
 
 export const hooftConfig: ProjectConfig = mergeWith(
   {},
@@ -30,5 +30,5 @@ export const hooftConfig: ProjectConfig = mergeWith(
     useExternalConfig: true,
     defaultKeywordAggsToRender: ["bodyType"],
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

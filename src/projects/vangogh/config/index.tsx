@@ -16,7 +16,7 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
-import { overrideArrays } from "../../default/config/overrideArray";
+import { replaceArrays } from "../../default/config/replaceArrays";
 
 export const vangoghConfig: ProjectConfig = mergeWith(
   {},
@@ -167,5 +167,5 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );

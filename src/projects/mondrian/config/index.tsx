@@ -16,7 +16,7 @@ import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { Placeholder } from "../../../components/Placeholder";
-import { overrideArrays } from "../../default/config/overrideArray";
+import { replaceArrays } from "../../default/config/replaceArrays";
 
 export const mondrianConfig: ProjectConfig = mergeWith(
   {},
@@ -167,5 +167,5 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
   } as ProjectSpecificConfig,
-  overrideArrays,
+  replaceArrays,
 );
