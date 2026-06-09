@@ -1,7 +1,5 @@
-import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation";
 import { useTranslateProject } from "../../stores/project";
-import { useTextStore } from "../../stores/text/text-store";
 import { gridOneColumn } from "../../utils/gridOneColumn";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 
@@ -10,15 +8,11 @@ type RenderMetadataPanelProps = {
 };
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
-  const textViews = useTextStore().views;
   const translateProject = useTranslateProject();
 
   const letterAnnoBody = findLetterBody(props.annotations);
 
   const { n, identifier, recipient, sender } = letterAnnoBody ?? {};
-
-  const typedNotes = textViews?.["typedNotes"];
-  const typedNoteText = typedNotes?.["en"];
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
@@ -59,19 +53,6 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 {Array.isArray(recipient) ? recipient.join(", ") : recipient}
               </div>
             </li>
-            {typedNoteText ? (
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <div className={labelStyling}>
-                    {translateProject("addInfo")}:{" "}
-                  </div>
-                  <ProjectAnnotatedText
-                    text={typedNoteText}
-                    showDetail={false}
-                  />
-                </div>
-              </li>
-            ) : null}
           </>
         ) : (
           translateProject("NO_DATA")
