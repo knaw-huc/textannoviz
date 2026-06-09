@@ -385,11 +385,11 @@ export const entityCategoryToAgg: Record<string, string> = {
 export const blockSchema: BlockSchema = {
   root: "root",
   blocks: {
-    root: { children: [list, page, paragraph, head, table] },
+    root: { children: [head, list, page, paragraph, table] },
     [cell]: { children: [] },
     [head]: { children: [] },
     [list]: { children: [listItem] },
-    [page]: { children: [paragraph, head, table] },
+    [page]: { children: [paragraph, head, table, list] },
     [paragraph]: { children: [] },
     [row]: { children: [cell] },
     [table]: { children: [row] },
