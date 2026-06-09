@@ -5,7 +5,11 @@ export type Iiif = {
   canvasIds: string[];
 };
 
-export interface Broccoli {
+export type BroccoliViews = {
+  self: BroccoliTextGeneric;
+};
+
+export type Broccoli<V extends BroccoliViews = BroccoliViews> = {
   request: {
     projectId: string;
     bodyId: string;
@@ -16,13 +20,8 @@ export interface Broccoli {
   iiif: Iiif;
   anno: AnnoRepoAnnotation[];
   text: BroccoliTextGeneric;
-  views: {
-    text: Record<ViewLang, BroccoliTextGeneric>;
-    textNotes: Record<ViewLang, Record<string, BroccoliTextGeneric>>;
-    typedNotes: Record<ViewLang, BroccoliTextGeneric>;
-    self: BroccoliTextGeneric;
-  };
-}
+  views: V;
+};
 
 export type ViewLang = "nl" | "en";
 
@@ -32,7 +31,7 @@ export type BroccoliRelativeAnno = {
   end: number;
 };
 
-export interface BroccoliTextGeneric {
+export type BroccoliTextGeneric = {
   body: string;
   locations: {
     relativeTo: {
@@ -41,9 +40,9 @@ export interface BroccoliTextGeneric {
     };
     annotations: BroccoliRelativeAnno[];
   };
-}
+};
 
-export interface BroccoliBodyIdResult {
+export type BroccoliBodyIdResult = {
   request: {
     projectId: string;
     bodyType: string;
@@ -51,4 +50,4 @@ export interface BroccoliBodyIdResult {
     includedResults: string[];
   };
   bodyId: string;
-}
+};
