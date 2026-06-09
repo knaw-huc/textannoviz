@@ -15,6 +15,7 @@ import { filterPanels } from "../filterPanels.ts";
 import { defaultConfig } from "../../default/config";
 import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { NVVMarker } from "../annotation/NVVMarker.tsx";
+import { pageMarkerTypes } from "../annotation/ProjectAnnotationModel.ts";
 
 export const nvvConfig: ProjectConfig = merge({}, defaultConfig, {
   relativeTo: "Unit",
@@ -102,6 +103,7 @@ export const nvvConfig: ProjectConfig = merge({}, defaultConfig, {
   showMiradorNavigationButtons: true,
   showSearchInTextViews: false,
   showToc: () => false,
+  isMarker: (body) => pageMarkerTypes.includes(body.type),
 
   filterPanels: filterPanels,
 } as ProjectSpecificConfig);
