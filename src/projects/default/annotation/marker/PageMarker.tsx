@@ -20,8 +20,6 @@ import { toArray } from "lodash";
 type PageMarkerProps = { id: string; label?: string };
 
 export function PageMarker(props: PageMarkerProps) {
-  console.log("PageMarker, props=");
-  console.debug(props);
   const { id, label } = props;
   const [isZooming, setIsZooming] = useState(false);
   const annotations = useAnnotationStore().annotations;

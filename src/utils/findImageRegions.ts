@@ -21,7 +21,6 @@ export function findImageRegions(
 
   if (imageCoords[0] === undefined) {
     console.debug(annotation.body.id + " has no image targets");
-    console.debug(annotation);
     return null;
   }
 

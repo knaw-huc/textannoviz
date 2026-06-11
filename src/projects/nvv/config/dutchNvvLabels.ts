@@ -9,6 +9,7 @@ export const dutchNvvLabels = Object.assign({}, dutchLabels, {
 
   //Search facet titles + metadata panel titles
   file: "Vergaderstuk",
+  title: "Titel",
 
   INFO_TITLE: "NVV Archieven",
   EDITED_BY: "Hoofdarchief - vergaderstukken - (Gedigitaliseerd)",
