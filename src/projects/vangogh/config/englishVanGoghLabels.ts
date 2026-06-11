@@ -62,6 +62,10 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   letter: "Letter",
   invNr: "Shelfmark",
   addInfo: "Additional information",
+  ogtNotes: "Ongoing topics",
+  dating: "Date",
+  transcrSource: "Source status",
+  remarks: "Additional",
   NO_DATA: "No metadata",
 
   //Metadata panel titles
