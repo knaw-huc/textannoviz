@@ -15,7 +15,8 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const letterAnnoBody = findLetterBody(props.annotations);
 
-  const { n, identifier, recipient, sender } = letterAnnoBody ?? {};
+  const { n, identifier, recipient, sender, place, institution, collection } =
+    letterAnnoBody ?? {};
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
@@ -41,7 +42,9 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("invNr")}:{" "}
                 </div>
-                VGM, {identifier}
+                {[place, institution, collection, identifier]
+                  .filter(Boolean)
+                  .join(", ")}
               </div>
             </li>
             <li className="mb-8">

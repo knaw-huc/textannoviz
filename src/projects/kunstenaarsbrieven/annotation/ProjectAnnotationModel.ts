@@ -242,10 +242,10 @@ export type LetterBody = AnnoRepoBodyBase & {
   correspondent: string;
   sender: string | string[];
   n: string;
-  institution: string;
+  institution?: string;
   letterid: string;
   location: string;
-  identifier: string;
+  identifier?: string;
   period: string;
   periodlong: string;
   prevLetter: string;
@@ -257,6 +257,8 @@ export type LetterBody = AnnoRepoBodyBase & {
   fromLocation: string;
   toLocation: string;
   dateSent: string;
+  place?: string;
+  collection?: string;
 };
 
 export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {
