@@ -22,7 +22,7 @@ export const dutchNvvLabels = Object.assign({}, dutchLabels, {
   "text.nl": "",
   unitText: "vergaderstuktekst",
 
-  // page: "Pagina",
+  page: "Pagina",
   SHOW_PAGE: "Pagina tonen",
   NO_DATA: "Geen metadata",
 
