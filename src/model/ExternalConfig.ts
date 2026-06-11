@@ -19,4 +19,5 @@ export type ExternalConfig = {
   biblUrl?: Partial<Record<LanguageCode, string>>;
   menuUrl: string;
   letterIdUrl: string;
+  homeUrl: string;
 };

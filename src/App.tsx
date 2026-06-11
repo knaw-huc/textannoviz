@@ -5,18 +5,16 @@ import { Search } from "./components/Search/Search";
 import { detailTier2Path } from "./utils/detailPath.ts";
 import { Detail } from "./Detail";
 import { ErrorPage } from "./ErrorPage";
-import { ExternalConfig } from "./model/ExternalConfig";
-import { ProjectConfig } from "./model/ProjectConfig";
-import { projectConfigs, ProjectName } from "./projects/projectConfigs.ts";
 import { useAnnotationStore } from "./stores/annotation";
 import {
   setProjectConfigSelector,
   setProjectNameSelector,
   useProjectStore,
 } from "./stores/project";
+import { selectProjectConfig } from "./utils/selectProjectConfig.ts";
 import { getViteEnvVars } from "./utils/viteEnvVars.ts";
 
-const { envProjectName, routerBasename, prodMode } = getViteEnvVars();
+const { routerBasename, prodMode } = getViteEnvVars();
 
 const { project, config } = await selectProjectConfig();
 
@@ -101,81 +99,4 @@ async function createRouter() {
     ],
     { basename: routerBasename ?? "/" },
   );
-}
-
-async function selectProjectConfig() {
-  let project: ProjectName | undefined = undefined;
-  let config: ProjectConfig | undefined = undefined;
-
-  if (prodMode) {
-    const externalConfig = await fetchExternalConfig(routerBasename);
-
-    if (externalConfig) {
-      const {
-        projectName: externalProjectName,
-        indexName,
-        siteTitle,
-        initialDateFrom,
-        initialDateTo,
-        initialRangeFrom,
-        initialRangeTo,
-        maxRange,
-        broccoliUrl,
-        annotationTypesToInclude,
-        showWebAnnoTab,
-        personsUrl,
-        artworksUrl,
-        biblUrl,
-        menuUrl,
-        letterIdUrl,
-      } = externalConfig;
-      project = externalProjectName;
-      config = projectConfigs[project];
-      if (siteTitle) config.siteTitle = siteTitle;
-      if (indexName) config.elasticIndexName = indexName;
-      if (initialDateFrom) config.initialDateFrom = initialDateFrom;
-      if (initialDateTo) config.initialDateTo = initialDateTo;
-      if (initialRangeFrom) config.initialRangeFrom = initialRangeFrom;
-      if (initialRangeTo) config.initialRangeTo = initialRangeTo;
-      if (maxRange) config.maxRange = maxRange;
-      if (broccoliUrl) config.broccoliUrl = broccoliUrl;
-      if (annotationTypesToInclude)
-        config.annotationTypesToInclude = annotationTypesToInclude;
-      if (typeof showWebAnnoTab === "boolean") {
-        config.showWebAnnoTab = showWebAnnoTab;
-      }
-      if (personsUrl) config.personsUrl = personsUrl;
-      if (artworksUrl) config.artworksUrl = artworksUrl;
-      if (biblUrl) config.biblUrl = biblUrl;
-      if (menuUrl) config.menuUrl = menuUrl;
-      if (letterIdUrl) config.letterIdUrl = letterIdUrl;
-    }
-  } else {
-    project = envProjectName;
-    config = projectConfigs[project];
-  }
-
-  if (!config || !project) {
-    throw new Error(`No project config defined for ${project}`);
-  }
-
-  // Set head>title from project config
-  document.title = config.siteTitle;
-
-  return { project, config };
-}
-
-async function fetchExternalConfig(
-  basePath: string,
-): Promise<ExternalConfig | null> {
-  const configUrl = `${
-    basePath.endsWith("/") ? basePath : basePath + "/"
-  }config`;
-
-  const response = await fetch(configUrl);
-  if (!response.ok) {
-    return null;
-  }
-
-  return response.json();
 }
