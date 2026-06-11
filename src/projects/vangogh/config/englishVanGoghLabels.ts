@@ -8,6 +8,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   recipient: "Recipient",
   sender: "Sender",
   correspondent: "Correspondent",
+  correspondentId: "Correspondent (ID)",
   file: "Letter number",
   title: "Title",
   letterid: "Letter ID",
@@ -16,6 +17,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   artworksEN: "Artworks",
   artworkIds: "Artworks (ID)",
   bibleRefs: "Bible quotations",
+  personIds: "Persons (ID)",
 
   facetInputFilterPlaceholder: "Search in facet",
 
