@@ -13,15 +13,15 @@ import { replaceArrays } from "../../default/config/replaceArrays";
 import { dutchNvvLabels } from "./dutchNvvLabels.ts";
 import { ASC, DESC } from "../../../model/Search.ts";
 import { filterPanels } from "../filterPanels.ts";
-import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { document } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
 import { NVVMarker } from "../annotation/NVVMarker.tsx";
 import { pageMarkerTypes } from "../annotation/ProjectAnnotationModel.ts";
+import { defaultConfig } from "../../default/config";
 
 export const nvvConfig: ProjectConfig = mergeWith(
   {},
-  kunstenaarsbrievenConfig,
+  defaultConfig,
   {
     id: "nvv",
     broccoliUrl: "http://localhost:8082",

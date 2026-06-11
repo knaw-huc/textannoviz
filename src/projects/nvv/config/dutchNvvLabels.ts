@@ -18,6 +18,9 @@ export const dutchNvvLabels = Object.assign({}, dutchLabels, {
 
   // Detailscherm
 
+  CONTENT_VIEWS: "Inhoud weergave",
+  CONTENT_PANELS: "Inhoud weergave",
+
   //Text panel titles
   "text.nl": "",
   unitText: "vergaderstuktekst",
@@ -40,6 +43,8 @@ export const dutchNvvLabels = Object.assign({}, dutchLabels, {
   SORT_BY_HELP:
     "Sorteer de lijst met vergaderstukken op nummer in oplopende of aflopende volgorde. U kunt ook sorteren op (door het systeem bepaalde) relevantie. De relevantie wordt onder andere bepaald op basis van het aantal treffers in het vergaderstuk.",
   FULL_TEXT_SEARCH_HELP:
+    "Voer een of meer trefwoorden in om de inhoud van de editie te doorzoeken. De resultaten bevatten treffers uit de originele tekst. Raadpleeg de volledige helptekst voor informatie over het combineren van zoektermen, het gebruik van jokertekens, enz.",
+  QUICK_SEARCH_HELP:
     "Voer een of meer trefwoorden in om de inhoud van de editie te doorzoeken. De resultaten bevatten treffers uit de originele tekst. Raadpleeg de volledige helptekst voor informatie over het combineren van zoektermen, het gebruik van jokertekens, enz.",
   SHOW_CONTEXT_HELP:
     "Hiermee kunt u de lengte van het tekstfragment rond de treffers in de zoekresultaten instellen, zodat u de relevantie kunt beoordelen voordat u een document opent.",
