@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -xe
 
-export PROJECT=vangogh
+export PROJECT=nvv
 
 export VERSION=$(npm pkg get version | tr -d \")
 export DOCKER_DOMAIN=registry.diginfra.net/tt

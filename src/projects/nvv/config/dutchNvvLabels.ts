@@ -37,6 +37,7 @@ export const dutchNvvLabels = Object.assign({}, dutchLabels, {
   //Help labels
   SEARCH_IN_HELP:
     "Gebruik deze knop om uw zoekopdracht te beperken tot specifieke delen van de editie.",
+  DATE_HELP: "Filter op de datum.",
   VIEW_HELP:
     "Gebruik de weergaveopties rechtsonder in het venster om elementen zoals tekst, metadata of facsimile weer te geven of te verbergen. Verborgen elementen worden grijs weergegeven.",
   FILE_HELP:
