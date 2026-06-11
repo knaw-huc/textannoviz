@@ -98,6 +98,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
       "transcrSource",
       "dating",
       "remarks",
+      "ogtNotes",
     ],
     defaultTextPanels: "text",
     searchSorting: [
