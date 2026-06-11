@@ -54,6 +54,7 @@ export type KunstenaarsbrievenTextViews = BroccoliViews & {
   transcrSource?: Record<ViewLang, BroccoliTextGeneric>;
   dating?: Record<ViewLang, BroccoliTextGeneric>;
   remarks?: Record<ViewLang, BroccoliTextGeneric>;
+  ogtNotes?: Record<ViewLang, BroccoliTextGeneric>;
 };
 
 export type ArtworkSections =
