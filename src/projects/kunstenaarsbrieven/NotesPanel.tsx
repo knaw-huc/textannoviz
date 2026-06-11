@@ -23,6 +23,7 @@ export const NotesPanel = () => {
   }, [activeFootnote]);
 
   const textNotes = views?.["textNotes"];
+  const ogtNotesText = views?.ogtNotes?.en;
 
   const notes = textNotes?.[interfaceLang];
   if (!notes) return <div>{translateProject("NO_NOTES")}</div>;
@@ -31,6 +32,15 @@ export const NotesPanel = () => {
     //TODO 23102025: Use one of the pre-defined ARIA roles
     //eslint-disable-next-line jsx-a11y/aria-role
     <div role="notespanel" className="flex flex-col" key={interfaceLang}>
+      {ogtNotesText?.body && (
+        <div className="mb-4 text-sm">
+          <div className="text-sm uppercase text-neutral-500">
+            {translateProject("ogtNotes")}
+          </div>
+          {<ProjectAnnotatedText text={ogtNotesText} showDetail={false} />}
+        </div>
+      )}
+
       {Object.entries(notes).map(([footnoteNumber, note]) => (
         <div
           id={footnoteNumber}
