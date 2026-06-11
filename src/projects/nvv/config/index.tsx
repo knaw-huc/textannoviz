@@ -42,10 +42,10 @@ export const nvvConfig: ProjectConfig = mergeWith(
       // SearchInfoPage is too project-specific to make generic
       SearchInfoPage,
     },
-  annotatedTextComponents: {
-    ...defaultAnnotatedTextComponents,
-    Marker: NVVMarker,
-  },
+    annotatedTextComponents: {
+      ...defaultAnnotatedTextComponents,
+      Marker: NVVMarker,
+    },
 
     defaultKeywordAggsToRender: ["file"],
     detailPanels: [
@@ -106,8 +106,8 @@ export const nvvConfig: ProjectConfig = mergeWith(
     },
     showMiradorNavigationButtons: true,
     showSearchInTextViews: false,
-  showToc: () => false,
-  isMarker: (body) => pageMarkerTypes.includes(body.type),
+    showToc: () => false,
+    isMarker: (body) => pageMarkerTypes.includes(body.type),
 
     filterPanels: filterPanels,
     relativeTo: document,
