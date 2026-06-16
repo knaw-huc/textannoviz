@@ -146,5 +146,6 @@ export const defaultConfig: DefaultProjectConfig = {
   annoToEntityCategory: "",
   viewsToSearchIn: [],
   showSearchInTextViews: false,
-  lastUpdated: "determined at release time",
+  lastUpdated:
+    "<lastUpdated> value from /config (add to /etc/textannoviz/config.json in workflow repo)",
 };

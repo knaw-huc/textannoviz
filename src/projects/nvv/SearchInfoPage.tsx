@@ -1,12 +1,14 @@
 import { Button } from "react-aria-components";
 import logoIISG from "../../assets/logo-iisg.png";
-import { useTranslateProject } from "../../stores/project";
-// import { selectProjectConfig } from "../../utils/selectProjectConfig.ts";
-
-// const { config } = await selectProjectConfig();
+import {
+  projectConfigSelector,
+  useProjectStore,
+  useTranslateProject,
+} from "../../stores/project";
 
 export const SearchInfoPage = () => {
   const translateProject = useTranslateProject();
+  const projectConfig = useProjectStore(projectConfigSelector);
 
   function scrollToSearchResultsButtonHandler() {
     const target = document.getElementById("search-results");
@@ -24,7 +26,7 @@ export const SearchInfoPage = () => {
         <div className="flex max-w-3xl flex-col gap-6 text-justify">
           <p>Archieven van Nederlands Verbond van Vakverenigingen</p>
           <p>© 2026 IISG, Amsterdam</p>
-          {/*<p className="italic">Last updated: {config.lastUpdated}</p>*/}
+          <p className="italic">Last updated: {projectConfig.lastUpdated}</p>
         </div>
 
         <div className="my-8 flex max-w-3xl items-start justify-between md:items-end">
