@@ -75,7 +75,7 @@ export type ProjectConfig = SearchConfig &
     detailPanels: DetailPanelConfig[];
 
     components: ComponentsConfig;
-
+    lastUpdated: string;
     routes: {
       path: string;
       element: JSX.Element;

@@ -146,4 +146,5 @@ export const defaultConfig: DefaultProjectConfig = {
   annoToEntityCategory: "",
   viewsToSearchIn: [],
   showSearchInTextViews: false,
+  lastUpdated: "determined at release time",
 };
