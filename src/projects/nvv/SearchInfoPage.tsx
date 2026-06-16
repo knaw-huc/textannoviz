@@ -11,7 +11,7 @@ export const SearchInfoPage = () => {
       target.scrollIntoView({ behavior: "smooth" });
     }
   }
-
+  const lastUpdated = "2026-06-16";
   return (
     <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#417CBA] px-6 py-8 lg:-mx-10 lg:px-10">
       <div className="mx-auto w-full max-w-4xl">
@@ -22,6 +22,7 @@ export const SearchInfoPage = () => {
         <div className="flex max-w-3xl flex-col gap-6 text-justify">
           <p>Archieven van Nederlands Verbond van Vakverenigingen</p>
           <p>© 2026 IISG, Amsterdam</p>
+          <p className="italic">Last updated: {lastUpdated}</p>
         </div>
 
         <div className="my-8 flex max-w-3xl items-start justify-between md:items-end">
