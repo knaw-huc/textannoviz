@@ -92,7 +92,14 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     },
     zoomAnnoMirador: true,
     miradorZoomRatio: 1.5,
-    allPossibleTextPanels: ["text", "textNotes", "typedNotes"],
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "transcrSource",
+      "dating",
+      "remarks",
+      "ogtNotes",
+    ],
     defaultTextPanels: "text",
     searchSorting: [
       { name: "Letter number (ascending)", value: `file-${ASC}` },

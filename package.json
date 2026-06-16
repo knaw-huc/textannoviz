@@ -1,6 +1,6 @@
 {
   "name": "textannoviz",
-  "version": "1.3.0-nvv",
+  "version": "1.4.0",
   "description": "",
   "private": true,
   "type": "module",
@@ -26,6 +26,7 @@
     "@knaw-huc/text-annotation-segmenter": "^0.8.0",
     "@spectrum-icons/workflow": "^4.2.11",
     "@types/qs": "^6.9.18",
+    "caniuse-lite": "^1.0.30001781",
     "js-base64": "^3.7.7",
     "lodash": "^4.17.21",
     "qs": "^6.14.0",

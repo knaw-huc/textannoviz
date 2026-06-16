@@ -5,7 +5,11 @@ import {
   AnnoRepoBody,
   AnnoRepoBodyBase,
 } from "../../../model/AnnoRepoAnnotation";
-import { ViewLang } from "../../../model/Broccoli";
+import {
+  BroccoliTextGeneric,
+  BroccoliViews,
+  ViewLang,
+} from "../../../model/Broccoli";
 import {
   AnnotationSegment,
   BlockSchema,
@@ -43,6 +47,15 @@ export const teiArtwork = "artwork";
 export const teiNote = "note";
 export const unknown = "unknown";
 export const whitespace = "Whitespace";
+
+export type KunstenaarsbrievenTextViews = BroccoliViews & {
+  text: Record<ViewLang, BroccoliTextGeneric>;
+  textNotes: Record<ViewLang, Record<string, BroccoliTextGeneric>>;
+  transcrSource?: Record<ViewLang, BroccoliTextGeneric>;
+  dating?: Record<ViewLang, BroccoliTextGeneric>;
+  remarks?: Record<ViewLang, BroccoliTextGeneric>;
+  ogtNotes?: Record<ViewLang, BroccoliTextGeneric>;
+};
 
 export type ArtworkSections =
   | "illustrated"
@@ -229,10 +242,10 @@ export type LetterBody = AnnoRepoBodyBase & {
   correspondent: string;
   sender: string | string[];
   n: string;
-  institution: string;
+  institution?: string;
   letterid: string;
   location: string;
-  identifier: string;
+  identifier?: string;
   period: string;
   periodlong: string;
   prevLetter: string;
@@ -244,6 +257,8 @@ export type LetterBody = AnnoRepoBodyBase & {
   fromLocation: string;
   toLocation: string;
   dateSent: string;
+  place?: string;
+  collection?: string;
 };
 
 export function isLetterBody(toTest?: AnnoRepoBodyBase): toTest is LetterBody {

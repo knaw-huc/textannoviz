@@ -8,6 +8,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   recipient: "Recipient",
   sender: "Sender",
   correspondent: "Correspondent",
+  correspondentId: "Correspondent (ID)",
   file: "Letter number",
   title: "Title",
   letterid: "Letter ID",
@@ -16,6 +17,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   artworksEN: "Artworks",
   artworkIds: "Artworks (ID)",
   bibleRefs: "Bible quotations",
+  personIds: "Persons (ID)",
 
   facetInputFilterPlaceholder: "Search in facet",
 
@@ -62,6 +64,10 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   letter: "Letter",
   invNr: "Shelfmark",
   addInfo: "Additional information",
+  ogtNotes: "Ongoing topics",
+  dating: "Date",
+  transcrSource: "Source status",
+  remarks: "Additional",
   NO_DATA: "No metadata",
 
   //Metadata panel titles

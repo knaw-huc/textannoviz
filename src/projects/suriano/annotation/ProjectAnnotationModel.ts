@@ -4,6 +4,11 @@ import {
 } from "../../../model/AnnoRepoAnnotation.ts";
 import _ from "lodash";
 import { normalizeClassname } from "../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
+import {
+  BroccoliTextGeneric,
+  BroccoliViews,
+  ViewLang,
+} from "../../../model/Broccoli.ts";
 
 /**
  * Highlighted element
@@ -27,6 +32,12 @@ export const insertTextMarkerTypes = [
    */
   "tei:Metamark",
 ];
+
+export type SurianoTextViews = BroccoliViews & {
+  text: Record<ViewLang, BroccoliTextGeneric>;
+  textNotes: Record<ViewLang, Record<string, BroccoliTextGeneric>>;
+  typedNotes: Record<ViewLang, BroccoliTextGeneric>;
+};
 
 type EntBody = {
   type: "tf:Ent";
