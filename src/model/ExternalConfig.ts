@@ -20,4 +20,5 @@ export type ExternalConfig = {
   menuUrl: string;
   letterIdUrl: string;
   homeUrl: string;
+  lastUpdated: string;
 };

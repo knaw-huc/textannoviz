@@ -111,6 +111,7 @@ export const nvvConfig: ProjectConfig = mergeWith(
 
     filterPanels: filterPanels,
     relativeTo: document,
+    useExternalConfig: true,
   } as ProjectSpecificConfig,
   replaceArrays,
 );
