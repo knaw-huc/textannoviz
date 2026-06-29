@@ -11,6 +11,7 @@ import {
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
+  NVVSearchResultsBody,
   OratiesSearchResultsBody,
   RepublicSearchResultBody,
   SearchParams,
@@ -74,7 +75,7 @@ export type ProjectConfig = SearchConfig &
     detailPanels: DetailPanelConfig[];
 
     components: ComponentsConfig;
-
+    lastUpdated: string;
     routes: {
       path: string;
       element: JSX.Element;
@@ -117,6 +118,7 @@ export type ComponentsConfig = {
       | VanGoghSearchResultsBody
       | IsraelsSearchResultsBody
       | BrederodeSearchResultsBody
+      | NVVSearchResultsBody
       | OratiesSearchResultsBody;
   }) => JSX.Element;
   BrowseScanButtons: () => JSX.Element;

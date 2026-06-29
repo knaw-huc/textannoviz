@@ -142,6 +142,16 @@ export type BrederodeSearchResultsBody = {
   };
 };
 
+export type NVVSearchResultsBody = {
+  _id: string;
+  datePublished: string;
+  file: string;
+  title: string;
+  _hits: {
+    text: string[];
+  };
+};
+
 export type OratiesSearchResultsBody = {
   _id: string;
   datePublished: string;

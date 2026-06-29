@@ -3,9 +3,6 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import { englishNvvLabels } from "./englishNvvLabels";
-// import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
-import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
@@ -13,20 +10,30 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { replaceArrays } from "../../default/config/replaceArrays";
+import { dutchNvvLabels } from "./dutchNvvLabels.ts";
+import { ASC, DESC } from "../../../model/Search.ts";
+import { filterPanels } from "../filterPanels.ts";
+import { document } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { defaultAnnotatedTextComponents } from "../../default/annotation/defaultAnnotatedTextComponents.ts";
+import { NVVMarker } from "../annotation/NVVMarker.tsx";
+import { pageMarkerTypes } from "../annotation/ProjectAnnotationModel.ts";
+import { defaultConfig } from "../../default/config";
 
 export const nvvConfig: ProjectConfig = mergeWith(
   {},
-  kunstenaarsbrievenConfig,
+  defaultConfig,
   {
     id: "nvv",
     broccoliUrl: "http://localhost:8082",
-    siteTitle: "Van Gogh Letters",
+    siteTitle: "NVV Archief",
 
     elasticIndexName: "nvv",
-    initialDateFrom: "1500-01-01",
-    initialDateTo: "2026-12-31",
+    initialDateFrom: "1900-01-01",
+    initialDateTo: "1999-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
-    headerTitle: "Brieven van Van Gogh",
+    headerTitle: "NVV Archief",
+    annotationTypesToInclude: ["Division", "Page", "Unit"],
+    showAnnotations: true,
     components: {
       Header,
       SearchItem,
@@ -35,18 +42,12 @@ export const nvvConfig: ProjectConfig = mergeWith(
       // SearchInfoPage is too project-specific to make generic
       SearchInfoPage,
     },
-    defaultKeywordAggsToRender: [
-      "type",
-      "location",
-      "period",
-      "file",
-      "persons",
-      // "artworksNL",
-      "artworksEN",
-      "recipient",
-      "sender",
-      "correspondent",
-    ],
+    annotatedTextComponents: {
+      ...defaultAnnotatedTextComponents,
+      Marker: NVVMarker,
+    },
+
+    defaultKeywordAggsToRender: ["file"],
     detailPanels: [
       {
         name: "facs",
@@ -57,20 +58,12 @@ export const nvvConfig: ProjectConfig = mergeWith(
         panel: PanelTemplates.facsPanel,
       },
       {
-        name: "text.orig",
+        name: "text",
         visible: true,
         disabled: false,
         region: "main",
         size: "minmax(300px, 750fr)",
         panel: TextPanels.origTextPanel,
-      },
-      {
-        name: "text.trans",
-        visible: true,
-        disabled: false,
-        region: "main",
-        size: "minmax(300px, 750fr)",
-        panel: TextPanels.transTextPanel,
       },
       {
         name: "metadata",
@@ -81,35 +74,44 @@ export const nvvConfig: ProjectConfig = mergeWith(
         panel: PanelTemplates.metadataPanel,
       },
     ],
+    allPossibleTextPanels: ["text"], // NB: because of the merge(), this value is not overwritten, but this value is added to the original.
+    defaultTextPanels: "text",
+
     overrideDefaultAggs: [
       {
         facetName: "file",
         order: "keyAsc",
         size: 9999,
       },
-      {
-        facetName: "period",
-        order: "keyAsc",
-        size: 9999,
-      },
     ],
-    viewsToSearchIn: [
-      "letterOriginalText",
-      "letterTranslatedText",
-      "letterNotesText",
-      "introText",
-      // "introTranslatedText",
-      // "introNotesText",
-    ],
-    selectedLanguage: "en",
-    languages: [
-      // { code: "nl", labels: dutchVangoghLabels },
-      { code: "en", labels: englishNvvLabels },
-    ],
+    viewsToSearchIn: ["unitText"],
+
+    languages: [{ code: "nl", labels: dutchNvvLabels }],
+    selectedLanguage: "nl",
+
+    zoomAnnoMirador: true,
+    miradorZoomRatio: 1.5,
+
     zoomToAnnoOnFacsimile: true,
-    // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    showSearchResultsOnInfoPage: true,
+    searchSorting: [
+      { name: "Vergaderstuk (oplopend)", value: `file-${ASC}` },
+      { name: "Vergaderstuk (aflopend)", value: `file-${DESC}` },
+    ],
+    overrideDefaultSearchParams: {
+      sortBy: "file",
+      sortOrder: "asc",
+    },
+    showMiradorNavigationButtons: true,
+    showSearchInTextViews: false,
+    showToc: () => false,
+    isMarker: (body) => pageMarkerTypes.includes(body.type),
+
+    filterPanels: filterPanels,
+    relativeTo: document,
+    useExternalConfig: true,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

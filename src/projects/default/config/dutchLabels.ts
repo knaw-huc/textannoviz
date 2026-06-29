@@ -95,6 +95,8 @@ export const dutchLabels: Labels = {
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
+  SETTINGS: "Instellingen",
+
   "text.self": "Tekst",
   facs: "Facsimile",
   metadata: "Info",
@@ -104,4 +106,5 @@ export const dutchLabels: Labels = {
   ZOOM_RESET: "Reset zoom",
   FULLSCREEN: "Fullscreen",
   EXIT_FULLSCREEN: "Exit fullscreen",
+  CONTENT_VIEW: "View",
 };

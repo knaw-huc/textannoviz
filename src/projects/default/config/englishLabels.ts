@@ -91,10 +91,11 @@ export const englishLabels: Labels = {
   SORT_BY_HELP: "",
   TOGGLE_INFO_HELP: "",
 
-  OCCURRENCES_PER_YEAR: "Occurences per year",
+  OCCURRENCES_PER_YEAR: "Occurrences per year",
 
   NAVIGATE_SEARCH_RESULTS: "Navigate search results",
   SEARCH: "Search",
+  SETTINGS: "Settings",
   "text.self": "Text",
   facs: "Facsimile",
   metadata: "Info",
@@ -104,4 +105,5 @@ export const englishLabels: Labels = {
   ZOOM_RESET: "Reset zoom",
   FULLSCREEN: "Fullscreen",
   EXIT_FULLSCREEN: "Exit fullscreen",
+  CONTENT_VIEW: "Content view",
 };

@@ -74,7 +74,7 @@ export const ViewSettings = () => {
     <div className="relative">
       <div className="flex *:border-y *:border-stone-500 *:bg-white *:px-2 *:py-2 *:text-sm *:md:p-2">
         <div className="hidden rounded-l-full border-x italic text-neutral-500 md:block">
-          Content view
+          {translateProject("CONTENT_VIEW")}
           <HelpTooltip label={translateProject("VIEW_HELP")} />
         </div>
         <button

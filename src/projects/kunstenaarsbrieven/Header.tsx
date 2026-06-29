@@ -95,6 +95,7 @@ export const Header = (props: HeaderProps) => {
             <span className="block h-[2px] w-5 bg-current" />
             <span className="block h-[2px] w-5 bg-current" />
             <span className="block h-[2px] w-5 bg-current" />
+            <span className="block h-[2px] w-5 bg-current" />
           </span>
         </Button>
 

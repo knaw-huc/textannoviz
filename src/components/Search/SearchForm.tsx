@@ -299,7 +299,7 @@ export function SearchForm(
             {translate("SEARCH_HISTORY")}
           </Tab>
           <Tab id="settings" className={`${tabStyling} ml-auto`}>
-            Settings
+            {translate("SETTINGS")}
           </Tab>
         </TabList>
 
