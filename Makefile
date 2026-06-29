@@ -55,12 +55,12 @@ clean:
 
 .PHONY: help
 help:
-	@echo -e "Local make-tools for $(GREEN)textannoviz$(RESET)"
+	@echo -e "Local make-tools for $(GREEN)textannoviz$(RESET) $(shell npm pkg get version)"
 	@echo
 	@echo -e "Please use \`$(YELLOW)make <target>$(RESET)', where $(YELLOW)<target>$(RESET) is one of:"
 	@echo
 	@echo -e " $(BLUE)install-dependencies$(RESET) - install the code dependencies"
-	@echo -e " $(BLUE)build-css$(RESET)            - generate bespoke css per project, bases on tailwind.config.*.js"
+	@echo -e " $(BLUE)build-css$(RESET)            - generate bespoke css per project, based on tailwind.config.*.js"
 	@echo -e " $(BLUE)test$(RESET)                 - run the tests"
 	@echo -e " $(BLUE)clean$(RESET)                - remove generated files"
 	@echo -e " $(BLUE)start$(RESET)                - run the front-end"
