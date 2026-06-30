@@ -154,5 +154,8 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
     "Use facets (e.g., Persons, Location) to narrow down your results. Multiple facets and values can be combined.",
   SEARCH_HISTORY_HELP:
     "Shows the last ten searches executed on this browser. Clicking a search re-executes it. It is also possible to remove a previous search from the history.",
-  QUICK_SEARCH_HELP: "PLACEHOLDER",
+  QUICK_SEARCH_HELP:
+    "Search by letter number or keyword. Enter a number (e.g., 1 or 001) to jump directly to that letter. Enter a word or phrase to search across all documents in the edition and view matching results.",
+  BIBLE_REFS_HELP:
+    "Filter by biblical passages and verses cited or quoted in the letters. The facet displays Bible references with numbers indicating how many letters contain each passage. Use the search field at the top of the facet to find a specific Bible verse, or browse the complete list. Select one or more passages to filter results to letters containing those biblical references. You can select multiple passages at once; this will return letters that reference any of the selected biblical passages.",
 });
