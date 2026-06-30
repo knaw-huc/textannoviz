@@ -14,7 +14,7 @@ export const SearchInfoPage = () => {
   }
 
   return (
-    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#FFCE01] px-6 py-8 lg:-mx-10 lg:px-10">
+    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#3e71ff] px-6 py-8 lg:-mx-10 lg:px-10">
       <div className="mx-auto w-full max-w-4xl">
         <h1>{translateProject("INFO_TITLE")}</h1>
 
@@ -39,7 +39,7 @@ export const SearchInfoPage = () => {
 
           {/* Button */}
           <Button
-            className="rounded bg-yellow-500 p-2 outline-none"
+            className="rounded bg-blue-200 p-2 outline-none"
             onPress={scrollToSearchResultsButtonHandler}
           >
             {translateProject("SCROLL_TO_LETTERS")} {String.fromCharCode(9663)}
