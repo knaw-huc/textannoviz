@@ -1,5 +1,5 @@
-export function buildNavLink(target: string) {
-  const baseUrl = "/detail/urn:mace:huc.knaw.nl:vangogh:";
+export function buildNavLink(target: string, projectName: string) {
+  const baseUrl = `/detail/urn:mace:huc.knaw.nl:${projectName}:`;
 
   if (target.startsWith("bio")) {
     return "/persons";
