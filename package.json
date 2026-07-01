@@ -1,7 +1,7 @@
 {
   "name": "TextAnnoViz",
   "version": "1.4.1",
-  "description": "Generic, configurable web application for rendering richly annotated digital (scholarly) text editions: a single reusable front end re-skinned and reconfigured per corpus via internal/external config and per-project Tailwind files, avoiding bespoke builds.",
+  "description": "Generic, configurable web application for rendering richly annotated digital (scholarly) text editions: a single reusable front end re-skinnable and reconfigurable per corpus via internal/external config and per-project Tailwind files, avoiding bespoke builds.",
   "private": true,
   "type": "module",
   "scripts": {
