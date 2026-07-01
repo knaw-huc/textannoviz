@@ -1,5 +1,5 @@
 {
-  "name": "textannoviz",
+  "name": "TextAnnoViz",
   "version": "1.4.1",
   "description": "",
   "private": true,
@@ -17,8 +17,25 @@
     "docker:build:dev": "./scripts/docker-dev.sh",
     "docker:build-push": "./scripts/docker-build-push.sh"
   },
-  "author": "Sebastiaan van Daalen",
-  "license": "GPL-3.0-or-later",
+  "author": {
+    "name": "Sebastiaan van Daalen",
+    "email": "sebastiaan.van.daalen@di.huc.knaw.nl"
+  },
+  "contributors": [
+    {
+      "name": "Bram Buitendijk",
+      "email": "bram.buitendijk@di.huc.knaw.nl"
+    },
+    {
+      "name": "Bas Doppen",
+      "email": "bas.doppen@di.huc.knaw.nl"
+    },
+    {
+      "name": "Bas Leenknecht",
+      "email": "bas.leenknecht@di.huc.knaw.nl"
+    }
+  ],
+  "license": "AGPL-3.0-only",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@iiif/helpers": "^1.5.8",
