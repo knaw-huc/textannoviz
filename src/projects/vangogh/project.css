@@ -13,10 +13,27 @@
   }
 
   blockquote {
-    text-align: right;
-    margin-bottom: 1em;
+    text-align: left;
+    margin-bottom: 1.6em;
+    padding-left: 2.5em;
     border-left: 0;
     font-style: normal;
+    color: inherit;
+  }
+
+  /* A blockquote followed by span followed by blockquote -> not the first? drop the top margin */
+  blockquote + .highlight-whitespace + blockquote {
+    margin-top: 0;
+  }
+
+  /* A blockquote followed by span followed by blockquote -> not the last? drop the bottom margin */
+  blockquote:has(+ .highlight-whitespace + blockquote) {
+    margin-bottom: 0;
+  }
+
+  /* Hide the whitespace directly after a blockquote: */
+  blockquote + .highlight-whitespace {
+    display: none;
   }
 
   tr {
@@ -42,10 +59,14 @@
     :is(p, h2, div) + & {
       display: none;
     }
-    /* Render double whitespace after p or h2 as a line break: */
-    :is(p, h2) + & + & {
+    /* Render double whitespace after p or h2 as a line break (unless it precedes a h2): */
+    :is(p, h2) + & + &:not(:has(~ h2)) {
       display: block;
       line-height: 1em;
+    }
+    /* Hide all whitespaces before a h2: */
+    &:has(~ h2) {
+      display: none;
     }
     /* Show whitespace inside p: */
     p & {
