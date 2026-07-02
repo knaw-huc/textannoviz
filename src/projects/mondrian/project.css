@@ -37,6 +37,9 @@
     p & {
       display: inline;
     }
+
+    /* Hide whitespace in all other instances */
+    display: none;
   }
 }
 
@@ -60,6 +63,10 @@
 
 .highlight-supplied::after {
   content: "]";
+}
+
+.highlight-underline {
+  text-decoration: underline;
 }
 
 .segmented-line:has(.highlight-caption) {
