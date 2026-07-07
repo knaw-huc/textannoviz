@@ -63,7 +63,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   NO_NOTES: "This letter contains no notes.",
   NO_ARTWORKS: "No artworks in this document.",
   letter: "Letter",
-  invNr: "Shelfmark",
+  invNr: "Location",
   addInfo: "Additional information",
   ogtNotes: "Ongoing topics",
   dating: "Date",
