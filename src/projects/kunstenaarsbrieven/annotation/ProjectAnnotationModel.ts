@@ -190,7 +190,7 @@ export const isBibliographyReference = (
 ): toTest is BibliographyReferenceBody => {
   return (
     isReference(toTest) &&
-    (toTest as BibliographyReferenceBody).subtype.startsWith("BibReference")
+    (toTest as BibliographyReferenceBody).subtype?.startsWith("BibReference")
   );
 };
 
