@@ -102,4 +102,6 @@ export type Labels = {
   ZOOM_RESET: string;
   FULLSCREEN: string;
   EXIT_FULLSCREEN: string;
+
+  SCROLL_TO_TOP: string;
 };
