@@ -108,6 +108,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     overrideDefaultSearchParams: {
       sortBy: "file",
       sortOrder: "asc",
+      size: 50,
     },
     annoToEntityCategory: {
       [person]: "PER",
