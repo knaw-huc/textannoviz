@@ -37,6 +37,7 @@ import { KunstenaarsbrievenBlock } from "../annotation/block/KunstenaarsbrievenB
 import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHighlight.tsx";
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import { replaceArrays } from "../../default/config/replaceArrays.ts";
+import { KunstenaarsbrievenGroup } from "../annotation/group/KunstenaarsbrievenGroup.tsx";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
   {},
@@ -58,6 +59,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
       Marker: KunstenaarsbrievenMarker,
       Block: KunstenaarsbrievenBlock,
       Highlight: KunstenaarsbrievenHighlight,
+      Group: KunstenaarsbrievenGroup,
     },
     highlightTypes: highlightTypes,
     nestedTypes: entityTypes,

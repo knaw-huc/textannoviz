@@ -194,6 +194,16 @@ export const isBibliographyReference = (
   );
 };
 
+export const isInternalReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody => {
+  return (
+    isReference(toTest) &&
+    !!(toTest as BibliographyReferenceBody).url &&
+    !(toTest as BibliographyReferenceBody).url.startsWith("http")
+  );
+};
+
 export type LetterReferenceBody = AnnoRepoBodyBase & {
   id: string;
   type: typeof reference;

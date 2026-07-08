@@ -1,11 +1,15 @@
 import { RefObject, useEffect } from "react";
-import { getUrlHash } from "../../../utils/url/UrlHashUtils.ts";
+import { useLocation } from "react-router";
 
-export function useSyncHeaderWithHashOnInit(
+export function useSyncHeaderWithHash(
   scrollContainerRef: RefObject<HTMLElement | null>,
 ): void {
+  // Read the hash from the router so the effect re-runs on in-app navigation
+  // (e.g. following an internal link), not only on mount. Scroll-based header
+  // syncing uses the text store rather than the URL, so this cannot feed back.
+  const hash = useLocation().hash.slice(1) || null;
+
   useEffect(() => {
-    const hash = getUrlHash();
     if (!hash) {
       return;
     }
@@ -53,7 +57,7 @@ export function useSyncHeaderWithHashOnInit(
     }
 
     return cleanup;
-  }, [scrollContainerRef]);
+  }, [scrollContainerRef, hash]);
 }
 
 function scrollIfNotInView(header: Element, container: Element): void {

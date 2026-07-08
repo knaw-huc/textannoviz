@@ -8,7 +8,7 @@ import {
 import { TextHighlighting } from "./TextHighlighting";
 import { useViewText } from "./useViewText.tsx";
 import { useSyncHeaderOnScroll } from "./Toc/useSyncHeaderOnScroll.tsx";
-import { useSyncHeaderWithHashOnInit } from "./Toc/useSyncHeaderWithHashOnInit.tsx";
+import { useSyncHeaderWithHash } from "./Toc/useSyncHeaderWithHash.tsx";
 import { SkeletonLoader } from "../common/SkeletonLoader.tsx";
 import { useHasScrollbar } from "./useHasScrollbar.ts";
 import { ScrollToTopButton } from "./ScrollToTopButton.tsx";
@@ -28,7 +28,7 @@ export const TextComponent = (props: TextComponentProps) => {
   const translateProject = useTranslateProject();
 
   const scrollRef = useRef<HTMLDivElement>(null);
-  useSyncHeaderWithHashOnInit(scrollRef);
+  useSyncHeaderWithHash(scrollRef);
   useSyncHeaderOnScroll(scrollRef);
 
   const hasScrollbar = useHasScrollbar(scrollRef, SCROLLBAR_THRESHOLD_PX, [

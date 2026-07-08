@@ -28,8 +28,6 @@ const LETTER_TEMPLATE = "urn:mace:huc.knaw.nl:vangogh:";
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
 
-  console.log(body);
-
   return (
     <>
       {isEntity(body) ? (
