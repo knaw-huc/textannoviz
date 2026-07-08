@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import type { Key } from "react-aria-components";
 import {
   SelectComponent,
@@ -19,7 +18,6 @@ type PageSizeOption = {
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   const translate = useTranslate();
   const { searchParams } = useUrlSearchParamsStore();
-  const [selectedKey, setSelectedKey] = React.useState<Key>(searchParams.size);
 
   const options: PageSizeOption[] = [
     { name: 10 },
@@ -28,18 +26,16 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
     { name: 100 },
   ];
 
+  const selectedOption = options.find((o) => o.name === searchParams.size);
+  if (!selectedOption) {
+    throw new Error("Unknown page size: " + searchParams.size);
+  }
+  const selectedKey: Key = selectedOption.name;
+
   function selectChangeHandler(key: Key | null) {
     if (key == null) return;
     props.onChange(key);
   }
-
-  useEffect(() => {
-    const foundOption = options.find((o) => o.name === searchParams.size);
-    if (!foundOption) {
-      throw new Error("Unknown page size: " + searchParams.size);
-    }
-    setSelectedKey(foundOption.name);
-  }, [searchParams.size]);
 
   return (
     <SelectComponent
@@ -47,8 +43,8 @@ export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
       labelStyling="mr-1 text-sm"
       buttonWidth="w-[95px]"
       items={options}
-      selectedKey={selectedKey}
-      onSelectionChange={selectChangeHandler}
+      value={selectedKey}
+      onChange={selectChangeHandler}
     >
       {(item: PageSizeOption) => (
         <SelectItemComponent id={item.name} textValue={item.name.toString()}>
