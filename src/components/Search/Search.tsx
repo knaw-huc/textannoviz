@@ -94,7 +94,7 @@ export const Search = () => {
     const newParams = {
       ...searchParams,
       indexName: projectConfig.elasticIndexName,
-      size: 0,
+      size: 0 as const,
     };
 
     const searchResults = await sendSearchQuery(

@@ -5,16 +5,11 @@ import {
 } from "../common/SelectComponent.tsx";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 import { useTranslate } from "../../stores/project.ts";
+import { PageSizeOption } from "../../model/Search.ts";
 
 interface SearchResultsPerPageProps {
   onChange: (key: Key) => void;
-  value: number;
 }
-
-type PageSizeOption = {
-  name: 10 | 20 | 50 | 100;
-};
-
 export const SearchResultsPerPage = (props: SearchResultsPerPageProps) => {
   const translate = useTranslate();
   const { searchParams } = useUrlSearchParamsStore();

@@ -3,7 +3,12 @@ import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { MouseHandlerDataParam } from "recharts/types/synchronisation/types";
 import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
-import { FacetName, FacetOptionName, SearchQuery } from "../../model/Search.ts";
+import {
+  FacetName,
+  FacetOptionName,
+  PageSizeOption,
+  SearchQuery,
+} from "../../model/Search.ts";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -97,7 +102,7 @@ export function SearchResults(props: SearchResultsProps) {
       return;
     }
     updateSearchParams({
-      size: key as number,
+      size: key as PageSizeOption["name"],
     });
     props.onSearch();
   };
@@ -217,7 +222,7 @@ export function SearchResults(props: SearchResultsProps) {
             )}
 
           {searchResults.results.length >= 1 && (
-            <SearchResultsPerPage onChange={changePageSize} value={pageSize} />
+            <SearchResultsPerPage onChange={changePageSize} />
           )}
         </div>
       </div>

@@ -208,11 +208,15 @@ export const ASC = "asc";
 export const DESC = "desc";
 export type SortOrder = "desc" | "asc" | string;
 
+export type PageSizeOption = {
+  name: 0 | 10 | 20 | 50 | 100;
+};
+
 export type SearchParams = {
   indexName: string;
   fragmentSize: number;
   from: number;
-  size: number;
+  size: PageSizeOption["name"];
   sortBy: string;
   sortOrder: SortOrder;
 };
