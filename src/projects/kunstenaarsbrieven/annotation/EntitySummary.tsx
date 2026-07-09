@@ -13,7 +13,6 @@ import {
   Artwork,
   getAnnotationCategory,
   isArtwork,
-  isBibliographyReference,
   isEntity,
   isLetterReference,
   isPerson,
@@ -91,9 +90,6 @@ function EntityComponent(props: {
     } else if (isArtwork(body)) {
       const id = entityBody.id;
       window.open(`${basePath}/artworks#${id}`);
-    } else if (isBibliographyReference(body)) {
-      const id = body.url.split("#")[1];
-      window.open(`${basePath}/bibliography#${id}`);
     } else {
       toast(`Unknown annotation body: ${body}`);
     }
@@ -114,21 +110,19 @@ function EntityComponent(props: {
       </>
       <div className="flex">
         <div>
-          {!isBibliographyReference(body) && (
-            <button
-              className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-              onClick={handleEntitySearchClick}
-            >
-              {isLetterReference(body) ? (
-                <>{translateProject("NAV_TO_LETTER")}</>
-              ) : (
-                <>
-                  {translateProject("SEARCH_CATEGORY")}{" "}
-                  {translateProject(entityCategory)}
-                </>
-              )}
-            </button>
-          )}
+          <button
+            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
+            onClick={handleEntitySearchClick}
+          >
+            {isLetterReference(body) ? (
+              <>{translateProject("NAV_TO_LETTER")}</>
+            ) : (
+              <>
+                {translateProject("SEARCH_CATEGORY")}{" "}
+                {translateProject(entityCategory)}
+              </>
+            )}
+          </button>
 
           {!isReference(body) && (
             <div className="mt-2 italic text-neutral-600">
