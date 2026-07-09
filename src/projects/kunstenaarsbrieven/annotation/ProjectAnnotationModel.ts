@@ -135,6 +135,9 @@ export type PersonTeiRef = {
   gender: string;
   source: string[];
   persName: PersonPersName[];
+  floruit?: {
+    when: string;
+  };
   birth?: PersonLifespan;
   death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;

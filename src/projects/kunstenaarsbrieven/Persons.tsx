@@ -14,6 +14,7 @@ import {
   projectConfigSelector,
   useTranslateProject,
   useProjectStore,
+  useTranslate,
 } from "../../stores/project";
 import { Button } from "react-aria-components";
 
@@ -26,6 +27,7 @@ export function Persons(props: PersonsProps) {
   const personRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
   const { routerBasename } = getViteEnvVars();
   const translateProject = useTranslateProject();
+  const translate = useTranslate();
 
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
@@ -84,8 +86,31 @@ export function Persons(props: PersonsProps) {
   function formatDate(
     lifespan: PersonLifespan | undefined,
   ): string | undefined {
-    if (!lifespan?.when?.startsWith("-")) return lifespan?.when;
-    return lifespan.when.split("-")[1] + " " + translateProject("BC");
+    const date = formatDateValue(lifespan);
+    if (date === undefined) return undefined;
+    return lifespan?.cert ? `${translate("CIRCA_ABBRV")} ${date}` : date;
+  }
+
+  function formatDateValue(
+    lifespan: PersonLifespan | undefined,
+  ): string | undefined {
+    if (lifespan?.when?.startsWith("-")) {
+      return String(Number(lifespan.when.slice(1))) + " " + translate("BC");
+    }
+    if (lifespan?.when) {
+      return lifespan.when;
+    }
+
+    if (lifespan?.notBefore && !lifespan?.notAfter)
+      return `${translate("AFTER")} ${lifespan.notBefore}`;
+    if (lifespan?.notAfter && !lifespan?.notBefore)
+      return `${translate("BEFORE")} ${lifespan.notAfter}`;
+    if (lifespan?.notAfter && lifespan?.notBefore)
+      return `${translate("BETWEEN")} ${lifespan.notBefore} ${translate(
+        "AND",
+      )} ${lifespan.notAfter}`;
+
+    return undefined;
   }
 
   return (
@@ -132,18 +157,17 @@ export function Persons(props: PersonsProps) {
               </div>
             </div>
             {per.birth || per.death ? (
-              <div>
-                {/* TODO: deze elementen nog beter stylen. Onzekerheid beter weergeven, net als de `notBefore`. */}
-                {formatDate(per.birth) || per.birth?.cert}
-                {interfaceLang === "en" ? "–" : "-"}
-                {formatDate(per.death) ||
-                  per.death?.cert ||
-                  per.death?.notBefore}
-                {/* {per.id} */}
-              </div>
+              <>
+                {" "}
+                <div>
+                  {formatDate(per.birth)}
+                  {interfaceLang === "en" ? " – " : " - "}
+                  {formatDate(per.death)}
+                </div>
+                <div>{per.floruit ? `floruit: ${per.floruit.when}` : null}</div>
+              </>
             ) : null}
 
-            {/*TODO: test person.note exists: */}
             <div>{per.note?.[interfaceLang]?.shortdesc}</div>
           </div>
         ))}

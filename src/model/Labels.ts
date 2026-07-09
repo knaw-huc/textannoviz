@@ -4,6 +4,12 @@ export type Labels = {
   DATE_FROM: string;
   DISPLAY_CONTEXT: string;
   FROM: string;
+  AND: string;
+  BETWEEN: string;
+  BEFORE: string;
+  AFTER: string;
+  BC: string;
+  CIRCA_ABBRV: string;
   NEW_SEARCH_QUERY: string;
   NEXT: string;
   NO_SEARCH_HISTORY: string;
