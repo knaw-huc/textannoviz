@@ -4,9 +4,11 @@ import { DefaultGroup } from "../../../default/annotation/group/DefaultGroup.tsx
 import {
   isBibliographyReference,
   isInternalReference,
+  isLetterReference,
 } from "../ProjectAnnotationModel.ts";
 import { BibliographyLink } from "./BibliographyLink.tsx";
 import { InternalReferenceLink } from "./InternalReferenceLink.tsx";
+import { LetterLink } from "./LetterLink.tsx";
 import { INTERNAL_ANCHOR } from "./toInternalReferenceTarget.ts";
 
 // An internal reference points at a numbered header inside a document, e.g.
@@ -43,7 +45,17 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
     return <BibliographyLink url={biblRef.url}>{children}</BibliographyLink>;
   }
 
-  // Not an internal or bibliography reference: let the default group handle
+  const letterRef = group.segments
+    .flatMap((s) => s.annotations)
+    .filter(isNested)
+    .map((a) => a.body)
+    .find((body) => isLetterReference(body));
+
+  if (letterRef && isLetterReference(letterRef)) {
+    return <LetterLink url={letterRef.url}>{children}</LetterLink>;
+  }
+
+  // Not an internal, bibliography or letter reference: let the default group handle
   // external links and the modal-opening behavior unchanged.
   return <DefaultGroup {...props} />;
 }
