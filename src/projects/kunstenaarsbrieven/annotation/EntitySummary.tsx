@@ -68,10 +68,8 @@ function EntityComponent(props: {
   const handleEntitySearchClick = () => {
     const basePath = routerBasename === "/" ? "" : routerBasename;
 
-    if (isReference(body)) {
-      const query = toEntitySearchQuery(entityBody, entityCategory);
-      window.open(`${basePath}/?${query}`, "_blank");
-    }
+    const query = toEntitySearchQuery(entityBody, entityCategory);
+    window.open(`${basePath}/?${query}`, "_blank");
   };
 
   const handleMoreInfoClick = () => {
