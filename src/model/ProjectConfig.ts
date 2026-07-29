@@ -44,6 +44,8 @@ export type ProjectConfig = SearchConfig &
   TextConfig &
   FacsimileConfig & {
     id: string;
+    version: string;
+    versionHash: string;
     broccoliUrl: string;
     colours: Record<string, string>;
     logoImageUrl: string;

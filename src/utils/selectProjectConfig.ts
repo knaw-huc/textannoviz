@@ -31,6 +31,8 @@ export async function selectProjectConfig() {
         menuUrl,
         letterIdUrl,
         homeUrl,
+        version,
+        versionHash,
       } = externalConfig;
       project = externalProjectName;
       config = projectConfigs[project];
@@ -53,6 +55,8 @@ export async function selectProjectConfig() {
       if (menuUrl) config.menuUrl = menuUrl;
       if (letterIdUrl) config.letterIdUrl = letterIdUrl;
       if (homeUrl) config.homeUrl = homeUrl;
+      if (version) config.version = version;
+      if (versionHash) config.versionHash = versionHash;
     }
   } else {
     project = envProjectName;

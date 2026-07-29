@@ -14,12 +14,15 @@ import { getTocId, showToc } from "./showToc.ts";
 import { getUrl, isLink } from "./isLink.ts";
 import { defaultAnnotatedTextComponents } from "../annotation/defaultAnnotatedTextComponents.ts";
 import { defaultBlockSchema } from "../annotation/defaultBlockSchema.ts";
+import { version as appVersion } from "../../../../package.json";
 
 /**
  * Default configuration file with some sensible defaults
  * which can be extended and overwritten by projects
  */
 export const defaultConfig: DefaultProjectConfig = {
+  version: appVersion,
+  versionHash: "",
   broccoliUrl: "https://broccoli.tt.di.huc.knaw.nl",
   colours: {},
   relativeTo: "",

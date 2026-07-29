@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { LanguageMenu } from "../../components/LanguageMenu.tsx";
-import { useTranslateProject } from "../../stores/project.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+  useTranslateProject,
+} from "../../stores/project.ts";
 import { matchPath, useLocation, useNavigate } from "react-router";
 import { detailTier2Path } from "../../utils/detailPath.ts";
 import { Button } from "react-aria-components";
@@ -24,6 +28,8 @@ export const Header = (props: HeaderProps) => {
   const translateProject = useTranslateProject();
   const navigate = useNavigate();
   const location = useLocation();
+  const version = useProjectStore(projectConfigSelector).version;
+  const versionHash = useProjectStore(projectConfigSelector).versionHash;
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -64,7 +70,7 @@ export const Header = (props: HeaderProps) => {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_110px]">
+    <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_200px]">
       <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
         <Button
           className="flex w-fit flex-col items-start text-inherit no-underline hover:underline"
@@ -107,8 +113,16 @@ export const Header = (props: HeaderProps) => {
         </nav>
       </div>
 
-      <div className="hidden items-center justify-center border-b border-neutral-400 lg:flex">
+      <div className="hidden items-center justify-between gap-2 border-b border-neutral-400 px-4 lg:flex">
         <LanguageMenu />
+        <span className="min-w-0 truncate text-xs text-neutral-600">
+          v{version}
+          {versionHash && (
+            <span className="ml-1 font-mono" title={versionHash}>
+              {versionHash}
+            </span>
+          )}
+        </span>
       </div>
 
       {isMobileMenuOpen && (
