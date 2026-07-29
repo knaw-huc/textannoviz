@@ -200,11 +200,17 @@ export const isBibliographyReference = (
 export const isInternalReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is BibliographyReferenceBody => {
-  return (
-    isReference(toTest) &&
-    !!(toTest as BibliographyReferenceBody).url &&
-    !(toTest as BibliographyReferenceBody).url.startsWith("http")
-  );
+  if (!isReference(toTest)) return false;
+  const url = (toTest as BibliographyReferenceBody).url;
+  return !!url && !url.startsWith("http") && !url.startsWith("#p.");
+};
+
+export const isParagraphReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody => {
+  if (!isReference(toTest)) return false;
+  const url = (toTest as BibliographyReferenceBody).url;
+  return !!url && url.startsWith("#p.");
 };
 
 export type LetterReferenceBody = AnnoRepoBodyBase & {

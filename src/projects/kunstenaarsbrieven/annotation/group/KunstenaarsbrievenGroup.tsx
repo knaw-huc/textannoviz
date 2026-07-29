@@ -5,10 +5,12 @@ import {
   isBibliographyReference,
   isInternalReference,
   isLetterReference,
+  isParagraphReference,
 } from "../ProjectAnnotationModel.ts";
 import { BibliographyLink } from "./BibliographyLink.tsx";
 import { InternalReferenceLink } from "./InternalReferenceLink.tsx";
 import { LetterLink } from "./LetterLink.tsx";
+import { ParagraphReferenceLink } from "./ParagraphReferenceLink.tsx";
 import { INTERNAL_ANCHOR } from "./toInternalReferenceTarget.ts";
 
 // An internal reference points at a numbered header inside a document, e.g.
@@ -32,6 +34,20 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
       <InternalReferenceLink url={internalReference.url}>
         {children}
       </InternalReferenceLink>
+    );
+  }
+
+  const paragraphReference = group.segments
+    .flatMap((s) => s.annotations)
+    .filter(isNested)
+    .map((a) => a.body)
+    .find((body) => isParagraphReference(body));
+
+  if (paragraphReference && isParagraphReference(paragraphReference)) {
+    return (
+      <ParagraphReferenceLink url={paragraphReference.url}>
+        {children}
+      </ParagraphReferenceLink>
     );
   }
 
