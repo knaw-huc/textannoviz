@@ -40,10 +40,17 @@ export function usePanelLayout(): null {
   const panelVisibilityPreferences = useDetailViewStore(
     (state) => state.panelVisibilityPreferences,
   );
+  const panelVisibilityOverrides = useDetailViewStore(
+    (state) => state.panelVisibilityOverrides,
+  );
   const annotations = useAnnotationStore((s) => s.annotations);
   const { isLoading, isReady } = useManifest();
 
-  useEffect(filterPanelsOnResize, [isLoading, isReady]);
+  useEffect(filterPanelsOnResize, [
+    isLoading,
+    isReady,
+    panelVisibilityOverrides,
+  ]);
 
   function filterPanelsOnResize() {
     const mediaQueries = mapValues(layoutBreakpoints, (query) =>
@@ -61,7 +68,11 @@ export function usePanelLayout(): null {
         ? filterPanels(activePanels, annotations)
         : activePanels.map((a) => a.name);
 
-      const filteredBySize = isVisibleInLayout(activePanels, windowSize);
+      const filteredBySize = isVisibleInLayout(
+        activePanels,
+        windowSize,
+        panelVisibilityOverrides,
+      );
 
       const filteredByPreference = activePanels
         .filter((p) => {
@@ -72,13 +83,17 @@ export function usePanelLayout(): null {
         })
         .map((p) => p.name);
 
+      console.log(activePanels);
+
       setActivePanels(
         activePanels.map((panel) => ({
           ...panel,
           visible:
             filteredByProject.includes(panel.name) &&
             filteredBySize.includes(panel.name) &&
-            filteredByPreference.includes(panel.name),
+            // An override forces a panel past a hidden preference
+            (filteredByPreference.includes(panel.name) ||
+              panelVisibilityOverrides[panel.name] === true),
         })),
       );
     }
@@ -102,15 +117,21 @@ export function usePanelLayout(): null {
 function isVisibleInLayout(
   detailPanels: DetailPanelConfig[],
   windowSize: WindowSize,
+  overrides: Record<string, boolean> = {},
 ): string[] {
   const panelRegions = layout[windowSize];
   const usedPanels = new Set<string>();
   const visiblePanels: string[] = [];
 
   for (const region of panelRegions) {
-    const foundPanel = detailPanels.find(
+    const candidates = detailPanels.filter(
       (p) => p.region === region && !usedPanels.has(p.name),
     );
+    // An overridden panel claims its region's slot ahead of the default one,
+    // so on narrow layouts (a single "main") this displaces
+    // whatever panel would otherwise sit there
+    const foundPanel =
+      candidates.find((p) => overrides[p.name] === true) ?? candidates[0];
     if (foundPanel) {
       usedPanels.add(foundPanel.name);
       visiblePanels.push(foundPanel.name);

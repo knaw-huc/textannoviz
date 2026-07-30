@@ -12,15 +12,23 @@ import {
   PanelVisibilityPreferencesSlice,
   createPanelVisibilityPreferencesSlice,
 } from "./panelVisibilityPreferencesSlice";
+import {
+  PanelVisibilityOverridesSlice,
+  createPanelVisibilityOverridesSlice,
+} from "./panelVisibilityOverridesSlice";
 
 export const useDetailViewStore = create<
-  ActiveSidebarTabSlice & ActivePanelsSlice & PanelVisibilityPreferencesSlice
+  ActiveSidebarTabSlice &
+    ActivePanelsSlice &
+    PanelVisibilityPreferencesSlice &
+    PanelVisibilityOverridesSlice
 >()(
   persist(
     (...a) => ({
       ...createActiveSidebarTabSlice(...a),
       ...createActivePanelsSlice(...a),
       ...createPanelVisibilityPreferencesSlice(...a),
+      ...createPanelVisibilityOverridesSlice(...a),
     }),
     {
       name: "detail-view-store",
