@@ -83,8 +83,6 @@ export function usePanelLayout(): null {
         })
         .map((p) => p.name);
 
-      console.log(activePanels);
-
       setActivePanels(
         activePanels.map((panel) => ({
           ...panel,
