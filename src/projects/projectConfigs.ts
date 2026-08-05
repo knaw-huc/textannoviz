@@ -9,6 +9,7 @@ import { brederodeConfig } from "./brederode/config";
 import { oratiesConfig } from "./oraties/config";
 import { mondrianConfig } from "./mondrian/config";
 import { nvvConfig } from "./nvv/config";
+import { combinedConfig } from "./combined/config";
 
 export const projectConfigs = {
   vangogh: vangoghConfig,
@@ -22,6 +23,7 @@ export const projectConfigs = {
   brederode: brederodeConfig,
   oraties: oratiesConfig,
   nvv: nvvConfig,
+  combined: combinedConfig,
 };
 
 export type ProjectName = keyof typeof projectConfigs;
