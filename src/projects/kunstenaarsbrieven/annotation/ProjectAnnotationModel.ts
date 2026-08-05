@@ -383,6 +383,22 @@ export function isArtworkBody(toTest: EntityRefs): toTest is Artwork {
   return !toTest.id.startsWith("vg");
 }
 
+export type ListAnnotationBody = AnnoRepoBodyBase & {
+  type: "List";
+  elementName: "listAnnotation";
+  language: string;
+  "tei:type": string;
+};
+
+export function isListAnnotation(
+  toTest: AnnoRepoBodyBase,
+): toTest is ListAnnotationBody {
+  return (
+    toTest.type === "List" &&
+    (toTest as ListAnnotationBody).elementName === "listAnnotation"
+  );
+}
+
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
@@ -451,6 +467,6 @@ export const getMarkerPosition = (body: AnnoRepoBodyBase) =>
   isHeadBody(body) ? "prefix" : "postfix";
 
 export const isBlock = (body: AnnoRepoBodyBase) =>
-  blockTypes.includes(body.type);
+  blockTypes.includes(body.type) && !isListAnnotation(body);
 
 export const getBlockType = (body: AnnoRepoBodyBase) => body.type;
