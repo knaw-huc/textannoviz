@@ -54,7 +54,7 @@ export const ArtworksTab = () => {
             <div>
               {artwork.relation?.map((creator) => (
                 <div key={creator.ref}>
-                  {firstLetterToUppercase(creator.name)}: {creator.label}
+                  {firstLetterToUppercase(creator.name)}: {creator.displayLabel}
                 </div>
               ))}
               {artwork.date ? <div>{artwork.date.text}</div> : null}

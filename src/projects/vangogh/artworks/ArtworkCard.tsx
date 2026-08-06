@@ -31,8 +31,8 @@ export function ArtworkCard(props: {
       </div>
       {artwork.relation
         ? artwork.relation.map((relation) => (
-            <div key={relation.label}>
-              {translateProject(relation.name)}: {relation.label}
+            <div key={relation.displayLabel}>
+              {translateProject(relation.name)}: {relation.displayLabel}
             </div>
           ))
         : null}
