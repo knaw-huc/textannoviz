@@ -58,6 +58,22 @@ export const ArtworksTab = () => {
                 </div>
               ))}
               {artwork.date ? <div>{artwork.date.text}</div> : null}
+              {artwork.idno?.some(
+                (idno) => idno["tei:type"]?.startsWith("VG-"),
+              ) ? (
+                <p>
+                  {translateProject("catalogueNum")}:{" "}
+                  {artwork.idno
+                    .filter((value) => value["tei:type"]?.startsWith("VG-"))
+                    .map(
+                      (value) =>
+                        `${value["tei:type"]?.replace("VG-", "")} ${
+                          value.text
+                        }`,
+                    )
+                    .join(" / ")}
+                </p>
+              ) : null}
             </div>
           </li>
         </ul>

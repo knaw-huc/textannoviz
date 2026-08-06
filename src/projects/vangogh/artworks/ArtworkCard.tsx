@@ -77,6 +77,15 @@ export function ArtworkCard(props: {
             ))}
         </div>
       ) : null}
+      {artwork.idno?.some((idno) => idno.type?.startsWith("VG-")) ? (
+        <div>
+          {translateProject("catalogueNum")}:{" "}
+          {artwork.idno
+            .filter((value) => value.type?.startsWith("VG-"))
+            .map((value) => `${value.type?.replace("VG-", "")} ${value.text}`)
+            .join(" / ")}
+        </div>
+      ) : null}
       {artwork.note?.some((note) => note.type === "creditline") ? (
         <div>
           {translateProject("credits")}:{" "}

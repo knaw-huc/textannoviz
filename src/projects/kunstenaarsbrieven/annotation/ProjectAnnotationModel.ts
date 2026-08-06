@@ -75,7 +75,8 @@ type ArtworkTeiRef = {
   id: string;
   corresp?: string;
   idno?: {
-    type: string;
+    type?: string;
+    "tei:type"?: string;
     text: string;
   }[];
   head: {

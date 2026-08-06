@@ -104,6 +104,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   collection: "Collection",
   credits: "Credits",
   inventory: "Inventory number",
+  catalogueNum: "Catalogue number",
 
   //Search info page
   INFO_TITLE: "The letters of Vincent van Gogh",
