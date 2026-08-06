@@ -5,6 +5,10 @@ export const getViteEnvVars = () => {
   const routerBasename = import.meta.env["VITE_ROUTER_BASENAME"] as string;
   const prodMode = import.meta.env.PROD;
   const mode = import.meta.env.MODE;
+  const broccoliPortVangogh = import.meta.env.VITE_BROCCOLI_PORT_VANGOGH;
+  const broccoliPortMondrian = import.meta.env.VITE_BROCCOLI_PORT_MONDRIAN;
+  const nginxPortVangogh = import.meta.env.VITE_NGINX_PORT_VANGOGH;
+  const nginxPortMondrian = import.meta.env.VITE_NGINX_PORT_MONDRIAN;
 
   if (!envProjectName) {
     throw new Error("VITE_PROJECT environment variable not set in .env.");
@@ -21,5 +25,9 @@ export const getViteEnvVars = () => {
     routerBasename,
     prodMode,
     mode,
+    broccoliPortVangogh,
+    broccoliPortMondrian,
+    nginxPortVangogh,
+    nginxPortMondrian,
   };
 };

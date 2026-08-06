@@ -17,13 +17,16 @@ import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
+import { getViteEnvVars } from "../../../utils/viteEnvVars";
+
+const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
 
 export const vangoghConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
     id: "vangogh",
-    broccoliUrl: "http://localhost:8082",
+    broccoliUrl: `http://localhost:${broccoliPortVangogh ?? "8082"}`,
     siteTitle: "Van Gogh Letters",
 
     elasticIndexName: "vangogh",
@@ -31,32 +34,49 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     initialDateTo: "1890-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Van Gogh",
-    personsUrl:
-      "http://localhost:8040/files/vangogh/apparatus/bio-entities.json",
+    personsUrl: `http://localhost:${
+      nginxPortVangogh ?? "8040"
+    }/files/vangogh/apparatus/bio-entities.json`,
     artworksUrl: [
       {
         key: "illustrated",
-        url: "http://localhost:8040/files/vangogh/apparatus/artwork.illustrated-entities.json",
+        url: `http://localhost:${
+          nginxPortVangogh ?? "8040"
+        }/files/vangogh/apparatus/artwork.illustrated-entities.json`,
       },
       {
         key: "illustrations",
-        url: "http://localhost:8040/files/vangogh/apparatus/artwork.illustrations-entities.json",
+        url: `http://localhost:${
+          nginxPortVangogh ?? "8040"
+        }/files/vangogh/apparatus/artwork.illustrations-entities.json`,
       },
       {
         key: "non-illustrated",
-        url: "http://localhost:8040/files/vangogh/apparatus/artwork.non-illustrated-entities.json",
+        url: `http://localhost:${
+          nginxPortVangogh ?? "8040"
+        }/files/vangogh/apparatus/artwork.non-illustrated-entities.json`,
       },
       {
         key: "sketches",
-        url: "http://localhost:8040/files/vangogh/apparatus/artwork.sketches-entities.json",
+        url: `http://localhost:${
+          nginxPortVangogh ?? "8040"
+        }/files/vangogh/apparatus/artwork.sketches-entities.json`,
       },
     ],
     biblUrl: {
-      en: "http://localhost:8040/files/vangogh/apparatus/bibliolist.html",
+      en: `http://localhost:${
+        nginxPortVangogh ?? "8040"
+      }/files/vangogh/apparatus/bibliolist.html`,
     },
-    menuUrl: "http://localhost:8040/files/vangogh/menu/menu.json",
-    letterIdUrl: "http://localhost:8040/files/vangogh/letter-ids.json",
-    homeUrl: "http://localhost:8040/files/vangogh/home/home.html",
+    menuUrl: `http://localhost:${
+      nginxPortVangogh ?? "8040"
+    }/files/vangogh/menu/menu.json`,
+    letterIdUrl: `http://localhost:${
+      nginxPortVangogh ?? "8040"
+    }/files/vangogh/letter-ids.json`,
+    homeUrl: `http://localhost:${
+      nginxPortVangogh ?? "8040"
+    }/files/vangogh/home/home.html`,
     components: {
       Header,
       SearchItem,
