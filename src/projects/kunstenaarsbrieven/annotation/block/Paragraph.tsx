@@ -14,7 +14,7 @@ export function Paragraph({ block, children }: BlockProps<AnnoRepoBody>) {
     return <blockquote>{children}</blockquote>;
   }
 
-  const isIndetend =
+  const isIndented =
     isParagraphBody(block.annotation.body) &&
     block.annotation.body.style === "indent" &&
     !block.isContinuation;
@@ -24,7 +24,7 @@ export function Paragraph({ block, children }: BlockProps<AnnoRepoBody>) {
   return (
     <p
       id={block.isContinuation ? undefined : paragraphId}
-      className={isIndetend ? "paragraph-indent" : ""}
+      className={isIndented ? "paragraph-indent" : ""}
     >
       {children}
     </p>
