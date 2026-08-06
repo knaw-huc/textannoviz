@@ -1,4 +1,5 @@
 import {
+  Group,
   groupSegments,
   SegmentGroup,
 } from "@knaw-huc/text-annotation-segmenter";
@@ -22,22 +23,37 @@ function toElement(node: SegmentGroup<AnnotationSegment>): Element {
   if (!node.isGroup) {
     return createInline(node.segments);
   }
-  return createBlock(node.annotation as BlockAnnotationSegment, node.children);
+  return createBlock(node);
 }
 
-function createBlock(
-  annotation: BlockAnnotationSegment,
-  children: SegmentGroup<AnnotationSegment>[],
-): Block {
+function createBlock(node: Group<AnnotationSegment>): Block {
+  const annotation = node.annotation as BlockAnnotationSegment;
+  const firstSegment = findFirstSegment(node);
   return {
     isBlock: true,
     id: annotation.body.id,
     blockType: annotation.blockType,
+    isContinuation:
+      !!firstSegment && firstSegment.index > annotation.startSegment,
     annotation,
-    children: children.map(toElement),
+    children: node.children.map(toElement),
   };
 }
 
 function createInline(segments: Segment[]): Inline {
   return { isBlock: false, segments };
+}
+
+function findFirstSegment(
+  group: SegmentGroup<AnnotationSegment>,
+): Segment | undefined {
+  if (!group.isGroup) {
+    return group.segments[0];
+  }
+  for (const child of group.children) {
+    const found = findFirstSegment(child);
+    if (found) {
+      return found;
+    }
+  }
 }
