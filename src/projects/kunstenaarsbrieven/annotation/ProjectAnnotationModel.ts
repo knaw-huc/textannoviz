@@ -93,7 +93,8 @@ type ArtworkTeiRef = {
   relation?: {
     name: string;
     ref: string;
-    label: string;
+    displayLabel: string;
+    sortLabel: string;
   }[];
   graphic?: {
     url: string;
