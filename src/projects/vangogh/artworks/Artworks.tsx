@@ -16,8 +16,6 @@ export type ArtworkData = Record<ArtworkSections, Artwork[]>;
 
 export function Artworks() {
   const [artworks, setArtworks] = React.useState<Partial<ArtworkData>>({});
-  // const artworkRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useTranslateProject();
   const artworksUrl = useProjectStore(projectConfigSelector).artworksUrl;
 
@@ -29,12 +27,13 @@ export function Artworks() {
 
       (Object.keys(newArtworks) as Array<keyof ArtworkData>).forEach((key) => {
         newArtworks[key] = [...newArtworks[key]].sort((a, b) => {
-          const labelA = a.head[interfaceLang] || "";
-          const labelB = b.head[interfaceLang] || "";
+          const labelA =
+            a.relation?.find((rel) => rel.name === "creator")?.sortLabel || "";
+          const labelB =
+            b.relation?.find((rel) => rel.name === "creator")?.sortLabel || "";
 
           return labelA.localeCompare(labelB, "en", {
             sensitivity: "base",
-            ignorePunctuation: true,
           });
         });
       });
