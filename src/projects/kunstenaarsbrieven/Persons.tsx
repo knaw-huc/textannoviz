@@ -7,6 +7,8 @@ import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
 import {
   PersonLifespan,
+  PersonPersName,
+  ResolvedSurname,
   type Person,
 } from "./annotation/ProjectAnnotationModel";
 import { getViteEnvVars } from "../../utils/viteEnvVars";
@@ -91,26 +93,69 @@ export function Persons(props: PersonsProps) {
     return lifespan?.cert ? `${translate("CIRCA_ABBRV")} ${date}` : date;
   }
 
+  /**
+   * TEI dates are ISO-8601: a leading `-` marks a year before the common era.
+   * Only the sign is stripped, so the four-digit form is kept intact.
+   */
+  function formatYear(year: string): string {
+    if (!year.startsWith("-")) return year;
+    return `${year.slice(1)} ${translate("BC")}`;
+  }
+
   function formatDateValue(
     lifespan: PersonLifespan | undefined,
   ): string | undefined {
-    if (lifespan?.when?.startsWith("-")) {
-      return String(Number(lifespan.when.slice(1))) + " " + translate("BC");
-    }
-    if (lifespan?.when) {
-      return lifespan.when;
-    }
+    if (!lifespan) return undefined;
+    const { when, notBefore, notAfter } = lifespan;
 
-    if (lifespan?.notBefore && !lifespan?.notAfter)
-      return `${translate("AFTER")} ${lifespan.notBefore}`;
-    if (lifespan?.notAfter && !lifespan?.notBefore)
-      return `${translate("BEFORE")} ${lifespan.notAfter}`;
-    if (lifespan?.notAfter && lifespan?.notBefore)
-      return `${translate("BETWEEN")} ${lifespan.notBefore} ${translate(
+    if (when) return formatYear(when);
+
+    if (notBefore && !notAfter)
+      return `${translate("AFTER")} ${formatYear(notBefore)}`;
+    if (notAfter && !notBefore)
+      return `${translate("BEFORE")} ${formatYear(notAfter)}`;
+    if (notBefore && notAfter)
+      return `${translate("BETWEEN")} ${formatYear(notBefore)} ${translate(
         "AND",
-      )} ${lifespan.notAfter}`;
+      )} ${formatYear(notAfter)}`;
 
     return undefined;
+  }
+
+  function resolveSurnames(name: PersonPersName): ResolvedSurname[] {
+    const raw = name.surname;
+    if (raw === undefined) return [];
+    if (typeof raw === "string") return [{ text: raw }];
+    return raw.flatMap<ResolvedSurname>((item, index) => {
+      if (item === null) return [];
+      if (typeof item === "string")
+        return index === 0
+          ? [{ text: item }]
+          : [{ text: item, type: "married-name" }];
+      return [{ text: item.text, type: item.type }];
+    });
+  }
+
+  /**
+   * Formats a name surname-first, mirroring the `sortLabel` convention:
+   * "Ter Borch the Younger, Gerard", "Honcoop (Aertsen-Honcoop), Mientje".
+   */
+  function formatName(name: PersonPersName): string {
+    const surnames = resolveSurnames(name);
+    const married = surnames.filter((s) => s.type === "married-name");
+
+    const family = [
+      name.nameLink,
+      ...surnames.filter((s) => s.type !== "married-name").map((s) => s.text),
+      married.length ? `(${married.map((s) => s.text).join(", ")})` : undefined,
+      name.addName,
+    ]
+      .filter((part): part is string => !!part)
+      .join(" ");
+
+    if (!family) return name.forename ?? "";
+    if (!name.forename) return family;
+    return `${family}, ${name.forename}`;
   }
 
   return (
@@ -122,55 +167,76 @@ export function Persons(props: PersonsProps) {
         }}
         className="grid gap-6 px-8 pb-8"
       >
-        {persons?.map((per) => (
-          <div
-            className="h-36 max-w-[800px] rounded bg-neutral-50 p-5 transition-colors duration-500"
-            key={per.id}
-            ref={(el) => {
-              personRefs.current[per.id] = el;
-            }}
-          >
-            <div className="flex flex-row items-center">
-              <div className="flex w-fit flex-grow flex-row items-center justify-start font-bold">
-                {per.sortLabel}
-              </div>
-              {/* TODO: SVG wordt kleiner wanneer `displayLabel` langer is dan 1 regel */}
-              <div className="flex flex-row items-center justify-end gap-1">
-                {per.source
-                  ? per.source.map((src, index) => (
-                      <Button
-                        className="flex items-center"
-                        onPress={() => window.open(src, "_blank")}
-                        key={index}
-                      >
-                        <HelpIcon />
-                      </Button>
-                    ))
-                  : null}
+        {persons?.map((per) => {
+          const fullName =
+            per.persName.find((n) => n.full === "yes") ?? per.persName[0];
+          const hasAbbreviation = per.persName.some((n) => n.full === "abb");
 
-                <Button onPress={() => searchPerson(per)}>
-                  <MagnifyingGlassIcon
-                    aria-hidden
-                    className="h-4 w-4 cursor-pointer"
-                  />
-                </Button>
-              </div>
-            </div>
-            {per.birth || per.death ? (
-              <>
-                {" "}
-                <div>
-                  {formatDate(per.birth)}
-                  {interfaceLang === "en" ? " – " : " - "}
-                  {formatDate(per.death)}
+          return (
+            <div
+              className="min-h-36 max-w-[800px] rounded bg-neutral-50 p-5 transition-colors duration-500"
+              key={per.id}
+              ref={(el) => {
+                personRefs.current[per.id] = el;
+              }}
+            >
+              <div className="flex flex-row items-start">
+                <div className="flex w-fit flex-grow flex-col justify-start">
+                  <span className="font-bold">{formatName(fullName)}</span>
+                  {/* `sortLabel` is built from the abbreviated form, so only
+                    show it when there is one to differ from the full name. */}
+                  {hasAbbreviation ? <span>{per.sortLabel}</span> : null}
                 </div>
-                <div>{per.floruit ? `floruit: ${per.floruit.when}` : null}</div>
-              </>
-            ) : null}
+                <div className="flex shrink-0 flex-row items-center justify-end gap-1">
+                  {per.source
+                    ? per.source.map((src, index) => (
+                        <Button
+                          className="flex items-center"
+                          onPress={() => window.open(src, "_blank")}
+                          key={index}
+                        >
+                          <HelpIcon />
+                        </Button>
+                      ))
+                    : null}
 
-            <div>{per.note?.[interfaceLang]?.shortdesc}</div>
-          </div>
-        ))}
+                  <Button onPress={() => searchPerson(per)}>
+                    <MagnifyingGlassIcon
+                      aria-hidden
+                      className="h-4 w-4 cursor-pointer"
+                    />
+                  </Button>
+                </div>
+              </div>
+              {per.birth || per.death ? (
+                <>
+                  {" "}
+                  <div>
+                    {formatDate(per.birth)}
+                    {interfaceLang === "en" ? " – " : " - "}
+                    {formatDate(per.death)}
+                  </div>
+                </>
+              ) : null}
+              {per.floruit ? (
+                <div>
+                  {per.floruit?.when
+                    ? `floruit: ${formatYear(per.floruit.when)}`
+                    : null}
+                  {per.floruit?.notAfter && per.floruit?.notBefore
+                    ? `floruit: ${translate("BETWEEN")} ${formatYear(
+                        per.floruit.notBefore,
+                      )} ${translate("AND")} ${formatYear(
+                        per.floruit.notAfter,
+                      )}`
+                    : null}
+                </div>
+              ) : null}
+
+              <div>{per.note?.[interfaceLang]?.shortdesc}</div>
+            </div>
+          );
+        })}
       </div>
     </>
   );
