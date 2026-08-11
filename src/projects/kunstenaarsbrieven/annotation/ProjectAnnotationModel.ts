@@ -134,25 +134,39 @@ export type PersonBody = AnnoRepoBodyBase & {
 export type Person = PersonTeiRef;
 export type PersonTeiRef = {
   id: string;
-  gender: string;
-  source: string[];
+  gender?: string;
+  source?: string[];
   persName: PersonPersName[];
   floruit?: {
-    when: string;
+    when?: string;
+    notBefore?: string;
+    notAfter?: string;
   };
   birth?: PersonLifespan;
   death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;
   sortLabel: string;
-  note?: Record<ViewLang, Record<string, string>>;
+  note?: Partial<Record<ViewLang, Record<string, string>>>;
 };
 
-type PersonPersName = {
-  full: string;
-  forename: string;
+export type PersonPersName = {
+  full: "yes" | "abb";
+  forename?: string | null;
   addName?: string;
-  surname: string[] | { type: string; text: string };
+  surname?:
+    | string
+    | string[]
+    | [null]
+    | [{ type: "married-name"; text: string }]
+    // This one is an incorrect representation of the 'married-name' above
+    | [string, string];
   nameLink?: string;
+  roleName?: string;
+};
+
+export type ResolvedSurname = {
+  text: string;
+  type?: "married-name";
 };
 
 export type PersonLifespan = {
