@@ -95,11 +95,11 @@ export function Persons(props: PersonsProps) {
 
   /**
    * TEI dates are ISO-8601: a leading `-` marks a year before the common era.
-   * Only the sign is stripped, so the four-digit form is kept intact.
+   * Both the sign and the leading zeros are stripped.
    */
   function formatYear(year: string): string {
-    if (!year.startsWith("-")) return year;
-    return `${year.slice(1)} ${translate("BC")}`;
+    if (!year.startsWith("-")) return String(Number(year));
+    return `${Number(year.slice(1))} ${translate("BC")}`;
   }
 
   function formatDateValue(
