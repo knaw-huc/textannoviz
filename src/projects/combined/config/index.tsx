@@ -56,7 +56,7 @@ export const combinedConfig: ProjectConfig = mergeWith(
     },
     menuUrl: "http://localhost:8040/files/vangogh/menu/menu.json",
     letterIdUrl: "http://localhost:8040/files/vangogh/letter-ids.json",
-    homeUrl: "http://localhost:8040/files/vangogh/home/home.html",
+    // homeUrl: "http://localhost:8040/files/vangogh/home/home.html",
     components: {
       Header,
       SearchItem,
