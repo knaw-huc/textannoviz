@@ -10,13 +10,13 @@ import {
 describe(createBlocks.name, () => {
   it("builds example", () => {
     const segA = seg(0, [ent("e-AB")]);
-    const pB = blk("p-B", "paragraph");
-    const secBC = blk("s-BC", "section");
+    const pB = blk("p-B", "paragraph", 1);
+    const secBC = blk("s-BC", "section", 1, 2);
     const segB = seg(1, [ent("e-AB"), ent("e-BC"), secBC, pB]);
-    const pC = blk("p-C", "paragraph");
+    const pC = blk("p-C", "paragraph", 2);
     const segC = seg(2, [ent("e-BC"), secBC, pC]);
     const segD = seg(3, []);
-    const secE = blk("s-E", "section");
+    const secE = blk("s-E", "section", 4);
     const segE = seg(4, [secE]);
 
     const segments = [segA, segB, segC, segD, segE];
@@ -28,12 +28,14 @@ describe(createBlocks.name, () => {
         id: "s-BC",
         isBlock: true,
         blockType: "section",
+        isContinuation: false,
         annotation: secBC,
         children: [
           {
             id: "p-B",
             isBlock: true,
             blockType: "paragraph",
+            isContinuation: false,
             children: [{ isBlock: false, segments: [segB] }],
             annotation: pB,
           },
@@ -41,6 +43,7 @@ describe(createBlocks.name, () => {
             id: "p-C",
             isBlock: true,
             blockType: "paragraph",
+            isContinuation: false,
             children: [{ isBlock: false, segments: [segC] }],
             annotation: pC,
           },
@@ -51,6 +54,7 @@ describe(createBlocks.name, () => {
         id: "s-E",
         isBlock: true,
         blockType: "section",
+        isContinuation: false,
         annotation: secE,
         children: [{ isBlock: false, segments: [segE] }],
       },
@@ -58,10 +62,10 @@ describe(createBlocks.name, () => {
   });
 
   it("builds section > section > p", () => {
-    const sOuter = blk("s-outer", "section");
-    const sInner = blk("s-inner", "section");
-    const p1 = blk("p-1", "paragraph");
-    const p2 = blk("p-2", "paragraph");
+    const sOuter = blk("s-outer", "section", 0, 1);
+    const sInner = blk("s-inner", "section", 0, 1);
+    const p1 = blk("p-1", "paragraph", 0);
+    const p2 = blk("p-2", "paragraph", 1);
 
     const seg1 = seg(0, [sOuter, sInner, p1]);
     const seg2 = seg(1, [sOuter, sInner, p2]);
@@ -73,18 +77,21 @@ describe(createBlocks.name, () => {
         id: "s-outer",
         isBlock: true,
         blockType: "section",
+        isContinuation: false,
         annotation: sOuter,
         children: [
           {
             id: "s-inner",
             isBlock: true,
             blockType: "section",
+            isContinuation: false,
             annotation: sInner,
             children: [
               {
                 id: "p-1",
                 isBlock: true,
                 blockType: "paragraph",
+                isContinuation: false,
                 annotation: p1,
                 children: [{ isBlock: false, segments: [seg1] }],
               },
@@ -92,6 +99,7 @@ describe(createBlocks.name, () => {
                 id: "p-2",
                 isBlock: true,
                 blockType: "paragraph",
+                isContinuation: false,
                 annotation: p2,
                 children: [{ isBlock: false, segments: [seg2] }],
               },
@@ -116,18 +124,21 @@ describe(createBlocks.name, () => {
         id: "d-outer",
         isBlock: true,
         blockType: "div",
+        isContinuation: false,
         annotation: dOuter,
         children: [
           {
             id: "sec-1",
             isBlock: true,
             blockType: "section",
+            isContinuation: false,
             annotation: sec1,
             children: [
               {
                 id: "d-inner",
                 isBlock: true,
                 blockType: "div",
+                isContinuation: false,
                 annotation: dInner,
                 children: [{ isBlock: false, segments: [seg1] }],
               },
@@ -150,12 +161,14 @@ describe(createBlocks.name, () => {
         id: "d1",
         isBlock: true,
         blockType: "div",
+        isContinuation: false,
         annotation: d1,
         children: [
           {
             id: "d2",
             isBlock: true,
             blockType: "div",
+            isContinuation: false,
             annotation: d2,
             children: [{ isBlock: false, segments: [seg1] }],
           },
@@ -165,8 +178,8 @@ describe(createBlocks.name, () => {
   });
 
   it("splits overlapping paragraph across section boundary", () => {
-    const sec = blk("sec", "section");
-    const p = blk("p", "paragraph");
+    const sec = blk("sec", "section", 0, 2);
+    const p = blk("p", "paragraph", 1, 3);
 
     const s0 = seg(0, [sec]);
     const s1 = seg(1, [sec, p]);
@@ -180,6 +193,7 @@ describe(createBlocks.name, () => {
         id: "sec",
         isBlock: true,
         blockType: "section",
+        isContinuation: false,
         annotation: sec,
         children: [
           { isBlock: false, segments: [s0] },
@@ -187,6 +201,7 @@ describe(createBlocks.name, () => {
             id: "p",
             isBlock: true,
             blockType: "paragraph",
+            isContinuation: false,
             annotation: p,
             children: [{ isBlock: false, segments: [s1, s2] }],
           },
@@ -196,6 +211,7 @@ describe(createBlocks.name, () => {
         id: "p",
         isBlock: true,
         blockType: "paragraph",
+        isContinuation: true,
         annotation: p,
         children: [{ isBlock: false, segments: [s3] }],
       },
@@ -203,13 +219,18 @@ describe(createBlocks.name, () => {
   });
 });
 
-function blk(id: string, blockType: string): BlockAnnotationSegment {
+function blk(
+  id: string,
+  blockType: string,
+  startSegment: SegmentIndex = 0,
+  endSegment: SegmentIndex = startSegment,
+): BlockAnnotationSegment {
   return {
     type: "block",
     body: { id },
     blockType,
-    startSegment: 0,
-    endSegment: 0,
+    startSegment,
+    endSegment,
   };
 }
 
