@@ -17,6 +17,7 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { dutchMechteldVanGelreLabels } from "./dutchMechteldVanGelreLabels";
+import { mechteldvangelreLetterIdFormat } from "../utils/letterIdFormat";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -40,6 +41,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     //   nginxPortVangogh ?? "8040"
     // }/files/vangogh/menu/menu.json`,
     letterIdUrl: "http://localhost:8040/files/mechteldvangelre/letter-ids.json",
+    letterIdFormat: mechteldvangelreLetterIdFormat,
     // homeUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
     // }/files/vangogh/home/home.html`,

@@ -51,6 +51,11 @@ export const defaultConfig: DefaultProjectConfig = {
   biblUrl: { en: "", nl: "" },
   menuUrl: "",
   letterIdUrl: "",
+  letterIdFormat: {
+    toUrnSuffix: (letterId) => letterId,
+    toNumber: (letterId) => letterId,
+    fromInput: (input) => input,
+  },
   homeUrl: "",
   initialRangeFrom: "0",
   initialRangeTo: "30000",

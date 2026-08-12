@@ -18,6 +18,7 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
+import { vangoghLetterIdFormat } from "../utils/letterIdFormat";
 
 const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
 
@@ -74,6 +75,7 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     letterIdUrl: `http://localhost:${
       nginxPortVangogh ?? "8040"
     }/files/vangogh/letter-ids.json`,
+    letterIdFormat: vangoghLetterIdFormat,
     homeUrl: `http://localhost:${
       nginxPortVangogh ?? "8040"
     }/files/vangogh/home/home.html`,
