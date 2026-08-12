@@ -33,6 +33,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
+  "text.orig": "Originele tekst",
+  "text.trans": "Vertaalde tekst",
 
   CONTENT_VIEWS: "Inhoud weergave",
   CONTENT_PANELS: "Inhoud weergave",
@@ -71,7 +73,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   artworks: "Kunstwerken",
   introHeader: "Over deze editie",
   bibliography: "Bibliografie",
-  TITLE_PT_1: "Vincent van Gogh",
+  TITLE_PT_1: "Mechteld van Gelre",
   TITLE_PT_2: "De Brieven",
   help: "Handleiding",
   OPEN_MAIN_NAVIGATION: "Open navigatie",
