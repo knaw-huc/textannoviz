@@ -4,7 +4,6 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { englishMechteldVanGelreLabels } from "./englishMechteldVanGelreLabels";
-// import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 // import { Artworks } from "../artworks/Artworks";
@@ -17,6 +16,7 @@ import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
+import { dutchMechteldVanGelreLabels } from "./dutchMechteldVanGelreLabels";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -132,9 +132,9 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       // "introTranslatedText",
       // "introNotesText",
     ],
-    selectedLanguage: "en",
+    selectedLanguage: "nl",
     languages: [
-      // { code: "nl", labels: dutchVangoghLabels },
+      { code: "nl", labels: dutchMechteldVanGelreLabels },
       { code: "en", labels: englishMechteldVanGelreLabels },
     ],
     routes: [
