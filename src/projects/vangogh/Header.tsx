@@ -11,14 +11,13 @@ import { toast } from "react-toastify";
 import React from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 
-const letterIdSet = new Set<string>();
-
 export const Header = () => {
   const translateProject = useTranslateProject();
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
   const menuUrl = useProjectStore(projectConfigSelector).menuUrl;
   const letterIdUrl = useProjectStore(projectConfigSelector).letterIdUrl;
+  const [letterIds, setLetterIds] = React.useState<string[]>([]);
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -26,7 +25,7 @@ export const Header = () => {
     async function initLetterIDs(aborter: AbortController) {
       const newIDs = await fetchLetterIDs(letterIdUrl, aborter.signal);
       if (!newIDs) return;
-      newIDs.forEach((id) => letterIdSet.add(id.toLowerCase()));
+      setLetterIds(newIDs.map((id) => id.toLowerCase()));
     }
 
     initLetterIDs(aborter).catch(handleAbort);
@@ -58,7 +57,7 @@ export const Header = () => {
       letterNumber={letterAnnoBody?.n}
       introIds={introIds}
       menuUrl={menuUrl}
-      letterIdSet={letterIdSet}
+      letterIds={letterIds}
     />
   );
 };

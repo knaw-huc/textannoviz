@@ -15,6 +15,10 @@ import {
   BlockSchema,
 } from "../../../components/Text/Annotated/core";
 import { isHighlightSegment } from "../../../components/Text/Annotated/core/AnnotationModel.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 /**
  * Kunstenaarsbrieven Annotation, element and tei type names
@@ -47,6 +51,14 @@ export const teiArtwork = "artwork";
 export const teiNote = "note";
 export const unknown = "unknown";
 export const whitespace = "Whitespace";
+
+/**
+ * Lazy: the project config is only set in the store after App has loaded it
+ */
+export const getBaseUrl = () =>
+  `/detail/urn:mace:huc.knaw.nl:${
+    projectConfigSelector(useProjectStore.getState()).id
+  }:`;
 
 export type KunstenaarsbrievenTextViews = BroccoliViews & {
   text: Record<ViewLang, BroccoliTextGeneric>;
