@@ -201,7 +201,7 @@ export function SearchResults(props: SearchResultsProps) {
         id="search-results"
         className="flex flex-col items-start justify-between gap-2 md:flex-row"
       >
-        <span className="min-w-40 font-semibold">
+        <span className="min-w-fit font-semibold">
           {resultStartEnd
             ? `${resultStartEnd} ${
                 searchResults.total.value
