@@ -14,16 +14,18 @@ export function Paragraph({ block, children }: BlockProps<AnnoRepoBody>) {
     return <blockquote>{children}</blockquote>;
   }
 
-  const paragraphClassName =
+  const isIndented =
     isParagraphBody(block.annotation.body) &&
-    block.annotation.body.style === "indent"
-      ? "paragraph-indent"
-      : "";
+    block.annotation.body.style === "indent" &&
+    !block.isContinuation;
 
   const paragraphId = (block.annotation.body as ParagraphBody)["xml:id"];
 
   return (
-    <p id={paragraphId} className={paragraphClassName}>
+    <p
+      id={block.isContinuation ? undefined : paragraphId}
+      className={isIndented ? "paragraph-indent" : ""}
+    >
       {children}
     </p>
   );

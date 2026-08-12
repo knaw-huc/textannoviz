@@ -2,7 +2,7 @@ import {
   projectConfigSelector,
   useProjectStore,
   useTranslateProject,
-} from "../../../stores/project";
+} from "../../../stores/project.ts";
 import { firstLetterToUppercase } from "../../../utils/firstLetterToUppercase.ts";
 import {
   Artwork,

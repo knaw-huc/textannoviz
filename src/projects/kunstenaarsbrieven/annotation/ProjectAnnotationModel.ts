@@ -15,6 +15,10 @@ import {
   BlockSchema,
 } from "../../../components/Text/Annotated/core";
 import { isHighlightSegment } from "../../../components/Text/Annotated/core/AnnotationModel.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 /**
  * Kunstenaarsbrieven Annotation, element and tei type names
@@ -48,6 +52,14 @@ export const teiNote = "note";
 export const unknown = "unknown";
 export const whitespace = "Whitespace";
 
+/**
+ * Lazy: the project config is only set in the store after App has loaded it
+ */
+export const getBaseUrl = () =>
+  `/detail/urn:mace:huc.knaw.nl:${
+    projectConfigSelector(useProjectStore.getState()).id
+  }:`;
+
 export type KunstenaarsbrievenTextViews = BroccoliViews & {
   text: Record<ViewLang, BroccoliTextGeneric>;
   textNotes: Record<ViewLang, Record<string, BroccoliTextGeneric>>;
@@ -75,7 +87,8 @@ type ArtworkTeiRef = {
   id: string;
   corresp?: string;
   idno?: {
-    type: string;
+    type?: string;
+    "tei:type"?: string;
     text: string;
   }[];
   head: {
@@ -93,7 +106,8 @@ type ArtworkTeiRef = {
   relation?: {
     name: string;
     ref: string;
-    label: string;
+    displayLabel: string;
+    sortLabel: string;
   }[];
   graphic?: {
     url: string;
@@ -132,25 +146,39 @@ export type PersonBody = AnnoRepoBodyBase & {
 export type Person = PersonTeiRef;
 export type PersonTeiRef = {
   id: string;
-  gender: string;
-  source: string[];
+  gender?: string;
+  source?: string[];
   persName: PersonPersName[];
   floruit?: {
-    when: string;
+    when?: string;
+    notBefore?: string;
+    notAfter?: string;
   };
   birth?: PersonLifespan;
   death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;
   sortLabel: string;
-  note?: Record<ViewLang, Record<string, string>>;
+  note?: Partial<Record<ViewLang, Record<string, string>>>;
 };
 
-type PersonPersName = {
-  full: string;
-  forename: string;
+export type PersonPersName = {
+  full: "yes" | "abb";
+  forename?: string | null;
   addName?: string;
-  surname: string[] | { type: string; text: string };
+  surname?:
+    | string
+    | string[]
+    | [null]
+    | [{ type: "married-name"; text: string }]
+    // This one is an incorrect representation of the 'married-name' above
+    | [string, string];
   nameLink?: string;
+  roleName?: string;
+};
+
+export type ResolvedSurname = {
+  text: string;
+  type?: "married-name";
 };
 
 export type PersonLifespan = {
@@ -383,6 +411,22 @@ export function isArtworkBody(toTest: EntityRefs): toTest is Artwork {
   return !toTest.id.startsWith("vg");
 }
 
+export type ListAnnotationBody = AnnoRepoBodyBase & {
+  type: "List";
+  elementName: "listAnnotation";
+  language: string;
+  "tei:type": string;
+};
+
+export function isListAnnotation(
+  toTest: AnnoRepoBodyBase,
+): toTest is ListAnnotationBody {
+  return (
+    toTest.type === "List" &&
+    (toTest as ListAnnotationBody).elementName === "listAnnotation"
+  );
+}
+
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
@@ -451,6 +495,6 @@ export const getMarkerPosition = (body: AnnoRepoBodyBase) =>
   isHeadBody(body) ? "prefix" : "postfix";
 
 export const isBlock = (body: AnnoRepoBodyBase) =>
-  blockTypes.includes(body.type);
+  blockTypes.includes(body.type) && !isListAnnotation(body);
 
 export const getBlockType = (body: AnnoRepoBodyBase) => body.type;

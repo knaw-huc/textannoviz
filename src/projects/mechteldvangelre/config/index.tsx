@@ -3,11 +3,11 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import { englishVanGoghLabels } from "./englishVanGoghLabels";
+import { englishMechteldVanGelreLabels } from "./englishMechteldVanGelreLabels";
 // import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
-import { Artworks } from "../artworks/Artworks";
+// import { Artworks } from "../artworks/Artworks";
 import { Bibliography } from "../Bibliography";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
@@ -17,66 +17,32 @@ import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
-import { getViteEnvVars } from "../../../utils/viteEnvVars";
 
-const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
-
-export const vangoghConfig: ProjectConfig = mergeWith(
+export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
-    id: "vangogh",
-    broccoliUrl: `http://localhost:${broccoliPortVangogh ?? "8082"}`,
-    siteTitle: "Van Gogh Letters",
+    id: "mechteldvangelre",
+    broccoliUrl: "http://localhost:8082",
+    siteTitle: "Mechteld van Gelre Letters",
 
-    elasticIndexName: "vangogh",
-    initialDateFrom: "1872-01-01",
-    initialDateTo: "1890-12-31",
+    elasticIndexName: "mechteldvangelre",
+    initialDateFrom: "1300-01-01",
+    initialDateTo: "1500-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
-    headerTitle: "Brieven van Van Gogh",
-    personsUrl: `http://localhost:${
-      nginxPortVangogh ?? "8040"
-    }/files/vangogh/apparatus/bio-entities.json`,
-    artworksUrl: [
-      {
-        key: "illustrated",
-        url: `http://localhost:${
-          nginxPortVangogh ?? "8040"
-        }/files/vangogh/apparatus/artwork.illustrated-entities.json`,
-      },
-      {
-        key: "illustrations",
-        url: `http://localhost:${
-          nginxPortVangogh ?? "8040"
-        }/files/vangogh/apparatus/artwork.illustrations-entities.json`,
-      },
-      {
-        key: "non-illustrated",
-        url: `http://localhost:${
-          nginxPortVangogh ?? "8040"
-        }/files/vangogh/apparatus/artwork.non-illustrated-entities.json`,
-      },
-      {
-        key: "sketches",
-        url: `http://localhost:${
-          nginxPortVangogh ?? "8040"
-        }/files/vangogh/apparatus/artwork.sketches-entities.json`,
-      },
-    ],
+    headerTitle: "Mechteld van Gelre Letters",
+    personsUrl:
+      "http://localhost:8040/files/mechteldvangelre/apparatus/bio-entities.json",
     biblUrl: {
-      en: `http://localhost:${
-        nginxPortVangogh ?? "8040"
-      }/files/vangogh/apparatus/bibliolist.html`,
+      en: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliolist.html",
     },
-    menuUrl: `http://localhost:${
-      nginxPortVangogh ?? "8040"
-    }/files/vangogh/menu/menu.json`,
-    letterIdUrl: `http://localhost:${
-      nginxPortVangogh ?? "8040"
-    }/files/vangogh/letter-ids.json`,
-    homeUrl: `http://localhost:${
-      nginxPortVangogh ?? "8040"
-    }/files/vangogh/home/home.html`,
+    // menuUrl: `http://localhost:${
+    //   nginxPortVangogh ?? "8040"
+    // }/files/vangogh/menu/menu.json`,
+    letterIdUrl: "http://localhost:8040/files/mechteldvangelre/letter-ids.json",
+    // homeUrl: `http://localhost:${
+    //   nginxPortVangogh ?? "8040"
+    // }/files/vangogh/home/home.html`,
     components: {
       Header,
       SearchItem,
@@ -169,17 +135,17 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     selectedLanguage: "en",
     languages: [
       // { code: "nl", labels: dutchVangoghLabels },
-      { code: "en", labels: englishVanGoghLabels },
+      { code: "en", labels: englishMechteldVanGelreLabels },
     ],
     routes: [
       {
         path: "persons",
         element: <Persons />,
       },
-      {
-        path: "artworks",
-        element: <Artworks />,
-      },
+      // {
+      //   path: "artworks",
+      //   element: <Artworks />,
+      // },
       {
         path: "bibliography",
         element: <Bibliography />,

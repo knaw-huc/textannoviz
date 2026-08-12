@@ -110,6 +110,8 @@ export const englishLabels: Labels = {
   ZOOM_RESET: "Reset zoom",
   FULLSCREEN: "Fullscreen",
   EXIT_FULLSCREEN: "Exit fullscreen",
+  ROTATE_LEFT: "Rotate left",
+  ROTATE_RIGHT: "Rotate right",
 
   SCROLL_TO_TOP: "Scroll to top",
 };

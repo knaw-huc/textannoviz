@@ -1,6 +1,6 @@
 import { englishLabels } from "../../default/config/englishLabels";
 
-export const englishVanGoghLabels = Object.assign({}, englishLabels, {
+export const englishMechteldVanGelreLabels = Object.assign({}, englishLabels, {
   //Search facet titles + metadata panel titles
   institution: "Institution",
   msId: "Shelfmark",
@@ -85,7 +85,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   artworks: "Artworks",
   introHeader: "About this edition",
   bibliography: "Bibliography",
-  TITLE_PT_1: "Vincent van Gogh",
+  TITLE_PT_1: "Mechteld van Gelre",
   TITLE_PT_2: "The Letters",
   help: "Help",
   OPEN_MAIN_NAVIGATION: "Open navigation",

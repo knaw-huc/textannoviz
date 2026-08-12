@@ -70,6 +70,8 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   TITLE_PT_1: "Isaac Israëls’s letters to",
   TITLE_PT_2: "Jo van Gogh-Bonger",
   help: "Help",
+  PREVIOUS_LETTER: "Previous letter",
+  NEXT_LETTER: "Next letter",
 
   //Entity summary
   NAV_TO_LETTER: "Navigate to letter",

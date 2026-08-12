@@ -25,7 +25,7 @@ const PersonEntity = (props: { persons: Person[] }) => {
             <p className={headerClass}>Primary Name</p>
             <p>{pers.sortLabel}</p>
           </div>
-          {pers.note?.en.shortdesc && (
+          {pers.note?.en?.shortdesc && (
             <div>
               <p className={headerClass}>Occupations, roles, titles</p>
               <p>{pers.note.en.shortdesc}</p>
@@ -43,13 +43,13 @@ const PersonEntity = (props: { persons: Person[] }) => {
               <p>{pers.death.when}</p>
             </div>
           )}
-          {pers.note?.en.biographic && (
+          {pers.note?.en?.biographic && (
             <div>
               <p className={headerClass}>General notes</p>
               <p>{pers.note.en.biographic}</p>
             </div>
           )}
-          {pers.note?.en.bibliography && (
+          {pers.note?.en?.bibliography && (
             <div>
               <p className={headerClass}>
                 Bibliography: secondary literature and websites

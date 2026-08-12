@@ -9,6 +9,7 @@ import { brederodeConfig } from "./brederode/config";
 import { oratiesConfig } from "./oraties/config";
 import { mondrianConfig } from "./mondrian/config";
 import { nvvConfig } from "./nvv/config";
+import { mechteldvangelreConfig } from "./mechteldvangelre/config";
 import { combinedConfig } from "./combined/config";
 
 export const projectConfigs = {
@@ -23,6 +24,7 @@ export const projectConfigs = {
   brederode: brederodeConfig,
   oraties: oratiesConfig,
   nvv: nvvConfig,
+  mechteldvangelre: mechteldvangelreConfig,
   combined: combinedConfig,
 };
 

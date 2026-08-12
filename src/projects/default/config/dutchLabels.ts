@@ -110,6 +110,8 @@ export const dutchLabels: Labels = {
   ZOOM_RESET: "Reset zoom",
   FULLSCREEN: "Fullscreen",
   EXIT_FULLSCREEN: "Exit fullscreen",
+  ROTATE_LEFT: "Linksom roteren",
+  ROTATE_RIGHT: "Rechtsom roteren",
 
   SCROLL_TO_TOP: "Naar boven",
 };
