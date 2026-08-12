@@ -39,9 +39,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     // menuUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
     // }/files/vangogh/menu/menu.json`,
-    // letterIdUrl: `http://localhost:${
-    //   nginxPortVangogh ?? "8040"
-    // }/files/vangogh/letter-ids.json`,
+    letterIdUrl: "http://localhost:8040/files/mechteldvangelre/letter-ids.json",
     // homeUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
     // }/files/vangogh/home/home.html`,
