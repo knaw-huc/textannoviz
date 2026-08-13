@@ -7,7 +7,6 @@ import { useDetailNavigation } from "../Detail/useDetailNavigation.tsx";
 import { FooterLink } from "./FooterLink.tsx";
 import { getUrlParams } from "../../utils/url/UrlParamUtils.ts";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
-import { useTextStore } from "../../stores/text/text-store.ts";
 import { useTranslate, useTranslateProject } from "../../stores/project.ts";
 
 export function DetailSearchResultsNavigation() {
@@ -20,7 +19,6 @@ export function DetailSearchResultsNavigation() {
   const { hasNextPage, getNextFrom, hasPrevPage, getPrevFrom } =
     usePagination();
   const { getSearchResults } = useSearchResults();
-  const resetActiveFootnote = useTextStore((s) => s.resetActiveFootnote);
 
   if (!searchResults) {
     return null;
@@ -40,7 +38,6 @@ export function DetailSearchResultsNavigation() {
     }
     if (hasNextResult(resultIndex, searchResults)) {
       const newResultId = searchResults.results[resultIndex + 1]._id;
-      resetActiveFootnote();
       navigateDetail(`/detail/${newResultId}`);
       return;
     }
@@ -56,7 +53,6 @@ export function DetailSearchResultsNavigation() {
 
     if (hasPrevResult(resultIndex)) {
       const newResultId = searchResults.results[resultIndex - 1]._id;
-      resetActiveFootnote();
       navigateDetail(`/detail/${newResultId}`);
       return;
     }
@@ -80,7 +76,6 @@ export function DetailSearchResultsNavigation() {
       newFrom > searchParams.from ? 0 : searchParams.size - 1;
     const newResultId = newSearchResults.results.results[indexOnNewPage]._id;
     setSearchResults(newSearchResults.results);
-    resetActiveFootnote();
     navigateDetail({
       path: `/detail/${newResultId}`,
       from: newFrom,
