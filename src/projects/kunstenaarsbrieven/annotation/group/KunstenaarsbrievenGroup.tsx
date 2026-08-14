@@ -2,11 +2,13 @@ import { GroupProps } from "../../../../components/Text/Annotated/core";
 import { isNested } from "../../../../components/Text/Annotated/utils/isNested.ts";
 import { DefaultGroup } from "../../../default/annotation/group/DefaultGroup.tsx";
 import {
+  isBibleReferenceBody,
   isBibliographyReference,
   isInternalReference,
   isLetterReference,
   isParagraphReference,
 } from "../ProjectAnnotationModel.ts";
+import { BibleReferenceLink } from "./BibleReferenceLink.tsx";
 import { BibliographyLink } from "./BibliographyLink.tsx";
 import { InternalReferenceLink } from "./InternalReferenceLink.tsx";
 import { LetterLink } from "./LetterLink.tsx";
@@ -51,14 +53,16 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
     );
   }
 
-  const biblRef = group.segments
+  const bibliographyRef = group.segments
     .flatMap((s) => s.annotations)
     .filter(isNested)
     .map((a) => a.body)
     .find((body) => isBibliographyReference(body));
 
-  if (biblRef && isBibliographyReference(biblRef)) {
-    return <BibliographyLink url={biblRef.url}>{children}</BibliographyLink>;
+  if (bibliographyRef && isBibliographyReference(bibliographyRef)) {
+    return (
+      <BibliographyLink url={bibliographyRef.url}>{children}</BibliographyLink>
+    );
   }
 
   const letterRef = group.segments
@@ -69,6 +73,20 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
 
   if (letterRef && isLetterReference(letterRef)) {
     return <LetterLink url={letterRef.url}>{children}</LetterLink>;
+  }
+
+  const bibleRef = group.segments
+    .flatMap((s) => s.annotations)
+    .filter(isNested)
+    .map((a) => a.body)
+    .find((body) => isBibleReferenceBody(body));
+
+  if (bibleRef && isBibleReferenceBody(bibleRef)) {
+    return (
+      <BibleReferenceLink cRef={bibleRef["tei:cRef"]}>
+        {children}
+      </BibleReferenceLink>
+    );
   }
 
   // Not an internal, bibliography or letter reference: let the default group handle

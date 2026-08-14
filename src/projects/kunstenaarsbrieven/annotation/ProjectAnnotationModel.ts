@@ -353,6 +353,22 @@ export function isPictureBody(
   return !!toTest && toTest.type === picture;
 }
 
+export type BibleReferenceBody = AnnoRepoBodyBase & {
+  "tei:cRef": string;
+  label: string;
+  elementName: "ref";
+};
+
+export function isBibleReferenceBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibleReferenceBody {
+  return (
+    !!toTest &&
+    "tei:cRef" in toTest &&
+    (toTest as BibleReferenceBody)["tei:cRef"].startsWith("bible")
+  );
+}
+
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
   highlight,
