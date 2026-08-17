@@ -124,14 +124,11 @@ export function Persons(props: PersonsProps) {
 
   function resolveSurnames(name: PersonPersName): ResolvedSurname[] {
     const raw = name.surname;
-    if (raw === undefined) return [];
+    if (!raw) return [];
     if (typeof raw === "string") return [{ text: raw }];
-    return raw.flatMap<ResolvedSurname>((item, index) => {
-      if (item === null) return [];
-      if (typeof item === "string")
-        return index === 0
-          ? [{ text: item }]
-          : [{ text: item, type: "married-name" }];
+    return raw.flatMap<ResolvedSurname>((item) => {
+      if (!item) return [];
+      if (typeof item === "string") return [{ text: item }];
       return [{ text: item.text, type: item.type }];
     });
   }

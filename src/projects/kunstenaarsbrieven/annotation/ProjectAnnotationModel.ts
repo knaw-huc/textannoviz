@@ -167,11 +167,8 @@ export type PersonPersName = {
   addName?: string;
   surname?:
     | string
-    | string[]
-    | [null]
-    | [{ type: "married-name"; text: string }]
-    // This one is an incorrect representation of the 'married-name' above
-    | [string, string];
+    | null
+    | (string | { type: "married-name"; text: string } | null)[];
   nameLink?: string;
   roleName?: string;
 };
