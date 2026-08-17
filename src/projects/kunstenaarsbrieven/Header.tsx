@@ -5,7 +5,7 @@ import {
   useProjectStore,
   useTranslateProject,
 } from "../../stores/project.ts";
-import { matchPath, useLocation, useNavigate } from "react-router";
+import { matchPath, useLocation } from "react-router";
 import { detailTier2Path } from "../../utils/detailPath.ts";
 import { Button, Link } from "react-aria-components";
 import { toast } from "../../utils/toast.ts";
@@ -30,7 +30,6 @@ export const Header = (props: HeaderProps) => {
   const [menu, setMenu] = React.useState<RootMenu>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const translateProject = useTranslateProject();
-  const navigate = useNavigate();
   const location = useLocation();
   const version = useProjectStore(projectConfigSelector).version;
   const versionHash = useProjectStore(projectConfigSelector).versionHash;
@@ -83,13 +82,13 @@ export const Header = (props: HeaderProps) => {
   return (
     <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_210px]">
       <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
-        <Button
-          className="flex w-fit flex-col items-start text-inherit no-underline hover:underline"
-          onPress={() => navigate("/")}
+        <Link
+          className="flex w-fit flex-col items-start text-inherit no-underline hover:text-inherit hover:underline"
+          href="/"
         >
           <strong>{translateProject("TITLE_PT_1")}</strong>
           <strong>{translateProject("TITLE_PT_2")}</strong>
-        </Button>
+        </Link>
       </div>
       <div className="col-span-2 flex items-center justify-end border-b border-neutral-400 px-4 sm:col-span-3 lg:col-span-1">
         <Button
