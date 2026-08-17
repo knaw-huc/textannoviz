@@ -216,18 +216,7 @@ export function Persons(props: PersonsProps) {
                 </>
               ) : null}
               {per.floruit ? (
-                <div>
-                  {per.floruit?.when
-                    ? `floruit: ${formatYear(per.floruit.when)}`
-                    : null}
-                  {per.floruit?.notAfter && per.floruit?.notBefore
-                    ? `floruit: ${translate("BETWEEN")} ${formatYear(
-                        per.floruit.notBefore,
-                      )} ${translate("AND")} ${formatYear(
-                        per.floruit.notAfter,
-                      )}`
-                    : null}
-                </div>
+                <div>floruit: {formatDate(per.floruit)}</div>
               ) : null}
 
               <div>{per.note?.[interfaceLang]?.shortdesc}</div>
