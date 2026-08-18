@@ -3,14 +3,14 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
 import { gridOneColumn } from "../../utils/gridOneColumn.ts";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { useKunstenaarsbrievenTextViews } from "../kunstenaarsbrieven/text/useKunstenaarsbrievenTextViews.ts";
+import { useMechteldVanGelreTextViews } from "./text/useMechteldVanGelreTextViews.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
-  const textViews = useKunstenaarsbrievenTextViews();
+  const textViews = useMechteldVanGelreTextViews();
   const translateProject = useTranslateProject();
 
   const letterAnnoBody = findLetterBody(props.annotations);
@@ -20,9 +20,9 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
-  const transcrSourceText = textViews?.transcrSource?.en;
-  const datingText = textViews?.dating?.en;
-  const remarksText = textViews?.remarks?.en;
+  const regest = textViews?.regest?.nl;
+  const publication = textViews?.publication?.nl;
+  const seclit = textViews?.seclit?.nl;
 
   return (
     <>
@@ -63,36 +63,33 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 {Array.isArray(recipient) ? recipient.join(", ") : recipient}
               </div>
             </li>
-            {datingText?.body.length ? (
+            {regest?.body.length ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
                   <div className={labelStyling}>
-                    {translateProject("dating")}:{" "}
+                    {translateProject("regest")}:{" "}
                   </div>
-                  <ProjectAnnotatedText text={datingText} showDetail={false} />
+                  <ProjectAnnotatedText text={regest} showDetail={false} />
                 </div>
               </li>
             ) : null}
-            {transcrSourceText?.body.length ? (
+            {publication?.body.length ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
                   <div className={labelStyling}>
-                    {translateProject("transcrSource")}:{" "}
+                    {translateProject("publication")}:{" "}
                   </div>
-                  <ProjectAnnotatedText
-                    text={transcrSourceText}
-                    showDetail={false}
-                  />
+                  <ProjectAnnotatedText text={publication} showDetail={false} />
                 </div>
               </li>
             ) : null}
-            {remarksText?.body.length ? (
+            {seclit?.body.length ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
                   <div className={labelStyling}>
-                    {translateProject("remarks")}:{" "}
+                    {translateProject("seclit")}:{" "}
                   </div>
-                  <ProjectAnnotatedText text={remarksText} showDetail={false} />
+                  <ProjectAnnotatedText text={seclit} showDetail={false} />
                 </div>
               </li>
             ) : null}
