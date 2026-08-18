@@ -134,6 +134,13 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       // "introTranslatedText",
       // "introNotesText",
     ],
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "regest",
+      "publication",
+      "seclit",
+    ],
     selectedLanguage: "nl",
     languages: [
       { code: "nl", labels: dutchMechteldVanGelreLabels },
