@@ -100,6 +100,7 @@ export const vangoghConfig: ProjectConfig = mergeWith(
       "sender",
       "correspondent",
       "bibleRefs",
+      "worksMentioned",
     ],
     detailPanels: [
       {
@@ -158,6 +159,10 @@ export const vangoghConfig: ProjectConfig = mergeWith(
         facetName: "period",
         order: "keyAsc",
         size: 9999,
+      },
+      {
+        facetName: "worksMentioned",
+        size: 999,
       },
     ],
     viewsToSearchIn: [

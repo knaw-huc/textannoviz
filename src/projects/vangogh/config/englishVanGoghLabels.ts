@@ -19,6 +19,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   bibleRefs: "Bible quotations",
   bibleRefIds: "Bible quotations (ID)",
   personIds: "Persons (ID)",
+  worksMentioned: "Works read by Van Gogh",
 
   facetInputFilterPlaceholder: "Search in facet",
 
