@@ -161,7 +161,7 @@ type SearchConfig = {
   showSearchResultsOnInfoPage: boolean;
   overrideDefaultAggs: {
     facetName: string;
-    order?: string;
+    order?: "keyAsc" | "keyDesc";
     size?: number;
   }[];
   overrideDefaultSearchParams: Partial<SearchParams>;
