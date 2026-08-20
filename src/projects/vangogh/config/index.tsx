@@ -101,6 +101,7 @@ export const vangoghConfig: ProjectConfig = mergeWith(
       "correspondent",
       "bibleRefs",
       "worksMentioned",
+      "journals",
     ],
     detailPanels: [
       {
@@ -162,6 +163,10 @@ export const vangoghConfig: ProjectConfig = mergeWith(
       },
       {
         facetName: "worksMentioned",
+        size: 999,
+      },
+      {
+        facetName: "journals",
         size: 999,
       },
     ],
