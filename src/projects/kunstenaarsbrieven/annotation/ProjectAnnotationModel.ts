@@ -170,7 +170,6 @@ export type PersonPersName = {
     | null
     | (string | { type: "married-name"; text: string } | null)[];
   nameLink?: string;
-  roleName?: string;
 };
 
 export type ResolvedSurname = {
