@@ -32,6 +32,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     initialDateTo: "1500-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Mechteld van Gelre Letters",
+    showArtworksTab: false,
     personsUrl:
       "http://localhost:8040/files/mechteldvangelre/apparatus/bio-entities.json",
     biblUrl: {
