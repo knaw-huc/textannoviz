@@ -77,7 +77,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   introHeader: "Over deze editie",
   bibliography: "Bibliografie",
   TITLE_PT_1: "Mechteld van Gelre",
-  TITLE_PT_2: "De Brieven",
+  TITLE_PT_2: "De briefcollectie",
   help: "Handleiding",
   OPEN_MAIN_NAVIGATION: "Open navigatie",
   CLOSE_MAIN_NAVIGATION: "Sluit navigatie",
