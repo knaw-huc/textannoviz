@@ -20,7 +20,6 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
-  const regest = textViews?.regest?.nl;
   const publication = textViews?.publication?.nl;
   const seclit = textViews?.seclit?.nl;
 
@@ -63,16 +62,6 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 {Array.isArray(recipient) ? recipient.join(", ") : recipient}
               </div>
             </li>
-            {regest?.body.length ? (
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <div className={labelStyling}>
-                    {translateProject("regest")}:{" "}
-                  </div>
-                  <ProjectAnnotatedText text={regest} showDetail={false} />
-                </div>
-              </li>
-            ) : null}
             {publication?.body.length ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>

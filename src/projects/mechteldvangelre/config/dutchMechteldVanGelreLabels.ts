@@ -12,7 +12,6 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   periodlong: "Periode (lang)",
   type: "Type",
   artworksEN: "Kunstwerken",
-  regest: "Samenvatting",
   publication: "Editie",
   seclit: "Secundaire literatuur",
 
@@ -26,7 +25,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   //Text panel titles
   self: "Brief",
   "text.nl": "Originele tekst",
-  "text.en": "Vertaalde tekst",
+  "regest.nl": "Samenvatting",
 
   //panels
   toc: "Inhoud",
@@ -37,7 +36,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
   "text.orig": "Originele tekst",
-  "text.trans": "Vertaalde tekst",
+  "text.trans": "Samenvatting",
 
   CONTENT_VIEWS: "Inhoud weergave",
   CONTENT_PANELS: "Inhoud weergave",

@@ -5,6 +5,6 @@ export const TextPanels = {
     content: <TextComponentTab viewToRender={"text.nl"} />,
   },
   transTextPanel: {
-    content: <TextComponentTab viewToRender="text.en" />,
+    content: <TextComponentTab viewToRender="regest.nl" />,
   },
 };
