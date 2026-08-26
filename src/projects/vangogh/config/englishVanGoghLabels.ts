@@ -21,6 +21,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   personIds: "Persons (ID)",
   worksMentioned: "Works read by Van Gogh",
   journals: "Periodicals",
+  collectedLetters: "Collected letters",
 
   facetInputFilterPlaceholder: "Search in facet",
 
