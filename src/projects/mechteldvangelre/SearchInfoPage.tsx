@@ -1,6 +1,5 @@
 import { Button } from "react-aria-components";
 import logoHuygens from "../../assets/logo-huygens.png";
-import logoVGM from "../../assets/logo-vgm.png";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -9,6 +8,7 @@ import {
 import React from "react";
 import { handleAbort } from "../../utils/handleAbort";
 import { fetchText } from "../../utils/fetchText";
+import logoGeldersArchief from "../../assets/logo-gelders-archief.png";
 
 export const SearchInfoPage = () => {
   const translateProject = useTranslateProject();
@@ -39,20 +39,32 @@ export const SearchInfoPage = () => {
   }, []);
 
   return (
-    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#FFCE01] px-6 py-8 lg:-mx-10 lg:px-10">
+    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#41b6e6] px-6 py-8 lg:-mx-10 lg:px-10">
       <div className="mx-auto w-full max-w-4xl">
-        {content?.length && (
+        {(content?.length && (
           <div
             className="prose text-black"
             dangerouslySetInnerHTML={{ __html: content }}
           />
+        )) || (
+          <div>
+            <h1>Placeholder</h1>
+            <p>Nog meer placeholder</p>
+            <p>Nog meer placeholder</p>
+            <p>Nog meer placeholder</p>
+            <p>Nog meer placeholder</p>
+            <p>Nog meer placeholder</p>
+            <p>Nog meer placeholder</p>
+            <p>Nog meer placeholder</p>
+            <p>Nog meer placeholder</p>
+          </div>
         )}
 
         <div className="my-8 flex max-w-3xl items-start justify-between md:items-end">
           {/* Logos */}
           <div className="flex flex-col gap-8 md:flex-row md:items-end">
             <div>
-              <img src={logoVGM} className="h-20" alt="logo" />
+              <img src={logoGeldersArchief} className="h-14" alt="logo" />
             </div>
             <div>
               <img src={logoHuygens} className="h-14" alt="logo" />
@@ -61,7 +73,7 @@ export const SearchInfoPage = () => {
 
           {/* Button */}
           <Button
-            className="rounded bg-yellow-500 p-2 outline-none"
+            className="bg-brand1-200 rounded p-2 outline-none"
             onPress={scrollToSearchResultsButtonHandler}
           >
             {translateProject("SCROLL_TO_LETTERS")} {String.fromCharCode(9663)}
