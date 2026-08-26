@@ -1,8 +1,9 @@
 import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
+import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 import { gridOneColumn } from "../../utils/gridOneColumn.ts";
-import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { findMechteldLetterBody } from "./annotation/ProjectAnnotationModel.ts";
 import { useMechteldVanGelreTextViews } from "./text/useMechteldVanGelreTextViews.ts";
 
 type RenderMetadataPanelProps = {
@@ -13,10 +14,21 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const textViews = useMechteldVanGelreTextViews();
   const translateProject = useTranslateProject();
 
-  const letterAnnoBody = findLetterBody(props.annotations);
+  const letterAnnoBody = findMechteldLetterBody(props.annotations);
 
-  const { n, identifier, recipient, sender, place, institution, collection } =
-    letterAnnoBody ?? {};
+  const {
+    n,
+    identifier,
+    recipient,
+    sender,
+    place,
+    institution,
+    collection,
+    material,
+    watermark,
+    measure,
+    seal,
+  } = letterAnnoBody ?? {};
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
@@ -79,6 +91,41 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                     {translateProject("seclit")}:{" "}
                   </div>
                   <ProjectAnnotatedText text={seclit} showDetail={false} />
+                </div>
+              </li>
+            ) : null}
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>
+                  {translateProject("material")}:{" "}
+                </div>
+                {material && firstLetterToUppercase(material)}
+              </div>
+            </li>
+            {watermark ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("watermark")}:{" "}
+                  </div>
+                  {watermark}
+                </div>
+              </li>
+            ) : null}
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>{translateProject("size")}: </div>
+                {/* .[1] = vertical; .[0] = horizontal. It's always in 'mm'. */}
+                {`${measure?.[1]} x ${measure?.[0]} mm`}
+              </div>
+            </li>
+            {seal ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("seal")}:{" "}
+                  </div>
+                  {seal}
                 </div>
               </li>
             ) : null}
