@@ -55,19 +55,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       SearchInfoPage,
       EntitySummaryDetails,
     },
-    defaultKeywordAggsToRender: [
-      "type",
-      "location",
-      "period",
-      "file",
-      "persons",
-      // "artworksNL",
-      "artworksEN",
-      "recipient",
-      "sender",
-      "correspondent",
-      "bibleRefs",
-    ],
+    defaultKeywordAggsToRender: ["type", "persons", "recipient", "sender"],
     detailPanels: [
       {
         name: "facs",
