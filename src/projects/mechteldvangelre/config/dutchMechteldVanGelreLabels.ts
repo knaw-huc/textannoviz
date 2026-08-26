@@ -22,8 +22,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
 
   SEARCH_IN: "Zoek in",
 
-  page: "Pagina",
-  SHOW_PAGE: "Pagina tonen",
+  page: "Folio",
+  SHOW_PAGE: "Folio tonen",
 
   //Text panel titles
   self: "Brief",

@@ -18,6 +18,7 @@ import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { dutchMechteldVanGelreLabels } from "./dutchMechteldVanGelreLabels";
 import { mechteldvangelreLetterIdFormat } from "../utils/letterIdFormat";
+import { mechteldPageLabelFormat } from "../utils/mechteldPageLabelFormat";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -153,6 +154,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    pageLabelFormat: mechteldPageLabelFormat,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

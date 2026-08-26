@@ -4,7 +4,11 @@ import {
 } from "../components/Text/Annotated/core";
 import { EntitySummaryProps } from "./EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
-import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  AnnoRepoBodyBase,
+  PageBody,
+} from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import {
   BrederodeSearchResultsBody,
@@ -73,6 +77,7 @@ export type ProjectConfig = SearchConfig &
     letterIdFormat: LetterIdFormat;
     homeUrl: string;
     siteTitle: string;
+    pageLabelFormat: (pageBody: PageBody) => string | undefined;
 
     detailPanels: DetailPanelConfig[];
 

@@ -56,6 +56,7 @@ export const defaultConfig: DefaultProjectConfig = {
     toNumber: (letterId) => letterId,
     fromInput: (input) => input,
   },
+  pageLabelFormat: (pageBody) => pageBody.n,
   homeUrl: "",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
