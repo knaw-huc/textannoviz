@@ -1,19 +1,10 @@
 import { Button } from "react-aria-components";
 import logoHuygens from "../../assets/logo-huygens.png";
-import {
-  projectConfigSelector,
-  useProjectStore,
-  useTranslateProject,
-} from "../../stores/project";
-import React from "react";
-import { handleAbort } from "../../utils/handleAbort";
-import { fetchText } from "../../utils/fetchText";
+import { useTranslateProject } from "../../stores/project";
 import logoGeldersArchief from "../../assets/logo-gelders-archief.png";
 
 export const SearchInfoPage = () => {
   const translateProject = useTranslateProject();
-  const [content, setContent] = React.useState<string>();
-  const homeUrl = useProjectStore(projectConfigSelector).homeUrl;
 
   function scrollToSearchResultsButtonHandler() {
     const target = document.getElementById("search-results");
@@ -22,47 +13,31 @@ export const SearchInfoPage = () => {
     }
   }
 
-  React.useEffect(() => {
-    const aborter = new AbortController();
-    async function initHome(aborter: AbortController) {
-      const newContent = await fetchText(homeUrl, aborter.signal);
-      if (!newContent) return;
-
-      setContent(newContent);
-    }
-
-    initHome(aborter).catch(handleAbort);
-
-    return () => {
-      aborter.abort();
-    };
-  }, []);
-
   return (
-    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#41b6e6] px-6 py-8 lg:-mx-10 lg:px-10">
+    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#41b6e6] px-6 py-8 text-white lg:-mx-10 lg:px-10">
       <div className="mx-auto w-full max-w-4xl">
-        {(content?.length && (
-          <div
-            className="prose text-black"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-        )) || (
-          <div>
-            <h1>Placeholder</h1>
-            <p>Nog meer placeholder</p>
-            <p>Nog meer placeholder</p>
-            <p>Nog meer placeholder</p>
-            <p>Nog meer placeholder</p>
-            <p>Nog meer placeholder</p>
-            <p>Nog meer placeholder</p>
-            <p>Nog meer placeholder</p>
-            <p>Nog meer placeholder</p>
-          </div>
-        )}
-
-        <div className="my-8 flex max-w-3xl items-start justify-between md:items-end">
+        <h1>Mechteld van Gelre: de briefcollectie</h1>
+        <h2>Bezorgd door Roos in &apos;t Velt</h2>
+        <p>
+          Deze digitale editie bevat alle 189 brieven uit het archief van
+          hertogin Mechteld van Gelre (ca. 1323-1384) die in het Gelders Archief
+          bewaard worden. In alle opzichten is deze briefcollectie uniek: de
+          hoeveelheid brieven, de ouderdom ervan, dat ze in de volkstaal
+          geschreven zijn én rondom een vrouw in een machtspositie.
+        </p>
+        <br />
+        <p>
+          De brieven schetsen een veelzijdig beeld van Mechteld van Gelre, die
+          tussen 1371 en 1379 een tevergeefse oorlog uitvocht om hertogin van
+          Gelre te worden. Aan de ene kant was ze een zelfbewuste heerseres die
+          op de hoogte moest zijn van militaire, politieke, economische en
+          juridische ontwikkelingen in haar territoria; aan de andere kant was
+          ze een luisterend oor voor de dagelijkse beslommeringen van haar
+          familie, vriend(inn)en en bondgenoten.
+        </p>
+        <div className="my-8 flex max-w-3xl items-end justify-between">
           {/* Logos */}
-          <div className="flex flex-col gap-8 md:flex-row md:items-end">
+          <div className="flex flex-col items-start gap-8 md:flex-row md:items-end">
             <div>
               <img src={logoGeldersArchief} className="h-14" alt="logo" />
             </div>
