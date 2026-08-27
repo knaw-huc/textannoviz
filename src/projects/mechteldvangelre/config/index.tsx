@@ -29,8 +29,8 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     siteTitle: "Mechteld van Gelre Letters",
 
     elasticIndexName: "mechteldvangelre",
-    initialDateFrom: "1300-01-01",
-    initialDateTo: "1500-12-31",
+    initialDateFrom: "1364-01-01",
+    initialDateTo: "1384-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Mechteld van Gelre Letters",
     showArtworksTab: false,
