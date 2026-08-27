@@ -14,8 +14,6 @@ export function HighlightAnnotations(props: { segment: Segment }) {
   // The .filter() will find all, instead of only the first with the previous .find().
   const markers = props.segment.annotations.filter(isMarkerSegment);
 
-  console.log(props.segment.annotations);
-
   const text = <SegmentBody body={props.segment.value} />;
 
   const children = markers.length
