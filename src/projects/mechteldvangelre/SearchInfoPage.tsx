@@ -73,10 +73,14 @@ export const SearchInfoPage = () => {
 
           {/* Button */}
           <Button
-            className="bg-brand1-200 rounded p-2 outline-none"
+            className="inline-flex items-center gap-2.5 rounded-md bg-[#333f48]
+             px-5 py-3 text-[15px] font-semibold text-white outline-none
+             transition-colors hover:bg-[#41505b]
+             focus-visible:ring-2 focus-visible:ring-white/70"
             onPress={scrollToSearchResultsButtonHandler}
           >
-            {translateProject("SCROLL_TO_LETTERS")} {String.fromCharCode(9663)}
+            {translateProject("SCROLL_TO_LETTERS")}
+            <span className="mt-px h-2 w-2 rotate-45 border-b-2 border-r-2 border-white/75" />
           </Button>
         </div>
       </div>
