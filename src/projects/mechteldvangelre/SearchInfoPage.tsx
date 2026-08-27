@@ -15,9 +15,11 @@ export const SearchInfoPage = () => {
 
   return (
     <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#41b6e6] px-6 py-8 lg:-mx-10 lg:px-10">
-      <div className="prose mx-auto w-full max-w-4xl text-white">
-        <h1 className="text-white">Mechteld van Gelre: de briefcollectie</h1>
-        <h2 className="text-white">Bezorgd door Roos in &apos;t Velt</h2>
+      <div className="prose mx-auto w-full max-w-4xl text-[#333f48]">
+        <h1 className="text-[#333f48]">
+          Mechteld van Gelre: de briefcollectie
+        </h1>
+        <h2 className="text-[#333f48]">Bezorgd door Roos in &apos;t Velt</h2>
         <p>
           Deze digitale editie bevat alle 189 brieven uit het archief van
           hertogin Mechteld van Gelre (ca. 1323-1384) die in het Gelders Archief
@@ -48,9 +50,10 @@ export const SearchInfoPage = () => {
           {/* Button */}
           <Button
             className="inline-flex items-center gap-2.5 rounded-md bg-[#333f48]
-             px-5 py-3 text-[15px] font-semibold text-white outline-none
-             transition-colors hover:bg-[#41505b]
-             focus-visible:ring-2 focus-visible:ring-white/70"
+             px-5 py-3 text-[15px] font-semibold text-white shadow-sm
+             outline-none transition-colors hover:bg-[#41505b]
+             focus-visible:ring-2 focus-visible:ring-[#333f48]
+             focus-visible:ring-offset-2 focus-visible:ring-offset-[#41b6e6]"
             onPress={scrollToSearchResultsButtonHandler}
           >
             {translateProject("SCROLL_TO_LETTERS")}
