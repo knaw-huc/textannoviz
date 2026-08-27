@@ -56,7 +56,14 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       SearchInfoPage,
       EntitySummaryDetails,
     },
-    defaultKeywordAggsToRender: ["type", "persons", "recipient", "sender"],
+    defaultKeywordAggsToRender: [
+      "type",
+      "persons",
+      "recipient",
+      "sender",
+      "location",
+      "institution",
+    ],
     detailPanels: [
       {
         name: "facs",
