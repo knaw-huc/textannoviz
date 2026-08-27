@@ -24,8 +24,10 @@ import {
  * Kunstenaarsbrieven Annotation, element and tei type names
  */
 
+export const addition = "Addition";
 export const caption = "Caption";
 export const cell = "Cell";
+export const deletion = "Deletion";
 export const document = "Document";
 export const elementRs = "rs";
 export const elementPtr = "ptr";
@@ -49,6 +51,7 @@ export const table = "Table";
 export const term = "Term";
 export const teiArtwork = "artwork";
 export const teiNote = "note";
+export const unclear = "Unclear";
 export const unknown = "unknown";
 export const whitespace = "Whitespace";
 
@@ -375,6 +378,9 @@ export const highlightTypes = [
   term,
   supplied,
   whitespace,
+  deletion,
+  addition,
+  unclear,
 ];
 export const tooltipMarkerTypes = [reference];
 export const insertMarkerTypes = [picture, head];
@@ -464,6 +470,9 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
       term,
       supplied,
       whitespace,
+      addition,
+      deletion,
+      unclear,
     ].includes(annoRepoBody.type)
   ) {
     return normalizeClassname(annoRepoBody.type);

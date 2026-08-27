@@ -101,6 +101,14 @@
   content: "]";
 }
 
+.highlight-deletion {
+  text-decoration: line-through;
+}
+
+.highlight-unclear {
+  font-style: italic;
+}
+
 .segmented-line:has(.highlight-caption) {
   margin-bottom: 1.5rem;
 }
