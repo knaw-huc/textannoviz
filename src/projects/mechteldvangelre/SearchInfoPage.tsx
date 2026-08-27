@@ -14,10 +14,10 @@ export const SearchInfoPage = () => {
   }
 
   return (
-    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#41b6e6] px-6 py-8 text-white lg:-mx-10 lg:px-10">
-      <div className="mx-auto w-full max-w-4xl">
-        <h1>Mechteld van Gelre: de briefcollectie</h1>
-        <h2>Bezorgd door Roos in &apos;t Velt</h2>
+    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#41b6e6] px-6 py-8 lg:-mx-10 lg:px-10">
+      <div className="prose mx-auto w-full max-w-4xl text-white">
+        <h1 className="text-white">Mechteld van Gelre: de briefcollectie</h1>
+        <h2 className="text-white">Bezorgd door Roos in &apos;t Velt</h2>
         <p>
           Deze digitale editie bevat alle 189 brieven uit het archief van
           hertogin Mechteld van Gelre (ca. 1323-1384) die in het Gelders Archief
@@ -25,7 +25,6 @@ export const SearchInfoPage = () => {
           hoeveelheid brieven, de ouderdom ervan, dat ze in de volkstaal
           geschreven zijn én rondom een vrouw in een machtspositie.
         </p>
-        <br />
         <p>
           De brieven schetsen een veelzijdig beeld van Mechteld van Gelre, die
           tussen 1371 en 1379 een tevergeefse oorlog uitvocht om hertogin van
