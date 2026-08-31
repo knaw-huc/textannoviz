@@ -15,11 +15,9 @@ export const SearchInfoPage = () => {
 
   return (
     <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#41b6e6] px-6 py-8 lg:-mx-10 lg:px-10">
-      <div className="prose mx-auto w-full max-w-4xl text-[#333f48]">
-        <h1 className="text-[#333f48]">
-          Mechteld van Gelre: de briefcollectie
-        </h1>
-        <h2 className="text-[#333f48]">Bezorgd door Roos in &apos;t Velt</h2>
+      <div className="prose mx-auto w-full max-w-4xl text-black">
+        <h1 className="text-black">Mechteld van Gelre: de briefcollectie</h1>
+        <h2 className="text-black">Bezorgd door Roos in &apos;t Velt</h2>
         <p>
           Deze digitale editie bevat alle 189 brieven uit het archief van
           hertogin Mechteld van Gelre (ca. 1323-1384) die in het Gelders Archief
