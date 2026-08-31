@@ -19,6 +19,11 @@ import { replaceArrays } from "../../default/config/replaceArrays";
 import { dutchMechteldVanGelreLabels } from "./dutchMechteldVanGelreLabels";
 import { mechteldvangelreLetterIdFormat } from "../utils/letterIdFormat";
 import { mechteldPageLabelFormat } from "../utils/mechteldPageLabelFormat";
+import {
+  person,
+  reference,
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
+import { Any } from "../../../utils/Any";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -37,7 +42,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     personsUrl:
       "http://localhost:8040/files/mechteldvangelre/apparatus/bio-entities.json",
     biblUrl: {
-      en: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliolist.html",
+      en: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliografie.html",
     },
     // menuUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
@@ -162,6 +167,12 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
     pageLabelFormat: mechteldPageLabelFormat,
+    annoToEntityCategory: {
+      [person]: "PER",
+      [reference.toLowerCase()]: "REF",
+      PER: "PER",
+      location: "LOC",
+    } as Any,
   } as ProjectSpecificConfig,
   replaceArrays,
 );
