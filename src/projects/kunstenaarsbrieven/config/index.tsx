@@ -49,7 +49,6 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     annotationTypesToInclude: [
       "Dataset",
       "Division",
-      "List",
       document,
       letter,
       note,

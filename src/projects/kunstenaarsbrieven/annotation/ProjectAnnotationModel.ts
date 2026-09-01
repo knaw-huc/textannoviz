@@ -382,6 +382,7 @@ export function isBibleReferenceBody(
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
   highlight,
+  label,
   listItem,
   quote,
   caption,
@@ -410,6 +411,8 @@ export const typesToInclude = [
     ...blockTypes,
   ]),
 ];
+
+typesToInclude.sort();
 
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
@@ -512,7 +515,7 @@ export const blockSchema: BlockSchema = {
     root: { children: [head, list, page, paragraph, table] },
     [cell]: { children: [] },
     [head]: { children: [] },
-    [list]: { children: [listItem] },
+    [list]: { children: [head, listItem] },
     [page]: { children: [paragraph, head, table, list] },
     [paragraph]: { children: [] },
     [row]: { children: [cell] },
@@ -533,3 +536,6 @@ export const isBlock = (body: AnnoRepoBodyBase) =>
   blockTypes.includes(body.type) && !isListAnnotation(body);
 
 export const getBlockType = (body: AnnoRepoBodyBase) => body.type;
+
+export const isGlossList = (body: AnnoRepoBodyBase) =>
+  body.type === list && get(body, "tei:type") === "gloss";
