@@ -8,7 +8,7 @@ import { englishVanGoghLabels } from "./englishVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 import { Artworks } from "../artworks/Artworks";
-import { Bibliography } from "../Bibliography";
+import { Bibliography } from "../bibliography/Bibliography";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
