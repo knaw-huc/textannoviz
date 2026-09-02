@@ -161,6 +161,10 @@ img {
   @apply bg-[#afddff];
 }
 
+.annotated-loc {
+  @apply bg-[#FFE2EE];
+}
+
 /* Israels bibliography styling */
 .rend_italics {
   font-style: italic;
