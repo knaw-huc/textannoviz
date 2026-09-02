@@ -1,5 +1,5 @@
 import { Button } from "react-aria-components";
-import logoHuygens from "../../assets/logo-huygens.png";
+import logoHuygens from "../../assets/logo-huygens-zwart.svg";
 import { useTranslateProject } from "../../stores/project";
 import logoGeldersArchief from "../../assets/logo-gelders-archief.png";
 
@@ -34,14 +34,18 @@ export const SearchInfoPage = () => {
           ze een luisterend oor voor de dagelijkse beslommeringen van haar
           familie, vriend(inn)en en bondgenoten.
         </p>
-        <div className="my-8 flex max-w-3xl items-end justify-between">
+        <div className="my-8 flex items-end justify-between">
           {/* Logos */}
           <div className="flex flex-col items-start gap-8 md:flex-row md:items-end">
             <div>
-              <img src={logoGeldersArchief} className="h-14" alt="logo" />
+              <img
+                src={logoGeldersArchief}
+                className="h-14"
+                alt="Gelders Archief"
+              />
             </div>
             <div>
-              <img src={logoHuygens} className="h-14" alt="logo" />
+              <img src={logoHuygens} className="h-14" alt="Huygens Instituut" />
             </div>
           </div>
 
