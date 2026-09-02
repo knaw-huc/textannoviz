@@ -80,7 +80,7 @@ export const Header = (props: HeaderProps) => {
   );
 
   return (
-    <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_auto_210px]">
+    <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_minmax(0,1fr)_max-content]">
       <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
         <Link
           className="flex w-fit flex-col items-start text-inherit no-underline hover:text-inherit hover:underline"
@@ -90,7 +90,7 @@ export const Header = (props: HeaderProps) => {
           <strong>{translateProject("TITLE_PT_2")}</strong>
         </Link>
       </div>
-      <div className="col-span-2 flex items-center justify-end border-b border-neutral-400 px-4 sm:col-span-3 lg:col-span-1">
+      <div className="col-span-2 flex min-w-0 items-center justify-end border-b border-neutral-400 px-4 sm:col-span-3 lg:col-span-1">
         <Button
           className="mr-2 inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 lg:hidden"
           aria-label={
@@ -115,7 +115,7 @@ export const Header = (props: HeaderProps) => {
         </Button>
 
         <nav
-          className="hidden flex-row gap-4 text-sm *:no-underline lg:flex"
+          className="hidden min-w-0 flex-row flex-wrap justify-end gap-x-4 gap-y-1 text-sm *:no-underline lg:flex"
           aria-label="Main navigation"
         >
           <QuickSearch letterIds={props.letterIds} />
@@ -123,15 +123,11 @@ export const Header = (props: HeaderProps) => {
         </nav>
       </div>
 
-      <div className="hidden items-center justify-between gap-2 border-b border-neutral-400 px-4 lg:flex">
+      <div className="hidden items-center gap-2 border-b border-neutral-400 px-4 lg:flex">
         <LanguageMenu />
-        <span className="min-w-0 truncate text-xs text-neutral-600">
+        <span className="whitespace-nowrap text-xs text-neutral-600">
           v{version}
-          {versionHash && (
-            <span className="ml-1 font-mono" title={versionHash}>
-              {versionHash}
-            </span>
-          )}
+          {versionHash && <span className="ml-1 font-mono">{versionHash}</span>}
         </span>
       </div>
 
