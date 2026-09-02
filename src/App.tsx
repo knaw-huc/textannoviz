@@ -61,10 +61,18 @@ export default function App() {
   return <RouterProvider router={router} />;
 }
 
+/**
+ * React Aria resolves every Link href through this hook, including absolute ones. React Router's `useHref` would resolve those as relative paths, so external URLs are passed through untouched.
+ */
+function useHrefAllowingExternal(href: string) {
+  const resolved = useHref(href);
+  return URL.canParse(href) ? href : resolved;
+}
+
 function Layout() {
   const navigate = useNavigate();
   return (
-    <AriaRouterProvider navigate={navigate} useHref={useHref}>
+    <AriaRouterProvider navigate={navigate} useHref={useHrefAllowingExternal}>
       <div className="flex h-screen flex-col">
         {prodMode && (
           <link
