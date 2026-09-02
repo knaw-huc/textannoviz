@@ -104,6 +104,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   P2: "",
   SCROLL_TO_LETTERS: "Ontdek de brieven",
 
+  locations: "Locaties",
+
   //Help labels
   SEARCH_IN_HELP:
     "Gebruik deze knop om uw zoekopdracht te beperken tot specifieke delen van de editie: de originele teksten, vertalingen of redactionele aantekeningen in de brieven of de inleidende teksten.",

@@ -24,6 +24,7 @@ import {
   reference,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { Any } from "../../../utils/Any";
+import { Locations } from "../Locations";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -48,6 +49,8 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     //   nginxPortVangogh ?? "8040"
     // }/files/vangogh/menu/menu.json`,
     letterIdUrl: "http://localhost:8040/files/mechteldvangelre/letter-ids.json",
+    locationUrl:
+      "http://localhost:8040/files/mechteldvangelre/apparatus/place-entities.json",
     letterIdFormat: mechteldvangelreLetterIdFormat,
     // homeUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
@@ -161,6 +164,10 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       {
         path: "bibliography",
         element: <Bibliography />,
+      },
+      {
+        path: "locations",
+        element: <Locations />,
       },
     ],
     zoomToAnnoOnFacsimile: true,

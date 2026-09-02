@@ -58,6 +58,7 @@ export const defaultConfig: DefaultProjectConfig = {
   },
   pageLabelFormat: (pageBody) => pageBody.n,
   homeUrl: "",
+  locationUrl: "",
   initialRangeFrom: "0",
   initialRangeTo: "30000",
   maxRange: 30000,

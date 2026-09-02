@@ -8,6 +8,8 @@ import {
   BroccoliTextGeneric,
 } from "../../../model/Broccoli";
 import {
+  elementRs,
+  entity,
   letter,
   LetterBody,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
@@ -20,6 +22,54 @@ export type MechteldVanGelreTextViews = BroccoliViews & {
   seclit?: Record<ViewLang, BroccoliTextGeneric>;
   transcrSource?: Record<ViewLang, BroccoliTextGeneric>;
 };
+
+export type LocationBody = AnnoRepoBodyBase & {
+  type: typeof entity;
+  elementName: typeof elementRs;
+  "tei:type": "location";
+  "tei:ref": LocationTeiRef;
+};
+
+export type MechteldLocation = LocationTeiRef;
+
+type LocationBase = {
+  id: string;
+  graphic: { url: string };
+  desc?: string;
+};
+
+export type LocationSettlement = LocationBase & {
+  "tei:type": "settlement";
+  settlement: string;
+  region: string[];
+  source: string[];
+  corresp?: string;
+};
+
+export type LocationBuilding = LocationBase & {
+  "tei:type": "building";
+  objectName: string;
+  region: string[];
+  source: string[];
+  settlement?: string;
+  corresp?: string;
+};
+
+export type LocationTerritory = LocationBase & {
+  "tei:type": "territory" | "subterritory";
+  region: string[];
+};
+
+export type LocationRiver = LocationBase & {
+  "tei:type": "river";
+  geogName: string;
+};
+
+export type LocationTeiRef =
+  | LocationSettlement
+  | LocationBuilding
+  | LocationTerritory
+  | LocationRiver;
 
 export type MechteldLetterBody = LetterBody & {
   material: string;
