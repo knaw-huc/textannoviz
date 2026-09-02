@@ -3,6 +3,7 @@ import {
   findSegmentRange,
   segment,
   SegmentRange,
+  TextSegment,
 } from "@knaw-huc/text-annotation-segmenter";
 import {
   BlockAnnotationSegment,
@@ -12,6 +13,7 @@ import {
   TextPositions,
 } from "../AnnotationModel.ts";
 import { assignGroupToNestedSegments } from "./assignGroupToNestedSegments.ts";
+import { splitMarkerSegments } from "./splitMarkerSegments.ts";
 import { BlockSchema } from "../block";
 
 /**
@@ -26,45 +28,54 @@ export function createSegments(
   blockSchema: BlockSchema,
 ): Segment[] {
   const getOffsets = (offset: TextPositions) => offset;
-  const segments = segment(body, offsets, getOffsets);
+  const segments = splitMarkerSegments(segment(body, offsets, getOffsets));
 
   /**
-   * Filter marker annotations, so markers are grouped into the correct blocks
+   * Filter annotations in segments of no length,
+   * so markers are grouped into the correct blocks
    * and not into bordering entity groups.
    */
-  const filtered = filterSegmentAnnotations(segments, (annotation, segment) => {
-    // Skip non-marker segments:
-    if (segment.start !== segment.end) {
-      return true;
-    }
+  const cleanedSegments = filterSegmentAnnotations(
+    segments,
+    (annotation, segment) => {
+      // Keep non-marker segments as is:
+      if (segment.start !== segment.end) {
+        return true;
+      }
 
-    // keep marker annotations:
-    if (annotation.type === "marker") {
-      return true;
-    }
+      // Keep marker annotations:
+      if (annotation.type === "marker") {
+        return true;
+      }
 
-    const marker = segment.annotations.find((a) => a.type === "marker");
+      const marker = segment.annotations.find((a) => a.type === "marker");
 
-    /**
-     * Keep block annotations according to configured marker position:
-     * - postfix: keep blocks ending at marker (e.g. note at the end of a paragraph)
-     * - prefix: keep blocks starting at marker (e.g. a header prefix)
-     */
-    const markerPosition = marker?.markerPosition ?? "postfix";
-    if (annotation.type === "block") {
-      return markerPosition === "prefix"
-        ? annotation.end > segment.start
-        : annotation.start < segment.start;
-    }
+      /**
+       * Keep block annotations according to configured marker position:
+       * - xpath: keep blocks when marker's xpath ancestor matches
+       * - postfix: keep blocks ending at marker (e.g. note at the end of a paragraph)
+       * - prefix: keep blocks starting at marker (e.g. a header prefix)
+       */
+      if (annotation.type === "block") {
+        if (marker?.xpath) {
+          return isXPathAncestor(annotation, segment, marker.xpath);
+        }
 
-    /**
-     * Entity groups ending with a marker should not include that marker,
-     * so inline annotations are removed that only border the marker:
-     */
-    return annotation.start < segment.start && annotation.end > segment.start;
-  });
+        const markerPosition = marker?.markerPosition ?? "postfix";
+        return markerPosition === "prefix"
+          ? annotation.end > segment.start
+          : annotation.start < segment.start;
+      }
 
-  const segmentRangesMap = findSegmentRange(filtered);
+      /**
+       * Entity groups ending with a marker should not include that marker,
+       * so inline annotations are removed that only border the marker:
+       */
+      return annotation.start < segment.start && annotation.end > segment.start;
+    },
+  );
+
+  const segmentRangesMap = findSegmentRange(cleanedSegments);
 
   const withSegmentOffsets = new Map<
     TextPositions,
@@ -76,7 +87,7 @@ export function createSegments(
   }
 
   const allowedDescendantTypes = findDescendantTypes(blockSchema);
-  const sortedSegments = filtered.map((textSegment) => ({
+  const sortedSegments = cleanedSegments.map((textSegment) => ({
     ...textSegment,
     annotations: sortAnnotations(
       textSegment.annotations.map((a) => withSegmentOffsets.get(a)!),
@@ -84,6 +95,48 @@ export function createSegments(
     ),
   }));
   return assignGroupToNestedSegments(sortedSegments);
+}
+
+type XPathStep = { tag: string; index: number };
+
+function parseXPath(xpath: string): XPathStep[] {
+  return xpath
+    .split("/")
+    .filter((part) => !!part)
+    .map((step) => {
+      const [, tag, index] = step.match(/^(?:\w+:)?([^[]+)(?:\[(\d+)\])?$/)!;
+      return { tag, index: index ? parseInt(index, 10) : 1 };
+    });
+}
+
+/**
+ * Decide whether a block annotation is an ancestor of a marker, when xpath is present
+ */
+function isXPathAncestor(
+  block: TextPositions,
+  segment: TextSegment<TextPositions>,
+  xpath: string,
+): boolean {
+  const steps = parseXPath(xpath);
+  const foundStep = steps.find((s) => s.tag === block.blockType);
+
+  if (!foundStep) {
+    return false;
+  }
+
+  /**
+   * Determine which one of the adjacent block siblings (e.g. two cells)
+   * matches the index from the xpath.
+   *
+   * For example:
+   * <table><cell><img /></cell><cell></cell></table>
+   * Matches the first cell:
+   * /table[1]/cell[1]/img[1]
+   */
+  const sortedSiblings = segment.annotations
+    .filter((a) => a.type === "block" && a.blockType === block.blockType)
+    .sort((a, b) => a.start - b.start || a.end - b.end);
+  return sortedSiblings.indexOf(block) + 1 === foundStep.index;
 }
 
 function addSegmentTypeProps(
