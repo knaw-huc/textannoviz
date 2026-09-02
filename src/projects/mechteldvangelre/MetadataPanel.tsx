@@ -34,6 +34,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const publication = textViews?.publication?.nl;
   const seclit = textViews?.seclit?.nl;
+  const transcrSourceText = textViews?.transcrSource?.nl;
 
   return (
     <>
@@ -126,6 +127,19 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                     {translateProject("seal")}:{" "}
                   </div>
                   {seal}
+                </div>
+              </li>
+            ) : null}
+            {transcrSourceText?.body.length ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("transcrSource")}:{" "}
+                  </div>
+                  <ProjectAnnotatedText
+                    text={transcrSourceText}
+                    showDetail={false}
+                  />
                 </div>
               </li>
             ) : null}

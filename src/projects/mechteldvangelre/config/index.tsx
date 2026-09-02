@@ -142,6 +142,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       "regest",
       "publication",
       "seclit",
+      "transcrSource",
     ],
     selectedLanguage: "nl",
     languages: [

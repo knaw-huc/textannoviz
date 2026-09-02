@@ -18,6 +18,7 @@ export type MechteldVanGelreTextViews = BroccoliViews & {
   regest?: Record<ViewLang, BroccoliTextGeneric>;
   publication?: Record<ViewLang, BroccoliTextGeneric>;
   seclit?: Record<ViewLang, BroccoliTextGeneric>;
+  transcrSource?: Record<ViewLang, BroccoliTextGeneric>;
 };
 
 export type MechteldLetterBody = LetterBody & {

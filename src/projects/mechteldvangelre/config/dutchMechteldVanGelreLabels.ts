@@ -17,6 +17,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   material: "Schriftdrager",
   watermark: "Watermerk",
   seal: "Zegel",
+  transcrSource: "Transcriptiebron",
 
   facetInputFilterPlaceholder: "Zoek in facet",
 
