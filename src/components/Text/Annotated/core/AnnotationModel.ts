@@ -29,6 +29,7 @@ export type TextPositions<T extends Body = Body> = WithTypeAndBody<T> & {
   start: number;
   end: number;
   markerPosition?: MarkerPosition;
+  xpath?: string;
 };
 
 /**
