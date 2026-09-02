@@ -454,6 +454,31 @@ describe("marker xpath segmenting and grouping", () => {
     expect(idsFor("img3")).toContain("cell2");
     expect(idsFor("img3")).not.toContain("cell1");
   });
+
+  it("nests a marker in the right list when lists nest inside themselves", () => {
+    const listSchema: BlockSchema = {
+      root: "root",
+      blocks: {
+        root: { children: ["list"] },
+        list: { children: ["list"] },
+      },
+    };
+    const segments = createSegments(
+      "AABB",
+      [
+        blk("outer", 0, 4, "list"),
+        blk("inner1", 0, 2, "list"),
+        blk("inner2", 2, 4, "list"),
+        mrkXpath("img", 2, "/list[1]/list[2]/img[1]"),
+      ],
+      listSchema,
+    );
+    const markerSegment = segments.find((s) =>
+      s.annotations.some((a) => a.body.id === "img"),
+    )!;
+    const ids = markerSegment.annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["img", "outer", "inner2"]);
+  });
 });
 
 function ann(id: string, start: number, end: number): TextPositions {

@@ -117,10 +117,21 @@ function isXPathAncestor(
   segment: TextSegment<TextPositions>,
   xpath: string,
 ): boolean {
-  const steps = parseXPath(xpath);
-  const foundStep = steps.find((s) => s.tag === block.blockType);
+  const similarTyped = segment.annotations.filter(
+    (a) => a.type === "block" && a.blockType === block.blockType,
+  );
 
-  if (!foundStep) {
+  /**
+   * Find nesting depth among same-type ancestors:
+   * when a is wrapped by b, that means a must be a child of b.
+   */
+  const findNestingDepth = (a: TextPositions) =>
+    similarTyped.filter((other) => isWrapping(other, a)).length;
+
+  const steps = parseXPath(xpath).filter((s) => s.tag === block.blockType);
+  const depth = findNestingDepth(block);
+  const step = steps[depth];
+  if (!step) {
     return false;
   }
 
@@ -133,10 +144,19 @@ function isXPathAncestor(
    * Matches the first cell:
    * /table[1]/cell[1]/img[1]
    */
-  const sortedSiblings = segment.annotations
-    .filter((a) => a.type === "block" && a.blockType === block.blockType)
+  const sortedSiblings = similarTyped
+    .filter((a) => findNestingDepth(a) === findNestingDepth(block))
     .sort((a, b) => a.start - b.start || a.end - b.end);
-  return sortedSiblings.indexOf(block) + 1 === foundStep.index;
+  return sortedSiblings.indexOf(block) + 1 === step.index;
+}
+
+/**
+ * Does a contain b, where b does not contain a
+ */
+function isWrapping(a: TextPositions, b: TextPositions): boolean {
+  return (
+    a.start <= b.start && a.end >= b.end && (a.start < b.start || a.end > b.end)
+  );
 }
 
 function addSegmentTypeProps(
