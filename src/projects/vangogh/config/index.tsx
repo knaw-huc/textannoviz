@@ -28,7 +28,7 @@ export const vangoghConfig: ProjectConfig = merge(
     elasticIndexName: "vangogh",
     initialDateFrom: "1872-01-01",
     initialDateTo: "1890-12-31",
-    headerColor: "bg-[#DACC98] text-black",
+    headerColor: "bg-[#ddd3af] text-black border-b-8 border-white",
     headerTitle: "Brieven van Van Gogh",
     personsUrl:
       "http://localhost:8040/files/vangogh/apparatus/bio-entities.json",
