@@ -5,7 +5,7 @@ import {
   isHorizontalWhitespace,
   isPictureBody,
 } from "../ProjectAnnotationModel.ts";
-import { Space } from "./Space.tsx";
+import { HorizontalSpace } from "./HorizontalSpace.tsx";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment<MarkerBody>;
@@ -15,7 +15,7 @@ export const InsertMarker = (props: InsertMarkerAnnotationProps) => {
   const body = props.marker.body;
 
   if (isHorizontalWhitespace(body)) {
-    return <Space body={body} />;
+    return <HorizontalSpace body={body} />;
   }
 
   if (isPictureBody(body) && body.url) {

@@ -1,6 +1,6 @@
 import { WhitespaceBody } from "../ProjectAnnotationModel.ts";
 
-export function Space(props: { body: WhitespaceBody }) {
+export function HorizontalSpace(props: { body: WhitespaceBody }) {
   const { body } = props;
   const unit = body["tei:unit"] === "chars" ? "ch" : "em";
   const width = `${body["tei:quantity"] ?? 0}${unit}`;
