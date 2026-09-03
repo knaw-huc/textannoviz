@@ -2,13 +2,17 @@ import { GroupProps } from "../../../../components/Text/Annotated/core";
 import { isNested } from "../../../../components/Text/Annotated/utils/isNested.ts";
 import { DefaultGroup } from "../../../default/annotation/group/DefaultGroup.tsx";
 import {
+  isBibleReferenceBody,
   isBibliographyReference,
   isInternalReference,
   isLetterReference,
+  isParagraphReference,
 } from "../ProjectAnnotationModel.ts";
+import { BibleReferenceLink } from "./BibleReferenceLink.tsx";
 import { BibliographyLink } from "./BibliographyLink.tsx";
 import { InternalReferenceLink } from "./InternalReferenceLink.tsx";
 import { LetterLink } from "./LetterLink.tsx";
+import { ParagraphReferenceLink } from "./ParagraphReferenceLink.tsx";
 import { INTERNAL_ANCHOR } from "./toInternalReferenceTarget.ts";
 
 // An internal reference points at a numbered header inside a document, e.g.
@@ -35,14 +39,30 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
     );
   }
 
-  const biblRef = group.segments
+  const paragraphReference = group.segments
+    .flatMap((s) => s.annotations)
+    .filter(isNested)
+    .map((a) => a.body)
+    .find((body) => isParagraphReference(body));
+
+  if (paragraphReference && isParagraphReference(paragraphReference)) {
+    return (
+      <ParagraphReferenceLink url={paragraphReference.url}>
+        {children}
+      </ParagraphReferenceLink>
+    );
+  }
+
+  const bibliographyRef = group.segments
     .flatMap((s) => s.annotations)
     .filter(isNested)
     .map((a) => a.body)
     .find((body) => isBibliographyReference(body));
 
-  if (biblRef && isBibliographyReference(biblRef)) {
-    return <BibliographyLink url={biblRef.url}>{children}</BibliographyLink>;
+  if (bibliographyRef && isBibliographyReference(bibliographyRef)) {
+    return (
+      <BibliographyLink url={bibliographyRef.url}>{children}</BibliographyLink>
+    );
   }
 
   const letterRef = group.segments
@@ -53,6 +73,20 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
 
   if (letterRef && isLetterReference(letterRef)) {
     return <LetterLink url={letterRef.url}>{children}</LetterLink>;
+  }
+
+  const bibleRef = group.segments
+    .flatMap((s) => s.annotations)
+    .filter(isNested)
+    .map((a) => a.body)
+    .find((body) => isBibleReferenceBody(body));
+
+  if (bibleRef && isBibleReferenceBody(bibleRef)) {
+    return (
+      <BibleReferenceLink cRef={bibleRef["tei:cRef"]}>
+        {children}
+      </BibleReferenceLink>
+    );
   }
 
   // Not an internal, bibliography or letter reference: let the default group handle

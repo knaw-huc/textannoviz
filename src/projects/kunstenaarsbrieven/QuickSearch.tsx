@@ -8,25 +8,10 @@ import { getViteEnvVars } from "../../utils/viteEnvVars";
 import { useNavigate } from "react-router";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { useTranslateProject } from "../../stores/project";
+import { getBaseUrl } from "./annotation/ProjectAnnotationModel";
+import { letterIdToPath, normaliseLetterId } from "./utils/letterIdToPath";
 
-const BASE_URL = "/detail/urn:mace:huc.knaw.nl:vangogh:";
-
-function normaliseLetterId(input: string): string {
-  // 'RM' letters are zero-padded to 2 digits, so 'rm1' > 'rm01' (until rm25).
-  const rmMatch = input.match(/^rm(\d+)$/);
-  if (rmMatch) {
-    return "rm" + rmMatch[1].padStart(2, "0");
-  }
-
-  // Regular letters are zero-padded to 3 digits, so '1' > '001' and '1a' > '001a'.
-  // Anything else is left untouched and handled as a regular full text search.
-  return input.replace(
-    /^(\d+)([a-z]*)$/,
-    (_, digits, suffix) => digits.padStart(3, "0") + suffix,
-  );
-}
-
-export function QuickSearch(props: { letterIdSet: Set<string> | undefined }) {
+export function QuickSearch(props: { letterIds: string[] | undefined }) {
   const { searchQuery, isInitSearchUrlParams } = useUrlSearchParamsStore();
   const [fullText, setFullText] = React.useState(searchQuery.fullText);
   const { routerBasename } = getViteEnvVars();
@@ -43,21 +28,13 @@ export function QuickSearch(props: { letterIdSet: Set<string> | undefined }) {
   function submitHandler() {
     const sanitisedLowercaseFullText = sanitiseString(fullText.toLowerCase());
     const normalisedLetterId = normaliseLetterId(sanitisedLowercaseFullText);
+    const baseUrl = getBaseUrl();
 
     // If value is a valid letterId, go to that letter.
-    if (props.letterIdSet?.has(normalisedLetterId)) {
-      // Check if value starts with 'rm'
-      if (normalisedLetterId.startsWith("rm")) {
-        // RM is uppercase in the ID, so should be made uppercase here
-        navigate(`${BASE_URL}${normalisedLetterId.toUpperCase()}`);
-      }
-      // If value does not start with 'rm', treat it as a letter
-      else {
-        navigate(`${BASE_URL}let${normalisedLetterId}`);
-      }
-    }
-    // Otherwise, treat it as a regular full text search
-    else {
+    if (props.letterIds?.includes(normalisedLetterId)) {
+      navigate(letterIdToPath(normalisedLetterId, baseUrl));
+      // Otherwise, treat it as a regular full text search
+    } else {
       const query: Partial<SearchQuery> = {
         fullText: sanitisedLowercaseFullText,
       };

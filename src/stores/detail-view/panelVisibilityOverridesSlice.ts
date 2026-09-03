@@ -1,8 +1,7 @@
 import { StateCreator } from "zustand";
 
 /**
- * Transient, per-navigation panel reveals — e.g. opening the panel that holds
- * an entity-facet match. Kept separate from {@link PanelVisibilityPreferencesSlice}
+ * Kept separate from {@link PanelVisibilityPreferencesSlice}
  * so it is never persisted: an override is a one-off "show this now", not a
  * change to the user's saved layout. Cleared on navigation.
  */

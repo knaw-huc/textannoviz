@@ -1,4 +1,10 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  useHref,
+  useNavigate,
+} from "react-router";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
 import { Search } from "./components/Search/Search";
@@ -13,6 +19,7 @@ import {
 } from "./stores/project";
 import { selectProjectConfig } from "./utils/selectProjectConfig.ts";
 import { getViteEnvVars } from "./utils/viteEnvVars.ts";
+import { RouterProvider as AriaRouterProvider } from "react-aria-components";
 
 const { routerBasename, prodMode } = getViteEnvVars();
 
@@ -54,20 +61,31 @@ export default function App() {
   return <RouterProvider router={router} />;
 }
 
+/**
+ * React Aria resolves every Link href through this hook, including absolute ones. React Router's `useHref` would resolve those as relative paths, so external URLs are passed through untouched.
+ */
+function useHrefAllowingExternal(href: string) {
+  const resolved = useHref(href);
+  return URL.canParse(href) ? href : resolved;
+}
+
 function Layout() {
+  const navigate = useNavigate();
   return (
-    <div className="flex h-screen flex-col">
-      {prodMode && (
-        <link
-          rel="stylesheet"
-          href={`${
-            routerBasename === "/" ? "" : routerBasename
-          }/${project}.css`}
-        />
-      )}
-      <Header />
-      <Outlet />
-    </div>
+    <AriaRouterProvider navigate={navigate} useHref={useHrefAllowingExternal}>
+      <div className="flex h-screen flex-col">
+        {prodMode && (
+          <link
+            rel="stylesheet"
+            href={`${
+              routerBasename === "/" ? "" : routerBasename
+            }/${project}.css`}
+          />
+        )}
+        <Header />
+        <Outlet />
+      </div>
+    </AriaRouterProvider>
   );
 }
 

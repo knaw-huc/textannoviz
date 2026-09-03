@@ -4,6 +4,7 @@ export async function fetchOrToast(
   url: string,
   signal: AbortSignal,
 ): Promise<Response | null> {
+  if (!url) return null;
   const response = await fetch(url, { signal });
   if (!response.ok) {
     const error = await response.json();

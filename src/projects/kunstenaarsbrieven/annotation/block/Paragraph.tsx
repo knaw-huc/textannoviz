@@ -1,6 +1,10 @@
 import { BlockProps } from "../../../../components/Text/Annotated/core/AnnotatedText.tsx";
 import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
-import { isParagraphBody, isQuote } from "../ProjectAnnotationModel.ts";
+import {
+  isParagraphBody,
+  isQuote,
+  ParagraphBody,
+} from "../ProjectAnnotationModel.ts";
 import { findBlockSegments } from "./findBlockSegments.tsx";
 
 export function Paragraph({ block, children }: BlockProps<AnnoRepoBody>) {
@@ -10,11 +14,19 @@ export function Paragraph({ block, children }: BlockProps<AnnoRepoBody>) {
     return <blockquote>{children}</blockquote>;
   }
 
-  const paragraphClassName =
+  const isIndented =
     isParagraphBody(block.annotation.body) &&
-    block.annotation.body.style === "indent"
-      ? "paragraph-indent"
-      : "";
+    block.annotation.body.style === "indent" &&
+    !block.isContinuation;
 
-  return <p className={paragraphClassName}>{children}</p>;
+  const paragraphId = (block.annotation.body as ParagraphBody)["xml:id"];
+
+  return (
+    <p
+      id={block.isContinuation ? undefined : paragraphId}
+      className={isIndented ? "paragraph-indent" : ""}
+    >
+      {children}
+    </p>
+  );
 }

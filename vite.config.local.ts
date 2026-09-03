@@ -56,6 +56,9 @@ export default defineConfig(({ mode }) => {
     case "nvv":
       tailwindConfig = "tailwind.config.nvv.js";
       break;
+    case "mechteldvangelre":
+      tailwindConfig = "tailwind.config.mechteldvangelre.js";
+      break;
     default:
       tailwindConfig = "tailwind.default.config.js";
   }

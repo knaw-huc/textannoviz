@@ -4,7 +4,11 @@ import {
 } from "../components/Text/Annotated/core";
 import { EntitySummaryProps } from "./EntitySummaryProps.ts";
 import { Any } from "../utils/Any.ts";
-import { AnnoRepoAnnotation, AnnoRepoBodyBase } from "./AnnoRepoAnnotation.ts";
+import {
+  AnnoRepoAnnotation,
+  AnnoRepoBodyBase,
+  PageBody,
+} from "./AnnoRepoAnnotation.ts";
 import { Language, LanguageCode } from "./Language.ts";
 import {
   BrederodeSearchResultsBody,
@@ -46,6 +50,8 @@ export type ProjectConfig = SearchConfig &
   TextConfig &
   FacsimileConfig & {
     id: string;
+    version: string;
+    versionHash: string;
     broccoliUrl: string;
     colours: Record<string, string>;
     logoImageUrl: string;
@@ -70,8 +76,11 @@ export type ProjectConfig = SearchConfig &
     biblUrl: Partial<Record<LanguageCode, string>>;
     menuUrl: string;
     letterIdUrl: string;
+    letterIdFormat: LetterIdFormat;
     homeUrl: string;
+    locationUrl: string;
     siteTitle: string;
+    pageLabelFormat: (pageBody: PageBody) => string | undefined;
 
     detailPanels: DetailPanelConfig[];
 
@@ -160,7 +169,7 @@ type SearchConfig = {
   showSearchResultsOnInfoPage: boolean;
   overrideDefaultAggs: {
     facetName: string;
-    order?: string;
+    order?: "keyAsc" | "keyDesc";
     size?: number;
   }[];
   overrideDefaultSearchParams: Partial<SearchParams>;
@@ -277,6 +286,24 @@ export type EntitySummaryDetailsProps = {
 };
 
 export type CategoryGetter = (annoRepoBody: AnnoRepoBodyBase) => string;
+
+/**
+ * How the letter ids listed at {@link ProjectConfig.letterIdUrl} relate to the
+ * urns used in detail urls, to the letter numbers as cited, and to what a user
+ * types in the quick search. Every project spells these differently:
+ * Van Gogh id 'rm01' is cited as 'RM01' and lives at urn '...:vangogh:RM01',
+ * Mechteld van Gelre id '10' is cited as '10' and lives at '...:brief_010'.
+ *
+ * The default is identity for all three; projects override what differs.
+ */
+export type LetterIdFormat = {
+  /** Letter id to the part of the urn after the project id, e.g. '10' -> 'brief_010' */
+  toUrnSuffix: (letterId: string) => string;
+  /** Letter id to the letter number as cited, e.g. 'rm01' -> 'RM01' */
+  toNumber: (letterId: string) => string;
+  /** Quick search input to letter id, e.g. '1' -> '001' */
+  fromInput: (input: string) => string;
+};
 
 export type ProjectSpecificProperties =
   | "id"

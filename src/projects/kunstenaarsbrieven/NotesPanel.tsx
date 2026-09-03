@@ -5,6 +5,7 @@ import {
   useTranslateProject,
   useProjectStore,
 } from "../../stores/project";
+import { useDetailViewStore } from "../../stores/detail-view/detail-view-store";
 import { useTextStore } from "../../stores/text/text-store";
 import { useKunstenaarsbrievenTextViews } from "./text/useKunstenaarsbrievenTextViews.ts";
 
@@ -13,14 +14,34 @@ export const NotesPanel = () => {
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
   const translateProject = useTranslateProject();
   const activeFootnote = useTextStore((state) => state.activeFootnote);
+  const isMetadataPanelVisible = useDetailViewStore((state) =>
+    state.activePanels.some(
+      (panel) => panel.name === "metadata" && panel.visible,
+    ),
+  );
 
   React.useEffect(() => {
-    if (!activeFootnote) return;
-    const element = document.getElementById(activeFootnote);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    if (!activeFootnote || !isMetadataPanelVisible) return;
+
+    // Clicking a note marker opens the metadata panel (if currently closed), which only becomes
+    // visible and laid out in a later render than the one that set the active
+    // footnote. Until then the note has no size on screen and scrolling to it
+    // is a no-op, so wait for the browser to lay the panel out first.
+    let frame = 0;
+    let attempts = 0;
+
+    function scrollToActiveFootnote() {
+      const element = document.getElementById(activeFootnote);
+      if (element && element.getBoundingClientRect().height > 0) {
+        element.scrollIntoView({ behavior: "smooth" });
+      } else if (attempts++ < 30) {
+        frame = requestAnimationFrame(scrollToActiveFootnote);
+      }
     }
-  }, [activeFootnote]);
+
+    frame = requestAnimationFrame(scrollToActiveFootnote);
+    return () => cancelAnimationFrame(frame);
+  }, [activeFootnote, isMetadataPanelVisible]);
 
   const textNotes = views?.["textNotes"];
   const ogtNotesText = views?.ogtNotes?.en;

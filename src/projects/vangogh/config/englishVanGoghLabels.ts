@@ -19,6 +19,9 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   bibleRefs: "Bible quotations",
   bibleRefIds: "Bible quotations (ID)",
   personIds: "Persons (ID)",
+  worksMentioned: "Works read by Van Gogh",
+  journals: "Periodicals",
+  collectedLetters: "Collected letters",
 
   facetInputFilterPlaceholder: "Search in facet",
 
@@ -91,6 +94,8 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   OPEN_MAIN_NAVIGATION: "Open navigation",
   CLOSE_MAIN_NAVIGATION: "Close navigation",
   MAIN_NAVIGATION: "Main navigation",
+  PREVIOUS_LETTER: "Previous letter",
+  NEXT_LETTER: "Next letter",
 
   //Entity summary
   NAV_TO_LETTER: "Navigate to letter",
@@ -104,6 +109,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   collection: "Collection",
   credits: "Credits",
   inventory: "Inventory number",
+  catalogueNum: "Catalogue number",
 
   //Search info page
   INFO_TITLE: "The letters of Vincent van Gogh",
@@ -159,4 +165,6 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
     "Search by letter number or keyword. Enter a number (e.g., 1 or 001) to jump directly to that letter. Enter a word or phrase to search across all documents in the edition and view matching results.",
   BIBLE_REFS_HELP:
     "Filter by biblical passages and verses cited or quoted in the letters. The facet displays Bible references with numbers indicating how many letters contain each passage. Use the search field at the top of the facet to find a specific Bible verse, or browse the complete list. Select one or more passages to filter results to letters containing those biblical references. You can select multiple passages at once; this will return letters that reference any of the selected biblical passages.",
+  JOURNALS_HELP:
+    "Filter by the periodicals cited or mentioned in the documents. Use the search field at the top of the facet to find a specific publication by name. Selecting a title will show all documents that refer to that periodical. You can select multiple titles at once; this will return documents that reference any of the selected periodicals.",
 });

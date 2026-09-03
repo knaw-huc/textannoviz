@@ -15,6 +15,8 @@ import {
   ChevronRightIcon,
   MagnifyingGlassMinusIcon,
   MagnifyingGlassPlusIcon,
+  ArrowUturnLeftIcon,
+  ArrowUturnRightIcon,
 } from "@heroicons/react/24/solid";
 import { HomeIcon } from "@heroicons/react/24/outline";
 import { getValue } from "@iiif/helpers/i18n";
@@ -40,6 +42,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
     zoomMax,
     toggleFullPage,
     isFullPage,
+    rotate,
   } = useViewerControls(fullscreenRef);
 
   if (!ready || !zoomLevel || !zoomMin || !zoomMax) {
@@ -56,21 +59,41 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
           onClick={zoomIn}
           disabled={isMaxZoom}
           aria-label={translate("ZOOM_IN")}
+          title={translate("ZOOM_IN")}
           className="hover:bg-brand2-100 rounded p-1 disabled:opacity-30"
         >
           <MagnifyingGlassPlusIcon className="h-5 w-5" />
         </button>
+
         <button
           onClick={zoomOut}
           disabled={isMinZoom}
           aria-label={translate("ZOOM_OUT")}
+          title={translate("ZOOM_OUT")}
           className="hover:bg-brand2-100 rounded p-1 disabled:opacity-30"
         >
           <MagnifyingGlassMinusIcon className="h-5 w-5" />
         </button>
         <button
+          onClick={() => rotate(-90)}
+          aria-label={translate("ROTATE_LEFT")}
+          title={translate("ROTATE_LEFT")}
+          className="hover:bg-brand2-100 rounded p-1 disabled:opacity-30"
+        >
+          <ArrowUturnLeftIcon className="h-5 w-5" />
+        </button>
+        <button
+          onClick={() => rotate(90)}
+          aria-label={translate("ROTATE_RIGHT")}
+          title={translate("ROTATE_RIGHT")}
+          className="hover:bg-brand2-100 rounded p-1 disabled:opacity-30"
+        >
+          <ArrowUturnRightIcon className="h-5 w-5" />
+        </button>
+        <button
           onClick={home}
           aria-label={translate("ZOOM_RESET")}
+          title={translate("ZOOM_RESET")}
           className="hover:bg-brand2-100 rounded p-1"
         >
           <HomeIcon className="h-5 w-5" />
@@ -79,6 +102,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
         <button
           onClick={toggleFullPage}
           aria-label={translate(isFullPage ? "EXIT_FULLSCREEN" : "FULLSCREEN")}
+          title={translate(isFullPage ? "EXIT_FULLSCREEN" : "FULLSCREEN")}
           className="hover:bg-brand2-100 rounded p-1"
         >
           {isFullPage ? (
@@ -96,6 +120,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
               onClick={prev}
               disabled={currentIndex === 0}
               aria-label={translate("PREV_SCAN")}
+              title={translate("PREV_SCAN")}
               className="hover:bg-brand2-100 rounded p-1 disabled:opacity-50"
             >
               <ChevronLeftIcon className="h-5 w-5" />
@@ -104,6 +129,7 @@ export function NavigationBar({ fullscreenRef }: NavigationBarProps) {
               onClick={next}
               disabled={currentIndex === total - 1}
               aria-label={translate("NEXT_SCAN")}
+              title={translate("NEXT_SCAN")}
               className="hover:bg-brand2-100 rounded p-1 disabled:opacity-50"
             >
               <ChevronRightIcon className="h-5 w-5" />

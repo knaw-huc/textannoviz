@@ -55,13 +55,11 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
         >
           <div className="flex max-w-[500px] flex-col justify-start">
             <p className="font-bold">{artwork.head[interfaceLang]}</p>
-            {/* <p>
-              {translateProject("date")}: {artwork.date.text}
-            </p> */}
             {artwork.relation
               ? artwork.relation.map((creator) => (
                   <p key={creator.ref}>
-                    {firstLetterToUppercase(creator.name)}: {creator.label}
+                    {firstLetterToUppercase(creator.name)}:{" "}
+                    {creator.displayLabel}
                   </p>
                 ))
               : null}
@@ -71,30 +69,20 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
                 {artwork.measure[1].quantity} {artwork.measure[0].unit}
               </p>
             ) : null}
-            {/* <p>
-              {translateProject("support")}:{" "}
-              {Object.entries(artwork.note[interfaceLang])
-                .filter(([key]) => key === "technical")
-                .map(([, value], index) => (
-                  <span key={index}>{value}</span>
-                ))}
-            </p> */}
-            {/* <p>
-              {translateProject("collection")}:{" "}
-              {Object.entries(artwork.note[interfaceLang])
-                .filter(([key]) => key === "collection")
-                .map(([, value], index) => (
-                  <span key={index}>{value}</span>
-                ))}
-            </p>
-            <p>
-              {translateProject("credits")}:{" "}
-              {Object.entries(artwork.note[interfaceLang])
-                .filter(([key]) => key === "creditline")
-                .map(([, value], index) => (
-                  <span key={index}>{value}</span>
-                ))}
-            </p> */}
+            {artwork.idno?.some(
+              (idno) => idno["tei:type"]?.startsWith("VG-"),
+            ) ? (
+              <p>
+                {translateProject("catalogueNum")}:{" "}
+                {artwork.idno
+                  .filter((value) => value["tei:type"]?.startsWith("VG-"))
+                  .map(
+                    (value) =>
+                      `${value["tei:type"]?.replace("VG-", "")} ${value.text}`,
+                  )
+                  .join(" / ")}
+              </p>
+            ) : null}
           </div>
           {artwork.graphic ? (
             <div className="flex items-start justify-end">

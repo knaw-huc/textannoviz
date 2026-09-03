@@ -89,8 +89,7 @@ export function usePanelLayout(): null {
           visible:
             filteredByProject.includes(panel.name) &&
             filteredBySize.includes(panel.name) &&
-            // An override forces a panel past a hidden preference, so an entity
-            // match can open a panel the user had collapsed
+            // An override forces a panel past a hidden preference
             (filteredByPreference.includes(panel.name) ||
               panelVisibilityOverrides[panel.name] === true),
         })),
@@ -127,7 +126,7 @@ function isVisibleInLayout(
       (p) => p.region === region && !usedPanels.has(p.name),
     );
     // An overridden panel claims its region's slot ahead of the default one,
-    // so on narrow layouts (a single "main") the entity match displaces
+    // so on narrow layouts (a single "main") this displaces
     // whatever panel would otherwise sit there
     const foundPanel =
       candidates.find((p) => overrides[p.name] === true) ?? candidates[0];

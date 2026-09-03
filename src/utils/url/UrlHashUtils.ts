@@ -11,7 +11,19 @@ export function clearUrlHash(): void {
   history.replaceState(null, "", url);
 }
 
+/**
+ * Browsers store non-ASCII characters percent-encoded in the URL
+ * ('Coppée1880' becomes 'Copp%C3%A9e1880'), while element ids are not encoded,
+ * so the hash is decoded here before it can be used as an id.
+ */
 export function getUrlHash(): string | null {
   const hash = window.location.hash.slice(1);
-  return hash || null;
+  if (!hash) return null;
+
+  try {
+    return decodeURIComponent(hash);
+  } catch {
+    // Malformed escape sequence, e.g. a literal '%' inside an id
+    return hash;
+  }
 }

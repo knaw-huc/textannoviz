@@ -125,6 +125,23 @@
     @apply rounded-r;
   }
 
+  /* Keep, for example, an opening parenthesis attached to the reference it introduces, e.g.
+     "(131)". A ref carries the entity markup above: the .depth-1.start-annotation
+     span is inline-block, and its ::before (meant to hold an entity icon) is an
+     inline-block box with an empty Tailwind content:"". Both are atomic inlines
+     sitting immediately after the "(", so the browser is allowed to break the
+     line there, stranding "(" at the end of a line and wrapping "131)." on its
+     own. Refs have no icon, so we drop the ::before entirely and render the span
+     as a normal inline; that removes both break opportunities and restores
+     standard punctuation line-breaking (no break after an opening bracket),
+     keeping "(131)" together. */
+  .annotated-ref.depth-1.start-annotation {
+    display: inline;
+  }
+  .annotated-ref.depth-1.start-annotation::before {
+    display: none;
+  }
+
   .closedNestedAnnotation {
     @apply relative shadow-none
     transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 before:font-sans

@@ -17,44 +17,63 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { Placeholder } from "../../../components/Placeholder";
 import { replaceArrays } from "../../default/config/replaceArrays";
+import { getViteEnvVars } from "../../../utils/viteEnvVars";
+
+const { broccoliPortMondrian, nginxPortMondrian } = getViteEnvVars();
 
 export const mondrianConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
     id: "mondrian",
-    broccoliUrl: "http://localhost:8082",
-    siteTitle: "Van Gogh Letters",
+    broccoliUrl: `http://localhost:${broccoliPortMondrian ?? "8082"}`,
+    siteTitle: "The letters of Piet Mondriaan",
 
     elasticIndexName: "mondrian",
     initialDateFrom: "1500-01-01",
     initialDateTo: "2026-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Van Gogh",
-    personsUrl:
-      "http://localhost:8040/files/mondrian/apparatus/bio-entities.json",
+    personsUrl: `http://localhost:${
+      nginxPortMondrian ?? "8040"
+    }/files/mondrian/apparatus/bio-entities.json`,
     artworksUrl: [
       {
         key: "illustrated",
-        url: "http://localhost:8040/files/mondrian/apparatus/artwork.illustrated-entities.json",
+        url: `http://localhost:${
+          nginxPortMondrian ?? "8040"
+        }/files/mondrian/apparatus/artwork.illustrated-entities.json`,
       },
       {
         key: "illustrations",
-        url: "http://localhost:8040/files/mondrian/apparatus/artwork.illustrations-entities.json",
+        url: `http://localhost:${
+          nginxPortMondrian ?? "8040"
+        }/files/mondrian/apparatus/artwork.illustrations-entities.json`,
       },
       {
         key: "non-illustrated",
-        url: "http://localhost:8040/files/mondrian/apparatus/artwork.non-illustrated-entities.json",
+        url: `http://localhost:${
+          nginxPortMondrian ?? "8040"
+        }/files/mondrian/apparatus/artwork.non-illustrated-entities.json`,
       },
       {
         key: "sketches",
-        url: "http://localhost:8040/files/mondrian/apparatus/artwork.sketches-entities.json",
+        url: `http://localhost:${
+          nginxPortMondrian ?? "8040"
+        }/files/mondrian/apparatus/artwork.sketches-entities.json`,
       },
     ],
     biblUrl: {
-      en: "http://localhost:8040/files/mondrian/apparatus/bibliolist.html",
+      en: `http://localhost:${
+        nginxPortMondrian ?? "8040"
+      }/files/mondrian/apparatus/bibliolist.html`,
     },
-    menuUrl: "http://localhost:8040/files/mondrian/menu/menu.json",
+    menuUrl: `http://localhost:${
+      nginxPortMondrian ?? "8040"
+    }/files/mondrian/menu/menu.json`,
+    letterIdUrl: `http://localhost:${
+      nginxPortMondrian ?? "8040"
+    }/files/mondrian/letter-ids.json`,
     components: {
       Header,
       SearchItem,

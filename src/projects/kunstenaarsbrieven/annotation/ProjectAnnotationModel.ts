@@ -15,13 +15,19 @@ import {
   BlockSchema,
 } from "../../../components/Text/Annotated/core";
 import { isHighlightSegment } from "../../../components/Text/Annotated/core/AnnotationModel.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 /**
  * Kunstenaarsbrieven Annotation, element and tei type names
  */
 
+export const addition = "Addition";
 export const caption = "Caption";
 export const cell = "Cell";
+export const deletion = "Deletion";
 export const document = "Document";
 export const elementRs = "rs";
 export const elementPtr = "ptr";
@@ -45,8 +51,17 @@ export const table = "Table";
 export const term = "Term";
 export const teiArtwork = "artwork";
 export const teiNote = "note";
+export const unclear = "Unclear";
 export const unknown = "unknown";
 export const whitespace = "Whitespace";
+
+/**
+ * Lazy: the project config is only set in the store after App has loaded it
+ */
+export const getBaseUrl = () =>
+  `/detail/urn:mace:huc.knaw.nl:${
+    projectConfigSelector(useProjectStore.getState()).id
+  }:`;
 
 export type KunstenaarsbrievenTextViews = BroccoliViews & {
   text: Record<ViewLang, BroccoliTextGeneric>;
@@ -75,7 +90,8 @@ type ArtworkTeiRef = {
   id: string;
   corresp?: string;
   idno?: {
-    type: string;
+    type?: string;
+    "tei:type"?: string;
     text: string;
   }[];
   head: {
@@ -93,7 +109,8 @@ type ArtworkTeiRef = {
   relation?: {
     name: string;
     ref: string;
-    label: string;
+    displayLabel: string;
+    sortLabel: string;
   }[];
   graphic?: {
     url: string;
@@ -132,25 +149,35 @@ export type PersonBody = AnnoRepoBodyBase & {
 export type Person = PersonTeiRef;
 export type PersonTeiRef = {
   id: string;
-  gender: string;
-  source: string[];
+  gender?: string;
+  source?: string[];
   persName: PersonPersName[];
   floruit?: {
-    when: string;
+    when?: string;
+    notBefore?: string;
+    notAfter?: string;
   };
   birth?: PersonLifespan;
   death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;
   sortLabel: string;
-  note?: Record<ViewLang, Record<string, string>>;
+  note?: Partial<Record<ViewLang, Record<string, string>>>;
 };
 
-type PersonPersName = {
-  full: string;
-  forename: string;
+export type PersonPersName = {
+  full: "yes" | "abb";
+  forename?: string | null;
   addName?: string;
-  surname: string[] | { type: string; text: string };
+  surname?:
+    | string
+    | null
+    | (string | { type: "married-name"; text: string } | null)[];
   nameLink?: string;
+};
+
+export type ResolvedSurname = {
+  text: string;
+  type?: "married-name";
 };
 
 export type PersonLifespan = {
@@ -200,11 +227,17 @@ export const isBibliographyReference = (
 export const isInternalReference = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is BibliographyReferenceBody => {
-  return (
-    isReference(toTest) &&
-    !!(toTest as BibliographyReferenceBody).url &&
-    !(toTest as BibliographyReferenceBody).url.startsWith("http")
-  );
+  if (!isReference(toTest)) return false;
+  const url = (toTest as BibliographyReferenceBody).url;
+  return !!url && !url.startsWith("http") && !url.startsWith("#p.");
+};
+
+export const isParagraphReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody => {
+  if (!isReference(toTest)) return false;
+  const url = (toTest as BibliographyReferenceBody).url;
+  return !!url && url.startsWith("#p.");
 };
 
 export type LetterReferenceBody = AnnoRepoBodyBase & {
@@ -255,6 +288,7 @@ export type LetterBody = AnnoRepoBodyBase & {
   correspondent: string;
   sender: string | string[];
   n: string;
+  collectedLetters: string;
   institution?: string;
   letterid: string;
   location: string;
@@ -319,6 +353,22 @@ export function isPictureBody(
   return !!toTest && toTest.type === picture;
 }
 
+export type BibleReferenceBody = AnnoRepoBodyBase & {
+  "tei:cRef": string;
+  label: string;
+  elementName: "ref";
+};
+
+export function isBibleReferenceBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibleReferenceBody {
+  return (
+    !!toTest &&
+    "tei:cRef" in toTest &&
+    (toTest as BibleReferenceBody)["tei:cRef"].startsWith("bible")
+  );
+}
+
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
   highlight,
@@ -328,6 +378,9 @@ export const highlightTypes = [
   term,
   supplied,
   whitespace,
+  deletion,
+  addition,
+  unclear,
 ];
 export const tooltipMarkerTypes = [reference];
 export const insertMarkerTypes = [picture, head];
@@ -377,6 +430,22 @@ export function isArtworkBody(toTest: EntityRefs): toTest is Artwork {
   return !toTest.id.startsWith("vg");
 }
 
+export type ListAnnotationBody = AnnoRepoBodyBase & {
+  type: "List";
+  elementName: "listAnnotation";
+  language: string;
+  "tei:type": string;
+};
+
+export function isListAnnotation(
+  toTest: AnnoRepoBodyBase,
+): toTest is ListAnnotationBody {
+  return (
+    toTest.type === "List" &&
+    (toTest as ListAnnotationBody).elementName === "listAnnotation"
+  );
+}
+
 export function getAnnotationCategory(annoRepoBody: AnnoRepoBody) {
   if ([head, reference, caption].includes(annoRepoBody.type)) {
     return normalizeClassname(annoRepoBody.type);
@@ -401,6 +470,9 @@ export function getHighlightCategory(annoRepoBody: AnnoRepoBody) {
       term,
       supplied,
       whitespace,
+      addition,
+      deletion,
+      unclear,
     ].includes(annoRepoBody.type)
   ) {
     return normalizeClassname(annoRepoBody.type);
@@ -445,6 +517,6 @@ export const getMarkerPosition = (body: AnnoRepoBodyBase) =>
   isHeadBody(body) ? "prefix" : "postfix";
 
 export const isBlock = (body: AnnoRepoBodyBase) =>
-  blockTypes.includes(body.type);
+  blockTypes.includes(body.type) && !isListAnnotation(body);
 
 export const getBlockType = (body: AnnoRepoBodyBase) => body.type;

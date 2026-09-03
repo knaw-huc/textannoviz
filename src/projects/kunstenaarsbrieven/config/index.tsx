@@ -39,6 +39,7 @@ import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import { replaceArrays } from "../../default/config/replaceArrays.ts";
 import { KunstenaarsbrievenGroup } from "../annotation/group/KunstenaarsbrievenGroup.tsx";
 import { getEntityFacetValues } from "../annotation/getEntityFacetValues.ts";
+import { kunstenaarsbrievenPageLabelFormat } from "../utils/kunstenaarsbrievenPageLabelFormat.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
   {},
@@ -127,6 +128,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     isLink: isLink,
     getUrl: getUrl,
     filterPanels: filterPanels,
+    pageLabelFormat: kunstenaarsbrievenPageLabelFormat,
   },
   replaceArrays,
 );
