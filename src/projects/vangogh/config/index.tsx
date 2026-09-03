@@ -169,6 +169,10 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    entityMatchLocations: [
+      { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
+      { name: "text.trans", view: "text.en" },
+    ],
   } as ProjectSpecificConfig,
   replaceArrays,
 );

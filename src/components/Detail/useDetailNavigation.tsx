@@ -1,6 +1,6 @@
 import { matchPath, Params, useNavigate, useParams } from "react-router";
 import { decodeObject, getUrlParams } from "../../utils/url/UrlParamUtils.ts";
-import { SearchResult } from "../../model/Search.ts";
+import { SearchResult, Terms } from "../../model/Search.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
 import { LAST_SEARCH_RESULT } from "../Search/SearchUrlParams.ts";
 import { isNumber, isString } from "lodash";
@@ -9,6 +9,7 @@ import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 
 export type DetailTierAndParams = {
   highlight?: string;
+  terms: Terms;
   tier2: string;
 };
 
@@ -63,6 +64,7 @@ export function useDetailNavigation() {
     return {
       tier2,
       highlight: searchQuery.fullText,
+      terms: searchQuery.terms,
     };
   }
 

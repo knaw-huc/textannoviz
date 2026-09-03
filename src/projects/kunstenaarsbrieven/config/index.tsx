@@ -38,6 +38,7 @@ import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHig
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import { replaceArrays } from "../../default/config/replaceArrays.ts";
 import { KunstenaarsbrievenGroup } from "../annotation/group/KunstenaarsbrievenGroup.tsx";
+import { getEntityFacetValues } from "../annotation/getEntityFacetValues.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
   {},
@@ -71,6 +72,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,
+    getEntityFacetValues: getEntityFacetValues,
 
     initialRangeFrom: "0",
     initialRangeTo: "30000",

@@ -110,6 +110,10 @@ export const mondrianConfig: ProjectConfig = mergeWith(
         panel: PanelTemplates.metadataPanel,
       },
     ],
+    entityMatchLocations: [
+      { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
+      { name: "text.trans", view: "text.en" },
+    ],
     overrideDefaultAggs: [
       {
         facetName: "persons",

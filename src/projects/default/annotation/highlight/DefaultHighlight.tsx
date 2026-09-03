@@ -1,6 +1,7 @@
 import {
   HighlightBody,
   isAnnotationHighlightBody,
+  isEntityHighlightBody,
   isSearchHighlightBody,
 } from "../../../../components/Text/Annotated/utils/highlightBodyGuards.ts";
 import { HighlightProps } from "../../../../components/Text/Annotated/core";
@@ -27,6 +28,7 @@ export function DefaultHighlight(props: HighlightProps<HighlightBody>) {
 
   const allClasses: string[] = [];
   let tocId = "";
+  let entityHighlightId = "";
 
   for (const highlight of highlights) {
     const body = highlight.body;
@@ -39,6 +41,11 @@ export function DefaultHighlight(props: HighlightProps<HighlightBody>) {
       if (showTocHighlight && !tocId) {
         tocId = getTocId(body) ?? "";
       }
+    } else if (isEntityHighlightBody(body)) {
+      allClasses.push("entity-highlight");
+      if (highlight.startSegment === segment.index) {
+        entityHighlightId = body.bodyId;
+      }
     }
     allClasses.push(...createStartEndClasses(segment, highlight));
   }
@@ -50,6 +57,14 @@ export function DefaultHighlight(props: HighlightProps<HighlightBody>) {
       <TocHeader id={tocId} className={classNames.join(" ")}>
         {children}
       </TocHeader>
+    );
+  }
+
+  if (entityHighlightId) {
+    return (
+      <span className={classNames.join(" ")} id={entityHighlightId}>
+        {children}
+      </span>
     );
   }
 

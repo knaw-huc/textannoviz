@@ -155,6 +155,24 @@
     @apply before:content-[url('')];
   }
 
+  /* Entity matching a selected search facet.
+     Tints via background-image, never background-color: the full-text search
+     highlight (bg-yellow-200) can land on this same span, and the entity
+     category fill (.annotated-per/-art/-ref) sits on the parent. An image
+     composites over both colours; a colour would replace them.
+     The mark stays a text-decoration rather than a painted band so that
+     skip-ink keeps descenders legible. */
+  .entity-highlight {
+    background-image: linear-gradient(
+      rgb(4 120 87 / 0.28),
+      rgb(4 120 87 / 0.28)
+    );
+    border-radius: 2px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    @apply underline decoration-emerald-800 decoration-2 underline-offset-2;
+  }
+
   /* Marker annotations */
   .marker {
     height: 24px;

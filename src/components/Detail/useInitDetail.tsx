@@ -17,6 +17,8 @@ import {
   NoteBody,
 } from "../../model/AnnoRepoAnnotation.ts";
 import { useLoadManifest } from "@knaw-huc/osd-iiif-viewer";
+import { Broccoli } from "../../model/Broccoli.ts";
+import { resolveEntityMatchTarget } from "../Text/Annotated/utils/resolveEntityMatchTarget.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -33,6 +35,12 @@ export function useInitDetail() {
   const { setAnnotations, setPtrToNoteAnnosMap, setBodyId } =
     useAnnotationStore();
   const setViews = useTextStore((state) => state.setViews);
+  const setEntityMatchTarget = useTextStore(
+    (state) => state.setEntityMatchTarget,
+  );
+  const resetEntityMatchTarget = useTextStore(
+    (state) => state.resetEntityMatchTarget,
+  );
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
 
   const { tier2 } = useDetailNavigation().getDetailParams();
@@ -112,10 +120,40 @@ export function useInitDetail() {
       }
 
       setViews(views);
+      resolveEntityMatchTargetForDetail(annotations, views);
       setActivePanels(projectConfig.detailPanels);
 
       setLoading(false);
       setInitDetail(true);
+    }
+
+    /**
+     * Point the reader at the first entity matching the selected facets, so the
+     * detail view can reveal and scroll to it. Recomputed per letter because
+     * this effect re-runs on navigation. Clears when nothing matches so a letter
+     * with no match does not inherit the previous one's target.
+     */
+    function resolveEntityMatchTargetForDetail(
+      annotations: AnnoRepoAnnotation[],
+      views: Broccoli["views"],
+    ) {
+      const locations = projectConfig.entityMatchLocations;
+      if (!locations) {
+        return;
+      }
+      const { terms } = getDetailParams();
+      const target = resolveEntityMatchTarget(
+        annotations,
+        views,
+        terms,
+        projectConfig,
+        locations,
+      );
+      if (target) {
+        setEntityMatchTarget(target);
+      } else {
+        resetEntityMatchTarget();
+      }
     }
   }, [isInitDetail]);
 
