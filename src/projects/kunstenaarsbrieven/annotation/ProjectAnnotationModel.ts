@@ -203,9 +203,9 @@ export const isReference = (
 export type WhitespaceBody = AnnoRepoBodyBase & {
   type: typeof whitespace;
   isTextSuffix?: boolean;
-  "tei:dim"?: "horizontal" | "vertical";
+  elementName?: string;
   "tei:unit"?: string;
-  "tei:quantity"?: string;
+  "tei:quantity"?: number;
 };
 export const isWhitespace = (
   toTest?: AnnoRepoBodyBase,
@@ -214,7 +214,9 @@ export const isWhitespace = (
 export const isHorizontalWhitespace = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is WhitespaceBody =>
-  isWhitespace(toTest) && toTest["tei:dim"] === "horizontal";
+  isWhitespace(toTest) &&
+  toTest.elementName === "space" &&
+  toTest["tei:unit"] === "chars";
 
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   id: string;
