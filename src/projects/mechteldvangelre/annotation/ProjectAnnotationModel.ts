@@ -76,6 +76,9 @@ export type MechteldLetterBody = LetterBody & {
   watermark: string;
   measure: string[];
   seal: string;
+  settlement: string;
+  collection: string;
+  permalinkInstitution: string;
 };
 
 export function isMechteldLetterBody(

@@ -1,3 +1,4 @@
+import { Link } from "react-aria-components";
 import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
@@ -21,9 +22,10 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     identifier,
     recipient,
     sender,
-    place,
     institution,
     collection,
+    settlement,
+    permalinkInstitution,
     material,
     watermark,
     measure,
@@ -54,9 +56,11 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("invNr")}:{" "}
                 </div>
-                {[place, institution, collection, identifier]
-                  .filter(Boolean)
-                  .join(", ")}
+                <Link href={permalinkInstitution} target="_blank">
+                  {[settlement, institution, collection, identifier]
+                    .filter(Boolean)
+                    .join(", ")}
+                </Link>
               </div>
             </li>
             <li className="mb-8">
