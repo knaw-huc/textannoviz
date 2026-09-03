@@ -2,7 +2,7 @@ import { dutchLabels } from "../../default/config/dutchLabels";
 
 export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   //Search facet titles + metadata panel titles
-  institution: "Collectie-houdende instelling",
+  institution: "Instelling",
   msid: "Signatuur",
   location: "Locatie",
   recipient: "Ontvanger",
