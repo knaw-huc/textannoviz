@@ -53,6 +53,17 @@
     row-gap: 0;
   }
 
+  .list.unlabeled {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   /* Remove margins introduced by 'prose' styling in src/components/Text/TextComponent.tsx */
   p {
     margin: 0;
