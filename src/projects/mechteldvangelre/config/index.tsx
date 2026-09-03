@@ -43,7 +43,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     personsUrl:
       "http://localhost:8040/files/mechteldvangelre/apparatus/bio-entities.json",
     biblUrl: {
-      en: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliografie.html",
+      nl: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliografie.html",
     },
     // menuUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
