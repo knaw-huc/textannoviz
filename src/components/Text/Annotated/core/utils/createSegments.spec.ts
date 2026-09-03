@@ -479,6 +479,39 @@ describe("marker xpath segmenting and grouping", () => {
     const ids = markerSegment.annotations.map((a) => a.body.id);
     expect(ids).toEqual(["img", "outer", "inner2"]);
   });
+
+  /**
+   * TODO: how to correctly position markers within elements:
+   *  - of the same type
+   *  - that are nested
+   *  - and that are empty?
+   */
+  it.fails(
+    "nests a marker in the right block when both blocks are empty",
+    () => {
+      const listSchema: BlockSchema = {
+        root: "root",
+        blocks: {
+          root: { children: ["list"] },
+          list: { children: ["list"] },
+        },
+      };
+      const segments = createSegments(
+        "",
+        [
+          blk("outer", 0, 0, "list"),
+          blk("inner", 0, 0, "list"),
+          mrkXpath("img", 0, "/list[1]/list[2]/img[1]"),
+        ],
+        listSchema,
+      );
+      const markerSegment = segments.find((s) =>
+        s.annotations.some((a) => a.body.id === "img"),
+      )!;
+      const ids = markerSegment.annotations.map((a) => a.body.id);
+      expect(ids).toEqual(["img", "outer", "inner"]);
+    },
+  );
 });
 
 function ann(id: string, start: number, end: number): TextPositions {
