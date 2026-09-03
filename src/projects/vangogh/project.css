@@ -80,6 +80,10 @@
   margin-top: 1rem;
 }
 
+.space {
+  display: inline-block;
+}
+
 .highlight-caption {
   font-size: 0.8rem;
 }
