@@ -379,9 +379,23 @@ export function isBibleReferenceBody(
   );
 }
 
+export type ListBody = AnnoRepoBodyBase & {
+  elementName: string;
+  "tei:type"?: "bulleted" | "gloss" | "unlabeled";
+};
+
+export function isListBody(toTest?: AnnoRepoBodyBase): toTest is ListBody {
+  return !!toTest && toTest.type === list;
+}
+
+export function isGlossList(toTest?: AnnoRepoBodyBase): toTest is ListBody {
+  return isListBody(toTest) && toTest["tei:type"] === "gloss";
+}
+
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
   highlight,
+  label,
   listItem,
   quote,
   caption,
@@ -410,6 +424,8 @@ export const typesToInclude = [
     ...blockTypes,
   ]),
 ];
+
+typesToInclude.sort();
 
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
@@ -512,7 +528,7 @@ export const blockSchema: BlockSchema = {
     root: { children: [head, list, page, paragraph, table] },
     [cell]: { children: [] },
     [head]: { children: [] },
-    [list]: { children: [listItem] },
+    [list]: { children: [head, listItem] },
     [page]: { children: [paragraph, head, table, list] },
     [paragraph]: { children: [] },
     [row]: { children: [cell] },
