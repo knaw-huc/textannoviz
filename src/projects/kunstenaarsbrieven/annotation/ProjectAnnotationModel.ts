@@ -202,11 +202,21 @@ export const isReference = (
 
 export type WhitespaceBody = AnnoRepoBodyBase & {
   type: typeof whitespace;
-  isTextSuffix: boolean;
+  isTextSuffix?: boolean;
+  elementName?: string;
+  "tei:unit"?: string;
+  "tei:quantity"?: number;
 };
 export const isWhitespace = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is WhitespaceBody => !!toTest && toTest.type === whitespace;
+
+export const isHorizontalWhitespace = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is WhitespaceBody =>
+  isWhitespace(toTest) &&
+  toTest.elementName === "space" &&
+  toTest["tei:unit"] === "chars";
 
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   id: string;
@@ -510,8 +520,11 @@ export const blockSchema: BlockSchema = {
   },
 };
 
+export const isInsertMarker = (body: AnnoRepoBodyBase) =>
+  insertMarkerTypes.includes(body.type) || isHorizontalWhitespace(body);
+
 export const isMarker = (body: AnnoRepoBodyBase) =>
-  [...insertMarkerTypes].includes(body.type) || isNoteReference(body);
+  isInsertMarker(body) || isNoteReference(body);
 
 export const getMarkerPosition = (body: AnnoRepoBodyBase) =>
   isHeadBody(body) ? "prefix" : "postfix";
