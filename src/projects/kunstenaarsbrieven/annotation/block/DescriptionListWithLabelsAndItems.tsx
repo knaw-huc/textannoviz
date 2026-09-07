@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 import { Block, Element } from "../../../../components/Text/Annotated/core";
 import { Elements } from "../../../../components/Text/Annotated/core/Elements.tsx";
-import { head, listItem } from "../ProjectAnnotationModel.ts";
+import { AnnoRepoBody } from "../../../../model/AnnoRepoAnnotation.ts";
+import { head, isListBody, listItem } from "../ProjectAnnotationModel.ts";
 
 type DescriptionListProps = {
-  block: Block;
+  block: Block<AnnoRepoBody>;
 };
 
 type LabelAndItem = {
@@ -19,11 +20,13 @@ export function DescriptionListWithLabelsAndItems({
     block.children,
     (e) => (e.isBlock && e.blockType === head ? "heads" : "labelAndItems"),
   );
+  const body = block.annotation.body;
+  const className = isListBody(body) ? body["tei:type"] : "";
 
   return (
     <>
       <Elements elements={heads} />
-      <dl>
+      <dl className={className}>
         {pairLabelAndItems(labelAndItems).map(({ label, item }) => (
           <Fragment key={item.id}>
             <dt>

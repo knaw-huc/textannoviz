@@ -53,6 +53,31 @@
     row-gap: 0;
   }
 
+  dl.label-above {
+    display: block;
+
+    dt {
+      display: block;
+      margin-top: 1em;
+      font-weight: normal;
+    }
+
+    dd {
+      display: block;
+      padding-left: 0;
+    }
+
+    dt:first-child {
+      margin-top: 0;
+    }
+  }
+
+  /*  Reset global .highlight-label styling */
+  dt .highlight-label {
+    float: none;
+    width: auto;
+  }
+
   .list.unlabeled {
     list-style: none;
     margin: 0;
