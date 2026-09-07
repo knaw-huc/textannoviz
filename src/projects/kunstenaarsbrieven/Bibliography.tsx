@@ -1,6 +1,7 @@
 import React from "react";
 import { toast } from "../../utils/toast.ts";
 import { handleAbort } from "../../utils/handleAbort";
+import { getUrlHash } from "../../utils/url/UrlHashUtils.ts";
 
 type BibliographyProps = {
   getUrl: (lang?: string) => string;
@@ -29,18 +30,12 @@ export const Bibliography = (props: BibliographyProps) => {
 
   React.useEffect(() => {
     if (!content) return;
-    const biblId = window.location.hash.split("#")[1];
+    const biblId = getUrlHash();
     if (!biblId) return;
     const element = document.getElementById(biblId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
       element.classList.add("bibl-highlight");
-      const timeout = setTimeout(() => {
-        element.classList.remove("bibl-highlight");
-      }, 2000);
-      return () => {
-        clearTimeout(timeout);
-      };
     }
   }, [content]);
 

@@ -2,7 +2,7 @@ import { dutchLabels } from "../../default/config/dutchLabels";
 
 export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   //Search facet titles + metadata panel titles
-  institution: "Collectie-houdende instelling",
+  institution: "Instelling",
   msid: "Signatuur",
   location: "Locatie",
   recipient: "Ontvanger",
@@ -12,18 +12,24 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   periodlong: "Periode (lang)",
   type: "Type",
   artworksEN: "Kunstwerken",
+  publication: "Editie",
+  seclit: "Secundaire literatuur",
+  material: "Schriftdrager",
+  watermark: "Watermerk",
+  seal: "Zegel",
+  transcrSource: "Transcriptiebron",
 
   facetInputFilterPlaceholder: "Zoek in facet",
 
   SEARCH_IN: "Zoek in",
 
-  page: "Pagina",
-  SHOW_PAGE: "Pagina tonen",
+  page: "Folio",
+  SHOW_PAGE: "Folio tonen",
 
   //Text panel titles
   self: "Brief",
   "text.nl": "Originele tekst",
-  "text.en": "Vertaalde tekst",
+  "regest.nl": "Samenvatting",
 
   //panels
   toc: "Inhoud",
@@ -33,6 +39,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
+  "text.orig": "Originele tekst",
+  "text.trans": "Samenvatting",
 
   CONTENT_VIEWS: "Inhoud weergave",
   CONTENT_PANELS: "Inhoud weergave",
@@ -71,8 +79,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   artworks: "Kunstwerken",
   introHeader: "Over deze editie",
   bibliography: "Bibliografie",
-  TITLE_PT_1: "Vincent van Gogh",
-  TITLE_PT_2: "De Brieven",
+  TITLE_PT_1: "Mechteld van Gelre",
+  TITLE_PT_2: "De briefcollectie",
   help: "Handleiding",
   OPEN_MAIN_NAVIGATION: "Open navigatie",
   CLOSE_MAIN_NAVIGATION: "Sluit navigatie",
@@ -95,6 +103,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   P1: "",
   P2: "",
   SCROLL_TO_LETTERS: "Ontdek de brieven",
+
+  locations: "Locaties",
 
   //Help labels
   SEARCH_IN_HELP:

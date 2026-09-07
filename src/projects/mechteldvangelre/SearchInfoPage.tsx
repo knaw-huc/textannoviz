@@ -1,19 +1,10 @@
 import { Button } from "react-aria-components";
-import logoHuygens from "../../assets/logo-huygens.png";
-import logoVGM from "../../assets/logo-vgm.png";
-import {
-  projectConfigSelector,
-  useProjectStore,
-  useTranslateProject,
-} from "../../stores/project";
-import React from "react";
-import { handleAbort } from "../../utils/handleAbort";
-import { fetchText } from "../../utils/fetchText";
+import logoHuygens from "../../assets/logo-huygens-zwart.svg";
+import { useTranslateProject } from "../../stores/project";
+import logoGeldersArchief from "../../assets/logo-gelders-archief.png";
 
 export const SearchInfoPage = () => {
   const translateProject = useTranslateProject();
-  const [content, setContent] = React.useState<string>();
-  const homeUrl = useProjectStore(projectConfigSelector).homeUrl;
 
   function scrollToSearchResultsButtonHandler() {
     const target = document.getElementById("search-results");
@@ -22,49 +13,53 @@ export const SearchInfoPage = () => {
     }
   }
 
-  React.useEffect(() => {
-    const aborter = new AbortController();
-    async function initHome(aborter: AbortController) {
-      const newContent = await fetchText(homeUrl, aborter.signal);
-      if (!newContent) return;
-
-      setContent(newContent);
-    }
-
-    initHome(aborter).catch(handleAbort);
-
-    return () => {
-      aborter.abort();
-    };
-  }, []);
-
   return (
-    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#FFCE01] px-6 py-8 lg:-mx-10 lg:px-10">
-      <div className="mx-auto w-full max-w-4xl">
-        {content && (
-          <div
-            className="prose text-black"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-        )}
-
-        <div className="my-8 flex max-w-3xl items-start justify-between md:items-end">
+    <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#41b6e6] px-6 py-8 lg:-mx-10 lg:px-10">
+      <div className="prose mx-auto w-full max-w-4xl text-black">
+        <h1 className="text-black">Mechteld van Gelre: de briefcollectie</h1>
+        <h2 className="text-black">Bezorgd door Roos in &apos;t Velt</h2>
+        <p>
+          Deze digitale editie bevat alle 189 brieven uit het archief van
+          hertogin Mechteld van Gelre (ca. 1323-1384) die in het Gelders Archief
+          bewaard worden. In alle opzichten is deze briefcollectie uniek: de
+          hoeveelheid brieven, de ouderdom ervan, dat ze in de volkstaal
+          geschreven zijn én rondom een vrouw in een machtspositie.
+        </p>
+        <p>
+          De brieven schetsen een veelzijdig beeld van Mechteld van Gelre, die
+          tussen 1371 en 1379 een tevergeefse oorlog uitvocht om hertogin van
+          Gelre te worden. Aan de ene kant was ze een zelfbewuste heerseres die
+          op de hoogte moest zijn van militaire, politieke, economische en
+          juridische ontwikkelingen in haar territoria; aan de andere kant was
+          ze een luisterend oor voor de dagelijkse beslommeringen van haar
+          familie, vriend(inn)en en bondgenoten.
+        </p>
+        <div className="my-8 flex items-end justify-between">
           {/* Logos */}
-          <div className="flex flex-col gap-8 md:flex-row md:items-end">
+          <div className="flex flex-col items-start gap-8 md:flex-row md:items-end">
             <div>
-              <img src={logoVGM} className="h-20" alt="logo" />
+              <img
+                src={logoGeldersArchief}
+                className="h-14"
+                alt="Gelders Archief"
+              />
             </div>
             <div>
-              <img src={logoHuygens} className="h-14" alt="logo" />
+              <img src={logoHuygens} className="h-14" alt="Huygens Instituut" />
             </div>
           </div>
 
           {/* Button */}
           <Button
-            className="rounded bg-yellow-500 p-2 outline-none"
+            className="inline-flex items-center gap-2.5 rounded-md bg-black
+             px-5 py-3 text-[15px] font-semibold text-white shadow-sm
+             outline-none transition-colors hover:bg-[#333f48]
+             focus-visible:ring-2 focus-visible:ring-[#41505b]
+             focus-visible:ring-offset-2 focus-visible:ring-offset-[#41b6e6]"
             onPress={scrollToSearchResultsButtonHandler}
           >
-            {translateProject("SCROLL_TO_LETTERS")} {String.fromCharCode(9663)}
+            {translateProject("SCROLL_TO_LETTERS")}
+            <span className="h-1.5 w-1.5 shrink-0 -translate-y-px rotate-45 border-b-2 border-r-2 border-white" />
           </Button>
         </div>
       </div>

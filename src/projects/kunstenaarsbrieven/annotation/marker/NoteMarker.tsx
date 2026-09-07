@@ -6,16 +6,27 @@ import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { createTooltipMarkerClasses } from "../../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import { isNoteReference } from "../ProjectAnnotationModel.ts";
+import React from "react";
 
 export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   const activeFootnote = useTextStore((state) => state.activeFootnote);
   const setActiveFootnote = useTextStore((state) => state.setActiveFootnote);
+  const resetActiveFootnote = useTextStore((s) => s.resetActiveFootnote);
   const setActiveSidebarTab = useDetailViewStore(
     (state) => state.setActiveSidebarTab,
   );
   const ptrToNoteAnnosMap = useAnnotationStore(
     (state) => state.ptrToNoteAnnosMap,
   );
+
+  const setPanelVisibilityOverrides = useDetailViewStore(
+    (state) => state.setPanelVisibilityOverrides,
+  );
+
+  const resetPanelVisibilityOverrides = useDetailViewStore(
+    (state) => state.resetPanelVisibilityOverrides,
+  );
+
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
   const classNames: string[] = [];
@@ -32,9 +43,17 @@ export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   const footnoteNumber = footnote?.body.n ?? "?";
 
   function spanClickHandler(footnoteNumber: string) {
+    setPanelVisibilityOverrides({ metadata: true });
     setActiveFootnote(footnoteNumber);
     setActiveSidebarTab("notes");
   }
+
+  React.useEffect(() => {
+    return () => {
+      resetPanelVisibilityOverrides();
+      resetActiveFootnote();
+    };
+  }, []);
 
   return (
     <span

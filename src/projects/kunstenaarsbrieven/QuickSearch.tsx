@@ -9,22 +9,7 @@ import { useNavigate } from "react-router";
 import { HelpTooltip } from "../../components/common/HelpTooltip";
 import { useTranslateProject } from "../../stores/project";
 import { getBaseUrl } from "./annotation/ProjectAnnotationModel";
-import { letterIdToPath } from "./utils/letterIdToPath";
-
-function normaliseLetterId(input: string): string {
-  // 'RM' letters are zero-padded to 2 digits, so 'rm1' > 'rm01' (until rm25).
-  const rmMatch = input.match(/^rm(\d+)$/);
-  if (rmMatch) {
-    return "rm" + rmMatch[1].padStart(2, "0");
-  }
-
-  // Regular letters are zero-padded to 3 digits, so '1' > '001' and '1a' > '001a'.
-  // Anything else is left untouched and handled as a regular full text search.
-  return input.replace(
-    /^(\d+)([a-z]*)$/,
-    (_, digits, suffix) => digits.padStart(3, "0") + suffix,
-  );
-}
+import { letterIdToPath, normaliseLetterId } from "./utils/letterIdToPath";
 
 export function QuickSearch(props: { letterIds: string[] | undefined }) {
   const { searchQuery, isInitSearchUrlParams } = useUrlSearchParamsStore();

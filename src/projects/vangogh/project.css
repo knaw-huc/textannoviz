@@ -40,6 +40,30 @@
     vertical-align: top;
   }
 
+  dl,
+  dd,
+  dt {
+    margin: 0;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 0.5rem;
+    row-gap: 0;
+  }
+
+  .list.unlabeled {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   /* Remove margins introduced by 'prose' styling in src/components/Text/TextComponent.tsx */
   p {
     margin: 0;
@@ -68,6 +92,10 @@
     &:has(~ h2) {
       display: none;
     }
+    /* Hide whitespace at the start of a dt: */
+    dt > &:first-child {
+      display: none;
+    }
     /* Show whitespace inside p: */
     p & {
       display: inline;
@@ -78,6 +106,10 @@
 .segmented-line:has(.marker-head) {
   margin-bottom: 1rem;
   margin-top: 1rem;
+}
+
+.space {
+  display: inline-block;
 }
 
 .highlight-caption {

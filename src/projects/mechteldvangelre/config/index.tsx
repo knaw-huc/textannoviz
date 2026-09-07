@@ -4,7 +4,6 @@ import {
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
 import { englishMechteldVanGelreLabels } from "./englishMechteldVanGelreLabels";
-// import { dutchVanGoghLabels } from "./dutchVanGoghLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 // import { Artworks } from "../artworks/Artworks";
@@ -17,6 +16,15 @@ import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
+import { dutchMechteldVanGelreLabels } from "./dutchMechteldVanGelreLabels";
+import { mechteldvangelreLetterIdFormat } from "../utils/letterIdFormat";
+import { mechteldPageLabelFormat } from "../utils/mechteldPageLabelFormat";
+import {
+  person,
+  reference,
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
+import { Any } from "../../../utils/Any";
+import { Locations } from "../Locations";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -27,19 +35,23 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     siteTitle: "Mechteld van Gelre Letters",
 
     elasticIndexName: "mechteldvangelre",
-    initialDateFrom: "1300-01-01",
-    initialDateTo: "1500-12-31",
+    initialDateFrom: "1364-01-01",
+    initialDateTo: "1384-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Mechteld van Gelre Letters",
+    showArtworksTab: false,
     personsUrl:
       "http://localhost:8040/files/mechteldvangelre/apparatus/bio-entities.json",
     biblUrl: {
-      en: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliolist.html",
+      nl: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliografie.html",
     },
     // menuUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
     // }/files/vangogh/menu/menu.json`,
     letterIdUrl: "http://localhost:8040/files/mechteldvangelre/letter-ids.json",
+    locationUrl:
+      "http://localhost:8040/files/mechteldvangelre/apparatus/place-entities.json",
+    letterIdFormat: mechteldvangelreLetterIdFormat,
     // homeUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
     // }/files/vangogh/home/home.html`,
@@ -54,16 +66,11 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     },
     defaultKeywordAggsToRender: [
       "type",
-      "location",
-      "period",
-      "file",
       "persons",
-      // "artworksNL",
-      "artworksEN",
       "recipient",
       "sender",
-      "correspondent",
-      "bibleRefs",
+      "location",
+      "institution",
     ],
     detailPanels: [
       {
@@ -132,9 +139,17 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       // "introTranslatedText",
       // "introNotesText",
     ],
-    selectedLanguage: "en",
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "regest",
+      "publication",
+      "seclit",
+      "transcrSource",
+    ],
+    selectedLanguage: "nl",
     languages: [
-      // { code: "nl", labels: dutchVangoghLabels },
+      { code: "nl", labels: dutchMechteldVanGelreLabels },
       { code: "en", labels: englishMechteldVanGelreLabels },
     ],
     routes: [
@@ -150,11 +165,22 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
         path: "bibliography",
         element: <Bibliography />,
       },
+      {
+        path: "locations",
+        element: <Locations />,
+      },
     ],
     zoomToAnnoOnFacsimile: true,
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    pageLabelFormat: mechteldPageLabelFormat,
+    annoToEntityCategory: {
+      [person]: "PER",
+      [reference.toLowerCase()]: "REF",
+      PER: "PER",
+      location: "LOC",
+    } as Any,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

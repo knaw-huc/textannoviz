@@ -1,28 +1,42 @@
+import { Link } from "react-aria-components";
 import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
+import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 import { gridOneColumn } from "../../utils/gridOneColumn.ts";
-import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import { useKunstenaarsbrievenTextViews } from "../kunstenaarsbrieven/text/useKunstenaarsbrievenTextViews.ts";
+import { findMechteldLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import { useMechteldVanGelreTextViews } from "./text/useMechteldVanGelreTextViews.ts";
 
 type RenderMetadataPanelProps = {
   annotations: AnnoRepoAnnotation[];
 };
 
 export const MetadataPanel = (props: RenderMetadataPanelProps) => {
-  const textViews = useKunstenaarsbrievenTextViews();
+  const textViews = useMechteldVanGelreTextViews();
   const translateProject = useTranslateProject();
 
-  const letterAnnoBody = findLetterBody(props.annotations);
+  const letterAnnoBody = findMechteldLetterBody(props.annotations);
 
-  const { n, identifier, recipient, sender, place, institution, collection } =
-    letterAnnoBody ?? {};
+  const {
+    n,
+    identifier,
+    recipient,
+    sender,
+    institution,
+    collection,
+    settlement,
+    permalinkInstitution,
+    material,
+    watermark,
+    measure,
+    seal,
+  } = letterAnnoBody ?? {};
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
-  const transcrSourceText = textViews?.transcrSource?.en;
-  const datingText = textViews?.dating?.en;
-  const remarksText = textViews?.remarks?.en;
+  const publication = textViews?.publication?.nl;
+  const seclit = textViews?.seclit?.nl;
+  const transcrSourceText = textViews?.transcrSource?.nl;
 
   return (
     <>
@@ -42,9 +56,11 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("invNr")}:{" "}
                 </div>
-                {[place, institution, collection, identifier]
-                  .filter(Boolean)
-                  .join(", ")}
+                <Link href={permalinkInstitution} target="_blank">
+                  {[settlement, institution, collection, identifier]
+                    .filter(Boolean)
+                    .join(", ")}
+                </Link>
               </div>
             </li>
             <li className="mb-8">
@@ -63,13 +79,58 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 {Array.isArray(recipient) ? recipient.join(", ") : recipient}
               </div>
             </li>
-            {datingText?.body.length ? (
+            {publication?.body.length ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
                   <div className={labelStyling}>
-                    {translateProject("dating")}:{" "}
+                    {translateProject("publication")}:{" "}
                   </div>
-                  <ProjectAnnotatedText text={datingText} showDetail={false} />
+                  <ProjectAnnotatedText text={publication} showDetail={false} />
+                </div>
+              </li>
+            ) : null}
+            {seclit?.body.length ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("seclit")}:{" "}
+                  </div>
+                  <ProjectAnnotatedText text={seclit} showDetail={false} />
+                </div>
+              </li>
+            ) : null}
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>
+                  {translateProject("material")}:{" "}
+                </div>
+                {material && firstLetterToUppercase(material)}
+              </div>
+            </li>
+            {watermark ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("watermark")}:{" "}
+                  </div>
+                  {watermark}
+                </div>
+              </li>
+            ) : null}
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>{translateProject("size")}: </div>
+                {/* .[1] = vertical; .[0] = horizontal. It's always in 'mm'. */}
+                {`${measure?.[1]} x ${measure?.[0]} mm`}
+              </div>
+            </li>
+            {seal ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("seal")}:{" "}
+                  </div>
+                  {seal}
                 </div>
               </li>
             ) : null}
@@ -83,16 +144,6 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                     text={transcrSourceText}
                     showDetail={false}
                   />
-                </div>
-              </li>
-            ) : null}
-            {remarksText?.body.length ? (
-              <li className="mb-8">
-                <div className={gridOneColumn}>
-                  <div className={labelStyling}>
-                    {translateProject("remarks")}:{" "}
-                  </div>
-                  <ProjectAnnotatedText text={remarksText} showDetail={false} />
                 </div>
               </li>
             ) : null}

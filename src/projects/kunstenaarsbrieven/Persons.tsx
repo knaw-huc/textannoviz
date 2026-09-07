@@ -124,14 +124,11 @@ export function Persons(props: PersonsProps) {
 
   function resolveSurnames(name: PersonPersName): ResolvedSurname[] {
     const raw = name.surname;
-    if (raw === undefined) return [];
+    if (!raw) return [];
     if (typeof raw === "string") return [{ text: raw }];
-    return raw.flatMap<ResolvedSurname>((item, index) => {
-      if (item === null) return [];
-      if (typeof item === "string")
-        return index === 0
-          ? [{ text: item }]
-          : [{ text: item, type: "married-name" }];
+    return raw.flatMap<ResolvedSurname>((item) => {
+      if (!item) return [];
+      if (typeof item === "string") return [{ text: item }];
       return [{ text: item.text, type: item.type }];
     });
   }
@@ -189,15 +186,18 @@ export function Persons(props: PersonsProps) {
                 </div>
                 <div className="flex shrink-0 flex-row items-center justify-end gap-1">
                   {per.source
-                    ? per.source.map((src, index) => (
-                        <Button
-                          className="flex items-center"
-                          onPress={() => window.open(src, "_blank")}
-                          key={index}
-                        >
-                          <HelpIcon />
-                        </Button>
-                      ))
+                    ? per.source
+                        // Some links are nothing but empty strings
+                        .filter((src) => src.trim())
+                        .map((src, index) => (
+                          <Button
+                            className="flex items-center"
+                            onPress={() => window.open(src, "_blank")}
+                            key={index}
+                          >
+                            <HelpIcon />
+                          </Button>
+                        ))
                     : null}
 
                   <Button onPress={() => searchPerson(per)}>
@@ -219,18 +219,7 @@ export function Persons(props: PersonsProps) {
                 </>
               ) : null}
               {per.floruit ? (
-                <div>
-                  {per.floruit?.when
-                    ? `floruit: ${formatYear(per.floruit.when)}`
-                    : null}
-                  {per.floruit?.notAfter && per.floruit?.notBefore
-                    ? `floruit: ${translate("BETWEEN")} ${formatYear(
-                        per.floruit.notBefore,
-                      )} ${translate("AND")} ${formatYear(
-                        per.floruit.notAfter,
-                      )}`
-                    : null}
-                </div>
+                <div>floruit: {formatDate(per.floruit)}</div>
               ) : null}
 
               <div>{per.note?.[interfaceLang]?.shortdesc}</div>
@@ -241,6 +230,16 @@ export function Persons(props: PersonsProps) {
     </>
   );
 }
+
+/**
+ * The apparatus converter promotes a field to an array only when at least one
+ * record in the whole file repeats it, so `persName` arrives as an array for
+ * projects that have abbreviated name variants (Van Gogh, Mondriaan, Israëls)
+ * and as a bare object for those that do not (Mechteld, Suriano, Oraties).
+ */
+type RawPerson = Omit<Person, "persName"> & {
+  persName: PersonPersName | PersonPersName[];
+};
 
 //TODO: generiek maken om zowel personen als kunstwerken aan te kunnen. URL verhuizen naar project config en deze dan aan de functie meegeven?
 async function fetchPersons(
@@ -253,5 +252,11 @@ async function fetchPersons(
     toast(`${error.message}`, { type: "error" });
     return null;
   }
-  return await response.json();
+  const rawPersons: RawPerson[] = await response.json();
+  return rawPersons.map((person) => ({
+    ...person,
+    persName: Array.isArray(person.persName)
+      ? person.persName
+      : [person.persName],
+  }));
 }

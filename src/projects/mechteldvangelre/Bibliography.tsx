@@ -5,7 +5,7 @@ import {
 import { Bibliography as KunstenaarsbrievenBibliography } from "../kunstenaarsbrieven/Bibliography.tsx";
 
 export const Bibliography = () => {
-  const biblUrl = useProjectStore(projectConfigSelector).biblUrl.en;
+  const biblUrl = useProjectStore(projectConfigSelector).biblUrl.nl;
 
   if (!biblUrl) return null;
 

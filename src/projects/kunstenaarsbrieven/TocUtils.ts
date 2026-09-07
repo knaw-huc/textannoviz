@@ -16,7 +16,9 @@ export function getTocId(body: AnnoRepoBodyBase): string | undefined {
     return;
   }
   let id = body["xml:id"];
-  const foundLanguage = languageCodes.find((code) => id.includes(`.${code}.`));
+  const foundLanguage = languageCodes.find(
+    (code) => id?.includes?.(`.${code}.`),
+  );
   if (foundLanguage) {
     id = id.replace(`.${foundLanguage}`, "");
   }

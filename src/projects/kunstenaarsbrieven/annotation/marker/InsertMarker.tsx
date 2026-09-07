@@ -1,6 +1,11 @@
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
-import { isHeadBody, isPictureBody } from "../ProjectAnnotationModel.ts";
+import {
+  isHeadBody,
+  isHorizontalWhitespace,
+  isPictureBody,
+} from "../ProjectAnnotationModel.ts";
+import { HorizontalSpace } from "./HorizontalSpace.tsx";
 
 type InsertMarkerAnnotationProps = {
   marker: MarkerSegment<MarkerBody>;
@@ -8,8 +13,9 @@ type InsertMarkerAnnotationProps = {
 
 export const InsertMarker = (props: InsertMarkerAnnotationProps) => {
   const body = props.marker.body;
-  if (body.type === "tei:Space") {
-    return <br className="insert-marker" />;
+
+  if (isHorizontalWhitespace(body)) {
+    return <HorizontalSpace body={body} />;
   }
 
   if (isPictureBody(body) && body.url) {

@@ -156,7 +156,9 @@ export function KeywordFacet(props: {
             </div>
           );
         })}
-        {(projectName === "republic" || projectName === "israels") &&
+        {(projectName === "republic" ||
+          projectName === "israels" ||
+          projectName === "mechteldvangelre") &&
         facetLength > 10 ? (
           //TODO: make generic
           <span className="pl-2 text-sm text-neutral-500">
@@ -164,7 +166,8 @@ export function KeywordFacet(props: {
             items.{" "}
             {maxFacetItemsVisible < facetLength ? (
               <>
-                Gebruik de zoekbalk om door alle {facetLength} items te zoeken.
+                Gebruik de zoekbalk in dit facet om door alle {facetLength}{" "}
+                items te zoeken.
                 {projectName === "republic" ? (
                   <>
                     {" "}
