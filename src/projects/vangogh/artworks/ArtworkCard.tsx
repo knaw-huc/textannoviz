@@ -1,7 +1,10 @@
 import { Button } from "react-aria-components";
 import { LanguageCode } from "../../../model/Language";
 import { useTranslateProject } from "../../../stores/project";
-import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
+import {
+  Artwork,
+  getIdnoEntries,
+} from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
 export function ArtworkCard(props: {
@@ -67,20 +70,20 @@ export function ArtworkCard(props: {
             ))}
         </div>
       ) : null}
-      {artwork.idno?.some((idno) => idno.type === "inventory") ? (
+      {getIdnoEntries(artwork).some((idno) => idno.type === "inventory") ? (
         <div>
           {translateProject("inventory")}:{" "}
-          {artwork.idno
+          {getIdnoEntries(artwork)
             .filter((value) => value.type === "inventory")
             .map((value, index) => (
               <span key={index}>{value.text}</span>
             ))}
         </div>
       ) : null}
-      {artwork.idno?.some((idno) => idno.type?.startsWith("VG-")) ? (
+      {getIdnoEntries(artwork).some((idno) => idno.type?.startsWith("VG-")) ? (
         <div>
           {translateProject("catalogueNum")}:{" "}
-          {artwork.idno
+          {getIdnoEntries(artwork)
             .filter((value) => value.type?.startsWith("VG-"))
             .map((value) => `${value.type?.replace("VG-", "")} ${value.text}`)
             .join(" / ")}
