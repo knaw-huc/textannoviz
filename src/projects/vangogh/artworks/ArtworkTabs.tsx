@@ -112,7 +112,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
       >
         <ArtworkListContainer
-          items={getDataSource(illustrated)}
+          items={getDataSource(globalPool)}
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
@@ -127,6 +127,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         <ArtworkListContainer
           items={getDataSource(illustrated)}
           filter={(item) =>
+            // bio.xml#vg_2000 = Vincent van Gogh
             item.relation?.some((r) => r.ref === "bio.xml#vg_2000") ?? false
           }
           CardComponent={ArtworkCard}
@@ -143,6 +144,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         <ArtworkListContainer
           items={getDataSource(illustrated)}
           filter={(item) =>
+            // All artworks not created by bio.xml#vg_2000 = Vincent van Gogh
             item.relation?.some((r) => r.ref !== "bio.xml#vg_2000") ?? false
           }
           CardComponent={ArtworkCard}
