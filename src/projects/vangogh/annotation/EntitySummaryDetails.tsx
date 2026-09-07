@@ -6,6 +6,7 @@ import {
 import { firstLetterToUppercase } from "../../../utils/firstLetterToUppercase.ts";
 import {
   Artwork,
+  getIdnoEntries,
   Person,
   PersonTeiRef,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
@@ -69,12 +70,12 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
                 {artwork.measure[1].quantity} {artwork.measure[0].unit}
               </p>
             ) : null}
-            {artwork.idno?.some(
+            {getIdnoEntries(artwork).some(
               (idno) => idno["tei:type"]?.startsWith("VG-"),
             ) ? (
               <p>
                 {translateProject("catalogueNum")}:{" "}
-                {artwork.idno
+                {getIdnoEntries(artwork)
                   .filter((value) => value["tei:type"]?.startsWith("VG-"))
                   .map(
                     (value) =>

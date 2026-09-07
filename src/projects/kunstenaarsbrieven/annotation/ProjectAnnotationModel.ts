@@ -86,14 +86,16 @@ export type ArtworkBody = AnnoRepoBodyBase & {
 };
 
 export type Artwork = ArtworkTeiRef;
+type ArtworkIdno = {
+  type?: string;
+  "tei:type"?: string;
+  text: string;
+};
 type ArtworkTeiRef = {
   id: string;
   corresp?: string;
-  idno?: {
-    type?: string;
-    "tei:type"?: string;
-    text: string;
-  }[];
+  // The conversion scripts wrap repeated elements in an array, so a single idno arrives as a bare object.
+  idno?: ArtworkIdno | ArtworkIdno[];
   head: {
     nl: string;
     en: string;
@@ -454,6 +456,13 @@ export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
 // This check is still fragile. TODO: find better way to detect if ref is an artwork
 export function isArtworkBody(toTest: EntityRefs): toTest is Artwork {
   return !toTest.id.startsWith("vg");
+}
+
+export function getIdnoEntries(artwork: Artwork): ArtworkIdno[] {
+  if (!artwork.idno) {
+    return [];
+  }
+  return Array.isArray(artwork.idno) ? artwork.idno : [artwork.idno];
 }
 
 export type ListAnnotationBody = AnnoRepoBodyBase & {
