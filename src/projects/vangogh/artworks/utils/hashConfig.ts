@@ -4,6 +4,7 @@ export const TAB_IDS = {
   artworksOthers: "artworksOthers",
   nonIllustrated: "nonIllustrated",
   sketches: "sketches",
+  illustrations: "illustrations",
 } as const;
 export type TabId = (typeof TAB_IDS)[keyof typeof TAB_IDS];
 
@@ -20,10 +21,12 @@ export const HASH_CONFIG = {
     sketches: "sketches",
     illustrated: "artworksAll",
     "non-illustrated": "nonIllustrated",
+    illustrations: "illustrations",
   },
   // Focus hash prefixes
   prefixes: {
     sketch_: "sketches",
+    // 'illustrations' also have `ill_` prefix. It's included in artworksAll, so it's okay if 'illustrations' are shown in the 'artworksAll' tab.
     ill_: "artworksAll",
     noill_: "nonIllustrated",
   },

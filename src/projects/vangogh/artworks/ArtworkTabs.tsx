@@ -30,6 +30,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
     illustrated = [],
     sketches = [],
     "non-illustrated": nonIllustrated = [],
+    illustrations = [],
   } = props.artworks;
 
   React.useEffect(() => {
@@ -96,6 +97,9 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         </Tab>
         <Tab id={TAB_IDS.sketches} className={tabStyling}>
           Sketches
+        </Tab>
+        <Tab id={TAB_IDS.illustrations} className={tabStyling}>
+          Illustrations
         </Tab>
       </TabList>
 
@@ -173,6 +177,19 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
       >
         <ArtworkListContainer
           items={getDataSource(sketches)}
+          CardComponent={ArtworkCard}
+          query={deferredQuery}
+          isGlobal={isGlobal}
+          setActiveTab={handleTabChange}
+        />
+      </TabPanel>
+      <TabPanel
+        id={TAB_IDS.illustrations}
+        className="grid gap-6 px-8 pb-8"
+        style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
+      >
+        <ArtworkListContainer
+          items={getDataSource(illustrations)}
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
