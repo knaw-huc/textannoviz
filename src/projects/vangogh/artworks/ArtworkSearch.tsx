@@ -13,8 +13,8 @@ export function ArtworkSearch(props: {
             type="text"
             placeholder={
               isGlobal
-                ? "Search all sections..."
-                : "Search within current section..."
+                ? "Filter all sections..."
+                : "Filter within current section..."
             }
             className="flex-grow rounded-lg border-neutral-300 p-3 shadow-sm focus:ring-2 focus:ring-blue-500"
             value={query}
@@ -28,7 +28,7 @@ export function ArtworkSearch(props: {
               checked={isGlobal}
               onChange={(e) => handleIsGlobalChecked(e.target.checked)}
             />
-            Global Search
+            Filter in all sections
           </label>
         </div>
       </div>
