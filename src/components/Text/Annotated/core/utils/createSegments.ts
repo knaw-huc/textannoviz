@@ -128,7 +128,9 @@ function isXPathAncestor(
   const findNestingDepth = (a: TextPositions) =>
     similarTyped.filter((other) => isWrapping(other, a)).length;
 
-  const steps = parseXPath(xpath).filter((s) => s.tag === block.blockType);
+  const steps = parseXPath(xpath).filter(
+    (s) => s.tag === block.body.elementName,
+  );
   const depth = findNestingDepth(block);
   const step = steps[depth];
   if (!step) {
