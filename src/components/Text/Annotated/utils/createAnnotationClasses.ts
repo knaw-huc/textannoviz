@@ -59,7 +59,7 @@ export function normalizeClassname(annotationCategory: string) {
 const unknownCategory = "UNKNOWN";
 
 export function createTooltipMarkerClasses(): string[] {
-  return ["marker", "cursor-help"].map(normalizeClassname);
+  return ["marker", "cursor-pointer"].map(normalizeClassname);
 }
 
 export function toEntityClassname(

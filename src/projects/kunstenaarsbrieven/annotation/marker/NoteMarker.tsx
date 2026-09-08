@@ -61,7 +61,7 @@ export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
       className={`${classNames.join(
         " ",
       )} transition-all duration-300 ease-in-out ${
-        activeFootnote === footnoteNumber ? "bg-[#FFCE01]" : "bg-white"
+        activeFootnote === footnoteNumber ? "bg-neutral-200" : "bg-white"
       }`}
       onClick={() => spanClickHandler(footnoteNumber)}
       role="button"

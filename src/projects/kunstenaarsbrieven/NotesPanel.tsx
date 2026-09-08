@@ -66,10 +66,10 @@ export const NotesPanel = () => {
         <div
           id={footnoteNumber}
           key={footnoteNumber}
-          className={`flex flex-row p-2 ${
+          className={`flex flex-row border-l-2 p-2 transition-all duration-300 ${
             activeFootnote === footnoteNumber
-              ? "rounded-lg bg-[#FFCE01] transition-all duration-300"
-              : "bg-white"
+              ? "border-neutral-600"
+              : "border-transparent"
           }`}
         >
           <span className="mr-2 text-sm text-neutral-500">
