@@ -23,7 +23,7 @@ export const kombuchaConfig: ProjectConfig = mergeWith(
   kunstenaarsbrievenConfig,
   {
     id: "kombucha",
-    broccoliUrl: "http://localhost:8016",
+    broccoliUrl: "http://localhost:8040",
     siteTitle: "Van Gogh Letters",
 
     elasticIndexName: "kombucha",
