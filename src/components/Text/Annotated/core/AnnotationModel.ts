@@ -13,7 +13,10 @@ import { MarkerPosition } from "../../../../model/ProjectConfig.ts";
  */
 export type AnnotationType = "highlight" | "nested" | "marker" | "block";
 export type AnnotationId = string;
-export type Body = { id: AnnotationId };
+export type Body = {
+  id: AnnotationId;
+  elementName?: string;
+};
 export type WithTypeAndBody<T extends Body = Body> = {
   type: AnnotationType;
   blockType?: BlockType;

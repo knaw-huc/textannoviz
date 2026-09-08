@@ -2,6 +2,7 @@ import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { BlockType, TextPositions } from "../core";
 import { BroccoliRelativeAnno } from "../../../../model/Broccoli.ts";
 import { MarkerPosition } from "../../../../model/ProjectConfig.ts";
+import { findXPathSelector } from "../../../../utils/findXPathSelector.ts";
 
 export function createTextOffsets(
   annotation: AnnoRepoAnnotation,
@@ -35,6 +36,7 @@ export function createMarkerTextOffsets(
     start: startChar,
     end: startChar,
     markerPosition,
+    xpath: findXPathSelector(annotation),
   };
 }
 

@@ -362,10 +362,10 @@ describe("marker xpath segmenting and grouping", () => {
   const tableSchema: BlockSchema = {
     root: "root",
     blocks: {
-      root: { children: ["table"] },
-      table: { children: ["row"] },
-      row: { children: ["cell"] },
-      cell: { children: [] },
+      root: { children: ["Table"] },
+      Table: { children: ["Row"] },
+      Row: { children: ["Cell"] },
+      Cell: { children: [] },
     },
   };
 
@@ -376,9 +376,9 @@ describe("marker xpath segmenting and grouping", () => {
     const segments = createSegments(
       "",
       [
-        blk("table1", 0, 0, "table"),
-        blk("row1", 0, 0, "row"),
-        blk("cell1", 0, 0, "cell"),
+        blk("table1", 0, 0, "Table", "table"),
+        blk("row1", 0, 0, "Row", "row"),
+        blk("cell1", 0, 0, "Cell", "cell"),
         mrkXpath("img", 0, "/table[1]/row[1]/cell[1]/img[1]"),
       ],
       tableSchema,
@@ -395,9 +395,9 @@ describe("marker xpath segmenting and grouping", () => {
       "",
       [
         mrkXpath("img", 0, "/img[1]"),
-        blk("table1", 0, 0, "table"),
-        blk("row1", 0, 0, "row"),
-        blk("cell1", 0, 0, "cell"),
+        blk("table1", 0, 0, "Table", "table"),
+        blk("row1", 0, 0, "Row", "row"),
+        blk("cell1", 0, 0, "Cell", "cell"),
       ],
       tableSchema,
     );
@@ -412,10 +412,10 @@ describe("marker xpath segmenting and grouping", () => {
     const segments = createSegments(
       "",
       [
-        blk("table1", 0, 0, "table"),
-        blk("row1", 0, 0, "row"),
-        blk("cell1", 0, 0, "cell"),
-        blk("cell2", 0, 0, "cell"),
+        blk("table1", 0, 0, "Table", "table"),
+        blk("row1", 0, 0, "Row", "row"),
+        blk("cell1", 0, 0, "Cell", "cell"),
+        blk("cell2", 0, 0, "Cell", "cell"),
         mrkXpath("img", 0, "/table[1]/row[1]/cell[2]/img[1]"),
       ],
       tableSchema,
@@ -432,10 +432,10 @@ describe("marker xpath segmenting and grouping", () => {
     const segments = createSegments(
       "",
       [
-        blk("table1", 0, 0, "table"),
-        blk("row1", 0, 0, "row"),
-        blk("cell1", 0, 0, "cell"),
-        blk("cell2", 0, 0, "cell"),
+        blk("table1", 0, 0, "Table", "table"),
+        blk("row1", 0, 0, "Row", "row"),
+        blk("cell1", 0, 0, "Cell", "cell"),
+        blk("cell2", 0, 0, "Cell", "cell"),
         mrkXpath("img1", 0, "/table[1]/row[1]/cell[1]/img[1]"),
         mrkXpath("img2", 0, "/table[1]/row[1]/cell[1]/img[2]"),
         mrkXpath("img3", 0, "/table[1]/row[1]/cell[2]/img[1]"),
@@ -540,10 +540,11 @@ function blk(
   start: number,
   end: number,
   blockType: string,
+  elementName: string = blockType,
 ): TextPositions {
   return {
     type: "block",
-    body: { id } as Body,
+    body: { id, elementName } as Body,
     start,
     end,
     blockType,
