@@ -358,6 +358,162 @@ describe("createSegments", () => {
   });
 });
 
+describe("marker xpath segmenting and grouping", () => {
+  const tableSchema: BlockSchema = {
+    root: "root",
+    blocks: {
+      root: { children: ["Table"] },
+      Table: { children: ["Row"] },
+      Row: { children: ["Cell"] },
+      Cell: { children: [] },
+    },
+  };
+
+  /**
+   * <table><row><cell><img alt='inside'/></cell></row></table>
+   */
+  it("nests an image inside its table cell", () => {
+    const segments = createSegments(
+      "",
+      [
+        blk("table1", 0, 0, "Table", "table"),
+        blk("row1", 0, 0, "Row", "row"),
+        blk("cell1", 0, 0, "Cell", "cell"),
+        mrkXpath("img", 0, "/table[1]/row[1]/cell[1]/img[1]"),
+      ],
+      tableSchema,
+    );
+    const ids = segments[0].annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["img", "table1", "row1", "cell1"]);
+  });
+
+  /**
+   * <img alt='outside'/><table><row><cell></cell></row></table>
+   */
+  it("keeps an image outside the table it precedes", () => {
+    const segments = createSegments(
+      "",
+      [
+        mrkXpath("img", 0, "/img[1]"),
+        blk("table1", 0, 0, "Table", "table"),
+        blk("row1", 0, 0, "Row", "row"),
+        blk("cell1", 0, 0, "Cell", "cell"),
+      ],
+      tableSchema,
+    );
+    const ids = segments[0].annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["img"]);
+  });
+
+  /**
+   * <table><row><cell></cell><cell><img alt='in-second-cell'/></cell></row></table>
+   */
+  it("picks the second cell", () => {
+    const segments = createSegments(
+      "",
+      [
+        blk("table1", 0, 0, "Table", "table"),
+        blk("row1", 0, 0, "Row", "row"),
+        blk("cell1", 0, 0, "Cell", "cell"),
+        blk("cell2", 0, 0, "Cell", "cell"),
+        mrkXpath("img", 0, "/table[1]/row[1]/cell[2]/img[1]"),
+      ],
+      tableSchema,
+    );
+    const ids = segments[0].annotations.map((a) => a.body.id);
+    expect(ids).toContain("cell2");
+    expect(ids).not.toContain("cell1");
+  });
+
+  /**
+   * <table><row><cell><img/><img alt='second-img-in-first-cell'/></cell><cell><img/></cell></row></table>
+   */
+  it("picks the right cell when a cell can contain multiple images", () => {
+    const segments = createSegments(
+      "",
+      [
+        blk("table1", 0, 0, "Table", "table"),
+        blk("row1", 0, 0, "Row", "row"),
+        blk("cell1", 0, 0, "Cell", "cell"),
+        blk("cell2", 0, 0, "Cell", "cell"),
+        mrkXpath("img1", 0, "/table[1]/row[1]/cell[1]/img[1]"),
+        mrkXpath("img2", 0, "/table[1]/row[1]/cell[1]/img[2]"),
+        mrkXpath("img3", 0, "/table[1]/row[1]/cell[2]/img[1]"),
+      ],
+      tableSchema,
+    );
+    const idsFor = (markerId: string) =>
+      segments
+        .find((s) => s.annotations.some((a) => a.body.id === markerId))!
+        .annotations.map((a) => a.body.id);
+
+    expect(idsFor("img1")).toContain("cell1");
+    expect(idsFor("img1")).not.toContain("cell2");
+    expect(idsFor("img2")).toContain("cell1");
+    expect(idsFor("img2")).not.toContain("cell2");
+    expect(idsFor("img3")).toContain("cell2");
+    expect(idsFor("img3")).not.toContain("cell1");
+  });
+
+  it("nests a marker in the right list when lists nest inside themselves", () => {
+    const listSchema: BlockSchema = {
+      root: "root",
+      blocks: {
+        root: { children: ["list"] },
+        list: { children: ["list"] },
+      },
+    };
+    const segments = createSegments(
+      "AABB",
+      [
+        blk("outer", 0, 4, "list"),
+        blk("inner1", 0, 2, "list"),
+        blk("inner2", 2, 4, "list"),
+        mrkXpath("img", 2, "/list[1]/list[2]/img[1]"),
+      ],
+      listSchema,
+    );
+    const markerSegment = segments.find((s) =>
+      s.annotations.some((a) => a.body.id === "img"),
+    )!;
+    const ids = markerSegment.annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["img", "outer", "inner2"]);
+  });
+
+  /**
+   * TODO: how to correctly position markers within elements:
+   *  - of the same type
+   *  - that are nested
+   *  - and that are empty?
+   */
+  it.fails(
+    "nests a marker in the right block when both blocks are empty",
+    () => {
+      const listSchema: BlockSchema = {
+        root: "root",
+        blocks: {
+          root: { children: ["list"] },
+          list: { children: ["list"] },
+        },
+      };
+      const segments = createSegments(
+        "",
+        [
+          blk("outer", 0, 0, "list"),
+          blk("inner", 0, 0, "list"),
+          mrkXpath("img", 0, "/list[1]/list[2]/img[1]"),
+        ],
+        listSchema,
+      );
+      const markerSegment = segments.find((s) =>
+        s.annotations.some((a) => a.body.id === "img"),
+      )!;
+      const ids = markerSegment.annotations.map((a) => a.body.id);
+      expect(ids).toEqual(["img", "outer", "inner"]);
+    },
+  );
+});
+
 function ann(id: string, start: number, end: number): TextPositions {
   return { type: "nested", body: { id } as Body, start, end };
 }
@@ -375,15 +531,20 @@ function mrk(id: string, charIndex: number): TextPositions {
   };
 }
 
+function mrkXpath(id: string, charIndex: number, xpath: string): TextPositions {
+  return { ...mrk(id, charIndex), xpath };
+}
+
 function blk(
   id: string,
   start: number,
   end: number,
   blockType: string,
+  elementName: string = blockType,
 ): TextPositions {
   return {
     type: "block",
-    body: { id } as Body,
+    body: { id, elementName } as Body,
     start,
     end,
     blockType,
