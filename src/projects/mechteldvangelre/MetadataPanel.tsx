@@ -117,13 +117,17 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 </div>
               </li>
             ) : null}
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <div className={labelStyling}>{translateProject("size")}: </div>
-                {/* .[1] = vertical; .[0] = horizontal. It's always in 'mm'. */}
-                {`${measure?.[1]} x ${measure?.[0]} mm`}
-              </div>
-            </li>
+            {measure?.[0] ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("size")}:{" "}
+                  </div>
+                  {/* .[1] = vertical; .[0] = horizontal. It's always in 'mm'. */}
+                  {`${measure?.[1]} x ${measure?.[0]} mm`}
+                </div>
+              </li>
+            ) : null}
             {seal ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
