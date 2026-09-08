@@ -12,7 +12,7 @@ export default {
       colors: {
         annotation: {
           per100: "#f8f2d2",
-          per500: "#647DE8",
+          per500: "#2D73CB",
           loc100: "#d2f2fd",
           loc500: "#21BCF5",
           com100: "#e3d4d4",

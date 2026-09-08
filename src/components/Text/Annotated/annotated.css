@@ -50,6 +50,24 @@
     @apply pl-2 before:-translate-x-2;
   }
 
+  /* Artwork icon (start of annotation) — sized to capital height (1cap) */
+  .annotated-art.start-annotation::before,
+  .annotated-art.annotationMarker::before {
+    content: "";
+    display: inline-block;
+    width: 1cap;
+    height: 1cap;
+    background: url("/src/assets/icon-annotation-artwork.svg") no-repeat center / contain;
+    vertical-align: baseline;
+  }
+  .annotated-art.start-annotation,
+  .annotated-art.annotationMarker {
+    white-space: nowrap;
+  }
+  .annotated-art.annotationMarker {
+    @apply pl-2 before:-translate-x-2;
+  }
+
   /* show levels */
   .fullNestedAnnotation .nested-annotation {
     @apply relative;
