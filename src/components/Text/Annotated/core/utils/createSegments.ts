@@ -14,6 +14,7 @@ import {
 } from "../AnnotationModel.ts";
 import { assignGroupToNestedSegments } from "./assignGroupToNestedSegments.ts";
 import { splitMarkerSegments } from "./splitMarkerSegments.ts";
+import { parseXPath } from "./parseXPath.ts";
 import { BlockSchema } from "../block";
 
 /**
@@ -31,9 +32,10 @@ export function createSegments(
   const segments = splitMarkerSegments(segment(body, offsets, getOffsets));
 
   /**
-   * Filter annotations in segments of no length,
-   * so markers are grouped into the correct blocks
-   * and not into bordering entity groups.
+   * Keep the relevant annotations in segment:
+   * - keep all annotations in segments with a length
+   * - group markers with block elements according to their xpath
+   * - entity groups ending with a marker should not include that marker.
    */
   const cleanedSegments = filterSegmentAnnotations(
     segments,
@@ -69,7 +71,8 @@ export function createSegments(
 
       /**
        * Entity groups ending with a marker should not include that marker,
-       * so inline annotations are removed that only border the marker:
+       * so inline annotations are removed that only border the marker.
+       * I.e.: a bordering note is not part of an entity
        */
       return annotation.start < segment.start && annotation.end > segment.start;
     },
@@ -97,18 +100,6 @@ export function createSegments(
   return assignGroupToNestedSegments(sortedSegments);
 }
 
-type XPathStep = { tag: string; index: number };
-
-function parseXPath(xpath: string): XPathStep[] {
-  return xpath
-    .split("/")
-    .filter((part) => !!part)
-    .map((step) => {
-      const [, tag, index] = step.match(/^(?:\w+:)?([^[]+)(?:\[(\d+)\])?$/)!;
-      return { tag, index: index ? parseInt(index, 10) : 1 };
-    });
-}
-
 /**
  * Decide whether a block annotation is an ancestor of a marker, when xpath is present
  */
@@ -128,12 +119,12 @@ function isXPathAncestor(
   const findNestingDepth = (a: TextPositions) =>
     similarTyped.filter((other) => isWrapping(other, a)).length;
 
-  const steps = parseXPath(xpath).filter(
+  const xPathSteps = parseXPath(xpath).filter(
     (s) => s.tag === block.body.elementName,
   );
   const depth = findNestingDepth(block);
-  const step = steps[depth];
-  if (!step) {
+  const xPathStep = xPathSteps[depth];
+  if (!xPathStep) {
     return false;
   }
 
@@ -149,7 +140,7 @@ function isXPathAncestor(
   const sortedSiblings = similarTyped
     .filter((a) => findNestingDepth(a) === findNestingDepth(block))
     .sort((a, b) => a.start - b.start || a.end - b.end);
-  return sortedSiblings.indexOf(block) + 1 === step.index;
+  return sortedSiblings.indexOf(block) + 1 === xPathStep.index;
 }
 
 /**
