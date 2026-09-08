@@ -146,11 +146,13 @@ img {
 
 /* Israels specific styling for AnnotatedText component */
 /* TODO: Test if we can remove parent selectors? */
-.annotated-art {
-  @apply bg-[#F0ECF7];
+.annotated-art,
+.closedNestedAnnotation .annotated-art {
+  @apply bg-transparent border-b-[2px] border-dotted border-[#9D7FC6] pb-0.5;
 }
-.annotated-ref {
-  @apply bg-[#afddff];
+.annotated-ref,
+.closedNestedAnnotation .annotated-ref {
+  @apply bg-transparent underline underline-offset-[3px] decoration-neutral-500;
 }
 
 /* Israels bibliography styling */
