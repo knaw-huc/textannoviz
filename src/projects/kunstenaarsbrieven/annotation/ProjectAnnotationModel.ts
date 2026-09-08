@@ -383,7 +383,7 @@ export function isBibleReferenceBody(
 
 export type ListBody = AnnoRepoBodyBase & {
   elementName: string;
-  "tei:type"?: "bulleted" | "gloss" | "unlabeled";
+  "tei:type"?: "bulleted" | "gloss" | "label-above" | "unlabeled";
 };
 
 export function isListBody(toTest?: AnnoRepoBodyBase): toTest is ListBody {
@@ -392,6 +392,12 @@ export function isListBody(toTest?: AnnoRepoBodyBase): toTest is ListBody {
 
 export function isGlossList(toTest?: AnnoRepoBodyBase): toTest is ListBody {
   return isListBody(toTest) && toTest["tei:type"] === "gloss";
+}
+
+export function isLabelAboveList(
+  toTest?: AnnoRepoBodyBase,
+): toTest is ListBody {
+  return isListBody(toTest) && toTest["tei:type"] === "label-above";
 }
 
 export const entityTypes = [entity, reference];

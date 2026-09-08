@@ -3,6 +3,7 @@ import {
   cell,
   head,
   isGlossList,
+  isLabelAboveList,
   list,
   listItem,
   page,
@@ -49,7 +50,8 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
 
   // Lists and list items:
   if (block.blockType === list) {
-    if (isGlossList(block.annotation.body)) {
+    const body = block.annotation.body;
+    if (isGlossList(body) || isLabelAboveList(body)) {
       return <DescriptionListWithLabelsAndItems block={block} />;
     } else {
       return <ListAndListItems block={block} />;
