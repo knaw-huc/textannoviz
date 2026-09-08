@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => {
     case "mechteldvangelre":
       tailwindConfig = "tailwind.config.mechteldvangelre.js";
       break;
-    case "combined":
+    case "kombucha":
       tailwindConfig = "tailwind.config.vangogh.js";
       break;
     default:

@@ -18,15 +18,15 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
 
-export const combinedConfig: ProjectConfig = mergeWith(
+export const kombuchaConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
-    id: "combined",
-    broccoliUrl: "http://localhost:8080",
+    id: "kombucha",
+    broccoliUrl: "http://localhost:8016",
     siteTitle: "Van Gogh Letters",
 
-    elasticIndexName: "combined",
+    elasticIndexName: "kombucha",
     initialDateFrom: "1500-01-01",
     initialDateTo: "2026-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",

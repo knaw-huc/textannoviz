@@ -10,7 +10,7 @@ import { oratiesConfig } from "./oraties/config";
 import { mondrianConfig } from "./mondrian/config";
 import { nvvConfig } from "./nvv/config";
 import { mechteldvangelreConfig } from "./mechteldvangelre/config";
-import { combinedConfig } from "./combined/config";
+import { kombuchaConfig } from "./kombucha/config";
 
 export const projectConfigs = {
   vangogh: vangoghConfig,
@@ -25,7 +25,7 @@ export const projectConfigs = {
   oraties: oratiesConfig,
   nvv: nvvConfig,
   mechteldvangelre: mechteldvangelreConfig,
-  combined: combinedConfig,
+  kombucha: kombuchaConfig,
 };
 
 export type ProjectName = keyof typeof projectConfigs;
