@@ -51,5 +51,6 @@ export function createBlockTextOffsets(
     start: relative.begin ?? 0,
     end: relative.end,
     blockType,
+    xpath: findXPathSelector(annotation),
   };
 }

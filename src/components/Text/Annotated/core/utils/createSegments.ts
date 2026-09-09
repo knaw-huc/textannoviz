@@ -3,7 +3,6 @@ import {
   findSegmentRange,
   segment,
   SegmentRange,
-  TextSegment,
 } from "@knaw-huc/text-annotation-segmenter";
 import {
   BlockAnnotationSegment,
@@ -14,7 +13,7 @@ import {
 } from "../AnnotationModel.ts";
 import { assignGroupToNestedSegments } from "./assignGroupToNestedSegments.ts";
 import { splitMarkerSegments } from "./splitMarkerSegments.ts";
-import { parseXPath } from "./parseXPath.ts";
+import { isAncestor } from "./isAncestor.ts";
 import { BlockSchema } from "../block";
 
 /**
@@ -59,14 +58,12 @@ export function createSegments(
        * - prefix: keep blocks starting at marker (e.g. a header prefix)
        */
       if (annotation.type === "block") {
-        if (marker?.xpath) {
-          return isXPathAncestor(annotation, segment, marker.xpath);
-        }
-
-        const markerPosition = marker?.markerPosition ?? "postfix";
-        return markerPosition === "prefix"
-          ? annotation.end > segment.start
-          : annotation.start < segment.start;
+        return isAncestor(
+          annotation,
+          segment,
+          marker?.xpath,
+          marker?.markerPosition,
+        );
       }
 
       /**
@@ -98,58 +95,6 @@ export function createSegments(
     ),
   }));
   return assignGroupToNestedSegments(sortedSegments);
-}
-
-/**
- * Decide whether a block annotation is an ancestor of a marker, when xpath is present
- */
-function isXPathAncestor(
-  block: TextPositions,
-  segment: TextSegment<TextPositions>,
-  xpath: string,
-): boolean {
-  const similarTyped = segment.annotations.filter(
-    (a) => a.type === "block" && a.blockType === block.blockType,
-  );
-
-  /**
-   * Find nesting depth among same-type ancestors:
-   * when a is wrapped by b, that means a must be a child of b.
-   */
-  const findNestingDepth = (a: TextPositions) =>
-    similarTyped.filter((other) => isWrapping(other, a)).length;
-
-  const xPathSteps = parseXPath(xpath).filter(
-    (s) => s.tag === block.body.elementName,
-  );
-  const depth = findNestingDepth(block);
-  const xPathStep = xPathSteps[depth];
-  if (!xPathStep) {
-    return false;
-  }
-
-  /**
-   * Determine which one of the adjacent block siblings (e.g. two cells)
-   * matches the index from the xpath.
-   *
-   * For example:
-   * <table><cell><img /></cell><cell></cell></table>
-   * Matches the first cell:
-   * /table[1]/cell[1]/img[1]
-   */
-  const sortedSiblings = similarTyped
-    .filter((a) => findNestingDepth(a) === findNestingDepth(block))
-    .sort((a, b) => a.start - b.start || a.end - b.end);
-  return sortedSiblings.indexOf(block) + 1 === xPathStep.index;
-}
-
-/**
- * Does a contain b, where b does not contain a
- */
-function isWrapping(a: TextPositions, b: TextPositions): boolean {
-  return (
-    a.start <= b.start && a.end >= b.end && (a.start < b.start || a.end > b.end)
-  );
 }
 
 function addSegmentTypeProps(
