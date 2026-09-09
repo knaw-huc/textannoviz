@@ -278,12 +278,12 @@ export type CategoryGetter = (annoRepoBody: AnnoRepoBodyBase) => string;
  * urns used in detail urls, to the letter numbers as cited, and to what a user
  * types in the quick search. Every project spells these differently:
  * Van Gogh id 'rm01' is cited as 'RM01' and lives at urn '...:vangogh:RM01',
- * Mechteld van Gelre id '10' is cited as '10' and lives at '...:brief_010'.
+ * Mechteld van Gelre id '010' is cited as '010' and lives at '...:brief_010'.
  *
  * The default is identity for all three; projects override what differs.
  */
 export type LetterIdFormat = {
-  /** Letter id to the part of the urn after the project id, e.g. '10' -> 'brief_010' */
+  /** Letter id to the part of the urn after the project id, e.g. '010' -> 'brief_010' */
   toUrnSuffix: (letterId: string) => string;
   /** Letter id to the letter number as cited, e.g. 'rm01' -> 'RM01' */
   toNumber: (letterId: string) => string;
