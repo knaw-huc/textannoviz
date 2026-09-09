@@ -148,11 +148,18 @@ img {
 /* TODO: Test if we can remove parent selectors? */
 .annotated-art,
 .closedNestedAnnotation .annotated-art {
-  @apply bg-transparent border-b-[2px] border-dotted border-[#9D7FC6] pb-0.5;
+  @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-0.5;
 }
 .annotated-ref,
 .closedNestedAnnotation .annotated-ref {
   @apply bg-transparent underline underline-offset-[3px] decoration-neutral-500;
+}
+
+[role="notespanel"] .closedNestedAnnotation .annotated-art {
+  @apply pb-0 leading-none;
+}
+[role="notespanel"] .closedNestedAnnotation .annotated-ref {
+  @apply underline-offset-1;
 }
 
 /* Israels bibliography styling */
