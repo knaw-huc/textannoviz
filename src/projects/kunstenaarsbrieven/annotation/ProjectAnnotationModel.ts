@@ -315,7 +315,9 @@ export type LetterBody = AnnoRepoBodyBase & {
   shelfmark: string;
   fromLocation: string;
   toLocation: string;
-  dateSent: string;
+  dateSent?: string | number;
+  dateSentNotBefore?: string;
+  dateSentNotAfter?: string;
   place?: string;
   collection?: string;
 };

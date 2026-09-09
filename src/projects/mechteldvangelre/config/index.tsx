@@ -3,7 +3,6 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import { englishMechteldVanGelreLabels } from "./englishMechteldVanGelreLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 // import { Artworks } from "../artworks/Artworks";
@@ -148,10 +147,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       "transcrSource",
     ],
     selectedLanguage: "nl",
-    languages: [
-      { code: "nl", labels: dutchMechteldVanGelreLabels },
-      { code: "en", labels: englishMechteldVanGelreLabels },
-    ],
+    languages: [{ code: "nl", labels: dutchMechteldVanGelreLabels }],
     routes: [
       {
         path: "persons",

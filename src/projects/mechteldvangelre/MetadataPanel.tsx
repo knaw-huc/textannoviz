@@ -4,7 +4,10 @@ import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 import { gridOneColumn } from "../../utils/gridOneColumn.ts";
-import { findMechteldLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import {
+  findMechteldLetterBody,
+  formatWithCert,
+} from "./annotation/ProjectAnnotationModel.ts";
 import { useMechteldVanGelreTextViews } from "./text/useMechteldVanGelreTextViews.ts";
 
 type RenderMetadataPanelProps = {
@@ -30,6 +33,14 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     watermark,
     measure,
     seal,
+    location,
+    locationCert,
+    dateSent,
+    dateSentNotBefore,
+    dateSentNotAfter,
+    dateCert,
+    senderCert,
+    recipientCert,
   } = letterAnnoBody ?? {};
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
@@ -37,6 +48,36 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const publication = textViews?.publication?.nl;
   const seclit = textViews?.seclit?.nl;
   const transcrSourceText = textViews?.transcrSource?.nl;
+
+  function formatDateSent(): string {
+    if (dateSent) return formatDate(dateSent);
+    if (dateSentNotBefore && dateSentNotAfter)
+      return `${translateProject("BETWEEN")} ${formatDate(
+        dateSentNotBefore,
+      )} ${translateProject("AND")} ${formatDate(dateSentNotAfter)}`;
+    if (dateSentNotBefore)
+      return `${translateProject("AFTER")} ${formatDate(dateSentNotBefore)}`;
+    if (dateSentNotAfter)
+      return `${translateProject("BEFORE")} ${formatDate(dateSentNotAfter)}`;
+    return "";
+  }
+
+  function formatDate(date: string | number): string {
+    if (!date) return "";
+    const parts = String(date).split("-");
+    const [year, month, day] = parts;
+
+    switch (parts.length) {
+      case 1:
+        return year;
+      case 2:
+        return `${month}-${year}`;
+      case 3:
+        return `${day}-${month}-${year}`;
+      default:
+        return String(date);
+    }
+  }
 
   return (
     <>
@@ -63,12 +104,23 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 </Link>
               </div>
             </li>
+            {dateSent || dateSentNotBefore || dateSentNotAfter ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("dateSent")}:{" "}
+                  </div>
+                  {formatWithCert(formatDateSent(), dateCert)}
+                </div>
+              </li>
+            ) : null}
+
             <li className="mb-8">
               <div className={gridOneColumn}>
                 <div className={labelStyling}>
                   {translateProject("sender")}:{" "}
                 </div>
-                {Array.isArray(sender) ? sender.join(", ") : sender}
+                {formatWithCert(sender, senderCert)}
               </div>
             </li>
             <li className="mb-8">
@@ -76,7 +128,15 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("recipient")}:{" "}
                 </div>
-                {Array.isArray(recipient) ? recipient.join(", ") : recipient}
+                {formatWithCert(recipient, recipientCert)}
+              </div>
+            </li>
+            <li className="mb-8">
+              <div className={gridOneColumn}>
+                <div className={labelStyling}>
+                  {translateProject("location")}:{" "}
+                </div>
+                {formatWithCert(location, locationCert)}
               </div>
             </li>
             {publication?.body.length ? (
