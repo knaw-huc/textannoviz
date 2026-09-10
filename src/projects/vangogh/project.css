@@ -162,11 +162,6 @@
   margin-bottom: 1.5rem;
 }
 
-.highlight-label {
-  float: left;
-  width: 125px;
-}
-
 /* Remove annotated-segment [role="button"] pointer cursor: */
 [role="button"]:has(:not(.nested-annotation)) {
   cursor: text;
