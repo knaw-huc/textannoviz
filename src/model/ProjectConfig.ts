@@ -88,6 +88,7 @@ export type ProjectConfig = SearchConfig &
       path: string;
       element: JSX.Element;
     }[];
+    homePage: JSX.Element | null;
   };
 
 type FacsimileConfig = {

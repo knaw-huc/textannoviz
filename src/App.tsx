@@ -19,7 +19,9 @@ import {
 } from "./stores/project";
 import { selectProjectConfig } from "./utils/selectProjectConfig.ts";
 import { getViteEnvVars } from "./utils/viteEnvVars.ts";
+import { searchRoutePath } from "./utils/searchPath.ts";
 import { RouterProvider as AriaRouterProvider } from "react-aria-components";
+import { HomepageRoute } from "./projects/vangogh/HomepageRoute.tsx";
 
 const { routerBasename, prodMode } = getViteEnvVars();
 
@@ -96,10 +98,15 @@ async function createRouter() {
         element: <Layout />,
         errorElement: <ErrorPage />,
         children: [
-          {
-            path: "/",
-            element: <Search />,
-          },
+          ...(config.homePage
+            ? [
+                {
+                  index: true,
+                  element: <HomepageRoute homePage={config.homePage} />,
+                },
+                { path: searchRoutePath, element: <Search /> },
+              ]
+            : [{ index: true, element: <Search /> }]),
           {
             path: detailTier2Path,
             element: <Detail />,

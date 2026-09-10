@@ -152,6 +152,7 @@ export const defaultConfig: DefaultProjectConfig = {
     },
   ],
   routes: [],
+  homePage: null,
   searchSorting: [],
   annoToEntityCategory: "",
   viewsToSearchIn: [],
