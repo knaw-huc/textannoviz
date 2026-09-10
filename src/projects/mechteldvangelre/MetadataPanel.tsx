@@ -131,14 +131,16 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 {formatWithCert(recipient, recipientCert)}
               </div>
             </li>
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <div className={labelStyling}>
-                  {translateProject("location")}:{" "}
+            {location ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("location")}:{" "}
+                  </div>
+                  {formatWithCert(location, locationCert)}
                 </div>
-                {formatWithCert(location, locationCert)}
-              </div>
-            </li>
+              </li>
+            ) : null}
             {publication?.body.length ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
