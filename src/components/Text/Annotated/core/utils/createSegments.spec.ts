@@ -7,6 +7,7 @@ import {
   TextPositions,
 } from "../AnnotationModel.ts";
 import { createSegments } from "./createSegments.ts";
+import { createBlocks } from "../block/createBlocks.ts";
 import { BlockSchema } from "../block";
 
 const emptySchema: BlockSchema = {
@@ -376,9 +377,9 @@ describe("marker xpath segmenting and grouping", () => {
     const segments = createSegments(
       "",
       [
-        blk("table1", 0, 0, "Table", "table"),
-        blk("row1", 0, 0, "Row", "row"),
-        blk("cell1", 0, 0, "Cell", "cell"),
+        blk("table1", 0, 0, "Table", "table", "/table[1]"),
+        blk("row1", 0, 0, "Row", "row", "/table[1]/row[1]"),
+        blk("cell1", 0, 0, "Cell", "cell", "/table[1]/row[1]/cell[1]"),
         mrkXpath("img", 0, "/table[1]/row[1]/cell[1]/img[1]"),
       ],
       tableSchema,
@@ -395,9 +396,9 @@ describe("marker xpath segmenting and grouping", () => {
       "",
       [
         mrkXpath("img", 0, "/img[1]"),
-        blk("table1", 0, 0, "Table", "table"),
-        blk("row1", 0, 0, "Row", "row"),
-        blk("cell1", 0, 0, "Cell", "cell"),
+        blk("table1", 0, 0, "Table", "table", "/table[1]"),
+        blk("row1", 0, 0, "Row", "row", "/table[1]/row[1]"),
+        blk("cell1", 0, 0, "Cell", "cell", "/table[1]/row[1]/cell[1]"),
       ],
       tableSchema,
     );
@@ -412,10 +413,10 @@ describe("marker xpath segmenting and grouping", () => {
     const segments = createSegments(
       "",
       [
-        blk("table1", 0, 0, "Table", "table"),
-        blk("row1", 0, 0, "Row", "row"),
-        blk("cell1", 0, 0, "Cell", "cell"),
-        blk("cell2", 0, 0, "Cell", "cell"),
+        blk("table1", 0, 0, "Table", "table", "/table[1]"),
+        blk("row1", 0, 0, "Row", "row", "/table[1]/row[1]"),
+        blk("cell1", 0, 0, "Cell", "cell", "/table[1]/row[1]/cell[1]"),
+        blk("cell2", 0, 0, "Cell", "cell", "/table[1]/row[1]/cell[2]"),
         mrkXpath("img", 0, "/table[1]/row[1]/cell[2]/img[1]"),
       ],
       tableSchema,
@@ -432,10 +433,10 @@ describe("marker xpath segmenting and grouping", () => {
     const segments = createSegments(
       "",
       [
-        blk("table1", 0, 0, "Table", "table"),
-        blk("row1", 0, 0, "Row", "row"),
-        blk("cell1", 0, 0, "Cell", "cell"),
-        blk("cell2", 0, 0, "Cell", "cell"),
+        blk("table1", 0, 0, "Table", "table", "/table[1]"),
+        blk("row1", 0, 0, "Row", "row", "/table[1]/row[1]"),
+        blk("cell1", 0, 0, "Cell", "cell", "/table[1]/row[1]/cell[1]"),
+        blk("cell2", 0, 0, "Cell", "cell", "/table[1]/row[1]/cell[2]"),
         mrkXpath("img1", 0, "/table[1]/row[1]/cell[1]/img[1]"),
         mrkXpath("img2", 0, "/table[1]/row[1]/cell[1]/img[2]"),
         mrkXpath("img3", 0, "/table[1]/row[1]/cell[2]/img[1]"),
@@ -455,6 +456,55 @@ describe("marker xpath segmenting and grouping", () => {
     expect(idsFor("img3")).not.toContain("cell1");
   });
 
+  it("keeps a page intact around a marker", () => {
+    const pageSchema: BlockSchema = {
+      root: "root",
+      blocks: {
+        root: { children: ["Page"] },
+        Page: { children: ["Paragraph"] },
+        Paragraph: { children: [] },
+      },
+    };
+    const segments = createSegments(
+      "AABB",
+      [
+        blk("page1", 0, 4, "Page", "pb", "/div[1]/pb[1]"),
+        blk("para1", 0, 4, "Paragraph", "p", "/div[1]/p[1]"),
+        mrkXpath("note", 2, "/div[1]/p[1]/ptr[1]"),
+      ],
+      pageSchema,
+    );
+    const blocks = createBlocks(segments);
+    const pages = blocks.filter((b) => b.isBlock && b.blockType === "Page");
+    expect(pages).toHaveLength(1);
+  });
+
+  /**
+   * Pages are not included into the current xpaths.
+   * In that case, ignore xpath and use character offsets.
+   */
+  it("respects a prefix marker's position in no-ancestor fallback", () => {
+    const pageSchema: BlockSchema = {
+      root: "root",
+      blocks: { root: { children: ["Page"] }, Page: { children: [] } },
+    };
+    const segments = createSegments(
+      "AABB",
+      [
+        blk("page1", 0, 2, "Page", "pb"),
+        blk("page2", 2, 4, "Page", "pb"),
+        { ...mrkXpath("head", 2, "/head[1]"), markerPosition: "prefix" },
+      ],
+      pageSchema,
+    );
+    const markerSegment = segments.find((s) =>
+      s.annotations.some((a) => a.body.id === "head"),
+    )!;
+    const ids = markerSegment.annotations.map((a) => a.body.id);
+    expect(ids).toContain("page2");
+    expect(ids).not.toContain("page1");
+  });
+
   it("nests a marker in the right list when lists nest inside themselves", () => {
     const listSchema: BlockSchema = {
       root: "root",
@@ -466,9 +516,9 @@ describe("marker xpath segmenting and grouping", () => {
     const segments = createSegments(
       "AABB",
       [
-        blk("outer", 0, 4, "list"),
-        blk("inner1", 0, 2, "list"),
-        blk("inner2", 2, 4, "list"),
+        blk("outer", 0, 4, "list", "list", "/list[1]"),
+        blk("inner1", 0, 2, "list", "list", "/list[1]/list[1]"),
+        blk("inner2", 2, 4, "list", "list", "/list[1]/list[2]"),
         mrkXpath("img", 2, "/list[1]/list[2]/img[1]"),
       ],
       listSchema,
@@ -481,37 +531,32 @@ describe("marker xpath segmenting and grouping", () => {
   });
 
   /**
-   * TODO: how to correctly position markers within elements:
-   *  - of the same type
-   *  - that are nested
-   *  - and that are empty?
+   * Both blocks are empty, at the exact same position: position alone
+   * can't tell them apart, so xpath should be used.
    */
-  it.fails(
-    "nests a marker in the right block when both blocks are empty",
-    () => {
-      const listSchema: BlockSchema = {
-        root: "root",
-        blocks: {
-          root: { children: ["list"] },
-          list: { children: ["list"] },
-        },
-      };
-      const segments = createSegments(
-        "",
-        [
-          blk("outer", 0, 0, "list"),
-          blk("inner", 0, 0, "list"),
-          mrkXpath("img", 0, "/list[1]/list[2]/img[1]"),
-        ],
-        listSchema,
-      );
-      const markerSegment = segments.find((s) =>
-        s.annotations.some((a) => a.body.id === "img"),
-      )!;
-      const ids = markerSegment.annotations.map((a) => a.body.id);
-      expect(ids).toEqual(["img", "outer", "inner"]);
-    },
-  );
+  it("nests a marker in the right block when both blocks are empty", () => {
+    const listSchema: BlockSchema = {
+      root: "root",
+      blocks: {
+        root: { children: ["list"] },
+        list: { children: ["list"] },
+      },
+    };
+    const segments = createSegments(
+      "",
+      [
+        blk("outer", 0, 0, "list", "list", "/list[1]"),
+        blk("inner", 0, 0, "list", "list", "/list[1]/list[2]"),
+        mrkXpath("img", 0, "/list[1]/list[2]/img[1]"),
+      ],
+      listSchema,
+    );
+    const markerSegment = segments.find((s) =>
+      s.annotations.some((a) => a.body.id === "img"),
+    )!;
+    const ids = markerSegment.annotations.map((a) => a.body.id);
+    expect(ids).toEqual(["img", "outer", "inner"]);
+  });
 });
 
 function ann(id: string, start: number, end: number): TextPositions {
@@ -541,6 +586,7 @@ function blk(
   end: number,
   blockType: string,
   elementName: string = blockType,
+  xpath?: string,
 ): TextPositions {
   return {
     type: "block",
@@ -548,5 +594,6 @@ function blk(
     start,
     end,
     blockType,
+    xpath,
   };
 }
