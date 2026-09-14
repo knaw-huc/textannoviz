@@ -6,13 +6,13 @@ import {
   cancelIdleCallback,
   requestIdleCallback,
 } from "../../../../components/Text/Annotated/core/utils/requestIdleCallback.ts";
-import { useAnnotationStore } from "../../../../stores/annotation.ts";
-import { isLetterDetailPage } from "../../isLetterDetailPage.ts";
 
 type LazyTableProps = {
   block: Block;
   initBatchSize?: number;
   initRowHeight?: number;
+  hasHeader: boolean;
+  className?: string;
 };
 
 /**
@@ -26,20 +26,18 @@ export function LazyTableAndRows({
   block,
   initBatchSize = 50,
   initRowHeight = 20,
+  hasHeader,
+  className,
 }: LazyTableProps) {
   const tableRef = useRef<HTMLTableElement>(null);
   const [renderAll, setRenderAll] = useState(false);
   const [colWidths, setColWidths] = useState<number[]>([]);
   const [rowHeight, setRowHeight] = useState(initRowHeight);
 
-  const isHeaderless = isLetterDetailPage(
-    useAnnotationStore((s) => s.annotations),
-  );
-
   const rows = block.children.filter((e) => e.isBlock) as Block[];
   // initBatchSize = rows.length
-  const headerRow = isHeaderless ? undefined : rows[0];
-  const dataRows = isHeaderless ? rows : rows.slice(1);
+  const headerRow = hasHeader ? rows[0] : undefined;
+  const dataRows = hasHeader ? rows.slice(1) : rows;
   const visibleRows = renderAll ? dataRows : dataRows.slice(0, initBatchSize);
   const remainingRows = renderAll ? 0 : dataRows.length - initBatchSize;
   const needsLazyLoad = dataRows.length > initBatchSize;
@@ -94,7 +92,7 @@ export function LazyTableAndRows({
   return (
     <table
       ref={tableRef}
-      className={`${isHeaderless ? "table-letter" : ""}`}
+      className={className}
       style={{ tableLayout: isWidthCalculated ? "fixed" : "auto" }}
     >
       {isWidthCalculated && (

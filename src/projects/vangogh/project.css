@@ -127,7 +127,7 @@
     }
   }
 
-  .table-letter {
+  table.letter-table {
     margin: 0.5rem 0;
     tr,
     td,
