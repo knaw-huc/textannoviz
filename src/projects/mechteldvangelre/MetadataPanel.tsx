@@ -2,7 +2,6 @@ import { Link } from "react-aria-components";
 import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
-import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 import { gridOneColumn } from "../../utils/gridOneColumn.ts";
 import {
   findMechteldLetterBody,
@@ -166,7 +165,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("material")}:{" "}
                 </div>
-                {material && firstLetterToUppercase(material)}
+                {material && translateProject(material)}
               </div>
             </li>
             {watermark ? (
