@@ -1,5 +1,4 @@
 import { ChevronDown } from "../../components/common/icons/ChevronDown";
-import { buildNavLink } from "./utils/buildNavLink";
 import React from "react";
 import {
   Menu,
@@ -40,6 +39,7 @@ export function MenuComponent(props: MenuComponentProps) {
   const { menu, variant = "desktop", onNavigate } = props;
   const [openMenuLabel, setOpenMenuLabel] = React.useState<string | null>(null);
   const projectName = useProjectStore(projectConfigSelector).id;
+  const buildNavLink = useProjectStore(projectConfigSelector).buildNavLink;
 
   const menuStyling =
     "min-w-[220px] rounded-xl bg-white px-3 py-2 shadow-md outline-none ring-1 ring-black/5";

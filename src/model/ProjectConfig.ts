@@ -79,6 +79,7 @@ export type ProjectConfig = SearchConfig &
     locationUrl: string;
     siteTitle: string;
     pageLabelFormat: (pageBody: PageBody) => string | undefined;
+    buildNavLink: (target: string, projectName: string) => string;
 
     detailPanels: DetailPanelConfig[];
 

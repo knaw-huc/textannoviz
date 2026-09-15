@@ -24,6 +24,7 @@ import {
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { Any } from "../../../utils/Any";
 import { Locations } from "../Locations";
+import { buildNavLink } from "../utils/buildNavLink";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -175,6 +176,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       PER: "PER",
       location: "LOC",
     } as Any,
+    buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,
 );
