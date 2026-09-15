@@ -41,7 +41,7 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
       <LazyTableAndRows
         block={block}
         hasHeader={!isLetter}
-        className={isLetter ? "letter-table" : undefined}
+        className={isLetter ? "letter-table not-prose" : undefined}
       />
     );
   }
