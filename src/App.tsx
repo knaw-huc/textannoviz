@@ -73,7 +73,7 @@ function Layout() {
   const navigate = useNavigate();
   return (
     <AriaRouterProvider navigate={navigate} useHref={useHrefAllowingExternal}>
-      <div className="flex h-screen flex-col">
+      <div className="flex h-screen min-h-0 flex-col overflow-hidden">
         {prodMode && (
           <link
             rel="stylesheet"
@@ -82,8 +82,12 @@ function Layout() {
             }/${project}.css`}
           />
         )}
-        <Header />
-        <Outlet />
+        <div className="shrink-0">
+          <Header />
+        </div>
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+          <Outlet />
+        </div>
       </div>
     </AriaRouterProvider>
   );
