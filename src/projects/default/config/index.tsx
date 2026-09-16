@@ -57,6 +57,7 @@ export const defaultConfig: DefaultProjectConfig = {
     fromInput: (input) => input,
   },
   pageLabelFormat: (pageBody) => pageBody.n,
+  buildNavLink: () => "",
   homeUrl: "",
   locationUrl: "",
   initialRangeFrom: "0",

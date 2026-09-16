@@ -19,6 +19,7 @@ import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { vangoghLetterIdFormat } from "../utils/letterIdFormat";
+import { buildNavLink } from "../utils/buildNavLink";
 
 const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
 
@@ -205,6 +206,7 @@ export const vangoghConfig: ProjectConfig = mergeWith(
       { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
       { name: "text.trans", view: "text.en" },
     ],
+    buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

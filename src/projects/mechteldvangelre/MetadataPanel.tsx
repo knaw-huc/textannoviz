@@ -2,7 +2,6 @@ import { Link } from "react-aria-components";
 import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
-import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 import { gridOneColumn } from "../../utils/gridOneColumn.ts";
 import {
   findMechteldLetterBody,
@@ -131,14 +130,16 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 {formatWithCert(recipient, recipientCert)}
               </div>
             </li>
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <div className={labelStyling}>
-                  {translateProject("location")}:{" "}
+            {location ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("location")}:{" "}
+                  </div>
+                  {formatWithCert(location, locationCert)}
                 </div>
-                {formatWithCert(location, locationCert)}
-              </div>
-            </li>
+              </li>
+            ) : null}
             {publication?.body.length ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
@@ -164,7 +165,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("material")}:{" "}
                 </div>
-                {material && firstLetterToUppercase(material)}
+                {material && translateProject(material)}
               </div>
             </li>
             {watermark ? (

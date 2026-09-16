@@ -24,6 +24,7 @@ import {
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { Any } from "../../../utils/Any";
 import { Locations } from "../Locations";
+import { buildNavLink } from "../utils/buildNavLink";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -44,9 +45,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     biblUrl: {
       nl: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliografie.html",
     },
-    // menuUrl: `http://localhost:${
-    //   nginxPortVangogh ?? "8040"
-    // }/files/vangogh/menu/menu.json`,
+    menuUrl: "http://localhost:8040/files/mechteldvangelre/menu/menu.json",
     letterIdUrl: "http://localhost:8040/files/mechteldvangelre/letter-ids.json",
     locationUrl:
       "http://localhost:8040/files/mechteldvangelre/apparatus/place-entities.json",
@@ -177,6 +176,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       PER: "PER",
       location: "LOC",
     } as Any,
+    buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

@@ -66,6 +66,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   invNr: "Signatuur",
   addInfo: "Aanvullende informatie",
   NO_DATA: "Geen metadata",
+  parchment: "Perkament",
+  paper: "Papier",
 
   //Metadata panel titles
   notes: "Noten",
