@@ -22,6 +22,7 @@ import { Button } from "react-aria-components";
 
 type PersonsProps = {
   personsUrl: string;
+  formatPersonName?: (person: Person) => string;
 };
 
 export function Persons(props: PersonsProps) {
@@ -179,7 +180,9 @@ export function Persons(props: PersonsProps) {
             >
               <div className="flex flex-row items-start">
                 <div className="flex w-fit flex-grow flex-col justify-start">
-                  <span className="font-bold">{formatName(fullName)}</span>
+                  <span className="font-bold">
+                    {props.formatPersonName?.(per) ?? formatName(fullName)}
+                  </span>
                   {/* `sortLabel` is built from the abbreviated form, so only
                     show it when there is one to differ from the full name. */}
                   {hasAbbreviation ? <span>{per.sortLabel}</span> : null}

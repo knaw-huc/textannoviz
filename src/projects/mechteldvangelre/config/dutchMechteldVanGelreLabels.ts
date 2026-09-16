@@ -48,7 +48,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
 
   //Search item
   letterOriginalText: "Geëditeerde tekst (brief)",
-  letterTranslatedText: "Vertaling (brief)",
+  letterRegestText: "Samenvatting (brief)",
   letterNotesText: "Annotaties (brief)",
   introText: "Tekst (over deze editie)",
   // introNotesText: "Annotaties (over deze editie)",
@@ -66,6 +66,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   invNr: "Signatuur",
   addInfo: "Aanvullende informatie",
   NO_DATA: "Geen metadata",
+  parchment: "Perkament",
+  paper: "Papier",
 
   //Metadata panel titles
   notes: "Noten",

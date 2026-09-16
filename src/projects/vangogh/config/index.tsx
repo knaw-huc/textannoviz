@@ -20,6 +20,7 @@ import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { vangoghLetterIdFormat } from "../utils/letterIdFormat";
 import { Homepage } from "../Homepage";
+import { buildNavLink } from "../utils/buildNavLink";
 
 const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
 
@@ -203,6 +204,7 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,
 );
