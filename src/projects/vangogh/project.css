@@ -215,7 +215,7 @@ img {
   @apply bg-[#F0ECF7];
 }
 .annotated-ref {
-  @apply bg-[#afddff];
+  @apply underline decoration-black;
 }
 
 /* Israels bibliography styling */
