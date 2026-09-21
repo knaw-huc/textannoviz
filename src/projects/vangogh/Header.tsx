@@ -10,6 +10,7 @@ import {
 import { toast } from "react-toastify";
 import React from "react";
 import { handleAbort } from "../../utils/handleAbort.tsx";
+import { VisitedLetters } from "./VisitedLetters.tsx";
 
 export const Header = () => {
   const translateProject = useTranslateProject();
@@ -58,6 +59,7 @@ export const Header = () => {
       introIds={introIds}
       menuUrl={menuUrl}
       letterIds={letterIds}
+      visitedLetters={<VisitedLetters />}
     />
   );
 };

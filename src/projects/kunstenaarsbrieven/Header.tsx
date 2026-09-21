@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { LanguageMenu } from "../../components/LanguageMenu.tsx";
 import {
   projectConfigSelector,
@@ -17,6 +17,7 @@ import { getBaseUrl } from "./annotation/ProjectAnnotationModel.ts";
 import { getAdjacentLetterPaths } from "./utils/getAdjacentLetterPaths.ts";
 import { isLetterDetailPage } from "./isLetterDetailPage.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
+import { LetterNumber } from "./LetterNumber.tsx";
 
 type HeaderProps = {
   introIds: { name: string; id: string }[];
@@ -24,6 +25,8 @@ type HeaderProps = {
   letterNumber: string | undefined;
   menuUrl?: string;
   letterIds?: string[];
+  /** Optional slot for the visited/recent letters block (e.g. Van Gogh) */
+  visitedLetters?: ReactNode;
 };
 
 export const Header = (props: HeaderProps) => {
@@ -31,8 +34,10 @@ export const Header = (props: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const translateProject = useTranslateProject();
   const location = useLocation();
-  const version = useProjectStore(projectConfigSelector).version;
-  const versionHash = useProjectStore(projectConfigSelector).versionHash;
+  const projectConfig = useProjectStore(projectConfigSelector);
+  const { version, versionHash, letterNavLayout, showRecentLetters } =
+    projectConfig;
+  const isTitleLeft = letterNavLayout === "titleLeft";
   const annotations = useAnnotationStore().annotations;
 
   React.useEffect(() => {
@@ -77,6 +82,56 @@ export const Header = (props: HeaderProps) => {
     () =>
       getAdjacentLetterPaths(props.letterIds, props.letterNumber, getBaseUrl()),
     [props.letterIds, props.letterNumber],
+  );
+
+  const navLinkClass =
+    "hover:bg-brand1-50 hover:text-brand1-600 focus-visible:ring-brand1-600 text-brand1Grey-600 group -mx-2 -my-1 inline-flex items-center gap-2 rounded px-2 py-1 no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40";
+
+  const prevLink = props.letterIds && (
+    <Link
+      className={navLinkClass}
+      isDisabled={!prev}
+      href={prev?.path}
+      aria-label={`${translateProject("PREVIOUS_LETTER")} ${prev?.number ?? ""}`}
+    >
+      <span
+        aria-hidden="true"
+        className="transition-transform group-hover:-translate-x-0.5"
+      >
+        &#8592;
+      </span>
+      <span className="text-sm font-semibold tabular-nums tracking-wide">
+        {prev?.number ?? "—"}
+      </span>
+    </Link>
+  );
+
+  const nextLink = props.letterIds && (
+    <Link
+      className={`${navLinkClass} flex-row-reverse`}
+      isDisabled={!next}
+      href={next?.path}
+      aria-label={`${translateProject("NEXT_LETTER")} ${next?.number ?? ""}`}
+    >
+      <span
+        aria-hidden="true"
+        className="transition-transform group-hover:translate-x-0.5"
+      >
+        &#8594;
+      </span>
+      <span className="text-sm font-semibold tabular-nums tracking-wide">
+        {next?.number ?? "—"}
+      </span>
+    </Link>
+  );
+
+  const letterHeading = (
+    <>
+      {props.letterNumber && (
+        <LetterNumber>{props.letterNumber}</LetterNumber>
+      )}
+      <h4 className="min-w-0 truncate font-bold">{props.letterTitle}</h4>
+    </>
   );
 
   return (
@@ -167,68 +222,38 @@ export const Header = (props: HeaderProps) => {
           </div>
         </div>
       )}
-      {/* Hide <div> when not on detail page and when on 'about' pages */}
+      {/* Hide when not on detail page and when on 'about' pages */}
       <div
-        className={`col-span-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-b border-neutral-400 bg-white px-3 py-3 sm:col-span-4 sm:gap-4 sm:px-4 lg:col-span-3 ${
+        className={`letter-nav col-span-3 items-center gap-2 border-b border-neutral-400 bg-white px-3 py-3 sm:col-span-4 sm:gap-4 sm:px-4 lg:col-span-3 ${
+          isTitleLeft
+            ? "letter-nav--titleLeft"
+            : "grid grid-cols-[1fr_auto_1fr]"
+        } ${
           !isOnDetailPage || !isLetterDetailPage(annotations) ? "hidden" : ""
         }`}
       >
-        {/* Both cells stay in the grid while the letter index loads, so the
-            title does not shift sideways once prev/next appear */}
-        <div className="justify-self-start">
-          {props.letterIds && (
-            <Link
-              className="hover:bg-brand1-50 hover:text-brand1-600 focus-visible:ring-brand1-600 text-brand1Grey-600 group -mx-2 -my-1 inline-flex items-center gap-2 rounded px-2 py-1 no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
-              isDisabled={!prev}
-              href={prev?.path}
-              aria-label={`${translateProject("PREVIOUS_LETTER")} ${
-                prev?.number ?? ""
-              }`}
-            >
-              <span
-                aria-hidden="true"
-                className="transition-transform group-hover:-translate-x-0.5"
-              >
-                &#8592;
-              </span>
-              <span className="text-sm font-semibold tabular-nums tracking-wide">
-                {prev?.number ?? "—"}
-              </span>
-            </Link>
-          )}
-        </div>
-
-        <div className="flex min-w-0 flex-col items-center gap-0 justify-self-center text-center sm:flex-row sm:items-baseline sm:gap-2">
-          {props.letterNumber && (
-            <span className="text-brand1-600 text-sm font-semibold tabular-nums tracking-wider">
-              {props.letterNumber}
-            </span>
-          )}
-          <h4 className="min-w-0 truncate font-bold">{props.letterTitle}</h4>
-        </div>
-
-        <div className="justify-self-end">
-          {props.letterIds && (
-            <Link
-              className="hover:bg-brand1-50 hover:text-brand1-600 focus-visible:ring-brand1-600 text-brand1Grey-600 group -mx-2 -my-1 inline-flex flex-row-reverse items-center gap-2 rounded px-2 py-1 no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
-              isDisabled={!next}
-              href={next?.path}
-              aria-label={`${translateProject("NEXT_LETTER")} ${
-                next?.number ?? ""
-              }`}
-            >
-              <span
-                aria-hidden="true"
-                className="transition-transform group-hover:translate-x-0.5"
-              >
-                &#8594;
-              </span>
-              <span className="text-sm font-semibold tabular-nums tracking-wide">
-                {next?.number ?? "—"}
-              </span>
-            </Link>
-          )}
-        </div>
+        {isTitleLeft ? (
+          <>
+            <div className="letter-nav__title flex min-w-0 items-baseline gap-2">
+              {letterHeading}
+            </div>
+            <div className="letter-nav__actions">
+              {showRecentLetters && props.visitedLetters}
+              {prevLink}
+              {nextLink}
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Both cells stay in the grid while the letter index loads, so the
+                title does not shift sideways once prev/next appear */}
+            <div className="justify-self-start">{prevLink}</div>
+            <div className="flex min-w-0 flex-col items-center gap-0 justify-self-center text-center sm:flex-row sm:items-baseline sm:gap-2">
+              {letterHeading}
+            </div>
+            <div className="justify-self-end">{nextLink}</div>
+          </>
+        )}
       </div>
     </header>
   );

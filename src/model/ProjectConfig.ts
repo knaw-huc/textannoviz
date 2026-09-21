@@ -75,6 +75,14 @@ export type ProjectConfig = SearchConfig &
     menuUrl: string;
     letterIdUrl: string;
     letterIdFormat: LetterIdFormat;
+    /**
+     * Letter detail nav bar layout.
+     * - centered: prev | title | next (default)
+     * - titleLeft: title left; visited letters + prev/next right
+     */
+    letterNavLayout: "centered" | "titleLeft";
+    /** Show the visited/recent letters block in the letter nav bar */
+    showRecentLetters: boolean;
     homeUrl: string;
     locationUrl: string;
     siteTitle: string;

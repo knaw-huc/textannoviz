@@ -56,6 +56,8 @@ export const defaultConfig: DefaultProjectConfig = {
     toNumber: (letterId) => letterId,
     fromInput: (input) => input,
   },
+  letterNavLayout: "centered" as const,
+  showRecentLetters: false,
   pageLabelFormat: (pageBody) => pageBody.n,
   buildNavLink: () => "",
   homeUrl: "",
