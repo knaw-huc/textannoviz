@@ -43,6 +43,9 @@ export const NotesPanel = () => {
     return () => cancelAnimationFrame(frame);
   }, [activeFootnote, isMetadataPanelVisible]);
 
+  // getNotesTexts lists these same texts in this same order, so that an
+  // entity match can be resolved to a note without rendering the panel.
+  // Reordering here means reordering there.
   const textNotes = views?.["textNotes"];
   const ogtNotesText = views?.ogtNotes?.en;
 

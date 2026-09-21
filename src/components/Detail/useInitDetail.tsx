@@ -18,7 +18,10 @@ import {
 } from "../../model/AnnoRepoAnnotation.ts";
 import { useLoadManifest } from "@knaw-huc/osd-iiif-viewer";
 import { Broccoli } from "../../model/Broccoli.ts";
-import { resolveEntityMatchTarget } from "../Text/Annotated/utils/resolveEntityMatchTarget.ts";
+import {
+  EntityMatchTarget,
+  resolveEntityMatchTarget,
+} from "../Text/Annotated/utils/resolveEntityMatchTarget.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -142,13 +145,23 @@ export function useInitDetail() {
         return;
       }
       const { terms } = getDetailParams();
-      const target = resolveEntityMatchTarget(
-        annotations,
-        views,
-        terms,
-        projectConfig,
-        locations,
-      );
+
+      let target: EntityMatchTarget | undefined;
+      try {
+        target = resolveEntityMatchTarget(
+          annotations,
+          views,
+          terms,
+          projectConfig,
+          locations,
+        );
+      } catch (error) {
+        // Revealing a match is an enhancement, and this runs before
+        // setLoading(false): an unexpected annotation shape should cost the
+        // reader the scroll, not the letter.
+        console.error("Could not resolve entity match target", error);
+      }
+
       if (target) {
         setEntityMatchTarget(target);
       } else {

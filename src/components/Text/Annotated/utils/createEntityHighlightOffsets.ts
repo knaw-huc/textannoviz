@@ -3,7 +3,11 @@ import { BroccoliRelativeAnno } from "../../../../model/Broccoli";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { Terms } from "../../../../model/Search";
 import { TextPositions } from "../core";
-import { getMatchedFacet, hasSelectedFacets } from "./entityFacetMatch";
+import {
+  getMatchedFacet,
+  hasEntityMatching,
+  hasSelectedFacets,
+} from "./entityFacetMatch";
 import { HighlightBody } from "./highlightBodyGuards";
 
 export function createEntityHighlightOffsets(
@@ -14,7 +18,7 @@ export function createEntityHighlightOffsets(
 ): TextPositions<HighlightBody>[] {
   const result: TextPositions<HighlightBody>[] = [];
 
-  if (!hasSelectedFacets(terms)) {
+  if (!hasEntityMatching(config) || !hasSelectedFacets(terms)) {
     return result;
   }
 

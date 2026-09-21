@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { resolveEntityMatchTarget } from "./resolveEntityMatchTarget.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
-import { Broccoli } from "../../../../model/Broccoli.ts";
+import { Broccoli, BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
 import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
 import { Terms } from "../../../../model/Search.ts";
 
@@ -30,6 +30,11 @@ function view(annotations: { bodyId: string; begin: number; end: number }[]) {
 
 function views(entries: Record<string, ReturnType<typeof view>>) {
   return entries as unknown as Broccoli["views"];
+}
+
+/** The list a location's own function hands back, e.g. one text per footnote */
+function texts(...entries: ReturnType<typeof view>[]) {
+  return entries as unknown as BroccoliTextGeneric[];
 }
 
 const terms: Terms = { persons: [ALMA] };
@@ -167,5 +172,62 @@ describe(resolveEntityMatchTarget.name, () => {
     );
 
     expect(result).toBeUndefined();
+  });
+
+  it("walks a location's own texts in the order it renders them", () => {
+    const result = resolveEntityMatchTarget(
+      [entity("a1", ALMA), entity("a2", ALMA), entity("g1", GAUGUIN)],
+      views({}),
+      terms,
+      config,
+      [
+        {
+          name: "notes",
+          view: () =>
+            texts(
+              view([{ bodyId: "g1", begin: 2, end: 6 }]),
+              view([{ bodyId: "a1", begin: 40, end: 44 }]),
+              view([{ bodyId: "a2", begin: 1, end: 5 }]),
+            ),
+        },
+      ],
+    );
+
+    // The second note wins on render order, even though the third matches
+    // earlier within its own text: offsets only compare inside one text
+    expect(result).toEqual({ name: "notes", bodyId: "a1", begin: 40 });
+  });
+
+  it("falls through to the next location when a function yields no texts", () => {
+    const result = resolveEntityMatchTarget(
+      [entity("a1", ALMA)],
+      views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
+      terms,
+      config,
+      [
+        // e.g. a letter without notes in the selected language
+        { name: "notes", view: () => texts() },
+        { name: "main", view: "text" },
+      ],
+    );
+
+    expect(result).toEqual({ name: "main", bodyId: "a1", begin: 10 });
+  });
+
+  it("hands the views and config to a location's function", () => {
+    const allViews = views({ text: view([]) });
+    let received: unknown[] = [];
+
+    resolveEntityMatchTarget([entity("a1", ALMA)], allViews, terms, config, [
+      {
+        name: "notes",
+        view: (v, c) => {
+          received = [v, c];
+          return texts();
+        },
+      },
+    ]);
+
+    expect(received).toEqual([allViews, config]);
   });
 });

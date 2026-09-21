@@ -3,6 +3,18 @@ import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { FacetName, Terms } from "../../../../model/Search";
 
 /**
+ * Whether this project opts in to entity-facet matching.
+ *
+ * {@link ProjectConfig.entityMatchLocations} names where a match can be
+ * revealed, and doubles as the opt-in: a project that has not declared any
+ * has not had its entity data checked against its search index, so neither
+ * the highlighter nor the scroll-target resolver should act on it.
+ */
+export function hasEntityMatching(config: ProjectConfig): boolean {
+  return !!config.entityMatchLocations?.length && !!config.getEntityFacetValues;
+}
+
+/**
  * Whether the query filters on any facet at all
  */
 export function hasSelectedFacets(terms: Terms): boolean {

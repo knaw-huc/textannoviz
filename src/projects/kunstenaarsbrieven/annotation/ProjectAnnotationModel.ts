@@ -100,9 +100,11 @@ type ArtworkTeiRef = {
     nl: string;
     en: string;
   };
+  // Per-language and both optional: Van Gogh artworks carry only "en",
+  // and head likewise holds no "nl" there
   label: {
-    type: string;
-    text: string;
+    en?: { search: string };
+    nl?: { search: string };
   };
   date?: {
     type: string;
@@ -220,11 +222,24 @@ export const isHorizontalWhitespace = (
   toTest.elementName === "space" &&
   toTest["tei:unit"] === "chars";
 
+/** Bibliography subtypes carry a suffix naming the list they point into */
+export const bibReference = "BibReference";
+export const vangoghBibReference = "BibReference#vangogh";
+export const journalBibReference = "BibReference#journal";
+export const editorsBibReference = "BibReference#editors";
+
+export type BibReferenceSubtype =
+  | typeof bibReference
+  | typeof vangoghBibReference
+  | typeof journalBibReference
+  | typeof editorsBibReference;
+
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   id: string;
   url: string;
   type: typeof reference;
-  subtype: "BibReference";
+  label?: string;
+  subtype?: BibReferenceSubtype;
   elementName: string;
 };
 export const isBibliographyReference = (
@@ -232,9 +247,24 @@ export const isBibliographyReference = (
 ): toTest is BibliographyReferenceBody => {
   return (
     isReference(toTest) &&
-    (toTest as BibliographyReferenceBody).subtype?.startsWith("BibReference")
+    !!(toTest as BibliographyReferenceBody).subtype?.startsWith(bibReference)
   );
 };
+
+export const isJournalReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody => {
+  return (
+    isReference(toTest) &&
+    (toTest as BibliographyReferenceBody).subtype === journalBibReference
+  );
+};
+
+export const isVangoghBibliographyReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody =>
+  isReference(toTest) &&
+  (toTest as BibliographyReferenceBody).subtype === vangoghBibReference;
 
 export const isInternalReference = (
   toTest?: AnnoRepoBodyBase,
