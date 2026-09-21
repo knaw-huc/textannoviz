@@ -7,6 +7,7 @@
 .annotated-text {
   h2 {
     margin-top: 1.5em;
+    margin-bottom: 0.5rem;
     /*color: var(--tw-prose-body);*/
     color: rgb(55, 65, 81);
     font-size: 1.5em;
