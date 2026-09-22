@@ -265,21 +265,18 @@ img {
   padding-left: 1.5rem;
 
   .toc-item {
-    color: darkgrey;
+    color: black;
     padding-bottom: 0.33rem;
 
     a {
       color: inherit;
       text-decoration: none;
       cursor: pointer;
-
-      &:hover {
-        color: black;
-      }
     }
 
     &.toc-item-active {
-      color: black;
+      font-weight: bold;
+      text-decoration: underline;
     }
   }
 }
