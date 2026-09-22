@@ -69,48 +69,69 @@ export const ViewSettings = () => {
     firstToggleRef.current?.focus();
   }, [isMobileDialogOpen]);
 
+  const contentViewsLabel = translateProject("CONTENT_VIEWS");
+
+  function panelSwitchLabel(panelLabel: string) {
+    return `${contentViewsLabel}, ${panelLabel}`;
+  }
+
   return (
     <div className="relative">
-      <div className="flex *:border-y *:border-stone-500 *:bg-white *:px-2 *:py-2 *:text-sm *:md:p-2">
-        <div className="hidden rounded-l-full border-x italic text-neutral-500 md:block">
-          Content view
-          <HelpTooltip label={translateProject("VIEW_HELP")} />
-        </div>
-        <button
-          type="button"
-          className="flex items-center gap-1 rounded-full border-r md:hidden"
-          aria-haspopup="dialog"
-          aria-expanded={isMobileDialogOpen}
-          aria-controls="view-panels-dialog"
-          ref={triggerButtonRef}
-          onClick={() => setIsMobileDialogOpen(true)}
-        >
-          {translateProject("CONTENT_VIEWS")} &#9650;
-        </button>
-        {activePanels.map((detailPanel) => {
-          const label = translateProject(detailPanel.name);
-          return (
-            <button
-              id={`b-${detailPanel.name}`}
-              key={detailPanel.name}
-              onClick={() => handlePanelVisibility(detailPanel.name)}
-              className="hidden gap-1 border-r bg-white font-normal last:rounded-r-full aria-pressed:border-x-neutral-200 aria-pressed:bg-neutral-600 aria-pressed:font-bold aria-pressed:text-white disabled:cursor-not-allowed disabled:text-neutral-400 md:flex"
-              disabled={detailPanel.disabled}
-              aria-pressed={detailPanel.visible}
-            >
-              <span className="inline-grid">
+      <fieldset className="m-0 border-0 p-0">
+        <legend className="sr-only">{contentViewsLabel}</legend>
+        <div className="flex *:border-y *:border-stone-500 *:bg-white *:px-2 *:py-2 *:text-xs *:md:p-2">
+          <div className="hidden rounded-l-full border-x italic text-neutral-500 md:block">
+            <span aria-hidden="true">{contentViewsLabel}</span>
+            <HelpTooltip label={translateProject("VIEW_HELP")} />
+          </div>
+          <button
+            type="button"
+            className="flex items-center gap-1 rounded-full border-r md:hidden"
+            aria-haspopup="dialog"
+            aria-expanded={isMobileDialogOpen}
+            aria-controls="view-panels-dialog"
+            ref={triggerButtonRef}
+            onClick={() => setIsMobileDialogOpen(true)}
+          >
+            {contentViewsLabel} &#9650;
+          </button>
+          {activePanels.map((detailPanel) => {
+            const label = translateProject(detailPanel.name);
+            return (
+              <button
+                id={`b-${detailPanel.name}`}
+                key={detailPanel.name}
+                type="button"
+                role="switch"
+                aria-checked={detailPanel.visible}
+                aria-controls={detailPanel.name}
+                aria-label={panelSwitchLabel(label)}
+                onClick={() => handlePanelVisibility(detailPanel.name)}
+                className="hidden items-center gap-1.5 border-r bg-white font-normal last:rounded-r-full aria-checked:font-bold disabled:cursor-not-allowed disabled:text-neutral-400 md:flex"
+                disabled={detailPanel.disabled}
+              >
                 <span
-                  className="invisible col-start-1 row-start-1 font-bold"
                   aria-hidden="true"
-                >
-                  {label}
+                  className={
+                    detailPanel.visible
+                      ? "size-2 shrink-0 rounded-full bg-sky-500"
+                      : "size-2 shrink-0 rounded-full border border-neutral-500"
+                  }
+                />
+                <span className="inline-grid" aria-hidden="true">
+                  <span
+                    className="invisible col-start-1 row-start-1 font-bold"
+                    aria-hidden="true"
+                  >
+                    {label}
+                  </span>
+                  <span className="col-start-1 row-start-1">{label}</span>
                 </span>
-                <span className="col-start-1 row-start-1">{label}</span>
-              </span>
-            </button>
-          );
-        })}
-      </div>
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
       {isMobileDialogOpen && (
         <div className="min-w-screen absolute bottom-full left-0 mb-3 w-[320px] -translate-x-[200px] md:hidden">
           <div
@@ -127,42 +148,53 @@ export const ViewSettings = () => {
               <button
                 type="button"
                 className="p-2 text-base text-sm text-neutral-600"
+                aria-label={translateProject("CLOSE")}
                 onClick={() => setIsMobileDialogOpen(false)}
               >
                 &#10006;
               </button>
             </div>
-            <div className="flex max-h-64 flex-col gap-2 overflow-y-auto">
-              {activePanels.map((detailPanel, index) => (
-                <button
-                  key={detailPanel.name}
-                  ref={index === 0 ? firstToggleRef : undefined}
-                  type="button"
-                  onClick={() => {
-                    handlePanelVisibility(detailPanel.name, {
-                      singleActive: true,
-                    });
-                    setIsMobileDialogOpen(false);
-                    triggerButtonRef.current?.focus();
-                  }}
-                  className="flex items-center justify-between rounded border bg-white px-3 py-2 text-sm disabled:cursor-not-allowed disabled:text-neutral-400"
-                  disabled={detailPanel.disabled}
-                  aria-pressed={detailPanel.visible}
-                >
-                  <span className={detailPanel.visible ? "font-semibold" : ""}>
-                    {translateProject(detailPanel.name)}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className={
-                      detailPanel.visible
-                        ? "size-2 shrink-0 rounded-full bg-blue-500"
-                        : "size-2 shrink-0"
-                    }
-                  />
-                </button>
-              ))}
-            </div>
+            <fieldset className="m-0 flex max-h-64 flex-col gap-2 overflow-y-auto border-0 p-0">
+              <legend className="sr-only">{contentViewsLabel}</legend>
+              {activePanels.map((detailPanel, index) => {
+                const label = translateProject(detailPanel.name);
+                return (
+                  <button
+                    key={detailPanel.name}
+                    ref={index === 0 ? firstToggleRef : undefined}
+                    type="button"
+                    role="switch"
+                    aria-checked={detailPanel.visible}
+                    aria-controls={detailPanel.name}
+                    aria-label={panelSwitchLabel(label)}
+                    onClick={() => {
+                      handlePanelVisibility(detailPanel.name, {
+                        singleActive: true,
+                      });
+                      setIsMobileDialogOpen(false);
+                      triggerButtonRef.current?.focus();
+                    }}
+                    className="flex items-center gap-2 rounded border bg-white px-3 py-2 text-sm disabled:cursor-not-allowed disabled:text-neutral-400"
+                    disabled={detailPanel.disabled}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={
+                        detailPanel.visible
+                          ? "size-2 shrink-0 rounded-full bg-sky-500"
+                          : "size-2 shrink-0 rounded-full border border-neutral-500"
+                      }
+                    />
+                    <span
+                      aria-hidden="true"
+                      className={detailPanel.visible ? "font-semibold" : ""}
+                    >
+                      {label}
+                    </span>
+                  </button>
+                );
+              })}
+            </fieldset>
           </div>
         </div>
       )}
