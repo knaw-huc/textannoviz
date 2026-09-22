@@ -1,4 +1,4 @@
-import { Button } from "react-aria-components";
+import { Link } from "react-aria-components";
 import logoHuygens from "../../assets/logo-huygens.png";
 import logoVGM from "../../assets/logo-vgm.png";
 import {
@@ -31,10 +31,7 @@ function randomTiltDeg(direction: "left" | "right"): number {
   return direction === "right" ? amount : -amount;
 }
 
-function splitAfterNthParagraph(
-  html: string,
-  n: number,
-): [string, string] {
+function splitAfterNthParagraph(html: string, n: number): [string, string] {
   const re = /<\/p>/gi;
   let match: RegExpExecArray | null;
   let count = 0;
@@ -81,13 +78,6 @@ export const Homepage = () => {
     ? splitAfterNthParagraph(contentWithoutCopyright, 2)
     : ["", ""];
 
-  function scrollToSearchResultsButtonHandler() {
-    const target = document.getElementById("search-results");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initHome(aborter: AbortController) {
@@ -106,8 +96,8 @@ export const Homepage = () => {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
-      <div className="mx-auto mt-6 mb-6 flex w-full max-w-[1400px] flex-1 flex-col rounded-sm bg-[#2F72CB] p-8 text-white md:mt-10 xl:mb-10">
-        <div className="mx-auto grid w-full max-w-4xl flex-1 grid-cols-1 content-center md:grid-cols-[29%_8%_63%] [&_.about]:contents [&_h1]:col-span-full [&_h1]:mt-0 [&_h1]:leading-tight md:[&_h1]:leading-normal [&_h2]:col-span-full [&_h2]:mt-0 [&_h2]:leading-tight md:[&_h2]:leading-normal [&_p]:col-start-1 md:[&_p]:col-start-3 [&_p]:mb-4 [&_a]:text-white [&_a]:underline">
+      <div className="mx-auto mb-6 mt-6 flex w-full max-w-[1400px] flex-1 flex-col rounded-sm bg-[#2F72CB] p-8 text-white md:mt-10 xl:mb-10">
+        <div className="mx-auto grid w-full max-w-4xl flex-1 grid-cols-1 content-center md:grid-cols-[29%_8%_63%] [&_.about]:contents [&_a]:text-white [&_a]:underline [&_h1]:col-span-full [&_h1]:mt-0 [&_h1]:leading-tight md:[&_h1]:leading-normal [&_h2]:col-span-full [&_h2]:mt-0 [&_h2]:leading-tight md:[&_h2]:leading-normal [&_p]:col-start-1 [&_p]:mb-4 md:[&_p]:col-start-3">
           {content && (
             <div
               className="contents"
@@ -116,12 +106,12 @@ export const Homepage = () => {
           )}
 
           {content && paragraphCount >= 2 && (
-            <Button
-              className="col-start-1 md:col-start-3 mb-4 justify-self-start rounded-full bg-[#DBD3B3] px-4 py-2 text-black outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#2F72CB]"
-              onPress={scrollToSearchResultsButtonHandler}
+            <Link
+              className="col-start-1 mb-4 justify-self-start rounded-full bg-[#DBD3B3] px-4 py-2 !text-black !no-underline outline-none hover:!underline focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#2F72CB] md:col-start-3"
+              href="/search"
             >
               {translateProject("SCROLL_TO_LETTERS")}{" "}
-            </Button>
+            </Link>
           )}
 
           {contentAfterButton && (
@@ -133,9 +123,11 @@ export const Homepage = () => {
 
           {paragraphCount > 0 && (
             <div
-              className="relative col-start-1 mb-8 w-full max-w-96 self-start max-md:![grid-row:auto] md:mb-0 md:max-w-none mx-auto"
+              className="relative col-start-1 mx-auto mb-8 w-full max-w-96 self-start max-md:![grid-row:auto] md:mb-0 md:max-w-none"
               style={{
-                gridRow: `3 / span ${paragraphCount + (paragraphCount >= 2 ? 1 : 0)}`,
+                gridRow: `3 / span ${
+                  paragraphCount + (paragraphCount >= 2 ? 1 : 0)
+                }`,
               }}
               aria-hidden="true"
             >
