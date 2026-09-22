@@ -130,7 +130,7 @@ export const Search = () => {
       {isLoading && <SearchLoadingSpinner />}
       <div
         id="searchContainer"
-        className="mx-auto flex w-full grow flex-row content-stretch items-stretch self-stretch"
+        className="mx-auto flex h-0 min-h-0 w-full flex-1 flex-row items-stretch overflow-hidden"
       >
         <SearchForm
           variant="desktop"
