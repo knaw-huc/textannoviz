@@ -96,7 +96,9 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   MAIN_NAVIGATION: "Main navigation",
   PREVIOUS_LETTER: "Previous letter",
   NEXT_LETTER: "Next letter",
+  LETTER_NAVIGATION: "Previous and next letter navigation",
   VISITED_LETTERS: "Visited letters",
+  VISITED_LETTER: "Visited letter",
 
   //Entity summary
   NAV_TO_LETTER: "Navigate to letter",

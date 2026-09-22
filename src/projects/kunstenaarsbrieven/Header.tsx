@@ -85,7 +85,7 @@ export const Header = (props: HeaderProps) => {
   );
 
   const navLinkClass =
-    "hover:bg-brand1-50 hover:text-brand1-600 focus-visible:ring-brand1-600 text-brand1Grey-600 group -mx-2 -my-1 inline-flex items-center gap-2 rounded px-2 py-1 no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40";
+    "group text-sm inline-flex items-center gap-1 rounded-full bg-[#DAD3B4] px-2 py-1 text-neutral-900 text-sm no-underline transition-colors hover:bg-[#d0c8a4] hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand1-600 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40";
 
   const prevLink = props.letterIds && (
     <Link
@@ -94,11 +94,8 @@ export const Header = (props: HeaderProps) => {
       href={prev?.path}
       aria-label={`${translateProject("PREVIOUS_LETTER")} ${prev?.number ?? ""}`}
     >
-      <span
-        aria-hidden="true"
-        className="transition-transform group-hover:-translate-x-0.5"
-      >
-        &#8592;
+      <span aria-hidden="true" className="scale-90 px-1">
+        &#9664;
       </span>
       <span className="text-sm font-semibold tabular-nums tracking-wide">
         {prev?.number ?? "—"}
@@ -113,11 +110,8 @@ export const Header = (props: HeaderProps) => {
       href={next?.path}
       aria-label={`${translateProject("NEXT_LETTER")} ${next?.number ?? ""}`}
     >
-      <span
-        aria-hidden="true"
-        className="transition-transform group-hover:translate-x-0.5"
-      >
-        &#8594;
+      <span aria-hidden="true" className="scale-90 px-1">
+        &#9654;
       </span>
       <span className="text-sm font-semibold tabular-nums tracking-wide">
         {next?.number ?? "—"}
@@ -128,14 +122,17 @@ export const Header = (props: HeaderProps) => {
   const letterHeading = (
     <>
       {props.letterNumber && (
-        <LetterNumber>{props.letterNumber}</LetterNumber>
+        <LetterNumber>
+          <span className="sr-only">{translateProject("LET_NUM")} </span>
+          {props.letterNumber}
+        </LetterNumber>
       )}
-      <h4 className="min-w-0 truncate font-bold">{props.letterTitle}</h4>
+      <span className="min-w-0 truncate font-bold">{props.letterTitle}</span>
     </>
   );
 
   return (
-    <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_minmax(0,1fr)_max-content]">
+    <header className="grid min-w-0 grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_minmax(0,1fr)_max-content]">
       <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
         <Link
           className="flex w-fit flex-col items-start text-inherit no-underline hover:text-inherit hover:underline"
@@ -224,23 +221,29 @@ export const Header = (props: HeaderProps) => {
       )}
       {/* Hide when not on detail page and when on 'about' pages */}
       <div
-        className={`letter-nav col-span-3 items-center gap-2 border-b border-neutral-400 bg-white px-3 py-3 sm:col-span-4 sm:gap-4 sm:px-4 lg:col-span-3 ${
+        className={`col-span-3 min-w-0 items-center border-b border-neutral-400 bg-white px-3 sm:col-span-4 sm:px-4 lg:col-span-3 ${
           isTitleLeft
-            ? "letter-nav--titleLeft"
-            : "grid grid-cols-[1fr_auto_1fr]"
+            ? "flex max-lg:flex-wrap"
+            : "grid grid-cols-[1fr_auto_1fr] py-3"
         } ${
           !isOnDetailPage || !isLetterDetailPage(annotations) ? "hidden" : ""
         }`}
       >
         {isTitleLeft ? (
           <>
-            <div className="letter-nav__title flex min-w-0 items-baseline gap-2">
+            <h1 className="m-0 flex min-w-0 items-baseline border-t border-neutral-200 py-3 text-base font-normal max-lg:w-full max-lg:justify-center max-lg:text-center lg:gap-2 lg:border-t-0">
               {letterHeading}
-            </div>
-            <div className="letter-nav__actions">
+            </h1>
+            <div className="ml-auto flex min-w-0 max-w-full items-center gap-3 max-lg:order-first max-lg:ml-0 max-lg:w-full lg:shrink">
               {showRecentLetters && props.visitedLetters}
-              {prevLink}
-              {nextLink}
+              <div
+                role="group"
+                aria-label={translateProject("LETTER_NAVIGATION")}
+                className="flex shrink-0 items-center gap-3 border-l border-neutral-200 py-3 pl-4"
+              >
+                {prevLink}
+                {nextLink}
+              </div>
             </div>
           </>
         ) : (
@@ -248,9 +251,9 @@ export const Header = (props: HeaderProps) => {
             {/* Both cells stay in the grid while the letter index loads, so the
                 title does not shift sideways once prev/next appear */}
             <div className="justify-self-start">{prevLink}</div>
-            <div className="flex min-w-0 flex-col items-center gap-0 justify-self-center text-center sm:flex-row sm:items-baseline sm:gap-2">
+            <h1 className="m-0 flex min-w-0 flex-col items-center gap-0 justify-self-center text-center text-base font-normal sm:flex-row sm:items-baseline sm:gap-2">
               {letterHeading}
-            </div>
+            </h1>
             <div className="justify-self-end">{nextLink}</div>
           </>
         )}

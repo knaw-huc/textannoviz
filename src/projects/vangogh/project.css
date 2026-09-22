@@ -283,22 +283,3 @@ img {
     }
   }
 }
-
-/* Letter nav: title left, visited + prev/next right */
-.letter-nav--titleLeft {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.letter-nav--titleLeft .letter-nav__title {
-  min-width: 0;
-}
-
-.letter-nav--titleLeft .letter-nav__actions {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-shrink: 0;
-}

@@ -79,7 +79,9 @@ export const dutchVanGoghLabels = Object.assign({}, dutchLabels, {
   MAIN_NAVIGATION: "Hoofdnavigatie",
   PREVIOUS_LETTER: "Vorige brief",
   NEXT_LETTER: "Volgende brief",
+  LETTER_NAVIGATION: "Navigatie vorige en volgende brief",
   VISITED_LETTERS: "Bezochte brieven",
+  VISITED_LETTER: "Bezochte brief",
 
   //Entity summary
   NAV_TO_LETTER: "Navigeer naar brief",
