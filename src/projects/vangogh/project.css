@@ -76,6 +76,7 @@
   dt .highlight-label {
     float: none;
     width: auto;
+    font-weight: normal;
   }
 
   .list.unlabeled {
