@@ -45,16 +45,15 @@ export const ViewSettings = () => {
   React.useEffect(() => {
     const containerStyle: string[] = [];
     activePanels.forEach((activePanel) => {
-      const buttonDoc = document.getElementById(`b-${activePanel.name}`);
       const doc = document.getElementById(activePanel.name);
+      // Clear legacy inline button styles (e.g. pink inactive background)
+      document.getElementById(`b-${activePanel.name}`)?.removeAttribute("style");
 
       if (activePanel.visible) {
         doc?.setAttribute("style", "");
-        buttonDoc?.setAttribute("style", "");
         containerStyle.push(activePanel.size);
       } else {
         doc?.setAttribute("style", "display: none");
-        buttonDoc?.setAttribute("style", "background-color: #F5EDED");
       }
     });
 
@@ -88,18 +87,29 @@ export const ViewSettings = () => {
         >
           {translateProject("CONTENT_VIEWS")} &#9650;
         </button>
-        {activePanels.map((detailPanel) => (
-          <button
-            id={`b-${detailPanel.name}`}
-            key={detailPanel.name}
-            onClick={() => handlePanelVisibility(detailPanel.name)}
-            className="hidden gap-1 border-r last:rounded-r-full disabled:cursor-not-allowed disabled:text-neutral-400 md:flex"
-            disabled={detailPanel.disabled}
-            aria-pressed={detailPanel.visible}
-          >
-            {translateProject(detailPanel.name)}
-          </button>
-        ))}
+        {activePanels.map((detailPanel) => {
+          const label = translateProject(detailPanel.name);
+          return (
+            <button
+              id={`b-${detailPanel.name}`}
+              key={detailPanel.name}
+              onClick={() => handlePanelVisibility(detailPanel.name)}
+              className="hidden gap-1 border-r bg-white font-normal last:rounded-r-full aria-pressed:border-x-neutral-200 aria-pressed:bg-neutral-600 aria-pressed:font-bold aria-pressed:text-white disabled:cursor-not-allowed disabled:text-neutral-400 md:flex"
+              disabled={detailPanel.disabled}
+              aria-pressed={detailPanel.visible}
+            >
+              <span className="inline-grid">
+                <span
+                  className="invisible col-start-1 row-start-1 font-bold"
+                  aria-hidden="true"
+                >
+                  {label}
+                </span>
+                <span className="col-start-1 row-start-1">{label}</span>
+              </span>
+            </button>
+          );
+        })}
       </div>
       {isMobileDialogOpen && (
         <div className="min-w-screen absolute bottom-full left-0 mb-3 w-[320px] -translate-x-[200px] md:hidden">
@@ -142,9 +152,14 @@ export const ViewSettings = () => {
                   <span className={detailPanel.visible ? "font-semibold" : ""}>
                     {translateProject(detailPanel.name)}
                   </span>
-                  <span aria-hidden="true">
-                    {detailPanel.visible ? "✓" : ""}
-                  </span>
+                  <span
+                    aria-hidden="true"
+                    className={
+                      detailPanel.visible
+                        ? "size-2 shrink-0 rounded-full bg-blue-500"
+                        : "size-2 shrink-0"
+                    }
+                  />
                 </button>
               ))}
             </div>
