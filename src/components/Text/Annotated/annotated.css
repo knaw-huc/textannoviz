@@ -150,8 +150,9 @@
   .closedNestedAnnotation.nl {
     @apply hover:before:content-["Meer_info"];
   }
-  .closedNestedAnnotation[role="link"] {
-    @apply hover:before:content-["Click_to_open_link"];
+  .closedNestedAnnotation[role="link"],
+  a.closedNestedAnnotation {
+    @apply hover:before:content-["Click_to_open_link"] hover:shadow-none text-inherit no-underline;
 
     &.nl {
       @apply hover:before:content-["Open_link"];
