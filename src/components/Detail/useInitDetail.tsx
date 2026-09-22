@@ -19,9 +19,9 @@ import {
 import { useLoadManifest } from "@knaw-huc/osd-iiif-viewer";
 import { Broccoli } from "../../model/Broccoli.ts";
 import {
-  EntityMatchTarget,
-  resolveEntityMatchTarget,
-} from "../Text/Annotated/utils/resolveEntityMatchTarget.ts";
+  EntityMatch,
+  resolveEntityMatches,
+} from "../Text/Annotated/utils/resolveEntityMatches.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -38,12 +38,8 @@ export function useInitDetail() {
   const { setAnnotations, setPtrToNoteAnnosMap, setBodyId } =
     useAnnotationStore();
   const setViews = useTextStore((state) => state.setViews);
-  const setEntityMatchTarget = useTextStore(
-    (state) => state.setEntityMatchTarget,
-  );
-  const resetEntityMatchTarget = useTextStore(
-    (state) => state.resetEntityMatchTarget,
-  );
+  const setEntityMatches = useTextStore((state) => state.setEntityMatches);
+  const resetEntityMatches = useTextStore((state) => state.resetEntityMatches);
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
 
   const { tier2 } = useDetailNavigation().getDetailParams();
@@ -123,7 +119,7 @@ export function useInitDetail() {
       }
 
       setViews(views);
-      resolveEntityMatchTargetForDetail(annotations, views);
+      resolveEntityMatchesForDetail(annotations, views);
       setActivePanels(projectConfig.detailPanels);
 
       setLoading(false);
@@ -131,12 +127,12 @@ export function useInitDetail() {
     }
 
     /**
-     * Point the reader at the first entity matching the selected facets, so the
-     * detail view can reveal and scroll to it. Recomputed per letter because
-     * this effect re-runs on navigation. Clears when nothing matches so a letter
-     * with no match does not inherit the previous one's target.
+     * Collect every entity in this letter matching the selected facets, so the
+     * detail view can list them and reveal the first. Recomputed per letter
+     * because this effect re-runs on navigation. Cleared when nothing matches,
+     * so a letter without matches does not inherit the previous one's list.
      */
-    function resolveEntityMatchTargetForDetail(
+    function resolveEntityMatchesForDetail(
       annotations: AnnoRepoAnnotation[],
       views: Broccoli["views"],
     ) {
@@ -146,9 +142,9 @@ export function useInitDetail() {
       }
       const { terms } = getDetailParams();
 
-      let target: EntityMatchTarget | undefined;
+      let matches: EntityMatch[] = [];
       try {
-        target = resolveEntityMatchTarget(
+        matches = resolveEntityMatches(
           annotations,
           views,
           terms,
@@ -156,16 +152,16 @@ export function useInitDetail() {
           locations,
         );
       } catch (error) {
-        // Revealing a match is an enhancement, and this runs before
+        // Revealing matches is an enhancement, and this runs before
         // setLoading(false): an unexpected annotation shape should cost the
         // reader the scroll, not the letter.
-        console.error("Could not resolve entity match target", error);
+        console.error("Could not resolve entity matches", error);
       }
 
-      if (target) {
-        setEntityMatchTarget(target);
+      if (matches.length) {
+        setEntityMatches(matches);
       } else {
-        resetEntityMatchTarget();
+        resetEntityMatches();
       }
     }
   }, [isInitDetail]);

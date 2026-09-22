@@ -1,4 +1,4 @@
-import { GetLocationTexts } from "../../../components/Text/Annotated/utils/resolveEntityMatchTarget";
+import { GetLocationTexts } from "../../../components/Text/Annotated/utils/resolveEntityMatches";
 import { KunstenaarsbrievenTextViews } from "../annotation/ProjectAnnotationModel";
 
 /**

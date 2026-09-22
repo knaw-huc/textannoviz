@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveEntityMatchTarget } from "./resolveEntityMatchTarget.ts";
+import { resolveEntityMatches } from "./resolveEntityMatches.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { Broccoli, BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
 import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
@@ -7,6 +7,7 @@ import { Terms } from "../../../../model/Search.ts";
 
 const ALMA = "Alma, Peter";
 const GAUGUIN = "Gauguin, Paul";
+const SUNFLOWERS = "Van Gogh, Sunflowers (1888)";
 
 /**
  * Minimal config: entities carry their own facet values, keeping these tests
@@ -14,13 +15,24 @@ const GAUGUIN = "Gauguin, Paul";
  */
 const config = {
   isEntity: (body: { type: string }) => body.type === "Entity",
-  getEntityFacetValues: (body: { persons?: string[] }) =>
-    body.persons ? { persons: body.persons } : {},
+  getEntityFacetValues: (body: {
+    persons?: string[];
+    artworksEN?: string[];
+  }) => ({
+    ...(body.persons ? { persons: body.persons } : {}),
+    ...(body.artworksEN ? { artworksEN: body.artworksEN } : {}),
+  }),
 } as unknown as ProjectConfig;
 
 function entity(id: string, ...persons: string[]): AnnoRepoAnnotation {
   return {
     body: { id, type: "Entity", persons },
+  } as unknown as AnnoRepoAnnotation;
+}
+
+function artwork(id: string, ...artworksEN: string[]): AnnoRepoAnnotation {
+  return {
+    body: { id, type: "Entity", artworksEN },
   } as unknown as AnnoRepoAnnotation;
 }
 
@@ -37,11 +49,16 @@ function texts(...entries: ReturnType<typeof view>[]) {
   return entries as unknown as BroccoliTextGeneric[];
 }
 
+/** What a list in the UI would show, so assertions read like that list */
+function listed(matches: { name: string; bodyId: string; value: string }[]) {
+  return matches.map(({ name, bodyId, value }) => `${name}:${bodyId}:${value}`);
+}
+
 const terms: Terms = { persons: [ALMA] };
 
-describe(resolveEntityMatchTarget.name, () => {
+describe(resolveEntityMatches.name, () => {
   it("finds the match in the only location that holds it", () => {
-    const result = resolveEntityMatchTarget(
+    const result = resolveEntityMatches(
       [entity("a1", ALMA)],
       views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
       terms,
@@ -49,11 +66,19 @@ describe(resolveEntityMatchTarget.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result).toEqual({ name: "main", bodyId: "a1", begin: 10 });
+    expect(result).toEqual([
+      {
+        name: "main",
+        bodyId: "a1",
+        begin: 10,
+        facetName: "persons",
+        value: ALMA,
+      },
+    ]);
   });
 
-  it("prefers the earlier location when both hold a match", () => {
-    const result = resolveEntityMatchTarget(
+  it("lists matches location by location, in location order", () => {
+    const result = resolveEntityMatches(
       [entity("a1", ALMA), entity("a2", ALMA)],
       views({
         notes: view([{ bodyId: "a2", begin: 1, end: 5 }]),
@@ -67,12 +92,13 @@ describe(resolveEntityMatchTarget.name, () => {
       ],
     );
 
-    // "main" wins on location priority, despite "notes" matching earlier in its text
-    expect(result).toEqual({ name: "main", bodyId: "a1", begin: 99 });
+    // "main" comes first on location order, despite "notes" matching earlier
+    // in its own text: offsets only compare inside one text
+    expect(listed(result)).toEqual([`main:a1:${ALMA}`, `notes:a2:${ALMA}`]);
   });
 
-  it("falls through to the next location when earlier ones hold no match", () => {
-    const result = resolveEntityMatchTarget(
+  it("skips locations that hold no match", () => {
+    const result = resolveEntityMatches(
       [entity("a1", ALMA), entity("g1", GAUGUIN)],
       views({
         text: view([{ bodyId: "g1", begin: 3, end: 7 }]),
@@ -86,16 +112,17 @@ describe(resolveEntityMatchTarget.name, () => {
       ],
     );
 
-    expect(result).toEqual({ name: "notes", bodyId: "a1", begin: 20 });
+    expect(listed(result)).toEqual([`notes:a1:${ALMA}`]);
   });
 
-  it("picks the earliest match within a location", () => {
-    const result = resolveEntityMatchTarget(
-      [entity("a1", ALMA), entity("a2", ALMA)],
+  it("orders matches within a text by offset, whatever order they arrive in", () => {
+    const result = resolveEntityMatches(
+      [entity("a1", ALMA), entity("a2", ALMA), entity("a3", ALMA)],
       views({
         text: view([
           { bodyId: "a2", begin: 80, end: 84 },
           { bodyId: "a1", begin: 12, end: 16 },
+          { bodyId: "a3", begin: 40, end: 44 },
         ]),
       }),
       terms,
@@ -103,12 +130,63 @@ describe(resolveEntityMatchTarget.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result?.bodyId).toBe("a1");
-    expect(result?.begin).toBe(12);
+    expect(result.map((m) => m.bodyId)).toEqual(["a1", "a3", "a2"]);
+    expect(result.map((m) => m.begin)).toEqual([12, 40, 80]);
+  });
+
+  it("lists a body once, in the first location that can scroll to it", () => {
+    const result = resolveEntityMatches(
+      [entity("a1", ALMA)],
+      views({
+        text: view([{ bodyId: "a1", begin: 10, end: 14 }]),
+        trans: view([{ bodyId: "a1", begin: 30, end: 34 }]),
+      }),
+      terms,
+      config,
+      [
+        { name: "main", view: "text" },
+        { name: "translation", view: "trans" },
+      ],
+    );
+
+    // Both locations anchor on the same body id, so only the first is reachable
+    expect(listed(result)).toEqual([`main:a1:${ALMA}`]);
+  });
+
+  it("reports which facet each match was found on, and on which value", () => {
+    const result = resolveEntityMatches(
+      [entity("a1", ALMA), artwork("w1", SUNFLOWERS)],
+      views({
+        text: view([
+          { bodyId: "w1", begin: 5, end: 9 },
+          { bodyId: "a1", begin: 50, end: 54 },
+        ]),
+      }),
+      { persons: [ALMA], artworksEN: [SUNFLOWERS] },
+      config,
+      [{ name: "main", view: "text" }],
+    );
+
+    expect(result.map((m) => [m.facetName, m.value])).toEqual([
+      ["artworksEN", SUNFLOWERS],
+      ["persons", ALMA],
+    ]);
+  });
+
+  it("matches on the selected value, not on every value the entity carries", () => {
+    const result = resolveEntityMatches(
+      [entity("a1", "Alma, P.", ALMA)],
+      views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
+      terms,
+      config,
+      [{ name: "main", view: "text" }],
+    );
+
+    expect(result[0].value).toBe(ALMA);
   });
 
   it("skips zero-length annotations, which render as markers not text", () => {
-    const result = resolveEntityMatchTarget(
+    const result = resolveEntityMatches(
       [entity("a1", ALMA), entity("a2", ALMA)],
       views({
         text: view([
@@ -121,11 +199,11 @@ describe(resolveEntityMatchTarget.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result?.bodyId).toBe("a2");
+    expect(result.map((m) => m.bodyId)).toEqual(["a2"]);
   });
 
   it("resolves a language-suffixed view spec", () => {
-    const result = resolveEntityMatchTarget(
+    const result = resolveEntityMatches(
       [entity("a1", ALMA)],
       views({
         text: { nl: view([{ bodyId: "a1", begin: 7, end: 11 }]) } as never,
@@ -135,11 +213,11 @@ describe(resolveEntityMatchTarget.name, () => {
       [{ name: "main", view: ["text.fr", "text.nl"] }],
     );
 
-    expect(result).toEqual({ name: "main", bodyId: "a1", begin: 7 });
+    expect(listed(result)).toEqual([`main:a1:${ALMA}`]);
   });
 
   it("returns nothing when no facet is selected", () => {
-    const result = resolveEntityMatchTarget(
+    const result = resolveEntityMatches(
       [entity("a1", ALMA)],
       views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
       { persons: [] },
@@ -147,11 +225,11 @@ describe(resolveEntityMatchTarget.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result).toBeUndefined();
+    expect(result).toEqual([]);
   });
 
   it("returns nothing when the selected entity appears in no view", () => {
-    const result = resolveEntityMatchTarget(
+    const result = resolveEntityMatches(
       [entity("a1", ALMA)],
       views({ text: view([{ bodyId: "someone-else", begin: 10, end: 14 }]) }),
       terms,
@@ -159,11 +237,11 @@ describe(resolveEntityMatchTarget.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result).toBeUndefined();
+    expect(result).toEqual([]);
   });
 
   it("returns nothing before the views have loaded", () => {
-    const result = resolveEntityMatchTarget(
+    const result = resolveEntityMatches(
       [entity("a1", ALMA)],
       undefined,
       terms,
@@ -171,11 +249,11 @@ describe(resolveEntityMatchTarget.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result).toBeUndefined();
+    expect(result).toEqual([]);
   });
 
   it("walks a location's own texts in the order it renders them", () => {
-    const result = resolveEntityMatchTarget(
+    const result = resolveEntityMatches(
       [entity("a1", ALMA), entity("a2", ALMA), entity("g1", GAUGUIN)],
       views({}),
       terms,
@@ -193,13 +271,13 @@ describe(resolveEntityMatchTarget.name, () => {
       ],
     );
 
-    // The second note wins on render order, even though the third matches
-    // earlier within its own text: offsets only compare inside one text
-    expect(result).toEqual({ name: "notes", bodyId: "a1", begin: 40 });
+    // The second note comes first on render order, even though the third
+    // matches earlier within its own text
+    expect(result.map((m) => m.bodyId)).toEqual(["a1", "a2"]);
   });
 
-  it("falls through to the next location when a function yields no texts", () => {
-    const result = resolveEntityMatchTarget(
+  it("carries on to the next location when a function yields no texts", () => {
+    const result = resolveEntityMatches(
       [entity("a1", ALMA)],
       views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
       terms,
@@ -211,14 +289,14 @@ describe(resolveEntityMatchTarget.name, () => {
       ],
     );
 
-    expect(result).toEqual({ name: "main", bodyId: "a1", begin: 10 });
+    expect(listed(result)).toEqual([`main:a1:${ALMA}`]);
   });
 
   it("hands the views and config to a location's function", () => {
     const allViews = views({ text: view([]) });
     let received: unknown[] = [];
 
-    resolveEntityMatchTarget([entity("a1", ALMA)], allViews, terms, config, [
+    resolveEntityMatches([entity("a1", ALMA)], allViews, terms, config, [
       {
         name: "notes",
         view: (v, c) => {

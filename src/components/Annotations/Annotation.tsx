@@ -10,6 +10,7 @@ import {
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
 import { useEffect } from "react";
+import { HighlightsTab } from "../../projects/kunstenaarsbrieven/HighlightsTab";
 
 type AnnotationProps = {
   isLoading: boolean;
@@ -74,16 +75,19 @@ export function Annotation(props: AnnotationProps) {
               {translateProject("notes")}
             </Tab>
           )}
-          {projectConfig.showArtworksTab && (
+          {/* {projectConfig.showArtworksTab && (
             <Tab id="artworks" className={tabStyling}>
               {translateProject("artworks")}
             </Tab>
-          )}
+          )} */}
           {projectConfig.showWebAnnoTab && (
             <Tab id="webannos" className={tabStyling}>
               {translate("WEB_ANNOTATIONS")}
             </Tab>
           )}
+          <Tab id="highlights" className={tabStyling}>
+            Highlights
+          </Tab>
         </TabList>
         {projectConfig.showToc(annotations) && (
           <TabPanel id="toc" className={tabPanelStyling}>
@@ -128,6 +132,9 @@ export function Annotation(props: AnnotationProps) {
             ) : null}
           </TabPanel>
         )}
+        <TabPanel id="highlights" className={tabPanelStyling}>
+          <HighlightsTab />
+        </TabPanel>
       </Tabs>
     </div>
   );

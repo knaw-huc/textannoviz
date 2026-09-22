@@ -27,7 +27,7 @@ import {
 import type { JSX } from "react";
 import { ArtworkSections } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
-import { EntityMatchLocation } from "../components/Text/Annotated/utils/resolveEntityMatchTarget.ts";
+import { EntityMatchLocation } from "../components/Text/Annotated/utils/resolveEntityMatches.ts";
 import {
   Artwork,
   PersonTeiRef,

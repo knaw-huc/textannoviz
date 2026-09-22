@@ -1,6 +1,20 @@
 import { AnnoRepoBodyBase } from "../../../../model/AnnoRepoAnnotation";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
-import { FacetName, Terms } from "../../../../model/Search";
+import { FacetName, FacetOptionName, Terms } from "../../../../model/Search";
+
+/**
+ * Why an entity counts as a match: which selected facet it matched, and on
+ * which of that facet's selected values.
+ */
+export type MatchedFacet = {
+  facetName: FacetName;
+  /**
+   * The selected value the entity matched, spelled as the search UI spells
+   * it. It is the aggregated index value, so it doubles as a label: listing
+   * matches needs no second lookup into the annotation model.
+   */
+  value: FacetOptionName;
+};
 
 /**
  * Whether this project opts in to entity-facet matching.
@@ -23,17 +37,19 @@ export function hasSelectedFacets(terms: Terms): boolean {
 
 /**
  * Match an entity against the facets selected in the search query.
- * Shared by the highlighter and the scroll-target resolver so that both
- * agree on what counts as a match.
+ * Shared by the highlighter and the match resolver so that both agree on
+ * what counts as a match.
  *
- * @returns the first selected facet the entity matches
- * @returns undefined when the body is not an entity, or matches nothing selected
+ * @returns the first selected facet the entity matches, and the value it
+ *          matched on
+ * @returns undefined when the body is not an entity, or matches nothing
+ *          selected
  */
 export function getMatchedFacet(
   body: AnnoRepoBodyBase,
   terms: Terms,
   config: ProjectConfig,
-): FacetName | undefined {
+): MatchedFacet | undefined {
   if (!config.getEntityFacetValues || !config.isEntity(body)) {
     return;
   }
@@ -42,9 +58,9 @@ export function getMatchedFacet(
     if (!selected.length) {
       continue;
     }
-    const entityValues = facetValues[facetName];
-    if (entityValues?.some((value) => selected.includes(value))) {
-      return facetName;
+    const value = facetValues[facetName]?.find((v) => selected.includes(v));
+    if (value !== undefined) {
+      return { facetName, value };
     }
   }
 }

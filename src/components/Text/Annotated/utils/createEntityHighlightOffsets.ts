@@ -24,8 +24,8 @@ export function createEntityHighlightOffsets(
 
   let i = 0;
   for (const { body } of annotations) {
-    const matchedFacet = getMatchedFacet(body, terms, config);
-    if (!matchedFacet) continue;
+    const matched = getMatchedFacet(body, terms, config);
+    if (!matched) continue;
 
     const relative = relativePositionMap.get(body.id);
     if (!relative || relative.begin === relative.end) continue;
@@ -35,7 +35,7 @@ export function createEntityHighlightOffsets(
       body: {
         id: `entity-highlight-${i++}`,
         type: "entity-match",
-        facetName: matchedFacet,
+        facetName: matched.facetName,
         bodyId: body.id,
       },
       start: relative.begin ?? 0,

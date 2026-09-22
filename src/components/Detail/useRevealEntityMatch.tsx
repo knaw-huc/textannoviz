@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { activeEntityMatchSelector } from "../../stores/text/entityMatchSlice.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
 import {
@@ -15,16 +16,20 @@ const MAX_LAYOUT_FRAMES = 30;
 const WATCH_TIMEOUT_MS = 4000;
 
 /**
- * Reveal and scroll to the entity match resolved in {@link useInitDetail}.
+ * Reveal and scroll to the active entity match.
  *
- * Reveals the location holding the first match — a main-area panel via a
- * transient visibility override, or a sidebar tab — then scrolls to the
- * anchored highlight. Both steps take effect a render later than this one,
- * so {@link scrollToWhenPresent} waits the anchor out rather than assuming
- * it is there.
+ * Reveals the location holding it — a main-area panel via a transient
+ * visibility override, or a sidebar tab — then scrolls to the anchored
+ * highlight. Both steps take effect a render later than this one, so
+ * {@link scrollToWhenPresent} waits the anchor out rather than assuming it
+ * is there.
+ *
+ * Runs on the active match rather than on load, so that picking another
+ * match from a list reveals it the same way {@link useInitDetail} revealed
+ * the first.
  */
 export function useRevealEntityMatch(): void {
-  const target = useTextStore((state) => state.entityMatchTarget);
+  const target = useTextStore(activeEntityMatchSelector);
   const { entityMatchLocations } = useProjectStore(projectConfigSelector);
   const setPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.setPanelVisibilityOverrides,
