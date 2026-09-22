@@ -139,6 +139,30 @@
     td {
       padding: 0;
     }
+
+    td:has(.grouping-curly-bracket) {
+      position: relative;
+      width: 20px;
+
+      .highlight-rowheight {
+        position: absolute;
+        inset: 0;
+      }
+
+      .grouping-curly-bracket {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        margin: 0;
+      }
+    }
+
+    /* Align text after bracket vertically, next to the tip of the bracket */
+    td:has(.grouping-curly-bracket) + td {
+      vertical-align: middle;
+    }
   }
 }
 
