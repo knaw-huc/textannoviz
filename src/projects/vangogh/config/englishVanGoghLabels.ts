@@ -65,7 +65,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
   NO_ARTWORKS: "No artworks in this document.",
-  NO_HIGHLIGHTS: "No highlighted entities in this letter.",
+  NO_HIGHLIGHTS: "No search hits in this letter.",
   letter: "Letter",
   invNr: "Location",
   addInfo: "Additional information",
@@ -78,6 +78,7 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   //Metadata panel titles
   notes: "Notes",
   toc: "Contents",
+  highlights: "Search hits",
 
   //Visualised annotation categories
   PER: "person",

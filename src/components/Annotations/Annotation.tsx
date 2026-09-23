@@ -10,7 +10,7 @@ import {
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
 import { useEffect } from "react";
-import { HighlightsTab } from "../../projects/kunstenaarsbrieven/HighlightsTab";
+import { HighlightsBottomSheet } from "../../projects/kunstenaarsbrieven/HighlightsBottomSheet";
 
 type AnnotationProps = {
   isLoading: boolean;
@@ -56,7 +56,7 @@ export function Annotation(props: AnnotationProps) {
       <Tabs
         selectedKey={activeSidebarTab}
         onSelectionChange={(key) => setActiveSidebarTab(key)}
-        className="sticky top-0 flex w-full flex-col gap-4"
+        className="sticky top-0 flex w-full flex-col gap-4 pb-10"
       >
         <TabList
           aria-label="annotation-panel"
@@ -85,9 +85,6 @@ export function Annotation(props: AnnotationProps) {
               {translate("WEB_ANNOTATIONS")}
             </Tab>
           )}
-          <Tab id="highlights" className={tabStyling}>
-            Highlights
-          </Tab>
         </TabList>
         {projectConfig.showToc(annotations) && (
           <TabPanel id="toc" className={tabPanelStyling}>
@@ -132,10 +129,8 @@ export function Annotation(props: AnnotationProps) {
             ) : null}
           </TabPanel>
         )}
-        <TabPanel id="highlights" className={tabPanelStyling}>
-          <HighlightsTab />
-        </TabPanel>
       </Tabs>
+      <HighlightsBottomSheet />
     </div>
   );
 }
