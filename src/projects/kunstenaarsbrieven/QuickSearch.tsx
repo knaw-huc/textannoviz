@@ -48,20 +48,22 @@ export function QuickSearch(props: { letterIds: string[] | undefined }) {
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <HelpTooltip label={translateProject("QUICK_SEARCH_HELP")} />
+    <div className="relative">
       <SearchField
         value={fullText}
         onChange={(newValue) => setFullText(newValue)}
         onSubmit={submitHandler}
-        aria-label="quick search"
+        aria-label="Search for keyword or letter number(s)"
         onClear={() => setFullText("")}
       >
         <Input
-          className="h-10 w-52 rounded border border-neutral-500 px-2 py-1.5 text-gray-800 placeholder:italic placeholder:text-neutral-500"
-          placeholder="Press ENTER to search"
+          className="w-52 h-8 rounded border border-neutral-500 py-1.5 pl-2 pr-9 text-gray-800 placeholder:text-xs placeholder:italic placeholder:text-neutral-500"
+          placeholder="Keyword or letter number(s)"
         />
       </SearchField>
+      <div className="pointer-events-auto absolute inset-y-0 right-0 flex items-center pr-1.5">
+        <HelpTooltip label={translateProject("QUICK_SEARCH_HELP")} />
+      </div>
     </div>
   );
 }
