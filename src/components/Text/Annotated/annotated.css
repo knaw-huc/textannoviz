@@ -32,22 +32,17 @@
     @apply inline-block before:relative;
   }
 
-  /* Person icon (start of annotation) — sized to capital height (1cap) */
   .annotated-per.start-annotation::before,
   .annotated-per.annotationMarker::before {
-    content: "";
-    display: inline-block;
-    width: 1cap;
-    height: 1cap;
-    background: url("/src/assets/icon-annotation-person.svg") no-repeat center / contain;
-    vertical-align: baseline;
+    content: none;
+    display: none;
+    width: 0;
+    height: 0;
+    background: none;
   }
   .annotated-per.start-annotation,
   .annotated-per.annotationMarker {
     white-space: nowrap;
-  }
-  .annotated-per.annotationMarker {
-    @apply pl-2 before:-translate-x-2;
   }
 
   /* Artwork icon (start of annotation) — sized to capital height (1cap) */
@@ -57,6 +52,7 @@
     display: inline-block;
     width: 1cap;
     height: 1cap;
+    margin-right: 0.2em;
     background: url("/src/assets/icon-annotation-artwork.svg") no-repeat center / contain;
     vertical-align: baseline;
   }
