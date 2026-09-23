@@ -57,8 +57,8 @@ export function QuickSearch(props: { letterIds: string[] | undefined }) {
         onClear={() => setFullText("")}
       >
         <Input
-          className="w-52 h-8 rounded border border-neutral-500 py-1.5 pl-2 pr-9 text-gray-800 placeholder:text-xs placeholder:italic placeholder:text-neutral-500"
-          placeholder="Keyword or letter number(s)"
+          className="w-[188px] h-8 rounded border border-neutral-500 py-1.5 pl-2 pr-9 text-gray-800 placeholder:text-xs placeholder:italic placeholder:text-neutral-500"
+          placeholder="Keyword / letter number(s)"
         />
       </SearchField>
       <div className="pointer-events-auto absolute inset-y-0 right-0 flex items-center pr-1.5">
