@@ -43,8 +43,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   "text.orig": "Originele tekst",
   "text.trans": "Samenvatting",
 
-  CONTENT_VIEWS: "Inhoud weergave",
-  CONTENT_PANELS: "Inhoud weergave",
+  CONTENT_VIEWS: "Paneelweergave-bediening",
+  CONTENT_PANELS: "Paneelweergave-bediening",
 
   //Search item
   letterOriginalText: "Geëditeerde tekst (brief)",
