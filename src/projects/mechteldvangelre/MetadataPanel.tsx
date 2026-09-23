@@ -1,9 +1,12 @@
+import { Link } from "react-aria-components";
 import { ProjectAnnotatedText } from "../../components/Text/Annotated/ProjectAnnotatedText.tsx";
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { useTranslateProject } from "../../stores/project.ts";
-import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase.ts";
 import { gridOneColumn } from "../../utils/gridOneColumn.ts";
-import { findMechteldLetterBody } from "./annotation/ProjectAnnotationModel.ts";
+import {
+  findMechteldLetterBody,
+  formatWithCert,
+} from "./annotation/ProjectAnnotationModel.ts";
 import { useMechteldVanGelreTextViews } from "./text/useMechteldVanGelreTextViews.ts";
 
 type RenderMetadataPanelProps = {
@@ -21,13 +24,22 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     identifier,
     recipient,
     sender,
-    place,
     institution,
     collection,
+    settlement,
+    permalinkInstitution,
     material,
     watermark,
     measure,
     seal,
+    location,
+    locationCert,
+    dateSent,
+    dateSentNotBefore,
+    dateSentNotAfter,
+    dateCert,
+    senderCert,
+    recipientCert,
   } = letterAnnoBody ?? {};
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
@@ -35,6 +47,36 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const publication = textViews?.publication?.nl;
   const seclit = textViews?.seclit?.nl;
   const transcrSourceText = textViews?.transcrSource?.nl;
+
+  function formatDateSent(): string {
+    if (dateSent) return formatDate(dateSent);
+    if (dateSentNotBefore && dateSentNotAfter)
+      return `${translateProject("BETWEEN")} ${formatDate(
+        dateSentNotBefore,
+      )} ${translateProject("AND")} ${formatDate(dateSentNotAfter)}`;
+    if (dateSentNotBefore)
+      return `${translateProject("AFTER")} ${formatDate(dateSentNotBefore)}`;
+    if (dateSentNotAfter)
+      return `${translateProject("BEFORE")} ${formatDate(dateSentNotAfter)}`;
+    return "";
+  }
+
+  function formatDate(date: string | number): string {
+    if (!date) return "";
+    const parts = String(date).split("-");
+    const [year, month, day] = parts;
+
+    switch (parts.length) {
+      case 1:
+        return year;
+      case 2:
+        return `${month}-${year}`;
+      case 3:
+        return `${day}-${month}-${year}`;
+      default:
+        return String(date);
+    }
+  }
 
   return (
     <>
@@ -54,17 +96,30 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("invNr")}:{" "}
                 </div>
-                {[place, institution, collection, identifier]
-                  .filter(Boolean)
-                  .join(", ")}
+                <Link href={permalinkInstitution} target="_blank">
+                  {[settlement, institution, collection, identifier]
+                    .filter(Boolean)
+                    .join(", ")}
+                </Link>
               </div>
             </li>
+            {dateSent || dateSentNotBefore || dateSentNotAfter ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("dateSent")}:{" "}
+                  </div>
+                  {formatWithCert(formatDateSent(), dateCert)}
+                </div>
+              </li>
+            ) : null}
+
             <li className="mb-8">
               <div className={gridOneColumn}>
                 <div className={labelStyling}>
                   {translateProject("sender")}:{" "}
                 </div>
-                {Array.isArray(sender) ? sender.join(", ") : sender}
+                {formatWithCert(sender, senderCert)}
               </div>
             </li>
             <li className="mb-8">
@@ -72,9 +127,19 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("recipient")}:{" "}
                 </div>
-                {Array.isArray(recipient) ? recipient.join(", ") : recipient}
+                {formatWithCert(recipient, recipientCert)}
               </div>
             </li>
+            {location ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("location")}:{" "}
+                  </div>
+                  {formatWithCert(location, locationCert)}
+                </div>
+              </li>
+            ) : null}
             {publication?.body.length ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>
@@ -100,7 +165,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 <div className={labelStyling}>
                   {translateProject("material")}:{" "}
                 </div>
-                {material && firstLetterToUppercase(material)}
+                {material && translateProject(material)}
               </div>
             </li>
             {watermark ? (
@@ -113,13 +178,17 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                 </div>
               </li>
             ) : null}
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <div className={labelStyling}>{translateProject("size")}: </div>
-                {/* .[1] = vertical; .[0] = horizontal. It's always in 'mm'. */}
-                {`${measure?.[1]} x ${measure?.[0]} mm`}
-              </div>
-            </li>
+            {measure?.[0] ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("size")}:{" "}
+                  </div>
+                  {/* .[1] = vertical; .[0] = horizontal. It's always in 'mm'. */}
+                  {`${measure?.[1]} x ${measure?.[0]} mm`}
+                </div>
+              </li>
+            ) : null}
             {seal ? (
               <li className="mb-8">
                 <div className={gridOneColumn}>

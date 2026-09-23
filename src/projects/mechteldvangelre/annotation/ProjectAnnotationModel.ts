@@ -8,6 +8,8 @@ import {
   BroccoliTextGeneric,
 } from "../../../model/Broccoli";
 import {
+  elementRs,
+  entity,
   letter,
   LetterBody,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
@@ -21,11 +23,68 @@ export type MechteldVanGelreTextViews = BroccoliViews & {
   transcrSource?: Record<ViewLang, BroccoliTextGeneric>;
 };
 
+export type LocationBody = AnnoRepoBodyBase & {
+  type: typeof entity;
+  elementName: typeof elementRs;
+  "tei:type": "location";
+  "tei:ref": LocationTeiRef;
+};
+
+export type MechteldLocation = LocationTeiRef;
+
+type LocationBase = {
+  id: string;
+  graphic: { url: string };
+  desc?: string;
+};
+
+export type LocationSettlement = LocationBase & {
+  "tei:type": "settlement";
+  settlement: string;
+  region: string[];
+  source: string[];
+  corresp?: string;
+};
+
+export type LocationBuilding = LocationBase & {
+  "tei:type": "building";
+  objectName: string;
+  region: string[];
+  source: string[];
+  settlement?: string;
+  corresp?: string;
+};
+
+export type LocationTerritory = LocationBase & {
+  "tei:type": "territory" | "subterritory";
+  region: string[];
+};
+
+export type LocationRiver = LocationBase & {
+  "tei:type": "river";
+  geogName: string;
+};
+
+export type LocationTeiRef =
+  | LocationSettlement
+  | LocationBuilding
+  | LocationTerritory
+  | LocationRiver;
+
+type Certainty = "low" | "medium" | "high";
+
 export type MechteldLetterBody = LetterBody & {
   material: string;
   watermark: string;
-  measure: string[];
+  measure?: string[];
   seal: string;
+  settlement: string;
+  collection: string;
+  permalinkInstitution: string;
+  recipientCert?: Certainty;
+  senderCert?: Certainty;
+  dateCert?: Certainty;
+  locationCert?: Certainty;
 };
 
 export function isMechteldLetterBody(
@@ -41,4 +100,14 @@ export function findMechteldLetterBody(
   if (isMechteldLetterBody(found?.body)) {
     return found.body;
   }
+}
+
+export function formatWithCert(
+  value: string | string[] | undefined,
+  cert?: Certainty,
+): string {
+  if (!value) return "";
+  const newValue = Array.isArray(value) ? value : [value];
+
+  return newValue.map((v) => (cert ? `${v}(?)` : v)).join(", ");
 }

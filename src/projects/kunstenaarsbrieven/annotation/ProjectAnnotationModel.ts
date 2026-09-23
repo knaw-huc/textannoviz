@@ -86,14 +86,16 @@ export type ArtworkBody = AnnoRepoBodyBase & {
 };
 
 export type Artwork = ArtworkTeiRef;
+type ArtworkIdno = {
+  type?: string;
+  "tei:type"?: string;
+  text: string;
+};
 type ArtworkTeiRef = {
   id: string;
   corresp?: string;
-  idno?: {
-    type?: string;
-    "tei:type"?: string;
-    text: string;
-  }[];
+  // The conversion scripts wrap repeated elements in an array, so a single idno arrives as a bare object.
+  idno?: ArtworkIdno | ArtworkIdno[];
   head: {
     nl: string;
     en: string;
@@ -202,11 +204,21 @@ export const isReference = (
 
 export type WhitespaceBody = AnnoRepoBodyBase & {
   type: typeof whitespace;
-  isTextSuffix: boolean;
+  isTextSuffix?: boolean;
+  elementName?: string;
+  "tei:unit"?: string;
+  "tei:quantity"?: number;
 };
 export const isWhitespace = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is WhitespaceBody => !!toTest && toTest.type === whitespace;
+
+export const isHorizontalWhitespace = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is WhitespaceBody =>
+  isWhitespace(toTest) &&
+  toTest.elementName === "space" &&
+  toTest["tei:unit"] === "chars";
 
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   id: string;
@@ -303,7 +315,9 @@ export type LetterBody = AnnoRepoBodyBase & {
   shelfmark: string;
   fromLocation: string;
   toLocation: string;
-  dateSent: string;
+  dateSent?: string | number;
+  dateSentNotBefore?: string;
+  dateSentNotAfter?: string;
   place?: string;
   collection?: string;
 };
@@ -369,9 +383,29 @@ export function isBibleReferenceBody(
   );
 }
 
+export type ListBody = AnnoRepoBodyBase & {
+  elementName: string;
+  "tei:type"?: "bulleted" | "gloss" | "label-above" | "unlabeled";
+};
+
+export function isListBody(toTest?: AnnoRepoBodyBase): toTest is ListBody {
+  return !!toTest && toTest.type === list;
+}
+
+export function isGlossList(toTest?: AnnoRepoBodyBase): toTest is ListBody {
+  return isListBody(toTest) && toTest["tei:type"] === "gloss";
+}
+
+export function isLabelAboveList(
+  toTest?: AnnoRepoBodyBase,
+): toTest is ListBody {
+  return isListBody(toTest) && toTest["tei:type"] === "label-above";
+}
+
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
   highlight,
+  label,
   listItem,
   quote,
   caption,
@@ -401,6 +435,8 @@ export const typesToInclude = [
   ]),
 ];
 
+typesToInclude.sort();
+
 export const isEntity = (
   toTest: AnnoRepoBodyBase,
 ): toTest is IsraelsEntityBody => {
@@ -428,6 +464,13 @@ export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
 // This check is still fragile. TODO: find better way to detect if ref is an artwork
 export function isArtworkBody(toTest: EntityRefs): toTest is Artwork {
   return !toTest.id.startsWith("vg");
+}
+
+export function getIdnoEntries(artwork: Artwork): ArtworkIdno[] {
+  if (!artwork.idno) {
+    return [];
+  }
+  return Array.isArray(artwork.idno) ? artwork.idno : [artwork.idno];
 }
 
 export type ListAnnotationBody = AnnoRepoBodyBase & {
@@ -502,7 +545,7 @@ export const blockSchema: BlockSchema = {
     root: { children: [head, list, page, paragraph, table] },
     [cell]: { children: [] },
     [head]: { children: [] },
-    [list]: { children: [listItem] },
+    [list]: { children: [head, listItem] },
     [page]: { children: [paragraph, head, table, list] },
     [paragraph]: { children: [] },
     [row]: { children: [cell] },
@@ -510,8 +553,11 @@ export const blockSchema: BlockSchema = {
   },
 };
 
+export const isInsertMarker = (body: AnnoRepoBodyBase) =>
+  insertMarkerTypes.includes(body.type) || isHorizontalWhitespace(body);
+
 export const isMarker = (body: AnnoRepoBodyBase) =>
-  [...insertMarkerTypes].includes(body.type) || isNoteReference(body);
+  isInsertMarker(body) || isNoteReference(body);
 
 export const getMarkerPosition = (body: AnnoRepoBodyBase) =>
   isHeadBody(body) ? "prefix" : "postfix";

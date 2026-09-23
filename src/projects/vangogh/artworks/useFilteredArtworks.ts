@@ -1,12 +1,9 @@
 import { Artwork } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { useLocation } from "react-router";
-import {
-  projectConfigSelector,
-  useProjectStore,
-} from "../../../stores/project";
 import React from "react";
 import { syncActiveTabWithHash } from "./utils/syncActiveTabWithHash";
 import { TabId } from "./utils/hashConfig";
+import { containsQuery } from "./utils/containsQuery";
 
 export function useFilteredArtworks(props: {
   items: Artwork[];
@@ -17,7 +14,6 @@ export function useFilteredArtworks(props: {
 }) {
   const { items, filter, query, isGlobal, setActiveTab } = props;
   const location = useLocation();
-  const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
   const [displayLimit, setDisplayLimit] = React.useState(100);
   const [showFocusedOnly, setShowFocusedOnly] = React.useState(true);
@@ -40,23 +36,11 @@ export function useFilteredArtworks(props: {
 
     if (hasQuery) {
       const queryLower = query.toLowerCase();
-      newItems = newItems.filter(
-        (item) =>
-          item.head[interfaceLang]?.toLowerCase().includes(queryLower) ||
-          item.id.toLowerCase() === queryLower,
-      );
+      newItems = newItems.filter((item) => containsQuery(item, queryLower));
     }
 
     return newItems;
-  }, [
-    filter,
-    interfaceLang,
-    isGlobal,
-    items,
-    location.hash,
-    query,
-    showFocusedOnly,
-  ]);
+  }, [filter, isGlobal, items, location.hash, query, showFocusedOnly]);
 
   React.useEffect(() => {
     const hashId = location.hash.slice(1);

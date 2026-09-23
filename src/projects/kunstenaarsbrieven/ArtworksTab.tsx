@@ -5,7 +5,11 @@ import {
   useProjectStore,
 } from "../../stores/project";
 import { firstLetterToUppercase } from "../../utils/firstLetterToUppercase";
-import { Artwork, isArtwork } from "./annotation/ProjectAnnotationModel";
+import {
+  Artwork,
+  getIdnoEntries,
+  isArtwork,
+} from "./annotation/ProjectAnnotationModel";
 
 export const ArtworksTab = () => {
   const annotations = useAnnotationStore().annotations;
@@ -58,12 +62,12 @@ export const ArtworksTab = () => {
                 </div>
               ))}
               {artwork.date ? <div>{artwork.date.text}</div> : null}
-              {artwork.idno?.some(
+              {getIdnoEntries(artwork).some(
                 (idno) => idno["tei:type"]?.startsWith("VG-"),
               ) ? (
                 <p>
                   {translateProject("catalogueNum")}:{" "}
-                  {artwork.idno
+                  {getIdnoEntries(artwork)
                     .filter((value) => value["tei:type"]?.startsWith("VG-"))
                     .map(
                       (value) =>

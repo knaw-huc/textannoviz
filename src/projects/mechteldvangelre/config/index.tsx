@@ -3,7 +3,6 @@ import {
   ProjectConfig,
   ProjectSpecificConfig,
 } from "../../../model/ProjectConfig";
-import { englishMechteldVanGelreLabels } from "./englishMechteldVanGelreLabels";
 import { kunstenaarsbrievenConfig } from "../../kunstenaarsbrieven/config";
 import { Persons } from "../Persons";
 // import { Artworks } from "../artworks/Artworks";
@@ -24,6 +23,8 @@ import {
   reference,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { Any } from "../../../utils/Any";
+import { Locations } from "../Locations";
+import { buildNavLink } from "../utils/buildNavLink";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -42,12 +43,12 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     personsUrl:
       "http://localhost:8040/files/mechteldvangelre/apparatus/bio-entities.json",
     biblUrl: {
-      en: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliografie.html",
+      nl: "http://localhost:8040/files/mechteldvangelre/apparatus/bibliografie.html",
     },
-    // menuUrl: `http://localhost:${
-    //   nginxPortVangogh ?? "8040"
-    // }/files/vangogh/menu/menu.json`,
+    menuUrl: "http://localhost:8040/files/mechteldvangelre/menu/menu.json",
     letterIdUrl: "http://localhost:8040/files/mechteldvangelre/letter-ids.json",
+    locationUrl:
+      "http://localhost:8040/files/mechteldvangelre/apparatus/place-entities.json",
     letterIdFormat: mechteldvangelreLetterIdFormat,
     // homeUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
@@ -130,11 +131,9 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     ],
     viewsToSearchIn: [
       "letterOriginalText",
-      "letterTranslatedText",
+      "letterRegestText",
       "letterNotesText",
       "introText",
-      // "introTranslatedText",
-      // "introNotesText",
     ],
     allPossibleTextPanels: [
       "text",
@@ -145,10 +144,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       "transcrSource",
     ],
     selectedLanguage: "nl",
-    languages: [
-      { code: "nl", labels: dutchMechteldVanGelreLabels },
-      { code: "en", labels: englishMechteldVanGelreLabels },
-    ],
+    languages: [{ code: "nl", labels: dutchMechteldVanGelreLabels }],
     routes: [
       {
         path: "persons",
@@ -162,6 +158,10 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
         path: "bibliography",
         element: <Bibliography />,
       },
+      {
+        path: "locations",
+        element: <Locations />,
+      },
     ],
     zoomToAnnoOnFacsimile: true,
     // TODO: how to test this?
@@ -174,6 +174,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       PER: "PER",
       location: "LOC",
     } as Any,
+    buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

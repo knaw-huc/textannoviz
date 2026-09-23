@@ -2,7 +2,7 @@ import { dutchLabels } from "../../default/config/dutchLabels";
 
 export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   //Search facet titles + metadata panel titles
-  institution: "Collectie-houdende instelling",
+  institution: "Instelling",
   msid: "Signatuur",
   location: "Locatie",
   recipient: "Ontvanger",
@@ -18,6 +18,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   watermark: "Watermerk",
   seal: "Zegel",
   transcrSource: "Transcriptiebron",
+  dateSent: "Verstuurd",
 
   facetInputFilterPlaceholder: "Zoek in facet",
 
@@ -42,12 +43,12 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   "text.orig": "Originele tekst",
   "text.trans": "Samenvatting",
 
-  CONTENT_VIEWS: "Inhoud weergave",
-  CONTENT_PANELS: "Inhoud weergave",
+  CONTENT_VIEWS: "Paneelweergave-bediening",
+  CONTENT_PANELS: "Paneelweergave-bediening",
 
   //Search item
   letterOriginalText: "Geëditeerde tekst (brief)",
-  letterTranslatedText: "Vertaling (brief)",
+  letterRegestText: "Samenvatting (brief)",
   letterNotesText: "Annotaties (brief)",
   introText: "Tekst (over deze editie)",
   // introNotesText: "Annotaties (over deze editie)",
@@ -65,6 +66,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   invNr: "Signatuur",
   addInfo: "Aanvullende informatie",
   NO_DATA: "Geen metadata",
+  parchment: "Perkament",
+  paper: "Papier",
 
   //Metadata panel titles
   notes: "Noten",
@@ -103,6 +106,8 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   P1: "",
   P2: "",
   SCROLL_TO_LETTERS: "Ontdek de brieven",
+
+  locations: "Locaties",
 
   //Help labels
   SEARCH_IN_HELP:

@@ -101,6 +101,9 @@ export const englishLabels: Labels = {
 
   NAVIGATE_SEARCH_RESULTS: "Navigate search results",
   SEARCH: "Search",
+  CONTENT_VIEWS: "Panel view controls",
+  CONTENT_PANELS: "Panel view controls",
+  CLOSE: "Close",
   "text.self": "Text",
   facs: "Facsimile",
   metadata: "Info",

@@ -22,6 +22,7 @@ import { Button } from "react-aria-components";
 
 type PersonsProps = {
   personsUrl: string;
+  formatPersonName?: (person: Person) => string;
 };
 
 export function Persons(props: PersonsProps) {
@@ -179,22 +180,27 @@ export function Persons(props: PersonsProps) {
             >
               <div className="flex flex-row items-start">
                 <div className="flex w-fit flex-grow flex-col justify-start">
-                  <span className="font-bold">{formatName(fullName)}</span>
+                  <span className="font-bold">
+                    {props.formatPersonName?.(per) ?? formatName(fullName)}
+                  </span>
                   {/* `sortLabel` is built from the abbreviated form, so only
                     show it when there is one to differ from the full name. */}
                   {hasAbbreviation ? <span>{per.sortLabel}</span> : null}
                 </div>
                 <div className="flex shrink-0 flex-row items-center justify-end gap-1">
                   {per.source
-                    ? per.source.map((src, index) => (
-                        <Button
-                          className="flex items-center"
-                          onPress={() => window.open(src, "_blank")}
-                          key={index}
-                        >
-                          <HelpIcon />
-                        </Button>
-                      ))
+                    ? per.source
+                        // Some links are nothing but empty strings
+                        .filter((src) => src.trim())
+                        .map((src, index) => (
+                          <Button
+                            className="flex items-center"
+                            onPress={() => window.open(src, "_blank")}
+                            key={index}
+                          >
+                            <HelpIcon />
+                          </Button>
+                        ))
                     : null}
 
                   <Button onPress={() => searchPerson(per)}>
@@ -228,6 +234,16 @@ export function Persons(props: PersonsProps) {
   );
 }
 
+/**
+ * The apparatus converter promotes a field to an array only when at least one
+ * record in the whole file repeats it, so `persName` arrives as an array for
+ * projects that have abbreviated name variants (Van Gogh, Mondriaan, Israëls)
+ * and as a bare object for those that do not (Mechteld, Suriano, Oraties).
+ */
+type RawPerson = Omit<Person, "persName"> & {
+  persName: PersonPersName | PersonPersName[];
+};
+
 //TODO: generiek maken om zowel personen als kunstwerken aan te kunnen. URL verhuizen naar project config en deze dan aan de functie meegeven?
 async function fetchPersons(
   url: string,
@@ -239,5 +255,11 @@ async function fetchPersons(
     toast(`${error.message}`, { type: "error" });
     return null;
   }
-  return await response.json();
+  const rawPersons: RawPerson[] = await response.json();
+  return rawPersons.map((person) => ({
+    ...person,
+    persName: Array.isArray(person.persName)
+      ? person.persName
+      : [person.persName],
+  }));
 }

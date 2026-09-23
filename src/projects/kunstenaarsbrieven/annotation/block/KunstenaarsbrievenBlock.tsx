@@ -2,6 +2,8 @@ import { BlockProps } from "../../../../components/Text/Annotated/core/Annotated
 import {
   cell,
   head,
+  isGlossList,
+  isLabelAboveList,
   list,
   listItem,
   page,
@@ -15,12 +17,16 @@ import { Page } from "./Page.tsx";
 import { TocHeader } from "./TocHeader.tsx";
 import { LazyTableAndRows } from "./LazyTableAndRows.tsx";
 import { ListAndListItems } from "./ListAndListItems.tsx";
+import { DescriptionListWithLabelsAndItems } from "./DescriptionListWithLabelsAndItems.tsx";
+import { isLetterDetailPage } from "../../isLetterDetailPage.ts";
+import { useAnnotationStore } from "../../../../stores/annotation.ts";
 
 /**
  * See {@link import("../ProjectAnnotationModel.ts").blockSchema}
  */
 export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
   const { block, children } = props;
+  const isLetter = isLetterDetailPage(useAnnotationStore((s) => s.annotations));
 
   if (block.blockType === page) {
     return <Page {...props} />;
@@ -31,7 +37,13 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
 
   // Tables, rows and cells:
   if (block.blockType === table) {
-    return <LazyTableAndRows block={block} />;
+    return (
+      <LazyTableAndRows
+        block={block}
+        hasHeader={!isLetter}
+        className={isLetter ? "letter-table not-prose" : undefined}
+      />
+    );
   }
   if (block.blockType === row) {
     // Rows are rendered by table:
@@ -47,7 +59,12 @@ export function KunstenaarsbrievenBlock(props: BlockProps<AnnoRepoBody>) {
 
   // Lists and list items:
   if (block.blockType === list) {
-    return <ListAndListItems block={block} />;
+    const body = block.annotation.body;
+    if (isGlossList(body) || isLabelAboveList(body)) {
+      return <DescriptionListWithLabelsAndItems block={block} />;
+    } else {
+      return <ListAndListItems block={block} />;
+    }
   }
   if (block.blockType === listItem) {
     // List items are rendered by list:
