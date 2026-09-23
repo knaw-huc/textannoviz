@@ -81,13 +81,19 @@ export const Header = (props: HeaderProps) => {
 
   return (
     <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_minmax(0,1fr)_max-content]">
-      <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
+      <div className="flex flex-col items-start gap-2 border-b border-neutral-400 px-6 py-2 sm:flex-row sm:items-center sm:gap-6">
         <Link
           className="flex w-fit flex-col items-start text-inherit no-underline hover:text-inherit hover:underline"
           href="/"
         >
           <strong>{translateProject("TITLE_PT_1")}</strong>
           <strong>{translateProject("TITLE_PT_2")}</strong>
+        </Link>
+        <Link
+          className="whitespace-nowrap rounded-full bg-neutral-100 px-3 py-1 text-xs text-inherit no-underline outline-none hover:bg-neutral-200 hover:text-inherit focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
+          href="/search"
+        >
+          {translateProject("SCROLL_TO_LETTERS")}
         </Link>
       </div>
       <div className="col-span-2 flex min-w-0 items-center justify-end border-b border-neutral-400 px-4 sm:col-span-3 lg:col-span-1">
