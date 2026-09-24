@@ -131,7 +131,7 @@ export function KeywordFacet(props: {
           return (
             <div
               key={index}
-              className="flex w-full flex-row items-center justify-between"
+              className="flex w-full flex-row items-center justify-between text-sm"
             >
               <CheckboxComponent
                 id={facetOptionKey}
