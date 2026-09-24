@@ -80,8 +80,8 @@ export const Header = (props: HeaderProps) => {
   );
 
   return (
-    <header className="grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_minmax(0,1fr)_max-content]">
-      <div className="flex flex-col border-b border-neutral-400 px-6 py-2">
+    <header className="relative grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_minmax(0,1fr)]">
+      <div className="flex flex-col items-start gap-2 border-b border-neutral-400 px-6 py-2 sm:flex-row sm:items-center sm:gap-6">
         <Link
           className="flex w-fit flex-col items-start text-inherit no-underline hover:text-inherit hover:underline"
           href="/"
@@ -89,8 +89,14 @@ export const Header = (props: HeaderProps) => {
           <strong>{translateProject("TITLE_PT_1")}</strong>
           <strong>{translateProject("TITLE_PT_2")}</strong>
         </Link>
+        <Link
+          className="whitespace-nowrap rounded-full bg-neutral-100 px-3 py-1 text-xs text-inherit no-underline outline-none hover:bg-white hover:text-inherit focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
+          href="/search"
+        >
+          {translateProject("SCROLL_TO_LETTERS")}
+        </Link>
       </div>
-      <div className="col-span-2 flex min-w-0 items-center justify-end border-b border-neutral-400 px-4 sm:col-span-3 lg:col-span-1">
+      <div className="col-span-2 flex min-w-0 items-center justify-end border-b border-neutral-400  sm:col-span-3 lg:col-span-1 ">
         <Button
           className="mr-2 inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 lg:hidden"
           aria-label={
@@ -115,7 +121,7 @@ export const Header = (props: HeaderProps) => {
         </Button>
 
         <nav
-          className="hidden min-w-0 flex-row flex-wrap justify-end gap-x-4 gap-y-1 text-sm *:no-underline lg:flex"
+          className="hidden min-w-0 flex-row flex-wrap justify-end gap-x-4 gap-y-1 pr-4 text-sm *:no-underline lg:flex"
           aria-label="Main navigation"
         >
           <QuickSearch letterIds={props.letterIds} />
@@ -123,9 +129,9 @@ export const Header = (props: HeaderProps) => {
         </nav>
       </div>
 
-      <div className="hidden items-center gap-2 border-b border-neutral-400 px-4 lg:flex">
+      <div className="absolute right-2 top-1 z-10 hidden items-center gap-1 text-xs lg:flex text-neutral-400">
         <LanguageMenu />
-        <span className="whitespace-nowrap text-xs text-neutral-600">
+        <span className="whitespace-nowrap text-neutral-600">
           v{version}
           {versionHash && <span className="ml-1 font-mono">{versionHash}</span>}
         </span>
@@ -169,7 +175,7 @@ export const Header = (props: HeaderProps) => {
       )}
       {/* Hide <div> when not on detail page and when on 'about' pages */}
       <div
-        className={`col-span-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-b border-neutral-400 bg-white px-3 py-3 sm:col-span-4 sm:gap-4 sm:px-4 lg:col-span-3 ${
+        className={`col-span-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-b border-neutral-400 bg-white px-3 py-3 sm:col-span-4 sm:gap-4 sm:px-4 lg:col-span-2 ${
           !isOnDetailPage || !isLetterDetailPage(annotations) ? "hidden" : ""
         }`}
       >
