@@ -19,6 +19,7 @@ import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { vangoghLetterIdFormat } from "../utils/letterIdFormat";
+import { Homepage } from "../Homepage";
 import { buildNavLink } from "../utils/buildNavLink";
 import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
 import { getVangoghEntityFacetValues } from "../annotation/getVangoghEntityFacetValues";
@@ -200,6 +201,7 @@ export const vangoghConfig: ProjectConfig = mergeWith(
         element: <Bibliography />,
       },
     ],
+    homePage: <Homepage />,
     zoomToAnnoOnFacsimile: true,
     // TODO: how to test this?
     showAnnosOnFacsimile: true,

@@ -131,11 +131,9 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     ],
     viewsToSearchIn: [
       "letterOriginalText",
-      "letterTranslatedText",
+      "letterRegestText",
       "letterNotesText",
       "introText",
-      // "introTranslatedText",
-      // "introNotesText",
     ],
     allPossibleTextPanels: [
       "text",

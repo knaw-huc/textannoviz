@@ -19,7 +19,9 @@ import {
 } from "./stores/project";
 import { selectProjectConfig } from "./utils/selectProjectConfig.ts";
 import { getViteEnvVars } from "./utils/viteEnvVars.ts";
+import { searchRoutePath } from "./utils/searchPath.ts";
 import { RouterProvider as AriaRouterProvider } from "react-aria-components";
+import { HomepageRoute } from "./projects/vangogh/HomepageRoute.tsx";
 
 const { routerBasename, prodMode } = getViteEnvVars();
 
@@ -73,7 +75,7 @@ function Layout() {
   const navigate = useNavigate();
   return (
     <AriaRouterProvider navigate={navigate} useHref={useHrefAllowingExternal}>
-      <div className="flex h-screen flex-col">
+      <div className="flex h-screen min-h-0 flex-col overflow-hidden">
         {prodMode && (
           <link
             rel="stylesheet"
@@ -82,8 +84,12 @@ function Layout() {
             }/${project}.css`}
           />
         )}
-        <Header />
-        <Outlet />
+        <div className="shrink-0">
+          <Header />
+        </div>
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+          <Outlet />
+        </div>
       </div>
     </AriaRouterProvider>
   );
@@ -96,10 +102,15 @@ async function createRouter() {
         element: <Layout />,
         errorElement: <ErrorPage />,
         children: [
-          {
-            path: "/",
-            element: <Search />,
-          },
+          ...(config.homePage
+            ? [
+                {
+                  index: true,
+                  element: <HomepageRoute homePage={config.homePage} />,
+                },
+                { path: searchRoutePath, element: <Search /> },
+              ]
+            : [{ index: true, element: <Search /> }]),
           {
             path: detailTier2Path,
             element: <Detail />,

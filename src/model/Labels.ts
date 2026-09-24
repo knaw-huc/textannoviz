@@ -98,6 +98,9 @@ export type Labels = {
   //Footer
   NAVIGATE_SEARCH_RESULTS: string;
   SEARCH: string;
+  CONTENT_VIEWS: string;
+  CONTENT_PANELS: string;
+  CLOSE: string;
   "text.self": string;
   facs: string;
   metadata: string;

@@ -42,8 +42,8 @@ export const englishMechteldVanGelreLabels = Object.assign({}, englishLabels, {
   page: "Page",
   SHOW_PAGE: "Show page",
 
-  CONTENT_VIEWS: "Content views",
-  CONTENT_PANELS: "Content views",
+  CONTENT_VIEWS: "Panel view controls",
+  CONTENT_PANELS: "Panel view controls",
 
   //Search item
   letterOriginalText: "Edited text (letter)",

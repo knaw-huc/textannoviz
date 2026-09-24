@@ -41,11 +41,11 @@ type SearchFormVariant = "desktop" | "mobile";
 const baseSearchFormClasses =
   "w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16";
 
-const desktopSearchFormClasses = `hidden ${baseSearchFormClasses} lg:flex lg:w-3/12 lg:gap-10`;
+const desktopSearchFormClasses = `hidden ${baseSearchFormClasses} min-h-0 overflow-y-auto overscroll-contain pb-8 lg:flex lg:w-3/12 lg:gap-10`;
 const mobileSearchFormClasses = `flex ${baseSearchFormClasses}`;
 const tabStyling =
   "cursor-pointer border-b-2 border-transparent pb-2 text-sm text-neutral-700 outline-none hover:border-neutral-500 aria-selected:border-neutral-700 aria-selected:font-semibold focus-visible:ring-2 focus-visible:ring-neutral-700";
-const tabPanelStyling = "flex flex-col gap-6 overflow-y-auto pt-6";
+const tabPanelStyling = "flex flex-col gap-6 pt-6";
 
 export function SearchForm(
   props: SearchFormProps & { variant?: SearchFormVariant },
@@ -286,7 +286,7 @@ export function SearchForm(
       <Tabs
         selectedKey={activeTab}
         onSelectionChange={setActiveTab}
-        className="flex h-full flex-col"
+        className="flex flex-col"
       >
         <TabList
           aria-label={translate("SEARCH")}
@@ -407,7 +407,7 @@ export function SearchForm(
 
               return facetValue ? (
                 <React.Fragment key={index}>
-                  <div className="max-h-[500px] w-full max-w-[450px] overflow-y-auto overflow-x-hidden">
+                  <div className="max-h-[500px] w-full max-w-[450px] shrink-0 overflow-y-auto overflow-x-hidden">
                     <KeywordFacet
                       facetName={facetName}
                       facet={facetValue}

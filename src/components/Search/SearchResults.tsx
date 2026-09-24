@@ -311,7 +311,7 @@ export function SearchResults(props: SearchResultsProps) {
 
 export function SearchResultsColumn(props: { children?: ReactNode }) {
   return (
-    <main className="w-9/12 grow self-stretch bg-neutral-100 px-6 py-16 lg:px-10">
+    <main className="min-h-0 w-9/12 grow self-stretch overflow-y-auto overscroll-contain bg-neutral-100 px-6 py-16 lg:px-10">
       {props.children}
     </main>
   );

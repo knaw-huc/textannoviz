@@ -101,6 +101,9 @@ export const dutchLabels: Labels = {
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
+  CONTENT_VIEWS: "Paneelweergave-bediening",
+  CONTENT_PANELS: "Paneelweergave-bediening",
+  CLOSE: "Sluiten",
   "text.self": "Tekst",
   facs: "Facsimile",
   metadata: "Info",

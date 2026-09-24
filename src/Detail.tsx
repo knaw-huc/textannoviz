@@ -35,7 +35,7 @@ function DetailWithViewer() {
         <>
           <main
             id="panelsContainer"
-            className="mx-auto grid w-full grow justify-center overflow-y-scroll"
+            className="mx-auto grid min-h-0 w-full grow justify-center overflow-y-scroll"
             style={{ gridTemplateColumns }}
           >
             <Panels />
