@@ -34,8 +34,8 @@ export const dutchVanGoghLabels = Object.assign({}, dutchLabels, {
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
 
-  CONTENT_VIEWS: "Inhoud weergave",
-  CONTENT_PANELS: "Inhoud weergave",
+  CONTENT_VIEWS: "Paneelweergave-bediening",
+  CONTENT_PANELS: "Paneelweergave-bediening",
 
   //Search item
   letterOriginalText: "Geëditeerde tekst (brief)",

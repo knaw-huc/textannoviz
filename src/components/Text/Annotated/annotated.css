@@ -32,10 +32,36 @@
     @apply inline-block before:relative;
   }
 
+  .annotated-per.start-annotation::before,
+  .annotated-per.annotationMarker::before {
+    content: none;
+    display: none;
+    width: 0;
+    height: 0;
+    background: none;
+  }
   .annotated-per.start-annotation,
   .annotated-per.annotationMarker {
-    @apply before:content-[url('/src/assets/icon-annotation-person.svg')];
     white-space: nowrap;
+  }
+
+  /* Artwork icon (start of annotation) — sized to capital height (1cap) */
+  .annotated-art.start-annotation::before,
+  .annotated-art.annotationMarker::before {
+    content: "";
+    display: inline-block;
+    width: 1cap;
+    height: 1cap;
+    margin-right: 0.2em;
+    background: url("/src/assets/icon-annotation-artwork.svg") no-repeat center / contain;
+    vertical-align: baseline;
+  }
+  .annotated-art.start-annotation,
+  .annotated-art.annotationMarker {
+    white-space: nowrap;
+  }
+  .annotated-art.annotationMarker {
+    @apply pl-2 before:-translate-x-2;
   }
 
   /* show levels */
@@ -48,7 +74,8 @@
     @apply inline border-b-0 border-t-0;
   }
   .fullNestedAnnotation .depth-1.annotated-per {
-    @apply bg-annotation-per500/10;
+    /* border (not text-decoration) so the line also runs under the icon */
+    @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-px;
   }
 
   /* layer 2 */
@@ -110,19 +137,12 @@
     @apply inline;
   }
   .closedNestedAnnotation .annotated-per {
-    @apply bg-annotation-per100 hover:bg-annotation-per500/30;
+    /* border (not text-decoration) so the line also runs under the icon */
+    @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-px;
   }
 
-  .depth-1.start-annotation {
-    @apply rounded-l;
-  }
-  /*Fix: apply rounded borders to nested-annotations starting with a marker: */
-  .insert-marker + .nested-annotation {
-    @apply rounded-l;
-  }
-
-  .depth-1.end-annotation {
-    @apply rounded-r;
+  [role="notespanel"] .closedNestedAnnotation .annotated-per {
+    @apply pb-0 leading-none;
   }
 
   /* Keep, for example, an opening parenthesis attached to the reference it introduces, e.g.
@@ -145,13 +165,15 @@
   .closedNestedAnnotation {
     @apply relative shadow-none
     transition before:absolute before:-top-7 before:inline-block before:rounded-t before:bg-neutral-700 before:font-sans
-    before:text-sm before:text-white hover:shadow hover:before:w-[160px] hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_detailed_view"];
+    before:text-sm before:text-white hover:before:w-[160px] hover:before:px-2 hover:before:py-1 hover:before:content-["Click_for_detailed_view"]
+    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700;
   }
   .closedNestedAnnotation.nl {
     @apply hover:before:content-["Meer_info"];
   }
-  .closedNestedAnnotation[role="link"] {
-    @apply hover:before:content-["Click_to_open_link"];
+  .closedNestedAnnotation[role="link"],
+  a.closedNestedAnnotation {
+    @apply hover:before:content-["Click_to_open_link"] hover:shadow-none text-inherit no-underline;
 
     &.nl {
       @apply hover:before:content-["Open_link"];
@@ -159,17 +181,14 @@
   }
 
   /* remove nested start icon */
-  .closedNestedAnnotation .depth-2.start-annotation {
-    @apply before:content-[url('')];
-  }
-  .closedNestedAnnotation .depth-3.start-annotation {
-    @apply before:content-[url('')];
-  }
-  .closedNestedAnnotation .depth-4.start-annotation {
-    @apply before:content-[url('')];
-  }
-  .closedNestedAnnotation .depth-5.start-annotation {
-    @apply before:content-[url('')];
+  .closedNestedAnnotation .depth-2.start-annotation::before,
+  .closedNestedAnnotation .depth-3.start-annotation::before,
+  .closedNestedAnnotation .depth-4.start-annotation::before,
+  .closedNestedAnnotation .depth-5.start-annotation::before {
+    content: none;
+    background: none;
+    width: 0;
+    height: 0;
   }
 
   /* Marker annotations */
