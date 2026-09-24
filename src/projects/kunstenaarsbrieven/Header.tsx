@@ -90,7 +90,7 @@ export const Header = (props: HeaderProps) => {
           <strong>{translateProject("TITLE_PT_2")}</strong>
         </Link>
         <Link
-          className="whitespace-nowrap rounded-full bg-neutral-100 px-3 py-1 text-xs text-inherit no-underline outline-none hover:bg-neutral-200 hover:text-inherit focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
+          className="whitespace-nowrap rounded-full bg-neutral-100 px-3 py-1 text-xs text-inherit no-underline outline-none hover:bg-white hover:text-inherit focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
           href="/search"
         >
           {translateProject("SCROLL_TO_LETTERS")}
