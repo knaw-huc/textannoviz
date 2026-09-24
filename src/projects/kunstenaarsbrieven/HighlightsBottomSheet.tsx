@@ -1,37 +1,34 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useState } from "react";
 import { Button } from "react-aria-components";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { useTranslateProject } from "../../stores/project";
 import { useTextStore } from "../../stores/text/text-store";
 import { HighlightsTab } from "./HighlightsTab";
 
-
 export function HighlightsBottomSheet() {
   const entityMatches = useTextStore((state) => state.entityMatches);
   const translateProject = useTranslateProject();
   const panelId = useId();
-  const [expanded, setExpanded] = useState(false);
-  const prevCount = useRef(0);
+  const count = entityMatches.length;
+  const [expanded, setExpanded] = useState(count > 0);
+  const [prevCount, setPrevCount] = useState(count);
 
-  useEffect(() => {
-    const count = entityMatches.length;
-    if (count > 0 && prevCount.current === 0) {
+  // Auto-expand when matches appear, collapse when they disappear.
+  if (count !== prevCount) {
+    setPrevCount(count);
+    if (count > 0 && prevCount === 0) {
       setExpanded(true);
     } else if (count === 0) {
       setExpanded(false);
     }
-    prevCount.current = count;
-  }, [entityMatches.length]);
+  }
 
   const label = translateProject("highlights");
-  const countLabel =
-    entityMatches.length > 0 ? ` (${entityMatches.length})` : "";
-  const toggleLabel = expanded
-    ? `Collapse ${label}`
-    : `Expand ${label}`;
+  const countLabel = count > 0 ? ` (${count})` : "";
+  const toggleLabel = expanded ? `Collapse ${label}` : `Expand ${label}`;
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 z-10 flex max-h-[50%] flex-col border-t border-neutral-400 bg-neutral-100 shadow-[0_-2px_8px_rgba(0,0,0,0.08)]">
+    <div className="flex max-h-[33%] shrink-0 flex-col border-t border-neutral-400 bg-neutral-100 shadow-[0_-2px_8px_rgba(0,0,0,0.08)]">
       <Button
         onPress={() => setExpanded((open) => !open)}
         aria-expanded={expanded}

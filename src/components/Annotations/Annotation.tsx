@@ -52,11 +52,11 @@ export function Annotation(props: AnnotationProps) {
   const tabPanelStyling = "flex flex-col gap-6 overflow-auto px-6 pt-6";
 
   return (
-    <div className="relative flex h-full justify-self-stretch overflow-hidden border-l border-neutral-400 2xl:border-r">
+    <div className="flex h-full flex-col justify-self-stretch overflow-hidden border-l border-neutral-400 2xl:border-r">
       <Tabs
         selectedKey={activeSidebarTab}
         onSelectionChange={(key) => setActiveSidebarTab(key)}
-        className="sticky top-0 flex w-full flex-col gap-4 pb-10"
+        className="flex min-h-0 w-full flex-1 flex-col gap-4"
       >
         <TabList
           aria-label="annotation-panel"
