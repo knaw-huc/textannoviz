@@ -367,7 +367,7 @@ input:valid + span::after {
 
 /* Prevent footer from hiding TabPanel or TextPanel content */
 div[role="textpanel"] > *:last-child {
-  padding-bottom: 5em;
+  padding-bottom: 1em;
 }
 
 .query-delete,
