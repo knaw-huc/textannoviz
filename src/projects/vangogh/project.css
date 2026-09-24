@@ -278,6 +278,12 @@ img {
   }
 }
 
+#page-terminology {
+  .highlight-term {
+    @apply font-bold not-italic inline-block mt-6;
+  }
+}
+
 .toc-list {
   list-style-type: none;
   padding-left: 1.5rem;
