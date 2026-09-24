@@ -212,8 +212,9 @@ img {
 
 /* Israels specific styling for AnnotatedText component */
 /* TODO: Test if we can remove parent selectors? */
-.annotated-art {
-  @apply bg-[#F0ECF7];
+.annotated-art,
+.closedNestedAnnotation .annotated-art {
+  @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-0.5;
 }
 .annotated-ref {
   @apply underline decoration-black;

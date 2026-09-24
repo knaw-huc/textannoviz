@@ -54,7 +54,7 @@ export const NotesPanel = () => {
     //eslint-disable-next-line jsx-a11y/aria-role
     <div role="notespanel" className="flex flex-col" key={interfaceLang}>
       {ogtNotesText?.body && (
-        <div className="mb-4 text-sm">
+        <div className="mb-4 text-sm leading-relaxed">
           <div className="text-sm uppercase text-neutral-500">
             {translateProject("ogtNotes")}
           </div>
@@ -75,7 +75,7 @@ export const NotesPanel = () => {
           <span className="mr-2 text-sm text-neutral-500">
             {footnoteNumber}.{" "}
           </span>
-          <div className="text-sm">
+          <div className="text-sm leading-relaxed">
             <ProjectAnnotatedText text={note} showDetail={false} />
           </div>
         </div>
