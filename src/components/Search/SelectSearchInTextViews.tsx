@@ -28,7 +28,7 @@ export const SelectSearchInTextViews = () => {
 
   return (
     <CheckboxGroup value={selected} onChange={setSelected}>
-      <Label className="font-semibold">
+      <Label className="text-base font-semibold">
         {translateProject("SEARCH_IN")}
         <HelpTooltip label={translateProject("SEARCH_IN_HELP")} />
       </Label>

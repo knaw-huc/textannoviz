@@ -45,16 +45,19 @@ export function DateFacet(props: DateFacetProps) {
   }
 
   return (
-    <div className="bg-brand2-50 flex w-full max-w-[450px] flex-col gap-2 rounded p-2 lg:flex-row">
-      <div className="flex w-full flex-col gap-4 2xl:flex-row">
-        <div className="flex w-full flex-col">
-          <form>
-            <label htmlFor="start" className="font-semibold">
-              {translate("DATE_FROM")}
-              <HelpTooltip label={translateProject("DATE_HELP")} />
-            </label>
+    <div className="bg-brand2-50 flex w-full max-w-[450px] items-end gap-1 rounded p-1.5">
+      <div className="flex min-w-0 flex-1 flex-col gap-2 2xl:flex-row">
+        <form className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <label
+            htmlFor="start"
+            className="flex h-5 items-center gap-0.5 text-base font-semibold"
+          >
+            {translate("DATE_FROM")}
+            <HelpTooltip label={translateProject("DATE_HELP")} />
+          </label>
+          <div className="flex items-center gap-1">
             <input
-              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
+              className="min-w-0 flex-1 rounded border border-neutral-700 px-1.5 py-0.5 text-xs"
               type="date"
               id="start"
               value={props.dateFrom}
@@ -63,17 +66,20 @@ export function DateFacet(props: DateFacetProps) {
               onChange={(event) => fromDateChangeHandler(event)}
               required
             />
-            <span className="validity" />
-          </form>
-        </div>
+            <span className="validity shrink-0" aria-hidden="true" />
+          </div>
+        </form>
 
-        <div className="flex w-full flex-col">
-          <form>
-            <label htmlFor="end" className="font-semibold">
-              {translate("UP_TO_AND_INCLUDING")}
-            </label>
+        <form className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <label
+            htmlFor="end"
+            className="flex h-5 items-center text-base font-semibold"
+          >
+            {translate("UP_TO_AND_INCLUDING")}
+          </label>
+          <div className="flex items-center gap-1">
             <input
-              className="w-full rounded border border-neutral-700 px-3 py-1 text-sm"
+              className="min-w-0 flex-1 rounded border border-neutral-700 px-1.5 py-0.5 text-xs"
               type="date"
               id="end"
               value={props.dateTo}
@@ -82,16 +88,14 @@ export function DateFacet(props: DateFacetProps) {
               onChange={(event) => toDateChangeHandler(event)}
               required
             />
-            <span className="validity" />
-          </form>
-        </div>
+            <span className="validity shrink-0" aria-hidden="true" />
+          </div>
+        </form>
       </div>
 
-      <div className="flex justify-end xl:justify-center">
-        <Button onPress={resetClickHandler}>
-          <ArrowRotateLeft />
-        </Button>
-      </div>
+      <Button onPress={resetClickHandler} aria-label={translate("RESET_DATE")}>
+        <ArrowRotateLeft />
+      </Button>
     </div>
   );
 }
