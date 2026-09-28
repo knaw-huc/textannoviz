@@ -213,6 +213,9 @@ export const isWhitespace = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is WhitespaceBody => !!toTest && toTest.type === whitespace;
 
+export const isRowHeight = (toTest?: AnnoRepoBodyBase): boolean =>
+  !!toTest && toTest.type === highlight && get(toTest, "style") === "rowheight";
+
 export const isHorizontalWhitespace = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is WhitespaceBody =>
