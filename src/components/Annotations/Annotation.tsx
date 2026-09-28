@@ -10,6 +10,7 @@ import {
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
 import { useEffect } from "react";
+import { HighlightsBottomSheet } from "../../projects/kunstenaarsbrieven/HighlightsBottomSheet";
 
 type AnnotationProps = {
   isLoading: boolean;
@@ -26,22 +27,31 @@ export function Annotation(props: AnnotationProps) {
   const setActiveSidebarTab = useDetailViewStore(
     (state) => state.setActiveSidebarTab,
   );
-  const projectConfig = useProjectStore(projectConfigSelector);
+
+  const {
+    showToc,
+    showNotesTab,
+    showArtworksTab,
+    showWebAnnoTab,
+    showHighlightsTab,
+    components,
+  } = useProjectStore(projectConfigSelector);
+
+  const hasToc = showToc(annotations);
+
   const translate = useTranslate();
   const translateProject = useTranslateProject();
 
   useEffect(setActiveTabWhenAnnotationsLoaded, [
     annotations,
     activeSidebarTab,
-    projectConfig,
+    showToc,
     setActiveSidebarTab,
   ]);
 
   function setActiveTabWhenAnnotationsLoaded() {
     if (!activeSidebarTab) {
-      setActiveSidebarTab(
-        projectConfig.showToc(annotations) ? "toc" : "metadata",
-      );
+      setActiveSidebarTab(showToc(annotations) ? "toc" : "metadata");
     }
   }
 
@@ -51,17 +61,17 @@ export function Annotation(props: AnnotationProps) {
   const tabPanelStyling = "flex flex-col gap-6 overflow-auto px-6 pt-6";
 
   return (
-    <div className="relative flex h-full justify-self-stretch overflow-hidden border-l border-neutral-400 2xl:border-r">
+    <div className="flex h-full flex-col justify-self-stretch overflow-hidden border-l border-neutral-400 2xl:border-r">
       <Tabs
         selectedKey={activeSidebarTab}
         onSelectionChange={(key) => setActiveSidebarTab(key)}
-        className="sticky top-0 flex w-full flex-col gap-4"
+        className="flex min-h-0 w-full flex-1 flex-col gap-4"
       >
         <TabList
           aria-label="annotation-panel"
           className="flex w-full gap-4 border-b border-neutral-600 bg-neutral-100 px-6 pt-6"
         >
-          {projectConfig.showToc(annotations) && (
+          {hasToc && (
             <Tab id="toc" className={tabStyling}>
               {translateProject("toc")}
             </Tab>
@@ -69,35 +79,35 @@ export function Annotation(props: AnnotationProps) {
           <Tab id="metadata" className={tabStyling}>
             {translate("METADATA")}
           </Tab>
-          {projectConfig.showNotesTab && (
+          {showNotesTab && (
             <Tab id="notes" className={tabStyling}>
               {translateProject("notes")}
             </Tab>
           )}
-          {projectConfig.showArtworksTab && (
+          {showArtworksTab && (
             <Tab id="artworks" className={tabStyling}>
               {translateProject("artworks")}
             </Tab>
           )}
-          {projectConfig.showWebAnnoTab && (
+          {showWebAnnoTab && (
             <Tab id="webannos" className={tabStyling}>
               {translate("WEB_ANNOTATIONS")}
             </Tab>
           )}
         </TabList>
-        {projectConfig.showToc(annotations) && (
+        {hasToc && (
           <TabPanel id="toc" className={tabPanelStyling}>
             {annotations.length > 0 && !props.isLoading ? (
-              <projectConfig.components.TocPanel />
+              <components.TocPanel />
             ) : null}
           </TabPanel>
         )}
         <TabPanel id="metadata" className={tabPanelStyling}>
           {annotations.length > 0 && !props.isLoading ? (
-            <projectConfig.components.MetadataPanel annotations={annotations} />
+            <components.MetadataPanel annotations={annotations} />
           ) : null}
         </TabPanel>
-        {projectConfig.showWebAnnoTab && (
+        {showWebAnnoTab && (
           <TabPanel id="webannos" className={tabPanelStyling}>
             <>
               <div className="flex">
@@ -114,21 +124,22 @@ export function Annotation(props: AnnotationProps) {
             </>
           </TabPanel>
         )}
-        {projectConfig.showNotesTab && (
+        {showNotesTab && (
           <TabPanel id="notes" className={tabPanelStyling}>
             {annotations.length > 0 && !props.isLoading ? (
-              <projectConfig.components.NotesPanel />
+              <components.NotesPanel />
             ) : null}
           </TabPanel>
         )}
-        {projectConfig.showArtworksTab && (
+        {showArtworksTab && (
           <TabPanel id="artworks" className={tabPanelStyling}>
             {annotations.length > 0 && !props.isLoading ? (
-              <projectConfig.components.ArtworksTab />
+              <components.ArtworksTab />
             ) : null}
           </TabPanel>
         )}
       </Tabs>
+      {showHighlightsTab ? <HighlightsBottomSheet /> : null}
     </div>
   );
 }

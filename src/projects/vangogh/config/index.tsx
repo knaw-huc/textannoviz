@@ -21,6 +21,8 @@ import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { vangoghLetterIdFormat } from "../utils/letterIdFormat";
 import { Homepage } from "../Homepage";
 import { buildNavLink } from "../utils/buildNavLink";
+import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
+import { getVangoghEntityFacetValues } from "../annotation/getVangoghEntityFacetValues";
 
 const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
 
@@ -204,6 +206,12 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    entityMatchLocations: [
+      { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
+      { name: "text.trans", view: "text.en" },
+      { name: "notes", kind: "tab", panel: "metadata", view: getNotesTexts },
+    ],
+    getEntityFacetValues: getVangoghEntityFacetValues,
     buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,

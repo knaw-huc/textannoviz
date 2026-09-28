@@ -20,12 +20,14 @@ export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
 
   const letterNum = props.result.file;
 
-  const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
+  const queryUrlParam = encodeObject(_.pick(props.query, "fullText", "terms"));
   return (
     <li className="my-4 flex flex-col border-b border-neutral-400 pb-4">
       <div className="group/card hover:border-300 rounded border-b bg-white text-neutral-900 no-underline shadow-sm">
         <Link
-          to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
+          to={`/detail/${props.result._id}?${QUERY}=${encodeURIComponent(
+            queryUrlParam,
+          )}`}
           className=" hover:border-300  text-neutral-900 no-underline shadow-sm"
         >
           <div className="flex flex-col p-4">

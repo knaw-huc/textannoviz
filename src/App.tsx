@@ -92,7 +92,7 @@ function Layout() {
     if (pathname === "/") return "search";
     if (tier2) {
       const documentId = tier2.includes(":")
-        ? (tier2.split(":").at(-1) ?? tier2)
+        ? tier2.split(":").at(-1) ?? tier2
         : tier2;
       return toPageId(documentId) || "detail";
     }

@@ -58,6 +58,7 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
   NO_ARTWORKS: "No artworks in this document.",
+  NO_HIGHLIGHTS: "No highlighted entities in this letter.",
   letter: "Letter",
   invNr: "Shelfmark",
   addInfo: "Additional information",

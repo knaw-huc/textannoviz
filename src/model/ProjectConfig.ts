@@ -12,6 +12,7 @@ import {
 import { Language, LanguageCode } from "./Language.ts";
 import {
   BrederodeSearchResultsBody,
+  FacetName,
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
@@ -26,6 +27,7 @@ import {
 import type { JSX } from "react";
 import { ArtworkSections } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
+import { EntityMatchLocation } from "../components/Text/Annotated/utils/resolveEntityMatches.ts";
 import {
   Artwork,
   PersonTeiRef,
@@ -66,6 +68,7 @@ export type ProjectConfig = SearchConfig &
      */
     showNotesTab: boolean;
     showArtworksTab: boolean;
+    showHighlightsTab: boolean;
     personsUrl: string;
     artworksUrl: {
       key: ArtworkSections;
@@ -259,6 +262,18 @@ type AnnotationConfig = {
     panels: DetailPanelConfig[],
     annotations: AnnoRepoAnnotation[],
   ) => string[];
+
+  getEntityFacetValues?: (
+    body: AnnoRepoBodyBase,
+  ) => Record<FacetName, string[]>;
+
+  /**
+   * Ordered list of places an entity match can be revealed and scrolled to,
+   * paired with the text view each renders. Order is priority: the first
+   * location holding a match wins. Only set for projects that support
+   * entity-facet highlighting (see {@link ProjectConfig.getEntityFacetValues}).
+   */
+  entityMatchLocations?: EntityMatchLocation[];
 };
 
 export interface AnnotationItemProps {

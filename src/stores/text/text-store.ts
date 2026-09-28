@@ -6,12 +6,18 @@ import {
   createAnnotatedTextSlice,
 } from "./annotatedTextSlice.ts";
 import { createTocSlice, TocSlice } from "./tocSlice";
+import { createEntityMatchSlice, EntityMatchSlice } from "./entityMatchSlice";
 
 export const useTextStore = create<
-  TextPanelsSlice & FootnoteSlice & AnnotatedTextSlice & TocSlice
+  TextPanelsSlice &
+    FootnoteSlice &
+    AnnotatedTextSlice &
+    TocSlice &
+    EntityMatchSlice
 >()((...a) => ({
   ...createTextPanelsSlice(...a),
   ...createFootnoteSlice(...a),
   ...createAnnotatedTextSlice(...a),
   ...createTocSlice(...a),
+  ...createEntityMatchSlice(...a),
 }));

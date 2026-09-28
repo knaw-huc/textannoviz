@@ -23,10 +23,6 @@ export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
     (state) => state.setPanelVisibilityOverrides,
   );
 
-  const resetPanelVisibilityOverrides = useDetailViewStore(
-    (state) => state.resetPanelVisibilityOverrides,
-  );
-
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
   const classNames: string[] = [];
@@ -48,9 +44,11 @@ export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
     setActiveSidebarTab("notes");
   }
 
+  // Panel visibility overrides are not reset here: a marker unmounts whenever
+  // its panel is swapped out, which is exactly what an override does on a
+  // narrow screen. useInitDetail clears them per letter instead.
   React.useEffect(() => {
     return () => {
-      resetPanelVisibilityOverrides();
       resetActiveFootnote();
     };
   }, []);

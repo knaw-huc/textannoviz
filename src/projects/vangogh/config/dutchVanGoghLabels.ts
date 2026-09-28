@@ -60,6 +60,7 @@ export const dutchVanGoghLabels = Object.assign({}, dutchLabels, {
 
   //Metadata panel titles
   notes: "Noten",
+  highlights: "Zoektreffers",
 
   //Visualised annotation categories
   PER: "persoon",
