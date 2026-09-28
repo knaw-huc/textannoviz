@@ -1,9 +1,12 @@
+import { useLayoutEffect } from "react";
 import {
   createBrowserRouter,
   Outlet,
   RouterProvider,
   useHref,
+  useLocation,
   useNavigate,
+  useParams,
 } from "react-router";
 import { Header } from "./components/Header";
 import Help from "./components/Help";
@@ -71,26 +74,56 @@ function useHrefAllowingExternal(href: string) {
   return URL.canParse(href) ? href : resolved;
 }
 
+function toPageId(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 function Layout() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { tier2 } = useParams();
+
+  // Detail routes share `/detail/:tier2`; use the document id (last URN segment)
+  // so pages like chronology / introI get unique CSS hooks.
+  const pageId = (() => {
+    if (pathname === "/") return "search";
+    if (tier2) {
+      const documentId = tier2.includes(":")
+        ? (tier2.split(":").at(-1) ?? tier2)
+        : tier2;
+      return toPageId(documentId) || "detail";
+    }
+    return toPageId(pathname.slice(1).split("/")[0] ?? "unknown") || "unknown";
+  })();
+
+  // Put the page id on the real mount root (`#container` in index.html), so
+  // DevTools / CSS see a unique id instead of the static "container".
+  useLayoutEffect(() => {
+    const root = document.querySelector<HTMLElement>("[data-app-root]");
+    if (!root) return;
+
+    root.id = `page-${pageId}`;
+    for (const className of [...root.classList]) {
+      if (className.startsWith("page-")) root.classList.remove(className);
+    }
+    root.classList.add(`page-${pageId}`);
+  }, [pageId]);
+
   return (
     <AriaRouterProvider navigate={navigate} useHref={useHrefAllowingExternal}>
-      <div className="flex h-screen min-h-0 flex-col overflow-hidden">
-        {prodMode && (
-          <link
-            rel="stylesheet"
-            href={`${
-              routerBasename === "/" ? "" : routerBasename
-            }/${project}.css`}
-          />
-        )}
-        <div className="shrink-0">
-          <Header />
-        </div>
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
-          <Outlet />
-        </div>
-      </div>
+      {prodMode && (
+        <link
+          rel="stylesheet"
+          href={`${
+            routerBasename === "/" ? "" : routerBasename
+          }/${project}.css`}
+        />
+      )}
+      <Header />
+      <Outlet />
     </AriaRouterProvider>
   );
 }

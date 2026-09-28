@@ -7,6 +7,7 @@
 .annotated-text {
   h2 {
     margin-top: 1.5em;
+    margin-bottom: 0.5rem;
     /*color: var(--tw-prose-body);*/
     color: rgb(55, 65, 81);
     font-size: 1.5em;
@@ -260,6 +261,27 @@ img {
 .title_m,
 .title_j {
   font-style: italic;
+}
+
+#page-chronology {
+  h2 {
+    margin-bottom: 0em;
+  }
+
+  .highlight-label {
+    display: block;
+    font-weight: bold;
+    margin-top: 1.4rem;
+    /* whitespace-pre-wrap turns the space after this block into an extra line */
+    margin-bottom: -1lh;
+    background-color: transparent;
+  }
+}
+
+#page-terminology {
+  .highlight-term {
+    @apply font-bold not-italic inline-block mt-6;
+  }
 }
 
 .toc-list {
