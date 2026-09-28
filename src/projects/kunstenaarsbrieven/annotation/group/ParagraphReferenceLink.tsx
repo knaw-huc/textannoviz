@@ -24,17 +24,15 @@ export function ParagraphReferenceLink(
     (state) => state.setPanelVisibilityOverrides,
   );
 
-  const resetPanelVisibilityOverrides = useDetailViewStore(
-    (state) => state.resetPanelVisibilityOverrides,
-  );
-
   const { url, className, children } = props;
   const paragraphId = url.slice(1);
   const didHighlight = useRef(false);
 
+  // Panel visibility overrides are not reset here: a link unmounts whenever
+  // its panel is swapped out, which is exactly what an override does on a
+  // narrow screen. useInitDetail clears them per letter instead.
   useEffect(() => {
     return () => {
-      resetPanelVisibilityOverrides();
       if (didHighlight.current) {
         clearParagraphReferenceHighlights();
       }

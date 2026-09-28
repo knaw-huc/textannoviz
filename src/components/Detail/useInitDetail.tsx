@@ -47,6 +47,9 @@ export function useInitDetail() {
   const setEntityMatches = useTextStore((state) => state.setEntityMatches);
   const resetEntityMatches = useTextStore((state) => state.resetEntityMatches);
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
+  const resetPanelVisibilityOverrides = useDetailViewStore(
+    (state) => state.resetPanelVisibilityOverrides,
+  );
 
   const { tier2 } = useDetailNavigation().getDetailParams();
   const [prevTier2, setPrevTier2] = useState(tier2);
@@ -74,6 +77,9 @@ export function useInitDetail() {
 
     async function initDetail(aborter: AbortController) {
       setLoading(true);
+      // Overrides are a one-off "show this now" for the letter at hand: clear
+      // them per letter, before anything can reveal a panel in the new one
+      resetPanelVisibilityOverrides();
       const { tier2 } = getDetailParams();
       if (!tier2) {
         return;
