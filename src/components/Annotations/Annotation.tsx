@@ -28,8 +28,14 @@ export function Annotation(props: AnnotationProps) {
     (state) => state.setActiveSidebarTab,
   );
 
-  const { showToc, showNotesTab, showArtworksTab, showWebAnnoTab, components } =
-    useProjectStore(projectConfigSelector);
+  const {
+    showToc,
+    showNotesTab,
+    showArtworksTab,
+    showWebAnnoTab,
+    showHighlightsTab,
+    components,
+  } = useProjectStore(projectConfigSelector);
 
   const hasToc = showToc(annotations);
 
@@ -133,7 +139,7 @@ export function Annotation(props: AnnotationProps) {
           </TabPanel>
         )}
       </Tabs>
-      <HighlightsBottomSheet />
+      {showHighlightsTab ? <HighlightsBottomSheet /> : null}
     </div>
   );
 }

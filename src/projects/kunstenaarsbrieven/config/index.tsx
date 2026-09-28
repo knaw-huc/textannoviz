@@ -86,6 +86,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     showFragmenter: true,
     showNotesTab: true,
     showArtworksTab: true,
+    showHighlightsTab: true,
     components: {
       SearchItem,
       NotesPanel,

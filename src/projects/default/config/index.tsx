@@ -83,6 +83,7 @@ export const defaultConfig: DefaultProjectConfig = {
   showWebAnnoTab: true,
   showNotesTab: false,
   showArtworksTab: false,
+  showHighlightsTab: false,
   showHistogram: false,
   useExternalConfig: false,
   showAnnosOnFacsimile: false,

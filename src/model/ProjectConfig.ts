@@ -68,6 +68,7 @@ export type ProjectConfig = SearchConfig &
      */
     showNotesTab: boolean;
     showArtworksTab: boolean;
+    showHighlightsTab: boolean;
     personsUrl: string;
     artworksUrl: {
       key: ArtworkSections;
