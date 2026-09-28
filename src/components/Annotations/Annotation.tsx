@@ -75,11 +75,11 @@ export function Annotation(props: AnnotationProps) {
               {translateProject("notes")}
             </Tab>
           )}
-          {/* {projectConfig.showArtworksTab && (
+          {projectConfig.showArtworksTab && (
             <Tab id="artworks" className={tabStyling}>
               {translateProject("artworks")}
             </Tab>
-          )} */}
+          )}
           {projectConfig.showWebAnnoTab && (
             <Tab id="webannos" className={tabStyling}>
               {translate("WEB_ANNOTATIONS")}
