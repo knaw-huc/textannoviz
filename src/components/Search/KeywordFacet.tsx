@@ -124,18 +124,17 @@ export function KeywordFacet(props: {
         <FacetItemsFilter
           inputFilterOnChangeHandler={inputFilterOnChangeHandler}
         />
-        {filteredFacets.map(([facetValueName, facetValueCount], index) => {
+        {filteredFacets.map(([facetValueName, facetValueCount]) => {
           const isSelected =
             !!props.selectedFacets[props.facetName]?.includes(facetValueName);
           const facetOptionKey = `${props.facetName}-${facetValueName}`;
           return (
             <div
-              key={index}
+              key={facetOptionKey}
               className="flex w-full flex-row items-center justify-between text-sm"
             >
               <CheckboxComponent
                 id={facetOptionKey}
-                key={index}
                 value={facetValueName}
                 onChange={() =>
                   props.onChangeKeywordFacet(
