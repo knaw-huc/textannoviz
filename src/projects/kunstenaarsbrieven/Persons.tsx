@@ -90,7 +90,7 @@ export function Persons(props: PersonsProps) {
     lifespan: PersonLifespan | undefined,
   ): string | undefined {
     const date = formatDateValue(lifespan);
-    if (date === undefined) return undefined;
+    if (date === undefined) return "?";
     return lifespan?.cert ? `${translate("CIRCA_ABBRV")} ${date}` : date;
   }
 
