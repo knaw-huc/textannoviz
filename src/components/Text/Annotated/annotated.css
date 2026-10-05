@@ -76,7 +76,7 @@
   }
   .fullNestedAnnotation .depth-1.annotated-per {
     /* border (not text-decoration) so the line also runs under the icon */
-    @apply border-annotation-per500 border-b-[2px] border-dotted bg-transparent pb-px;
+    @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-px;
   }
 
   /* layer 2 */
@@ -139,7 +139,7 @@
   }
   .closedNestedAnnotation .annotated-per {
     /* border (not text-decoration) so the line also runs under the icon */
-    @apply border-annotation-per500 border-b-[2px] border-dotted bg-transparent pb-px;
+    @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-px;
   }
 
   [role="notespanel"] .closedNestedAnnotation .annotated-per {
@@ -174,7 +174,7 @@
   }
   .closedNestedAnnotation[role="link"],
   a.closedNestedAnnotation {
-    @apply text-inherit no-underline hover:shadow-none hover:before:content-["Click_to_open_link"];
+    @apply hover:before:content-["Click_to_open_link"] hover:shadow-none text-inherit no-underline;
 
     &.nl {
       @apply hover:before:content-["Open_link"];
