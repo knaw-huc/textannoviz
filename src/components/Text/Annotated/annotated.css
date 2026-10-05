@@ -53,7 +53,8 @@
     width: 1cap;
     height: 1cap;
     margin-right: 0.2em;
-    background: url("/src/assets/icon-annotation-artwork.svg") no-repeat center / contain;
+    background: url("../../../assets/icon-annotation-artwork.svg") no-repeat
+      center / contain;
     vertical-align: baseline;
   }
   .annotated-art.start-annotation,
@@ -75,7 +76,7 @@
   }
   .fullNestedAnnotation .depth-1.annotated-per {
     /* border (not text-decoration) so the line also runs under the icon */
-    @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-px;
+    @apply border-annotation-per500 border-b-[2px] border-dotted bg-transparent pb-px;
   }
 
   /* layer 2 */
@@ -138,7 +139,7 @@
   }
   .closedNestedAnnotation .annotated-per {
     /* border (not text-decoration) so the line also runs under the icon */
-    @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-px;
+    @apply border-annotation-per500 border-b-[2px] border-dotted bg-transparent pb-px;
   }
 
   [role="notespanel"] .closedNestedAnnotation .annotated-per {
@@ -173,7 +174,7 @@
   }
   .closedNestedAnnotation[role="link"],
   a.closedNestedAnnotation {
-    @apply hover:before:content-["Click_to_open_link"] hover:shadow-none text-inherit no-underline;
+    @apply text-inherit no-underline hover:shadow-none hover:before:content-["Click_to_open_link"];
 
     &.nl {
       @apply hover:before:content-["Open_link"];
