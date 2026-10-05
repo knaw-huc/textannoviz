@@ -8,6 +8,7 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   recipient: "Recipient",
   sender: "Sender",
   correspondent: "Correspondent",
+  correspondentId: "Correspondent (ID)",
   file: "Letter number",
   title: "Title",
   letterid: "Letter ID",
@@ -15,6 +16,12 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   type: "Type",
   artworksEN: "Artworks",
   artworkIds: "Artworks (ID)",
+  bibleRefs: "Bible quotations",
+  bibleRefIds: "Bible quotations (ID)",
+  personIds: "Persons (ID)",
+  worksMentioned: "Works read by Van Gogh",
+  journals: "Periodicals",
+  collectedLetters: "Collected letters",
 
   facetInputFilterPlaceholder: "Search in facet",
 
@@ -58,15 +65,20 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
   NO_ARTWORKS: "No artworks in this document.",
-  NO_HIGHLIGHTS: "No highlighted entities in this letter.",
+  NO_HIGHLIGHTS: "No search hits in this letter.",
   letter: "Letter",
-  invNr: "Shelfmark",
+  invNr: "Location",
   addInfo: "Additional information",
+  ogtNotes: "Ongoing topics",
+  dating: "Date",
+  transcrSource: "Source status",
+  remarks: "Additional",
   NO_DATA: "No metadata",
 
   //Metadata panel titles
   notes: "Notes",
   toc: "Contents",
+  highlights: "Search hits",
 
   //Visualised annotation categories
   PER: "person",
@@ -78,8 +90,8 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   artworks: "Artworks",
   introHeader: "About this edition",
   bibliography: "Bibliography",
-  TITLE_PT_1: "Piet Mondriaan",
-  TITLE_PT_2: "The Letters",
+  TITLE_PT_1: "The Mondrian",
+  TITLE_PT_2: "Papers",
   help: "Help",
   OPEN_MAIN_NAVIGATION: "Open navigation",
   CLOSE_MAIN_NAVIGATION: "Close navigation",
@@ -91,15 +103,20 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   NAV_TO_LETTER: "Navigate to letter",
 
   //Entity labels
+  creator: "Artist",
   artist: "Artist",
+  engraver: "Engraver",
   date: "Date",
   size: "Dimensions",
   support: "Medium",
   collection: "Collection",
   credits: "Credits",
+  inventory: "Inventory number",
+  catalogueNum: "Catalogue number",
+  description: "Description",
 
   //Search info page
-  INFO_TITLE: "The letters of Piet Mondriaan",
+  INFO_TITLE: "The Mondrian Papers",
   EDITED_BY: "",
   P1: "",
   P2: "",
@@ -148,4 +165,10 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
     "Use facets (e.g., Persons, Location) to narrow down your results. Multiple facets and values can be combined.",
   SEARCH_HISTORY_HELP:
     "Shows the last ten searches executed on this browser. Clicking a search re-executes it. It is also possible to remove a previous search from the history.",
+  QUICK_SEARCH_HELP:
+    "Search by letter number or keyword. Enter a number (e.g., 1 or 001) to jump directly to that letter. Enter a word or phrase to search across all documents in the edition and view matching results.",
+  BIBLE_REFS_HELP:
+    "Filter by biblical passages and verses cited or quoted in the letters. The facet displays Bible references with numbers indicating how many letters contain each passage. Use the search field at the top of the facet to find a specific Bible verse, or browse the complete list. Select one or more passages to filter results to letters containing those biblical references. You can select multiple passages at once; this will return letters that reference any of the selected biblical passages.",
+  JOURNALS_HELP:
+    "Filter by the periodicals cited or mentioned in the documents. Use the search field at the top of the facet to find a specific publication by name. Selecting a title will show all documents that refer to that periodical. You can select multiple titles at once; this will return documents that reference any of the selected periodicals.",
 });
