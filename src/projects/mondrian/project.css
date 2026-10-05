@@ -1,8 +1,5 @@
 @import "../../tailwind.css";
-
-.highlight-italics {
-  font-style: italic;
-}
+@import "../kunstenaarsbrieven/base.css";
 
 .annotated-text {
   h2 {
