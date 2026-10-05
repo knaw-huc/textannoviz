@@ -76,7 +76,9 @@ export type ArtworkSections =
   | "illustrated"
   | "illustrations"
   | "non-illustrated"
-  | "sketches";
+  | "sketches"
+  // 'all' is used for projects that do not have a subdivision like Van Gogh
+  | "all";
 
 export type ArtworkBody = AnnoRepoBodyBase & {
   type: typeof entity;
@@ -98,6 +100,10 @@ type ArtworkTeiRef = {
   idno?: ArtworkIdno | ArtworkIdno[];
   head: {
     nl: string;
+    en: string;
+  };
+  desc?: {
+    nl?: string;
     en: string;
   };
   // Per-language and both optional: Van Gogh artworks carry only "en",
@@ -130,10 +136,7 @@ type ArtworkTeiRef = {
     scheme: string;
     target: string;
   }[];
-  note?: {
-    type: string;
-    text: string;
-  }[];
+  note?: ArtworkNote | ArtworkNote[];
   bibl?: {
     title: string;
     biblScope?: {
@@ -142,6 +145,11 @@ type ArtworkTeiRef = {
     }[];
     date: string;
   };
+};
+
+export type ArtworkNote = {
+  type: string;
+  text: string;
 };
 
 export type PersonBody = AnnoRepoBodyBase & {
@@ -504,6 +512,13 @@ export function getIdnoEntries(artwork: Artwork): ArtworkIdno[] {
     return [];
   }
   return Array.isArray(artwork.idno) ? artwork.idno : [artwork.idno];
+}
+
+export function getNoteEntries(artwork: Artwork): ArtworkNote[] {
+  if (!artwork.note) {
+    return [];
+  }
+  return Array.isArray(artwork.note) ? artwork.note : [artwork.note];
 }
 
 export type ListAnnotationBody = AnnoRepoBodyBase & {
