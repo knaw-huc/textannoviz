@@ -15,9 +15,10 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
-import { Placeholder } from "../../../components/Placeholder";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
+import { buildNavLink } from "../utils/buildNavLink";
+import { Artworks } from "../Artworks";
 
 const { broccoliPortMondrian, nginxPortMondrian } = getViteEnvVars();
 
@@ -39,28 +40,10 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     }/files/mondrian/apparatus/bio-entities.json`,
     artworksUrl: [
       {
-        key: "illustrated",
+        key: "all",
         url: `http://localhost:${
           nginxPortMondrian ?? "8040"
-        }/files/mondrian/apparatus/artwork.illustrated-entities.json`,
-      },
-      {
-        key: "illustrations",
-        url: `http://localhost:${
-          nginxPortMondrian ?? "8040"
-        }/files/mondrian/apparatus/artwork.illustrations-entities.json`,
-      },
-      {
-        key: "non-illustrated",
-        url: `http://localhost:${
-          nginxPortMondrian ?? "8040"
-        }/files/mondrian/apparatus/artwork.non-illustrated-entities.json`,
-      },
-      {
-        key: "sketches",
-        url: `http://localhost:${
-          nginxPortMondrian ?? "8040"
-        }/files/mondrian/apparatus/artwork.sketches-entities.json`,
+        }/files/mondrian/apparatus/artwork-entities.json`,
       },
     ],
     biblUrl: {
@@ -170,7 +153,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
       },
       {
         path: "artworks",
-        element: <Placeholder />,
+        element: <Artworks />,
       },
       {
         path: "bibliography",
@@ -181,6 +164,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,
 );
