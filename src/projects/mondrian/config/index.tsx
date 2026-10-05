@@ -66,7 +66,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     biblUrl: {
       en: `http://localhost:${
         nginxPortMondrian ?? "8040"
-      }/files/mondrian/apparatus/bibliolist.html`,
+      }/files/mondrian/apparatus/biblio.html`,
     },
     menuUrl: `http://localhost:${
       nginxPortMondrian ?? "8040"
@@ -152,11 +152,6 @@ export const mondrianConfig: ProjectConfig = mergeWith(
         order: "keyAsc",
         size: 9999,
       },
-      {
-        facetName: "period",
-        order: "keyAsc",
-        size: 9999,
-      },
     ],
     viewsToSearchIn: [
       "letterOriginalText",
@@ -167,10 +162,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
       // "introNotesText",
     ],
     selectedLanguage: "en",
-    languages: [
-      // { code: "nl", labels: dutchVangoghLabels },
-      { code: "en", labels: englishMondrianLabels },
-    ],
+    languages: [{ code: "en", labels: englishMondrianLabels }],
     routes: [
       {
         path: "persons",
