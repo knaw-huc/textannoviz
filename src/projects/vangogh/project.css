@@ -1,8 +1,5 @@
 @import "../../tailwind.css";
-
-.highlight-italics {
-  font-style: italic;
-}
+@import "../kunstenaarsbrieven/base.css";
 
 .annotated-text {
   h2 {
@@ -239,7 +236,7 @@ img {
 /* TODO: Test if we can remove parent selectors? */
 .annotated-art,
 .closedNestedAnnotation .annotated-art {
-  @apply bg-transparent border-b-[2px] border-dotted border-annotation-per500 pb-0.5;
+  @apply border-annotation-per500 border-b-[2px] border-dotted bg-transparent pb-0.5;
 }
 .annotated-ref {
   @apply underline decoration-black;
@@ -304,7 +301,7 @@ img {
 
 #page-terminology {
   .highlight-term {
-    @apply font-bold not-italic inline-block mt-6;
+    @apply mt-6 inline-block font-bold not-italic;
   }
 }
 
