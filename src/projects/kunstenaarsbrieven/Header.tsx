@@ -17,6 +17,7 @@ import { getBaseUrl } from "./annotation/ProjectAnnotationModel.ts";
 import { getAdjacentLetterPaths } from "./utils/getAdjacentLetterPaths.ts";
 import { isLetterDetailPage } from "./isLetterDetailPage.ts";
 import { useAnnotationStore } from "../../stores/annotation.ts";
+import { useSearchPath } from "../../utils/searchPath.ts";
 
 type HeaderProps = {
   introIds: { name: string; id: string }[];
@@ -34,6 +35,7 @@ export const Header = (props: HeaderProps) => {
   const version = useProjectStore(projectConfigSelector).version;
   const versionHash = useProjectStore(projectConfigSelector).versionHash;
   const annotations = useAnnotationStore().annotations;
+  const searchPath = useSearchPath();
 
   React.useEffect(() => {
     const aborter = new AbortController();
@@ -91,7 +93,7 @@ export const Header = (props: HeaderProps) => {
         </Link>
         <Link
           className="whitespace-nowrap rounded-full bg-neutral-100 px-3 py-1 text-xs text-inherit no-underline outline-none hover:bg-white hover:text-inherit focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
-          href="/search"
+          href={searchPath}
         >
           {translateProject("SCROLL_TO_LETTERS")}
         </Link>
@@ -129,7 +131,7 @@ export const Header = (props: HeaderProps) => {
         </nav>
       </div>
 
-      <div className="absolute right-2 top-1 z-10 hidden items-center gap-1 text-xs lg:flex text-neutral-400">
+      <div className="absolute right-2 top-1 z-10 hidden items-center gap-1 text-xs text-neutral-400 lg:flex">
         <LanguageMenu />
         <span className="whitespace-nowrap text-neutral-600">
           v{version}
