@@ -173,7 +173,17 @@ export type PersonTeiRef = {
   death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;
   sortLabel: string;
-  note?: Partial<Record<ViewLang, Record<string, string>>>;
+  note?: Partial<Record<ViewLang, PersonNote>>;
+};
+
+export type PersonNote = {
+  /**
+   * A string, unless the TEI shortdesc contains a <title>: then the
+   * converter splits it into `title` and `text` (or `{}` when empty)
+   */
+  shortdesc?: string | { title?: string; text?: string };
+  biographic?: string;
+  bibliography?: string;
 };
 
 export type PersonPersName = {

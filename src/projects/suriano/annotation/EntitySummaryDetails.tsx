@@ -3,6 +3,7 @@ import {
   Person,
   PersonTeiRef,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import { ShortDesc } from "../../kunstenaarsbrieven/Persons.tsx";
 
 export const EntitySummaryDetails = (props: {
   entityBody: PersonTeiRef | Artwork;
@@ -28,7 +29,9 @@ const PersonEntity = (props: { persons: Person[] }) => {
           {pers.note?.en?.shortdesc && (
             <div>
               <p className={headerClass}>Occupations, roles, titles</p>
-              <p>{pers.note.en.shortdesc}</p>
+              <p>
+                <ShortDesc value={pers.note.en.shortdesc} />
+              </p>
             </div>
           )}
           {pers.birth && (
