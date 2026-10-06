@@ -5,6 +5,13 @@
 //   "#overview.4"     -> "4"
 export const INTERNAL_ANCHOR = /#[^#]*?\.(\d+(?:\.\d+)*)$/;
 
+// Matches a reference to a whole document without an anchor, e.g. "introIV.xml"
+export const INTERNAL_DOCUMENT = /^[^#]+\.xml$/;
+
+export function isInternalReferenceUrl(url: string): boolean {
+  return INTERNAL_ANCHOR.test(url) || INTERNAL_DOCUMENT.test(url);
+}
+
 export function toInternalReferenceTarget(
   url: string,
   tier2: string | undefined,
