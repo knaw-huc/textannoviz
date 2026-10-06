@@ -69,14 +69,14 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     defaultKeywordAggsToRender: [
       "type",
       "location",
-      "period",
-      "file",
+      // "file",
       "persons",
       // "artworksNL",
       "artworksEN",
       "recipient",
       "sender",
       "correspondent",
+      "institution",
     ],
     detailPanels: [
       {
