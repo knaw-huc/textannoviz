@@ -12,7 +12,6 @@ import { Bibliography } from "../Bibliography";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
-import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
@@ -23,6 +22,7 @@ import { Homepage } from "../Homepage";
 import { buildNavLink } from "../utils/buildNavLink";
 import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
 import { getVangoghEntityFacetValues } from "../annotation/getVangoghEntityFacetValues";
+import { Empty } from "../../../components/Empty";
 
 const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
 
@@ -88,8 +88,8 @@ export const vangoghConfig: ProjectConfig = mergeWith(
       SearchItem,
       // MetadataPanel is too project-specific to make generic
       MetadataPanel,
-      // SearchInfoPage is too project-specific to make generic
-      SearchInfoPage,
+      // SearchInfoPage is removed for Van Gogh because it has a homepage
+      SearchInfoPage: Empty,
       EntitySummaryDetails,
     },
     defaultKeywordAggsToRender: [
