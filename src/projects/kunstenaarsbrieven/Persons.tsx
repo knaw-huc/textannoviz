@@ -7,7 +7,6 @@ import { HelpIcon } from "../../components/common/icons/HelpIcon";
 import { handleAbort } from "../../utils/handleAbort";
 import {
   PersonLifespan,
-  PersonNote,
   PersonPersName,
   ResolvedSurname,
   type Person,
@@ -226,24 +225,11 @@ export function Persons(props: PersonsProps) {
                 <div>floruit: {formatDate(per.floruit)}</div>
               ) : null}
 
-              <div>
-                <ShortDesc value={per.note?.[interfaceLang]?.shortdesc} />
-              </div>
+              <div>{per.note?.[interfaceLang]?.shortdesc}</div>
             </div>
           );
         })}
       </div>
-    </>
-  );
-}
-
-export function ShortDesc(props: { value: PersonNote["shortdesc"] }) {
-  const { value } = props;
-  if (!value) return null;
-  if (typeof value === "string") return value;
-  return (
-    <>
-      {value.text} {value.title ? <i>{value.title}</i> : null}
     </>
   );
 }
