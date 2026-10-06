@@ -61,6 +61,7 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   LET_NUM: "Letter number",
   results: "results",
   SEARCHFILTER: "Search",
+  article: "Writing",
 
   //Metadata panel
   NO_NOTES: "This letter contains no notes.",
