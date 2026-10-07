@@ -342,7 +342,7 @@ export type LetterBody = AnnoRepoBodyBase & {
   correspondent: string;
   sender: string | string[];
   n: string;
-  collectedLetters: string;
+  completeLetters: string;
   institution?: string;
   letterid: string;
   location: string;
