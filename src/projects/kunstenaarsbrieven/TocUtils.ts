@@ -5,12 +5,11 @@ import {
 import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
 import { isLetterDetailPage } from "./isLetterDetailPage.ts";
 import { languageCodes } from "../../model/Language.ts";
-import { isArticleDetailPage } from "./isArticleDetailPage.tsx";
 
 const TOC_PREFIX = "toc-";
 
 export const showToc = (annotations: AnnoRepoAnnotation[]) =>
-  !isLetterDetailPage(annotations) || isArticleDetailPage(annotations);
+  !isLetterDetailPage(annotations);
 
 export function getTocId(body: AnnoRepoBodyBase): string | undefined {
   if (!isHeadBody(body)) {
