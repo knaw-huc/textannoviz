@@ -65,24 +65,32 @@ export const NotesPanel = () => {
         </div>
       )}
 
-      {Object.entries(notes).map(([footnoteNumber, note]) => (
-        <div
-          id={footnoteNumber}
-          key={footnoteNumber}
-          className={`flex flex-row p-2 ${
-            activeFootnote === footnoteNumber
-              ? "rounded-lg bg-[#FFCE01] transition-all duration-300"
-              : "bg-white"
-          }`}
-        >
-          <span className="mr-2 text-sm text-neutral-500">
-            {footnoteNumber}.{" "}
-          </span>
-          <div className="text-sm leading-relaxed">
-            <ProjectAnnotatedText text={note} showDetail={false} />
+      {Object.entries(notes)
+        /*
+        When a footnote does not have an 'n' attribute in the data
+        it returns as a string of 'null'. Those are filtered out here.
+        TODO: should it be filtered here or in Broccoli? Or should
+        this problem be fixed elsewhere?
+       */
+        .filter(([footnoteNumber]) => footnoteNumber !== "null")
+        .map(([footnoteNumber, note]) => (
+          <div
+            id={footnoteNumber}
+            key={footnoteNumber}
+            className={`flex flex-row p-2 ${
+              activeFootnote === footnoteNumber
+                ? "rounded-lg bg-[#FFCE01] transition-all duration-300"
+                : "bg-white"
+            }`}
+          >
+            <span className="mr-2 text-sm text-neutral-500">
+              {footnoteNumber}.{" "}
+            </span>
+            <div className="text-sm leading-relaxed">
+              <ProjectAnnotatedText text={note} showDetail={false} />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };
