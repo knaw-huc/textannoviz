@@ -70,9 +70,9 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
   invNr: "Location",
   addInfo: "Additional information",
   ogtNotes: "Ongoing topics",
-  dating: "Dating",
-  transcrSource: "Transcription source",
-  remarks: "Additional remarks",
+  dating: "Date",
+  transcrSource: "Source status",
+  remarks: "Additional",
   NO_DATA: "No metadata",
 
   //Metadata panel titles
