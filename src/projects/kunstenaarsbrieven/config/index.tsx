@@ -106,6 +106,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
       "dating",
       "remarks",
       "ogtNotes",
+      "pubhistory",
     ],
     defaultTextPanels: "text",
     searchSorting: [

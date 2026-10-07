@@ -30,6 +30,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
   const transcrSourceText = textViews?.transcrSource?.en;
   const datingText = textViews?.dating?.en;
   const remarksText = textViews?.remarks?.en;
+  const pubhistory = textViews?.pubhistory?.en;
 
   return (
     <>
@@ -102,6 +103,16 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
                     {translateProject("remarks")}:{" "}
                   </div>
                   <ProjectAnnotatedText text={remarksText} showDetail={false} />
+                </div>
+              </li>
+            ) : null}
+            {pubhistory?.body.length ? (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("pubhistory")}:{" "}
+                  </div>
+                  <ProjectAnnotatedText text={pubhistory} showDetail={false} />
                 </div>
               </li>
             ) : null}
