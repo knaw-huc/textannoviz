@@ -71,9 +71,9 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   invNr: "Location",
   addInfo: "Additional information",
   ogtNotes: "Ongoing topics",
-  dating: "Date",
-  transcrSource: "Source status",
-  remarks: "Additional",
+  dating: "Dating",
+  transcrSource: "Transcription source",
+  remarks: "Additional remarks",
   NO_DATA: "No metadata",
 
   //Metadata panel titles
