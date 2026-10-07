@@ -6,6 +6,7 @@ import { defaultAnnotatedTextComponents } from "../../default/annotation/default
 import { KunstenaarsbrievenMarker } from "../annotation/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
+  article,
   blockSchema,
   document,
   entityTypes,
@@ -49,6 +50,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     annotationTypesToInclude: [
       "Dataset",
       "Division",
+      article,
       document,
       letter,
       note,

@@ -25,6 +25,7 @@ import {
  */
 
 export const addition = "Addition";
+export const article = "Article";
 export const caption = "Caption";
 export const cell = "Cell";
 export const deletion = "Deletion";
