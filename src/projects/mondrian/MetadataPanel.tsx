@@ -15,8 +15,15 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
 
   const letterAnnoBody = findLetterBody(props.annotations);
 
-  const { n, identifier, recipient, sender, place, institution, collection } =
-    letterAnnoBody ?? {};
+  const {
+    altIdentifier,
+    identifier,
+    recipient,
+    sender,
+    place,
+    institution,
+    collection,
+  } = letterAnnoBody ?? {};
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
 
@@ -29,14 +36,16 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
       <ul className="m-0 list-none p-0">
         {letterAnnoBody ? (
           <>
-            <li className="mb-8">
-              <div className={gridOneColumn}>
-                <div className={labelStyling}>
-                  {translateProject("letter")}:{" "}
+            {altIdentifier && (
+              <li className="mb-8">
+                <div className={gridOneColumn}>
+                  <div className={labelStyling}>
+                    {translateProject("letter")}:{" "}
+                  </div>
+                  {altIdentifier}
                 </div>
-                {n}
-              </div>
-            </li>
+              </li>
+            )}
             <li className="mb-8">
               <div className={gridOneColumn}>
                 <div className={labelStyling}>
