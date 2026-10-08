@@ -232,16 +232,6 @@ img {
   hover:shadow-none;
 }
 
-/* Israels specific styling for AnnotatedText component */
-/* TODO: Test if we can remove parent selectors? */
-.annotated-art,
-.closedNestedAnnotation .annotated-art {
-  @apply border-annotation-per500 border-b-[2px] border-dotted bg-transparent pb-0.5;
-}
-.annotated-ref {
-  @apply underline decoration-black;
-}
-
 /* Israels bibliography styling */
 .rend_italics {
   font-style: italic;

@@ -108,15 +108,6 @@ img {
   hover:shadow-none;
 }
 
-/* Israels specific styling for AnnotatedText component */
-/* TODO: Test if we can remove parent selectors? */
-.annotated-art {
-  @apply bg-[#F0ECF7];
-}
-.annotated-ref {
-  @apply bg-[#afddff];
-}
-
 /* Israels bibliography styling */
 .rend_italics {
   font-style: italic;

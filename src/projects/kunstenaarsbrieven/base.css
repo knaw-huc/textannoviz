@@ -1,3 +1,21 @@
 .highlight-italics {
   font-style: italic;
 }
+
+/* Persons and artworks annotations */
+.annotated-per.annotationMarker,
+.annotated-art.annotationMarker,
+.closedNestedAnnotation .annotated-per,
+.closedNestedAnnotation .annotated-art,
+.fullNestedAnnotation .depth-1.annotated-per,
+.fullNestedAnnotation .depth-1.annotated-art {
+  background-color: transparent;
+  border-bottom: 2px dotted #2d73cb;
+  padding-bottom: 1px;
+}
+
+.annotated-ref {
+  background-color: transparent;
+  text-decoration-line: underline;
+  text-decoration-color: black;
+}
