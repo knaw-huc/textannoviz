@@ -1,5 +1,4 @@
 @import "../../tailwind.css";
-@import "../kunstenaarsbrieven/base.css";
 
 .highlight-italics {
   font-style: italic;
@@ -105,6 +104,11 @@ img {
   hover:shadow-none;
 }
 
+/* Israels specific styling for AnnotatedText component */
+/* TODO: Test if we can remove parent selectors? */
+.annotated-art {
+  @apply bg-[#F0ECF7];
+}
 .annotated-ref {
   @apply bg-[#afddff];
 }
