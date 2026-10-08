@@ -1,4 +1,5 @@
 @import "../../tailwind.css";
+@import "../kunstenaarsbrieven/base.css";
 
 .highlight-decoded,
 .highlight-displaced {

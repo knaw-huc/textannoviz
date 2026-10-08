@@ -1,3 +1,10 @@
 .highlight-italics {
   font-style: italic;
 }
+
+/* Artwork annotations: no fill, blue dotted underline.
+   The closed selector beats `.closedNestedAnnotation span { border-b-0 }`. */
+.annotated-art,
+.closedNestedAnnotation .annotated-art {
+  @apply border-annotation-per500 border-b-[2px] border-dotted bg-transparent pb-0.5;
+}
