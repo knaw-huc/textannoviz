@@ -121,7 +121,7 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   EDITED_BY: "",
   P1: "",
   P2: "",
-  SCROLL_TO_LETTERS: "Explore the letters",
+  SCROLL_TO_LETTERS: "Explore the papers",
 
   //Help labels
   RECIPIENT_HELP:
