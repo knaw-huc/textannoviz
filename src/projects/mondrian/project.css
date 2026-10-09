@@ -1,2 +1,6 @@
 @import "../../tailwind.css";
 @import "../kunstenaarsbrieven/base.css";
+
+.highlight-spaced {
+  font-style: italic;
+}
