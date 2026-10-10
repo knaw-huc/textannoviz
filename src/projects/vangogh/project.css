@@ -6,12 +6,14 @@
     margin-bottom: 0em;
   }
 
+  .annotated-text {
+    white-space: pre-line;
+  }
+
   .highlight-label {
     display: block;
     font-weight: bold;
     margin-top: 1.4rem;
-    /* whitespace-pre-wrap turns the space after this block into an extra line */
-    margin-bottom: -1lh;
     background-color: transparent;
   }
 }
