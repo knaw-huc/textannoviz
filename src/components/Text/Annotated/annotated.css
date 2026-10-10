@@ -53,7 +53,8 @@
     width: 1cap;
     height: 1cap;
     margin-right: 0.2em;
-    background: url("/src/assets/icon-annotation-artwork.svg") no-repeat center / contain;
+    background: url("../../../assets/icon-annotation-artwork.svg") no-repeat
+      center / contain;
     vertical-align: baseline;
   }
   .annotated-art.start-annotation,
