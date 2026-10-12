@@ -6,6 +6,9 @@ export default _.merge(defaultTailwindConfig, {
   theme: {
     extend: {
       colors: {
+        neutral: {
+          100: "#F8F6F2",
+        },
         brand1: {
           50: "hsl(200, 45%, 97%)",
           100: "hsl(200, 45%, 90%)",
@@ -31,12 +34,12 @@ export default _.merge(defaultTailwindConfig, {
           900: "hsl(200, 15%, 10%)",
         },
         brand2: {
-          50: "hsl(200, 45%, 97%)",
+          50: "#F8F6F2",
           100: "hsl(200, 45%, 90%)",
           200: "hsl(200, 45%, 80%)",
           300: "hsl(200, 45%, 70%)",
           400: "hsl(200, 45%, 60%)",
-          500: "hsl(200, 45%, 52%)",
+          500: "#746B57",
           600: "hsl(200, 45%, 40%)",
           700: "hsl(200, 45%, 30%)",
           800: "hsl(200, 45%, 20%)",

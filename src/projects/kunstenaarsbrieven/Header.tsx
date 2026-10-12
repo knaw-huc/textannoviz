@@ -25,6 +25,12 @@ type HeaderProps = {
   letterNumber: string | undefined;
   menuUrl?: string;
   letterIds?: string[];
+  headerClassName?: string;
+  exploreLettersClassName?: string;
+  logo?: {
+    src: string;
+    alt: string;
+  };
 };
 
 export const Header = (props: HeaderProps) => {
@@ -82,23 +88,43 @@ export const Header = (props: HeaderProps) => {
   );
 
   return (
-    <header className="relative grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] bg-[#dddddd] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_minmax(0,1fr)]">
-      <div className="flex flex-col items-start gap-2 border-b border-neutral-400 px-6 py-2 sm:flex-row sm:items-center sm:gap-6">
+    <header
+      className={`relative grid grid-cols-[auto_auto_50px] grid-rows-[auto_auto] sm:grid-cols-[auto_auto_110px_50px] lg:grid-cols-[auto_minmax(0,1fr)] ${
+        props.headerClassName ?? "bg-[#dddddd]"
+      }`}
+    >
+      <div className="flex flex-col items-start gap-2 border-b border-black px-6 py-2 sm:flex-row sm:items-center sm:gap-6">
         <Link
-          className="flex w-fit flex-col items-start text-inherit no-underline hover:text-inherit hover:underline"
+          className={
+            props.logo
+              ? "inline-flex w-fit rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
+              : "flex w-fit flex-col items-start text-inherit no-underline hover:text-inherit hover:underline"
+          }
           href="/"
         >
-          <strong>{translateProject("TITLE_PT_1")}</strong>
-          <strong>{translateProject("TITLE_PT_2")}</strong>
+          {props.logo ? (
+            <img
+              src={props.logo.src}
+              alt={props.logo.alt}
+              className="h-auto w-[200px]"
+            />
+          ) : (
+            <>
+              <strong>{translateProject("TITLE_PT_1")}</strong>
+              <strong>{translateProject("TITLE_PT_2")}</strong>
+            </>
+          )}
         </Link>
         <Link
-          className="whitespace-nowrap rounded-full bg-neutral-100 px-3 py-1 text-xs text-inherit no-underline outline-none hover:bg-white hover:text-inherit focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
+          className={`whitespace-nowrap rounded-full px-3 py-1 text-xs text-inherit no-underline outline-none hover:bg-white hover:text-inherit focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 ${
+            props.exploreLettersClassName ?? "bg-neutral-100"
+          }`}
           href={searchPath}
         >
           {translateProject("SCROLL_TO_LETTERS")}
         </Link>
       </div>
-      <div className="col-span-2 flex min-w-0 items-center justify-end border-b border-neutral-400  sm:col-span-3 lg:col-span-1 ">
+      <div className="col-span-2 flex min-w-0 items-center justify-end border-b border-black sm:col-span-3 lg:col-span-1">
         <Button
           className="mr-2 inline-flex items-center justify-center rounded border border-neutral-500 p-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 lg:hidden"
           aria-label={
