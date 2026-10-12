@@ -5,6 +5,7 @@ import { Terms } from "../../../../model/Search";
 import { findViewText } from "../../findViewText";
 import { findSearchHits } from "./createSearchHighlightOffsets";
 import { createSearchHitAnchor } from "./hitAnchors";
+import { createExcerpt, Excerpt } from "./createExcerpt";
 import {
   getMatchedFacet,
   hasSelectedFacets,
@@ -55,6 +56,8 @@ type MatchBase = {
    * text per footnote. Ordering across a letter lives in the array order.
    */
   begin: number;
+  /** The match with some of the text around it, to tell hits apart by */
+  excerpt: Excerpt;
 };
 
 /** An entity mention matching the selected facets */
@@ -187,6 +190,7 @@ function findMatchesInText(
       name,
       anchor: bodyId,
       begin,
+      excerpt: createExcerpt(text.body, begin, end),
       bodyId,
       facetName,
       value,
@@ -199,6 +203,7 @@ function findMatchesInText(
         name,
         anchor: createSearchHitAnchor(text, begin),
         begin,
+        excerpt: createExcerpt(text.body, begin, end),
         value: text.body.slice(begin, end),
       });
     }

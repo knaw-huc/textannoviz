@@ -70,7 +70,12 @@ describe(resolveSearchHits.name, () => {
   it("finds the match in the only location that holds it", () => {
     const result = resolveSearchHits(
       [entity("a1", ALMA)],
-      views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
+      views({
+        text: view(
+          [{ bodyId: "a1", begin: 11, end: 15 }],
+          "Dear Theo, Alma came by",
+        ),
+      }),
       terms,
       config,
       [{ name: "main", view: "text" }],
@@ -81,7 +86,8 @@ describe(resolveSearchHits.name, () => {
         kind: "entity",
         name: "main",
         anchor: "a1",
-        begin: 10,
+        begin: 11,
+        excerpt: { before: "Dear Theo, ", match: "Alma", after: " came by" },
         bodyId: "a1",
         facetName: "persons",
         value: ALMA,
@@ -340,6 +346,7 @@ describe(resolveSearchHits.name, () => {
           name: "main",
           anchor: "search:orig:3",
           begin: 3,
+          excerpt: { before: "De ", match: "Zee", after: ", de zee" },
           value: "Zee",
         },
         {
@@ -347,6 +354,7 @@ describe(resolveSearchHits.name, () => {
           name: "main",
           anchor: "search:orig:11",
           begin: 11,
+          excerpt: { before: "De Zee, de ", match: "zee", after: "" },
           value: "zee",
         },
       ]);

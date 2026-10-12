@@ -12,6 +12,10 @@ import { useTextStore } from "../../stores/text/text-store";
  * for the first match — opening the panel or tab that holds it and scrolling
  * to the highlight.
  *
+ * Each row leads with an excerpt, the hit marked as it is in the text, as
+ * hits on the same value would otherwise read the same; below it, what the
+ * hit matched and where it sits.
+ *
  * Rendered in store order, which is reading order: location by location, and
  * by offset within a location's text.
  */
@@ -40,10 +44,22 @@ export function HighlightsTab() {
                 isActive ? "bg-neutral-200" : ""
               }`}
             >
-              <span className="block">{match.value}</span>
+              <span className="line-clamp-2">
+                {match.excerpt.before}
+                <mark
+                  className={`text-inherit ${
+                    match.kind === "entity"
+                      ? "entity-highlight bg-transparent"
+                      : "rounded bg-yellow-200"
+                  }`}
+                >
+                  {match.excerpt.match}
+                </mark>
+                {match.excerpt.after}
+              </span>
               <span className="block text-xs text-neutral-600">
                 {match.kind === "entity"
-                  ? translateProject(match.facetName)
+                  ? `${translateProject(match.facetName)}: ${match.value}`
                   : translate("FULL_TEXT_SEARCH")}{" "}
                 · {translateProject(match.name)}
               </span>
