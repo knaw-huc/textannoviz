@@ -18,10 +18,11 @@ import {
 } from "../../model/AnnoRepoAnnotation.ts";
 import { useLoadManifest } from "@knaw-huc/osd-iiif-viewer";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
+import { createSearchRegex } from "../Text/createSearchRegex.tsx";
 import {
-  EntityMatch,
-  resolveEntityMatches,
-} from "../Text/Annotated/utils/resolveEntityMatches.ts";
+  SearchHit,
+  resolveSearchHits,
+} from "../Text/Annotated/utils/resolveSearchHits.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -41,11 +42,14 @@ export function useInitDetail() {
   const annotations = useAnnotationStore((state) => state.annotations);
   const views = useTextStore((state) => state.views);
   const terms = useUrlSearchParamsStore((state) => state.searchQuery.terms);
+  const fullText = useUrlSearchParamsStore(
+    (state) => state.searchQuery.fullText,
+  );
   const isInitSearchUrlParams = useUrlSearchParamsStore(
     (state) => state.isInitSearchUrlParams,
   );
-  const setEntityMatches = useTextStore((state) => state.setEntityMatches);
-  const resetEntityMatches = useTextStore((state) => state.resetEntityMatches);
+  const setSearchHits = useTextStore((state) => state.setSearchHits);
+  const resetSearchHits = useTextStore((state) => state.resetSearchHits);
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
   const resetPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.resetPanelVisibilityOverrides,
@@ -139,8 +143,9 @@ export function useInitDetail() {
   }, [isInitDetail]);
 
   /**
-   * Collect every entity in this letter matching the selected facets, so the
-   * detail view can list them and reveal the first.
+   * Collect every match of the search in this letter — entities matching the
+   * selected facets and full-text hits — so the detail view can list them and
+   * reveal the first.
    *
    * Kept apart from {@link initDetail}, as its inputs arrive independently: on
    * a page load the search terms are only read from the url once the default
@@ -149,19 +154,21 @@ export function useInitDetail() {
    * without matches does not inherit the previous one's list.
    */
   useEffect(() => {
-    const locations = projectConfig.entityMatchLocations;
+    const locations = projectConfig.searchHitLocations;
     if (!locations || !isInitDetail || !isInitSearchUrlParams) {
       return;
     }
 
-    let matches: EntityMatch[] = [];
+    let matches: SearchHit[] = [];
     try {
-      matches = resolveEntityMatches(
+      matches = resolveSearchHits(
         annotations,
         views,
         terms,
         projectConfig,
         locations,
+        // The regex the text is highlighted with, so the list matches it
+        createSearchRegex(fullText, tier2),
       );
     } catch (error) {
       // Revealing matches is an enhancement: an unexpected annotation shape
@@ -170,9 +177,9 @@ export function useInitDetail() {
     }
 
     if (matches.length) {
-      setEntityMatches(matches);
+      setSearchHits(matches);
     } else {
-      resetEntityMatches();
+      resetSearchHits();
     }
   }, [
     isInitDetail,
@@ -180,9 +187,11 @@ export function useInitDetail() {
     annotations,
     views,
     terms,
+    fullText,
+    tier2,
     projectConfig,
-    setEntityMatches,
-    resetEntityMatches,
+    setSearchHits,
+    resetSearchHits,
   ]);
 
   return {

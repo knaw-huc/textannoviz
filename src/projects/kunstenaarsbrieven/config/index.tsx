@@ -26,6 +26,7 @@ import {
   typesToInclude,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
+import { HighlightsBottomSheet } from "../HighlightsBottomSheet";
 import { SearchItem } from "../SearchItem";
 import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
@@ -88,11 +89,11 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     showFragmenter: true,
     showNotesTab: true,
     showArtworksTab: true,
-    showHighlightsTab: true,
     components: {
       SearchItem,
       NotesPanel,
       ArtworksTab,
+      HighlightsPanel: HighlightsBottomSheet,
       Header,
       TocPanel,
       EntitySummary,

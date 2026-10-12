@@ -11,9 +11,14 @@ export function createSearchRegex(
   if (!tier2 || !searchTerms) {
     return;
   }
-  const termsToHighlight = searchTerms.split(" ");
+  // Drop the empty terms that repeated or surrounding spaces leave: an empty
+  // alternative matches everywhere, and shadows any term listed after it
+  const termsToHighlight = searchTerms.split(" ").filter(Boolean);
+  if (!termsToHighlight.length) {
+    return;
+  }
   const regexTerms = termsToHighlight.map((str) =>
     str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
   );
-  return new RegExp(regexTerms?.join("|"), "ig");
+  return new RegExp(regexTerms.join("|"), "ig");
 }

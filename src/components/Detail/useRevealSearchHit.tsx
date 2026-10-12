@@ -1,5 +1,7 @@
 import { useEffect } from "react";
-import { activeEntityMatchSelector } from "../../stores/text/entityMatchSlice.ts";
+import { useRevealPanel } from "./useRevealPanel.tsx";
+import { findHitAnchor } from "../Text/Annotated/utils/hitAnchors.ts";
+import { activeSearchHitSelector } from "../../stores/text/searchHitSlice.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
 import {
@@ -16,7 +18,7 @@ const MAX_LAYOUT_FRAMES = 30;
 const WATCH_TIMEOUT_MS = 4000;
 
 /**
- * Reveal and scroll to the active entity match.
+ * Reveal and scroll to the active search hit.
  *
  * Reveals the location holding it — a main-area panel via a transient
  * visibility override, or a sidebar tab — then scrolls to the anchored
@@ -28,12 +30,12 @@ const WATCH_TIMEOUT_MS = 4000;
  * match from a list reveals it the same way {@link useInitDetail} revealed
  * the first.
  */
-export function useRevealEntityMatch(): void {
-  const target = useTextStore(activeEntityMatchSelector);
-  const { entityMatchLocations } = useProjectStore(projectConfigSelector);
-  const setPanelVisibilityOverrides = useDetailViewStore(
-    (state) => state.setPanelVisibilityOverrides,
-  );
+export function useRevealSearchHit(): void {
+  const target = useTextStore(activeSearchHitSelector);
+  // Not read, only a dependency: picking the active match again re-reveals it
+  const revealCount = useTextStore((state) => state.searchHitRevealCount);
+  const { searchHitLocations } = useProjectStore(projectConfigSelector);
+  const revealPanel = useRevealPanel();
   const resetPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.resetPanelVisibilityOverrides,
   );
@@ -47,20 +49,20 @@ export function useRevealEntityMatch(): void {
       return;
     }
 
-    const location = entityMatchLocations?.find((l) => l.name === target.name);
+    const location = searchHitLocations?.find((l) => l.name === target.name);
     if ((location?.kind ?? "panel") === "tab") {
-      setPanelVisibilityOverrides({ [location?.panel ?? "metadata"]: true });
+      revealPanel(location?.panel ?? "metadata");
       setActiveSidebarTab(target.name);
     } else {
-      // Replace wholesale so a previous letter's reveal never lingers
-      setPanelVisibilityOverrides({ [target.name]: true });
+      revealPanel(target.name);
     }
 
-    return scrollToWhenPresent(target.bodyId);
+    return scrollToWhenPresent(target.anchor);
   }, [
     target,
-    entityMatchLocations,
-    setPanelVisibilityOverrides,
+    revealCount,
+    searchHitLocations,
+    revealPanel,
     resetPanelVisibilityOverrides,
     setActiveSidebarTab,
   ]);
@@ -81,7 +83,7 @@ export function useRevealEntityMatch(): void {
  *
  * @returns a cleanup that stops both waits
  */
-function scrollToWhenPresent(elementId: string): () => void {
+function scrollToWhenPresent(anchor: string): () => void {
   let timeoutId = 0;
   let frameId = 0;
   let framesWaited = 0;
@@ -96,7 +98,7 @@ function scrollToWhenPresent(elementId: string): () => void {
 
   function scrollWhenLaidOut() {
     frameId = 0;
-    const element = document.getElementById(elementId);
+    const element = findHitAnchor(anchor);
     if (element && element.getBoundingClientRect().height > 0) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
       cleanup();
