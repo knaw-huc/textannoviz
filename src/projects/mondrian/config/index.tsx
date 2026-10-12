@@ -144,6 +144,15 @@ export const mondrianConfig: ProjectConfig = mergeWith(
       // "introTranslatedText",
       // "introNotesText",
     ],
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "transcrSource",
+      "dating",
+      "remarks",
+      "ogtNotes",
+      "pubhistory",
+    ],
     selectedLanguage: "en",
     languages: [{ code: "en", labels: englishMondrianLabels }],
     routes: [
