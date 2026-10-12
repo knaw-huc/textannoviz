@@ -13,8 +13,15 @@ export type EntityMatchSlice = {
    * and scrolls to. Out of range while the list is empty.
    */
   activeEntityMatchIndex: number;
+  /**
+   * Bumped on every pick of a match, so picking the active match again
+   * reveals it again: the reveal keys on this as well as on the match, which
+   * stays the same object when the index does not change.
+   */
+  entityMatchRevealCount: number;
   /** Replaces the list, and sends the reader to its first match */
   setEntityMatches: (matches: EntityMatch[]) => void;
+  /** Sends the reader to a match, also when it is the active one */
   setActiveEntityMatchIndex: (index: number) => void;
   resetEntityMatches: () => void;
 };
@@ -35,13 +42,17 @@ export const createEntityMatchSlice: StateCreator<
 > = (set) => ({
   entityMatches: [],
   activeEntityMatchIndex: 0,
+  entityMatchRevealCount: 0,
 
   setEntityMatches: (matches) => {
     set(() => ({ entityMatches: matches, activeEntityMatchIndex: 0 }));
   },
 
   setActiveEntityMatchIndex: (index) => {
-    set(() => ({ activeEntityMatchIndex: index }));
+    set((state) => ({
+      activeEntityMatchIndex: index,
+      entityMatchRevealCount: state.entityMatchRevealCount + 1,
+    }));
   },
 
   resetEntityMatches() {

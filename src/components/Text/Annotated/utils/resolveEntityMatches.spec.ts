@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveEntityMatches } from "./resolveEntityMatches.ts";
+import { EntityMatch, resolveEntityMatches } from "./resolveEntityMatches.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { Broccoli, BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
 import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
@@ -36,8 +36,15 @@ function artwork(id: string, ...artworksEN: string[]): AnnoRepoAnnotation {
   } as unknown as AnnoRepoAnnotation;
 }
 
-function view(annotations: { bodyId: string; begin: number; end: number }[]) {
-  return { body: "irrelevant", locations: { annotations } };
+function view(
+  annotations: { bodyId: string; begin: number; end: number }[],
+  body = "irrelevant",
+  bodyId = "text-body",
+) {
+  return {
+    body,
+    locations: { relativeTo: { bodyId, bodyType: "Text" }, annotations },
+  };
 }
 
 function views(entries: Record<string, ReturnType<typeof view>>) {
@@ -50,9 +57,12 @@ function texts(...entries: ReturnType<typeof view>[]) {
 }
 
 /** What a list in the UI would show, so assertions read like that list */
-function listed(matches: { name: string; bodyId: string; value: string }[]) {
-  return matches.map(({ name, bodyId, value }) => `${name}:${bodyId}:${value}`);
+function listed(matches: EntityMatch[]) {
+  return matches.map(({ name, anchor, value }) => `${name}:${anchor}:${value}`);
 }
+
+/** Matches the way createSearchRegex builds them */
+const zee = /zee/gi;
 
 const terms: Terms = { persons: [ALMA] };
 
@@ -68,9 +78,11 @@ describe(resolveEntityMatches.name, () => {
 
     expect(result).toEqual([
       {
+        kind: "entity",
         name: "main",
-        bodyId: "a1",
+        anchor: "a1",
         begin: 10,
+        bodyId: "a1",
         facetName: "persons",
         value: ALMA,
       },
@@ -130,7 +142,7 @@ describe(resolveEntityMatches.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result.map((m) => m.bodyId)).toEqual(["a1", "a3", "a2"]);
+    expect(result.map((m) => m.anchor)).toEqual(["a1", "a3", "a2"]);
     expect(result.map((m) => m.begin)).toEqual([12, 40, 80]);
   });
 
@@ -167,7 +179,9 @@ describe(resolveEntityMatches.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result.map((m) => [m.facetName, m.value])).toEqual([
+    expect(
+      result.map((m) => [m.kind === "entity" && m.facetName, m.value]),
+    ).toEqual([
       ["artworksEN", SUNFLOWERS],
       ["persons", ALMA],
     ]);
@@ -199,7 +213,7 @@ describe(resolveEntityMatches.name, () => {
       [{ name: "main", view: "text" }],
     );
 
-    expect(result.map((m) => m.bodyId)).toEqual(["a2"]);
+    expect(result.map((m) => m.anchor)).toEqual(["a2"]);
   });
 
   it("resolves a language-suffixed view spec", () => {
@@ -273,7 +287,7 @@ describe(resolveEntityMatches.name, () => {
 
     // The second note comes first on render order, even though the third
     // matches earlier within its own text
-    expect(result.map((m) => m.bodyId)).toEqual(["a1", "a2"]);
+    expect(result.map((m) => m.anchor)).toEqual(["a1", "a2"]);
   });
 
   it("carries on to the next location when a function yields no texts", () => {
@@ -307,5 +321,116 @@ describe(resolveEntityMatches.name, () => {
     ]);
 
     expect(received).toEqual([allViews, config]);
+  });
+
+  describe("with a full-text search", () => {
+    it("lists full-text hits without any facet selected", () => {
+      const result = resolveEntityMatches(
+        [],
+        views({ text: view([], "De Zee, de zee", "orig") }),
+        {},
+        config,
+        [{ name: "main", view: "text" }],
+        zee,
+      );
+
+      expect(result).toEqual([
+        {
+          kind: "fullText",
+          name: "main",
+          anchor: "search:orig:3",
+          begin: 3,
+          value: "Zee",
+        },
+        {
+          kind: "fullText",
+          name: "main",
+          anchor: "search:orig:11",
+          begin: 11,
+          value: "zee",
+        },
+      ]);
+    });
+
+    it("interleaves entity and full-text matches by offset", () => {
+      const result = resolveEntityMatches(
+        [entity("a1", ALMA)],
+        views({
+          text: view([{ bodyId: "a1", begin: 5, end: 9 }], "zee, Alma, zee"),
+        }),
+        terms,
+        config,
+        [{ name: "main", view: "text" }],
+        zee,
+      );
+
+      expect(result.map((m) => [m.kind, m.begin])).toEqual([
+        ["fullText", 0],
+        ["entity", 5],
+        ["fullText", 11],
+      ]);
+    });
+
+    it("lists the first in the letter first, whatever its kind", () => {
+      const result = resolveEntityMatches(
+        [entity("a1", ALMA)],
+        views({
+          text: view([], "zee", "orig"),
+          notes: view([{ bodyId: "a1", begin: 0, end: 4 }]),
+        }),
+        terms,
+        config,
+        [
+          { name: "main", view: "text" },
+          { name: "notes", view: "notes" },
+        ],
+        zee,
+      );
+
+      expect(listed(result)).toEqual([
+        "main:search:orig:0:zee",
+        `notes:a1:${ALMA}`,
+      ]);
+    });
+
+    it("lists a text's hits once when two locations render that text", () => {
+      const translation = view([], "zee", "en");
+      const result = resolveEntityMatches(
+        [],
+        views({ text: { en: translation } as never }),
+        {},
+        config,
+        [
+          // the original falling back to the translation, as Van Gogh's does
+          { name: "text.orig", view: ["text.nl", "text.en"] },
+          { name: "text.trans", view: "text.en" },
+        ],
+        zee,
+      );
+
+      expect(listed(result)).toEqual(["text.orig:search:en:0:zee"]);
+    });
+
+    it("keeps hits apart that sit at the same offset in different texts", () => {
+      const result = resolveEntityMatches(
+        [],
+        views({
+          text: view([], "zee", "orig"),
+          trans: view([], "zee", "trans"),
+        }),
+        {},
+        config,
+        [
+          { name: "main", view: "text" },
+          { name: "translation", view: "trans" },
+        ],
+        zee,
+      );
+
+      expect(result.map((m) => m.anchor)).toEqual([
+        "search:orig:0",
+        "search:trans:0",
+      ]);
+    });
   });
 });

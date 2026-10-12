@@ -1,12 +1,10 @@
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation";
-import {
-  Broccoli,
-  BroccoliRelativeAnno,
-  BroccoliTextGeneric,
-} from "../../../../model/Broccoli";
+import { Broccoli, BroccoliTextGeneric } from "../../../../model/Broccoli";
 import { ProjectConfig } from "../../../../model/ProjectConfig";
 import { Terms } from "../../../../model/Search";
 import { findViewText } from "../../findViewText";
+import { findSearchHits } from "./createSearchHighlightOffsets";
+import { createSearchHitAnchor } from "./hitAnchors";
 import {
   getMatchedFacet,
   hasSelectedFacets,
@@ -42,19 +40,15 @@ export type EntityMatchLocation = {
   view: string | string[] | GetLocationTexts;
 };
 
-/**
- * One entity mention matching the selected facets: where it lives, so the UI
- * can reveal and scroll to it, and what it matched, so it can be listed.
- */
-export type EntityMatch = MatchedFacet & {
+type MatchBase = {
   /** {@link EntityMatchLocation.name} of the location holding the match */
   name: string;
   /**
-   * Body id of the matching entity. Doubles as the hit anchor the highlighter
-   * puts on the mention (see {@link HIT_ANCHORS_ATTRIBUTE}), so it is what the
-   * reveal scrolls to.
+   * The hit anchor the highlighter puts on the match (see
+   * {@link HIT_ANCHORS_ATTRIBUTE}), so it is what the reveal scrolls to.
+   * Unique across the list.
    */
-  bodyId: string;
+  anchor: string;
   /**
    * Character offset within the text holding the match. Only comparable
    * within that one text: a location can render several, as notes render one
@@ -63,13 +57,38 @@ export type EntityMatch = MatchedFacet & {
   begin: number;
 };
 
+/** An entity mention matching the selected facets */
+export type EntityFacetMatch = MatchBase &
+  MatchedFacet & {
+    kind: "entity";
+    /** Body id of the matching entity, which is also its anchor */
+    bodyId: string;
+  };
+
+/** A hit of the full-text search, as highlighted in the text */
+export type FullTextMatch = MatchBase & {
+  kind: "fullText";
+  /** The text that matched, spelled as the letter spells it */
+  value: string;
+};
+
 /**
- * Find every entity the reader filtered on, in the order they would meet them
+ * One match in the letter: where it lives, so the UI can reveal and scroll to
+ * it, and what it matched, so it can be listed.
+ */
+export type EntityMatch = EntityFacetMatch | FullTextMatch;
+
+/**
+ * Find every match of the reader's search, in the order they would meet them
  * reading the letter: location by location, and within a location text by
- * text, earliest offset first.
+ * text, earliest offset first. Entity and full-text matches are interleaved,
+ * so the first in the list is the first in the letter, whatever its kind.
  *
  * Works purely from data: every view is fetched up front, so matches can be
  * located in panels that are currently closed, without rendering them.
+ *
+ * @param searchRegex the regex the text is highlighted with, see
+ *  {@link createSearchRegex}; undefined when there is no full-text search
  */
 export function resolveEntityMatches(
   annotations: AnnoRepoAnnotation[],
@@ -77,8 +96,9 @@ export function resolveEntityMatches(
   terms: Terms,
   config: ProjectConfig,
   locations: EntityMatchLocation[],
+  searchRegex?: RegExp,
 ): EntityMatch[] {
-  if (!views || !hasSelectedFacets(terms)) {
+  if (!views || (!hasSelectedFacets(terms) && !searchRegex)) {
     return [];
   }
 
@@ -89,7 +109,7 @@ export function resolveEntityMatches(
       matchedFacets.set(body.id, matched);
     }
   }
-  if (!matchedFacets.size) {
+  if (!matchedFacets.size && !searchRegex) {
     return [];
   }
 
@@ -98,18 +118,20 @@ export function resolveEntityMatches(
 
   for (const { name, view } of locations) {
     for (const text of getLocationTexts(views, view, config)) {
-      for (const { bodyId, begin, facetName, value } of findMatchesInText(
+      for (const match of findMatchesInText(
         text,
+        name,
         matchedFacets,
+        searchRegex,
       )) {
-        // The anchor the reveal scrolls to is keyed by body id, so a body
-        // that surfaces in two locations can only ever be scrolled to in the
-        // first. List it once, where the reader can actually be sent.
-        if (listed.has(bodyId)) {
+        // An anchor can only ever be scrolled to where it first appears: an
+        // entity that surfaces in two locations, or a text that two locations
+        // both render. List it once, where the reader can actually be sent.
+        if (listed.has(match.anchor)) {
           continue;
         }
-        listed.add(bodyId);
-        matches.push({ name, bodyId, begin, facetName, value });
+        listed.add(match.anchor);
+        matches.push(match);
       }
     }
   }
@@ -142,21 +164,44 @@ function getLocationTexts(
 /**
  * Every match in one text, earliest first. Broccoli does not promise its
  * relative annotations come in offset order, and within a single text the
- * offsets do compare, so sort them into the order the reader reads them.
+ * offsets do compare, so sort entity and full-text matches together into the
+ * order the reader reads them. On a tie, the entity comes first.
  */
 function findMatchesInText(
   text: BroccoliTextGeneric,
+  name: string,
   matchedFacets: Map<string, MatchedFacet>,
-): (BroccoliRelativeAnno & MatchedFacet)[] {
-  const matches: (BroccoliRelativeAnno & MatchedFacet)[] = [];
-  for (const relative of text.locations.annotations) {
-    const matched = matchedFacets.get(relative.bodyId);
+  searchRegex: RegExp | undefined,
+): EntityMatch[] {
+  const matches: EntityMatch[] = [];
+  for (const { bodyId, begin, end } of text.locations.annotations) {
+    const matched = matchedFacets.get(bodyId);
     // Zero-length annotations render as markers, not as highlighted text,
     // so they are never something to scroll to
-    if (!matched || relative.begin === relative.end) {
+    if (!matched || begin === end) {
       continue;
     }
-    matches.push({ ...relative, ...matched });
+    const { facetName, value } = matched;
+    matches.push({
+      kind: "entity",
+      name,
+      anchor: bodyId,
+      begin,
+      bodyId,
+      facetName,
+      value,
+    });
+  }
+  if (searchRegex) {
+    for (const [begin, end] of findSearchHits(text.body, searchRegex)) {
+      matches.push({
+        kind: "fullText",
+        name,
+        anchor: createSearchHitAnchor(text, begin),
+        begin,
+        value: text.body.slice(begin, end),
+      });
+    }
   }
   return matches.sort((a, b) => a.begin - b.begin);
 }

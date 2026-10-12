@@ -18,6 +18,7 @@ import {
 } from "../../model/AnnoRepoAnnotation.ts";
 import { useLoadManifest } from "@knaw-huc/osd-iiif-viewer";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
+import { createSearchRegex } from "../Text/createSearchRegex.tsx";
 import {
   EntityMatch,
   resolveEntityMatches,
@@ -41,6 +42,9 @@ export function useInitDetail() {
   const annotations = useAnnotationStore((state) => state.annotations);
   const views = useTextStore((state) => state.views);
   const terms = useUrlSearchParamsStore((state) => state.searchQuery.terms);
+  const fullText = useUrlSearchParamsStore(
+    (state) => state.searchQuery.fullText,
+  );
   const isInitSearchUrlParams = useUrlSearchParamsStore(
     (state) => state.isInitSearchUrlParams,
   );
@@ -139,8 +143,9 @@ export function useInitDetail() {
   }, [isInitDetail]);
 
   /**
-   * Collect every entity in this letter matching the selected facets, so the
-   * detail view can list them and reveal the first.
+   * Collect every match of the search in this letter — entities matching the
+   * selected facets and full-text hits — so the detail view can list them and
+   * reveal the first.
    *
    * Kept apart from {@link initDetail}, as its inputs arrive independently: on
    * a page load the search terms are only read from the url once the default
@@ -162,6 +167,8 @@ export function useInitDetail() {
         terms,
         projectConfig,
         locations,
+        // The regex the text is highlighted with, so the list matches it
+        createSearchRegex(fullText, tier2),
       );
     } catch (error) {
       // Revealing matches is an enhancement: an unexpected annotation shape
@@ -180,6 +187,8 @@ export function useInitDetail() {
     annotations,
     views,
     terms,
+    fullText,
+    tier2,
     projectConfig,
     setEntityMatches,
     resetEntityMatches,

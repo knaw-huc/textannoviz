@@ -31,6 +31,8 @@ const WATCH_TIMEOUT_MS = 4000;
  */
 export function useRevealEntityMatch(): void {
   const target = useTextStore(activeEntityMatchSelector);
+  // Not read, only a dependency: picking the active match again re-reveals it
+  const revealCount = useTextStore((state) => state.entityMatchRevealCount);
   const { entityMatchLocations } = useProjectStore(projectConfigSelector);
   const setPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.setPanelVisibilityOverrides,
@@ -57,9 +59,10 @@ export function useRevealEntityMatch(): void {
       setPanelVisibilityOverrides({ [target.name]: true });
     }
 
-    return scrollToWhenPresent(target.bodyId);
+    return scrollToWhenPresent(target.anchor);
   }, [
     target,
+    revealCount,
     entityMatchLocations,
     setPanelVisibilityOverrides,
     resetPanelVisibilityOverrides,
