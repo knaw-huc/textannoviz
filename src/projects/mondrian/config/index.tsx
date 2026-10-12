@@ -28,7 +28,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
   {
     id: "mondrian",
     broccoliUrl: `http://localhost:${broccoliPortMondrian ?? "8082"}`,
-    siteTitle: "The letters of Piet Mondriaan",
+    siteTitle: "The Mondrian Papers",
 
     elasticIndexName: "mondrian",
     initialDateFrom: "1500-01-01",
