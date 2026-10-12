@@ -446,6 +446,14 @@ export function isLabelAboveList(
   return isListBody(toTest) && toTest["tei:type"] === "label-above";
 }
 
+export type PageBody = AnnoRepoBodyBase & {
+  "tei:f": string;
+  facsimile?: string;
+  elementName: string;
+  n: string;
+  "tei:facs": string;
+};
+
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
   highlight,
