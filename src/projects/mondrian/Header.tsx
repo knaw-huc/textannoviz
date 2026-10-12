@@ -33,7 +33,7 @@ export const Header = () => {
   return (
     <KunstenaarsbrievenHeader
       letterTitle={letterTitle}
-      letterNumber={letterAnnoBody?.n}
+      letterNumber={letterAnnoBody?.altIdentifier}
       introIds={introIds}
       menuUrl={menuUrl}
     />
