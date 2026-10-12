@@ -1,16 +1,11 @@
 import { tocScrollHeader } from "../../../../components/Text/Toc/useSyncHeaderOnScroll.tsx";
-import { ReactNode } from "react";
+import { ComponentProps } from "react";
 
-type TocHeaderSpanProps = {
+type TocHeaderSpanProps = ComponentProps<"span"> & {
   id: string;
   className: string;
-  children: ReactNode;
 };
 
-export function TocHeader({ id, className, children }: TocHeaderSpanProps) {
-  return (
-    <span id={id} className={[className, tocScrollHeader].join(" ")}>
-      {children}
-    </span>
-  );
+export function TocHeader({ className, ...props }: TocHeaderSpanProps) {
+  return <span {...props} className={[className, tocScrollHeader].join(" ")} />;
 }

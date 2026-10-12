@@ -50,8 +50,9 @@ export type EntityMatch = MatchedFacet & {
   /** {@link EntityMatchLocation.name} of the location holding the match */
   name: string;
   /**
-   * Body id of the matching entity. Doubles as the id of the DOM anchor the
-   * highlighter puts on the mention, so it is what the reveal scrolls to.
+   * Body id of the matching entity. Doubles as the hit anchor the highlighter
+   * puts on the mention (see {@link HIT_ANCHORS_ATTRIBUTE}), so it is what the
+   * reveal scrolls to.
    */
   bodyId: string;
   /**

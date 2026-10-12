@@ -86,7 +86,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     }
 
     const searchHighlight = createSearchRegex(searchTerms, tier2);
-    result.push(...createSearchHighlightOffsets(textBody, searchHighlight));
+    result.push(...createSearchHighlightOffsets(props.text, searchHighlight));
 
     result.push(
       ...createEntityHighlightOffsets(
@@ -109,7 +109,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     getBlockType,
     searchTerms,
     tier2,
-    textBody,
+    props.text,
     terms,
     projectConfig,
   ]);

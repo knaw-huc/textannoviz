@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { findHitAnchor } from "../Text/Annotated/utils/hitAnchors.ts";
 import { activeEntityMatchSelector } from "../../stores/text/entityMatchSlice.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
@@ -81,7 +82,7 @@ export function useRevealEntityMatch(): void {
  *
  * @returns a cleanup that stops both waits
  */
-function scrollToWhenPresent(elementId: string): () => void {
+function scrollToWhenPresent(anchor: string): () => void {
   let timeoutId = 0;
   let frameId = 0;
   let framesWaited = 0;
@@ -96,7 +97,7 @@ function scrollToWhenPresent(elementId: string): () => void {
 
   function scrollWhenLaidOut() {
     frameId = 0;
-    const element = document.getElementById(elementId);
+    const element = findHitAnchor(anchor);
     if (element && element.getBoundingClientRect().height > 0) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
       cleanup();
