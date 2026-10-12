@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useRevealPanel } from "./useRevealPanel.tsx";
 import { findHitAnchor } from "../Text/Annotated/utils/hitAnchors.ts";
 import { activeSearchHitSelector } from "../../stores/text/searchHitSlice.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
@@ -34,9 +35,7 @@ export function useRevealSearchHit(): void {
   // Not read, only a dependency: picking the active match again re-reveals it
   const revealCount = useTextStore((state) => state.searchHitRevealCount);
   const { searchHitLocations } = useProjectStore(projectConfigSelector);
-  const setPanelVisibilityOverrides = useDetailViewStore(
-    (state) => state.setPanelVisibilityOverrides,
-  );
+  const revealPanel = useRevealPanel();
   const resetPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.resetPanelVisibilityOverrides,
   );
@@ -52,11 +51,10 @@ export function useRevealSearchHit(): void {
 
     const location = searchHitLocations?.find((l) => l.name === target.name);
     if ((location?.kind ?? "panel") === "tab") {
-      setPanelVisibilityOverrides({ [location?.panel ?? "metadata"]: true });
+      revealPanel(location?.panel ?? "metadata");
       setActiveSidebarTab(target.name);
     } else {
-      // Replace wholesale so a previous letter's reveal never lingers
-      setPanelVisibilityOverrides({ [target.name]: true });
+      revealPanel(target.name);
     }
 
     return scrollToWhenPresent(target.anchor);
@@ -64,7 +62,7 @@ export function useRevealSearchHit(): void {
     target,
     revealCount,
     searchHitLocations,
-    setPanelVisibilityOverrides,
+    revealPanel,
     resetPanelVisibilityOverrides,
     setActiveSidebarTab,
   ]);
