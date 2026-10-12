@@ -1,11 +1,11 @@
 import { Panel } from "./Panel";
 import { usePanelLayout } from "./usePanelLayout.tsx";
-import { useRevealEntityMatch } from "./useRevealEntityMatch.tsx";
+import { useRevealSearchHit } from "./useRevealSearchHit.tsx";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
 
 export const Panels = () => {
   usePanelLayout();
-  useRevealEntityMatch();
+  useRevealSearchHit();
   const activePanels = useDetailViewStore((state) => state.activePanels);
   return (
     <>

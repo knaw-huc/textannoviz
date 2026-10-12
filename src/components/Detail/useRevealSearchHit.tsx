@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { findHitAnchor } from "../Text/Annotated/utils/hitAnchors.ts";
-import { activeEntityMatchSelector } from "../../stores/text/entityMatchSlice.ts";
+import { activeSearchHitSelector } from "../../stores/text/searchHitSlice.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
 import {
@@ -17,7 +17,7 @@ const MAX_LAYOUT_FRAMES = 30;
 const WATCH_TIMEOUT_MS = 4000;
 
 /**
- * Reveal and scroll to the active entity match.
+ * Reveal and scroll to the active search hit.
  *
  * Reveals the location holding it — a main-area panel via a transient
  * visibility override, or a sidebar tab — then scrolls to the anchored
@@ -29,11 +29,11 @@ const WATCH_TIMEOUT_MS = 4000;
  * match from a list reveals it the same way {@link useInitDetail} revealed
  * the first.
  */
-export function useRevealEntityMatch(): void {
-  const target = useTextStore(activeEntityMatchSelector);
+export function useRevealSearchHit(): void {
+  const target = useTextStore(activeSearchHitSelector);
   // Not read, only a dependency: picking the active match again re-reveals it
-  const revealCount = useTextStore((state) => state.entityMatchRevealCount);
-  const { entityMatchLocations } = useProjectStore(projectConfigSelector);
+  const revealCount = useTextStore((state) => state.searchHitRevealCount);
+  const { searchHitLocations } = useProjectStore(projectConfigSelector);
   const setPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.setPanelVisibilityOverrides,
   );
@@ -50,7 +50,7 @@ export function useRevealEntityMatch(): void {
       return;
     }
 
-    const location = entityMatchLocations?.find((l) => l.name === target.name);
+    const location = searchHitLocations?.find((l) => l.name === target.name);
     if ((location?.kind ?? "panel") === "tab") {
       setPanelVisibilityOverrides({ [location?.panel ?? "metadata"]: true });
       setActiveSidebarTab(target.name);
@@ -63,7 +63,7 @@ export function useRevealEntityMatch(): void {
   }, [
     target,
     revealCount,
-    entityMatchLocations,
+    searchHitLocations,
     setPanelVisibilityOverrides,
     resetPanelVisibilityOverrides,
     setActiveSidebarTab,

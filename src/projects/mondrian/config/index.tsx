@@ -19,6 +19,7 @@ import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { buildNavLink } from "../utils/buildNavLink";
 import { Artworks } from "../Artworks";
+import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
 
 const { broccoliPortMondrian, nginxPortMondrian } = getViteEnvVars();
 
@@ -112,9 +113,12 @@ export const mondrianConfig: ProjectConfig = mergeWith(
         panel: PanelTemplates.metadataPanel,
       },
     ],
-    entityMatchLocations: [
+    // Lists the matches, so only where searchHitLocations is set
+    showHighlightsTab: true,
+    searchHitLocations: [
       { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
       { name: "text.trans", view: "text.en" },
+      { name: "notes", kind: "tab", panel: "metadata", view: getNotesTexts },
     ],
     overrideDefaultAggs: [
       {

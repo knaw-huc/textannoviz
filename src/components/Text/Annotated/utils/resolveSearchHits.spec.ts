@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EntityMatch, resolveEntityMatches } from "./resolveEntityMatches.ts";
+import { SearchHit, resolveSearchHits } from "./resolveSearchHits.ts";
 import { AnnoRepoAnnotation } from "../../../../model/AnnoRepoAnnotation.ts";
 import { Broccoli, BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
 import { ProjectConfig } from "../../../../model/ProjectConfig.ts";
@@ -57,7 +57,7 @@ function texts(...entries: ReturnType<typeof view>[]) {
 }
 
 /** What a list in the UI would show, so assertions read like that list */
-function listed(matches: EntityMatch[]) {
+function listed(matches: SearchHit[]) {
   return matches.map(({ name, anchor, value }) => `${name}:${anchor}:${value}`);
 }
 
@@ -66,9 +66,9 @@ const zee = /zee/gi;
 
 const terms: Terms = { persons: [ALMA] };
 
-describe(resolveEntityMatches.name, () => {
+describe(resolveSearchHits.name, () => {
   it("finds the match in the only location that holds it", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA)],
       views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
       terms,
@@ -90,7 +90,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("lists matches location by location, in location order", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA), entity("a2", ALMA)],
       views({
         notes: view([{ bodyId: "a2", begin: 1, end: 5 }]),
@@ -110,7 +110,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("skips locations that hold no match", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA), entity("g1", GAUGUIN)],
       views({
         text: view([{ bodyId: "g1", begin: 3, end: 7 }]),
@@ -128,7 +128,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("orders matches within a text by offset, whatever order they arrive in", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA), entity("a2", ALMA), entity("a3", ALMA)],
       views({
         text: view([
@@ -147,7 +147,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("lists a body once, in the first location that can scroll to it", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA)],
       views({
         text: view([{ bodyId: "a1", begin: 10, end: 14 }]),
@@ -166,7 +166,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("reports which facet each match was found on, and on which value", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA), artwork("w1", SUNFLOWERS)],
       views({
         text: view([
@@ -188,7 +188,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("matches on the selected value, not on every value the entity carries", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", "Alma, P.", ALMA)],
       views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
       terms,
@@ -200,7 +200,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("skips zero-length annotations, which render as markers not text", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA), entity("a2", ALMA)],
       views({
         text: view([
@@ -217,7 +217,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("resolves a language-suffixed view spec", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA)],
       views({
         text: { nl: view([{ bodyId: "a1", begin: 7, end: 11 }]) } as never,
@@ -231,7 +231,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("returns nothing when no facet is selected", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA)],
       views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
       { persons: [] },
@@ -243,7 +243,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("returns nothing when the selected entity appears in no view", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA)],
       views({ text: view([{ bodyId: "someone-else", begin: 10, end: 14 }]) }),
       terms,
@@ -255,7 +255,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("returns nothing before the views have loaded", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA)],
       undefined,
       terms,
@@ -267,7 +267,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("walks a location's own texts in the order it renders them", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA), entity("a2", ALMA), entity("g1", GAUGUIN)],
       views({}),
       terms,
@@ -291,7 +291,7 @@ describe(resolveEntityMatches.name, () => {
   });
 
   it("carries on to the next location when a function yields no texts", () => {
-    const result = resolveEntityMatches(
+    const result = resolveSearchHits(
       [entity("a1", ALMA)],
       views({ text: view([{ bodyId: "a1", begin: 10, end: 14 }]) }),
       terms,
@@ -310,7 +310,7 @@ describe(resolveEntityMatches.name, () => {
     const allViews = views({ text: view([]) });
     let received: unknown[] = [];
 
-    resolveEntityMatches([entity("a1", ALMA)], allViews, terms, config, [
+    resolveSearchHits([entity("a1", ALMA)], allViews, terms, config, [
       {
         name: "notes",
         view: (v, c) => {
@@ -325,7 +325,7 @@ describe(resolveEntityMatches.name, () => {
 
   describe("with a full-text search", () => {
     it("lists full-text hits without any facet selected", () => {
-      const result = resolveEntityMatches(
+      const result = resolveSearchHits(
         [],
         views({ text: view([], "De Zee, de zee", "orig") }),
         {},
@@ -353,7 +353,7 @@ describe(resolveEntityMatches.name, () => {
     });
 
     it("interleaves entity and full-text matches by offset", () => {
-      const result = resolveEntityMatches(
+      const result = resolveSearchHits(
         [entity("a1", ALMA)],
         views({
           text: view([{ bodyId: "a1", begin: 5, end: 9 }], "zee, Alma, zee"),
@@ -372,7 +372,7 @@ describe(resolveEntityMatches.name, () => {
     });
 
     it("lists the first in the letter first, whatever its kind", () => {
-      const result = resolveEntityMatches(
+      const result = resolveSearchHits(
         [entity("a1", ALMA)],
         views({
           text: view([], "zee", "orig"),
@@ -395,7 +395,7 @@ describe(resolveEntityMatches.name, () => {
 
     it("lists a text's hits once when two locations render that text", () => {
       const translation = view([], "zee", "en");
-      const result = resolveEntityMatches(
+      const result = resolveSearchHits(
         [],
         views({ text: { en: translation } as never }),
         {},
@@ -412,7 +412,7 @@ describe(resolveEntityMatches.name, () => {
     });
 
     it("keeps hits apart that sit at the same offset in different texts", () => {
-      const result = resolveEntityMatches(
+      const result = resolveSearchHits(
         [],
         views({
           text: view([], "zee", "orig"),

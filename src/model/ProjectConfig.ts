@@ -27,7 +27,7 @@ import {
 import type { JSX } from "react";
 import { ArtworkSections } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
-import { EntityMatchLocation } from "../components/Text/Annotated/utils/resolveEntityMatches.ts";
+import { SearchHitLocation } from "../components/Text/Annotated/utils/resolveSearchHits.ts";
 import {
   Artwork,
   PersonTeiRef,
@@ -136,6 +136,8 @@ export type ComponentsConfig = {
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
   ArtworksTab: () => JSX.Element;
+  /** Lists the search hits; see {@link ProjectConfig.searchHitLocations} */
+  HighlightsPanel: () => JSX.Element;
   Header: () => JSX.Element;
   TocPanel: () => JSX.Element;
 };
@@ -268,12 +270,14 @@ type AnnotationConfig = {
   ) => Record<FacetName, string[]>;
 
   /**
-   * Ordered list of places an entity match can be revealed and scrolled to,
-   * paired with the text view each renders. Order is priority: the first
-   * location holding a match wins. Only set for projects that support
-   * entity-facet highlighting (see {@link ProjectConfig.getEntityFacetValues}).
+   * Ordered list of places a search hit can be revealed and scrolled to,
+   * paired with the text view each renders. Order is reading order: hits are
+   * listed location by location, and the first is revealed on load. Setting
+   * it turns on collecting hits — entity matches (when
+   * {@link ProjectConfig.getEntityFacetValues} is set too) and full-text hits —
+   * which {@link ProjectConfig.showHighlightsTab} lists.
    */
-  entityMatchLocations?: EntityMatchLocation[];
+  searchHitLocations?: SearchHitLocation[];
 };
 
 export interface AnnotationItemProps {

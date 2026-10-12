@@ -6,10 +6,10 @@ import { useTextStore } from "../../stores/text/text-store";
 import { HighlightsTab } from "./HighlightsTab";
 
 export function HighlightsBottomSheet() {
-  const entityMatches = useTextStore((state) => state.entityMatches);
+  const searchHits = useTextStore((state) => state.searchHits);
   const translateProject = useTranslateProject();
   const panelId = useId();
-  const count = entityMatches.length;
+  const count = searchHits.length;
   const [expanded, setExpanded] = useState(count > 0);
   const [prevCount, setPrevCount] = useState(count);
 

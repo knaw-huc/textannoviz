@@ -1,6 +1,6 @@
 import { Button } from "react-aria-components";
 import { useTranslate, useTranslateProject } from "../../stores/project";
-import { activeEntityMatchSelector } from "../../stores/text/entityMatchSlice";
+import { activeSearchHitSelector } from "../../stores/text/searchHitSlice";
 import { useTextStore } from "../../stores/text/text-store";
 
 /**
@@ -16,26 +16,26 @@ import { useTextStore } from "../../stores/text/text-store";
  * by offset within a location's text.
  */
 export function HighlightsTab() {
-  const entityMatches = useTextStore((state) => state.entityMatches);
-  const activeMatch = useTextStore(activeEntityMatchSelector);
-  const setActiveEntityMatchIndex = useTextStore(
-    (state) => state.setActiveEntityMatchIndex,
+  const searchHits = useTextStore((state) => state.searchHits);
+  const activeMatch = useTextStore(activeSearchHitSelector);
+  const setActiveSearchHitIndex = useTextStore(
+    (state) => state.setActiveSearchHitIndex,
   );
   const translate = useTranslate();
   const translateProject = useTranslateProject();
 
-  if (!entityMatches.length) {
+  if (!searchHits.length) {
     return <div>{translateProject("NO_HIGHLIGHTS")}</div>;
   }
 
   return (
     <ul className="flex flex-col gap-1">
-      {entityMatches.map((match, index) => {
+      {searchHits.map((match, index) => {
         const isActive = match === activeMatch;
         return (
           <li key={match.anchor}>
             <Button
-              onPress={() => setActiveEntityMatchIndex(index)}
+              onPress={() => setActiveSearchHitIndex(index)}
               className={`w-full cursor-pointer rounded px-2 py-1 text-left outline-none hover:bg-neutral-200 ${
                 isActive ? "bg-neutral-200" : ""
               }`}

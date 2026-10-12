@@ -20,14 +20,14 @@ export type GetLocationTexts = (
  * A place the UI can reveal, paired with the text view(s) it renders.
  * Order is reading order: matches are listed location by location.
  */
-export type EntityMatchLocation = {
+export type SearchHitLocation = {
   /** How the caller reveals this location, e.g. a panel name or sidebar tab key */
   name: string;
   /**
    * How the reader reveals this location. Defaults to "panel" (a main-area
    * {@link DetailPanelConfig} toggled through panel visibility); "tab" reveals
    * a sidebar tab through setActiveSidebarTab. The resolver ignores this and
-   * echoes the location's {@link EntityMatchLocation.name} back on each match.
+   * echoes the location's {@link SearchHitLocation.name} back on each match.
    */
   kind?: "panel" | "tab";
   /** Which panel holds this tab; only for kind "tab" */
@@ -41,7 +41,7 @@ export type EntityMatchLocation = {
 };
 
 type MatchBase = {
-  /** {@link EntityMatchLocation.name} of the location holding the match */
+  /** {@link SearchHitLocation.name} of the location holding the match */
   name: string;
   /**
    * The hit anchor the highlighter puts on the match (see
@@ -58,7 +58,7 @@ type MatchBase = {
 };
 
 /** An entity mention matching the selected facets */
-export type EntityFacetMatch = MatchBase &
+export type EntitySearchHit = MatchBase &
   MatchedFacet & {
     kind: "entity";
     /** Body id of the matching entity, which is also its anchor */
@@ -66,7 +66,7 @@ export type EntityFacetMatch = MatchBase &
   };
 
 /** A hit of the full-text search, as highlighted in the text */
-export type FullTextMatch = MatchBase & {
+export type FullTextSearchHit = MatchBase & {
   kind: "fullText";
   /** The text that matched, spelled as the letter spells it */
   value: string;
@@ -76,7 +76,7 @@ export type FullTextMatch = MatchBase & {
  * One match in the letter: where it lives, so the UI can reveal and scroll to
  * it, and what it matched, so it can be listed.
  */
-export type EntityMatch = EntityFacetMatch | FullTextMatch;
+export type SearchHit = EntitySearchHit | FullTextSearchHit;
 
 /**
  * Find every match of the reader's search, in the order they would meet them
@@ -90,14 +90,14 @@ export type EntityMatch = EntityFacetMatch | FullTextMatch;
  * @param searchRegex the regex the text is highlighted with, see
  *  {@link createSearchRegex}; undefined when there is no full-text search
  */
-export function resolveEntityMatches(
+export function resolveSearchHits(
   annotations: AnnoRepoAnnotation[],
   views: Broccoli["views"] | undefined,
   terms: Terms,
   config: ProjectConfig,
-  locations: EntityMatchLocation[],
+  locations: SearchHitLocation[],
   searchRegex?: RegExp,
-): EntityMatch[] {
+): SearchHit[] {
   if (!views || (!hasSelectedFacets(terms) && !searchRegex)) {
     return [];
   }
@@ -113,7 +113,7 @@ export function resolveEntityMatches(
     return [];
   }
 
-  const matches: EntityMatch[] = [];
+  const matches: SearchHit[] = [];
   const listed = new Set<string>();
 
   for (const { name, view } of locations) {
@@ -151,7 +151,7 @@ export function resolveEntityMatches(
  */
 function getLocationTexts(
   views: Broccoli["views"],
-  view: EntityMatchLocation["view"],
+  view: SearchHitLocation["view"],
   config: ProjectConfig,
 ): BroccoliTextGeneric[] {
   if (typeof view === "function") {
@@ -172,8 +172,8 @@ function findMatchesInText(
   name: string,
   matchedFacets: Map<string, MatchedFacet>,
   searchRegex: RegExp | undefined,
-): EntityMatch[] {
-  const matches: EntityMatch[] = [];
+): SearchHit[] {
+  const matches: SearchHit[] = [];
   for (const { bodyId, begin, end } of text.locations.annotations) {
     const matched = matchedFacets.get(bodyId);
     // Zero-length annotations render as markers, not as highlighted text,

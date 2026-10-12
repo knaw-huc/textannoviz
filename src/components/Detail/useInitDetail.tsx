@@ -20,9 +20,9 @@ import { useLoadManifest } from "@knaw-huc/osd-iiif-viewer";
 import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
 import { createSearchRegex } from "../Text/createSearchRegex.tsx";
 import {
-  EntityMatch,
-  resolveEntityMatches,
-} from "../Text/Annotated/utils/resolveEntityMatches.ts";
+  SearchHit,
+  resolveSearchHits,
+} from "../Text/Annotated/utils/resolveSearchHits.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -48,8 +48,8 @@ export function useInitDetail() {
   const isInitSearchUrlParams = useUrlSearchParamsStore(
     (state) => state.isInitSearchUrlParams,
   );
-  const setEntityMatches = useTextStore((state) => state.setEntityMatches);
-  const resetEntityMatches = useTextStore((state) => state.resetEntityMatches);
+  const setSearchHits = useTextStore((state) => state.setSearchHits);
+  const resetSearchHits = useTextStore((state) => state.resetSearchHits);
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
   const resetPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.resetPanelVisibilityOverrides,
@@ -154,14 +154,14 @@ export function useInitDetail() {
    * without matches does not inherit the previous one's list.
    */
   useEffect(() => {
-    const locations = projectConfig.entityMatchLocations;
+    const locations = projectConfig.searchHitLocations;
     if (!locations || !isInitDetail || !isInitSearchUrlParams) {
       return;
     }
 
-    let matches: EntityMatch[] = [];
+    let matches: SearchHit[] = [];
     try {
-      matches = resolveEntityMatches(
+      matches = resolveSearchHits(
         annotations,
         views,
         terms,
@@ -177,9 +177,9 @@ export function useInitDetail() {
     }
 
     if (matches.length) {
-      setEntityMatches(matches);
+      setSearchHits(matches);
     } else {
-      resetEntityMatches();
+      resetSearchHits();
     }
   }, [
     isInitDetail,
@@ -190,8 +190,8 @@ export function useInitDetail() {
     fullText,
     tier2,
     projectConfig,
-    setEntityMatches,
-    resetEntityMatches,
+    setSearchHits,
+    resetSearchHits,
   ]);
 
   return {
