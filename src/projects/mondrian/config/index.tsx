@@ -20,6 +20,7 @@ import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { buildNavLink } from "../utils/buildNavLink";
 import { Artworks } from "../Artworks";
 import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
+import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
 
 const { broccoliPortMondrian, nginxPortMondrian } = getViteEnvVars();
 
@@ -119,6 +120,18 @@ export const mondrianConfig: ProjectConfig = mergeWith(
       { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
       { name: "text.trans", view: "text.en" },
       { name: "notes", kind: "tab", panel: "metadata", view: getNotesTexts },
+      {
+        name: "metadata",
+        kind: "tab",
+        panel: "metadata",
+        // In the order MetadataPanel renders them
+        view: createGetMetadataTexts([
+          "dating",
+          "transcrSource",
+          "remarks",
+          "pubhistory",
+        ]),
+      },
     ],
     overrideDefaultAggs: [
       {
