@@ -21,6 +21,7 @@ import { buildNavLink } from "../utils/buildNavLink";
 import { Artworks } from "../Artworks";
 import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
 import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
+import { mondrianLetterIdFormat } from "../utils/letterIdFormat";
 
 const { broccoliPortMondrian, nginxPortMondrian } = getViteEnvVars();
 
@@ -191,6 +192,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
     buildNavLink: buildNavLink,
+    letterIdFormat: mondrianLetterIdFormat,
   } as ProjectSpecificConfig,
   replaceArrays,
 );
