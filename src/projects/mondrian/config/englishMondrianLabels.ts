@@ -127,13 +127,13 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   RECIPIENT_HELP:
     "Filter by the person(s) to whom a letter was addressed. Use the search field at the top of the facet to find a specific recipient by name. Selecting a name will show only the letters addressed to that person. You can select multiple names at once; this will return letters addressed to any of the selected recipients. Uncheck a name to remove it from your selection.",
   SENDER_HELP:
-    "Filter by the person who wrote the letter. In this edition, the vast majority of letters were written by Vincent van Gogh, but a small number were written by others. Selecting a name will show only the letters sent by that person.",
+    "Filter by the person who wrote the letter. Selecting a name will show only the letters sent by that person.",
   CORRESPONDENT_HELP:
-    "Filter by correspondent, combining both senders and recipients. Use this facet to find all letters exchanged between Van Gogh and a specific person, regardless of the direction of the correspondence.",
+    "Filter by correspondent, combining both senders and recipients. Use this facet to find all letters exchanged, regardless of the direction of the correspondence.",
   PERIOD_HELP:
     "Filter by the date when a letter was written. For letters with uncertain dates, results include any document whose estimated date range overlaps with the selected period. The display format (day-month or month-day) is determined by your browser or computer settings.",
   MS_ID_HELP:
-    "Filter by the shelfmark (manuscript identifier) of the original letter. Shelfmarks refer to the physical location of the manuscript in the holding institution, such as the Van Gogh Museum or other archives.",
+    "Filter by the shelfmark (manuscript identifier) of the original letter. Shelfmarks refer to the physical location of the manuscript in the holding institution.",
   TITLE_HELP:
     "Filter or jump to documents by their specific title or heading. This is particularly useful for finding non-letter documents or specifically titled entries within the edition.",
   SEARCH_IN_HELP:
@@ -142,8 +142,7 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
     "Toggle between Dutch and English. This applies to both the interface and the content of the edition.",
   VIEW_HELP:
     "Use the View Options in the bottom right of the window to show or hide elements such as transcription, translation, metadata, or facsimile. Hidden elements are greyed out.",
-  TYPE_HELP:
-    "Filter between the main types of content in the edition: letters and the introductory texts.",
+  TYPE_HELP: "Filter between the main types of content in the edition.",
   DATE_HELP:
     "Filter by the date when a letter was written. For those letters for which the precise date of writing is unknown, they are included in the search results when they might have been written in the selected period. The display of the date (day-month or month-day) is determined by your computer or browser settings).",
   PERSONS_HELP:
@@ -153,7 +152,7 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
   ARTWORKS_NL_HELP:
     "Filter by artworks referenced in the edition. Useful for tracking discussions of specific works. Some artworks are identified only by title, while others also include a catalogue number (e.g., artworks by Van Gogh). The presence or absence of a catalogue number reflects the available documentation and may vary. This facet also includes non-artwork illustrations (e.g., documentary photographs) mentioned or shown in the edition. You can use the search box at the top of the facet to find specific titles.",
   ARTWORKS_EN_HELP:
-    "Filter by artworks referenced in the edition. Useful for tracking discussions of specific works. Some artworks are identified only by title, while others also include a catalogue number (e.g., artworks by Van Gogh). The presence or absence of a catalogue number reflects the available documentation and may vary. This facet also includes non-artwork illustrations (e.g., documentary photographs) mentioned or shown in the edition. You can use the search box at the top of the facet to find specific titles.",
+    "Filter by artworks referenced in the edition. Useful for tracking discussions of specific works. You can use the search box at the top of the facet to find specific titles.",
   FILE_HELP:
     "Jump directly to a specific document, or select multiple documents.",
   SORT_BY_HELP:
@@ -168,8 +167,6 @@ export const englishMondrianLabels = Object.assign({}, englishLabels, {
     "Shows the last ten searches executed on this browser. Clicking a search re-executes it. It is also possible to remove a previous search from the history.",
   QUICK_SEARCH_HELP:
     "Search by letter number or keyword. Enter a number (e.g., 1 or 001) to jump directly to that letter. Enter a word or phrase to search across all documents in the edition and view matching results.",
-  BIBLE_REFS_HELP:
-    "Filter by biblical passages and verses cited or quoted in the letters. The facet displays Bible references with numbers indicating how many letters contain each passage. Use the search field at the top of the facet to find a specific Bible verse, or browse the complete list. Select one or more passages to filter results to letters containing those biblical references. You can select multiple passages at once; this will return letters that reference any of the selected biblical passages.",
-  JOURNALS_HELP:
-    "Filter by the periodicals cited or mentioned in the documents. Use the search field at the top of the facet to find a specific publication by name. Selecting a title will show all documents that refer to that periodical. You can select multiple titles at once; this will return documents that reference any of the selected periodicals.",
+  INSTITUTION_HELP:
+    "Filter by the institutions holding the original documents.",
 });
