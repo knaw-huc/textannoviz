@@ -59,7 +59,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "@types/lodash": "^4.14.202",
-    "@types/node": "^20.11.23",
+    "@types/node": "^22.20.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.58.2",
@@ -83,7 +83,7 @@
     "vite": "^6.4.2",
     "vite-plugin-checker": "^0.6.4",
     "vite-plugin-html-injection": "^1.4.2",
-    "vitest": "^3.0.6"
+    "vitest": "^5.0.4"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": "eslint --cache --fix",
