@@ -13,7 +13,7 @@ export const englishMechteldVanGelreLabels = Object.assign({}, englishLabels, {
   title: "Title",
   letterid: "Letter ID",
   period: "Period",
-  type: "Type",
+  type: "Text type",
   artworksEN: "Artworks",
   artworkIds: "Artworks (ID)",
   bibleRefs: "Bible quotations",
