@@ -18,7 +18,15 @@ export function createSearchRegex(
     return;
   }
   const regexTerms = termsToHighlight.map((str) =>
-    str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+    foldAccents(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
   );
   return new RegExp(regexTerms.join("|"), "ig");
+}
+
+/**
+ * Strips accents from precomposed letters (é → e) without changing the
+ * length, so offsets found in the result still fit the original text
+ */
+export function foldAccents(text: string): string {
+  return text.replace(/[\u0080-\uffff]/g, (char) => char.normalize("NFD")[0]);
 }

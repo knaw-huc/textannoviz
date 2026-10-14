@@ -2,6 +2,7 @@ import { TextPositions } from "../core";
 import { HighlightBody } from "./highlightBodyGuards.ts";
 import { BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
 import { createSearchHitAnchor } from "./hitAnchors.ts";
+import { foldAccents } from "../../createSearchRegex.tsx";
 
 export function createSearchHighlightOffsets(
   text: BroccoliTextGeneric,
@@ -49,7 +50,7 @@ export type StartEndChar = [number, number];
  */
 export function findSearchHits(text: string, regex: RegExp): StartEndChar[] {
   const hits: StartEndChar[] = [];
-  for (const match of text.matchAll(regex)) {
+  for (const match of foldAccents(text).matchAll(regex)) {
     if (!match[0]) {
       continue;
     }
