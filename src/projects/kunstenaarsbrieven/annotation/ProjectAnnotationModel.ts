@@ -123,6 +123,7 @@ type ArtworkTeiRef = {
     ref: string;
     displayLabel: string;
     sortLabel: string;
+    fullName?: string;
   }[];
   graphic?: {
     url: string;

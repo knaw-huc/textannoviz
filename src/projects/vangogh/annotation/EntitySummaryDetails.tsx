@@ -60,7 +60,7 @@ const ArtworkEntity = (props: { artworks: Artwork[] }) => {
               ? artwork.relation.map((creator) => (
                   <p key={creator.ref}>
                     {firstLetterToUppercase(creator.name)}:{" "}
-                    {creator.displayLabel}
+                    {creator.fullName ?? creator.displayLabel}
                   </p>
                 ))
               : null}
