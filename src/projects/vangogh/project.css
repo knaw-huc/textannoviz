@@ -1,6 +1,20 @@
 @import "../../tailwind.css";
 @import "../kunstenaarsbrieven/base.css";
 
+/* Van Gogh brand header (overrides shared kunstenaarsbrieven Header) */
+header.relative {
+  background-color: #dad3b4;
+}
+
+header.relative a.rounded-full {
+  background-color: #f5efd7;
+  border: 1px solid #95907c;
+}
+
+header.relative a.rounded-full:hover {
+  background-color: white;
+}
+
 #page-chronology {
   h2 {
     margin-bottom: 0em;
