@@ -123,6 +123,7 @@ type ArtworkTeiRef = {
     ref: string;
     displayLabel: string;
     sortLabel: string;
+    fullName?: string;
   }[];
   graphic?: {
     url: string;
@@ -445,6 +446,14 @@ export function isLabelAboveList(
 ): toTest is ListBody {
   return isListBody(toTest) && toTest["tei:type"] === "label-above";
 }
+
+export type PageBody = AnnoRepoBodyBase & {
+  "tei:f": string;
+  facsimile?: string;
+  elementName: string;
+  n: string;
+  "tei:facs": string;
+};
 
 export const entityTypes = [entity, reference];
 export const highlightTypes = [

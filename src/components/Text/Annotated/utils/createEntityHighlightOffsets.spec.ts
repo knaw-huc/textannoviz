@@ -7,9 +7,9 @@ import { Terms } from "../../../../model/Search.ts";
 
 const ALMA = "Alma, Peter";
 
-function config(entityMatchLocations?: unknown) {
+function config(searchHitLocations?: unknown) {
   return {
-    entityMatchLocations,
+    searchHitLocations,
     isEntity: (body: { type: string }) => body.type === "Entity",
     getEntityFacetValues: (body: { persons?: string[] }) =>
       body.persons ? { persons: body.persons } : {},
@@ -45,7 +45,7 @@ describe(createEntityHighlightOffsets.name, () => {
     expect(result[0]).toMatchObject({ start: 10, end: 14 });
   });
 
-  it("highlights nothing for a project without entityMatchLocations", () => {
+  it("highlights nothing for a project without searchHitLocations", () => {
     // Opting in is what declares a project's entity data checked against its
     // search index; without it a coincidental value match must not highlight
     expect(
@@ -53,7 +53,7 @@ describe(createEntityHighlightOffsets.name, () => {
     ).toEqual([]);
   });
 
-  it("highlights nothing when entityMatchLocations is empty", () => {
+  it("highlights nothing when searchHitLocations is empty", () => {
     expect(
       createEntityHighlightOffsets(annotations, relative, terms, config([])),
     ).toEqual([]);

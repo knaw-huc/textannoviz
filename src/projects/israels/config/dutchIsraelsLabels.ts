@@ -9,7 +9,7 @@ export const dutchIsraelsLabels = Object.assign({}, dutchLabels, {
   file: "Briefnummer",
   letterid: "Briefnummer",
   periodlong: "Periode (lang)",
-  type: "Type",
+  type: "Teksttype",
   artworksEN: "Kunstwerken",
 
   facetInputFilterPlaceholder: "Zoek in facet",

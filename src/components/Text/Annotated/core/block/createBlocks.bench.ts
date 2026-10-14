@@ -1,4 +1,4 @@
-import { bench, describe } from "vitest";
+import { describe, test } from "vitest";
 import type {
   BlockAnnotationSegment,
   Body,
@@ -10,23 +10,43 @@ type TestBody = Body & { id: string };
 
 describe(createBlocks.name, () => {
   const small = generateDocument(5, ["section", "paragraph"]);
-  bench("section>p: 5 children per level (25 segments)", () => {
-    createBlocks(small);
+  test("section>p: 5 children per level (25 segments)", async ({ bench }) => {
+    await bench("section>p: 5 children per level (25 segments)", () => {
+      createBlocks(small);
+    }).run();
   });
 
   const medium = generateDocument(50, ["section", "paragraph"]);
-  bench("section>p: 50 children per level (2.5k segments)", () => {
-    createBlocks(medium);
+  test("section>p: 50 children per level (2.5k segments)", async ({
+    bench,
+  }) => {
+    await bench("section>p: 50 children per level (2.5k segments)", () => {
+      createBlocks(medium);
+    }).run();
   });
 
   const smallNested = generateDocument(5, ["section", "section", "paragraph"]);
-  bench("section>section>p: 5 children per level (125 segments)", () => {
-    createBlocks(smallNested);
+  test("section>section>p: 5 children per level (125 segments)", async ({
+    bench,
+  }) => {
+    await bench(
+      "section>section>p: 5 children per level (125 segments)",
+      () => {
+        createBlocks(smallNested);
+      },
+    ).run();
   });
 
   const largeNested = generateDocument(50, ["section", "section", "paragraph"]);
-  bench("section>section>p: 50 children per level (125k segments)", () => {
-    createBlocks(largeNested);
+  test("section>section>p: 50 children per level (125k segments)", async ({
+    bench,
+  }) => {
+    await bench(
+      "section>section>p: 50 children per level (125k segments)",
+      () => {
+        createBlocks(largeNested);
+      },
+    ).run();
   });
 });
 

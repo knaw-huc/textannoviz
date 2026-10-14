@@ -19,6 +19,9 @@ import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { buildNavLink } from "../utils/buildNavLink";
 import { Artworks } from "../Artworks";
+import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
+import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
+import { mondrianLetterIdFormat } from "../utils/letterIdFormat";
 
 const { broccoliPortMondrian, nginxPortMondrian } = getViteEnvVars();
 
@@ -112,9 +115,24 @@ export const mondrianConfig: ProjectConfig = mergeWith(
         panel: PanelTemplates.metadataPanel,
       },
     ],
-    entityMatchLocations: [
+    // Lists the matches, so only where searchHitLocations is set
+    showHighlightsTab: true,
+    searchHitLocations: [
       { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
       { name: "text.trans", view: "text.en" },
+      { name: "notes", kind: "tab", panel: "metadata", view: getNotesTexts },
+      {
+        name: "metadata",
+        kind: "tab",
+        panel: "metadata",
+        // In the order MetadataPanel renders them
+        view: createGetMetadataTexts([
+          "dating",
+          "transcrSource",
+          "remarks",
+          "pubhistory",
+        ]),
+      },
     ],
     overrideDefaultAggs: [
       {
@@ -144,6 +162,15 @@ export const mondrianConfig: ProjectConfig = mergeWith(
       // "introTranslatedText",
       // "introNotesText",
     ],
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "transcrSource",
+      "dating",
+      "remarks",
+      "ogtNotes",
+      "pubhistory",
+    ],
     selectedLanguage: "en",
     languages: [{ code: "en", labels: englishMondrianLabels }],
     routes: [
@@ -165,6 +192,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
     buildNavLink: buildNavLink,
+    letterIdFormat: mondrianLetterIdFormat,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

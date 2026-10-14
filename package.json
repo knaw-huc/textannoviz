@@ -1,6 +1,6 @@
 {
   "name": "TextAnnoViz",
-  "version": "1.21.0",
+  "version": "1.22.1",
   "description": "Generic, configurable web application for rendering richly annotated digital (scholarly) text editions: a single reusable front end, re-skinnable and reconfigurable per corpus via internal/external config and per-project Tailwind files, avoiding bespoke builds.",
   "private": true,
   "type": "module",
@@ -43,7 +43,6 @@
     "@knaw-huc/text-annotation-segmenter": "^0.8.0",
     "@spectrum-icons/workflow": "^4.2.11",
     "@types/qs": "^6.9.18",
-    "caniuse-lite": "^1.0.30001781",
     "js-base64": "^3.7.7",
     "lodash": "^4.17.21",
     "qs": "^6.14.0",
@@ -60,7 +59,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "@types/lodash": "^4.14.202",
-    "@types/node": "^20.11.23",
+    "@types/node": "^22.20.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.58.2",
@@ -76,6 +75,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.35",
+    "postcss-url": "^10.1.4",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.17",
@@ -83,7 +83,7 @@
     "vite": "^6.4.2",
     "vite-plugin-checker": "^0.6.4",
     "vite-plugin-html-injection": "^1.4.2",
-    "vitest": "^3.0.6"
+    "vitest": "^5.0.4"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": "eslint --cache --fix",

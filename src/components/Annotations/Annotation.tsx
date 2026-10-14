@@ -10,7 +10,6 @@ import {
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
 import { useEffect } from "react";
-import { HighlightsBottomSheet } from "../../projects/kunstenaarsbrieven/HighlightsBottomSheet";
 
 type AnnotationProps = {
   isLoading: boolean;
@@ -139,7 +138,7 @@ export function Annotation(props: AnnotationProps) {
           </TabPanel>
         )}
       </Tabs>
-      {showHighlightsTab ? <HighlightsBottomSheet /> : null}
+      {showHighlightsTab ? <components.HighlightsPanel /> : null}
     </div>
   );
 }

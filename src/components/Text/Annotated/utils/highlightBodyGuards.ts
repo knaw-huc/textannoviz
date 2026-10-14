@@ -4,6 +4,8 @@ import { FacetName } from "../../../../model/Search.ts";
 type SearchHighlightBody = {
   id: string;
   type: "search";
+  /** See {@link createSearchHitAnchor} */
+  anchor: string;
 };
 
 type EntityHighlightBody = {

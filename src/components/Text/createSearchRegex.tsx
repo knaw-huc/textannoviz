@@ -11,9 +11,22 @@ export function createSearchRegex(
   if (!tier2 || !searchTerms) {
     return;
   }
-  const termsToHighlight = searchTerms.split(" ");
+  // Drop the empty terms that repeated or surrounding spaces leave: an empty
+  // alternative matches everywhere, and shadows any term listed after it
+  const termsToHighlight = searchTerms.split(" ").filter(Boolean);
+  if (!termsToHighlight.length) {
+    return;
+  }
   const regexTerms = termsToHighlight.map((str) =>
-    str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+    foldAccents(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
   );
-  return new RegExp(regexTerms?.join("|"), "ig");
+  return new RegExp(regexTerms.join("|"), "ig");
+}
+
+/**
+ * Strips accents from precomposed letters (é → e) without changing the
+ * length, so offsets found in the result still fit the original text
+ */
+export function foldAccents(text: string): string {
+  return text.replace(/[\u0080-\uffff]/g, (char) => char.normalize("NFD")[0]);
 }

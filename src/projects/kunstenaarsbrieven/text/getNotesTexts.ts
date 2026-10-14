@@ -1,12 +1,12 @@
-import { GetLocationTexts } from "../../../components/Text/Annotated/utils/resolveEntityMatches";
+import { GetLocationTexts } from "../../../components/Text/Annotated/utils/resolveSearchHits";
 import { KunstenaarsbrievenTextViews } from "../annotation/ProjectAnnotationModel";
 
 /**
  * The texts the notes tab renders, in the order it renders them.
  *
  * Mirrors NotesPanel: the ogtNotes block first, then one text per footnote.
- * The resolver sends the reader to the first of these holding an entity
- * match, so a divergence would scroll past the note they see first — keep
+ * The resolver sends the reader to the first of these holding a search
+ * hit, so a divergence would scroll past the note they see first — keep
  * the two in step.
  */
 export const getNotesTexts: GetLocationTexts = (views, config) => {

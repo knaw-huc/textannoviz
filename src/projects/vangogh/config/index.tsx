@@ -21,6 +21,7 @@ import { vangoghLetterIdFormat } from "../utils/letterIdFormat";
 import { Homepage } from "../Homepage";
 import { buildNavLink } from "../utils/buildNavLink";
 import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
+import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
 import { getVangoghEntityFacetValues } from "../annotation/getVangoghEntityFacetValues";
 import { Empty } from "../../../components/Empty";
 
@@ -182,6 +183,14 @@ export const vangoghConfig: ProjectConfig = mergeWith(
       // "introTranslatedText",
       // "introNotesText",
     ],
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "transcrSource",
+      "dating",
+      "remarks",
+      "ogtNotes",
+    ],
     selectedLanguage: "en",
     languages: [
       // { code: "nl", labels: dutchVangoghLabels },
@@ -206,10 +215,19 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
-    entityMatchLocations: [
+    // Lists the matches, so only where searchHitLocations is set
+    showHighlightsTab: true,
+    searchHitLocations: [
       { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
       { name: "text.trans", view: "text.en" },
       { name: "notes", kind: "tab", panel: "metadata", view: getNotesTexts },
+      {
+        name: "metadata",
+        kind: "tab",
+        panel: "metadata",
+        // In the order MetadataPanel renders them
+        view: createGetMetadataTexts(["dating", "transcrSource", "remarks"]),
+      },
     ],
     getEntityFacetValues: getVangoghEntityFacetValues,
     buildNavLink: buildNavLink,
