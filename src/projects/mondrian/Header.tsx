@@ -58,6 +58,7 @@ export const Header = () => {
       letterNumber={letterAnnoBody?.altIdentifier}
       introIds={introIds}
       menuUrl={menuUrl}
+      letterIds={letterIds}
       headerClassName="bg-[#dcc393]"
       exploreLettersClassName="border border-neutral-600 bg-[#e6d7ba]"
       logo={{
