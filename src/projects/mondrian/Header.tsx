@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { Header as KunstenaarsbrievenHeader } from "../kunstenaarsbrieven/Header.tsx";
+import logoMondrianPapers from "../../assets/logo-mondrian-papers-long.svg";
 import {
   projectConfigSelector,
   useProjectStore,
@@ -58,6 +59,12 @@ export const Header = () => {
       introIds={introIds}
       menuUrl={menuUrl}
       letterIds={letterIds}
+      headerClassName="bg-[#dcc393]"
+      exploreLettersClassName="border border-neutral-600 bg-[#e6d7ba]"
+      logo={{
+        src: logoMondrianPapers,
+        alt: "The Mondrian Papers",
+      }}
     />
   );
 };

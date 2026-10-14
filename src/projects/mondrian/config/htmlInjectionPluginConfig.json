@@ -1,8 +1,8 @@
 {
   "injections": [
     {
-      "name": "Van Gogh HTML injection",
-      "path": "./src/projects/vangogh/config/vangogh-html-injection.html",
+      "name": "Mondrian HTML injection",
+      "path": "./src/projects/mondrian/config/mondrian-html-injection.html",
       "type": "raw",
       "injectTo": "head",
       "buildModes": "both"
