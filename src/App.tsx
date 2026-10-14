@@ -122,8 +122,12 @@ function Layout() {
           }/${project}.css`}
         />
       )}
-      <Header />
-      <Outlet />
+      <div className="shrink-0">
+        <Header />
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+        <Outlet />
+      </div>
     </AriaRouterProvider>
   );
 }
