@@ -43,12 +43,8 @@ export function MenuComponent(props: MenuComponentProps) {
 
   const menuStyling =
     "min-w-[220px] rounded-xl bg-white px-3 py-2 shadow-md outline-none ring-1 ring-black/5";
-  const menuItemStyling = [
-    "flex text-inherit no-underline cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:text-neutral-900 focus:outline-none focus-visible:text-neutral-900 focus-visible:outline-none",
-    projectName === "mondrian"
-      ? "hover:bg-[#e6d7ba] focus:bg-[#e6d7ba] focus-visible:bg-[#e6d7ba] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-neutral-800"
-      : "focus:bg-[#FFCE01] focus-visible:bg-[#FFCE01]",
-  ].join(" ");
+  const menuItemStyling =
+    "flex text-inherit no-underline cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:text-neutral-900 focus:bg-brand2-100 focus:outline-none focus-visible:bg-brand2-100 focus-visible:text-neutral-900 focus-visible:outline-none";
 
   if (variant === "mobile") {
     return (
