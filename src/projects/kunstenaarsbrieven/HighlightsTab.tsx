@@ -49,7 +49,7 @@ export function HighlightsTab() {
                 <mark
                   className={`text-inherit ${
                     match.kind === "entity"
-                      ? "entity-highlight bg-transparent"
+                      ? "entity-highlight"
                       : "rounded bg-yellow-200"
                   }`}
                 >
