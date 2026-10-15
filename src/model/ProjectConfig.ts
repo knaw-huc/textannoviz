@@ -184,6 +184,11 @@ type SearchConfig = {
   searchSorting: { name: string; value: string }[];
   viewsToSearchIn: string[];
   showSearchInTextViews: boolean;
+  // This is only used for sorting the search results.
+  // Kunstenaarsbrieven projects have a more complex 'date' facet that includes lte and gte,
+  // meaning it can't be used for sorting. Those projects have an extra 'dateSorting'.
+  // That object can be used for sorting, but not as a date facet.
+  dateFacetSorting: string;
 };
 
 /**

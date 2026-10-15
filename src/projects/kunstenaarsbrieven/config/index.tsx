@@ -110,6 +110,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
       sortOrder: "asc",
       size: 50,
     },
+    dateFacetSorting: "dateSortable",
     annoToEntityCategory: {
       [person]: "PER",
       [teiArtwork]: "ART",

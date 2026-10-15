@@ -31,10 +31,12 @@ const BY_SCORE = "_score";
  * Sort by _score or by date
  */
 export const SearchSorting = (props: SearchSortByProps) => {
-  const BY_DATE = props.dateFacet;
+  const { searchSorting, dateFacetSorting } = useProjectStore(
+    projectConfigSelector,
+  );
+  const BY_DATE = props.dateFacet ? dateFacetSorting : undefined;
   const translate = useTranslate();
   const translateProject = useTranslateProject();
-  const projectConfig = useProjectStore(projectConfigSelector);
 
   const baseOptions = [
     { name: translate("RELEVANCE"), value: `${BY_SCORE}-${DESC}` },
@@ -46,16 +48,15 @@ export const SearchSorting = (props: SearchSortByProps) => {
       : []),
   ];
 
-  const options = [...baseOptions, ...projectConfig.searchSorting];
+  const options = [...baseOptions, ...searchSorting];
 
   const defaultSorting: Sorting = { field: BY_SCORE, order: DESC };
 
   const [selectedKey, setSelectedKey] = React.useState<Key>(
-    props.selected &&
-      options.filter(
-        (option) =>
-          option.value === `${props.selected.field}-${props.selected.order}`,
-      )[0].value,
+    options.find(
+      (option) =>
+        option.value === `${props.selected?.field}-${props.selected?.order}`,
+    )?.value ?? `${defaultSorting.field}-${defaultSorting.order}`,
   );
 
   function handleSorting(key: Key | null) {
@@ -71,14 +72,13 @@ export const SearchSorting = (props: SearchSortByProps) => {
   }
 
   function handleDateSorting(selectedOrder: SortOrder) {
-    const dateFacet = props.dateFacet;
-    if (!dateFacet) {
+    if (!BY_DATE) {
       toast("No date facets to sort by");
       props.onSort(defaultSorting);
       return;
     }
     props.onSort({
-      field: dateFacet,
+      field: BY_DATE,
       order: selectedOrder,
     });
   }

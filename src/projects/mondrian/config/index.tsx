@@ -160,7 +160,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
       },
     ],
     overrideDefaultSearchParams: {
-      sortBy: "date",
+      sortBy: "dateSortable",
       sortOrder: "asc",
       size: 50,
     },

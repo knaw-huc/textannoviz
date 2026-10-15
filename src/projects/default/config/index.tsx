@@ -97,6 +97,7 @@ export const defaultConfig: DefaultProjectConfig = {
   overrideDefaultAggs: [],
   overrideDefaultSearchParams: {},
   defaultKeywordAggsToRender: [],
+  dateFacetSorting: "date",
   showFacetFilter: true,
   showPrevNextScanButtons: false,
   pageAnnotation: "",
