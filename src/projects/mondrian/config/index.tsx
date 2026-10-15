@@ -156,6 +156,11 @@ export const mondrianConfig: ProjectConfig = mergeWith(
         size: 9999,
       },
     ],
+    overrideDefaultSearchParams: {
+      sortBy: "date",
+      sortOrder: "asc",
+      size: 50,
+    },
     viewsToSearchIn: [
       "letterOriginalText",
       "letterTranslatedText",
