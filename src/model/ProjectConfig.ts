@@ -81,6 +81,7 @@ export type ProjectConfig = SearchConfig &
     homeUrl: string;
     locationUrl: string;
     siteTitle: string;
+    favicon: string;
     pageLabelFormat: (pageBody: PageBody) => string | undefined;
     buildNavLink: (target: string, projectName: string) => string;
 

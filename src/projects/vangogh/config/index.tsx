@@ -24,6 +24,7 @@ import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
 import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
 import { getVangoghEntityFacetValues } from "../annotation/getVangoghEntityFacetValues";
 import { Empty } from "../../../components/Empty";
+import vangoghFavicon from "../../../assets/vangogh-favicon.ico";
 
 const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
 
@@ -84,6 +85,7 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     homeUrl: `http://localhost:${
       nginxPortVangogh ?? "8040"
     }/files/vangogh/home/home.html`,
+    favicon: vangoghFavicon,
     components: {
       Header,
       SearchItem,

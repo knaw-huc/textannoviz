@@ -72,6 +72,16 @@ export async function selectProjectConfig() {
   // Set head>title from project config
   document.title = config.siteTitle;
 
+  // Set favicon
+  let link: HTMLLinkElement | null =
+    document.querySelector("link[rel~='icon']");
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.head.appendChild(link);
+  }
+  link.href = config.favicon;
+
   return { project, config };
 }
 

@@ -64,6 +64,7 @@ export const defaultConfig: DefaultProjectConfig = {
   initialRangeTo: "30000",
   maxRange: 30000,
   logoImageUrl: "",
+  favicon: "",
   allPossibleTextPanels: ["self"],
   defaultTextPanels: "self",
   showSearchSortBy: true,

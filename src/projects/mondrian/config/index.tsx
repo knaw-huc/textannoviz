@@ -22,6 +22,7 @@ import { Artworks } from "../Artworks";
 import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
 import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
 import { mondrianLetterIdFormat } from "../utils/letterIdFormat";
+import mondrianFavicon from "../../../assets/mondrian-favicon.png";
 
 const { broccoliPortMondrian, nginxPortMondrian } = getViteEnvVars();
 
@@ -60,6 +61,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     letterIdUrl: `http://localhost:${
       nginxPortMondrian ?? "8040"
     }/files/mondrian/letter-ids.json`,
+    favicon: mondrianFavicon,
     components: {
       Header,
       SearchItem,

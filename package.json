@@ -82,7 +82,6 @@
     "typescript": "^5.9.3",
     "vite": "^6.4.2",
     "vite-plugin-checker": "^0.6.4",
-    "vite-plugin-html-injection": "^1.4.2",
     "vitest": "^5.0.4"
   },
   "lint-staged": {
