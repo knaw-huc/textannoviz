@@ -35,8 +35,8 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     siteTitle: "The Mondrian Papers",
 
     elasticIndexName: "mondrian",
-    initialDateFrom: "1500-01-01",
-    initialDateTo: "2026-12-31",
+    initialDateFrom: "1892-02-17",
+    initialDateTo: "1944-01-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Van Gogh",
     personsUrl: `http://localhost:${
