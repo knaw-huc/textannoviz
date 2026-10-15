@@ -1,9 +1,19 @@
 import { Button } from "react-aria-components";
 import logoHuygens from "../../assets/logo-huygens.png";
-import { useTranslateProject } from "../../stores/project";
+import logoRKD from "../../assets/logo-rkd.png";
+import {
+  projectConfigSelector,
+  useProjectStore,
+  useTranslateProject,
+} from "../../stores/project";
+import React from "react";
+import { fetchText } from "../../utils/fetchText";
+import { handleAbort } from "../../utils/handleAbort";
 
 export const SearchInfoPage = () => {
   const translateProject = useTranslateProject();
+  const [content, setContent] = React.useState<string>();
+  const { homeUrl } = useProjectStore(projectConfigSelector);
 
   function scrollToSearchResultsButtonHandler() {
     const target = document.getElementById("search-results");
@@ -12,17 +22,31 @@ export const SearchInfoPage = () => {
     }
   }
 
+  React.useEffect(() => {
+    const aborter = new AbortController();
+    async function initHome(aborter: AbortController) {
+      const newContent = await fetchText(homeUrl, aborter.signal);
+      if (!newContent) return;
+
+      setContent(newContent);
+    }
+
+    initHome(aborter).catch(handleAbort);
+
+    return () => {
+      aborter.abort();
+    };
+  }, []);
+
   return (
     <div className="border-brand1Grey-100 -mx-6 -mb-10 flex -translate-y-16 border-b bg-[#dcc393] px-6 py-8 lg:-mx-10 lg:px-10">
       <div className="mx-auto w-full max-w-4xl">
-        <h1>{translateProject("INFO_TITLE")}</h1>
-
-        <h2>{translateProject("EDITED_BY")}</h2>
-
-        <div className="flex max-w-3xl flex-col gap-6 text-justify">
-          <p>{translateProject("P1")}</p>
-          <p>{translateProject("P2")}</p>
-        </div>
+        {content && (
+          <div
+            className="prose text-black"
+            dangerouslySetInnerHTML={{ __html: content }}
+          ></div>
+        )}
 
         <div className="my-8 flex max-w-3xl items-start justify-between md:items-end">
           {/* Logos */}
@@ -31,7 +55,14 @@ export const SearchInfoPage = () => {
               <img src={logoVGM} className="h-20" alt="logo" />
             </div> */}
             <div>
-              <img src={logoHuygens} className="h-14" alt="logo" />
+              <img src={logoRKD} className="h-32" alt="Logo RKD" />
+            </div>
+            <div>
+              <img
+                src={logoHuygens}
+                className="h-14"
+                alt="Logo Huygens Institute"
+              />
             </div>
           </div>
 

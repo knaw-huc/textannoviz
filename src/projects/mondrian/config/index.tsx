@@ -61,6 +61,9 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     letterIdUrl: `http://localhost:${
       nginxPortMondrian ?? "8040"
     }/files/mondrian/letter-ids.json`,
+    homeUrl: `http://localhost:${
+      nginxPortMondrian ?? "8040"
+    }/files/mondrian/home/home.html`,
     favicon: mondrianFavicon,
     components: {
       Header,
