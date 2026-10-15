@@ -4,6 +4,7 @@ import { SearchParams, SearchQuery } from "../../model/Search.ts";
 import {
   projectConfigSelector,
   useProjectStore,
+  useTranslate,
 } from "../../stores/project.ts";
 import { filterFacetsByType } from "../../stores/search/filterFacetsByType.ts";
 import { useSearchStore } from "../../stores/search/search-store.ts";
@@ -20,6 +21,7 @@ import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 
 export const Search = () => {
   const projectConfig = useProjectStore(projectConfigSelector);
+  const translate = useTranslate();
   const [isDirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -149,7 +151,6 @@ export const Search = () => {
               onSearch={handleNewSearch}
               onPageChange={handlePageChange}
               searchQuery={searchQuery}
-              onToggleFilters={() => setIsFiltersOpen((prev) => !prev)}
             />
           )}
         </SearchResultsColumn>
@@ -157,16 +158,19 @@ export const Search = () => {
 
       {isFiltersOpen && (
         <div
+          id="mobile-search-filters"
           className="fixed inset-0 z-50 flex bg-black/40 lg:hidden"
           role="dialog"
           aria-modal="true"
+          aria-label={translate("SEARCH_FACETS")}
         >
-          <div className="h-full w-full max-w-[400px] overflow-y-auto bg-white">
+          <div className="h-full w-full max-w-[400px] overflow-y-auto bg-white pb-16">
             <div className="flex items-center justify-end border-b px-4 py-3">
               <button
                 type="button"
-                className="text-sm underline"
+                className="px-1 text-xl leading-none text-neutral-600"
                 onClick={() => setIsFiltersOpen(false)}
+                aria-label={translate("CLOSE")}
               >
                 &#10006;
               </button>
@@ -183,6 +187,29 @@ export const Search = () => {
           </div>
         </div>
       )}
+
+      <div className="fixed inset-x-0 bottom-0 z-[60] flex justify-center border-t border-neutral-300 bg-white px-2 py-1.5 lg:hidden">
+        <button
+          type="button"
+          className="bg-brand2-500 inline-flex items-center justify-center rounded-full px-4 py-1.5 text-xs text-white"
+          onClick={() => setIsFiltersOpen((prev) => !prev)}
+          aria-expanded={isFiltersOpen}
+          aria-controls="mobile-search-filters"
+        >
+          {isFiltersOpen
+            ? searchResults?.total.value != null
+              ? `${translate("SHOW_RESULTS")} (${
+                  searchParams.from + 1
+                }-${Math.min(
+                  searchParams.from + searchParams.size,
+                  searchResults.total.value,
+                )} ${translate("FROM").toLowerCase()} ${
+                  searchResults.total.value
+                })`
+              : translate("SHOW_RESULTS")
+            : translate("SEARCH_FACETS")}
+        </button>
+      </div>
     </React.Fragment>
   );
 };

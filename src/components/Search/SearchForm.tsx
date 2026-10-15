@@ -39,10 +39,10 @@ interface SearchFormProps {
 type SearchFormVariant = "desktop" | "mobile";
 
 const baseSearchFormClasses =
-  "w-full grow flex-col gap-6 self-stretch bg-white pl-6 pr-10 pt-16";
+  "w-full grow flex-col gap-6 self-stretch bg-white";
 
-const desktopSearchFormClasses = `hidden ${baseSearchFormClasses} min-h-0 overflow-y-auto overscroll-contain pb-8 lg:flex lg:w-3/12 lg:gap-10`;
-const mobileSearchFormClasses = `flex ${baseSearchFormClasses}`;
+const desktopSearchFormClasses = `hidden ${baseSearchFormClasses} pl-6 pr-10 pt-16 min-h-0 overflow-y-auto overscroll-contain pb-8 lg:flex lg:w-3/12 lg:gap-10`;
+const mobileSearchFormClasses = `flex ${baseSearchFormClasses} px-4 pt-4`;
 const tabStyling =
   "cursor-pointer border-b-2 border-transparent pb-2 text-sm text-neutral-700 outline-none hover:border-neutral-500 aria-selected:border-neutral-700 aria-selected:font-semibold focus-visible:ring-2 focus-visible:ring-neutral-700";
 const tabPanelStyling = "flex flex-col gap-6 pt-6";
