@@ -1,47 +1,60 @@
 import { TextPositions } from "../core";
 import { HighlightBody } from "./highlightBodyGuards.ts";
+import { BroccoliTextGeneric } from "../../../../model/Broccoli.ts";
+import { createSearchHitAnchor } from "./hitAnchors.ts";
+import { foldAccents } from "../../createSearchRegex.tsx";
 
 export function createSearchHighlightOffsets(
-  body: string,
+  text: BroccoliTextGeneric,
   regex: RegExp | undefined,
 ): TextPositions[] {
   const annotations: TextPositions[] = [];
   if (!regex) {
     return annotations;
   }
-  annotations.push(...createSearchAnnotation(body, regex));
+  annotations.push(...createSearchAnnotation(text, regex));
   return annotations;
 }
 
 function createSearchAnnotation(
-  body: string,
+  text: BroccoliTextGeneric,
   regex: RegExp,
 ): TextPositions<HighlightBody>[] {
-  const matches = findStartEndChars(body, regex);
-  return matches.map((startEndChars, i) => {
+  const matches = findSearchHits(text.body, regex);
+  return matches.map(([start, end], i) => {
     return {
       type: "highlight",
       body: {
         id: `search-highlight-${i + 1}`,
         type: "search",
+        anchor: createSearchHitAnchor(text, start),
       },
-      start: startEndChars[0],
-      end: startEndChars[1],
+      start,
+      end,
     };
   });
 }
 
-type StartEndChar = [number, number];
+export type StartEndChar = [number, number];
 
 /**
- * Find start and end character indexes of regex matches in text
- * Source: https://stackoverflow.com/a/7236973/2938059
+ * Find start and end character indexes of the search hits in a text.
+ *
+ * Shared by the highlighting and the list of hits, so the list never
+ * disagrees with what is highlighted.
+ *
+ * Uses matchAll, which steps past empty matches and leaves the regex's
+ * lastIndex alone. Empty matches are dropped: a stray empty search term (as
+ * in `a||b`) matches between every character, and an empty hit is nothing to
+ * highlight or scroll to.
  */
-function findStartEndChars(text: string, regex: RegExp): StartEndChar[] {
-  const matches: StartEndChar[] = [];
-  let match: RegExpExecArray | null;
-  while ((match = regex.exec(text))) {
-    matches.push([regex.lastIndex - match[0].length, regex.lastIndex]);
+export function findSearchHits(text: string, regex: RegExp): StartEndChar[] {
+  const hits: StartEndChar[] = [];
+  for (const match of foldAccents(text).matchAll(regex)) {
+    if (!match[0]) {
+      continue;
+    }
+    hits.push([match.index, match.index + match[0].length]);
   }
-  return matches;
+  return hits;
 }

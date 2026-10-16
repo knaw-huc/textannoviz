@@ -1,5 +1,4 @@
 import { ChevronDown } from "../../components/common/icons/ChevronDown";
-import { buildNavLink } from "./utils/buildNavLink";
 import React from "react";
 import {
   Menu,
@@ -40,11 +39,12 @@ export function MenuComponent(props: MenuComponentProps) {
   const { menu, variant = "desktop", onNavigate } = props;
   const [openMenuLabel, setOpenMenuLabel] = React.useState<string | null>(null);
   const projectName = useProjectStore(projectConfigSelector).id;
+  const buildNavLink = useProjectStore(projectConfigSelector).buildNavLink;
 
   const menuStyling =
     "min-w-[220px] rounded-xl bg-white px-3 py-2 shadow-md outline-none ring-1 ring-black/5";
   const menuItemStyling =
-    "flex text-inherit no-underline cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:text-neutral-900 focus:bg-[#FFCE01] focus:outline-none focus-visible:bg-[#FFCE01] focus-visible:text-neutral-900 focus-visible:outline-none";
+    "flex text-inherit no-underline cursor-pointer flex-row items-center gap-2 truncate rounded-md px-3 py-2 text-sm font-normal text-neutral-800 outline-none transition-colors hover:text-neutral-900 focus:bg-brand2-100 focus:outline-none focus-visible:bg-brand2-100 focus-visible:text-neutral-900 focus-visible:outline-none";
 
   if (variant === "mobile") {
     return (

@@ -1,12 +1,13 @@
 import { AnnoRepoAnnotation } from "../../model/AnnoRepoAnnotation.ts";
 import { DetailPanelConfig } from "../../model/ProjectConfig.ts";
+import { isArticleDetailPage } from "./isArticleDetailPage.tsx";
 import { isLetterDetailPage } from "./isLetterDetailPage.ts";
 
 export function filterPanels(
   panels: DetailPanelConfig[],
   annotations: AnnoRepoAnnotation[],
 ): string[] {
-  if (isLetterDetailPage(annotations)) {
+  if (isLetterDetailPage(annotations) || isArticleDetailPage(annotations)) {
     return panels.map((p) => p.name);
   }
 

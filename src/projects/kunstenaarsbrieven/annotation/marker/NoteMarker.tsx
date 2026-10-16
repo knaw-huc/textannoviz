@@ -7,6 +7,7 @@ import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { createTooltipMarkerClasses } from "../../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import { isNoteReference } from "../ProjectAnnotationModel.ts";
 import React from "react";
+import { useRevealPanel } from "../../../../components/Detail/useRevealPanel.tsx";
 
 export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   const activeFootnote = useTextStore((state) => state.activeFootnote);
@@ -19,13 +20,7 @@ export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
     (state) => state.ptrToNoteAnnosMap,
   );
 
-  const setPanelVisibilityOverrides = useDetailViewStore(
-    (state) => state.setPanelVisibilityOverrides,
-  );
-
-  const resetPanelVisibilityOverrides = useDetailViewStore(
-    (state) => state.resetPanelVisibilityOverrides,
-  );
+  const revealPanel = useRevealPanel();
 
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
@@ -43,14 +38,16 @@ export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   const footnoteNumber = footnote?.body.n ?? "?";
 
   function spanClickHandler(footnoteNumber: string) {
-    setPanelVisibilityOverrides({ metadata: true });
+    revealPanel("metadata");
     setActiveFootnote(footnoteNumber);
     setActiveSidebarTab("notes");
   }
 
+  // Panel visibility overrides are not reset here: a marker unmounts whenever
+  // its panel is swapped out, which is exactly what an override does on a
+  // narrow screen. useInitDetail clears them per letter instead.
   React.useEffect(() => {
     return () => {
-      resetPanelVisibilityOverrides();
       resetActiveFootnote();
     };
   }, []);

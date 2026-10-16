@@ -12,6 +12,7 @@ import {
 import { Language, LanguageCode } from "./Language.ts";
 import {
   BrederodeSearchResultsBody,
+  FacetName,
   GlobaliseSearchResultsBody,
   IsraelsSearchResultsBody,
   MondriaanSearchResultsBody,
@@ -26,6 +27,7 @@ import {
 import type { JSX } from "react";
 import { ArtworkSections } from "../projects/kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { GetBlockType } from "../components/Text/Annotated/core/AnnotationModel.ts";
+import { SearchHitLocation } from "../components/Text/Annotated/utils/resolveSearchHits.ts";
 import {
   Artwork,
   PersonTeiRef,
@@ -66,6 +68,7 @@ export type ProjectConfig = SearchConfig &
      */
     showNotesTab: boolean;
     showArtworksTab: boolean;
+    showHighlightsTab: boolean;
     personsUrl: string;
     artworksUrl: {
       key: ArtworkSections;
@@ -78,7 +81,9 @@ export type ProjectConfig = SearchConfig &
     homeUrl: string;
     locationUrl: string;
     siteTitle: string;
+    favicon: string;
     pageLabelFormat: (pageBody: PageBody) => string | undefined;
+    buildNavLink: (target: string, projectName: string) => string;
 
     detailPanels: DetailPanelConfig[];
 
@@ -88,6 +93,7 @@ export type ProjectConfig = SearchConfig &
       path: string;
       element: JSX.Element;
     }[];
+    homePage: JSX.Element | null;
   };
 
 type FacsimileConfig = {
@@ -131,6 +137,8 @@ export type ComponentsConfig = {
   BrowseScanButtons: () => JSX.Element;
   NotesPanel: () => JSX.Element;
   ArtworksTab: () => JSX.Element;
+  /** Lists the search hits; see {@link ProjectConfig.searchHitLocations} */
+  HighlightsPanel: () => JSX.Element;
   Header: () => JSX.Element;
   TocPanel: () => JSX.Element;
 };
@@ -176,6 +184,11 @@ type SearchConfig = {
   searchSorting: { name: string; value: string }[];
   viewsToSearchIn: string[];
   showSearchInTextViews: boolean;
+  // This is only used for sorting the search results.
+  // Kunstenaarsbrieven projects have a more complex 'date' facet that includes lte and gte,
+  // meaning it can't be used for sorting. Those projects have an extra 'dateSorting'.
+  // That object can be used for sorting, but not as a date facet.
+  dateFacetSorting: string;
 };
 
 /**
@@ -257,6 +270,20 @@ type AnnotationConfig = {
     panels: DetailPanelConfig[],
     annotations: AnnoRepoAnnotation[],
   ) => string[];
+
+  getEntityFacetValues?: (
+    body: AnnoRepoBodyBase,
+  ) => Record<FacetName, string[]>;
+
+  /**
+   * Ordered list of places a search hit can be revealed and scrolled to,
+   * paired with the text view each renders. Order is reading order: hits are
+   * listed location by location, and the first is revealed on load. Setting
+   * it turns on collecting hits — entity matches (when
+   * {@link ProjectConfig.getEntityFacetValues} is set too) and full-text hits —
+   * which {@link ProjectConfig.showHighlightsTab} lists.
+   */
+  searchHitLocations?: SearchHitLocation[];
 };
 
 export interface AnnotationItemProps {
@@ -278,12 +305,12 @@ export type CategoryGetter = (annoRepoBody: AnnoRepoBodyBase) => string;
  * urns used in detail urls, to the letter numbers as cited, and to what a user
  * types in the quick search. Every project spells these differently:
  * Van Gogh id 'rm01' is cited as 'RM01' and lives at urn '...:vangogh:RM01',
- * Mechteld van Gelre id '10' is cited as '10' and lives at '...:brief_010'.
+ * Mechteld van Gelre id '010' is cited as '010' and lives at '...:brief_010'.
  *
  * The default is identity for all three; projects override what differs.
  */
 export type LetterIdFormat = {
-  /** Letter id to the part of the urn after the project id, e.g. '10' -> 'brief_010' */
+  /** Letter id to the part of the urn after the project id, e.g. '010' -> 'brief_010' */
   toUrnSuffix: (letterId: string) => string;
   /** Letter id to the letter number as cited, e.g. 'rm01' -> 'RM01' */
   toNumber: (letterId: string) => string;

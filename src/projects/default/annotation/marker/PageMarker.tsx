@@ -60,15 +60,15 @@ export function PageMarker(props: PageMarkerProps) {
   }
 
   return (
-    <div className="mt-20 border-t border-neutral-100 first:mt-10">
-      <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-600">
+    <div className="mt-8 border-t border-neutral-100">
+      <div className="group flex -translate-x-0 -translate-y-4  font-sans text-sm text-neutral-500">
         <button
           className="inline-flex rounded border border-neutral-200 bg-white px-1 py-1  "
           onClick={pageBreakClickHandler}
           aria-label="Click to show the facsimile"
         >
           ←
-          <span className="hidden transition group-hover:inline-block ">
+          <span className="inline-block max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-[max-width,opacity] duration-200 ease-out group-hover:max-w-32 group-hover:opacity-100 group-hover:pl-1">
             {translateProject("SHOW_PAGE")}
           </span>
         </button>

@@ -64,6 +64,7 @@ export const dutchLabels: Labels = {
   SHOW_FACSIMILE: "Toon facsimile",
   HIDE_FACSIMILE: "Verberg facsimile",
   SHOW_SEARCH_RESULTS: "Toon zoekresultaten",
+  SHOW_RESULTS: "Toon resultaten",
   HIDE_SEARCH_RESULTS: "Verberg zoekresultaten",
   NEW_SEARCH: "Nieuwe zoekopdracht",
   BACK_TO_SEARCH: "Terug naar zoekresultaten",
@@ -101,6 +102,10 @@ export const dutchLabels: Labels = {
   //Footer
   NAVIGATE_SEARCH_RESULTS: "Navigeer zoekresultaten",
   SEARCH: "Zoek",
+  SEARCH_FACETS: "Zoekfacetten",
+  CONTENT_VIEWS: "Paneelweergave-bediening",
+  CONTENT_PANELS: "Paneelweergave-bediening",
+  CLOSE: "Sluiten",
   "text.self": "Tekst",
   facs: "Facsimile",
   metadata: "Info",

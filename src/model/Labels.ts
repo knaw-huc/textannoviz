@@ -62,6 +62,7 @@ export type Labels = {
   SHOW_FACSIMILE: string;
   HIDE_FACSIMILE: string;
   SHOW_SEARCH_RESULTS: string;
+  SHOW_RESULTS: string;
   HIDE_SEARCH_RESULTS: string;
   NEW_SEARCH: string;
   BACK_TO_SEARCH: string;
@@ -98,6 +99,10 @@ export type Labels = {
   //Footer
   NAVIGATE_SEARCH_RESULTS: string;
   SEARCH: string;
+  SEARCH_FACETS: string;
+  CONTENT_VIEWS: string;
+  CONTENT_PANELS: string;
+  CLOSE: string;
   "text.self": string;
   facs: string;
   metadata: string;

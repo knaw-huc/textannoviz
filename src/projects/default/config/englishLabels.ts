@@ -65,6 +65,7 @@ export const englishLabels: Labels = {
   SHOW_FACSIMILE: "Show facsimile",
   HIDE_FACSIMILE: "Hide Facsimile",
   SHOW_SEARCH_RESULTS: "Show search results",
+  SHOW_RESULTS: "Show results",
   HIDE_SEARCH_RESULTS: "Hide search results",
   NEW_SEARCH: "New search",
   BACK_TO_SEARCH: "Back to search results",
@@ -101,6 +102,10 @@ export const englishLabels: Labels = {
 
   NAVIGATE_SEARCH_RESULTS: "Navigate search results",
   SEARCH: "Search",
+  SEARCH_FACETS: "Search facets",
+  CONTENT_VIEWS: "Panel view controls",
+  CONTENT_PANELS: "Panel view controls",
+  CLOSE: "Close",
   "text.self": "Text",
   facs: "Facsimile",
   metadata: "Info",

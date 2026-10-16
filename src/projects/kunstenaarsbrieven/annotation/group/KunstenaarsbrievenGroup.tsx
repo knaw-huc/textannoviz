@@ -13,12 +13,12 @@ import { BibliographyLink } from "./BibliographyLink.tsx";
 import { InternalReferenceLink } from "./InternalReferenceLink.tsx";
 import { LetterLink } from "./LetterLink.tsx";
 import { ParagraphReferenceLink } from "./ParagraphReferenceLink.tsx";
-import { INTERNAL_ANCHOR } from "./toInternalReferenceTarget.ts";
+import { isInternalReferenceUrl } from "./toInternalReferenceTarget.ts";
 
 // An internal reference points at a numbered header inside a document, e.g.
-// "introVI.xml#intro.VI.5.3.1", "#intro.II.4.1" or "overview.xml#overview.4".
-// The numeric-header anchor (INTERNAL_ANCHOR) is what distinguishes it from
-// bibliography refs and external links.
+// "introVI.xml#intro.VI.5.3.1", "#intro.II.4.1" or "overview.xml#overview.4",
+// or at a whole document, e.g. "introIV.xml". Letter references also point at
+// whole documents ("let001.xml"), so those are excluded explicitly.
 
 export function KunstenaarsbrievenGroup(props: GroupProps) {
   const { group, children } = props;
@@ -28,7 +28,11 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
     .filter(isNested)
     .map((a) => a.body)
     .find(
-      (body) => isInternalReference(body) && INTERNAL_ANCHOR.test(body.url),
+      (body): boolean =>
+        isInternalReference(body) &&
+        isInternalReferenceUrl(body.url) &&
+        !isLetterReference(body) &&
+        !isBibliographyReference(body),
     );
 
   if (internalReference && isInternalReference(internalReference)) {

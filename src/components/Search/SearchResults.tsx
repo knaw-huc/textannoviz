@@ -2,7 +2,6 @@ import isEmpty from "lodash/isEmpty";
 import React, { ReactNode } from "react";
 import type { Key } from "react-aria-components";
 import { MouseHandlerDataParam } from "recharts/types/synchronisation/types";
-import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import {
   FacetName,
   FacetOptionName,
@@ -30,7 +29,6 @@ type SearchResultsProps = {
   searchQuery: SearchQuery;
   onSearch: () => void;
   onPageChange: () => void;
-  onToggleFilters?: () => void;
 };
 
 export function SearchResults(props: SearchResultsProps) {
@@ -65,8 +63,6 @@ export function SearchResults(props: SearchResultsProps) {
     (state) => state.searchQueryHistory,
   );
   const [histogramZoomed, setHistogramZoomed] = React.useState(false);
-  const [isStickyHeader, setIsStickyHeader] = React.useState(false);
-  const stickySentinelRef = React.useRef<HTMLDivElement | null>(null);
 
   function updateSorting(sorting: Sorting) {
     updateSearchParams({
@@ -158,45 +154,12 @@ export function SearchResults(props: SearchResultsProps) {
     props.onSearch();
   }
 
-  React.useEffect(() => {
-    const sentinel = stickySentinelRef.current;
-    if (!sentinel) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsStickyHeader(!entry.isIntersecting);
-      },
-      { threshold: 1 },
-    );
-
-    observer.observe(sentinel);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   if (!searchResults) {
     return null;
   }
 
   return (
     <>
-      <div ref={stickySentinelRef} aria-hidden="true" />
-      <div className="sticky top-1 z-10 flex lg:hidden">
-        <button
-          type="button"
-          onClick={props.onToggleFilters}
-          className={`mb-2 mr-2 inline-flex items-center justify-center rounded border border-neutral-500 bg-white px-2 py-1 text-sm  ${
-            isStickyHeader ? "-translate-x-4 translate-y-6 transition" : ""
-          }`}
-        >
-          <AdjustmentsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-          {!isStickyHeader && (
-            <span className="ml-1">{translateProject("SEARCHFILTER")}</span>
-          )}
-        </button>
-      </div>
       <div
         id="search-results"
         className="flex flex-col items-start justify-between gap-2 md:flex-row"
@@ -311,7 +274,7 @@ export function SearchResults(props: SearchResultsProps) {
 
 export function SearchResultsColumn(props: { children?: ReactNode }) {
   return (
-    <main className="w-9/12 grow self-stretch bg-neutral-100 px-6 py-16 lg:px-10">
+    <main className="min-h-0 w-9/12 grow self-stretch overflow-y-auto overscroll-contain bg-neutral-100 px-6 py-16 pb-16 lg:px-10 lg:pb-16">
       {props.children}
     </main>
   );

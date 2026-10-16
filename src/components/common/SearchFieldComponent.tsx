@@ -24,7 +24,7 @@ export function SearchFieldComponent({
   return (
     <SearchField {...props} className="group flex min-w-[40px] flex-col gap-1">
       {(label || helpLabel) && (
-        <Label className="font-semibold">
+        <Label className="text-base font-semibold">
           {label && label}
           {label && helpLabel && " "}
           {helpLabel && <HelpTooltip label={helpLabel} />}

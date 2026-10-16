@@ -17,6 +17,12 @@ import {
   NoteBody,
 } from "../../model/AnnoRepoAnnotation.ts";
 import { useLoadManifest } from "@knaw-huc/osd-iiif-viewer";
+import { useUrlSearchParamsStore } from "../Search/useSearchUrlParamsStore.ts";
+import { createSearchRegex } from "../Text/createSearchRegex.tsx";
+import {
+  SearchHit,
+  resolveSearchHits,
+} from "../Text/Annotated/utils/resolveSearchHits.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -33,7 +39,21 @@ export function useInitDetail() {
   const { setAnnotations, setPtrToNoteAnnosMap, setBodyId } =
     useAnnotationStore();
   const setViews = useTextStore((state) => state.setViews);
+  const annotations = useAnnotationStore((state) => state.annotations);
+  const views = useTextStore((state) => state.views);
+  const terms = useUrlSearchParamsStore((state) => state.searchQuery.terms);
+  const fullText = useUrlSearchParamsStore(
+    (state) => state.searchQuery.fullText,
+  );
+  const isInitSearchUrlParams = useUrlSearchParamsStore(
+    (state) => state.isInitSearchUrlParams,
+  );
+  const setSearchHits = useTextStore((state) => state.setSearchHits);
+  const resetSearchHits = useTextStore((state) => state.resetSearchHits);
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
+  const resetPanelVisibilityOverrides = useDetailViewStore(
+    (state) => state.resetPanelVisibilityOverrides,
+  );
 
   const { tier2 } = useDetailNavigation().getDetailParams();
   const [prevTier2, setPrevTier2] = useState(tier2);
@@ -61,6 +81,9 @@ export function useInitDetail() {
 
     async function initDetail(aborter: AbortController) {
       setLoading(true);
+      // Overrides are a one-off "show this now" for the letter at hand: clear
+      // them per letter, before anything can reveal a panel in the new one
+      resetPanelVisibilityOverrides();
       const { tier2 } = getDetailParams();
       if (!tier2) {
         return;
@@ -118,6 +141,58 @@ export function useInitDetail() {
       setInitDetail(true);
     }
   }, [isInitDetail]);
+
+  /**
+   * Collect every match of the search in this letter — entities matching the
+   * selected facets and full-text hits — so the detail view can list them and
+   * reveal the first.
+   *
+   * Kept apart from {@link initDetail}, as its inputs arrive independently: on
+   * a page load the search terms are only read from the url once the default
+   * query is in, which can be after the letter has loaded. Waits for both, and
+   * reruns whenever either changes. Cleared when nothing matches, so a letter
+   * without matches does not inherit the previous one's list.
+   */
+  useEffect(() => {
+    const locations = projectConfig.searchHitLocations;
+    if (!locations || !isInitDetail || !isInitSearchUrlParams) {
+      return;
+    }
+
+    let matches: SearchHit[] = [];
+    try {
+      matches = resolveSearchHits(
+        annotations,
+        views,
+        terms,
+        projectConfig,
+        locations,
+        // The regex the text is highlighted with, so the list matches it
+        createSearchRegex(fullText, tier2),
+      );
+    } catch (error) {
+      // Revealing matches is an enhancement: an unexpected annotation shape
+      // should cost the reader the scroll, not the letter.
+      console.error("Could not resolve entity matches", error);
+    }
+
+    if (matches.length) {
+      setSearchHits(matches);
+    } else {
+      resetSearchHits();
+    }
+  }, [
+    isInitDetail,
+    isInitSearchUrlParams,
+    annotations,
+    views,
+    terms,
+    fullText,
+    tier2,
+    projectConfig,
+    setSearchHits,
+    resetSearchHits,
+  ]);
 
   return {
     isInitDetail: isInitDetail,

@@ -20,21 +20,21 @@ export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
 
   const letterNum = props.result.file;
 
-  const queryUrlParam = encodeObject(_.pick(props.query, "fullText"));
+  const queryUrlParam = encodeObject(_.pick(props.query, "fullText", "terms"));
   return (
-    <li className="my-4 flex flex-col border-b border-neutral-400 pb-4">
+    <li className="my-2 flex flex-col border-b border-neutral-400 pb-2">
       <div className="group/card hover:border-300 rounded border-b bg-white text-neutral-900 no-underline shadow-sm">
         <Link
-          to={`/detail/${props.result._id}?${QUERY}=${queryUrlParam}`}
+          to={`/detail/${props.result._id}?${QUERY}=${encodeURIComponent(
+            queryUrlParam,
+          )}`}
           className=" hover:border-300  text-neutral-900 no-underline shadow-sm"
         >
-          <div className="flex flex-col p-4">
-            <div className="font-semibold">{props.searchItemTitle}</div>
-            {props.result.type === "letter" ? (
-              <div className="italic text-neutral-600">
-                {translateProject("LET_NUM")}: {letterNum}
-              </div>
-            ) : null}
+          <div className="flex flex-row gap-2 p-3">
+            <div className="flex-1 font-semibold">
+              {props.result.type === "letter" ? letterNum + "." : null}{" "}
+              {props.searchItemTitle}
+            </div>
           </div>
         </Link>
 
@@ -43,15 +43,15 @@ export const SearchItem = (props: KunstenaarsbrievenSearchItemProps) => {
               return (
                 <div
                   key={viewType}
-                  className="w-full border-t border-neutral-200 p-4 transition group-hover/card:border-neutral-400 group-hover/card:text-neutral-900"
+                  className="w-full border-t border-neutral-200 px-4 py-2 transition group-hover/card:border-neutral-400 group-hover/card:text-neutral-900"
                 >
-                  <div className="mb-1 font-semibold">
+                  <div className="font-semibold">
                     {translateProject(viewType)}:
                   </div>
                   <ul className="ml-4 list-disc">
                     {hits.map((hit, index) => (
                       <li
-                        className="mb-1 ml-4 list-disc font-serif text-base"
+                        className="ml-4 list-disc font-serif text-base"
                         dangerouslySetInnerHTML={{ __html: hit }}
                         key={index}
                       />

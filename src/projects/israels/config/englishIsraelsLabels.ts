@@ -9,7 +9,7 @@ export const englishIsraelsLabels = Object.assign({}, englishLabels, {
   file: "Letter number",
   letterid: "Letter ID",
   periodlong: "Period (long)",
-  type: "Type",
+  type: "Text type",
   artworksEN: "Artworks",
 
   facetInputFilterPlaceholder: "Search in facet",

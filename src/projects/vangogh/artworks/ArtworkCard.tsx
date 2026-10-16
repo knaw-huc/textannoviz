@@ -4,6 +4,7 @@ import { useTranslateProject } from "../../../stores/project";
 import {
   Artwork,
   getIdnoEntries,
+  getNoteEntries,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
@@ -35,7 +36,8 @@ export function ArtworkCard(props: {
       {artwork.relation
         ? artwork.relation.map((relation) => (
             <div key={relation.displayLabel}>
-              {translateProject(relation.name)}: {relation.displayLabel}
+              {translateProject(relation.name)}:{" "}
+              {relation.fullName ?? relation.displayLabel}
             </div>
           ))
         : null}
@@ -50,20 +52,20 @@ export function ArtworkCard(props: {
           {artwork.measure[1].quantity} {artwork.measure[0].unit}
         </div>
       ) : null}
-      {artwork.note?.some((note) => note.type === "technical") ? (
+      {getNoteEntries(artwork).some((note) => note.type === "technical") ? (
         <div>
           {translateProject("support")}:{" "}
-          {artwork.note
+          {getNoteEntries(artwork)
             .filter((value) => value.type === "technical")
             .map((value, index) => (
               <span key={index}>{value.text}</span>
             ))}
         </div>
       ) : null}
-      {artwork.note?.some((note) => note.type === "collection") ? (
+      {getNoteEntries(artwork).some((note) => note.type === "collection") ? (
         <div>
           {translateProject("collection")}:{" "}
-          {artwork.note
+          {getNoteEntries(artwork)
             .filter((value) => value.type === "collection")
             .map((value, index) => (
               <span key={index}>{value.text}</span>
@@ -89,10 +91,10 @@ export function ArtworkCard(props: {
             .join(" / ")}
         </div>
       ) : null}
-      {artwork.note?.some((note) => note.type === "creditline") ? (
+      {getNoteEntries(artwork).some((note) => note.type === "creditline") ? (
         <div>
           {translateProject("credits")}:{" "}
-          {artwork.note
+          {getNoteEntries(artwork)
             .filter((value) => value.type === "creditline")
             .map((value, index) => (
               <span key={index}>{value.text}</span>

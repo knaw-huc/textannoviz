@@ -71,14 +71,20 @@ export type LocationTeiRef =
   | LocationTerritory
   | LocationRiver;
 
+type Certainty = "low" | "medium" | "high";
+
 export type MechteldLetterBody = LetterBody & {
   material: string;
   watermark: string;
-  measure: string[];
+  measure?: string[];
   seal: string;
   settlement: string;
   collection: string;
   permalinkInstitution: string;
+  recipientCert?: Certainty;
+  senderCert?: Certainty;
+  dateCert?: Certainty;
+  locationCert?: Certainty;
 };
 
 export function isMechteldLetterBody(
@@ -94,4 +100,14 @@ export function findMechteldLetterBody(
   if (isMechteldLetterBody(found?.body)) {
     return found.body;
   }
+}
+
+export function formatWithCert(
+  value: string | string[] | undefined,
+  cert?: Certainty,
+): string {
+  if (!value) return "";
+  const newValue = Array.isArray(value) ? value : [value];
+
+  return newValue.map((v) => (cert ? `${v}(?)` : v)).join(", ");
 }

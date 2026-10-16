@@ -23,7 +23,7 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
     place,
     institution,
     collection,
-    collectedLetters,
+    completeLetters,
   } = letterAnnoBody ?? {};
 
   const labelStyling = "text-neutral-500 uppercase text-sm";
@@ -48,9 +48,9 @@ export const MetadataPanel = (props: RenderMetadataPanelProps) => {
             <li className="mb-8">
               <div className={gridOneColumn}>
                 <div className={labelStyling}>
-                  {translateProject("collectedLetters")}:{" "}
+                  {translateProject("completeLetters")}:{" "}
                 </div>
-                {collectedLetters}
+                {completeLetters}
               </div>
             </li>
             <li className="mb-8">

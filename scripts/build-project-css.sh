@@ -23,6 +23,7 @@ for PROJECT in $PROJECTS; do
   echo "Building ${OUTPUT_CSS}"
   npx tailwindcss \
     --config "$CONFIG" \
+    --postcss \
     --input "$INPUT_CSS" \
     --output "$OUTPUT_CSS" \
     --minify

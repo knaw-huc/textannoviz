@@ -4,5 +4,10 @@ import { Persons as KunstenaarsbrievenPersons } from "../kunstenaarsbrieven/Pers
 export function Persons() {
   const personsUrl = useProjectStore(projectConfigSelector).personsUrl;
 
-  return <KunstenaarsbrievenPersons personsUrl={personsUrl} />;
+  return (
+    <KunstenaarsbrievenPersons
+      personsUrl={personsUrl}
+      formatPersonName={(person) => person.displayLabel}
+    />
+  );
 }

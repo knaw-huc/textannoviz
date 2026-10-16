@@ -25,6 +25,7 @@ import {
  */
 
 export const addition = "Addition";
+export const article = "Article";
 export const caption = "Caption";
 export const cell = "Cell";
 export const deletion = "Deletion";
@@ -70,13 +71,16 @@ export type KunstenaarsbrievenTextViews = BroccoliViews & {
   dating?: Record<ViewLang, BroccoliTextGeneric>;
   remarks?: Record<ViewLang, BroccoliTextGeneric>;
   ogtNotes?: Record<ViewLang, BroccoliTextGeneric>;
+  pubhistory?: Record<ViewLang, BroccoliTextGeneric>;
 };
 
 export type ArtworkSections =
   | "illustrated"
   | "illustrations"
   | "non-illustrated"
-  | "sketches";
+  | "sketches"
+  // 'all' is used for projects that do not have a subdivision like Van Gogh
+  | "all";
 
 export type ArtworkBody = AnnoRepoBodyBase & {
   type: typeof entity;
@@ -100,9 +104,15 @@ type ArtworkTeiRef = {
     nl: string;
     en: string;
   };
+  desc?: {
+    nl?: string;
+    en: string;
+  };
+  // Per-language and both optional: Van Gogh artworks carry only "en",
+  // and head likewise holds no "nl" there
   label: {
-    type: string;
-    text: string;
+    en?: { search: string };
+    nl?: { search: string };
   };
   date?: {
     type: string;
@@ -113,6 +123,7 @@ type ArtworkTeiRef = {
     ref: string;
     displayLabel: string;
     sortLabel: string;
+    fullName?: string;
   }[];
   graphic?: {
     url: string;
@@ -128,10 +139,7 @@ type ArtworkTeiRef = {
     scheme: string;
     target: string;
   }[];
-  note?: {
-    type: string;
-    text: string;
-  }[];
+  note?: ArtworkNote | ArtworkNote[];
   bibl?: {
     title: string;
     biblScope?: {
@@ -140,6 +148,11 @@ type ArtworkTeiRef = {
     }[];
     date: string;
   };
+};
+
+export type ArtworkNote = {
+  type: string;
+  text: string;
 };
 
 export type PersonBody = AnnoRepoBodyBase & {
@@ -213,6 +226,9 @@ export const isWhitespace = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is WhitespaceBody => !!toTest && toTest.type === whitespace;
 
+export const isRowHeight = (toTest?: AnnoRepoBodyBase): boolean =>
+  !!toTest && toTest.type === highlight && get(toTest, "style") === "rowheight";
+
 export const isHorizontalWhitespace = (
   toTest?: AnnoRepoBodyBase,
 ): toTest is WhitespaceBody =>
@@ -220,11 +236,24 @@ export const isHorizontalWhitespace = (
   toTest.elementName === "space" &&
   toTest["tei:unit"] === "chars";
 
+/** Bibliography subtypes carry a suffix naming the list they point into */
+export const bibReference = "BibReference";
+export const vangoghBibReference = "BibReference#vangogh";
+export const journalBibReference = "BibReference#journal";
+export const editorsBibReference = "BibReference#editors";
+
+export type BibReferenceSubtype =
+  | typeof bibReference
+  | typeof vangoghBibReference
+  | typeof journalBibReference
+  | typeof editorsBibReference;
+
 export type BibliographyReferenceBody = AnnoRepoBodyBase & {
   id: string;
   url: string;
   type: typeof reference;
-  subtype: "BibReference";
+  label?: string;
+  subtype?: BibReferenceSubtype;
   elementName: string;
 };
 export const isBibliographyReference = (
@@ -232,9 +261,24 @@ export const isBibliographyReference = (
 ): toTest is BibliographyReferenceBody => {
   return (
     isReference(toTest) &&
-    (toTest as BibliographyReferenceBody).subtype?.startsWith("BibReference")
+    !!(toTest as BibliographyReferenceBody).subtype?.startsWith(bibReference)
   );
 };
+
+export const isJournalReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody => {
+  return (
+    isReference(toTest) &&
+    (toTest as BibliographyReferenceBody).subtype === journalBibReference
+  );
+};
+
+export const isVangoghBibliographyReference = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is BibliographyReferenceBody =>
+  isReference(toTest) &&
+  (toTest as BibliographyReferenceBody).subtype === vangoghBibReference;
 
 export const isInternalReference = (
   toTest?: AnnoRepoBodyBase,
@@ -300,7 +344,8 @@ export type LetterBody = AnnoRepoBodyBase & {
   correspondent: string;
   sender: string | string[];
   n: string;
-  collectedLetters: string;
+  altIdentifier?: string;
+  completeLetters?: string;
   institution?: string;
   letterid: string;
   location: string;
@@ -315,7 +360,9 @@ export type LetterBody = AnnoRepoBodyBase & {
   shelfmark: string;
   fromLocation: string;
   toLocation: string;
-  dateSent: string;
+  dateSent?: string | number;
+  dateSentNotBefore?: string;
+  dateSentNotAfter?: string;
   place?: string;
   collection?: string;
 };
@@ -383,7 +430,7 @@ export function isBibleReferenceBody(
 
 export type ListBody = AnnoRepoBodyBase & {
   elementName: string;
-  "tei:type"?: "bulleted" | "gloss" | "unlabeled";
+  "tei:type"?: "bulleted" | "gloss" | "label-above" | "unlabeled";
 };
 
 export function isListBody(toTest?: AnnoRepoBodyBase): toTest is ListBody {
@@ -393,6 +440,20 @@ export function isListBody(toTest?: AnnoRepoBodyBase): toTest is ListBody {
 export function isGlossList(toTest?: AnnoRepoBodyBase): toTest is ListBody {
   return isListBody(toTest) && toTest["tei:type"] === "gloss";
 }
+
+export function isLabelAboveList(
+  toTest?: AnnoRepoBodyBase,
+): toTest is ListBody {
+  return isListBody(toTest) && toTest["tei:type"] === "label-above";
+}
+
+export type PageBody = AnnoRepoBodyBase & {
+  "tei:f": string;
+  facsimile?: string;
+  elementName: string;
+  n: string;
+  "tei:facs": string;
+};
 
 export const entityTypes = [entity, reference];
 export const highlightTypes = [
@@ -463,6 +524,13 @@ export function getIdnoEntries(artwork: Artwork): ArtworkIdno[] {
     return [];
   }
   return Array.isArray(artwork.idno) ? artwork.idno : [artwork.idno];
+}
+
+export function getNoteEntries(artwork: Artwork): ArtworkNote[] {
+  if (!artwork.note) {
+    return [];
+  }
+  return Array.isArray(artwork.note) ? artwork.note : [artwork.note];
 }
 
 export type ListAnnotationBody = AnnoRepoBodyBase & {

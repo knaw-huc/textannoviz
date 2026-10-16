@@ -2,17 +2,39 @@ import { useParams } from "react-router";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { findLetterBody } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { Header as KunstenaarsbrievenHeader } from "../kunstenaarsbrieven/Header.tsx";
+import logoMondrianPapers from "../../assets/logo-mondrian-papers-long.svg";
 import {
   projectConfigSelector,
   useProjectStore,
   useTranslateProject,
 } from "../../stores/project.ts";
+import React from "react";
+import { toast } from "../../utils/toast.ts";
+import { handleAbort } from "../../utils/handleAbort.tsx";
 
 export const Header = () => {
   const translateProject = useTranslateProject();
   const annotations = useAnnotationStore().annotations;
   const params = useParams();
   const menuUrl = useProjectStore(projectConfigSelector).menuUrl;
+  const letterIdUrl = useProjectStore(projectConfigSelector).letterIdUrl;
+  const [letterIds, setLetterIds] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    const aborter = new AbortController();
+
+    async function initLetterIDs(aborter: AbortController) {
+      const newIDs = await fetchLetterIDs(letterIdUrl, aborter.signal);
+      if (!newIDs) return;
+      setLetterIds(newIDs.map((id) => id && id.toLowerCase()));
+    }
+
+    initLetterIDs(aborter).catch(handleAbort);
+
+    return () => {
+      aborter.abort();
+    };
+  }, []);
 
   const introIds = [
     { name: "intro1", id: "urn:mace:huc.knaw.nl:vangogh:introI" },
@@ -33,9 +55,29 @@ export const Header = () => {
   return (
     <KunstenaarsbrievenHeader
       letterTitle={letterTitle}
-      letterNumber={letterAnnoBody?.n}
+      letterNumber={letterAnnoBody?.altIdentifier}
       introIds={introIds}
       menuUrl={menuUrl}
+      letterIds={letterIds}
+      headerClassName="bg-[#dcc393]"
+      exploreLettersClassName="border border-neutral-600 bg-[#e6d7ba]"
+      logo={{
+        src: logoMondrianPapers,
+        alt: "The Mondrian Papers",
+      }}
     />
   );
 };
+
+async function fetchLetterIDs(
+  url: string,
+  signal: AbortSignal,
+): Promise<string[] | null> {
+  const response = await fetch(url, { signal });
+  if (!response.ok) {
+    const error = await response.json();
+    toast(`${error.message}`, { type: "error" });
+    return null;
+  }
+  return await response.json();
+}

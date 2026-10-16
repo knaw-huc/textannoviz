@@ -6,6 +6,7 @@ import { defaultAnnotatedTextComponents } from "../../default/annotation/default
 import { KunstenaarsbrievenMarker } from "../annotation/marker/KunstenaarsbrievenMarker";
 import { NotesPanel } from "../NotesPanel";
 import {
+  article,
   blockSchema,
   document,
   entityTypes,
@@ -25,6 +26,7 @@ import {
   typesToInclude,
 } from "../annotation/ProjectAnnotationModel";
 import { ArtworksTab } from "../ArtworksTab";
+import { HighlightsBottomSheet } from "../HighlightsBottomSheet";
 import { SearchItem } from "../SearchItem";
 import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
@@ -38,6 +40,7 @@ import { KunstenaarsbrievenHighlight } from "../annotation/KunstenaarsbrievenHig
 import { EntitySummary } from "../annotation/EntitySummary.tsx";
 import { replaceArrays } from "../../default/config/replaceArrays.ts";
 import { KunstenaarsbrievenGroup } from "../annotation/group/KunstenaarsbrievenGroup.tsx";
+import { getEntityFacetValues } from "../annotation/getEntityFacetValues.ts";
 import { kunstenaarsbrievenPageLabelFormat } from "../utils/kunstenaarsbrievenPageLabelFormat.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
@@ -48,6 +51,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     annotationTypesToInclude: [
       "Dataset",
       "Division",
+      article,
       document,
       letter,
       note,
@@ -71,6 +75,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     getAnnotationCategory: getAnnotationCategory,
     getHighlightCategory: getHighlightCategory,
     isEntity: isEntity,
+    getEntityFacetValues: getEntityFacetValues,
 
     initialRangeFrom: "0",
     initialRangeTo: "30000",
@@ -88,20 +93,13 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
       SearchItem,
       NotesPanel,
       ArtworksTab,
+      HighlightsPanel: HighlightsBottomSheet,
       Header,
       TocPanel,
       EntitySummary,
     },
     zoomAnnoMirador: true,
     miradorZoomRatio: 1.5,
-    allPossibleTextPanels: [
-      "text",
-      "textNotes",
-      "transcrSource",
-      "dating",
-      "remarks",
-      "ogtNotes",
-    ],
     defaultTextPanels: "text",
     searchSorting: [
       { name: "Letter number (ascending)", value: `file-${ASC}` },
@@ -112,6 +110,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
       sortOrder: "asc",
       size: 50,
     },
+    dateFacetSorting: "dateSortable",
     annoToEntityCategory: {
       [person]: "PER",
       [teiArtwork]: "ART",

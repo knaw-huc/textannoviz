@@ -15,9 +15,14 @@ import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
-import { Placeholder } from "../../../components/Placeholder";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
+import { buildNavLink } from "../utils/buildNavLink";
+import { Artworks } from "../Artworks";
+import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
+import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
+import { mondrianLetterIdFormat } from "../utils/letterIdFormat";
+import mondrianFavicon from "../../../assets/mondrian-favicon.png";
 
 const { broccoliPortMondrian, nginxPortMondrian } = getViteEnvVars();
 
@@ -27,11 +32,11 @@ export const mondrianConfig: ProjectConfig = mergeWith(
   {
     id: "mondrian",
     broccoliUrl: `http://localhost:${broccoliPortMondrian ?? "8082"}`,
-    siteTitle: "The letters of Piet Mondriaan",
+    siteTitle: "The Mondrian Papers",
 
     elasticIndexName: "mondrian",
-    initialDateFrom: "1500-01-01",
-    initialDateTo: "2026-12-31",
+    initialDateFrom: "1892-02-17",
+    initialDateTo: "1944-01-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Van Gogh",
     personsUrl: `http://localhost:${
@@ -39,34 +44,16 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     }/files/mondrian/apparatus/bio-entities.json`,
     artworksUrl: [
       {
-        key: "illustrated",
+        key: "all",
         url: `http://localhost:${
           nginxPortMondrian ?? "8040"
-        }/files/mondrian/apparatus/artwork.illustrated-entities.json`,
-      },
-      {
-        key: "illustrations",
-        url: `http://localhost:${
-          nginxPortMondrian ?? "8040"
-        }/files/mondrian/apparatus/artwork.illustrations-entities.json`,
-      },
-      {
-        key: "non-illustrated",
-        url: `http://localhost:${
-          nginxPortMondrian ?? "8040"
-        }/files/mondrian/apparatus/artwork.non-illustrated-entities.json`,
-      },
-      {
-        key: "sketches",
-        url: `http://localhost:${
-          nginxPortMondrian ?? "8040"
-        }/files/mondrian/apparatus/artwork.sketches-entities.json`,
+        }/files/mondrian/apparatus/artwork-entities.json`,
       },
     ],
     biblUrl: {
       en: `http://localhost:${
         nginxPortMondrian ?? "8040"
-      }/files/mondrian/apparatus/bibliolist.html`,
+      }/files/mondrian/apparatus/biblio.html`,
     },
     menuUrl: `http://localhost:${
       nginxPortMondrian ?? "8040"
@@ -74,6 +61,10 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     letterIdUrl: `http://localhost:${
       nginxPortMondrian ?? "8040"
     }/files/mondrian/letter-ids.json`,
+    homeUrl: `http://localhost:${
+      nginxPortMondrian ?? "8040"
+    }/files/mondrian/home/home.html`,
+    favicon: mondrianFavicon,
     components: {
       Header,
       SearchItem,
@@ -86,14 +77,14 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     defaultKeywordAggsToRender: [
       "type",
       "location",
-      "period",
-      "file",
+      // "file",
       "persons",
       // "artworksNL",
       "artworksEN",
       "recipient",
       "sender",
       "correspondent",
+      "institution",
     ],
     detailPanels: [
       {
@@ -129,6 +120,25 @@ export const mondrianConfig: ProjectConfig = mergeWith(
         panel: PanelTemplates.metadataPanel,
       },
     ],
+    // Lists the matches, so only where searchHitLocations is set
+    showHighlightsTab: true,
+    searchHitLocations: [
+      { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
+      { name: "text.trans", view: "text.en" },
+      { name: "notes", kind: "tab", panel: "metadata", view: getNotesTexts },
+      {
+        name: "metadata",
+        kind: "tab",
+        panel: "metadata",
+        // In the order MetadataPanel renders them
+        view: createGetMetadataTexts([
+          "dating",
+          "transcrSource",
+          "remarks",
+          "pubhistory",
+        ]),
+      },
+    ],
     overrideDefaultAggs: [
       {
         facetName: "persons",
@@ -148,12 +158,12 @@ export const mondrianConfig: ProjectConfig = mergeWith(
         order: "keyAsc",
         size: 9999,
       },
-      {
-        facetName: "period",
-        order: "keyAsc",
-        size: 9999,
-      },
     ],
+    overrideDefaultSearchParams: {
+      sortBy: "dateSortable",
+      sortOrder: "asc",
+      size: 50,
+    },
     viewsToSearchIn: [
       "letterOriginalText",
       "letterTranslatedText",
@@ -162,11 +172,17 @@ export const mondrianConfig: ProjectConfig = mergeWith(
       // "introTranslatedText",
       // "introNotesText",
     ],
-    selectedLanguage: "en",
-    languages: [
-      // { code: "nl", labels: dutchVangoghLabels },
-      { code: "en", labels: englishMondrianLabels },
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "transcrSource",
+      "dating",
+      "remarks",
+      "ogtNotes",
+      "pubhistory",
     ],
+    selectedLanguage: "en",
+    languages: [{ code: "en", labels: englishMondrianLabels }],
     routes: [
       {
         path: "persons",
@@ -174,7 +190,7 @@ export const mondrianConfig: ProjectConfig = mergeWith(
       },
       {
         path: "artworks",
-        element: <Placeholder />,
+        element: <Artworks />,
       },
       {
         path: "bibliography",
@@ -185,6 +201,8 @@ export const mondrianConfig: ProjectConfig = mergeWith(
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    buildNavLink: buildNavLink,
+    letterIdFormat: mondrianLetterIdFormat,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

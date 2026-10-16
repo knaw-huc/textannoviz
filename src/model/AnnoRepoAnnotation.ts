@@ -397,17 +397,17 @@ export type TextAnchorTarget = {
   };
 };
 
-export function isLogicalTextAnchorTarget(
-  toTest: Target,
-): toTest is TextAnchorTarget {
-  return (
-    toTest.type === "LogicalText" && !!(toTest as TextAnchorTarget).selector
-  );
-}
-
 export type TextTarget = {
   source: string;
   type: "Text" | "LogicalText";
+};
+
+export type XPathSelectorTarget = {
+  source: string;
+  selector: {
+    type: "XPathSelector";
+    value: string;
+  };
 };
 
 export type Target =
@@ -415,7 +415,8 @@ export type Target =
   | ImageTarget
   | TextTarget
   | SvgSelectorTarget
-  | CanvasTarget;
+  | CanvasTarget
+  | XPathSelectorTarget;
 
 export type AnnoRepoAnnotation<T extends object = AnnoRepoBody> = {
   id: string;

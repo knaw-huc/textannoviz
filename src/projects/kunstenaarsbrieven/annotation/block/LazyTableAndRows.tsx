@@ -11,6 +11,8 @@ type LazyTableProps = {
   block: Block;
   initBatchSize?: number;
   initRowHeight?: number;
+  hasHeader: boolean;
+  className?: string;
 };
 
 /**
@@ -24,6 +26,8 @@ export function LazyTableAndRows({
   block,
   initBatchSize = 50,
   initRowHeight = 20,
+  hasHeader,
+  className,
 }: LazyTableProps) {
   const tableRef = useRef<HTMLTableElement>(null);
   const [renderAll, setRenderAll] = useState(false);
@@ -32,8 +36,8 @@ export function LazyTableAndRows({
 
   const rows = block.children.filter((e) => e.isBlock) as Block[];
   // initBatchSize = rows.length
-  const headerRow = rows[0];
-  const dataRows = rows.slice(1);
+  const headerRow = hasHeader ? rows[0] : undefined;
+  const dataRows = hasHeader ? rows.slice(1) : rows;
   const visibleRows = renderAll ? dataRows : dataRows.slice(0, initBatchSize);
   const remainingRows = renderAll ? 0 : dataRows.length - initBatchSize;
   const needsLazyLoad = dataRows.length > initBatchSize;
@@ -46,8 +50,8 @@ export function LazyTableAndRows({
     if (!table) {
       return;
     }
-    const headerTr = table.querySelector("thead > tr");
-    if (!headerTr) {
+    const tr = table.querySelector("tr");
+    if (!tr) {
       return;
     }
 
@@ -55,7 +59,7 @@ export function LazyTableAndRows({
     if (!tableWidth) {
       return;
     }
-    const cells = [...headerTr.querySelectorAll("td")];
+    const cells = [...tr.querySelectorAll("td")];
     const columnPercentages = cells.map(
       (cell) => (cell.getBoundingClientRect().width / tableWidth) * 100,
     );
@@ -88,6 +92,7 @@ export function LazyTableAndRows({
   return (
     <table
       ref={tableRef}
+      className={className}
       style={{ tableLayout: isWidthCalculated ? "fixed" : "auto" }}
     >
       {isWidthCalculated && (
@@ -97,13 +102,15 @@ export function LazyTableAndRows({
           ))}
         </colgroup>
       )}
-      <thead>
-        <tr key={headerRow.id}>
-          <Elements
-            elements={headerRow.children.filter((e) => !isWhitespaceOnly(e))}
-          />
-        </tr>
-      </thead>
+      {headerRow && (
+        <thead>
+          <tr key={headerRow.id}>
+            <Elements
+              elements={headerRow.children.filter((e) => !isWhitespaceOnly(e))}
+            />
+          </tr>
+        </thead>
+      )}
       <tbody>
         {visibleRows.map((row) => (
           <tr key={row.id}>

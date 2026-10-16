@@ -12,13 +12,19 @@ import { Bibliography } from "../Bibliography";
 import { Header } from "../Header";
 import { SearchItem } from "../SearchItem";
 import { MetadataPanel } from "../MetadataPanel";
-import { SearchInfoPage } from "../SearchInfoPage";
 import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
 import { getViteEnvVars } from "../../../utils/viteEnvVars";
 import { vangoghLetterIdFormat } from "../utils/letterIdFormat";
+import { Homepage } from "../Homepage";
+import { buildNavLink } from "../utils/buildNavLink";
+import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
+import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
+import { getVangoghEntityFacetValues } from "../annotation/getVangoghEntityFacetValues";
+import { Empty } from "../../../components/Empty";
+import vangoghFavicon from "../../../assets/vangogh-favicon.ico";
 
 const { broccoliPortVangogh, nginxPortVangogh } = getViteEnvVars();
 
@@ -79,13 +85,14 @@ export const vangoghConfig: ProjectConfig = mergeWith(
     homeUrl: `http://localhost:${
       nginxPortVangogh ?? "8040"
     }/files/vangogh/home/home.html`,
+    favicon: vangoghFavicon,
     components: {
       Header,
       SearchItem,
       // MetadataPanel is too project-specific to make generic
       MetadataPanel,
-      // SearchInfoPage is too project-specific to make generic
-      SearchInfoPage,
+      // SearchInfoPage is removed for Van Gogh because it has a homepage
+      SearchInfoPage: Empty,
       EntitySummaryDetails,
     },
     defaultKeywordAggsToRender: [
@@ -178,6 +185,14 @@ export const vangoghConfig: ProjectConfig = mergeWith(
       // "introTranslatedText",
       // "introNotesText",
     ],
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "transcrSource",
+      "dating",
+      "remarks",
+      "ogtNotes",
+    ],
     selectedLanguage: "en",
     languages: [
       // { code: "nl", labels: dutchVangoghLabels },
@@ -197,10 +212,27 @@ export const vangoghConfig: ProjectConfig = mergeWith(
         element: <Bibliography />,
       },
     ],
+    homePage: <Homepage />,
     zoomToAnnoOnFacsimile: true,
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    // Lists the matches, so only where searchHitLocations is set
+    showHighlightsTab: true,
+    searchHitLocations: [
+      { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
+      { name: "text.trans", view: "text.en" },
+      { name: "notes", kind: "tab", panel: "metadata", view: getNotesTexts },
+      {
+        name: "metadata",
+        kind: "tab",
+        panel: "metadata",
+        // In the order MetadataPanel renders them
+        view: createGetMetadataTexts(["dating", "transcrSource", "remarks"]),
+      },
+    ],
+    getEntityFacetValues: getVangoghEntityFacetValues,
+    buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,
 );

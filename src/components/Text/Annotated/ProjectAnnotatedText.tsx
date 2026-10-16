@@ -17,6 +17,7 @@ import { createSearchHighlightOffsets } from "./utils/createSearchHighlightOffse
 import { orThrow } from "../../../utils/orThrow.tsx";
 import { useMemo } from "react";
 import { mapRelativePositions } from "./utils/mapRelativePositions.ts";
+import { createEntityHighlightOffsets } from "./utils/createEntityHighlightOffsets.ts";
 
 type TextHighlightingProps = {
   text: BroccoliTextGeneric;
@@ -34,7 +35,7 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     getMarkerPosition,
   } = projectConfig;
   const annotations = useAnnotationStore((s) => s.annotations);
-  const { tier2, highlight } = useDetailNavigation().getDetailParams();
+  const { tier2, highlight, terms } = useDetailNavigation().getDetailParams();
   const searchTerms = highlight;
   const textBody = props.text.body || orThrow("No text body");
   const relativeAnnotations = props.text.locations.annotations;
@@ -85,7 +86,16 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     }
 
     const searchHighlight = createSearchRegex(searchTerms, tier2);
-    result.push(...createSearchHighlightOffsets(textBody, searchHighlight));
+    result.push(...createSearchHighlightOffsets(props.text, searchHighlight));
+
+    result.push(
+      ...createEntityHighlightOffsets(
+        annotations,
+        relativePositionMap,
+        terms,
+        projectConfig,
+      ),
+    );
 
     return result;
   }, [
@@ -99,7 +109,9 @@ export const ProjectAnnotatedText = (props: TextHighlightingProps) => {
     getBlockType,
     searchTerms,
     tier2,
-    textBody,
+    props.text,
+    terms,
+    projectConfig,
   ]);
 
   return (
