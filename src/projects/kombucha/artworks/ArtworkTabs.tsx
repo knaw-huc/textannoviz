@@ -30,6 +30,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
     illustrated = [],
     sketches = [],
     "non-illustrated": nonIllustrated = [],
+    illustrations = [],
   } = props.artworks;
 
   React.useEffect(() => {
@@ -97,6 +98,9 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         <Tab id={TAB_IDS.sketches} className={tabStyling}>
           Sketches
         </Tab>
+        <Tab id={TAB_IDS.illustrations} className={tabStyling}>
+          Illustrations
+        </Tab>
       </TabList>
 
       <ArtworkSearch
@@ -112,7 +116,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
       >
         <ArtworkListContainer
-          items={getDataSource(illustrated)}
+          items={getDataSource(globalPool)}
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
@@ -127,6 +131,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         <ArtworkListContainer
           items={getDataSource(illustrated)}
           filter={(item) =>
+            // bio.xml#vg_2000 = Vincent van Gogh
             item.relation?.some((r) => r.ref === "bio.xml#vg_2000") ?? false
           }
           CardComponent={ArtworkCard}
@@ -143,6 +148,7 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
         <ArtworkListContainer
           items={getDataSource(illustrated)}
           filter={(item) =>
+            // All artworks not created by bio.xml#vg_2000 = Vincent van Gogh
             item.relation?.some((r) => r.ref !== "bio.xml#vg_2000") ?? false
           }
           CardComponent={ArtworkCard}
@@ -171,6 +177,19 @@ export function ArtworkTabs(props: { artworks: Partial<ArtworkData> }) {
       >
         <ArtworkListContainer
           items={getDataSource(sketches)}
+          CardComponent={ArtworkCard}
+          query={deferredQuery}
+          isGlobal={isGlobal}
+          setActiveTab={handleTabChange}
+        />
+      </TabPanel>
+      <TabPanel
+        id={TAB_IDS.illustrations}
+        className="grid gap-6 px-8 pb-8"
+        style={{ gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}
+      >
+        <ArtworkListContainer
+          items={getDataSource(illustrations)}
           CardComponent={ArtworkCard}
           query={deferredQuery}
           isGlobal={isGlobal}
