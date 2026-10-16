@@ -1,0 +1,173 @@
+import { englishLabels } from "../../default/config/englishLabels";
+
+export const englishVanGoghLabels = Object.assign({}, englishLabels, {
+  //Search facet titles + metadata panel titles
+  institution: "Institution",
+  msId: "Shelfmark",
+  location: "Location",
+  recipient: "Recipient",
+  sender: "Sender",
+  correspondent: "Correspondent",
+  correspondentId: "Correspondent (ID)",
+  file: "Letter number",
+  title: "Title",
+  letterid: "Letter ID",
+  period: "Period",
+  type: "Text type",
+  artworksEN: "Artworks",
+  artworkIds: "Artworks (ID)",
+  bibleRefs: "Bible quotations",
+  bibleRefIds: "Bible quotations (ID)",
+  personIds: "Persons (ID)",
+  worksMentioned: "Works read by Van Gogh",
+  journals: "Periodicals",
+  corpus: "Corpus",
+
+  facetInputFilterPlaceholder: "Search in facet",
+
+  SEARCH_IN: "Search in",
+
+  //Text panel titles
+  self: "Letter",
+  "text.nl,text.fr,text.en": "Main text",
+  "text.en": "Translated text",
+
+  //panels
+  facs: "Facsimile",
+  metadata: "Info",
+
+  //Footer
+  NAVIGATE_SEARCH_RESULTS: "Navigate search results",
+  SEARCH: "Search",
+  "text.orig": "Main text",
+  "text.trans": "Translated text",
+
+  page: "Page",
+  SHOW_PAGE: "Show page",
+
+  CONTENT_VIEWS: "Panel view controls",
+  CONTENT_PANELS: "Panel view controls",
+
+  //Search item
+  letterOriginalText: "Edited text (letter)",
+  letterTranslatedText: "Translation (letter)",
+  letterNotesText: "Editorial notes (letter)",
+  introText: "Text (about)",
+  // introNotesText: "Editorial notes (about)",
+  UNKNOWN: "Unknown document type",
+  to: "to",
+  van: "out of",
+  intro: "About this edition",
+  LET_NUM: "Letter number",
+  results: "results",
+  SEARCHFILTER: "Search",
+  article: "Writing",
+
+  //Metadata panel
+  NO_NOTES: "This letter contains no notes.",
+  NO_ARTWORKS: "No artworks in this document.",
+  NO_HIGHLIGHTS: "No search hits in this letter.",
+  letter: "Letter",
+  invNr: "Location",
+  addInfo: "Additional information",
+  ogtNotes: "Ongoing topics",
+  dating: "Dating",
+  transcrSource: "Transcription source",
+  remarks: "Additional remarks",
+  pubhistory: "Publication history",
+  NO_DATA: "No metadata",
+
+  //Metadata panel titles
+  notes: "Notes",
+  toc: "Contents",
+  highlights: "Search hits",
+
+  //Visualised annotation categories
+  PER: "person",
+  ART: "artwork",
+  REF: "reference",
+
+  //Header
+  persons: "Persons",
+  artworks: "Artworks",
+  introHeader: "About this edition",
+  bibliography: "Bibliography",
+  TITLE_PT_1: "Artists' Letters",
+  TITLE_PT_2: "Combined Edition",
+  help: "Help",
+  OPEN_MAIN_NAVIGATION: "Open navigation",
+  CLOSE_MAIN_NAVIGATION: "Close navigation",
+  MAIN_NAVIGATION: "Main navigation",
+  PREVIOUS_LETTER: "Previous letter",
+  NEXT_LETTER: "Next letter",
+
+  //Entity summary
+  NAV_TO_LETTER: "Navigate to letter",
+
+  //Entity labels
+  creator: "Artist",
+  artist: "Artist",
+  engraver: "Engraver",
+  date: "Date",
+  size: "Dimensions",
+  support: "Medium",
+  collection: "Collection",
+  credits: "Credits",
+  inventory: "Inventory number",
+  catalogueNum: "Catalogue number",
+  description: "Description",
+
+  //Search info page
+  INFO_TITLE: "The Mondrian Papers",
+  EDITED_BY: "",
+  P1: "",
+  P2: "",
+  SCROLL_TO_LETTERS: "Explore the papers",
+
+  //Help labels
+  RECIPIENT_HELP:
+    "Filter by the person(s) to whom a letter was addressed. Use the search field at the top of the facet to find a specific recipient by name. Selecting a name will show only the letters addressed to that person. You can select multiple names at once; this will return letters addressed to any of the selected recipients. Uncheck a name to remove it from your selection.",
+  SENDER_HELP:
+    "Filter by the person who wrote the letter. Selecting a name will show only the letters sent by that person.",
+  CORRESPONDENT_HELP:
+    "Filter by correspondent, combining both senders and recipients. Use this facet to find all letters exchanged, regardless of the direction of the correspondence.",
+  PERIOD_HELP:
+    "Filter by the date when a letter was written. For letters with uncertain dates, results include any document whose estimated date range overlaps with the selected period. The display format (day-month or month-day) is determined by your browser or computer settings.",
+  MS_ID_HELP:
+    "Filter by the shelfmark (manuscript identifier) of the original letter. Shelfmarks refer to the physical location of the manuscript in the holding institution.",
+  TITLE_HELP:
+    "Filter or jump to documents by their specific title or heading. This is particularly useful for finding non-letter documents or specifically titled entries within the edition.",
+  SEARCH_IN_HELP:
+    "Use this control to limit your search to specific parts of the edition: the original texts, translations, or editorial notes in the letters or the introductory texts.",
+  LANG_MENU_HELP:
+    "Toggle between Dutch and English. This applies to both the interface and the content of the edition.",
+  VIEW_HELP:
+    "Use the View Options in the bottom right of the window to show or hide elements such as transcription, translation, metadata, or facsimile. Hidden elements are greyed out.",
+  TYPE_HELP: "Filter between the main types of content in the edition.",
+  DATE_HELP:
+    "Filter by the date when a letter was written. For those letters for which the precise date of writing is unknown, they are included in the search results when they might have been written in the selected period. The display of the date (day-month or month-day) is determined by your computer or browser settings).",
+  PERSONS_HELP:
+    "Filter by individual(s) mentioned in the letters, the editorial notes, and the introduction. Use the search field at the top of the facet to find a specific person by name. Selecting a name will show only the document(s) in which this person is referenced. You can select multiple names at once; this will return documents where one of the selected persons is mentioned. Uncheck a name to remove it from your selection.",
+  LOCATION_HELP:
+    "Filter by the geographical place from which a letter was sent. You can begin typing in the search box at the top of the facet to narrow down the list of available locations. Select one or more places to view only the documents sent from those locations.",
+  ARTWORKS_NL_HELP:
+    "Filter by artworks referenced in the edition. Useful for tracking discussions of specific works. Some artworks are identified only by title, while others also include a catalogue number (e.g., artworks by Van Gogh). The presence or absence of a catalogue number reflects the available documentation and may vary. This facet also includes non-artwork illustrations (e.g., documentary photographs) mentioned or shown in the edition. You can use the search box at the top of the facet to find specific titles.",
+  ARTWORKS_EN_HELP:
+    "Filter by artworks referenced in the edition. Useful for tracking discussions of specific works. You can use the search box at the top of the facet to find specific titles.",
+  FILE_HELP:
+    "Jump directly to a specific document, or select multiple documents.",
+  SORT_BY_HELP:
+    "Sort the list of documents by letter number or date in ascending or descending order. You can also sort by (system determined) relevance. The relevance is determined on the basis of (among others) the number of hits in the document.",
+  FULL_TEXT_SEARCH_HELP:
+    "Enter one or more keywords to search the content of the edition. Results include the original text, translation, and editorial notes. Consult the full help text for information on how to combine search terms, how to use wild cards, etc.",
+  SHOW_CONTEXT_HELP:
+    "Allows you to set the length of the text snippet around each keyword hit in the search results, helping you judge relevance before opening a document.",
+  FILTER_FACETS_HELP:
+    "Use facets (e.g., Persons, Location) to narrow down your results. Multiple facets and values can be combined.",
+  SEARCH_HISTORY_HELP:
+    "Shows the last ten searches executed on this browser. Clicking a search re-executes it. It is also possible to remove a previous search from the history.",
+  QUICK_SEARCH_HELP:
+    "Search by letter number or keyword. Enter a number (e.g., 1 or 001) to jump directly to that letter. Enter a word or phrase to search across all documents in the edition and view matching results.",
+  INSTITUTION_HELP:
+    "Filter by the institutions holding the original documents.",
+});
