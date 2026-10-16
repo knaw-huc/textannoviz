@@ -17,6 +17,11 @@ import { TextPanels } from "../TextPanels";
 import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
+import vangoghFavicon from "../../../assets/vangogh-favicon.ico";
+import { getNotesTexts } from "../../kunstenaarsbrieven/text/getNotesTexts";
+import { createGetMetadataTexts } from "../../kunstenaarsbrieven/text/getMetadataTexts";
+import { getVangoghEntityFacetValues } from "../../vangogh/annotation/getVangoghEntityFacetValues";
+import { buildNavLink } from "../utils/buildNavLink";
 
 export const kombuchaConfig: ProjectConfig = mergeWith(
   {},
@@ -24,45 +29,19 @@ export const kombuchaConfig: ProjectConfig = mergeWith(
   {
     id: "kombucha",
     broccoliUrl: "http://localhost:8040",
-    siteTitle: "Van Gogh Letters",
+    siteTitle: "Combined Edition",
 
     elasticIndexName: "kombucha",
     initialDateFrom: "1500-01-01",
     initialDateTo: "2026-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Van Gogh",
-    personsUrl:
-      "http://localhost:8040/files/vangogh/apparatus/bio-entities.json",
-    artworksUrl: [
-      {
-        key: "illustrated",
-        url: "http://localhost:8040/files/vangogh/apparatus/artwork.illustrated-entities.json",
-      },
-      {
-        key: "illustrations",
-        url: "http://localhost:8040/files/vangogh/apparatus/artwork.illustrations-entities.json",
-      },
-      {
-        key: "non-illustrated",
-        url: "http://localhost:8040/files/vangogh/apparatus/artwork.non-illustrated-entities.json",
-      },
-      {
-        key: "sketches",
-        url: "http://localhost:8040/files/vangogh/apparatus/artwork.sketches-entities.json",
-      },
-    ],
-    biblUrl: {
-      en: "http://localhost:8040/files/vangogh/apparatus/bibliolist.html",
-    },
-    menuUrl: "http://localhost:8040/files/vangogh/menu/menu.json",
-    letterIdUrl: "http://localhost:8040/files/vangogh/letter-ids.json",
-    // homeUrl: "http://localhost:8040/files/vangogh/home/home.html",
+    favicon: vangoghFavicon,
     components: {
       Header,
       SearchItem,
       // MetadataPanel is too project-specific to make generic
       MetadataPanel,
-      // SearchInfoPage is too project-specific to make generic
       SearchInfoPage,
       EntitySummaryDetails,
     },
@@ -78,6 +57,9 @@ export const kombuchaConfig: ProjectConfig = mergeWith(
       "sender",
       "correspondent",
       "bibleRefs",
+      "worksMentioned",
+      "journals",
+      "corpus",
     ],
     detailPanels: [
       {
@@ -137,6 +119,14 @@ export const kombuchaConfig: ProjectConfig = mergeWith(
         order: "keyAsc",
         size: 9999,
       },
+      {
+        facetName: "worksMentioned",
+        size: 999,
+      },
+      {
+        facetName: "journals",
+        size: 999,
+      },
     ],
     viewsToSearchIn: [
       "letterOriginalText",
@@ -145,6 +135,14 @@ export const kombuchaConfig: ProjectConfig = mergeWith(
       "introText",
       // "introTranslatedText",
       // "introNotesText",
+    ],
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "transcrSource",
+      "dating",
+      "remarks",
+      "ogtNotes",
     ],
     selectedLanguage: "en",
     languages: [
@@ -169,6 +167,22 @@ export const kombuchaConfig: ProjectConfig = mergeWith(
     // TODO: how to test this?
     showAnnosOnFacsimile: true,
     showFacsimilePrevNextScanButtonsButtons: true,
+    // Lists the matches, so only where searchHitLocations is set
+    showHighlightsTab: true,
+    searchHitLocations: [
+      { name: "text.orig", view: ["text.nl", "text.fr", "text.en"] },
+      { name: "text.trans", view: "text.en" },
+      { name: "notes", kind: "tab", panel: "metadata", view: getNotesTexts },
+      {
+        name: "metadata",
+        kind: "tab",
+        panel: "metadata",
+        // In the order MetadataPanel renders them
+        view: createGetMetadataTexts(["dating", "transcrSource", "remarks"]),
+      },
+    ],
+    getEntityFacetValues: getVangoghEntityFacetValues,
+    buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,
   replaceArrays,
 );
