@@ -62,7 +62,7 @@ export function Persons(props: PersonsProps) {
     const element = personRefs.current[persId];
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
-      element.style.setProperty("background-color", "#FFCE01", "important");
+      element.style.setProperty("background-color", "#fef08a", "important");
       const timeout = setTimeout(() => {
         element.style.removeProperty("background-color");
       }, 2000);

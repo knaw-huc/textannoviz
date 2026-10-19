@@ -79,7 +79,7 @@ export const NotesPanel = () => {
             key={footnoteNumber}
             className={`flex flex-row p-2 ${
               activeFootnote === footnoteNumber
-                ? "rounded-lg bg-[#FFCE01] transition-all duration-300"
+                ? "rounded-lg bg-yellow-200 transition-all duration-300"
                 : "bg-white"
             }`}
           >

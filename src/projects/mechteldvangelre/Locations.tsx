@@ -59,7 +59,7 @@ export function Locations() {
     const element = locationRefs.current[locId];
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
-      element.style.setProperty("background-color", "#FFCE01", "important");
+      element.style.setProperty("background-color", "#fef08a", "important");
     }
   }, [locations]);
 

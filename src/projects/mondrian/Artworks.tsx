@@ -61,7 +61,7 @@ export function Artworks() {
     const element = artworkRefs.current[artwId];
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
-      element.style.setProperty("background-color", "#FFCE01", "important");
+      element.style.setProperty("background-color", "#fef08a", "important");
       const timeout = setTimeout(() => {
         element.style.removeProperty("background-color");
       }, 2000);
