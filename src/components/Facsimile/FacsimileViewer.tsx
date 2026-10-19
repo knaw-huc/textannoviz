@@ -34,7 +34,7 @@ export function FacsimileViewer() {
   }
 
   if (isDummyFacs) {
-    return <img src={DummyFacs} alt="Dummy" className="h-full" />;
+    return <img src={DummyFacs} alt="Dummy" className="self-center" />;
   }
 
   return (
