@@ -42,6 +42,7 @@ import { replaceArrays } from "../../default/config/replaceArrays.ts";
 import { KunstenaarsbrievenGroup } from "../annotation/group/KunstenaarsbrievenGroup.tsx";
 import { getEntityFacetValues } from "../annotation/getEntityFacetValues.ts";
 import { kunstenaarsbrievenPageLabelFormat } from "../utils/kunstenaarsbrievenPageLabelFormat.ts";
+import { getParagraphPanel } from "../annotation/group/paragraphReference.ts";
 
 export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
   {},
@@ -125,6 +126,8 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     getUrl: getUrl,
     filterPanels: filterPanels,
     pageLabelFormat: kunstenaarsbrievenPageLabelFormat,
+    // Paragraph references to another letter open it on the paragraph
+    getHashTargetPanel: getParagraphPanel,
   },
   replaceArrays,
 );

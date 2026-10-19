@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRevealPanel } from "./useRevealPanel.tsx";
 import { findHitAnchor } from "../Text/Annotated/utils/hitAnchors.ts";
+import { scrollToWhenPresent } from "./scrollToWhenPresent.ts";
 import { activeSearchHitSelector } from "../../stores/text/searchHitSlice.ts";
 import { useTextStore } from "../../stores/text/text-store.ts";
 import { useDetailViewStore } from "../../stores/detail-view/detail-view-store.ts";
@@ -8,14 +9,6 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../stores/project.ts";
-
-const SCROLL_CONTAINER_ID = "panelsContainer";
-
-/** Frames to wait for a revealed panel to be laid out before giving up */
-const MAX_LAYOUT_FRAMES = 30;
-
-/** The full text lazy-renders within ~1s; stop watching well after that */
-const WATCH_TIMEOUT_MS = 4000;
 
 /**
  * Reveal and scroll to the active search hit.
@@ -29,8 +22,11 @@ const WATCH_TIMEOUT_MS = 4000;
  * Runs on the active match rather than on load, so that picking another
  * match from a list reveals it the same way {@link useInitDetail} revealed
  * the first.
+ *
+ * @param skipAutoReveal leave the first hit alone until the reader picks one,
+ *   as the letter was opened to reveal something else
  */
-export function useRevealSearchHit(): void {
+export function useRevealSearchHit(skipAutoReveal = false): void {
   const target = useTextStore(activeSearchHitSelector);
   // Not read, only a dependency: picking the active match again re-reveals it
   const revealCount = useTextStore((state) => state.searchHitRevealCount);
@@ -42,8 +38,21 @@ export function useRevealSearchHit(): void {
   const setActiveSidebarTab = useDetailViewStore(
     (state) => state.setActiveSidebarTab,
   );
+  const isSkippingAutoReveal = useRef(skipAutoReveal);
+  const prevRevealCount = useRef(revealCount);
 
   useEffect(() => {
+    // A pick bumps the reveal count; anything else rerunning this is not one
+    const isPick = revealCount !== prevRevealCount.current;
+    prevRevealCount.current = revealCount;
+    if (isPick) {
+      isSkippingAutoReveal.current = false;
+    }
+    if (isSkippingAutoReveal.current) {
+      // Not even resetting overrides: those reveal what is revealed instead
+      return;
+    }
+
     if (!target) {
       resetPanelVisibilityOverrides();
       return;
@@ -57,7 +66,7 @@ export function useRevealSearchHit(): void {
       revealPanel(target.name);
     }
 
-    return scrollToWhenPresent(target.anchor);
+    return scrollToWhenPresent(() => findHitAnchor(target.anchor));
   }, [
     target,
     revealCount,
@@ -66,70 +75,4 @@ export function useRevealSearchHit(): void {
     resetPanelVisibilityOverrides,
     setActiveSidebarTab,
   ]);
-}
-
-/**
- * Scroll to an anchor that is not on screen yet, and may not exist yet.
- *
- * Two separate waits, because revealing a location is not instant:
- * - the anchor has to be in the DOM. Text lazy-renders, so a match beyond
- *   the first screenful only appears after an idle callback, and a sidebar
- *   tab only mounts its panel once selected. A MutationObserver watches for
- *   it, mirroring {@link useSyncHeaderWithHash}.
- * - the anchor has to be laid out. A panel revealed by this effect has no
- *   size until the browser lays it out a render or more later, and
- *   scrolling to a zero-height element silently does nothing rather than
- *   failing, so it is polled per frame the way {@link NotesPanel} does.
- *
- * @returns a cleanup that stops both waits
- */
-function scrollToWhenPresent(anchor: string): () => void {
-  let timeoutId = 0;
-  let frameId = 0;
-  let framesWaited = 0;
-  let stopped = false;
-
-  function cleanup() {
-    stopped = true;
-    cancelAnimationFrame(frameId);
-    observer.disconnect();
-    window.clearTimeout(timeoutId);
-  }
-
-  function scrollWhenLaidOut() {
-    frameId = 0;
-    const element = findHitAnchor(anchor);
-    if (element && element.getBoundingClientRect().height > 0) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
-      cleanup();
-      return;
-    }
-    if (framesWaited++ < MAX_LAYOUT_FRAMES) {
-      frameId = requestAnimationFrame(scrollWhenLaidOut);
-    }
-  }
-
-  /**
-   * Rendering the text fires a burst of mutations; only ever keep one frame
-   * in flight, and give a newly appeared anchor the full budget again.
-   */
-  function waitForLayout() {
-    if (stopped || frameId) {
-      return;
-    }
-    framesWaited = 0;
-    frameId = requestAnimationFrame(scrollWhenLaidOut);
-  }
-
-  const observer = new MutationObserver(waitForLayout);
-
-  waitForLayout();
-
-  const container =
-    document.getElementById(SCROLL_CONTAINER_ID) ?? document.body;
-  observer.observe(container, { childList: true, subtree: true });
-
-  timeoutId = window.setTimeout(cleanup, WATCH_TIMEOUT_MS);
-
-  return cleanup;
 }

@@ -1,5 +1,9 @@
 import { RefObject, useEffect } from "react";
 import { useLocation } from "react-router";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../stores/project.ts";
 
 export function useSyncHeaderWithHash(
   scrollContainerRef: RefObject<HTMLElement | null>,
@@ -8,9 +12,15 @@ export function useSyncHeaderWithHash(
   // (e.g. following an internal link), not only on mount. Scroll-based header
   // syncing uses the text store rather than the URL, so this cannot feed back.
   const hash = useLocation().hash.slice(1) || null;
+  const { getHashTargetPanel } = useProjectStore(projectConfigSelector);
 
   useEffect(() => {
     if (!hash) {
+      return;
+    }
+
+    // Revealed and scrolled to by useRevealHashTarget instead
+    if (getHashTargetPanel?.(hash)) {
       return;
     }
 
@@ -57,7 +67,7 @@ export function useSyncHeaderWithHash(
     }
 
     return cleanup;
-  }, [scrollContainerRef, hash]);
+  }, [scrollContainerRef, hash, getHashTargetPanel]);
 }
 
 function scrollIfNotInView(header: Element, container: Element): void {

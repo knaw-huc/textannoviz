@@ -1,53 +1,40 @@
-import { PropsWithChildren, useEffect, useRef } from "react";
-import { useRevealPanel } from "../../../../components/Detail/useRevealPanel";
-
-const highlightMarker = "paragraphReferenceHighlight";
-const highlightClasses = [
-  highlightMarker,
-  "bg-[#FFCE01]",
-  "rounded-lg",
-  "transition-all",
-  "duration-300",
-  "w-fit",
-];
-
-function clearParagraphReferenceHighlights() {
-  document
-    .querySelectorAll(`.${highlightMarker}`)
-    .forEach((element) => element.classList.remove(...highlightClasses));
-}
+import { PropsWithChildren } from "react";
+import { useParams } from "react-router";
+import { useRevealElement } from "../../../../components/Detail/useRevealElement.ts";
+import {
+  projectConfigSelector,
+  useProjectStore,
+} from "../../../../stores/project";
+import {
+  getParagraphPanel,
+  ParagraphReferenceTarget,
+} from "./paragraphReference.ts";
+import { toLetterDetailPath } from "./toLetterDetailPath.ts";
 
 export function ParagraphReferenceLink(
-  props: PropsWithChildren<{ url: string; className?: string }>,
+  props: PropsWithChildren<{
+    target: ParagraphReferenceTarget;
+    className?: string;
+  }>,
 ) {
-  const revealPanel = useRevealPanel();
+  const { target, className, children } = props;
+  const { letterId, paragraphId } = target;
+  const revealElement = useRevealElement();
+  const projectName = useProjectStore(projectConfigSelector).id;
+  const { tier2 } = useParams();
 
-  const { url, className, children } = props;
-  const paragraphId = url.slice(1);
-  const didHighlight = useRef(false);
+  const isInOtherLetter = !!letterId && !tier2?.endsWith(`:${letterId}`);
 
-  // Panel visibility overrides are not reset here: a link unmounts whenever
-  // its panel is swapped out, which is exactly what an override does on a
-  // narrow screen. useInitDetail clears them per letter instead.
-  useEffect(() => {
-    return () => {
-      if (didHighlight.current) {
-        clearParagraphReferenceHighlights();
-      }
-    };
-  }, []);
-
+  // Nothing is undone on unmount: revealing a panel can swap out the one
+  // holding this link on a narrow screen, while the scroll should go on. The
+  // highlight goes with the letter's text, or with the next reveal.
   function go() {
-    if (paragraphId) {
-      const element = document.getElementById(paragraphId);
-      if (element) {
-        // The panel name is now hardcoded. This is okay for now, since only Van Gogh uses this functionality. If other projects begin using this and want to scroll in other panels, we should find a way to compute which panel should be made visible.
-        revealPanel("text.orig");
-        clearParagraphReferenceHighlights();
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
-        element.classList.add(...highlightClasses);
-        didHighlight.current = true;
-      }
+    if (isInOtherLetter) {
+      // Scrolled to on load by useRevealHashTarget
+      const path = toLetterDetailPath(letterId, projectName);
+      window.open(`${path}#${paragraphId}`, "_blank");
+    } else {
+      revealElement(paragraphId, getParagraphPanel(paragraphId) ?? "text.orig");
     }
   }
 

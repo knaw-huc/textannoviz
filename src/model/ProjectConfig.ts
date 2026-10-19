@@ -284,6 +284,13 @@ type AnnotationConfig = {
    * which {@link ProjectConfig.showHighlightsTab} lists.
    */
   searchHitLocations?: SearchHitLocation[];
+
+  /**
+   * The panel holding the element a url hash points at, for hashes the detail
+   * view should reveal, scroll to and highlight on load — such as a paragraph
+   * linked to from another letter. Undefined leaves the hash to the ToC.
+   */
+  getHashTargetPanel?: (hash: string) => string | undefined;
 };
 
 export interface AnnotationItemProps {

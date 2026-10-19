@@ -6,7 +6,7 @@ import {
   isBibliographyReference,
   isInternalReference,
   isLetterReference,
-  isParagraphReference,
+  isReference,
 } from "../ProjectAnnotationModel.ts";
 import { BibleReferenceLink } from "./BibleReferenceLink.tsx";
 import { BibliographyLink } from "./BibliographyLink.tsx";
@@ -14,11 +14,13 @@ import { InternalReferenceLink } from "./InternalReferenceLink.tsx";
 import { LetterLink } from "./LetterLink.tsx";
 import { ParagraphReferenceLink } from "./ParagraphReferenceLink.tsx";
 import { isInternalReferenceUrl } from "./toInternalReferenceTarget.ts";
+import { parseParagraphReference } from "./paragraphReference.ts";
 
 // An internal reference points at a numbered header inside a document, e.g.
 // "introVI.xml#intro.VI.5.3.1", "#intro.II.4.1" or "overview.xml#overview.4",
 // or at a whole document, e.g. "introIV.xml". Letter references also point at
-// whole documents ("let001.xml"), so those are excluded explicitly.
+// whole documents ("let001.xml"), so those are excluded explicitly, as are
+// paragraph references ("let093.xml#p.orig.21"), whose anchor looks the same.
 
 export function KunstenaarsbrievenGroup(props: GroupProps) {
   const { group, children } = props;
@@ -31,6 +33,7 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
       (body): boolean =>
         isInternalReference(body) &&
         isInternalReferenceUrl(body.url) &&
+        !parseParagraphReference(body.url) &&
         !isLetterReference(body) &&
         !isBibliographyReference(body),
     );
@@ -43,15 +46,19 @@ export function KunstenaarsbrievenGroup(props: GroupProps) {
     );
   }
 
-  const paragraphReference = group.segments
+  // Before letter references: one to a paragraph in another letter is one too
+  const paragraphTarget = group.segments
     .flatMap((s) => s.annotations)
     .filter(isNested)
     .map((a) => a.body)
-    .find((body) => isParagraphReference(body));
+    .map((body) =>
+      isReference(body) ? parseParagraphReference(body.url) : null,
+    )
+    .find((target) => !!target);
 
-  if (paragraphReference && isParagraphReference(paragraphReference)) {
+  if (paragraphTarget) {
     return (
-      <ParagraphReferenceLink url={paragraphReference.url}>
+      <ParagraphReferenceLink target={paragraphTarget}>
         {children}
       </ParagraphReferenceLink>
     );
