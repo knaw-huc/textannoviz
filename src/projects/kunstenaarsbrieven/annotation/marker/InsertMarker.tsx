@@ -19,6 +19,8 @@ export const InsertMarker = (props: InsertMarkerAnnotationProps) => {
   }
 
   if (isPictureBody(body) && body.url) {
+    const isMapsPage = !!document.getElementById("page-maps");
+
     // Images of sketches contain a full IIIF URL, meaning that default.jpg is already in the URL
     if (body.url.includes("default.jpg")) {
       return (
@@ -32,7 +34,7 @@ export const InsertMarker = (props: InsertMarkerAnnotationProps) => {
     // In all other cases, we need to build the URL ourselves
     else {
       const maxWidth = body.width ?? "400";
-      const width = Math.min(parseInt(maxWidth), 400);
+      const width = isMapsPage ? 500 : Math.min(parseInt(maxWidth), 400);
       return (
         <img
           className="insert-marker marker-picture"
