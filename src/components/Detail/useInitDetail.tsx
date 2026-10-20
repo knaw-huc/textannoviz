@@ -54,6 +54,9 @@ export function useInitDetail() {
   const resetPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.resetPanelVisibilityOverrides,
   );
+  const resetActiveFootnote = useTextStore(
+    (state) => state.resetActiveFootnote,
+  );
 
   const { tier2 } = useDetailNavigation().getDetailParams();
   const [prevTier2, setPrevTier2] = useState(tier2);
@@ -82,8 +85,10 @@ export function useInitDetail() {
     async function initDetail(aborter: AbortController) {
       setLoading(true);
       // Overrides are a one-off "show this now" for the letter at hand: clear
-      // them per letter, before anything can reveal a panel in the new one
+      // them per letter, before anything can reveal a panel in the new one.
+      // The same goes for the selected note.
       resetPanelVisibilityOverrides();
+      resetActiveFootnote();
       const { tier2 } = getDetailParams();
       if (!tier2) {
         return;
@@ -119,20 +124,17 @@ export function useInitDetail() {
       setBodyId(result.request.bodyId);
 
       //TODO: Note anno type to project config
-      if (annotations.some((anno) => anno.body.type === "Note")) {
-        const ptrToNoteAnnos = new Map<string, AnnoRepoAnnotation<NoteBody>>();
-
-        const noteAnnos = filterByBodyType(annotations, isNoteBody);
-        noteAnnos
-          //we only need 'notes' and 'langnotes'
-          .filter((noteAnno) => noteAnno.body.subtype !== "typednotes")
-          .forEach((noteAnno) => {
-            const targetId = (noteAnno.body as NoteBody)["xml:id"];
-            ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
-          });
-
-        setPtrToNoteAnnosMap(new Map(ptrToNoteAnnos));
-      }
+      // Set even when empty: the url hash is matched against it, so a letter
+      // without notes must not keep the previous letter's
+      const ptrToNoteAnnos = new Map<string, AnnoRepoAnnotation<NoteBody>>();
+      filterByBodyType(annotations, isNoteBody)
+        //we only need 'notes' and 'langnotes'
+        .filter((noteAnno) => noteAnno.body.subtype !== "typednotes")
+        .forEach((noteAnno) => {
+          const targetId = (noteAnno.body as NoteBody)["xml:id"];
+          ptrToNoteAnnos.set(`#${targetId}`, noteAnno);
+        });
+      setPtrToNoteAnnosMap(ptrToNoteAnnos);
 
       setViews(views);
       setActivePanels(projectConfig.detailPanels);

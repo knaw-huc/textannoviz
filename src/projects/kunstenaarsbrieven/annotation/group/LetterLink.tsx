@@ -3,7 +3,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../../stores/project";
-import { toLetterDetailPath } from "./toLetterDetailPath.ts";
+import { toLetterLinkPath } from "./toLetterDetailPath.ts";
 
 export function LetterLink(
   props: PropsWithChildren<{ url: string; className?: string }>,
@@ -12,7 +12,8 @@ export function LetterLink(
   const projectName = useProjectStore(projectConfigSelector).id;
 
   const go = () => {
-    window.open(toLetterDetailPath(url.split(".")[0], projectName), "_blank");
+    // Revealed on load by useRevealHashTarget, when the url has an anchor
+    window.open(toLetterLinkPath(url, projectName), "_blank");
   };
 
   return (

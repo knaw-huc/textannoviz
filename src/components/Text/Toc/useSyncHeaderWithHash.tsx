@@ -4,6 +4,7 @@ import {
   projectConfigSelector,
   useProjectStore,
 } from "../../../stores/project.ts";
+import { useAnnotationStore } from "../../../stores/annotation.ts";
 
 export function useSyncHeaderWithHash(
   scrollContainerRef: RefObject<HTMLElement | null>,
@@ -13,6 +14,9 @@ export function useSyncHeaderWithHash(
   // syncing uses the text store rather than the URL, so this cannot feed back.
   const hash = useLocation().hash.slice(1) || null;
   const { getHashTargetPanel } = useProjectStore(projectConfigSelector);
+  const ptrToNoteAnnosMap = useAnnotationStore(
+    (state) => state.ptrToNoteAnnosMap,
+  );
 
   useEffect(() => {
     if (!hash) {
@@ -20,7 +24,7 @@ export function useSyncHeaderWithHash(
     }
 
     // Revealed and scrolled to by useRevealHashTarget instead
-    if (getHashTargetPanel?.(hash)) {
+    if (getHashTargetPanel?.(hash) || ptrToNoteAnnosMap.has(`#${hash}`)) {
       return;
     }
 
@@ -67,7 +71,7 @@ export function useSyncHeaderWithHash(
     }
 
     return cleanup;
-  }, [scrollContainerRef, hash, getHashTargetPanel]);
+  }, [scrollContainerRef, hash, getHashTargetPanel, ptrToNoteAnnosMap]);
 }
 
 function scrollIfNotInView(header: Element, container: Element): void {

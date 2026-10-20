@@ -1,26 +1,18 @@
 import { useRef } from "react";
 import { MarkerBody } from "../../../../model/AnnoRepoAnnotation.ts";
 import { useAnnotationStore } from "../../../../stores/annotation.ts";
-import { useDetailViewStore } from "../../../../stores/detail-view/detail-view-store.ts";
 import { useTextStore } from "../../../../stores/text/text-store.ts";
 import { MarkerSegment } from "../../../../components/Text/Annotated/core";
 import { createTooltipMarkerClasses } from "../../../../components/Text/Annotated/utils/createAnnotationClasses.ts";
 import { isNoteReference } from "../ProjectAnnotationModel.ts";
-import React from "react";
-import { useRevealPanel } from "../../../../components/Detail/useRevealPanel.tsx";
+import { useSelectNote } from "../../../../components/Detail/useSelectNote.ts";
 
 export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   const activeFootnote = useTextStore((state) => state.activeFootnote);
-  const setActiveFootnote = useTextStore((state) => state.setActiveFootnote);
-  const resetActiveFootnote = useTextStore((s) => s.resetActiveFootnote);
-  const setActiveSidebarTab = useDetailViewStore(
-    (state) => state.setActiveSidebarTab,
-  );
   const ptrToNoteAnnosMap = useAnnotationStore(
     (state) => state.ptrToNoteAnnosMap,
   );
-
-  const revealPanel = useRevealPanel();
+  const selectNote = useSelectNote();
 
   const ref = useRef<HTMLSpanElement>(null);
   const { marker } = props;
@@ -37,20 +29,14 @@ export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
   }
   const footnoteNumber = footnote?.body.n ?? "?";
 
-  function spanClickHandler(footnoteNumber: string) {
-    revealPanel("metadata");
-    setActiveFootnote(footnoteNumber);
-    setActiveSidebarTab("notes");
+  function spanClickHandler() {
+    selectNote(noteUrl.slice(1));
   }
 
-  // Panel visibility overrides are not reset here: a marker unmounts whenever
-  // its panel is swapped out, which is exactly what an override does on a
-  // narrow screen. useInitDetail clears them per letter instead.
-  React.useEffect(() => {
-    return () => {
-      resetActiveFootnote();
-    };
-  }, []);
+  // Neither the active footnote nor panel visibility overrides are reset on
+  // unmount: a marker unmounts whenever its panel is swapped out, which is
+  // exactly what selecting a note does on a narrow screen. useInitDetail
+  // clears both per letter instead.
 
   return (
     <span
@@ -58,12 +44,12 @@ export function NoteMarker(props: { marker: MarkerSegment<MarkerBody> }) {
       className={`${classNames.join(
         " ",
       )} transition-all duration-300 ease-in-out ${
-        activeFootnote === footnoteNumber ? "bg-[#FFCE01]" : "bg-white"
+        activeFootnote === footnoteNumber ? "bg-yellow-200" : "bg-white"
       }`}
-      onClick={() => spanClickHandler(footnoteNumber)}
+      onClick={() => spanClickHandler()}
       role="button"
       tabIndex={0}
-      onKeyDown={() => spanClickHandler(footnoteNumber)}
+      onKeyDown={() => spanClickHandler()}
     >
       {(marker.body.n || footnoteNumber) ?? "*"}
     </span>

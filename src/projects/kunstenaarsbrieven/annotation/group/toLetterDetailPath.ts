@@ -12,3 +12,13 @@ export function toLetterDetailPath(
   const basePath = routerBasename === "/" ? "" : routerBasename;
   return `${basePath}/detail/urn:mace:huc.knaw.nl:${projectName}:${letterId}`;
 }
+
+/**
+ * Path to the letter a letter reference points at, keeping its anchor, e.g.
+ * "let011.xml#note-t-8" -> "/vangogh/detail/urn:mace:huc.knaw.nl:vangogh:let011#note-t-8"
+ */
+export function toLetterLinkPath(url: string, projectName: string): string {
+  const [document, anchor] = url.split("#");
+  const path = toLetterDetailPath(document.split(".")[0], projectName);
+  return anchor ? `${path}#${anchor}` : path;
+}

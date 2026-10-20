@@ -12,6 +12,8 @@ import { BibleReferenceLink } from "./BibleReferenceLink.tsx";
 import { BibliographyLink } from "./BibliographyLink.tsx";
 import { InternalReferenceLink } from "./InternalReferenceLink.tsx";
 import { LetterLink } from "./LetterLink.tsx";
+import { NoteReferenceLink } from "./NoteReferenceLink.tsx";
+import { useAnnotationStore } from "../../../../stores/annotation.ts";
 import { ParagraphReferenceLink } from "./ParagraphReferenceLink.tsx";
 import { isInternalReferenceUrl } from "./toInternalReferenceTarget.ts";
 import { parseParagraphReference } from "./paragraphReference.ts";
@@ -24,6 +26,26 @@ import { parseParagraphReference } from "./paragraphReference.ts";
 
 export function KunstenaarsbrievenGroup(props: GroupProps) {
   const { group, children } = props;
+  const ptrToNoteAnnosMap = useAnnotationStore(
+    (state) => state.ptrToNoteAnnosMap,
+  );
+
+  // A note in this letter, e.g. "#note-t-3". Recognized by the letter's notes
+  // rather than by its id, as projects name their notes differently.
+  const noteUrl = group.segments
+    .flatMap((s) => s.annotations)
+    .filter(isNested)
+    .map((a) => a.body)
+    .map((body) => (isReference(body) ? body.url : undefined))
+    .find((url) => !!url && ptrToNoteAnnosMap.has(url));
+
+  if (noteUrl) {
+    return (
+      <NoteReferenceLink noteId={noteUrl.slice(1)}>
+        {children}
+      </NoteReferenceLink>
+    );
+  }
 
   const internalReference = group.segments
     .flatMap((s) => s.annotations)
