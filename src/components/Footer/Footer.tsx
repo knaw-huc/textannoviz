@@ -3,7 +3,7 @@ import { ViewSettings } from "./ViewSettings.tsx";
 
 export const Footer = () => {
   return (
-    <footer className="flex justify-between border-t border-neutral-400 bg-[#dddddd] p-3">
+    <footer className="flex justify-between border-t border-neutral-400 bg-[#dddddd] p-2 text-xs md:p-3 lg:text-sm">
       <div className="flex gap-1 md:gap-4">
         <DetailSearchResultsNavigation />
       </div>

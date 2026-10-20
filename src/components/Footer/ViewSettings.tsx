@@ -47,7 +47,9 @@ export const ViewSettings = () => {
     activePanels.forEach((activePanel) => {
       const doc = document.getElementById(activePanel.name);
       // Clear legacy inline button styles (e.g. pink inactive background)
-      document.getElementById(`b-${activePanel.name}`)?.removeAttribute("style");
+      document
+        .getElementById(`b-${activePanel.name}`)
+        ?.removeAttribute("style");
 
       if (activePanel.visible) {
         doc?.setAttribute("style", "");
@@ -79,7 +81,7 @@ export const ViewSettings = () => {
     <div className="relative">
       <fieldset className="m-0 border-0 p-0">
         <legend className="sr-only">{contentViewsLabel}</legend>
-        <div className="flex *:border-y *:border-stone-500 *:bg-white *:px-2 *:py-2 *:text-xs *:md:p-2">
+        <div className="flex *:border-y *:border-stone-500 *:bg-white *:px-2 *:py-1.5 *:text-xs *:md:p-2 *:lg:text-sm">
           <div className="hidden rounded-l-full border-x italic text-neutral-500 md:block">
             <span aria-hidden="true">{contentViewsLabel}</span>
             <HelpTooltip label={translateProject("VIEW_HELP")} />
@@ -107,7 +109,7 @@ export const ViewSettings = () => {
                 aria-controls={detailPanel.name}
                 aria-label={panelSwitchLabel(label)}
                 onClick={() => handlePanelVisibility(detailPanel.name)}
-                className="hidden items-center gap-1.5 border-r bg-white font-normal last:rounded-r-full aria-checked:font-bold disabled:cursor-not-allowed disabled:text-neutral-400 md:flex"
+                className="hidden items-center gap-1.5 border-r bg-white font-normal last:rounded-r-full disabled:cursor-not-allowed disabled:text-neutral-400 aria-checked:font-bold md:flex"
                 disabled={detailPanel.disabled}
               >
                 <span
