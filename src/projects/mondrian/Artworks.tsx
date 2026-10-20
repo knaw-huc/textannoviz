@@ -14,7 +14,9 @@ import {
   useProjectStore,
 } from "../../stores/project.ts";
 import { getViteEnvVars } from "../../utils/viteEnvVars.ts";
-import { Button } from "react-aria-components";
+import { Button, Link } from "react-aria-components";
+import { HelpIcon } from "../../components/common/icons/HelpIcon.tsx";
+import { isExternalUrl } from "../kunstenaarsbrieven/annotation/LinkUtils.ts";
 
 export function Artworks() {
   const [artworks, setArtworks] = React.useState<Artwork[]>([]);
@@ -100,6 +102,10 @@ export function Artworks() {
                   : `${artw.id} has no/empty/incorrect 'head' element in XML!`}
               </div>
               <div className="flex flex-row items-center justify-end gap-1">
+                {artw.corresp ? <HelpLink url={artw.corresp} /> : null}
+                {artw.source
+                  ? artw.source.map((src) => <HelpLink key={src} url={src} />)
+                  : null}
                 <Button onPress={() => searchArtwork(artw)}>
                   <MagnifyingGlassIcon
                     aria-hidden
@@ -175,6 +181,22 @@ export function Artworks() {
         ))}
       </div>
     </>
+  );
+}
+
+function HelpLink(props: { url: string }) {
+  if (!isExternalUrl(props.url)) {
+    return null;
+  }
+  return (
+    <Link
+      href={props.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center"
+    >
+      <HelpIcon title={props.url} />
+    </Link>
   );
 }
 

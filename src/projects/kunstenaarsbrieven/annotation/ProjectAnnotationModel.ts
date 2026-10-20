@@ -98,6 +98,7 @@ type ArtworkIdno = {
 type ArtworkTeiRef = {
   id: string;
   corresp?: string;
+  source?: string[];
   // The conversion scripts wrap repeated elements in an array, so a single idno arrives as a bare object.
   idno?: ArtworkIdno | ArtworkIdno[];
   head: {

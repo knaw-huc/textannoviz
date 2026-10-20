@@ -24,7 +24,7 @@ export const getUrl = (toTest?: AnnoRepoBodyBase): string | undefined => {
   return toTest.url;
 };
 
-function isExternalUrl(toTest?: string): boolean {
+export function isExternalUrl(toTest?: string): boolean {
   if (!toTest) {
     return false;
   }

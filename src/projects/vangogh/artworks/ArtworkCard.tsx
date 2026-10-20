@@ -1,11 +1,14 @@
-import { Button } from "react-aria-components";
+import { Button, Link } from "react-aria-components";
 import { LanguageCode } from "../../../model/Language";
 import { useTranslateProject } from "../../../stores/project";
 import {
   Artwork,
+  getBaseUrl,
   getIdnoEntries,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+import { HelpIcon } from "../../../components/common/icons/HelpIcon";
+import { isExternalUrl } from "../../kunstenaarsbrieven/annotation/LinkUtils";
 
 export function ArtworkCard(props: {
   artwork: Artwork;
@@ -23,7 +26,14 @@ export function ArtworkCard(props: {
             ? artwork.head[interfaceLang]
             : `${artwork.id} has no/empty/incorrect 'head' element in XML!`}
         </div>
-        <div className="flex flex-row items-center justify-end gap-1">
+        <div className="flex shrink-0 flex-row items-center justify-end gap-1">
+          {artwork.corresp
+            ? artwork.corresp
+                .split(/\s+/)
+                .map((splitCorresp) => (
+                  <HelpLink key={splitCorresp} corresp={splitCorresp} />
+                ))
+            : null}
           <Button onPress={() => props.handleSearch(artwork)}>
             <MagnifyingGlassIcon
               aria-hidden
@@ -117,5 +127,32 @@ export function ArtworkCard(props: {
         />
       )}
     </div>
+  );
+}
+
+/**
+ * A corresp is either a letter ("let093.xml") or an external url
+ */
+function HelpLink(props: { corresp: string }) {
+  const { corresp } = props;
+  let href: string;
+  if (corresp.endsWith(".xml")) {
+    // Router-relative: React Aria resolves it with the router basename
+    href = `${getBaseUrl()}${corresp.split(".")[0]}`;
+  } else if (isExternalUrl(corresp)) {
+    href = corresp;
+  } else {
+    return null;
+  }
+
+  return (
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center"
+    >
+      <HelpIcon title={corresp} />
+    </Link>
   );
 }
