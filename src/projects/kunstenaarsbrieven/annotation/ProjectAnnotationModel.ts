@@ -139,7 +139,7 @@ type ArtworkTeiRef = {
     scheme: string;
     target: string;
   }[];
-  note?: ArtworkNote | ArtworkNote[];
+  note?: ArtworkNote;
   bibl?: {
     title: string;
     biblScope?: {
@@ -150,9 +150,12 @@ type ArtworkTeiRef = {
   };
 };
 
-export type ArtworkNote = {
-  type: string;
-  text: string;
+export type ArtworkNote = Partial<Record<ViewLang, ArtworkNoteFields>>;
+
+export type ArtworkNoteFields = {
+  collection?: string;
+  creditline?: string;
+  technical?: string;
 };
 
 export type PersonBody = AnnoRepoBodyBase & {
@@ -516,13 +519,6 @@ export function getIdnoEntries(artwork: Artwork): ArtworkIdno[] {
     return [];
   }
   return Array.isArray(artwork.idno) ? artwork.idno : [artwork.idno];
-}
-
-export function getNoteEntries(artwork: Artwork): ArtworkNote[] {
-  if (!artwork.note) {
-    return [];
-  }
-  return Array.isArray(artwork.note) ? artwork.note : [artwork.note];
 }
 
 export type ListAnnotationBody = AnnoRepoBodyBase & {

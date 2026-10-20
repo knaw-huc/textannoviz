@@ -4,7 +4,6 @@ import { useTranslateProject } from "../../../stores/project";
 import {
   Artwork,
   getIdnoEntries,
-  getNoteEntries,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 
@@ -52,24 +51,15 @@ export function ArtworkCard(props: {
           {artwork.measure[1].quantity} {artwork.measure[0].unit}
         </div>
       ) : null}
-      {getNoteEntries(artwork).some((note) => note.type === "technical") ? (
+      {artwork.note?.[interfaceLang]?.technical ? (
         <div>
-          {translateProject("support")}:{" "}
-          {getNoteEntries(artwork)
-            .filter((value) => value.type === "technical")
-            .map((value, index) => (
-              <span key={index}>{value.text}</span>
-            ))}
+          {translateProject("support")}: {artwork.note[interfaceLang].technical}
         </div>
       ) : null}
-      {getNoteEntries(artwork).some((note) => note.type === "collection") ? (
+      {artwork.note?.[interfaceLang]?.collection ? (
         <div>
           {translateProject("collection")}:{" "}
-          {getNoteEntries(artwork)
-            .filter((value) => value.type === "collection")
-            .map((value, index) => (
-              <span key={index}>{value.text}</span>
-            ))}
+          {artwork.note[interfaceLang].collection}
         </div>
       ) : null}
       {getIdnoEntries(artwork).some((idno) => idno.type === "inventory") ? (
@@ -91,14 +81,10 @@ export function ArtworkCard(props: {
             .join(" / ")}
         </div>
       ) : null}
-      {getNoteEntries(artwork).some((note) => note.type === "creditline") ? (
+      {artwork.note?.[interfaceLang]?.creditline ? (
         <div>
           {translateProject("credits")}:{" "}
-          {getNoteEntries(artwork)
-            .filter((value) => value.type === "creditline")
-            .map((value, index) => (
-              <span key={index}>{value.text}</span>
-            ))}
+          {artwork.note[interfaceLang].creditline}
         </div>
       ) : null}
       {artwork.bibl ? (

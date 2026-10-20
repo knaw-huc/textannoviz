@@ -6,7 +6,6 @@ import { encodeObject } from "../../utils/url/UrlParamUtils.ts";
 import { handleAbort } from "../../utils/handleAbort.tsx";
 import {
   getIdnoEntries,
-  getNoteEntries,
   type Artwork,
 } from "../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import {
@@ -131,16 +130,10 @@ export function Artworks() {
                 {artw.measure[1].quantity} {artw.measure[0].unit}
               </div>
             )}
-            {getNoteEntries(artw).some(
-              (note) => note.type === "collection",
-            ) && (
+            {artw.note?.[interfaceLang]?.collection && (
               <div>
                 {translateProject("collection")}:{" "}
-                {getNoteEntries(artw)
-                  .filter((value) => value.type === "collection")
-                  .map((value, index) => (
-                    <span key={index}>{value.text}</span>
-                  ))}
+                {artw.note[interfaceLang].collection}
               </div>
             )}
             {artw.desc && (
