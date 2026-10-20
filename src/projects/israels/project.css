@@ -103,20 +103,7 @@ img {
 }
 
 .bibl-highlight {
-  position: relative;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.bibl-highlight::before {
-  content: "";
-  position: absolute;
-  left: -1rem; /* cover the negative margin used by .label */
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #ffce01;
-  z-index: -1;
+  @apply bg-[#ffce01] ring-[#ffce01];
 }
 
 .title_m,

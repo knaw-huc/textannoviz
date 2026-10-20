@@ -264,20 +264,11 @@ img {
 }
 
 .bibl-highlight {
-  position: relative;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.bibl-highlight::before {
-  content: "";
-  position: absolute;
-  left: -1rem; /* cover the negative margin used by .label */
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #fef08a;
-  z-index: -1;
+  /* Cover the negative margin of .label without shifting the layout: */
+  margin-left: -1rem;
+  padding-left: 1rem;
+  /* Extend the background beyond the text without shifting the layout: */
+  @apply rounded-sm bg-yellow-200 ring-4 ring-yellow-200;
 }
 
 .title_m,
