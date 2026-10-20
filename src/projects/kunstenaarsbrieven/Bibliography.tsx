@@ -33,10 +33,14 @@ export const Bibliography = (props: BibliographyProps) => {
     const biblId = getUrlHash();
     if (!biblId) return;
     const element = document.getElementById(biblId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
-      element.classList.add("bibl-highlight");
-    }
+    if (!element) return;
+    // A section contains entries that are hash targets themselves:
+    const isSection = !!element.querySelector("[id]");
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: isSection ? "start" : "center",
+    });
+    if (!isSection) element.classList.add("bibl-highlight");
   }, [content]);
 
   return content ? (
