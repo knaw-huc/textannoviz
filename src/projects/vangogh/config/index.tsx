@@ -133,6 +133,7 @@ export const vangoghConfig: ProjectConfig = mergeWith(
         disabled: false,
         region: "main",
         size: "minmax(300px, 750fr)",
+        preferOnNarrow: true,
         panel: TextPanels.transTextPanel,
       },
       {
