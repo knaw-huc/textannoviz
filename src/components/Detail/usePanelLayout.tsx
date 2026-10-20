@@ -127,9 +127,12 @@ function isVisibleInLayout(
     );
     // An overridden panel claims its region's slot ahead of the default one,
     // so on narrow layouts (a single "main") this displaces
-    // whatever panel would otherwise sit there
+    // whatever panel would otherwise sit there. On phones, preferOnNarrow wins over array order.
     const foundPanel =
-      candidates.find((p) => overrides[p.name] === true) ?? candidates[0];
+      candidates.find((p) => overrides[p.name] === true) ??
+      (windowSize === "s"
+        ? candidates.find((p) => p.preferOnNarrow) ?? candidates[0]
+        : candidates[0]);
     if (foundPanel) {
       usedPanels.add(foundPanel.name);
       visiblePanels.push(foundPanel.name);

@@ -40,6 +40,8 @@ export type DetailPanelConfig = {
   size: string;
   region: PanelRegion;
   disabled: boolean;
+  /** Prefer this panel when its region on a small screen (phone). */
+  preferOnNarrow?: boolean;
   panel: {
     content: JSX.Element;
   };
