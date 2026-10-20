@@ -202,14 +202,16 @@ export const Header = (props: HeaderProps) => {
         </div>
       )}
       {/* Hide <div> when not on detail page and when on 'about' pages */}
+      {/* Mobile / tablet portrait: 2 rows (prev+next, then title).
+          Desktop (lg+): single row prev | title | next */}
       <div
-        className={`col-span-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-b border-neutral-400 bg-white px-3 py-3 sm:col-span-4 sm:gap-4 sm:px-4 lg:col-span-2 ${
+        className={`col-span-3 grid grid-cols-2 items-center gap-2 border-b border-neutral-400 bg-white px-3 py-3 sm:col-span-4 sm:gap-4 sm:px-4 lg:col-span-2 lg:grid-cols-[1fr_auto_1fr] ${
           !isOnDetailPage || !isLetterDetailPage(annotations) ? "hidden" : ""
         }`}
       >
         {/* Both cells stay in the grid while the letter index loads, so the
             title does not shift sideways once prev/next appear */}
-        <div className="justify-self-start">
+        <div className="order-1 justify-self-start">
           {props.letterIds && (
             <Link
               className="hover:bg-brand1-50 hover:text-brand1-600 focus-visible:ring-brand1-600 text-brand1Grey-600 group -mx-2 -my-1 inline-flex items-center gap-2 rounded px-2 py-1 no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
@@ -221,9 +223,9 @@ export const Header = (props: HeaderProps) => {
             >
               <span
                 aria-hidden="true"
-                className="transition-transform group-hover:-translate-x-0.5"
+                className="scale-90 transition-transform group-hover:-translate-x-0.5"
               >
-                &#8592;
+                &#9664;
               </span>
               <span className="text-sm font-semibold tabular-nums tracking-wide">
                 {prev?.number ?? "—"}
@@ -232,16 +234,19 @@ export const Header = (props: HeaderProps) => {
           )}
         </div>
 
-        <div className="flex min-w-0 flex-col items-center gap-0 justify-self-center text-center sm:flex-row sm:items-baseline sm:gap-2">
-          {props.letterNumber && (
-            <span className="text-brand1-600 text-sm font-semibold tabular-nums tracking-wider">
-              {props.letterNumber}
-            </span>
-          )}
-          <h4 className="min-w-0 truncate font-bold">{props.letterTitle}</h4>
+        <div className="order-3 col-span-2 -mx-3 min-w-0 justify-self-stretch border-t border-neutral-300 px-3 pt-2 text-center sm:-mx-4 sm:px-4 lg:order-2 lg:col-span-1 lg:mx-0 lg:border-t-0 lg:px-0 lg:pt-0">
+          <h4 className="min-w-0 text-balance font-bold">
+            {props.letterNumber && (
+              <span className="text-brand1Grey-600 mr-2 text-sm font-semibold tabular-nums tracking-wider">
+                <span className="sr-only">{translateProject("LET_NUM")} </span>
+                {props.letterNumber}
+              </span>
+            )}
+            {props.letterTitle}
+          </h4>
         </div>
 
-        <div className="justify-self-end">
+        <div className="order-2 justify-self-end lg:order-3">
           {props.letterIds && (
             <Link
               className="hover:bg-brand1-50 hover:text-brand1-600 focus-visible:ring-brand1-600 text-brand1Grey-600 group -mx-2 -my-1 inline-flex flex-row-reverse items-center gap-2 rounded px-2 py-1 no-underline transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40"
@@ -253,9 +258,9 @@ export const Header = (props: HeaderProps) => {
             >
               <span
                 aria-hidden="true"
-                className="transition-transform group-hover:translate-x-0.5"
+                className="scale-90 transition-transform group-hover:translate-x-0.5"
               >
-                &#8594;
+                &#9654;
               </span>
               <span className="text-sm font-semibold tabular-nums tracking-wide">
                 {next?.number ?? "—"}
