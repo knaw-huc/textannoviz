@@ -49,6 +49,7 @@ export function usePanelLayout(): null {
   useEffect(filterPanelsOnResize, [
     isLoading,
     isReady,
+    annotations,
     panelVisibilityOverrides,
   ]);
 
@@ -68,8 +69,12 @@ export function usePanelLayout(): null {
         ? filterPanels(activePanels, annotations)
         : activePanels.map((a) => a.name);
 
+      const panelsAllowedByProject = activePanels.filter((p) =>
+        filteredByProject.includes(p.name),
+      );
+
       const filteredBySize = isVisibleInLayout(
-        activePanels,
+        panelsAllowedByProject,
         windowSize,
         panelVisibilityOverrides,
       );
