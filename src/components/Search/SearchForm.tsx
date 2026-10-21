@@ -27,6 +27,7 @@ import { sanitizeFullText } from "./util/sanitizeFullText.tsx";
 import { toast } from "../../utils/toast.ts";
 import { useUrlSearchParamsStore } from "./useSearchUrlParamsStore.ts";
 import { SelectSearchInTextViews } from "./SelectSearchInTextViews.tsx";
+import { AdjustmentsVerticalIcon } from "@heroicons/react/24/outline";
 import { ChevronDown } from "../common/icons/ChevronDown";
 
 interface SearchFormProps {
@@ -298,8 +299,12 @@ export function SearchForm(
           <Tab id="history" className={tabStyling}>
             {translate("SEARCH_HISTORY")}
           </Tab>
-          <Tab id="settings" className={`${tabStyling} ml-auto`}>
-            Settings
+          <Tab
+            id="settings"
+            aria-label="Search settings"
+            className="mb-2 ml-auto cursor-pointer self-start rounded border border-neutral-400 p-0.5 text-neutral-700 outline-none hover:bg-neutral-100 focus-visible:ring-2 focus-visible:ring-neutral-700 aria-selected:border-neutral-700 aria-selected:bg-neutral-50"
+          >
+            <AdjustmentsVerticalIcon className="size-5" aria-hidden />
           </Tab>
         </TabList>
 
