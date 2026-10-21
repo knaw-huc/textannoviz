@@ -379,6 +379,29 @@ export function findLetterBody(
   }
 }
 
+export type ArticleBody = AnnoRepoBodyBase & {
+  institution: string;
+  title: string;
+  editor: string;
+  place: string;
+  manifest: string;
+};
+
+export function isArticleBody(
+  toTest?: AnnoRepoBodyBase,
+): toTest is ArticleBody {
+  if (!toTest) return false;
+
+  return toTest.type === article;
+}
+
+export function findArticleBody(
+  annotations: AnnoRepoAnnotation[],
+): ArticleBody | undefined {
+  const found = annotations.find((anno) => anno.body.type === article);
+  if (isArticleBody(found?.body)) return found.body;
+}
+
 export type ParagraphBody = AnnoRepoBodyBase & {
   elementName: string;
   n: string;
