@@ -34,7 +34,18 @@ export function FacsimileViewer() {
   }
 
   if (isDummyFacs) {
-    return <img src={DummyFacs} alt="Dummy" className="self-center" />;
+    return (
+      <div
+        className="relative inset-0 flex h-full w-full items-center justify-center overflow-hidden p-4"
+        style={{ backgroundColor: "#f5f3e7" }}
+      >
+        <img
+          src={DummyFacs}
+          alt="No facsimile available"
+          className="max-h-full max-w-[450px] object-contain"
+        />
+      </div>
+    );
   }
 
   return (
