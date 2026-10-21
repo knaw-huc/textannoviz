@@ -23,6 +23,7 @@ import {
   SearchHit,
   resolveSearchHits,
 } from "../Text/Annotated/utils/resolveSearchHits.ts";
+import { findDefaultSidebarTab } from "../Annotations/findDefaultSidebarTab.ts";
 
 /**
  * Initialize views, annotations and iiif
@@ -53,6 +54,9 @@ export function useInitDetail() {
   const setActivePanels = useDetailViewStore((state) => state.setActivePanels);
   const resetPanelVisibilityOverrides = useDetailViewStore(
     (state) => state.resetPanelVisibilityOverrides,
+  );
+  const setActiveSidebarTab = useDetailViewStore(
+    (state) => state.setActiveSidebarTab,
   );
   const resetActiveFootnote = useTextStore(
     (state) => state.resetActiveFootnote,
@@ -122,6 +126,9 @@ export function useInitDetail() {
       }
       setAnnotations(annotations);
       setBodyId(result.request.bodyId);
+      // Open the default tab of the new page; a note or search hit to reveal
+      // selects its own tab once the page is initialized
+      setActiveSidebarTab(findDefaultSidebarTab(projectConfig, annotations));
 
       //TODO: Note anno type to project config
       // Set even when empty: the url hash is matched against it, so a letter

@@ -2,14 +2,23 @@ import {
   AnnoRepoAnnotation,
   AnnoRepoBodyBase,
 } from "../../model/AnnoRepoAnnotation.ts";
-import { isHeadBody } from "./annotation/ProjectAnnotationModel.ts";
-import { isLetterDetailPage } from "./isLetterDetailPage.ts";
+import {
+  article,
+  document,
+  isHeadBody,
+} from "./annotation/ProjectAnnotationModel.ts";
 import { languageCodes } from "../../model/Language.ts";
 
 const TOC_PREFIX = "toc-";
 
 export const showToc = (annotations: AnnoRepoAnnotation[]) =>
-  !isLetterDetailPage(annotations);
+  annotations.some((a) => a.body.type === document || a.body.type === article);
+
+/**
+ * Only open the toc by default on documents, not on articles
+ */
+export const getDefaultSidebarTab = (annotations: AnnoRepoAnnotation[]) =>
+  annotations.some((a) => a.body.type === document) ? "toc" : "metadata";
 
 export function getTocId(body: AnnoRepoBodyBase): string | undefined {
   if (!isHeadBody(body)) {

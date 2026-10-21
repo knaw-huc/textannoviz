@@ -9,7 +9,6 @@ import {
 } from "../../stores/project";
 import { AnnotationFilter } from "./AnnotationFilter";
 import { AnnotationItem } from "./AnnotationItem";
-import { useEffect } from "react";
 
 type AnnotationProps = {
   isLoading: boolean;
@@ -40,19 +39,6 @@ export function Annotation(props: AnnotationProps) {
 
   const translate = useTranslate();
   const translateProject = useTranslateProject();
-
-  useEffect(setActiveTabWhenAnnotationsLoaded, [
-    annotations,
-    activeSidebarTab,
-    showToc,
-    setActiveSidebarTab,
-  ]);
-
-  function setActiveTabWhenAnnotationsLoaded() {
-    if (!activeSidebarTab) {
-      setActiveSidebarTab(showToc(annotations) ? "toc" : "metadata");
-    }
-  }
 
   const tabStyling =
     "flex cursor-pointer items-end border-b-4 border-neutral-100 p-2 text-left text-xs font-normal text-neutral-600 outline-none hover:border-neutral-600 aria-selected:border-neutral-600 aria-selected:font-bold";

@@ -31,7 +31,7 @@ import { SearchItem } from "../SearchItem";
 import { ASC, DESC } from "../../../model/Search";
 import { Any } from "../../../utils/Any";
 import { Header } from "../Header";
-import { getTocId, showToc } from "../TocUtils.ts";
+import { getDefaultSidebarTab, getTocId, showToc } from "../TocUtils.ts";
 import { TocPanel } from "../TocPanel.tsx";
 import { getUrl, isLink } from "../annotation/LinkUtils.ts";
 import { filterPanels } from "../filterPanels.ts";
@@ -122,6 +122,7 @@ export const kunstenaarsbrievenConfig: DefaultProjectConfig = mergeWith(
     showSearchInTextViews: true,
     showToc: showToc,
     getTocId: getTocId,
+    getDefaultSidebarTab: getDefaultSidebarTab,
     isLink: isLink,
     getUrl: getUrl,
     filterPanels: filterPanels,

@@ -268,6 +268,12 @@ type AnnotationConfig = {
   showToc: (annotations: AnnoRepoAnnotation[]) => boolean;
   getTocId: (body: AnnoRepoBodyBase) => string | undefined;
 
+  /**
+   * Sidebar tab to open when no tab is selected yet.
+   * Default: the toc tab when {@link ProjectConfig.showToc}, else metadata.
+   */
+  getDefaultSidebarTab?: (annotations: AnnoRepoAnnotation[]) => string;
+
   filterPanels?: (
     panels: DetailPanelConfig[],
     annotations: AnnoRepoAnnotation[],
