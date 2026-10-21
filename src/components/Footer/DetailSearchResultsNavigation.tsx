@@ -88,13 +88,13 @@ export function DetailSearchResultsNavigation() {
       <FooterLink
         onClick={() => navigateDetail(`/?${getUrlParams()}`)}
         classes={[
-          "flex items-center border border-stone-500 rounded-full *:px-1 bg-white text-sm no-underline",
+          "flex items-center border border-stone-500 rounded-full *:px-1 bg-white text-xs lg:text-sm no-underline",
         ]}
       >
-        <MagnifyingGlassIcon className="inline h-4 w-4 fill-neutral-700" />{" "}
+        <MagnifyingGlassIcon className="inline h-3.5 w-3.5 fill-neutral-700 md:h-4 md:w-4" />{" "}
         {translateProject("SEARCH")}
       </FooterLink>
-      <div className="relative flex items-center border border-stone-500 bg-white text-sm no-underline *:px-1 *:py-2 first-of-type:rounded-l-full last-of-type:rounded-r-full">
+      <div className="relative flex items-center border border-stone-500 bg-white text-xs no-underline *:px-1 *:py-1.5 first-of-type:rounded-l-full last-of-type:rounded-r-full md:*:py-2 lg:text-sm">
         <FooterLink
           classes={["border-r *:flex"]}
           onClick={handlePrevResultClick}
