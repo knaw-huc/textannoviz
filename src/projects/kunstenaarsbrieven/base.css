@@ -256,11 +256,19 @@ img {
 .listBibl {
   margin-bottom: 2rem;
   margin-left: 1rem;
+
+  h3 {
+    margin-left: -1rem;
+  }
 }
 
 .label {
   font-weight: bold;
   margin-left: -1rem;
+}
+
+.bibl {
+  margin-bottom: 0.75rem;
 }
 
 .bibl-highlight {
