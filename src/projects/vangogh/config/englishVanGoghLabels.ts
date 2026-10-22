@@ -170,4 +170,6 @@ export const englishVanGoghLabels = Object.assign({}, englishLabels, {
     "Filter by the periodicals cited or mentioned in the documents. Use the search field at the top of the facet to find a specific publication by name. Selecting a title will show all documents that refer to that periodical. You can select multiple titles at once; this will return documents that reference any of the selected periodicals.",
   INSTITUTION_HELP:
     "Filter by the institutions holding the original documents.",
+  WORKS_MENTIONED_HELP:
+    "Filter by the books read by Van Gogh. Use the search field at the top of the facet to find a specific book by title or author. Selecting a book will show all documents that mention that book. You can select multiple books at once; this will return documents that mention any of these books.",
 });
