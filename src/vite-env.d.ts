@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly VITE_ROUTER_BASENAME: string;
   readonly VITE_BROCCOLI_PORT_VANGOGH: string;
   readonly VITE_BROCCOLI_PORT_MONDRIAN: string;
+  readonly VITE_BROCCOLI_PORT_ISRAELS: string;
+  readonly VITE_NGINX_PORT_ISRAELS: string;
   readonly VITE_NGINX_PORT_VANGOGH: string;
   readonly VITE_NGINX_PORT_MONDRIAN: string;
 }

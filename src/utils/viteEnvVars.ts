@@ -7,8 +7,10 @@ export const getViteEnvVars = () => {
   const mode = import.meta.env.MODE;
   const broccoliPortVangogh = import.meta.env.VITE_BROCCOLI_PORT_VANGOGH;
   const broccoliPortMondrian = import.meta.env.VITE_BROCCOLI_PORT_MONDRIAN;
+  const broccoliPortIsraels = import.meta.env.VITE_BROCCOLI_PORT_ISRAELS;
   const nginxPortVangogh = import.meta.env.VITE_NGINX_PORT_VANGOGH;
   const nginxPortMondrian = import.meta.env.VITE_NGINX_PORT_MONDRIAN;
+  const nginxPortIsraels = import.meta.env.VITE_NGINX_PORT_ISRAELS;
 
   if (!envProjectName) {
     throw new Error("VITE_PROJECT environment variable not set in .env.");
@@ -27,7 +29,9 @@ export const getViteEnvVars = () => {
     mode,
     broccoliPortVangogh,
     broccoliPortMondrian,
+    broccoliPortIsraels,
     nginxPortVangogh,
     nginxPortMondrian,
+    nginxPortIsraels,
   };
 };

@@ -18,13 +18,16 @@ import { PanelTemplates } from "../../../components/Detail/PanelTemplates";
 import { TextPanels } from "../TextPanels";
 import { EntitySummaryDetails } from "../annotation/EntitySummaryDetails";
 import { replaceArrays } from "../../default/config/replaceArrays";
+import { getViteEnvVars } from "../../../utils/viteEnvVars";
+
+const { broccoliPortIsraels, nginxPortIsraels } = getViteEnvVars();
 
 export const israelsConfig: ProjectConfig = mergeWith(
   {},
   kunstenaarsbrievenConfig,
   {
     id: "israels",
-    broccoliUrl: "http://localhost:8082",
+    broccoliUrl: `http://localhost:${broccoliPortIsraels ?? "8082"}`,
     siteTitle: "Isaac Israëls - Jo van Gogh-Bonger",
 
     elasticIndexName: "israels",
@@ -32,17 +35,24 @@ export const israelsConfig: ProjectConfig = mergeWith(
     initialDateTo: "1924-12-31",
     headerColor: "bg-[#dddddd] text-black border-b border-neutral-400",
     headerTitle: "Brieven van Isaac Israëls",
-    personsUrl:
-      "http://localhost:8040/files/israels/apparatus/bio-entities.json",
+    personsUrl: `http://localhost:${
+      nginxPortIsraels ?? "8040"
+    }/files/israels/apparatus/bio-entities.json`,
     artworksUrl: [
       {
         key: "illustrated",
-        url: "http://localhost:8040/files/israels/apparatus/artwork-entities.json",
+        url: `http://localhost:${
+          nginxPortIsraels ?? "8040"
+        }/files/israels/apparatus/artwork-entities.json`,
       },
     ],
     biblUrl: {
-      en: "http://localhost:8040/files/israels/apparatus/bibliolist-en.html",
-      nl: "http://localhost:8040/files/israels/apparatus/bibliolist-nl.html",
+      en: `http://localhost:${
+        nginxPortIsraels ?? "8040"
+      }/files/israels/apparatus/bibliolist-en.html`,
+      nl: `http://localhost:${
+        nginxPortIsraels ?? "8040"
+      }/files/israels/apparatus/bibliolist-nl.html`,
     },
     components: {
       Header,
