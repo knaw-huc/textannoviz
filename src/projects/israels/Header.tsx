@@ -22,7 +22,7 @@ export const Header = () => {
   const letterAnnoBody = findLetterBody(annotations);
 
   const letterTitle =
-    letterAnnoBody?.titles[interfaceLang] ||
+    letterAnnoBody?.titles?.[interfaceLang] ||
     (params.tier2 && introIds.some((intro) => intro.id === params.tier2)
       ? translateProject("intro")
       : "");
