@@ -135,6 +135,14 @@ export const israelsConfig: ProjectConfig = mergeWith(
       "introTranslatedText",
       "introNotesText",
     ],
+    allPossibleTextPanels: [
+      "text",
+      "textNotes",
+      "transcrSource",
+      "dating",
+      "remarks",
+      "ogtNotes",
+    ],
     selectedLanguage: "en",
     languages: [
       { code: "nl", labels: dutchIsraelsLabels },
