@@ -25,6 +25,7 @@ import {
 import { Any } from "../../../utils/Any";
 import { Locations } from "../Locations";
 import { buildNavLink } from "../utils/buildNavLink";
+import { Organisations } from "../Organisations";
 
 export const mechteldvangelreConfig: ProjectConfig = mergeWith(
   {},
@@ -49,6 +50,8 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
     letterIdUrl: "http://localhost:8040/files/mechteldvangelre/letter-ids.json",
     locationUrl:
       "http://localhost:8040/files/mechteldvangelre/apparatus/place-entities.json",
+    organisationUrl:
+      "http://localhost:8040/files/mechteldvangelre/apparatus/org-entities.json",
     letterIdFormat: mechteldvangelreLetterIdFormat,
     // homeUrl: `http://localhost:${
     //   nginxPortVangogh ?? "8040"
@@ -161,6 +164,10 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       {
         path: "locations",
         element: <Locations />,
+      },
+      {
+        path: "organisations",
+        element: <Organisations />,
       },
     ],
     zoomToAnnoOnFacsimile: true,

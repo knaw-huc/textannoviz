@@ -51,6 +51,7 @@ export const defaultConfig: DefaultProjectConfig = {
   biblUrl: { en: "", nl: "" },
   menuUrl: "",
   letterIdUrl: "",
+  organisationUrl: "",
   letterIdFormat: {
     toUrnSuffix: (letterId) => letterId,
     toNumber: (letterId) => letterId,

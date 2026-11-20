@@ -112,6 +112,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   SCROLL_TO_LETTERS: "Ontdek de brieven",
 
   locations: "Locaties",
+  organisations: "Organisaties",
 
   //Help labels
   SEARCH_IN_HELP:

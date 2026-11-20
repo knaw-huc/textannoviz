@@ -29,10 +29,6 @@ import {
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
 
-  if (isOrganisation(body)) {
-    return null;
-  }
-
   return (
     <>
       {isEntity(body) ? (
@@ -92,6 +88,9 @@ function EntityComponent(props: {
     } else if (isLocation(body)) {
       const id = entityBody.id;
       window.open(`${basePath}/locations#${id}`);
+    } else if (isOrganisation(body)) {
+      const id = entityBody.id;
+      window.open(`${basePath}/organisations#${id}`);
     } else {
       toast(`Unknown annotation body: ${body}`);
     }
@@ -111,7 +110,7 @@ function EntityComponent(props: {
         }
       </>
       <div className="flex">
-        {!isLocation(body) && (
+        {!isLocation(body) && !isOrganisation(body) && (
           <div>
             <button
               className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"

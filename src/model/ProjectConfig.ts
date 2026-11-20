@@ -82,6 +82,7 @@ export type ProjectConfig = SearchConfig &
     letterIdFormat: LetterIdFormat;
     homeUrl: string;
     locationUrl: string;
+    organisationUrl: string;
     siteTitle: string;
     favicon: string;
     pageLabelFormat: (pageBody: PageBody) => string | undefined;

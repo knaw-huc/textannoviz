@@ -2,7 +2,10 @@ import {
   Person,
   PersonTeiRef,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
-import type { MechteldLocation } from "./ProjectAnnotationModel.ts";
+import type {
+  MechteldLocation,
+  OrganisationTeiRef,
+} from "./ProjectAnnotationModel.ts";
 
 export const EntitySummaryDetails = (props: {
   entityBody: PersonTeiRef;
@@ -15,6 +18,13 @@ export const EntitySummaryDetails = (props: {
     return (
       <LocationEntity
         location={props.entityBody as unknown as MechteldLocation}
+      />
+    );
+  }
+  if (props.entityCategory === "ORG") {
+    return (
+      <OrganisationEntity
+        organisation={props.entityBody as unknown as OrganisationTeiRef}
       />
     );
   }
@@ -62,3 +72,11 @@ function toLocationName(loc: MechteldLocation): string | undefined {
   }
   return undefined;
 }
+
+const OrganisationEntity = (props: { organisation: OrganisationTeiRef }) => {
+  const name = props.organisation.orgName?.nl?.text;
+  if (!name) {
+    return null;
+  }
+  return <p className="font-bold">{name}</p>;
+};
