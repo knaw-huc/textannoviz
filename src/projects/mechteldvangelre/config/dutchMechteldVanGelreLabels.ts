@@ -19,6 +19,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   seal: "Zegel",
   transcrSource: "Transcriptiebron",
   dateSent: "Verstuurd",
+  personIds: "Personen (ID)",
 
   facetInputFilterPlaceholder: "Zoek in facet",
 
