@@ -603,11 +603,6 @@ export const isQuote = (toTest: AnnotationSegment): boolean =>
   isHighlightSegment(toTest) &&
   (toTest.body as AnnoRepoBodyBase).type === quote;
 
-export const entityCategoryToAgg: Record<string, string> = {
-  PER: "persons",
-  ART: "artworks",
-};
-
 /**
  * See {@link blockTypes} and {@link KunstenaarsbrievenBlock}
  */
