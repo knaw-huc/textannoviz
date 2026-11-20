@@ -523,7 +523,7 @@ export const isPerson = (toTest: AnnoRepoBodyBase): toTest is PersonBody => {
 };
 
 export function isPersonBody(toTest: EntityRefs): toTest is PersonTeiRef {
-  return "birth" in toTest;
+  return "gender" in toTest;
 }
 
 export const isArtwork = (toTest: AnnoRepoBodyBase): toTest is ArtworkBody => {
