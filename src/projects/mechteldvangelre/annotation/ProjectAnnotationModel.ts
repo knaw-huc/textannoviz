@@ -71,6 +71,33 @@ export type LocationTeiRef =
   | LocationTerritory
   | LocationRiver;
 
+export const isLocation = (toTest?: AnnoRepoBodyBase): toTest is LocationBody =>
+  !!toTest && (toTest as LocationBody)["tei:type"] === "location";
+
+export type OrganisationBody = AnnoRepoBodyBase & {
+  type: typeof entity;
+  elementName: typeof elementRs;
+  "tei:type": "org";
+  "tei:ref": OrganisationTeiRef;
+};
+
+export type OrganisationTeiRef = {
+  id: string;
+  orgName: {
+    nl: {
+      text: string;
+    };
+    en: {
+      text: string;
+    };
+  };
+};
+
+export const isOrganisation = (
+  toTest?: AnnoRepoBodyBase,
+): toTest is OrganisationBody =>
+  !!toTest && (toTest as OrganisationBody)["tei:type"] === "org";
+
 type Certainty = "low" | "medium" | "high";
 
 export type MechteldLetterBody = LetterBody & {

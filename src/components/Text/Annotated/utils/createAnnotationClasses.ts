@@ -83,5 +83,5 @@ export function toEntityCategory(
     console.warn(`Unknown annotation category: ${annotationCategory}`);
     return unknownCategory;
   }
-  return annoCategory;
+  return annoCategory as string;
 }

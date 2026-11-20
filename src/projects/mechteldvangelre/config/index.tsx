@@ -173,6 +173,7 @@ export const mechteldvangelreConfig: ProjectConfig = mergeWith(
       [reference.toLowerCase()]: "REF",
       PER: "PER",
       location: "LOC",
+      org: "ORG",
     } as Any,
     buildNavLink: buildNavLink,
   } as ProjectSpecificConfig,

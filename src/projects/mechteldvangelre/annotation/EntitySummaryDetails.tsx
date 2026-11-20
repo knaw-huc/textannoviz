@@ -2,6 +2,7 @@ import {
   Person,
   PersonTeiRef,
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
+import type { MechteldLocation } from "./ProjectAnnotationModel.ts";
 
 export const EntitySummaryDetails = (props: {
   entityBody: PersonTeiRef;
@@ -9,6 +10,13 @@ export const EntitySummaryDetails = (props: {
 }) => {
   if (props.entityCategory === "PER") {
     return <PersonEntity persons={[props.entityBody as Person]} />;
+  }
+  if (props.entityCategory === "LOC") {
+    return (
+      <LocationEntity
+        location={props.entityBody as unknown as MechteldLocation}
+      />
+    );
   }
   return null;
 };
@@ -29,3 +37,28 @@ const PersonEntity = (props: { persons: Person[] }) => {
     </>
   );
 };
+
+const LocationEntity = (props: { location: MechteldLocation }) => {
+  const name = toLocationName(props.location);
+  if (!name) {
+    return null;
+  }
+  return <p className="font-bold">{name}</p>;
+};
+
+function toLocationName(loc: MechteldLocation): string | undefined {
+  // Buildings also have an optional `settlement`, so check `objectName` first.
+  if ("objectName" in loc && loc.objectName) {
+    return loc.objectName;
+  }
+  if ("settlement" in loc && loc.settlement) {
+    return loc.settlement;
+  }
+  if ("geogName" in loc && loc.geogName) {
+    return loc.geogName;
+  }
+  if ("region" in loc && loc.region?.length) {
+    return loc.region.join(", ");
+  }
+  return undefined;
+}

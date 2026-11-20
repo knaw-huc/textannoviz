@@ -19,7 +19,7 @@
   }
 
   .annotationMarker {
-    @apply relative pl-4 before:absolute before:inline-block before:-translate-x-4 before:translate-y-1;
+    @apply relative before:absolute before:inline-block before:-translate-x-4 before:translate-y-1;
   }
 
   /* start marker icons */

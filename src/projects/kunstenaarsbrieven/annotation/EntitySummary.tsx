@@ -20,9 +20,18 @@ import {
 } from "../../kunstenaarsbrieven/annotation/ProjectAnnotationModel.ts";
 import { toEntitySearchQuery } from "./toEntitySearchQuery";
 import { toast } from "../../../utils/toast.ts";
+import { firstLetterToUppercase } from "../../../utils/firstLetterToUppercase.ts";
+import {
+  isLocation,
+  isOrganisation,
+} from "../../mechteldvangelre/annotation/ProjectAnnotationModel.ts";
 
 export function EntitySummary(props: { body: AnnoRepoBody }) {
   const { body } = props;
+
+  if (isOrganisation(body)) {
+    return null;
+  }
 
   return (
     <>
@@ -80,6 +89,9 @@ function EntityComponent(props: {
     } else if (isArtwork(body)) {
       const id = entityBody.id;
       window.open(`${basePath}/artworks#${id}`);
+    } else if (isLocation(body)) {
+      const id = entityBody.id;
+      window.open(`${basePath}/locations#${id}`);
     } else {
       toast(`Unknown annotation body: ${body}`);
     }
@@ -89,7 +101,7 @@ function EntityComponent(props: {
     <li className="mb-6 flex flex-col gap-2 border-b border-neutral-200 pb-6">
       <>
         <div className={`${entityClassname} annotationMarker italic`}>
-          {translateProject(entityCategory)}
+          {firstLetterToUppercase(translateProject(entityCategory))}
         </div>
         {
           <components.EntitySummaryDetails
@@ -99,23 +111,25 @@ function EntityComponent(props: {
         }
       </>
       <div className="flex">
-        <div>
-          <button
-            className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
-            onClick={handleEntitySearchClick}
-          >
-            <>
-              {translateProject("SEARCH_CATEGORY")}{" "}
-              {translateProject(entityCategory)}
-            </>
-          </button>
+        {!isLocation(body) && (
+          <div>
+            <button
+              className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"
+              onClick={handleEntitySearchClick}
+            >
+              <>
+                {translateProject("SEARCH_CATEGORY")}{" "}
+                {translateProject(entityCategory)}
+              </>
+            </button>
 
-          {!isReference(body) && (
-            <div className="mt-2 italic text-neutral-600">
-              {translateProject("WARNING_NEW_SEARCH")}
-            </div>
-          )}
-        </div>
+            {!isReference(body) && (
+              <div className="mt-2 italic text-neutral-600">
+                {translateProject("WARNING_NEW_SEARCH")}
+              </div>
+            )}
+          </div>
+        )}
         <div>
           <button
             className="rounded-full border border-neutral-200 bg-white px-3 py-1 transition hover:bg-neutral-200"

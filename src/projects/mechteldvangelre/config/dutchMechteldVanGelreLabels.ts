@@ -75,8 +75,11 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
 
   //Visualised annotation categories
   PER: "persoon",
-  ART: "kunstwerk",
   REF: "referentie",
+  LOC: "locatie",
+  ORG: "organisatie",
+
+  ENTITIES: "Entiteiten",
 
   //Header
   persons: "Personen",
