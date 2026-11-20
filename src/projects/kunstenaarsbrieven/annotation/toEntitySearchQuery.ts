@@ -2,7 +2,6 @@ import { SearchQuery } from "../../../model/Search";
 import { encodeObject } from "../../../utils/url/UrlParamUtils";
 import {
   Artwork,
-  entityCategoryToAgg,
   isArtworkBody,
   isPersonBody,
   PersonTeiRef,
@@ -13,9 +12,7 @@ export function toEntitySearchQuery(
   entityCategory: string,
 ): string {
   if (isPersonBody(entityBody)) {
-    return createSearchQueryParam(
-      toEntityTerms(entityCategory, entityBody.sortLabel),
-    );
+    return createSearchQueryParam(toEntityTerms(entityCategory, entityBody.id));
   } else if (isArtworkBody(entityBody)) {
     return createSearchQueryParam(toEntityTerms(entityCategory, entityBody.id));
   } else {
@@ -23,25 +20,20 @@ export function toEntitySearchQuery(
   }
 }
 
+const entityCategoryToIdFacet: Record<string, string> = {
+  PER: "personIds",
+  ART: "artworkIds",
+};
+
 function toEntityTerms(
   annoCategory: string,
-  searchString: string,
+  entityId: string,
 ): Partial<SearchQuery> {
-  const entityAgg = entityCategoryToAgg[annoCategory];
-
-  if (annoCategory === "ART") {
-    return {
-      terms: {
-        [`artworkIds`]: [searchString],
-      },
-    };
-  } else {
-    return {
-      terms: {
-        [entityAgg]: [searchString],
-      },
-    };
+  const facet = entityCategoryToIdFacet[annoCategory];
+  if (!facet) {
+    throw new Error(`No id facet for entity category: ${annoCategory}`);
   }
+  return { terms: { [facet]: [entityId] } };
 }
 
 function createSearchQueryParam(queryWithEntity: Partial<SearchQuery>): string {
