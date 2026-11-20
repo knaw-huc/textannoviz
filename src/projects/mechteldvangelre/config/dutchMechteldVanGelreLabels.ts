@@ -60,7 +60,7 @@ export const dutchMechteldVanGelreLabels = Object.assign({}, dutchLabels, {
   SEARCHFILTER: "Zoeken",
 
   //Metadata panel
-  NO_NOTES: "Deze brief bevat geen noten.",
+  NO_NOTES: "Dit document bevat geen noten.",
   NO_ARTWORKS: "Deze brief vermeldt geen kunstwerken.",
   letter: "Brief",
   invNr: "Signatuur",
