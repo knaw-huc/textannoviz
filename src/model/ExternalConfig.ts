@@ -21,6 +21,7 @@ export type ExternalConfig = {
   letterIdUrl: string;
   homeUrl: string;
   locationUrl: string;
+  organisationUrl: string;
   // Used to display the version of TAV
   version: string;
   // Is overwritten by the CI/CD pipeline to show that the deployment was successful

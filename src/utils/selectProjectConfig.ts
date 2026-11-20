@@ -32,6 +32,7 @@ export async function selectProjectConfig() {
         letterIdUrl,
         homeUrl,
         locationUrl,
+        organisationUrl,
         version,
         versionHash,
       } = externalConfig;
@@ -57,6 +58,7 @@ export async function selectProjectConfig() {
       if (letterIdUrl) config.letterIdUrl = letterIdUrl;
       if (homeUrl) config.homeUrl = homeUrl;
       if (locationUrl) config.locationUrl = locationUrl;
+      if (organisationUrl) config.organisationUrl = organisationUrl;
       if (version) config.version = version;
       if (versionHash) config.versionHash = versionHash;
     }
