@@ -117,4 +117,6 @@ export type Labels = {
   ROTATE_RIGHT: string;
 
   SCROLL_TO_TOP: string;
+  SINCE: string;
+  UNTIL: string;
 };

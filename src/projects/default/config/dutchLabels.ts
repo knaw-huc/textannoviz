@@ -119,4 +119,6 @@ export const dutchLabels: Labels = {
   ROTATE_RIGHT: "Rechtsom roteren",
 
   SCROLL_TO_TOP: "Naar boven",
+  SINCE: "sinds",
+  UNTIL: "tot",
 };

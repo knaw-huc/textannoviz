@@ -119,4 +119,6 @@ export const englishLabels: Labels = {
   ROTATE_RIGHT: "Rotate right",
 
   SCROLL_TO_TOP: "Scroll to top",
+  SINCE: "since",
+  UNTIL: "until",
 };

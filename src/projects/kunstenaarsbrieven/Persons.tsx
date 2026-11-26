@@ -34,6 +34,8 @@ export function Persons(props: PersonsProps) {
 
   const interfaceLang = useProjectStore(projectConfigSelector).selectedLanguage;
 
+  const yearSeparator = interfaceLang === "en" ? " – " : " - ";
+
   React.useEffect(() => {
     const aborter = new AbortController();
     async function initPersons(aborter: AbortController) {
@@ -101,10 +103,14 @@ export function Persons(props: PersonsProps) {
     lifespan: PersonLifespan | undefined,
   ): string | undefined {
     if (!lifespan) return undefined;
-    const { when, notBefore, notAfter } = lifespan;
+    const { when, notBefore, notAfter, from, to } = lifespan;
 
     if (when) return formatYear(when);
 
+    if (from && to)
+      return `${formatYear(from)}${yearSeparator}${formatYear(to)}`;
+    if (from) return `${translate("SINCE")} ${formatYear(from)}`;
+    if (to) return `${translate("UNTIL")} ${formatYear(to)}`;
     if (notBefore && !notAfter)
       return `${translate("AFTER")} ${formatYear(notBefore)}`;
     if (notAfter && !notBefore)
@@ -210,7 +216,7 @@ export function Persons(props: PersonsProps) {
                   {" "}
                   <div>
                     {formatDate(per.birth)}
-                    {interfaceLang === "en" ? " – " : " - "}
+                    {yearSeparator}
                     {formatDate(per.death)}
                   </div>
                 </>

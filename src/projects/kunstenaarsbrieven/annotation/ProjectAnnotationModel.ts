@@ -171,11 +171,7 @@ export type PersonTeiRef = {
   gender?: string;
   source?: string[];
   persName: PersonPersName[];
-  floruit?: {
-    when?: string;
-    notBefore?: string;
-    notAfter?: string;
-  };
+  floruit?: PersonLifespan;
   birth?: PersonLifespan;
   death?: PersonLifespan; //There are living persons in the data, so made this optional
   displayLabel: string;
@@ -204,6 +200,8 @@ export type PersonLifespan = {
   cert?: string;
   notBefore?: string;
   notAfter?: string;
+  to?: string;
+  from?: string;
 };
 
 export type EntityRefs = PersonTeiRef | Artwork;
