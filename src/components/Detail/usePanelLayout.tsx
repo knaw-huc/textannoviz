@@ -6,6 +6,8 @@ import { findKey, mapValues } from "lodash";
 import { useAnnotationStore } from "../../stores/annotation.ts";
 import { useManifest } from "@knaw-huc/osd-iiif-viewer";
 
+const FACSIMILE_PANEL_NAME = "facs";
+
 export type WindowSize = "s" | "m" | "l" | "xl" | "xxl";
 
 /**
@@ -44,11 +46,12 @@ export function usePanelLayout(): null {
     (state) => state.panelVisibilityOverrides,
   );
   const annotations = useAnnotationStore((s) => s.annotations);
-  const { isLoading, isReady } = useManifest();
+  const { isLoading, isReady, error: manifestError } = useManifest();
 
   useEffect(filterPanelsOnResize, [
     isLoading,
     isReady,
+    manifestError,
     annotations,
     panelVisibilityOverrides,
   ]);
@@ -65,9 +68,11 @@ export function usePanelLayout(): null {
         return;
       }
 
-      const filteredByProject = filterPanels
-        ? filterPanels(activePanels, annotations)
-        : activePanels.map((a) => a.name);
+      const filteredByProject = (
+        filterPanels
+          ? filterPanels(activePanels, annotations)
+          : activePanels.map((a) => a.name)
+      ).filter((name) => !(manifestError && name === FACSIMILE_PANEL_NAME));
 
       const panelsAllowedByProject = activePanels.filter((p) =>
         filteredByProject.includes(p.name),
