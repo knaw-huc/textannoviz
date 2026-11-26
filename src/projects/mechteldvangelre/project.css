@@ -11,3 +11,20 @@
 .closedNestedAnnotation .annotated-org {
   @apply border-b-[2px] border-dotted border-[#333f48] bg-transparent pb-0.5;
 }
+
+#page-chronology {
+  h2 {
+    margin-bottom: 0em;
+  }
+
+  .annotated-text {
+    white-space: pre-line;
+  }
+
+  .highlight-label {
+    display: block;
+    font-weight: bold;
+    margin-top: 1.4rem;
+    background-color: transparent;
+  }
+}
